@@ -5,17 +5,47 @@
 <head>
 <!-- Starter med å sette riktig charset -->
 <meta charset="UTF-8">
-<title>Nasjonens Blad</title>
+<title>Applikasjonens Tittel</title>
 <style>
 /* Her kommer CSS */
+body {
+    height: 100%; width: 100%; 
+    background-color: lightyellow;
+}
+#navTop {
+    border: 1px solid black;
+    padding-top: 1%; padding-bottom: 1%;
+    background-color: lightgray;
+}
+#logginn {
+    margin-left: 65%;
+    margin-right: 2%;
+}
+#registrer {
+    margin-right: 2%;
+}
+img {
+    margin-top: 5%; 
+    margin-left: 30%;
+}
+h1 {
+    text-align: center;
+}
 
 </style>
 </head>
 
 
 <body>
+    <nav id="navTop">
+        <a id="logginn" href="logginn.html">Logg inn</a>
+        <a id="registrer" href="registrer.html">Registrer</a>
+    </nav>
+    <header>
+        <img src="images/logo.png" style="width: 200px;">
+    </header>
     <main>
-        <h1>Under konstruksjon</h1>
+        <h1>Applikasjonens tittel</h1>
     </main>
 </body>
 
