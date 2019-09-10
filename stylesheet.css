@@ -47,8 +47,7 @@ h1 {
         transition-duration: 0.3s;
     }
     #navTop button:hover {
-        background-color: rgb(87, 87, 87);
-        color: white;
+        color: rgb(165, 165, 165);
     }
 }
 
