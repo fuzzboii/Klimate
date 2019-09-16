@@ -29,9 +29,11 @@ body {
 }
 img {
     margin-top: 20%; 
-    margin-left: 34%;
     border: 1px solid white;
     width: 350px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 h1 {
     text-align: center;
