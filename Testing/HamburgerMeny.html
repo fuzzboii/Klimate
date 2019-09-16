@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hamburgermeny</title>
+    <link rel="stylesheet" type="text/css" href="HamburgerMeny.css">
+    <script language="JavaScript" src="HamburgerMeny.js"></script>
+</head>
+
+<body>
+    <!-- Selve menyen -->
+    <nav id="hamburgerMeny">
+
+        <!-- Knapp som lukker vinduet etter det er åpnet -->
+        <a href="javascript:void(0)" id="lukkHamburger" onclick="lukkHamburger()">&times;</a>
+      
+        <!-- innholdet i hamburger-menyen -->
+        <section id="hamburgerInnhold">
+          <a href="#">Lorem</a>
+          <a href="#">ipsum</a>
+          <a href="#">dolor</a>
+          <a href="#">sit</a>
+        </section>
+      
+    </nav>
+      
+<!-- Denne åpner selve menyen ved bruk av JS -->
+<button onclick="aapneHamburger()">Trykk meg</button>
+</body>
+
+</html>
