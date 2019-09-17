@@ -9,7 +9,7 @@ button {
   box-shadow: 2px 2px 2px 2px rgba(255, 255, 255, 0.596);
   height: 85px; width: 130px; 
 }
-#hamburgerMeny {
+.hamburgerMeny {
   /* Height & width depends on how you want to reveal the overlay (see JS below) */   
   height: 0%;
   width: 100%;
@@ -24,7 +24,7 @@ button {
 }
 
 /* Position the content inside the overlay */
-#hamburgerInnhold {
+.hamburgerInnhold {
   position: relative;
   top: 25%; /* 25% from the top */
   width: 100%; /* 100% width */
@@ -33,7 +33,7 @@ button {
 }
 
 /* The navigation links inside the overlay */
-#hamburgerMeny a {
+.hamburgerMeny a {
   padding: 8px;
   text-decoration: none;
   font-size: 36px;
@@ -43,12 +43,12 @@ button {
 }
 
 /* When you mouse over the navigation links, change their color */
-#hamburgerMeny a:hover, #hamburgerMeny a:focus {
+.hamburgerMeny a:hover, .hamburgerMeny a:focus {
   color: #f1f1f1;
 }
 
 /* Position the close button (top right corner) */
-#hamburgerMeny #lukkHamburger {
+.hamburgerMeny .lukkHamburger {
   position: absolute;
   top: 20px;
   right: 45px;
@@ -57,8 +57,8 @@ button {
 
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 @media screen and (max-height: 450px) {
-  #hamburgerMeny a {font-size: 20px}
-  #hamburgerMeny #lukkHamburger {
+  .hamburgerMeny a {font-size: 20px}
+  .hamburgerMeny .lukkHamburger {
     font-size: 40px;
     top: 15px;
     right: 35px;
