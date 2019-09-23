@@ -18,7 +18,10 @@ body {
     margin-right: 1%;
 }
 #navTop .hamburgerKnapp {
-    margin-left: 1%;
+    margin-left: 5%;
+    margin-top: 1%;
+    width: 60px;
+    position: absolute;
 }
 #navTop button {
     background: rgb(249,249,249);
@@ -122,11 +125,11 @@ p {
   .hamburgerMeny .lukkHamburger {
     position: absolute;
     top: 20px;
-    right: 45px;
+    right: 65px;
     font-size: 60px;
   }
   
-  /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+  /*
   @media screen and (max-height: 450px) {
     .hamburgerMeny a {font-size: 20px}
     .hamburgerMeny .lukkHamburger {
@@ -135,6 +138,7 @@ p {
       right: 35px;
     }
   }
+  */
 
 /* Denne siden er utviklet av Ben Redic Fy Fazan, siste gang endret 21.04.1973 */
 /* Denne siden er kontrollert av Reodor Felgen, siste gang 25.05.1975 */
