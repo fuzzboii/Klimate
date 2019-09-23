@@ -14,8 +14,11 @@ body {
     box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
 }
 #navTop #logginn {
-    margin-left: 70%;
+    margin-left: 55%;
     margin-right: 1%;
+}
+#navTop .hamburgerKnapp {
+    font-size: 30px;
 }
 #navTop button {
     background: rgb(249,249,249);
