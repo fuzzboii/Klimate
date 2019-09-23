@@ -1,18 +1,45 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
 <!-- Starter med å sette riktig charset -->
 <meta charset="UTF-8">
-<title>Klimate | Registrer ny bruker</title>
+<title>Klimate</title>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<script language="JavaScript" src="javascript.js"> </script>
 </head>
 
-
 <body>
+    <nav id="navTop">
+        <button onClick="location.href='logginn.html'" style="margin-left: 70%;">LOGG INN</button>
+        <img src="bilder/hamburger_icon.svg" class="hamburgerKnapp" onclick="aapneHamburger()">
+        <img src="bilder/logo.png" alt="Klimate logo" class="Logo_hovedmeny">
+    </nav>
+    <section id="navMeny" class="hamburgerMeny">
+
+        <!-- Knapp som lukker vinduet etter det er åpnet -->
+        <a href="javascript:void(0)" class="lukkHamburger" onclick="lukkHamburger()">&times;</a>
+      
+        <!-- innholdet i hamburger-menyen -->
+        <section class="hamburgerInnhold">
+          <a href="#">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+          <a href="#">Link 4</a>
+        </section>
+    </section>
+
+    <header>
+        <img src="bilder/logo.png" alt="Klimate logo" class="Logo_forside">
+    </header>
     <main>
-        <h1>Under konstruksjon - Reg bruker</h1>
+        <h1>Klimate</h1>
+        <form method="POST" action="logginn.html"> <!-- My byttes ut -->
+            <input type="text" id="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
+            <input type="password" id="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
+            <input type="password" id="RegInnFelt" name="passord" value="" placeholder="Bekreft passord">
+            <input type="submit" id="RegInnFelt" value="Registrer ny bruker">
+        </form>
     </main>
 </body>
 
