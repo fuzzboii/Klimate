@@ -13,7 +13,22 @@
     <nav id="navTop">
         <button id="logginn" onClick="location.href='logginn.html'">LOGG INN</button>
         <button onClick="location.href='registrer.html'">REGISTRER</button>
+        <button onclick="aapneHamburger()">Trykk meg</button>
     </nav>
+    <article id="navMeny" class="hamburgerMeny">
+
+        <!-- Knapp som lukker vinduet etter det er åpnet -->
+        <a href="javascript:void(0)" class="lukkHamburger" onclick="lukkHamburger()">&times;</a>
+      
+        <!-- innholdet i hamburger-menyen -->
+        <section class="hamburgerInnhold">
+          <a href="#">Lorem</a>
+          <a href="#">ipsum</a>
+          <a href="#">dolor</a>
+          <a href="#">sit</a>
+        </section>
+    </article>
+    
     <header>
         <img src="bilder/logo.png" alt="Klimate logo" class="Logo-forside_stor">
     </header>
