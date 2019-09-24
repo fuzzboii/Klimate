@@ -13,12 +13,16 @@ body {
     background-color: white;
     box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
 }
-#navTop #logginn {
+#navTop #logginnKnapp {
     margin-left: 55%;
     margin-right: 1%;
 }
+#navTop #registrerKnapp {
+    margin-left: 70%;
+    margin-right: 1%;
+}
 #navTop .hamburgerKnapp {
-    margin-left: 5%;
+    margin-left: 6%;
     margin-top: 1.2%;
     width: 60px;
     position: absolute;
@@ -33,7 +37,26 @@ body {
     box-shadow: 2px 2px 2px 2px rgba(255, 255, 255, 0.596);
     height: 85px; width: 130px; 
 }
-.Logo-forside_stor {
+#RegInnFelt {
+    display: block;
+    margin-left: auto; margin-right: auto;
+    margin-top: 3%;
+    padding: 15px;
+    width: 30%;
+    font-size: 32px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
+}
+.Logo_hovedmeny {
+    left: 1%;
+    top: 0.5%;
+    margin-left: 1%;
+    width: 100px;
+    position: absolute;
+}
+.Logo_forside {
     margin-top: 20%; 
     border: 1px solid white;
     width: 350px;
@@ -67,66 +90,47 @@ p {
     #navTop button:hover {
         color: rgb(165, 165, 165);
     }
+    /* Når du har musen over, endre farge */
+    .hamburgerMeny a:hover, .hamburgerMeny a:focus {
+      color: #f1f1f1;
+    }
 }
 
-/* pls */
+/* Hamburgermeny */
 
-/* The Overlay (background) */
-/* button {
-    background: rgb(249,249,249);
-    background: linear-gradient(0deg, rgba(249,249,249,1) 0%, rgba(255,255,255,1) 100%);
-    border-radius: 8px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    box-shadow: 2px 2px 2px 2px rgba(255, 255, 255, 0.596);
-    height: 85px; width: 130px; 
-  }
-  */
   .hamburgerMeny {
-    /* Height & width depends on how you want to reveal the overlay (see JS below) */   
-    height: 0%;
-    width: 100%;
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    background-color: rgb(0,0,0); /* Black fallback color */
-    background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
-    overflow-y: hidden; /* Disable horizontal scroll */
-    transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+    height: 0%; width: 100%;
+    position: fixed;
+    z-index: 1; /* Skal være over alle andre elementer */
+    left: 0; top: 0;
+    background-color: rgb(0,0,0); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
+    background-color: rgba(0,0,0, 0.9); /* Bakgrunnsfarge med gjennomsiktighet */
+    overflow-y: hidden; /* Passer på at scrollbaren ikke vises selv */
+    transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
   }
   
-  /* Position the content inside the overlay */
+  /* Innholdet i menyen */
   .hamburgerInnhold {
     position: relative;
-    top: 25%; /* 25% from the top */
-    width: 100%; /* 100% width */
-    text-align: center; /* Centered text/links */
-    margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+    top: 25%; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
+    margin-top: 30px; /* Sørger for at det ikke blir noen konflikt med knappen for å lukke menyen */
   }
   
-  /* The navigation links inside the overlay */
+  /* Selve lenkene, innhold i menyen */
   .hamburgerMeny a {
     padding: 8px;
     text-decoration: none;
     font-size: 65px;
     color: #818181;
-    display: block; /* Display block instead of inline */
-    transition: 0.3s; /* Transition effects on hover (color) */
+    display: block;
+    transition: 0.3s; /* Effekt når man trykker på knappen */
   }
   
-  /* When you mouse over the navigation links, change their color */
-  .hamburgerMeny a:hover, .hamburgerMeny a:focus {
-    color: #f1f1f1;
-  }
-  
-  /* Position the close button (top right corner) */
+  /* Hvor knappen for å lukke menyen ender opp */
   .hamburgerMeny .lukkHamburger {
     position: absolute;
-    top: 20px;
-    right: 65px;
-    font-size: 60px;
+    top: 18px; right: 70px;
+    font-size: 90px;
   }
   
   /*
