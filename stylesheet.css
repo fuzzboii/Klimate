@@ -1,6 +1,6 @@
 body {
     background-color: rgb(68, 68, 68);
-    border: 1px solid white;
+    /* border: 1px solid white; */
     margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
     
     background-image: url("bilder/bg-default.jpg");
@@ -49,7 +49,7 @@ body {
     border-radius: 8px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
 }
-.Logo_hovedmeny {
+.Logo_navmeny {
     left: 1%;
     top: 0.5%;
     margin-left: 1%;
@@ -57,8 +57,9 @@ body {
     position: absolute;
 }
 .Logo_forside {
-    margin-top: 20%; 
-    border: 1px solid white;
+    margin-top: 10%; 
+    margin-bottom: 10%; 
+    /* border: 1px solid white; */
     width: 350px;
     display: block;
     margin-left: auto;
@@ -68,7 +69,7 @@ body {
 h1 {
     text-align: center;
     font-size: 25px; color: white;
-    border: 1px solid white;
+    /* border: 1px solid white; */
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-transform: uppercase;
 }
