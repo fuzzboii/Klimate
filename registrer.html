@@ -6,14 +6,15 @@
 <meta charset="UTF-8">
 <title>Klimate</title>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
 <script language="JavaScript" src="javascript.js"> </script>
 </head>
 
 <body>
     <nav id="navTop">
-        <button onClick="location.href='logginn.html'" style="margin-left: 70%;">LOGG INN</button>
+        <button onClick="location.href='logginn.html'" style="margin-left: 70%;">LOGG INN</button> <!-- Inline CSS her, trippelsjekk på denne-->
         <img src="bilder/hamburger_icon.svg" class="hamburgerKnapp" onclick="aapneHamburger()">
-        <img src="bilder/logo.png" alt="Klimate logo" class="Logo_hovedmeny">
+        <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
     </nav>
     <section id="navMeny" class="hamburgerMeny">
 
@@ -30,10 +31,9 @@
     </section>
 
     <header>
-        <img src="bilder/logo.png" alt="Klimate logo" class="Logo_forside">
+        <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
     </header>
     <main>
-        <h1>Klimate</h1>
         <form method="POST" action="logginn.html"> <!-- My byttes ut -->
             <input type="text" id="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
             <input type="password" id="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
