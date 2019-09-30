@@ -1,37 +1,66 @@
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for BODY */
 body {
     background-color: rgb(129, 129, 129);
     /* border: 1px solid white; */
     margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
 }
-#navTop {
-    padding-top: 2%; padding-bottom: 2%;
-    background-color: white;
-    box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for h1, p TEXT */
+
+h1 {
+  text-align: center;
+  font-size: 25px; color: black;
+  /* border: 1px solid white; */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-transform: uppercase;
 }
-#navTop #logginnKnapp {
-    margin-left: 55%;
-    margin-right: 1%;
+p {
+  text-align: center;
+  font-size: 12px; color: black;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  padding-left: 14%;
+  padding-right: 14%;
 }
-#navTop #registrerKnapp {
-    margin-left: 70%;
-    margin-right: 1%;
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for BAKGRUNN */
+
+.bakgrunn {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  z-index: -1;
 }
-#navTop .hamburgerKnapp {
-    margin-left: 6%;
-    margin-top: 1.2%;
-    width: 60px;
-    position: absolute;
+
+.uklarhet {
+   /* Bakgrunnsverdier */
+   background-image: linear-gradient(to right, rgba(114, 113, 113, 0.8) 0%, rgba(146, 146, 146, 0.8) 50%, rgba(97, 97, 97, 0.6) 90%);
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   filter: blur(20px);
+   
+   /* Posisjonering og fjerning av kanter */
+   top: -70px;
+   right: -70px;
+   left: -70px;
+   padding: 70px;
 }
-#navTop button {
-    background: rgb(249,249,249);
-    background: linear-gradient(0deg, rgba(249,249,249,1) 0%, rgba(255,255,255,1) 100%);
-    border-radius: 8px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    box-shadow: 2px 2px 2px 2px rgba(255, 255, 255, 0.596);
-    height: 85px; width: 130px; 
+/* Gjør blur finere */
+.uklarhet:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-image: linear-gradient(-19deg, rgba(104, 104, 104, 0.8) 0%, rgba(105, 105, 105, 0.4) 46%, rgba(95, 95, 95, 0.05) 50%);
+  filter: blur(60px);
 }
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for LOGIN/REGISTRER */
 #RegInnFelt {
     display: block;
     margin-left: auto; margin-right: auto;
@@ -44,6 +73,39 @@ body {
     border-radius: 8px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
 }
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for NAVIGASJONSMENY */
+#navTop {
+  padding-top: 2%; padding-bottom: 2%;
+  background-color: white;
+  box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
+}
+#navTop #logginnKnapp {
+  margin-left: 55%;
+  margin-right: 1%;
+}
+#navTop #registrerKnapp {
+  margin-left: 70%;
+  margin-right: 1%;
+}
+#navTop .hamburgerKnapp {
+  margin-left: 6%;
+  margin-top: 1.2%;
+  width: 60px;
+  position: absolute;
+}
+#navTop button {
+  background: rgb(249,249,249);
+  background: linear-gradient(0deg, rgba(249,249,249,1) 0%, rgba(255,255,255,1) 100%);
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 2px 2px 2px 2px rgba(255, 255, 255, 0.596);
+  height: 85px; width: 130px; 
+}
+
 .Logo_navmeny {
     left: 1%;
     top: 0.5%;
@@ -60,22 +122,46 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for DROPDOWN HAMBURGERMENY */
 
-h1 {
-    text-align: center;
-    font-size: 25px; color: white;
-    /* border: 1px solid white; */
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    text-transform: uppercase;
-}
-p {
-    text-align: center;
-    font-size: 12px; color: black;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    padding-left: 14%;
-    padding-right: 14%;
+.hamburgerMeny {
+  height: 0%; width: 100%;
+  position: fixed;
+  z-index: 1; /* Skal være over alle andre elementer */
+  left: 0; top: 0;
+  background-color: rgb(0,0,0); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
+  background-color: rgba(0,0,0, 0.9); /* Bakgrunnsfarge med gjennomsiktighet */
+  overflow-y: hidden; /* Passer på at scrollbaren ikke vises selv */
+  transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
 }
 
+/* Innholdet i menyen */
+.hamburgerInnhold {
+  position: relative;
+  top: 25%; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
+  margin-top: 30px; /* Sørger for at det ikke blir noen konflikt med knappen for å lukke menyen */
+}
+
+/* Selve lenkene, innhold i menyen */
+.hamburgerMeny a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 65px;
+  color: #818181;
+  display: block;
+  transition: 0.3s; /* Effekt når man trykker på knappen */
+}
+
+/* Hvor knappen for å lukke menyen ender opp */
+.hamburgerMeny .lukkHamburger {
+  position: absolute;
+  top: 18px; right: 70px;
+  font-size: 90px;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for MEDIA QUERY */
 @media screen and (min-width: 1081px) {
 	body {
 	  background-color: #505050;
@@ -92,53 +178,18 @@ p {
     }
 }
 
-/* Hamburgermeny */
-
-  .hamburgerMeny {
-    height: 0%; width: 100%;
-    position: fixed;
-    z-index: 1; /* Skal være over alle andre elementer */
-    left: 0; top: 0;
-    background-color: rgb(0,0,0); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
-    background-color: rgba(0,0,0, 0.9); /* Bakgrunnsfarge med gjennomsiktighet */
-    overflow-y: hidden; /* Passer på at scrollbaren ikke vises selv */
-    transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
-  }
   
-  /* Innholdet i menyen */
-  .hamburgerInnhold {
-    position: relative;
-    top: 25%; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
-    margin-top: 30px; /* Sørger for at det ikke blir noen konflikt med knappen for å lukke menyen */
-  }
   
-  /* Selve lenkene, innhold i menyen */
-  .hamburgerMeny a {
-    padding: 8px;
-    text-decoration: none;
-    font-size: 65px;
-    color: #818181;
-    display: block;
-    transition: 0.3s; /* Effekt når man trykker på knappen */
-  }
-  
-  /* Hvor knappen for å lukke menyen ender opp */
+/*
+@media screen and (max-height: 450px) {
+  .hamburgerMeny a {font-size: 20px}
   .hamburgerMeny .lukkHamburger {
-    position: absolute;
-    top: 18px; right: 70px;
-    font-size: 90px;
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
   }
-  
-  /*
-  @media screen and (max-height: 450px) {
-    .hamburgerMeny a {font-size: 20px}
-    .hamburgerMeny .lukkHamburger {
-      font-size: 40px;
-      top: 15px;
-      right: 35px;
-    }
-  }
-  */
+}
+*/
 
 /* Denne siden er utviklet av Ben Redic Fy Fazan, siste gang endret 21.04.1973 */
 /* Denne siden er kontrollert av Reodor Felgen, siste gang 25.05.1975 */
