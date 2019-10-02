@@ -188,6 +188,27 @@ p {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for MEDIA QUERY */
+
+/* Mange mindre telefoner */
+@media screen and (min-device-width: 320px) {
+
+}
+
+/* Samsung galaxy s-serien */
+@media screen and (min-device-width: 360px) {
+
+}
+
+/* Nyere iPhones */
+@media screen and (min-device-width: 375px) {
+
+}
+
+/* Nyere iPhone + */
+@media screen and (min-device-width: 414px) {
+
+}
+
 @media screen and (min-width: 1081px) {
 	body {
 	  background-color: #505050;
