@@ -201,10 +201,23 @@ p {
 
 /* Nyere iPhones */
 @media screen and (min-device-width: 375px) {
+  main article h1 {
+    font-size: 14px;
+  }
+
+  main article p {
+    font-size: 14px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  .Logo_forside {
+    margin-bottom: 5%;
+  }
 
 }
 
-/* Nyere iPhone + */
+/* Nyere iPhone +, og  */
 @media screen and (min-device-width: 414px) {
 
 }
