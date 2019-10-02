@@ -187,20 +187,41 @@ p {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for MEDIA QUERY */
+/* Media queries */
 
-/* Mange mindre telefoner */
+/* Eldre, mindre telefoner */
 @media screen and (min-device-width: 320px) {
+  .Logo_forside {
+    width: 200px;
+    margin-bottom: 5%;
+  }
 
+  main article h1 {
+    font-size: 11px;
+  }
+
+  main article p {
+    padding-left: 10%;
+    padding-right: 10;
+    font-size: 11px;
+  }
 }
 
-/* Samsung galaxy s-serien */
+/* Eldre, litt større telefoner. Noen nyere */
 @media screen and (min-device-width: 360px) {
 
 }
 
-/* Nyere iPhones */
+/* Mange nyere telefoner */
 @media screen and (min-device-width: 375px) {
+  .Logo_forside {
+    margin-bottom: 5%;
+  }
+  
+  #navTop button {
+    font-size: 22px;
+  }
+
   main article h1 {
     font-size: 14px;
   }
@@ -211,13 +232,9 @@ p {
     padding-right: 10%;
   }
 
-  .Logo_forside {
-    margin-bottom: 5%;
-  }
-
 }
 
-/* Nyere iPhone +, og  */
+/* Nyere brede telefoner  */
 @media screen and (min-device-width: 414px) {
 
 }
