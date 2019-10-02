@@ -148,6 +148,48 @@ p {
     margin-left: auto;
     margin-right: auto;
 }
+
+#navTop .profil_navmeny {
+  left: 1%;
+  top: 0.5%;
+  margin-left: 1%;
+  width: 100px;
+  position: absolute;
+  border-radius: 50%;
+}
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for BACKEND/Innloggede brukere */
+
+.profil_backend {
+  margin-top: 10%; 
+  margin-bottom: 10%; 
+  /* border: 1px solid white; */
+  width: 250px;
+  
+  margin-left: 5em;
+  
+  border-radius: 50%;
+}
+
+.velkomst {
+  margin-right:20%;
+  margin-top: 20%;
+  float: right;
+  font-size: 30px;
+  color: rgb(22, 22, 22);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.sone {
+  border: 1px solid black;
+  width: 50%;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DROPDOWN HAMBURGERMENY */
 
