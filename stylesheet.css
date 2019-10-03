@@ -209,35 +209,50 @@ p {
 
 /* Eldre, litt større telefoner. Noen nyere */
 @media screen and (min-device-width: 360px) {
+  .Logo_forside {
+    width: 325px;
+  }
+
+  main article h1 {
+    font-size: 15px;
+  }
+
+  main article p {
+    font-size: 14px;
+  }
 
 }
 
 /* Mange nyere telefoner */
 @media screen and (min-device-width: 375px) {
   .Logo_forside {
-    margin-bottom: 5%;
-  }
-  
-  #navTop button {
-    font-size: 22px;
+    width: 325px;
   }
 
   main article h1 {
     font-size: 14px;
   }
 
-  main article p {
-    font-size: 14px;
-    padding-left: 10%;
-    padding-right: 10%;
-  }
-
 }
 
 /* Nyere brede telefoner  */
 @media screen and (min-device-width: 414px) {
+  .Logo_forside {
+    width: 350px;
+  }
 
+  main article h1 {
+    font-size: 18px;
+  }
+
+  main article p {
+    font-size: 16px;
+  }
+  
 }
+
+/* Skifte til tablets ca. her? */
+/* Tablets burde vise artiklene i to kolonner */
 
 @media screen and (min-width: 1081px) {
 	body {
