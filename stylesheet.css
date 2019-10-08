@@ -314,10 +314,9 @@ border-radius: 10px 10px 0px 0px;
 /* Media queries */
 
 /* Små telefoner */
-/* Portrett */
 @media screen and (min-device-width: 320px) and (orientation: portrait) {
   .Logo_forside {
-    width: 200px;
+    width: 20%;
     margin-bottom: 5%;
   }
 
@@ -332,20 +331,7 @@ border-radius: 10px 10px 0px 0px;
   }
 }
 
-/* Landskap */
-/* WiP */
-@media screen and (min-device-width: 320px) and (orientation: landscape) {
-  header {
-    background-color: crimson;
-  }
-  .Logo_forside {
-    margin-top: 5%;
-    margin-bottom: 5%;
-  }
-}
-
 /* Medium telefoner */
-/* Portrett */
 @media screen and (min-device-width: 375px) and (orientation: portrait) {
   .Logo_forside {
     margin-bottom: 5%;
@@ -356,21 +342,18 @@ border-radius: 10px 10px 0px 0px;
   }
 
   main article h1 {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   main article p {
-    font-size: 14px;
+    font-size: 12px;
     padding-left: 10%;
     padding-right: 10%;
   }
 
 }
 
-/* Landskap */
-
 /* Store telefoner */
-/* Portrett */
 @media screen and (min-device-width: 414px) and (orientation: landscape) {
   .Logo_forside {
     width: 250px;
@@ -382,8 +365,6 @@ border-radius: 10px 10px 0px 0px;
     font-size: 16px;
   }
 }
-
-/* Landskap */
 
 @media screen and (min-width: 1081px) {
 	body {
@@ -399,6 +380,34 @@ border-radius: 10px 10px 0px 0px;
     .hamburgerMeny a:hover, .hamburgerMeny a:focus {
       color: #f1f1f1;
     }
+}
+
+/* Landskap. Tilsynelatende goxt nok for mange størrelser. */
+@media screen and (min-device-width: 320px) and (orientation: landscape) {
+  header .Logo_forside {
+    width: 15%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
+
+  main article h1 {
+    font-size: 10px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+
+  main article p {
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+
+  #default_main {
+    column-count: 2;
+  } 
+
+  #artikkel4 {
+    break-before: column;
+  }
 }
 
 /* Ipad mini/pro portrett og landskap */
