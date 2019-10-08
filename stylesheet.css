@@ -234,31 +234,31 @@ p {
 
 
 .bgcont p {
-    font-size: 28px; color: rgb(29, 28, 27);
-    text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    
+  font-size: 28px; color: rgb(29, 28, 27);
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
 }
 
 .bgcont {
-  background-color:#ffffff; 
-  width:70%; 
-  margin-left: auto; 
-  margin-right: auto;
-  border-radius: 10px 10px 25px 25px;
+background-color:#ffffff; 
+width:70%; 
+margin-left: auto; 
+margin-right: auto;
+border-radius: 10px 10px 25px 25px;
 
 }
 
 .bgcont h1 {
-  background-color:#666666;
-  width:100%; 
-  position:center;
-  text-align: center;
-  font-size: 35px; color: rgb(29, 28, 27);
-  /* border: 1px solid white; */
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: uppercase;
-  border-radius: 10px 10px 0px 0px;
+background-color:#666666;
+width:100%; 
+position:center;
+text-align: center;
+font-size: 35px; color: rgb(29, 28, 27);
+/* border: 1px solid white; */
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+text-transform: uppercase;
+border-radius: 10px 10px 0px 0px;
 }
 
 #backendLoggUt {
@@ -313,8 +313,9 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
-/* Eldre, mindre telefoner */
-@media screen and (min-device-width: 320px) {
+/* Små telefoner */
+/* Portrett */
+@media screen and (min-device-width: 320px) and (orientation: portrait) {
   .Logo_forside {
     width: 200px;
     margin-bottom: 5%;
@@ -331,13 +332,9 @@ p {
   }
 }
 
-/* Eldre, litt større telefoner. Noen nyere */
-@media screen and (min-device-width: 360px) {
-
-}
-
-/* Mange nyere telefoner */
-@media screen and (min-device-width: 375px) {
+/* Medium telefoner */
+/* Portrett */
+@media screen and (min-device-width: 375px) and (orientation: portrait) {
   .Logo_forside {
     margin-bottom: 5%;
   }
@@ -358,10 +355,23 @@ p {
 
 }
 
-/* Nyere brede telefoner  */
-@media screen and (min-device-width: 414px) {
+/* Landskap */
 
+/* Store telefoner */
+/* Portrett */
+@media screen and (min-device-width: 414px) {
+  .Logo_forside {
+    width: 250px;
+  }
+  main article h1 {
+    font-size: 16px;
+  }
+  main article p {
+    font-size: 16px;
+  }
 }
+
+/* Landskap */
 
 @media screen and (min-width: 1081px) {
 	body {
