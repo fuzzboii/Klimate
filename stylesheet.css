@@ -332,6 +332,18 @@ border-radius: 10px 10px 0px 0px;
   }
 }
 
+/* Landskap */
+/* WiP */
+@media screen and (min-device-width: 320px) and (orientation: landscape) {
+  header {
+    background-color: crimson;
+  }
+  .Logo_forside {
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+}
+
 /* Medium telefoner */
 /* Portrett */
 @media screen and (min-device-width: 375px) and (orientation: portrait) {
@@ -359,7 +371,7 @@ border-radius: 10px 10px 0px 0px;
 
 /* Store telefoner */
 /* Portrett */
-@media screen and (min-device-width: 414px) {
+@media screen and (min-device-width: 414px) and (orientation: landscape) {
   .Logo_forside {
     width: 250px;
   }
