@@ -297,8 +297,9 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
-/* Eldre, mindre telefoner */
-@media screen and (min-device-width: 320px) {
+/* Små telefoner */
+/* Portrett */
+@media screen and (min-device-width: 320px) and (orientation: portrait) {
   .Logo_forside {
     width: 200px;
     margin-bottom: 5%;
@@ -315,13 +316,8 @@ p {
   }
 }
 
-/* Eldre, litt større telefoner. Noen nyere */
-@media screen and (min-device-width: 360px) {
-
-}
-
-/* Mange nyere telefoner */
-@media screen and (min-device-width: 375px) {
+/* Medium telefoner */
+@media screen and (min-device-width: 375px) and (orientation: portrait) {
   .Logo_forside {
     margin-bottom: 5%;
   }
@@ -342,10 +338,13 @@ p {
 
 }
 
-/* Nyere brede telefoner  */
+/* Store telefoner */
+/* Portrett */
 @media screen and (min-device-width: 414px) {
 
 }
+
+/* Landskap */
 
 @media screen and (min-width: 1081px) {
 	body {
