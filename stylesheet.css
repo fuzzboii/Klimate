@@ -411,6 +411,22 @@ border-radius: 10px 10px 0px 0px;
 
 @media screen and (min-device-width : 768px)  and (orientation : landscape) {
   /* Styles landskap */
+  .Logo_forside {
+    width: 20%;
+    margin-top: 5%; 
+    margin-bottom: 5%;
+  }
+  #default_main article h1 {
+    font-size: 20px;
+  }
+  #default_main article p {
+    font-size: 15px;
+  }
+  #default_main {column-count: 2;
+  }
+  #artikkel4 {
+    break-before: column;
+
 
 }
   
