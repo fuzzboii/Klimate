@@ -317,6 +317,7 @@ p {
 }
 
 /* Medium telefoner */
+/* Portrett */
 @media screen and (min-device-width: 375px) and (orientation: portrait) {
   .Logo_forside {
     margin-bottom: 5%;
@@ -338,10 +339,20 @@ p {
 
 }
 
+/* Landskap */
+
 /* Store telefoner */
 /* Portrett */
 @media screen and (min-device-width: 414px) {
-
+  .Logo_forside {
+    width: 250px;
+  }
+  main article h1 {
+    font-size: 16px;
+  }
+  main article p {
+    font-size: 16px;
+  }
 }
 
 /* Landskap */
