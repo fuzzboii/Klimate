@@ -63,7 +63,7 @@ p {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for LOGIN/REGISTRER */
-#RegInnFelt {
+.RegInnFelt {
     display: block;
     margin-left: auto; margin-right: auto;
     margin-top: 3%;
@@ -75,7 +75,7 @@ p {
     border-radius: 8px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
 }
-#RegInnFelt_knappRegistrer {
+.RegInnFelt_knappRegistrer {
   display: block;
   margin-left: auto; margin-right: auto;
   margin-top: 3%;
@@ -88,7 +88,7 @@ p {
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
 }
 
-#RegInnFelt_knappLogginn {
+.RegInnFelt_knappLogginn {
   display: block;
   margin-left: auto; margin-right: auto;
   margin-top: 3%;
@@ -102,26 +102,26 @@ p {
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */
-#navTop {
+.navTop {
   padding-top: 2%; padding-bottom: 2%;
   background-color: white;
   box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
 }
-#navTop #logginnKnapp {
+.navTop #logginnKnapp {
   margin-left: 55%;
   margin-right: 1%;
 }
-#navTop #registrerKnapp {
+.navTop #registrerKnapp {
   margin-left: 70%;
   margin-right: 1%;
 }
-#navTop .hamburgerKnapp {
+.navTop .hamburgerKnapp {
   margin-left: 6%;
   margin-top: 1.2%;
   width: 60px;
   position: absolute;
 }
-#navTop button {
+.navTop button {
   background: rgb(249,249,249);
   background: linear-gradient(0deg, rgba(249,249,249,1) 0%, rgba(255,255,255,1) 100%);
   border-radius: 8px;
@@ -148,6 +148,52 @@ p {
     margin-left: auto;
     margin-right: auto;
 }
+
+.navTop .profil_navmeny {
+  left: 1%;
+  top: 0.5%;
+  margin-left: 1%;
+  width: 100px;
+  position: absolute;
+  border-radius: 50%;
+}
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for BACKEND/Innloggede brukere */
+
+.profil_backend {
+  margin-top: 10%; 
+  margin-bottom: 10%; 
+  /* border: 1px solid white; */
+  width: 250px;
+  
+  margin-left: 5em;
+  
+  border-radius: 50%;
+}
+
+.velkomst {
+  margin-right:20%;
+  margin-top: 20%;
+  float: right;
+  font-size: 30px;
+  color: rgb(22, 22, 22);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.sone {
+  border: 1px solid black;
+  width: 50%;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+#backendLoggUt {
+  margin-left: 70%;
+}
+
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DROPDOWN HAMBURGERMENY */
 
@@ -209,59 +255,44 @@ p {
 
 /* Eldre, litt større telefoner. Noen nyere */
 @media screen and (min-device-width: 360px) {
-  .Logo_forside {
-    width: 325px;
-  }
-
-  main article h1 {
-    font-size: 15px;
-  }
-
-  main article p {
-    font-size: 14px;
-  }
 
 }
 
 /* Mange nyere telefoner */
 @media screen and (min-device-width: 375px) {
   .Logo_forside {
-    width: 325px;
+    margin-bottom: 5%;
+  }
+  
+  .navTop button {
+    font-size: 22px;
   }
 
   main article h1 {
     font-size: 14px;
   }
 
+  main article p {
+    font-size: 14px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
 }
 
 /* Nyere brede telefoner  */
 @media screen and (min-device-width: 414px) {
-  .Logo_forside {
-    width: 350px;
-  }
 
-  main article h1 {
-    font-size: 18px;
-  }
-
-  main article p {
-    font-size: 16px;
-  }
-  
 }
-
-/* Skifte til tablets ca. her? */
-/* Tablets burde vise artiklene i to kolonner */
 
 @media screen and (min-width: 1081px) {
 	body {
 	  background-color: #505050;
     }
-    #navTop button {
+    .navTop button {
         transition-duration: 0.3s;
     }
-    #navTop button:hover {
+    .navTop button:hover {
         color: rgb(165, 165, 165);
     }
     /* Når du har musen over, endre farge */

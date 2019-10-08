@@ -8,12 +8,55 @@
 <title>Klimate</title>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
+<script language="JavaScript" src="javascript.js"></script>
 </head>
 
 
 <body>
+
+    <section class="bakgrunn">
+        <section class="uklarhet"></section>
+    </section>
+    
+    <nav class="navTop">
+        <button onClick="location.href='logginn.html'" id="backendLoggUt">LOGG UT</button> <!-- Inline CSS her, trippelsjekk på denne-->
+        <img src="bilder/hamburger_icon.svg" class="hamburgerKnapp" onclick="aapneHamburger()">
+        <img src="bilder/klimateNoText.png" onClick="location.href='default.html'" alt="Klimate logo" class="Logo_navmeny">
+        <!-- <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> -->
+    </nav>
+
+    <section id="navMeny" class="hamburgerMeny">
+        <!-- Knapp som lukker vinduet etter det er åpnet -->
+        <a href="javascript:void(0)" class="lukkHamburger" onclick="lukkHamburger()">&times;</a>
+
+        <!-- innholdet i hamburger-menyen -->
+        <section class="hamburgerInnhold">
+            <a href="#">Diskusjoner</a>
+            <a href="#">Arrangementer</a>
+            <a href="#">Artikler</a>
+            <a href="#">Profil</a>
+            <a href="#">Innstillinger</a>
+        </section>
+    </section>
+
+    <header>
+        <img src="bilder/profil.png" alt="Klimate logo"class="profil_backend">
+        <h1 class="velkomst">Velkommen bruker!</h1>
+    </header>
+
     <main>
-        <h1>Under konstruksjon</h1>
+        <article id="arrangementer">
+            <h1>Arrangementer</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Trykk her for å lese videre</a></p>
+        </article>
+        <article id="diskusjoner">
+            <h1>Diskusjoner</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Trykk her for å lese videre</a></p>
+        </article>
+        <article id="artikler">
+            <h1>Artikler</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Trykk her for å lese videre</a></p>
+        </article>
     </main>
 </body>
 

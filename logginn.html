@@ -11,7 +11,12 @@
 </head>
 
 <body>
-    <nav id="navTop">
+    
+    <section class="bakgrunn">
+        <section class="uklarhet"></section>
+    </section>
+
+    <nav class="navTop">
         <button id="registrerKnapp" onClick="location.href='registrer.html'">REGISTRER</button>
         <img src="bilder/hamburger_icon.svg" class="hamburgerKnapp" onclick="aapneHamburger()">
         <img src="bilder/klimateNoText.png" onClick="location.href='default.html'" alt="Klimate logo" class="Logo_navmeny">
@@ -23,10 +28,11 @@
       
         <!-- innholdet i hamburger-menyen -->
         <section class="hamburgerInnhold">
-          <a href="#">Link 1</a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
-          <a href="#">Link 4</a>
+            <a href="#">Diskusjoner</a>
+            <a href="#">Arrangementer</a>
+            <a href="#">Artikler</a>
+            <a href="#">Profil</a>
+            <a href="#">Innstillinger</a>
         </section>
     </section>
 
@@ -34,10 +40,10 @@
         <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
     </header>
     <main>
-        <form method="POST" action="logginn.html"> <!-- My byttes ut -->
-            <input type="text" id="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
-            <input type="password" id="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
-            <input type="submit" id="RegInnFelt_knappLogginn" value="LOGG INN">
+        <form method="POST" action="backend.html"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
+            <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
+            <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
+            <input type="submit" class="RegInnFelt_knappLogginn" value="LOGG INN">
         </form>
     </main>
 </body>
