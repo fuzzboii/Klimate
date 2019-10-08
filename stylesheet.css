@@ -26,6 +26,8 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BAKGRUNN */
 
+/* -> Bakgrunn for default, login, registrer: */
+/* --------------------------------------------- */
 .bakgrunn {
   width: 100%;
   height: 100%;
@@ -44,7 +46,7 @@ p {
   filter: blur(20px);
 
   
-  /* Posisjonering og fjerning av kanter */
+/* Posisjonering og fjerning av kanter */
   top: -70px;
   right: -70px;
   left: -70px;
@@ -58,6 +60,43 @@ p {
   width: 100%;
   z-index: 1;
   background-image: linear-gradient(-19deg, rgba(104, 104, 104, 0.8) 0%, rgba(105, 105, 105, 0.4) 46%, rgba(95, 95, 95, 0.05) 50%);
+  filter: blur(60px);
+}
+
+/* -> Bakgrunn for backend: */
+/* --------------------------- */
+.bakgrunnBackend {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  z-index: -1;
+  
+}
+
+.uklarhetBackend {
+  /* Bakgrunnsverdier */
+  background-image: linear-gradient(to right, rgba(0, 236, 165, 0.8) 0%, rgba(39, 139, 109, 0.8) 50%, rgb(0, 146, 102) 90%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: blur(20px);
+
+  
+  /* Posisjonering og fjerning av kanter */
+  top: -70px;
+  right: -70px;
+  left: -70px;
+  padding: 70px;
+}
+/* Gjør blur finere */
+.uklarhetBackend:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-image: linear-gradient(-19deg, rgba(0, 160, 112, 0.8) 0%, rgba(0, 190, 133, 0.8) 50%, rgb(0, 255, 179) 90%);
   filter: blur(60px);
 }
 
@@ -216,6 +255,7 @@ p {
   width: 60px;
   position: absolute;
 }
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DROPDOWN HAMBURGERMENY */
 
