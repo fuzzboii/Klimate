@@ -192,6 +192,20 @@ p {
   
 }
 
+.bgcont {
+  background-color:#ffffff; 
+  width:70%; 
+  margin-left: auto; 
+  margin-right: auto;
+  
+}
+
+.bgcontH1 {
+  background-color:#444444; 
+  width:100%; 
+  position:center;
+}
+
 #backendLoggUt {
   margin-left: 60%;
 }
@@ -308,6 +322,7 @@ p {
       color: #f1f1f1;
     }
 }
+
 
   
   
