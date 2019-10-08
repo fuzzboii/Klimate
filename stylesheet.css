@@ -235,8 +235,9 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
-/* Eldre, mindre telefoner */
-@media screen and (min-device-width: 320px) {
+/* Små telefoner */
+/* Portrett */
+@media screen and (min-device-width: 320px) and (orientation: portrait) {
   .Logo_forside {
     width: 200px;
     margin-bottom: 5%;
@@ -248,17 +249,23 @@ p {
 
   main article p {
     padding-left: 10%;
-    padding-right: 10;
+    padding-right: 10%;
     font-size: 11px;
   }
 }
 
-/* Eldre, litt større telefoner. Noen nyere */
-@media screen and (min-device-width: 360px) {
-
+/* Landskap */
+@media screen and (min-device-width: 320px) and (orientation: landscape) {
+  .Logo_forside {
+    width: 100px;
+    margin-bottom: 1%;
+    margin-top: 4%;
+    padding-left: 25px;
+  }
 }
 
-/* Mange nyere telefoner */
+/* Medium telefoner */
+/* Portrett */
 @media screen and (min-device-width: 375px) {
   .Logo_forside {
     margin-bottom: 5%;
@@ -280,9 +287,18 @@ p {
 
 }
 
-/* Nyere brede telefoner  */
-@media screen and (min-device-width: 414px) {
+/* Landskap */
 
+/* Store telefoner  */
+/* Portrett */
+@media screen and (min-device-width: 414px) and (orientation: portrait) {
+  main article h1 {
+    font-size: 16px;
+  }
+
+  main article p {
+    font-size: 16px;
+  }
 }
 
 @media screen and (min-width: 1081px) {
@@ -300,6 +316,8 @@ p {
       color: #f1f1f1;
     }
 }
+
+/* Landskap */
 
   
   
