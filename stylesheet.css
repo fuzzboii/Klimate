@@ -26,6 +26,8 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BAKGRUNN */
 
+/* -> Bakgrunn for default, login, registrer: */
+/* --------------------------------------------- */
 .bakgrunn {
   width: 100%;
   height: 100%;
@@ -44,7 +46,7 @@ p {
   filter: blur(20px);
 
   
-  /* Posisjonering og fjerning av kanter */
+/* Posisjonering og fjerning av kanter */
   top: -70px;
   right: -70px;
   left: -70px;
@@ -58,6 +60,43 @@ p {
   width: 100%;
   z-index: 1;
   background-image: linear-gradient(-19deg, rgba(104, 104, 104, 0.8) 0%, rgba(105, 105, 105, 0.4) 46%, rgba(95, 95, 95, 0.05) 50%);
+  filter: blur(60px);
+}
+
+/* -> Bakgrunn for backend: */
+/* --------------------------- */
+.bakgrunnBackend {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  z-index: -1;
+  
+}
+
+.uklarhetBackend {
+  /* Bakgrunnsverdier */
+  background-image: linear-gradient(to right, rgba(0, 236, 165, 0.8) 0%, rgba(39, 139, 109, 0.8) 50%, rgb(0, 146, 102) 90%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: blur(20px);
+
+  
+  /* Posisjonering og fjerning av kanter */
+  top: -70px;
+  right: -70px;
+  left: -70px;
+  padding: 70px;
+}
+/* Gjør blur finere */
+.uklarhetBackend:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-image: linear-gradient(-19deg, rgba(0, 160, 112, 0.8) 0%, rgba(0, 190, 133, 0.8) 50%, rgb(0, 255, 179) 90%);
   filter: blur(60px);
 }
 
@@ -120,11 +159,12 @@ p {
   margin-right: 1%;
 }
 .navTop .hamburgerKnapp {
-  margin-left: 6%;
+  margin-left: 3%;
   margin-top: 1.2%;
   width: 60px;
   position: absolute;
 }
+
 .navTop button {
   background: rgb(249,249,249);
   background: linear-gradient(0deg, rgba(249,249,249,1) 0%, rgba(255,255,255,1) 100%);
@@ -154,7 +194,7 @@ p {
 }
 
 .navTop .profil_navmeny {
-  left: 1%;
+  right: 15%;
   top: 0.5%;
   margin-left: 1%;
   width: 100px;
@@ -169,9 +209,7 @@ p {
   margin-bottom: 10%; 
   /* border: 1px solid white; */
   width: 250px;
-  
   margin-left: 5em;
-  
   border-radius: 50%;
 }
 
@@ -193,10 +231,46 @@ p {
   
 }
 
-#backendLoggUt {
-  margin-left: 70%;
+
+
+.bgcont p {
+  font-size: 28px; color: rgb(29, 28, 27);
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
 }
 
+.bgcont {
+background-color:#ffffff; 
+width:70%; 
+margin-left: auto; 
+margin-right: auto;
+border-radius: 10px 10px 25px 25px;
+
+}
+
+.bgcont h1 {
+background-color:#666666;
+width:100%; 
+position:center;
+text-align: center;
+font-size: 35px; color: rgb(29, 28, 27);
+/* border: 1px solid white; */
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+text-transform: uppercase;
+border-radius: 10px 10px 0px 0px;
+}
+
+#backendLoggUt {
+  margin-left: 60%;
+}
+
+.navTop .hamburgerKnappBackend {
+  margin-left: 14%;
+  margin-top: 1.2%;
+  width: 60px;
+  position: absolute;
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DROPDOWN HAMBURGERMENY */
@@ -239,8 +313,9 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
-/* Eldre, mindre telefoner */
-@media screen and (min-device-width: 320px) {
+/* Små telefoner */
+/* Portrett */
+@media screen and (min-device-width: 320px) and (orientation: portrait) {
   .Logo_forside {
     width: 200px;
     margin-bottom: 5%;
@@ -257,13 +332,9 @@ p {
   }
 }
 
-/* Eldre, litt større telefoner. Noen nyere */
-@media screen and (min-device-width: 360px) {
-
-}
-
-/* Mange nyere telefoner */
-@media screen and (min-device-width: 375px) {
+/* Medium telefoner */
+/* Portrett */
+@media screen and (min-device-width: 375px) and (orientation: portrait) {
   .Logo_forside {
     margin-bottom: 5%;
   }
@@ -284,10 +355,23 @@ p {
 
 }
 
-/* Nyere brede telefoner  */
-@media screen and (min-device-width: 414px) {
+/* Landskap */
 
+/* Store telefoner */
+/* Portrett */
+@media screen and (min-device-width: 414px) {
+  .Logo_forside {
+    width: 250px;
+  }
+  main article h1 {
+    font-size: 16px;
+  }
+  main article p {
+    font-size: 16px;
+  }
 }
+
+/* Landskap */
 
 @media screen and (min-width: 1081px) {
 	body {
