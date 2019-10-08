@@ -2,25 +2,39 @@
 <html>
 
 <head>
+    <!-- Setter riktig charset -->
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="stylesheet.css">
-    <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
-    <script language="JavaScript" src="javascript.js"></script>
+    <!-- Setter tittelen på prosjektet -->
     <title>Klimate</title>
+    <!-- Henter inn ekstern stylesheet -->
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
+    <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
+    <!-- Henter inn JavaScript -->
+    <script language="JavaScript" src="javascript.js"> </script>
 </head>
 
 <body>
+
+    <!-- Section til bakgrunnsbildet, denne strekker seg over hele siden, class uklarhet vasker ut bakgrunnen så
+        det ikke blir så kraftig overgang mellom fargene -->
     <section class="bakgrunn">
         <section class="uklarhet"></section>
     </section>
 
+    <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop">
+            <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
         <button id="logginnKnapp" onClick="location.href='logginn.html'">LOGG INN</button>
         <button onClick="location.href='registrer.html'">REGISTRER</button>
+        <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
         <img src="bilder/hamburger_icon.svg" class="hamburgerKnapp" onclick="aapneHamburger()">
+        <!-- Logoen øverst i venstre hjørne -->
         <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
+    <!-- Slutt på navigasjonsmeny-->
     </nav>
 
+    <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
     <section id="navMeny" class="hamburgerMeny">
 
         <!-- Knapp som lukker vinduet etter det er åpnet -->
@@ -36,10 +50,13 @@
         </section>
     </section>
     
+    <!-- Logoen midten øverst på siden, med tittel -->
     <header>
         <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
     </header>
+    <!--  Artikler på siden, her skal den hente de fem siste / gjeldende / mest kommenterte eller lignende fra basen-->
     <main>
+        <!-- Bruker ID, denne kan erstattes med f.eks artikkelID fra database eller lignende for å identifisere, må bestemmes i senere tid -->
         <article id="artikkel1">
             <h1>Artikkel 1</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Trykk her for å lese videre</a></p>

@@ -3,23 +3,40 @@
 <html>
 
 <head>
-<!-- Starter med å sette riktig charset -->
-<meta charset="UTF-8">
-<title>Klimate</title>
-<link rel="stylesheet" type="text/css" href="stylesheet.css">
-<link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
-<script language="JavaScript" src="javascript.js"></script>
+    <!-- Setter riktig charset -->
+    <meta charset="UTF-8">
+    <!-- Setter tittelen på prosjektet -->
+    <title>Klimate</title>
+    <!-- Henter inn ekstern stylesheet -->
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
+    <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
+    <!-- Henter inn JavaScript -->
+    <script language="JavaScript" src="javascript.js"> </script>
 </head>
 
 
 <body>
+
+    <!-- Section til bakgrunnsbildet, denne strekker seg over hele siden, class uklarhet vasker ut bakgrunnen så
+    det ikke blir så kraftig overgang mellom fargene -->
+    <section class="bakgrunn">
+        <section class="uklarhet"></section>
+    </section>
+    
+    <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop">
-        <button onClick="location.href='logginn.html'" id="backendLoggUt">LOGG UT</button> <!-- Inline CSS her, trippelsjekk på denne-->
-        <img src="bilder/hamburger_icon.svg" class="hamburgerKnapp" onclick="aapneHamburger()">
+            <!-- Legger til en knapp for å logge ut når man er innlogget-->
+        <button onClick="location.href='logginn.html'" id="backendLoggUt">LOGG UT</button>
+        <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
+        <img src="bilder/hamburger_icon.svg" class="hamburgerKnappBackend" onclick="aapneHamburger()">
+        <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.html -->
         <img src="bilder/klimateNoText.png" onClick="location.href='default.html'" alt="Klimate logo" class="Logo_navmeny">
-        <!-- <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> -->
+        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+    <!-- Slutt på navigasjonsmeny-->
     </nav>
 
+    <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
     <section id="navMeny" class="hamburgerMeny">
         <!-- Knapp som lukker vinduet etter det er åpnet -->
         <a href="javascript:void(0)" class="lukkHamburger" onclick="lukkHamburger()">&times;</a>
@@ -34,11 +51,13 @@
         </section>
     </section>
 
+    <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
     <header>
         <img src="bilder/profil.png" alt="Klimate logo"class="profil_backend">
         <h1 class="velkomst">Velkommen bruker!</h1>
     </header>
 
+    <!-- Innholdet på siden -->
     <main>
         <article id="arrangementer">
             <h1>Arrangementer</h1>
