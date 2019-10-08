@@ -389,7 +389,7 @@ border-radius: 10px 10px 0px 0px;
     }
 }
 
-/* Ipad'er portrett og landskap */
+/* Ipad mini/pro portrett og landskap */
 @media screen and (min-device-width : 768px) {
   /* Styles portrett*/
   .Logo_forside {
@@ -426,8 +426,6 @@ border-radius: 10px 10px 0px 0px;
   }
   #artikkel4 {
     break-before: column;
-
-
 }
   
 /*
