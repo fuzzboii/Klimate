@@ -498,13 +498,13 @@ border-radius: 10px 10px 0px 0px;
 }
 
 /* Stor laptop, medium desktop */
-@media screen and (min-width: 1440) {
+@media screen and (min-width: 1440px) {
   #default_main article h1 {
-    font-size: 25px;
+    font-size: 30px;
   }
 
   #default_main article p {
-    font-size: 50px;
+    font-size: 30px;
   }
 }
 
