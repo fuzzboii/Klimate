@@ -467,6 +467,18 @@ border-radius: 10px 10px 0px 0px;
   #default_main article p {
     font-size: 25px;
   }
+  .navTop {
+    padding-top: 0.5%; 
+    padding-bottom: 0.5%;
+  }
+  .navTop #logginnKnapp {
+    margin-left: 83%;
+    margin-right: 1%;
+  }
+  .navTop .hamburgerKnapp {
+    margin-left: 1%;
+    margin-top: 0.5%;
+  }
   
 }
  
