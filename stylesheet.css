@@ -8,11 +8,16 @@ body {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for h1, h2, p TEXT */
+h1 {
+  text-align: center;
+  font-size: 16px; color: rgb(32, 32, 32);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-transform: uppercase;
+}
 
 h2 {
   text-align: center;
   font-size: 13px; color: rgb(32, 32, 32);
-  /* border: 1px solid white; */
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-transform: uppercase;
 }
@@ -214,8 +219,12 @@ p {
 }
 
 #default_main {
-  padding-left: 25px;
-  padding-right: 25px;
+  margin-bottom: 25px;
+  margin-left: 25px;
+  margin-right: 25px;
+  padding-bottom: 9px;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 #default_main article h2 {
@@ -225,6 +234,15 @@ p {
   padding-bottom: 10px;
   background-color: rgb(206, 206, 206);
   border-radius: 15px 15px 0px 0px;
+}
+
+.artikkelOverskrift h1 {
+  text-align: center;
+  font-size: 16px; color: rgb(44, 44, 44);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-transform: uppercase;
+  padding-top: 10%;
+  padding-bottom: 2%;
 }
 
 #default_main article p {
@@ -368,7 +386,7 @@ border-radius: 10px 10px 0px 0px;
   }
 
   #default_main article h2 {
-    font-size: 15px;
+    font-size: 11px;
   }
 
   #default_main article p {
