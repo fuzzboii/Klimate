@@ -211,7 +211,6 @@ p {
 #artikkel1, #artikkel2, #artikkel4, #artikkel5 {
   /*background-color: rgba(0, 0, 0, 0.3);*/
   background-color: #F8F7FD;
-  
   padding-bottom: 15px;
   margin: 10px;
   border-radius: 15px;
@@ -241,13 +240,15 @@ p {
   font-size: 16px; color: rgb(44, 44, 44);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-transform: uppercase;
-  padding-top: 10%;
+  padding-top: 6%;
   padding-bottom: 2%;
 }
 
 #default_main article p {
-  color: rgb(0, 0, 0);
+  font-size: 5px; color: rgb(0, 0, 0);
+
 }
+
 
 /* Style for BACKEND/Innloggede brukere */
 
@@ -390,7 +391,7 @@ border-radius: 10px 10px 0px 0px;
   }
 
   #default_main article p {
-    font-size: 15px;
+    font-size: 10px;
     padding-left: 10%;
     padding-right: 10%;
   }
