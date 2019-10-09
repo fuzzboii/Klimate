@@ -363,25 +363,6 @@ border-radius: 10px 10px 0px 0px;
   }
 }
 
-/* Enorme telefoner */
-@media screen and (min-device-width: 425)
-
-@media screen and (min-width: 1081px) {
-	body {
-	  background-color: #505050;
-    }
-    .navTop button {
-        transition-duration: 0.3s;
-    }
-    .navTop button:hover {
-        color: rgb(165, 165, 165);
-    }
-    /* Når du har musen over, endre farge */
-    .hamburgerMeny a:hover, .hamburgerMeny a:focus {
-      color: #f1f1f1;
-    }
-}
-
 /* Landskap. Tilsynelatende goxt nok for mange størrelser. */
 @media screen and (min-device-width: 320px) and (orientation: landscape) {
   header .Logo_forside {
