@@ -7,9 +7,9 @@ body {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for h1, p TEXT */
+/* Style for h1, h2, p TEXT */
 
-h1 {
+h2 {
   text-align: center;
   font-size: 13px; color: rgb(32, 32, 32);
   /* border: 1px solid white; */
@@ -203,7 +203,7 @@ p {
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
-#artikkel1, #artikkel2, #artikkel3, #artikkel4, #artikkel5, #artikkel6   {
+#artikkel1, #artikkel2, #artikkel4, #artikkel5 {
   /*background-color: rgba(0, 0, 0, 0.3);*/
   background-color: #F8F7FD;
   
@@ -218,7 +218,7 @@ p {
   padding-right: 25px;
 }
 
-#default_main article h1 {
+#default_main article h2 {
   color: rgb(65, 65, 65);
   margin-top: 20px;
   padding-top: 10px;
@@ -278,7 +278,7 @@ border-radius: 10px 10px 25px 25px;
 
 }
 
-.bgcont h1 {
+.bgcont h2 {
 background-color:#666666;
 width:100%; 
 position:center;
@@ -350,7 +350,7 @@ border-radius: 10px 10px 0px 0px;
     margin-bottom: 5%;
   }
 
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 12px;
   }
 
@@ -367,7 +367,7 @@ border-radius: 10px 10px 0px 0px;
     margin-bottom: 5%;
   }
 
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 15px;
   }
 
@@ -384,7 +384,7 @@ border-radius: 10px 10px 0px 0px;
   header .Logo_forside {
     width: 250px;
   }
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 16px;
   }
   #default_main article p {
@@ -417,7 +417,7 @@ border-radius: 10px 10px 0px 0px;
     margin-bottom: 2%;
   }
 
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 10px;
     margin-top: 1%;
     margin-bottom: 1%;
@@ -443,7 +443,7 @@ border-radius: 10px 10px 0px 0px;
   header .Logo_forside {
     width: 30%;
   }
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 30px;
   }
   #default_main article p {
@@ -464,7 +464,7 @@ border-radius: 10px 10px 0px 0px;
     margin-top: 5%; 
     margin-bottom: 5%;
   }
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 20px;
   }
   #default_main article p {
@@ -488,7 +488,7 @@ border-radius: 10px 10px 0px 0px;
   #artikkel4 {
     break-before: auto; 
   }
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 20px;
   }
   #default_main article p {
@@ -529,7 +529,7 @@ border-radius: 10px 10px 0px 0px;
 
 /* Stor laptop, medium desktop */
 @media screen and (min-width: 1440px) {
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 30px;
   }
 
@@ -550,7 +550,7 @@ border-radius: 10px 10px 0px 0px;
   #artikkel4 {
     break-before: auto; 
   }
-  #default_main article h1 {
+  #default_main article h2 {
     font-size: 25px;
   }
   #default_main article p {
