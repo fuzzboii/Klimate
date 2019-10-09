@@ -315,16 +315,16 @@ border-radius: 10px 10px 0px 0px;
 
 /* Små telefoner */
 @media screen and (min-device-width: 320px) and (orientation: portrait) {
-  .Logo_forside {
+  header .Logo_forside {
     width: 20%;
     margin-bottom: 5%;
   }
 
-  main article h1 {
+  #default_main article h1 {
     font-size: 11px;
   }
 
-  main article p {
+  #default_main article p {
     padding-left: 10%;
     padding-right: 10;
     font-size: 11px;
@@ -333,19 +333,15 @@ border-radius: 10px 10px 0px 0px;
 
 /* Medium telefoner */
 @media screen and (min-device-width: 375px) and (orientation: portrait) {
-  .Logo_forside {
+  header .Logo_forside {
     margin-bottom: 5%;
   }
-  
-  .navTop button {
-    font-size: 22px;
-  }
 
-  main article h1 {
+  #default_main article h1 {
     font-size: 12px;
   }
 
-  main article p {
+  #default_main article p {
     font-size: 12px;
     padding-left: 10%;
     padding-right: 10%;
@@ -355,16 +351,20 @@ border-radius: 10px 10px 0px 0px;
 
 /* Store telefoner */
 @media screen and (min-device-width: 414px) and (orientation: landscape) {
-  .Logo_forside {
+  header .Logo_forside {
     width: 250px;
   }
-  main article h1 {
+  #default_main article h1 {
     font-size: 16px;
   }
-  main article p {
+  #default_main article p {
     font-size: 16px;
+    margin-bottom: 20px;
   }
 }
+
+/* Enorme telefoner */
+@media screen and (min-device-width: 425)
 
 @media screen and (min-width: 1081px) {
 	body {
@@ -390,13 +390,13 @@ border-radius: 10px 10px 0px 0px;
     margin-bottom: 2%;
   }
 
-  main article h1 {
+  #default_main article h1 {
     font-size: 10px;
     margin-top: 1%;
     margin-bottom: 1%;
   }
 
-  main article p {
+  #default_main article p {
     margin-top: 1%;
     margin-bottom: 1%;
   }
@@ -413,7 +413,7 @@ border-radius: 10px 10px 0px 0px;
 /* Ipad mini/pro portrett og landskap */
 @media screen and (min-device-width : 768px) {
   /* Styles portrett*/
-  .Logo_forside {
+  header .Logo_forside {
     width: 30%;
   }
   #default_main article h1 {
@@ -432,7 +432,7 @@ border-radius: 10px 10px 0px 0px;
 
 @media screen and (min-device-width : 768px)  and (orientation : landscape) {
   /* Styles landskap */
-  .Logo_forside {
+  header .Logo_forside {
     width: 20%;
     margin-top: 5%; 
     margin-bottom: 5%;
@@ -448,7 +448,37 @@ border-radius: 10px 10px 0px 0px;
   #artikkel4 {
     break-before: column;
 }
-  
+
+/* Laptop */
+@media screen and (min-width: 1024px) {
+  header .Logo_forside {
+    width: 200px;
+    margin-bottom: 2%;
+  }
+
+  #default_main article h1 {
+    font-size: 18px;
+  }
+
+  #default_main article p {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  #default_main {
+    column-count: 3;
+  }
+
+  #artikkel4 {
+    break-before: auto; /* Her deles hovedkolonnen, til to halvannen kolonne */
+  }
+}
+
+/* Stor laptop, medium desktop */
+@media screen and (min-width: 1440px) {
+
+}
+
 /*
 @media screen and (max-height: 450px) {
   .hamburgerMeny a {font-size: 20px}
