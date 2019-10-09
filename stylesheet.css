@@ -321,13 +321,13 @@ border-radius: 10px 10px 0px 0px;
   }
 
   #default_main article h1 {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   #default_main article p {
     padding-left: 10%;
     padding-right: 10;
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 
@@ -338,11 +338,11 @@ border-radius: 10px 10px 0px 0px;
   }
 
   #default_main article h1 {
-    font-size: 12px;
+    font-size: 15px;
   }
 
   #default_main article p {
-    font-size: 12px;
+    font-size: 15px;
     padding-left: 10%;
     padding-right: 10%;
   }
@@ -363,9 +363,6 @@ border-radius: 10px 10px 0px 0px;
   }
 }
 
-/* Enorme telefoner */
-@media screen and (min-device-width: 425)
-
 @media screen and (min-width: 1081px) {
 	body {
 	  background-color: #505050;
@@ -382,7 +379,7 @@ border-radius: 10px 10px 0px 0px;
     }
 }
 
-/* Landskap. Tilsynelatende goxt nok for mange størrelser. */
+/* Landskap. Tilsynelatende godt nok for mange størrelser. */
 @media screen and (min-device-width: 320px) and (orientation: landscape) {
   header .Logo_forside {
     width: 15%;
