@@ -459,25 +459,53 @@ border-radius: 10px 10px 0px 0px;
     break-before: auto; 
   }
   #default_main article h1 {
-    font-size: 25px;
+    font-size: 20px;
   }
   #default_main article p {
-    font-size: 25px;
+    font-size: 20px;
     margin-bottom: 5%;
   }
   .navTop {
-    padding-top: 0.5%; 
-    padding-bottom: 0.5%;
+    padding-top: 10px; 
+    padding-bottom: 10px;
+  }
+
+  .navTop button {
+    height: 30px;
+    font-size: 16px;
+  }
+
   }
   .navTop #logginnKnapp {
-    margin-left: 63%;
+    margin-left: 65%;
     margin-right: 1%;
   }
   .navTop .hamburgerKnapp {
-    margin-left: 1%;
-    margin-top: 0.5%;
+    margin-left: 2%;
+    margin-top: 0%;
+    height: 30px;
   }
+
+  .Logo_navmeny {
+    width: 50px;
+    top: 3px;
+  }
+
+  .hamburgerMeny a {
+    font-size: 50px
+  } 
   
+}
+
+/* Stor laptop, medium desktop */
+@media screen and (min-width: 1440) {
+  #default_main article h1 {
+    font-size: 25px;
+  }
+
+  #default_main article p {
+    font-size: 50px;
+  }
 }
 
 /* Stor skjerm */
