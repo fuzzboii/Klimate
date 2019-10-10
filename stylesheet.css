@@ -221,7 +221,7 @@ p {
   margin-bottom: 25px;
   margin-left: 25px;
   margin-right: 25px;
-  padding-bottom: 9px;
+  padding: 14px;
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.1);
 }
@@ -468,11 +468,12 @@ border-radius: 10px 10px 0px 0px;
   #default_main article p {
     font-size: 23px;
   }
+
   #default_main {column-count: 2;
+    flex: 50%;
   }
   #artikkel4 {
     break-before: column;
-    
   }
 }
 
@@ -502,10 +503,10 @@ border-radius: 10px 10px 0px 0px;
     margin-top: 2%; 
     margin-bottom: 5%;
   }
-  #default_main {column-count: 3;
+  #default_main {column-count: 2;
   }
   #artikkel4 {
-    break-before: auto; 
+    break-before: column; 
   }
   #default_main article h2 {
     font-size: 20px;
