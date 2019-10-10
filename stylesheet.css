@@ -147,11 +147,11 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */
 .navTop {
-  padding-top: 2%; margin-bottom: 10%;
+  padding-top: 2%; padding-bottom: 2%;
   background-color: white;
   box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
-  position: fixed;
-  top: 0px;
+  position: sticky;
+  top: 0;
   width: 100%;
   
 }
