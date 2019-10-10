@@ -468,6 +468,7 @@ border-radius: 10px 10px 0px 0px;
 }
 
 /* Landskap. Tilsynelatende godt nok for de fleste mobiler. */
+/* Landskap. Tilsynelatende godt nok for mange størrelser. */
 @media screen and (min-device-width: 320px) and (orientation: landscape) {
   header .Logo_forside {
     width: 15%;
@@ -492,6 +493,57 @@ border-radius: 10px 10px 0px 0px;
   } 
   #artikkel4 {
     break-before: column;
+  }
+  .bgcont h2{
+    font-size: 15px;
+  }
+  .bgcont p{
+    font-size: 15px;
+  }
+  .profil_backend {
+    width:110px;
+    left: 7%;
+    margin-top: 9%;
+    position: absolute;
+  }
+  .backend_header h1 {
+    font-size: 20px;
+  }
+  .velkomst {
+    margin-left:30%;
+    margin-top: 13.5%;
+    font-size: 30px;
+    position: absolute;
+    float: none;
+    
+  }
+  .navTop .hamburgerKnappBackend{
+    top:0px;
+    margin-left: 10%;
+  }
+  .navTop .profil_navmeny {
+    margin-top: 10px;
+    right: 10%;
+    top: 0.5%;
+    width: 60px;
+  }
+  .navTop .Logo_navmeny {
+    width: 70px;
+    top: 5px; 
+  }
+  .navTop button {
+    font-size: 19px;
+    height: 50px;
+  }
+  .navTop {
+    height: 60px;
+  }
+  #backendLoggUt {
+    margin-left: 69%;
+  }
+  #backend_main {
+    padding-top:20%;
+    
   }
 }
 
