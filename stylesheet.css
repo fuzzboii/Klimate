@@ -151,8 +151,9 @@ p {
   background-color: white;
   box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
   position: fixed;
-  top: 0;
+  top: 0px;
   width: 100%;
+  
 }
 .navTop #logginnKnapp {
   margin-left: 55%;
@@ -361,7 +362,30 @@ border-radius: 10px 10px 0px 0px;
 @media screen and (min-device-width: 320px) and (orientation: portrait) {
   header .Logo_forside {
     width: 20%;
+    margin-top: 7%;
     margin-bottom: 5%;
+  }
+  .navTop {
+    height: 85px;
+  }
+  .navTop button {
+    font-size: 19px;
+    height: 70px;
+  }
+  .navTop .hamburgerKnapp {
+    top: 12px;
+  }
+  .navTop .hamburgerKnappBackend{
+    top:12px;
+  }
+  .navTop #logginnKnapp {
+    margin-left: 55%;
+    margin-right: 1%;
+
+  }
+  .navTop #registrerKnapp {
+    margin-left: 0%;
+    margin-right: 1%;
   }
 
   #default_main article h2 {
@@ -372,6 +396,13 @@ border-radius: 10px 10px 0px 0px;
     padding-left: 10%;
     padding-right: 10;
     font-size: 12px;
+  }
+  .navTop .profil_navmeny {
+    margin-top: 13px;
+    width: 80px;
+  }
+  .backend_header {
+    margin-top: 30px;
   }
 }
 
@@ -390,7 +421,6 @@ border-radius: 10px 10px 0px 0px;
     padding-left: 10%;
     padding-right: 10%;
   }
-
 }
 
 /* Store telefoner */
@@ -539,7 +569,6 @@ border-radius: 10px 10px 0px 0px;
   .hamburgerMeny a {
     font-size: 50px
   } 
-  
 }
 
 /* Stor laptop, medium desktop */
@@ -551,6 +580,17 @@ border-radius: 10px 10px 0px 0px;
   #default_main article p {
     font-size: 30px;
   }
+  header .defaultP {
+    font-size: 20px;
+  }
+  .navTop #logginnKnapp {
+    margin-left: 74%;
+    margin-right: 1%;
+  }
+  .Logo_navmeny {
+    top: 0.5%;
+    
+}
 }
 
 /* Stor skjerm */
@@ -581,9 +621,8 @@ border-radius: 10px 10px 0px 0px;
   }
   .navTop .hamburgerKnapp {
     margin-left: 1%;
-    margin-top: 0.5%;
+    margin-top: 0.0%;
   }
-  
 }
  
 
