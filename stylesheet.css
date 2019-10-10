@@ -216,7 +216,7 @@ p {
   background-color: #F8F7FD;
   padding-bottom: 15px;
   margin: 10px;
-  border-radius: 15px;
+  border-radius: 10px 10px 25px 25px;
   
 }
 
@@ -225,7 +225,7 @@ p {
   margin-left: 25px;
   margin-right: 25px;
   padding: 14px;
-  border-radius: 15px;
+  border-radius: 10px 10px 25px 25px;
   background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -235,17 +235,9 @@ p {
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: rgb(206, 206, 206);
-  border-radius: 15px 15px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
 }
 
-.artikkelOverskrift h1 {
-  text-align: center;
-  font-size: 16px; color: rgb(44, 44, 44);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: uppercase;
-  padding-top: 6%;
-  padding-bottom: 2%;
-}
 
 #default_main article p {
   font-size: 5px; color: rgb(0, 0, 0);
