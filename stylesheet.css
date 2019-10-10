@@ -467,17 +467,12 @@ border-radius: 10px 10px 0px 0px;
     }
 }
 
-/* Landskap. Tilsynelatende godt nok for de fleste mobiler. */
-/* Landskap. Tilsynelatende godt nok for mange størrelser. */
+/* Landskap. Tilsynelatende effektiv på de fleste mobiler. */
 @media screen and (min-device-width: 320px) and (orientation: landscape) {
   header .Logo_forside {
-    width: 15%;
+    width: 5%;
     margin-bottom: 2%;
-    padding-right: 70%;
-  }
-  header .defaultP{
-    padding-left: 50%;
-    margin-top: -23%;
+    margin-top: 0%;
   }
   #default_main article h2 {
     font-size: 10px;
@@ -518,8 +513,12 @@ border-radius: 10px 10px 0px 0px;
     
   }
   .navTop .hamburgerKnappBackend{
-    top:0px;
+    top: 0px;
     margin-left: 10%;
+  }
+  .navTop .hamburgerKnapp {
+    top: 3px;
+    margin-left: 5%;
   }
   .navTop .profil_navmeny {
     margin-top: 10px;
