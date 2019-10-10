@@ -361,12 +361,16 @@ border-radius: 10px 10px 0px 0px;
 /* Små telefoner */
 @media screen and (min-device-width: 320px) and (orientation: portrait) {
   header .Logo_forside {
-    width: 20%;
-    margin-top: 7%;
-    margin-bottom: 5%;
+    width: 15%;
+    margin-top: 2%;
+    margin-bottom: 2%;
   }
   .navTop {
-    height: 85px;
+    padding-bottom: 1%;
+  }
+  header .defaultP {
+    padding-left: 4%;
+    padding-right: 4%;
   }
   .navTop button {
     font-size: 19px;
@@ -421,45 +425,72 @@ border-radius: 10px 10px 0px 0px;
     padding-left: 10%;
     padding-right: 10%;
   }
+  #default_main article {
+    margin-bottom: 10%;
+  }
 }
 
 /* Store telefoner */
-@media screen and (min-device-width: 414px) and (orientation: landscape) {
+@media screen and (min-device-width: 414px) and (orientation: portrait) {
   header .Logo_forside {
-    width: 250px;
+    width: 200px;
   }
   #default_main article h2 {
-    font-size: 16px;
+    font-size: 18px;
   }
   #default_main article p {
     font-size: 16px;
     margin-bottom: 20px;
   }
+  header .defaultP {
+    font-size: 18px;
+    margin-bottom: 2%;
+  }
+  #default_main article {
+    margin-bottom: 2%;
+  }
 }
 
+@media screen and (min-width: 1081px) {
+	body {
+	  background-color: #505050;
+    }
+    .navTop button {
+        transition-duration: 0.3s;
+    }
+    .navTop button:hover {
+        color: rgb(165, 165, 165);
+    }
+    /* Når du har musen over, endre farge */
+    .hamburgerMeny a:hover, .hamburgerMeny a:focus {
+      color: #f1f1f1;
+    }
+}
+
+/* Landskap. Tilsynelatende godt nok for de fleste mobiler. */
 /* Landskap. Tilsynelatende godt nok for mange størrelser. */
 @media screen and (min-device-width: 320px) and (orientation: landscape) {
   header .Logo_forside {
     width: 15%;
-    margin-top: 2%;
     margin-bottom: 2%;
+    padding-right: 70%;
   }
-
+  header .defaultP{
+    padding-left: 50%;
+    margin-top: -23%;
+  }
   #default_main article h2 {
     font-size: 10px;
     margin-top: 1%;
     margin-bottom: 1%;
   }
-
   #default_main article p {
     margin-top: 1%;
     margin-bottom: 1%;
   }
-
   #default_main {
     column-count: 2;
   } 
-
   #artikkel4 {
     break-before: column;
   }
