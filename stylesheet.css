@@ -586,6 +586,14 @@ border-radius: 10px 10px 0px 0px;
   }
   #artikkel4 {
     break-before: column;
+  }
+  #backendLoggUt {
+    margin-left: 69%;
+    height: 60px;
+  }
+  #backend_main {
+    padding-top: 25%;
+  }
 }
 
 /* Laptop */
@@ -617,7 +625,6 @@ border-radius: 10px 10px 0px 0px;
     font-size: 16px;
   }
 
-  }
   .navTop #logginnKnapp {
     margin-left: 65%;
     margin-right: 1%;
