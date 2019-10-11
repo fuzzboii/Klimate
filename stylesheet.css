@@ -24,7 +24,7 @@ h2 {
 p {
   text-align: center;
   font-size: 12px; color: rgb(99,112,126);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   padding-left: 14%;
   padding-right: 14%;
 }
@@ -39,7 +39,7 @@ p {
     padding: 15px;
     width: 35%;
     font-size: 32px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bold;
     border-radius: 8px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
@@ -51,7 +51,7 @@ p {
   padding: 15px;
   width: 38.72%;
   font-size: 32px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
   border-radius: 8px;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
@@ -64,7 +64,7 @@ p {
   padding: 15px;
   width: 38.72%;
   font-size: 32px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
   border-radius: 8px;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
@@ -106,7 +106,7 @@ p {
   background: rgb(249,249,249);
   background: linear-gradient(0deg, rgba(249,249,249,1) 0%, rgba(255,255,255,1) 100%);
   border-radius: 8px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 20px;
   font-weight: bold;
   height: 85px; width: 130px; 
@@ -206,7 +206,7 @@ p {
 .bgcont p {
   font-size: 28px; color: rgb(86, 90, 95);
   text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   
 }
 
@@ -259,7 +259,7 @@ p {
   left: 0; top: 0;
   background-color: rgb(0,0,0); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
   background-color: rgba(0,0,0, 0.9); /* Bakgrunnsfarge med gjennomsiktighet */
-  overflow-y: hidden; /* Ved testing  */
+  overflow-y: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
   transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
 }
 
