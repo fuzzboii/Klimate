@@ -7,3 +7,7 @@ function aapneHamburger() {
 function lukkHamburger() {
   document.getElementById("navMeny").style.height = "0%";
 }
+
+
+/* Denne siden er utviklet av Robin Kleppang, siste gang endret 11.10.2019 */
+/* Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 11.10.2019 */
