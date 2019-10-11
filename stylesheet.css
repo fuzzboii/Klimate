@@ -314,7 +314,7 @@ p {
 /* Små telefoner */
 @media screen and (min-device-width: 320px) and (orientation: portrait) {
   header .Logo_forside {
-    width: 15%;
+    width: 15%; /* Juster størrelsen på bildet */
     margin-top: 2%;
     margin-bottom: 2%;
   }
@@ -326,7 +326,7 @@ p {
     padding-right: 4%;
   }
   .navTop button {
-    font-size: 19px;
+    font-size: 19px;  /* Justerer tekststørrelsen */
     height: 70px;
   }
   .navTop .hamburgerKnapp {
@@ -346,13 +346,13 @@ p {
   }
 
   #default_main article h2 {
-    font-size: 12px;
+    font-size: 12px;  /* Justerer tekststørrelsen */
   }
 
   #default_main article p {
     padding-left: 10%;
     padding-right: 10;
-    font-size: 12px;
+    font-size: 12px;  /* Justerer tekststørrelsen */
   }
   .navTop .profil_navmeny {
     margin-top: 13px;
@@ -370,11 +370,11 @@ p {
   }
 
   #default_main article h2 {
-    font-size: 11px;
+    font-size: 11px;  /* Justerer tekststørrelsen */
   }
 
   #default_main article p {
-    font-size: 10px;
+    font-size: 10px;  /* Justerer tekststørrelsen */
     padding-left: 10%;
     padding-right: 10%;
   }
@@ -386,17 +386,17 @@ p {
 /* Store telefoner */
 @media screen and (min-device-width: 414px) and (orientation: portrait) {
   header .Logo_forside {
-    width: 200px;
+    width: 200px; /* Juster størrelsen på bildet */
   }
   #default_main article h2 {
-    font-size: 18px;
+    font-size: 18px;  /* Justerer tekststørrelsen */
   }
   #default_main article p {
-    font-size: 16px;
+    font-size: 16px;  /* Justerer tekststørrelsen */
     margin-bottom: 20px;
   }
   header .defaultP {
-    font-size: 18px;
+    font-size: 18px;  /* Justerer tekststørrelsen */
     margin-bottom: 2%;
   }
   #default_main article {
@@ -407,19 +407,19 @@ p {
 /* Landskap. Tilsynelatende effektiv på de fleste mobiler. */
 @media screen and (min-device-width: 320px) and (orientation: landscape) {
   header .Logo_forside {
-    width: 10%;
+    width: 10%; /* Juster størrelsen på bildet */
     margin-bottom: 2%;
     padding-top: 10%;
   }
   #default_main article h2 {
-    font-size: 10px;
+    font-size: 10px;  /* Justerer tekststørrelsen */
     margin-top: 1%;
     margin-bottom: 1%;
   }
   #default_main article p {
     margin-top: 1%;
     margin-bottom: 1%;
-    font-size: 50%;
+    font-size: 50%; /* Justerer tekststørrelsen */
   }
   #default_main {
     column-count: 2;
@@ -428,19 +428,19 @@ p {
     break-before: column;
   }
   .bgcont h2{
-    font-size: 15px;
+    font-size: 15px;  /* Justerer tekststørrelsen */
   }
   .bgcont p{
-    font-size: 15px;
+    font-size: 15px;  /* Justerer tekststørrelsen */
   }
   .profil_backend {
-    width:110px;
+    width:110px;  /* Juster størrelsen på bildet */
     left: 7%;
     margin-top: 9%;
     position: absolute;
   }
   .backend_header h1 {
-    font-size: 20px;
+    font-size: 20px;  /* Justerer tekststørrelsen */
   }
   .velkomst {
     margin-left:30%;
@@ -460,16 +460,15 @@ p {
   }
   .navTop .profil_navmeny {
     margin-top: 10px;
-   /*right: 10%;*/
     top: 0.5%;
     width: 60px;
   }
   .navTop .Logo_navmeny {
-    width: 70px;
+    width: 70px;  /* Juster størrelsen på bildet */
     top: 5px; 
   }
   .navTop button {
-    font-size: 19px;
+    font-size: 19px;  /* Justerer tekststørrelsen */
     height: 50px;
   }
   .navTop {
@@ -489,13 +488,13 @@ p {
 @media screen and (min-device-width : 768px) {
   /* Styles portrett*/
   header .Logo_forside {
-    width: 30%;
+    width: 30%; 
   }
   #default_main article h2 {
-    font-size: 30px;
+    font-size: 30px;  /* Justerer tekststørrelsen */
   }
   #default_main article p {
-    font-size: 23px;
+    font-size: 23px;  /* Justerer tekststørrelsen */
   }
 
   #default_main {column-count: 2;
@@ -514,10 +513,10 @@ p {
     margin-bottom: 5%;
   }
   #default_main article h2 {
-    font-size: 20px;
+    font-size: 20px;  /* Justerer tekststørrelsen */
   }
   #default_main article p {
-    font-size: 15px;
+    font-size: 15px;  /* Justerer tekststørrelsen */
   }
   #default_main {column-count: 2;
   }
@@ -549,12 +548,12 @@ p {
   }
   
   #default_main article h2 {
-    font-size: 10px;
+    font-size: 10px;  /* Justerer tekststørrelsen */
   }
   
   
   #default_main article p {
-    font-size: 10px;
+    font-size: 10px;  /* Justerer tekststørrelsen */
   
   }
   .navTop {
@@ -578,7 +577,7 @@ p {
   }
 
   .hamburgerMeny a {
-    font-size: 50px
+    font-size: 50px;  /* Justerer tekststørrelsen */
   } 
   #backendLoggUt {
     margin-left: 78%;
@@ -595,7 +594,6 @@ p {
 
   .navTop .profil_navmeny {
     margin-top: 5px;
-    /*right: 5.5%;*/
     width: 40px;
   }
   .navTop .hamburgerKnappBackend{
@@ -620,7 +618,7 @@ p {
     margin-top: 1%;
     padding: 15px;
     width: 15%;
-    font-size: 15px;
+    font-size: 15px;  /* Justerer tekststørrelsen */
     font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bold;
     border-radius: 8px;
@@ -631,7 +629,7 @@ p {
     margin-top: 1%; margin-bottom: 3%;
     padding: 15px;
     width: 17.74%;
-    font-size: 15px;
+    font-size: 15px;  /* Justerer tekststørrelsen */
     font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bold;
     border-radius: 8px;
@@ -643,7 +641,7 @@ p {
   margin-top: 1%; margin-bottom: 3%;
   padding: 15px;
   width: 17.74%;
-  font-size: 15px;
+  font-size: 15px;  /* Justerer tekststørrelsen */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
   border-radius: 8px;
@@ -654,14 +652,14 @@ p {
 /* Stor laptop, medium desktop */
 @media screen and (min-width: 1440px) {
   #default_main article h2 {
-    font-size: 15px;
+    font-size: 15px; /* Justerer tekstsørrelsen */
   }
 
   #default_main article p {
-    font-size: 12px;
+    font-size: 12px; /* Justerer tekststørrelsen */
   }
   header .defaultP {
-    font-size: 20px;
+    font-size: 20px; /* Justerer tekststørrelsen */
   }
   .navTop #logginnKnapp {
     margin-left: 74%;
@@ -675,28 +673,28 @@ p {
 /* Stor skjerm */
 @media screen and (min-width: 2560px) {
   header .Logo_forside {
-    width: 10%;
-    margin-top: 2%; 
-    margin-bottom: 5%;
+    width: 10%; /* Justerer vidden på logoen  */
+    margin-top: 2%; /* Sikrer at logoen er sentrert i navigasjonsbaren */
+    margin-bottom: 5%; /* Se ovenfor */
   }
-  #default_main {column-count: 2;
+  #default_main {column-count: 2; /* Deler opp innholdet av main i to kolonner */
   }
   #artikkel3 {
-    break-before: column; 
+    break-before: column; /* Sikrer at innholdet deles på rett sted */
   }
   #default_main article h2 {
-    font-size: 25px;
+    font-size: 25px;  /* Juster skriftstørrelse */
   }
   #default_main article p {
-    font-size: 25px;
+    font-size: 25px;  /* Juster skriftstørrelse */
   }
   .navTop {
-    padding-top: 0.5%; 
-    padding-bottom: 0.5%;
+    padding-top: 0.5%;    /* Justerer mellomrommet i topp... */
+    padding-bottom: 0.5%; /* og bunn */
   }
   .navTop #logginnKnapp {
-    margin-left: 83%;
-    margin-right: 1%;
+    margin-left: 83%;   /* Skyver knappen fra venstre, mot høyre */
+    margin-right: 1%;   /* Sikrer noe mellomrom */
   }
   .navTop .hamburgerKnapp {
     margin-left: 1%;
