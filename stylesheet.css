@@ -594,21 +594,22 @@ p {
     width: 10%;
     padding: 55px 0px 0px 0px;
     margin: 0% 0% 0% 45%;
-  }
+  }    
+
   #default_main {
-    column-count: 2;
-    padding: 0%;
-    margin: 0% 0% 0% 0%;
+    margin-left: 15%;
+    margin-right: 15%;
+
   }
-  #artikkel4 {
-    break-before: column; 
-  }
+  
   #default_main article h2 {
-    font-size: 20px;
+    font-size: 10px;
   }
+  
+  
   #default_main article p {
-    font-size: 20px;
-    margin-bottom: 5%;
+    font-size: 10px;
+  
   }
   .navTop {
     padding-top: 10px; 
@@ -675,11 +676,11 @@ p {
 /* Stor laptop, medium desktop */
 @media screen and (min-width: 1440px) {
   #default_main article h2 {
-    font-size: 30px;
+    font-size: 15px;
   }
 
   #default_main article p {
-    font-size: 30px;
+    font-size: 12px;
   }
   header .defaultP {
     font-size: 20px;
@@ -701,10 +702,10 @@ p {
     margin-top: 2%; 
     margin-bottom: 5%;
   }
-  #default_main {column-count: 3;
+  #default_main {column-count: 2;
   }
   #artikkel4 {
-    break-before: auto; 
+    break-before: column; 
   }
   #default_main article h2 {
     font-size: 25px;
