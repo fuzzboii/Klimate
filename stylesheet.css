@@ -287,21 +287,13 @@ p {
 .bgcont {
   color: rgb(92, 92, 92);
   padding-bottom: 10px;
-  background-color: rgb(206, 206, 206);
+  background-color: rgb(252, 252, 252);
   border-radius: 10px 10px 25px 25px;
   width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
 
-#backend_main {
-  margin-bottom: 25px;
-  margin-left: 25px;
-  margin-right: 25px;
-  padding: 14px;
-  border-radius: 10px 10px 25px 25px;
-  background-color: rgba(0, 0, 0, 0.1);
-}
 
 
 .bgcont h2 {  
