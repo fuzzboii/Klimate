@@ -227,10 +227,10 @@ p {
 /* Style for DROPDOWN HAMBURGERMENY */
 
 .hamburgerMeny {
-  height: 0%; width: 100%;
+  height: 0%; width: 100%; /* Height 0% da den ikke skal vises før vi kjører JavaScript funksjonen for å åpne hamburgermenyen */
   position: fixed;
   z-index: 2; /* Skal være over alle andre elementer */
-  left: 0; top: 0;
+  left: 0; top: 0; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
   background-color: rgb(0,0,0); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
   background-color: rgba(0,0,0, 0.9); /* Bakgrunnsfarge med gjennomsiktighet */
   overflow-y: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
@@ -239,43 +239,46 @@ p {
 
 /* Innholdet i menyen */
 .hamburgerInnhold {
-  position: relative;
-  top: 25%; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
-  margin-top: 30px; /* Sørger for at det ikke blir noen konflikt med knappen for å lukke menyen */
+  position: relative; /* Relativ plassering av innholdet i hamburgermenyen */
+  top: 15%; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
+  margin-top: 20px; /* Sørger for at det ikke blir noen konflikt med knappen for å lukke menyen */
 }
 
 /* Selve lenkene, innhold i menyen */
 .hamburgerMeny a {
-  padding: 8px;
-  text-decoration: none;
-  font-size: 65px;
-  color: #818181;
-  display: block;
+  padding: 8px; /* Mellomrom mellom lenkene i hamburgermenyen */
+  text-decoration: none; /* Fjerner understreker fra linkene */
+  font-size: 40px; /* Font-størrelse */
+  color: #818181; /* Fargen på lenkene i hamburgermenyen */
+  display: block; /* Sørger for at lenkene kommer under hverandre */
   transition: 0.3s; /* Effekt når man trykker på knappen */
 }
 
+/* Når mus er over hamburgermeny, hvis pointer-mus */
 .hamburgerKnapp:hover{
   cursor:url(hand.cur), pointer;
 }
 
+/* Når mus er over hamburgermeny i backend, hvis pointer-mus */
 .hamburgerKnappBackend:hover{
   cursor:url(hand.cur), pointer;
 }
 
 /* Hvor knappen for å lukke menyen ender opp */
 .hamburgerMeny .lukkHamburger {
-  position: absolute;
+  position: absolute; /* Absolutt plassering av knappen */
   top: 18px; right: 50px;
-  font-size: 60px;
-  background-color: rgb(0,0,0,0.1);
+  font-size: 60px; /* Font-størrelse da krysset er teksten "&times;" */
+  background-color: rgb(0,0,0,0.1); /* Fjerner bakgrunnen knappen */
   color: grey;
-  border: none;
+  border: none; /* Fjerner border rundt knappen */
 }
 
 .hamburgerMeny button:focus {
-  outline: 0;
+  outline: 0; /* Fjerner blå outline når knappen er trykt */
 }
 
+/* Når musen er over hamburgermenyen, hvis pointer-mus */
 .hamburgerMeny button:hover {
   color: rgb(165,165,165);
   cursor: url(hand.cur), pointer;
