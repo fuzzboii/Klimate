@@ -7,25 +7,19 @@ body {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for h1, h2, p TEXT */
-h1 {
-  text-align: center; /* Sentrerer h1, ligger gjemt under logoen da den fortsatt skal b */
-  font-size: 16px; color: rgb(99, 112, 126); /* h1 farge og størrelse */
-  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-typer */
-  text-transform: uppercase; 
-}
+/* Style for h2, p TEXT */
 
 h2 {
-  text-align: center;
-  font-size: 13px; color: rgb(99, 112, 126);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: uppercase;
+  text-align: center; /* Sentrerer h2 */
+  font-size: 13px; color: rgb(99, 112, 126); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 p {
-  text-align: center;
-  font-size: 12px; color: rgb(99,112,126);
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-  padding-left: 14%;
+  text-align: center; /* Sentrerer p */
+  font-size: 12px; color: rgb(99,112,126); /* Font-størrelse og farge */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+  padding-left: 14%; /* Padding for å få plass på hver side */
   padding-right: 14%;
 }
 
@@ -72,34 +66,33 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */
 .navTop {
-  padding-top: 2%; padding-bottom: 2%;
-  background-color: rgb(200,218,211);
-  box-shadow: 0px 10px 8px -8px rgb(99,112,126);
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  width: 100%;
+  padding-top: 2%; padding-bottom: 2%; /* Utvider navigasjonsbaren */
+  background-color: rgb(200,218,211); /* Bakgrunnsfarge for navigasjonsbaren */
+  box-shadow: 0px 10px 8px -8px rgb(99,112,126); /* Skygge under navigasjonsbaren */
+  position: sticky; /* Holder navigasjonsbaren øverst i vinduet til enhver tid */
+  z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
+  width: 100%; /* Skal gå over hele siden */
   
 }
 .navTop #logginnKnapp {
-  margin-left: 55%;
-  margin-right: 1%;
+  margin-left: 55%; /* Plassering av LOGG INN knappen på default */
+  margin-right: 1%; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
 
 }
-.navTop #registrerKnapp {
-  margin-left: 70%;
-  margin-right: 1%;
+.navTop #singelRegistrerKnapp {
+  margin-left: 70%; /* Plassering av REGISTRER knappen på logginn */
+  margin-right: 1%; /* Litt margin for at hamburger knappen ikke skal flytte seg når man går fra default til login */
 
 }
 .navTop #singelLogginnKnapp {
-  margin-left: 70%;
-  margin-right: 1%;
+  margin-left: 70%; /* Plassering av LOGG INN knappen i registrer */
+  margin-right: 1%; /* Litt margin for at hamburger knappen ikke skal flytte seg når man går fra default til registrer */
 }
 .navTop .hamburgerKnapp {
-  margin-left: 3%;
-  margin-top: 1.2%;
-  width: 60px;
-  position: absolute;
+  margin-left: 3%; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
+  margin-top: 1.2%; /* Mellomrom mellom hamburgerknappen og toppen av vinduet */
+  width: 60px; /* Bestemmer størrelsen på hamburgerknappen */
+  position: absolute; /* Bruker absolutt plassering */
 }
 
 .navTop button {
@@ -113,11 +106,11 @@ p {
 }
 
 .Logo_navmeny {
-    left: 1%;
-    top: 0.5%;
-    margin-left: 1%;
-    width: 100px;
-    position: absolute;
+  left: 1%;
+  top: 0.5%;
+  margin-left: 1%;
+  width: 100px;
+  position: absolute;
 }
 .Logo_forside {
     padding-top: 10%; 
