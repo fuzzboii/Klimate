@@ -204,7 +204,7 @@ p {
 }
 
 .navTop .profil_navmeny {
-  right: 15%;
+  /*right: 15%;*/
   top: 0.5%;
   margin-left: 1%;
   width: 100px;
@@ -514,7 +514,7 @@ p {
   }
   .navTop .profil_navmeny {
     margin-top: 10px;
-    right: 10%;
+   /*right: 10%;*/
     top: 0.5%;
     width: 60px;
   }
@@ -639,7 +639,7 @@ p {
     font-size: 50px
   } 
   #backendLoggUt {
-    margin-left: 70%;
+    margin-left: 78%;
     height: 30px;
   }
   .navTop .Logo_navmeny {
@@ -648,17 +648,15 @@ p {
   }
   .navTop .profil_navmeny {
     margin-top: 5px;
-    right: 5.5%;
+    /*right: 5.5%;*/
     width: 40px;
   }
   .navTop .hamburgerKnappBackend{
-    margin-top: 10px;
+    margin-top: 10x;
     margin-left: 5%;
     width: 30px;
   }
-  #backendLoggUt {
-    margin-left: 80%;
-  }
+
   body {
 	  background-color: #505050;
     }
