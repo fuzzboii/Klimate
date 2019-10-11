@@ -36,7 +36,6 @@ p {
     font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bold;
     border-radius: 8px;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
 }
 .RegInnFelt_knappRegistrer {
   display: block;
@@ -48,7 +47,8 @@ p {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
   border-radius: 8px;
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
+  background-color: rgb(200, 218, 211);
+  color: rgb(99, 112, 126);
 }
 
 .RegInnFelt_knappLogginn {
@@ -61,7 +61,8 @@ p {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
   border-radius: 8px;
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.096);
+  background-color: rgb(200, 218, 211);
+  color: rgb(99, 112, 126);
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */
@@ -605,6 +606,42 @@ p {
   .hamburgerMeny a:hover, .hamburgerMeny a:focus {
     color: #f1f1f1;
   }
+
+  .RegInnFelt {
+    display: block;
+    margin-left: auto; margin-right: auto;
+    margin-top: 1%;
+    padding: 15px;
+    width: 15%;
+    font-size: 15px;
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+  .RegInnFelt_knappRegistrer {
+    display: block;
+    margin-left: auto; margin-right: auto;
+    margin-top: 1%; margin-bottom: 3%;
+    padding: 15px;
+    width: 17.74%;
+    font-size: 15px;
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+
+.RegInnFelt_knappLogginn {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  margin-top: 1%; margin-bottom: 3%;
+  padding: 15px;
+  width: 17.74%;
+  font-size: 15px;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  border-radius: 8px;
+ }
+
 }
 
 /* Stor laptop, medium desktop */
