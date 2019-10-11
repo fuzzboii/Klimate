@@ -259,7 +259,7 @@ p {
   left: 0; top: 0;
   background-color: rgb(0,0,0); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
   background-color: rgba(0,0,0, 0.9); /* Bakgrunnsfarge med gjennomsiktighet */
-  overflow-y: hidden; /* Passer på at scrollbaren ikke vises selv */
+  overflow-y: hidden; /* Ved testing  */
   transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
 }
 
