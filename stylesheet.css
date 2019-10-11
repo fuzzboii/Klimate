@@ -150,7 +150,8 @@ p {
   padding-top: 2%; padding-bottom: 2%;
   background-color: white;
   box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
-  position: fixed;
+  position: sticky;
+  z-index: 1;
   top: 0;
   width: 100%;
   
@@ -465,22 +466,6 @@ p {
   }
 }
 
-@media screen and (min-width: 1081px) {
-	body {
-	  background-color: #505050;
-    }
-    .navTop button {
-        transition-duration: 0.3s;
-    }
-    .navTop button:hover {
-        color: rgb(165, 165, 165);
-    }
-    /* Når du har musen over, endre farge */
-    .hamburgerMeny a:hover, .hamburgerMeny a:focus {
-      color: #f1f1f1;
-    }
-}
-
 /* Landskap. Tilsynelatende effektiv på de fleste mobiler. */
 @media screen and (min-device-width: 320px) and (orientation: landscape) {
   header .Logo_forside {
@@ -681,6 +666,19 @@ p {
   }
   #backendLoggUt {
     margin-left: 80%;
+  }
+  body {
+	  background-color: #505050;
+    }
+    .navTop button {
+        transition-duration: 0.3s;
+    }
+    .navTop button:hover {
+        color: rgb(165, 165, 165);
+    }
+    /* Når du har musen over, endre farge */
+    .hamburgerMeny a:hover, .hamburgerMeny a:focus {
+      color: #f1f1f1;
   }
 }
 
