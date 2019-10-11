@@ -544,9 +544,17 @@ p {
   .navTop #logginnKnapp {
     margin-left: 72%;
   }
+
+  .navTop #singelLogginnKnapp{
+    margin-left: 81%;
+  }
+  .navTop #singelRegistrerKnapp {
+    margin-left: 81%;
+  }
   .navTop .hamburgerKnapp {
     margin-left: 2%;
     margin-top: 0.5%;
+    right: 1%; /* Dytter menyen til høyere */
     width: 30px;
   }
 
