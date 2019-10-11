@@ -101,114 +101,99 @@ p {
   border-radius: 8px; /* Runder ut knappen */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
   font-size: 20px; /* Font-størrelse */
-  font-weight: bold;
-  height: 85px; width: 130px; 
+  font-weight: bold; /* Fet tekst */
+  height: 85px; width: 130px; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
 }
 
 .Logo_navmeny {
-  left: 1%;
-  top: 0.5%;
-  margin-left: 1%;
-  width: 100px;
-  position: absolute;
+  left: 2%; /* Flytter logoen litt fra kanten på vinduet */
+  top: 0.5%; /* Flytter logoen litt ned */
+  width: 100px; /* Bestemmer størrelsen på logoen */
+  position: absolute; /* Bruker absolutt plassering */
 }
 .Logo_forside {
-    padding-top: 10%; 
-    margin-bottom: 10%; 
-    /* border: 1px solid white; */
-    width: 350px;
-    display: block;
-    margin-left: auto;
+    padding-top: 8%; /* Plassering av logoen på default */
+    margin-bottom: 10%; /* Mellomrom mellom logo og element under */
+    width: 350px; /* Bestemmer størrelsen på logoen */
+    display: block; /* Brukes for at logoen blir sentrert */
+    margin-left: auto; /* Brukes for å plassere logoen sentrert */
     margin-right: auto;
 }
 
 .navTop .profil_navmeny {
-  /*right: 15%;*/
-  top: 0.5%;
-  margin-left: 1%;
-  width: 100px;
-  position: absolute;
-  border-radius: 50%;
+  top: 0.5%; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
+  margin-left: 1%; /* Mellomrom mellom profilbilde og LOGG UT knappen */
+  width: 100px; /* Bestemmer størrelsen på profilbildet */
+  position: absolute; /* Absolutt plassering */
+  border-radius: 50%; /* For å runde av profilbildet */
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
 #artikkel1, #artikkel2, #artikkel3, #artikkel4 {
-  background-color: #F8F7FD;
-  padding-bottom: 15px;
-  margin: 10px;
-  border-radius: 10px 10px 25px 25px;
+  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
+  padding-bottom: 15px; /* Utvider innholdet i containerne for å skape luft for tekst */
+  margin: 10px; /* Mellomrom mellom containerne og den yttre boksen */
+  border-radius: 10px 10px 25px 25px; /* Avrunder kantene */
   
 }
 
 #default_main {
-  margin-bottom: 25px;
+  margin-bottom: 25px; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 25px;
   margin-right: 25px;
-  padding: 14px;
-  border-radius: 10px 10px 25px 25px;
-  background-color: rgba(175, 175, 175, 0.1);
+  padding: 14px; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 10px 10px 25px 25px; /* Avrunder containerne */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
 #default_main article h2 {
-  color: rgb(99,112,126);
+  color: rgb(99,112,126); /* Fargen på tittelene i containerne */
   margin-top: 20px;
-  padding-top: 10px;
+  padding-top: 10px; /* Forstørrer containerne litt for å skape luft for tekst */
   padding-bottom: 10px;
-  background-color: rgb(147,181,179);
-  border-radius: 10px 10px 0px 0px;
+  background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
+  border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containeren */
 }
 
 
 #default_main article p {
-  font-size: 5px; color: rgb(99,112,126);
+  font-size: 5px; color: rgb(99,112,126); /* Font-størrelse på paragraf i containerne */
 
 }
 
-
+/*-----------------------------------------------------------------------------*/
 /* Style for BACKEND/Innloggede brukere */
 
 .profil_backend {
-  margin-top: 10%; 
+  margin-top: 10%; /* Plassering av profilbilde på siden */
   margin-bottom: 10%; 
-  /* border: 1px solid white; */
-  width: 250px;
-  margin-left: 5em;
-  border-radius: 50%;
+  width: 250px; /* Bestemmer størrelse på profilbilde */
+  margin-left: 5%; /* Flytter bildet fra kanten på vinduet */
+  border-radius: 50%; /* Avrunder profilbildet */
 }
 
 .velkomst {
-  margin-right:20%;
+  margin-right:20%; /* Bestemmer plassering for velkomst-teksten */
   margin-top: 20%;
-  float: right;
-  font-size: 30px;
-  color: rgb(99,112,126);
+  float: right; /* Bruker float for å plassere */
+  font-size: 30px; /* Bestemmer font-størrelse */
+  color: rgb(99,112,126); /* Farge på fonten */
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.sone {
-  border: 1px solid black;
-  width: 50%;
-  margin-bottom: 2em;
-  margin-left: auto;
-  margin-right: auto;
-  
-}
-
-
-
 .bgcont p {
   font-size: 28px; color: rgb(86, 90, 95);
-  text-align: center;
+  text-align: center; /* Plasserer tekst i midten av elementet */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   
 }
 
 .bgcont {
-  color: rgb(92, 92, 92);
+  color: rgb(92, 92, 92); /* Bakgrunnsfarge i containere i backend */
   padding-bottom: 10px;
   background-color: rgb(252, 252, 252);
-  border-radius: 10px 10px 25px 25px;
-  width: 70%;
+  border-radius: 10px 10px 25px 25px; /* Avrunder containeren */
+  width: 70%; /* Størrelse på container på backend */
   margin-left: auto;
   margin-right: auto;
 }
@@ -216,29 +201,25 @@ p {
 
 
 .bgcont h2 {  
-  color: rgb(99,112,126);
-  padding-top: 10px;  
-  padding-bottom: 10px;  
+  color: rgb(99,112,126); /* Tittel på containerne i backend */
+  padding-bottom: 10px; padding-top: 10px;
   background-color: rgb(147,181,179);
-  width:100%; 
-  position:center;
-  text-align: center;
+  text-align: center; /* Plasserer teksten midt i tittel-containern */
   font-size: 35px; color: rgb(99,112,126);
-  /* border: 1px solid white; */
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: uppercase;
-  border-radius: 10px 10px 0px 0px;
+  text-transform: uppercase; /* Transformerer tekster til UCASE */
+  border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containern */
 }
 
 #backendLoggUt {
-  margin-left: 60%;
+  margin-left: 60%; /* Plasserer LOGG UT knappen i navigasjonsbaren */
 }
 
 .navTop .hamburgerKnappBackend {
-  margin-left: 14%;
-  margin-top: 1.2%;
-  width: 60px;
-  position: absolute;
+  margin-left: 14%; /* Plasserer hamburgerknappen i navigasjonsbaren */
+  margin-top: 8px; /* Flytter knappen litt ned for å sentrere denne */
+  width: 60px; /* Bestemmer størrelsen på knappen */
+  position: absolute; /* Bruker position absolute til å plassere over navigasjonsbaren */
 }
 
 
