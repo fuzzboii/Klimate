@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="no">
 
 <head>
     <!-- Setter riktig charset -->
@@ -27,7 +27,7 @@
         <!-- Legger til en knapp for å gå fra innlogging til registrering -->
         <button id="registrerKnapp" onClick="location.href='registrer.html'">REGISTRER</button>
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
-        <img src="bilder/hamburgerIkon.svg" class="hamburgerKnapp" onclick="aapneHamburger()">
+        <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="aapneHamburger()">
         <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.html -->
         <img src="bilder/klimateNoText.png" onClick="location.href='default.html'" alt="Klimate logo" class="Logo_navmeny">
     <!-- Slutt på navigasjonsmeny-->
@@ -36,7 +36,7 @@
     <section id="navMeny" class="hamburgerMeny">
 
         <!-- Knapp som lukker vinduet etter det er åpnet -->
-        <a href="#" class="lukkHamburger" onclick="lukkHamburger()">&times;</a>
+        <button class="lukkHamburger" onclick="lukkHamburger()">&times;</button>
       
         <!-- innholdet i gardinmenyen -->
         <section class="hamburgerInnhold">
@@ -57,7 +57,7 @@
         <form method="POST" action="backend.html"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
             <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
             <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
-            <input type="submit" class="RegInnFelt_knappLogginn" value="LOGG INN">
+            <input type="submit" class="RegInnFelt_knappLogginn" value="Logg inn">
         </form>
     </main>
 </body>

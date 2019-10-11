@@ -213,7 +213,7 @@ p {
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
-#artikkel1, #artikkel2, #artikkel4, #artikkel5 {
+#artikkel1, #artikkel2, #artikkel3, #artikkel4 {
   /*background-color: rgba(0, 0, 0, 0.3);*/
   background-color: #F8F7FD;
   padding-bottom: 15px;
@@ -355,11 +355,31 @@ p {
   transition: 0.3s; /* Effekt når man trykker på knappen */
 }
 
+.hamburgerKnapp:hover{
+  cursor:url(hand.cur), pointer;
+}
+
+.hamburgerKnappBackend:hover{
+  cursor:url(hand.cur), pointer;
+}
+
 /* Hvor knappen for å lukke menyen ender opp */
 .hamburgerMeny .lukkHamburger {
   position: absolute;
-  top: 18px; right: 70px;
-  font-size: 90px;
+  top: 18px; right: 50px;
+  font-size: 60px;
+  background-color: rbg(0,0,0,0.1);
+  color: grey;
+  border: none;
+}
+
+.hamburgerMeny button:focus {
+  outline: 0;
+}
+
+.hamburgerMeny button:hover {
+  color: rbg(165,165,165);
+  cursor: url(hand.cur), pointer;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -478,7 +498,7 @@ p {
   #default_main {
     column-count: 2;
   } 
-  #artikkel4 {
+  #artikkel3 {
     break-before: column;
   }
   .bgcont h2{
@@ -555,7 +575,7 @@ p {
   #default_main {column-count: 2;
     flex: 50%;
   }
-  #artikkel4 {
+  #artikkel3 {
     break-before: column;
   }
 }
@@ -575,7 +595,7 @@ p {
   }
   #default_main {column-count: 2;
   }
-  #artikkel4 {
+  #artikkel3 {
     break-before: column;
   }
   #backendLoggUt {
@@ -631,11 +651,6 @@ p {
     width: 30px;
   }
 
-  .Logo_navmeny {
-    width: 50px;
-    top: 3px;
-  }
-
   .hamburgerMeny a {
     font-size: 50px
   } 
@@ -647,6 +662,11 @@ p {
     width: 50px;
     top: 0px; 
   }
+
+  .navTop .Logo_navmeny:hover {
+    cursor: url(hand.cur), pointer;
+  }
+
   .navTop .profil_navmeny {
     margin-top: 5px;
     /*right: 5.5%;*/
@@ -704,7 +724,7 @@ p {
   }
   #default_main {column-count: 2;
   }
-  #artikkel4 {
+  #artikkel3 {
     break-before: column; 
   }
   #default_main article h2 {
@@ -729,70 +749,50 @@ p {
 
 @media print {
   .navTop {
-    padding-top: 0%; padding-bottom: 0%;
-    background-color: hidden;
-    box-shadow: 0px 00px 0px -0px rgba(32, 32, 32, 0.596);
-    position: fixed;
-    top: 0;
-    width: 0%;
-    visibility: hidden;
-  }
-  
-  .navTop .hamburgerKnapp {
-    margin-left: 0%;
-    margin-top: 0%;
-    width: 0px;
-    position: absolute;
-    visibility: hidden;
-  }
-  
-  .navTop button {
-    background: hidden;
-    background: hidden;
-    border-radius: 0px;
-    font-size: 0px;
-    font-weight: bold;
-    box-shadow: 0px;
-    height: 0px; width: 0px; 
-    visibility: hidden;
+    display: none;
   }
   
   .Logo_navmeny {
-      left: 0%;
-      top: 0%;
-      margin-left: 0%;
-      width: 0px;
-      position: absolute;
-      visibility: hidden;
+    display: none;
+  }
+
+  .profil_backend {
+    width: 100px;
+    margin-left: 43%;
+  }
+
+  .velkomst {
+    display: none;
   }
   
-  .navTop .profil_navmeny {
-    right: 15%;
-    top: 0.5%;
-    margin-left: 1%;
-    width: 0px;
-    position: absolute;
-    border-radius: 50%;
-    visibility: hidden;
+  .Logo_forside {
+    width: 100px;
   }
 
-  .navTop .hamburgerKnappBackend {
-    margin-left: 0%;
-    margin-top: 0%;
-    width: 0px;
-    position: absolute;
-    visibility: hidden;
+  #backend_main article h2 {
+    font-size: 16px;
   }
 
-  #default_main article h2 {
-    font-size: 30px;
+  #backend_main article p {
+    font-size: 14px;
   }
+
+  #default_main article h2{
+    font-size: 16px;
+  }
+
   #default_main article p {
-    font-size: 30px;
+    font-size: 14px;
   }
+
   .defaultP {
-    font-size: 15px;
+    font-size: 14px;
   }
+
+  a::after {
+    content: " (" attr(href) ") ";
+  }
+
 }
  
 

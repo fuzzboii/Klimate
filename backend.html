@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="no">
 
 <head>
     <!-- Setter riktig charset -->
@@ -29,7 +28,7 @@
             <!-- Legger til en knapp for å logge ut når man er innlogget-->
         <button onClick="location.href='logginn.html'" id="backendLoggUt">LOGG UT</button>
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
-        <img src="bilder/hamburgerIkon.svg" class="hamburgerKnappBackend" onclick="aapneHamburger()">
+        <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnappBackend" onclick="aapneHamburger()">
         <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.html -->
         <img src="bilder/klimateNoText.png" onClick="location.href='default.html'" alt="Klimate logo" class="Logo_navmeny">
         <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
@@ -39,7 +38,7 @@
     <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
     <section id="navMeny" class="hamburgerMeny">
         <!-- Knapp som lukker vinduet etter det er åpnet -->
-        <a href="#" class="lukkHamburger" onclick="lukkHamburger()">&times;</a>
+        <button class="lukkHamburger" onclick="lukkHamburger()">&times;</button>
 
         <!-- innholdet i hamburger-menyen -->
         <section class="hamburgerInnhold">

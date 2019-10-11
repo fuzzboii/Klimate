@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="no">
 
 <head>
     <!-- Setter riktig charset -->
@@ -28,7 +28,7 @@
         <button id="logginnKnapp" onClick="location.href='logginn.html'">LOGG INN</button>
         <button onClick="location.href='registrer.html'">REGISTRER</button>
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
-        <img src="bilder/hamburgerIkon.svg" class="hamburgerKnapp" onclick="aapneHamburger()">
+        <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="aapneHamburger()">
         <!-- Logoen øverst i venstre hjørne -->
         <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
     <!-- Slutt på navigasjonsmeny-->
@@ -38,7 +38,7 @@
     <section id="navMeny" class="hamburgerMeny">
 
         <!-- Knapp som lukker vinduet etter det er åpnet -->
-        <a href="#" class="lukkHamburger" onclick="lukkHamburger()">&times;</a>
+        <button class="lukkHamburger" onclick="lukkHamburger()">&times;</button>
     
         <!-- innholdet i hamburger-menyen -->
         <section class="hamburgerInnhold">
@@ -53,6 +53,7 @@
     <!-- Logoen midten øverst på siden, med tittel -->
     <header>
         <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
+        <h1 style="display: none">Bilde av Klimate logoen.</h1>
         <p class="defaultP">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus massa vitae nulla 
             rhoncus mollis. In dapibus, enim quis accumsan laoreet, nisi purus interdum lorem, 
             in tempus mi lectus non felis.</p>
@@ -67,11 +68,11 @@
             <h2>Mest populære</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Trykk her for å lese videre</a></p>
         </article>
-        <article id="artikkel4">
+        <article id="artikkel3">
             <h2>Mest kommentert</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Trykk her for å lese videre</a></p>
         </article>
-        <article id="artikkel5">
+        <article id="artikkel4">
             <h2>Tilfeldig utvalgt</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit... <a href="#">Trykk her for å lese videre</a></p>
         </article>
