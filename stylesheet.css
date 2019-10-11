@@ -7,25 +7,19 @@ body {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for h1, h2, p TEXT */
-h1 {
-  text-align: center; /* Sentrerer h1, ligger gjemt under logoen da den fortsatt skal b */
-  font-size: 16px; color: rgb(99, 112, 126); /* h1 farge og størrelse */
-  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-typer */
-  text-transform: uppercase; 
-}
+/* Style for h2, p TEXT */
 
 h2 {
-  text-align: center;
-  font-size: 13px; color: rgb(99, 112, 126);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: uppercase;
+  text-align: center; /* Sentrerer h2 */
+  font-size: 13px; color: rgb(99, 112, 126); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 p {
-  text-align: center;
-  font-size: 12px; color: rgb(99,112,126);
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-  padding-left: 14%;
+  text-align: center; /* Sentrerer p */
+  font-size: 12px; color: rgb(99,112,126); /* Font-størrelse og farge */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+  padding-left: 14%; /* Padding for å få plass på hver side */
   padding-right: 14%;
 }
 
@@ -33,92 +27,90 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for LOGIN/REGISTRER */
 .RegInnFelt {
-    display: block;
-    margin-left: auto; margin-right: auto;
-    margin-top: 3%;
-    padding: 15px;
-    width: 35%;
-    font-size: 32px;
-    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: bold;
-    border-radius: 8px;
+    display: block; /* Sørger for at input-feltene kommer under hverandre */
+    margin-left: auto; margin-right: auto; /* Plasserer input-feltene midt i vinduet */
+    margin-top: 3%; /* Mellomrom mellom øverste input-felt og logo, samt input-feltene selv */
+    padding: 15px; /* Utvider størrelse på input-feltet */
+    width: 35%; /* Utvider bredden på input-feltet */
+    font-size: 32px; /* Font-størrelse */
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+    font-weight: bold; /* Fet skrift */
+    border-radius: 8px; /* Runder ut kantene på input-feltet */
 }
 .RegInnFelt_knappRegistrer {
-  display: block;
-  margin-left: auto; margin-right: auto;
-  margin-top: 3%; margin-bottom: 3%;
-  padding: 15px;
-  width: 38.72%;
-  font-size: 32px;
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: bold;
-  border-radius: 8px;
-  background-color: rgb(200, 218, 211);
-  color: rgb(99, 112, 126);
+  display: block;  /* Sørger for at knappen kommer under input feltet */
+  margin-left: auto; margin-right: auto; /* Plasserer knappen midt i vinduet */
+  margin-top: 3%; margin-bottom: 3%; /* Mellomrom mellom knapp og input-felt, samt knapp og bunn av vinduet */
+  padding: 15px; /* Forstørrer knappen */
+  width: 38.72%; /* Setter bredde, matcher bredden på input feltet */
+  font-size: 32px; /* Font-størrelse */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+  font-weight: bold; /* Fet skrift */
+  border-radius: 8px; /* Runder ut kantene på knappen */
+  background-color: rgb(200, 218, 211); /* Bakgrunnsfargen på knappen */
+  color: rgb(99, 112, 126); /* Farge på teksten i knappen */
 }
 
 .RegInnFelt_knappLogginn {
-  display: block;
-  margin-left: auto; margin-right: auto;
-  margin-top: 3%; margin-bottom: 3%;
-  padding: 15px;
-  width: 38.72%;
-  font-size: 32px;
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: bold;
-  border-radius: 8px;
-  background-color: rgb(200, 218, 211);
-  color: rgb(99, 112, 126);
+  display: block; /* Sørger for at knappen kommer under input feltet */
+  margin-left: auto; margin-right: auto; /* Plasserer knappen midt i vinduet */
+  margin-top: 3%; margin-bottom: 3%; /* Mellomrom mellom knapp og input-felt, samt knapp og bunn av vinduet */
+  padding: 15px; /* Forstørrer knappen */
+  width: 38.72%; /* Setter bredde, matcher bredden på input feltet */
+  font-size: 32px; /* Font-størrelse */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+  font-weight: bold; /* Fet tekst */
+  border-radius: 8px; /* Runder ut knappen */
+  background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
+  color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */
 .navTop {
-  padding-top: 2%; padding-bottom: 2%;
-  background-color: rgb(200,218,211);
-  box-shadow: 0px 10px 8px -8px rgb(99,112,126);
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  width: 100%;
+  padding-top: 2%; padding-bottom: 2%; /* Utvider navigasjonsbaren */
+  background-color: rgb(200,218,211); /* Bakgrunnsfarge for navigasjonsbaren */
+  box-shadow: 0px 10px 8px -8px rgb(99,112,126); /* Skygge under navigasjonsbaren */
+  position: sticky; /* Holder navigasjonsbaren øverst i vinduet til enhver tid */
+  z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
+  width: 100%; /* Skal gå over hele siden */
   
 }
 .navTop #logginnKnapp {
-  margin-left: 55%;
-  margin-right: 1%;
+  margin-left: 55%; /* Plassering av LOGG INN knappen på default */
+  margin-right: 1%; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
 
 }
-.navTop #registrerKnapp {
-  margin-left: 70%;
-  margin-right: 1%;
+.navTop #singelRegistrerKnapp {
+  margin-left: 70%; /* Plassering av REGISTRER knappen på logginn */
+  margin-right: 1%; /* Litt margin for at hamburger knappen ikke skal flytte seg når man går fra default til login */
 
 }
 .navTop #singelLogginnKnapp {
-  margin-left: 70%;
-  margin-right: 1%;
+  margin-left: 70%; /* Plassering av LOGG INN knappen i registrer */
+  margin-right: 1%; /* Litt margin for at hamburger knappen ikke skal flytte seg når man går fra default til registrer */
 }
 .navTop .hamburgerKnapp {
-  margin-left: 3%;
-  margin-top: 1.2%;
-  width: 60px;
-  position: absolute;
+  margin-left: 3%; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
+  margin-top: 1.2%; /* Mellomrom mellom hamburgerknappen og toppen av vinduet */
+  width: 60px; /* Bestemmer størrelsen på hamburgerknappen */
+  position: absolute; /* Bruker absolutt plassering */
 }
 
 .navTop button {
-  background: rgb(249,249,249);
-  background: linear-gradient(0deg, rgba(249,249,249,1) 0%, rgba(255,255,255,1) 100%);
-  border-radius: 8px;
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 20px;
+  background: rgb(249,249,249); /* Bakgrunnsfarge på knappen */
+  border-radius: 8px; /* Runder ut knappen */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
+  font-size: 20px; /* Font-størrelse */
   font-weight: bold;
   height: 85px; width: 130px; 
 }
 
 .Logo_navmeny {
-    left: 1%;
-    top: 0.5%;
-    margin-left: 1%;
-    width: 100px;
-    position: absolute;
+  left: 1%;
+  top: 0.5%;
+  margin-left: 1%;
+  width: 100px;
+  position: absolute;
 }
 .Logo_forside {
     padding-top: 10%; 
