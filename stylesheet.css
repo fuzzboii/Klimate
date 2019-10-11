@@ -23,7 +23,7 @@ h2 {
 }
 p {
   text-align: center;
-  font-size: 12px; color: rgb(32, 32, 32);
+  font-size: 12px; color: rgba(99,112,126);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   padding-left: 14%;
   padding-right: 14%;
@@ -39,33 +39,7 @@ p {
   position: absolute;
   overflow: hidden;
   z-index: -1;
-  
-}
-
-.uklarhet {
-  /* Bakgrunnsverdier */
-  background-image: linear-gradient(to right, rgba(114, 113, 113, 0.8) 0%, rgba(146, 146, 146, 0.8) 50%, rgba(97, 97, 97, 0.6) 90%);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  filter: blur(20px);
-
-  
-/* Posisjonering og fjerning av kanter */
-  top: -70px;
-  right: -70px;
-  left: -70px;
-  padding: 70px;
-}
-/* Gjør blur finere */
-.uklarhet:after {
-  content: '';
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  background-image: linear-gradient(-19deg, rgba(104, 104, 104, 0.8) 0%, rgba(105, 105, 105, 0.4) 46%, rgba(95, 95, 95, 0.05) 50%);
-  filter: blur(60px);
+  background-color: rgba(242,246,245);
 }
 
 /* -> Bakgrunn for backend: */
@@ -148,8 +122,8 @@ p {
 /* Style for NAVIGASJONSMENY */
 .navTop {
   padding-top: 2%; padding-bottom: 2%;
-  background-color: white;
-  box-shadow: 0px 10px 8px -8px rgba(32, 32, 32, 0.596);
+  background-color: rgba(200,218,211);
+  box-shadow: 0px 10px 8px -8px rgba(99,112,126);
   position: sticky;
   z-index: 1;
   top: 0;
@@ -159,10 +133,12 @@ p {
 .navTop #logginnKnapp {
   margin-left: 55%;
   margin-right: 1%;
+
 }
 .navTop #registrerKnapp {
   margin-left: 70%;
   margin-right: 1%;
+
 }
 .navTop #singelLogginnKnapp {
   margin-left: 70%;
@@ -182,7 +158,6 @@ p {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 20px;
   font-weight: bold;
-  box-shadow: 2px 2px 2px 2px rgba(255, 255, 255, 0.596);
   height: 85px; width: 130px; 
 }
 
@@ -214,7 +189,6 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
 #artikkel1, #artikkel2, #artikkel3, #artikkel4 {
-  /*background-color: rgba(0, 0, 0, 0.3);*/
   background-color: #F8F7FD;
   padding-bottom: 15px;
   margin: 10px;
@@ -228,21 +202,21 @@ p {
   margin-right: 25px;
   padding: 14px;
   border-radius: 10px 10px 25px 25px;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(175, 175, 175, 0.1);
 }
 
 #default_main article h2 {
-  color: rgb(65, 65, 65);
+  color: rgba(99,112,126);
   margin-top: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: rgb(206, 206, 206);
+  background-color: rgba(147,181,179);
   border-radius: 10px 10px 0px 0px;
 }
 
 
 #default_main article p {
-  font-size: 5px; color: rgb(0, 0, 0);
+  font-size: 5px; color: rgba(99,112,126);
 
 }
 
