@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BODY */
 body {
-  background-color: rgb(242, 246, 245);
+  background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
   margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
 
 }
@@ -9,10 +9,10 @@ body {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for h1, h2, p TEXT */
 h1 {
-  text-align: center;
-  font-size: 16px; color: rgb(99, 112, 126);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: uppercase;
+  text-align: center; /* Sentrerer h1, ligger gjemt under logoen da den fortsatt skal b */
+  font-size: 16px; color: rgb(99, 112, 126); /* h1 farge og størrelse */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-typer */
+  text-transform: uppercase; 
 }
 
 h2 {
