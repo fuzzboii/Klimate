@@ -557,7 +557,7 @@ p {
   .navTop .hamburgerKnapp {
     margin-left: 2%;
     margin-top: 0.5%;
-    right: 1%; /* Dytter menyen til høyere */
+    right: 1%; /* Dytter menyenknappen til høyere */
     width: 30px;
   }
 
