@@ -737,6 +737,74 @@ p {
     margin-top: 0.0%;
   }
 }
+
+@media print {
+  .navTop {
+    padding-top: 0%; padding-bottom: 0%;
+    background-color: hidden;
+    box-shadow: 0px 00px 0px -0px rgba(32, 32, 32, 0.596);
+    position: fixed;
+    top: 0;
+    width: 0%;
+    visibility: hidden;
+  }
+  
+  .navTop .hamburgerKnapp {
+    margin-left: 0%;
+    margin-top: 0%;
+    width: 0px;
+    position: absolute;
+    visibility: hidden;
+  }
+  
+  .navTop button {
+    background: hidden;
+    background: hidden;
+    border-radius: 0px;
+    font-size: 0px;
+    font-weight: bold;
+    box-shadow: 0px;
+    height: 0px; width: 0px; 
+    visibility: hidden;
+  }
+  
+  .Logo_navmeny {
+      left: 0%;
+      top: 0%;
+      margin-left: 0%;
+      width: 0px;
+      position: absolute;
+      visibility: hidden;
+  }
+  
+  .navTop .profil_navmeny {
+    right: 15%;
+    top: 0.5%;
+    margin-left: 1%;
+    width: 0px;
+    position: absolute;
+    border-radius: 50%;
+    visibility: hidden;
+  }
+
+  .navTop .hamburgerKnappBackend {
+    margin-left: 0%;
+    margin-top: 0%;
+    width: 0px;
+    position: absolute;
+    visibility: hidden;
+  }
+
+  #default_main article h2 {
+    font-size: 30px;
+  }
+  #default_main article p {
+    font-size: 30px;
+  }
+  .defaultP {
+    font-size: 15px;
+  }
+}
  
 
 
