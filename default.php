@@ -86,12 +86,3 @@
 <!-- Denne siden er kontrollert av Robin Kleppang & Glenn Petter Pettersen, siste gang 10.10.2019 -->
 
 </html>
-
-<!-- Petter Fiskvik -->
-<!--Aron Snekkestad -->
-
-
-
-
-<!-- Robin Kleppang -->
-<!-- Ajdin Bajrovic test dgh-->
