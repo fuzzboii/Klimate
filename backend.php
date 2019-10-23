@@ -30,12 +30,12 @@
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop">
             <!-- Legger til en knapp for å logge ut når man er innlogget-->
-        <button onClick="location.href='logginn.php'" id="backendLoggUt">LOGG UT</button>
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
         <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnappBackend" onclick="aapneHamburger()">
+        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+        <button onClick="location.href='logginn.php'" id="backendLoggUt">LOGG UT</button>
         <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
         <img src="bilder/klimateNoText.png" onClick="location.href='default.php'" alt="Klimate logo" class="Logo_navmeny">
-        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
     <!-- Slutt på navigasjonsmeny-->
     </nav>
 

@@ -1,0 +1,287 @@
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for BODY */
+body {
+  background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
+  margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
+
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for h2, p TEXT */
+
+h2 {
+  text-align: center; /* Sentrerer h2 */
+  font-size: 20px; color: rgb(99, 112, 126); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
+}
+p {
+  text-align: center; /* Sentrerer p */
+  font-size: 18px; color: rgb(99,112,126); /* Font-størrelse og farge */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+  padding-left: 14%; /* Padding for å få plass på hver side */
+  padding-right: 14%;
+}
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for LOGIN/REGISTRER */
+.RegInnFelt {
+  display: block; /* Sørger for at input-feltene kommer under hverandre */
+  margin-left: auto; margin-right: auto; /* Plasserer input-feltene midt i vinduet */
+  margin-top: 3%; /* Mellomrom mellom øverste input-felt og logo, samt input-feltene selv */
+  padding: 15px; /* Utvider størrelse på input-feltet */
+  width: 40%; /* Utvider bredden på input-feltet */
+  font-size: 22px; /* Font-størrelse */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+  font-weight: bold; /* Fet skrift */
+  border-radius: 8px; /* Runder ut kantene på input-feltet */
+}
+.RegInnFelt_knappRegistrer {
+  display: block; /* Sørger for at knappen kommer under input feltet */
+  margin-left: auto; margin-right: auto; /* Plasserer knappen midt i vinduet */
+  margin-top: 3%; margin-bottom: 3%; /* Mellomrom mellom knapp og input-felt, samt knapp og bunn av vinduet */
+  padding: 10px; /* Forstørrer knappen */
+  width: 48%; /* Setter bredde, matcher bredden på input feltet */
+  font-size: 24px; /* Font-størrelse */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+  font-weight: bold; /* Fet tekst */
+  border-radius: 8px; /* Runder ut knappen */
+  background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
+  color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
+}
+
+.RegInnFelt_knappLogginn {
+  display: block; /* Sørger for at knappen kommer under input feltet */
+  margin-left: auto; margin-right: auto; /* Plasserer knappen midt i vinduet */
+  margin-top: 3%; margin-bottom: 3%; /* Mellomrom mellom knapp og input-felt, samt knapp og bunn av vinduet */
+  padding: 10px; /* Forstørrer knappen */
+  width: 34.72%; /* Setter bredde, matcher bredden på input feltet */
+  font-size: 24px; /* Font-størrelse */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+  font-weight: bold; /* Fet tekst */
+  border-radius: 8px; /* Runder ut knappen */
+  background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
+  color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
+}
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for NAVIGASJONSMENY */
+.navTop {
+  background-color: rgb(200,218,211); /* Bakgrunnsfarge for navigasjonsbaren */
+  box-shadow: 0px 10px 8px -8px rgb(99,112,126); /* Skygge under navigasjonsbaren */
+  position: fixed; /* Holder navigasjonsbaren øverst i vinduet til enhver tid */
+  z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
+  width: 100%; /* Skal gå over hele siden */
+  
+}
+.navTop #logginnKnapp {
+  margin-top: 15px;
+  margin-right: 1%; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
+  float: right;
+}
+.navTop #registrerKnapp {
+  margin-top: 15px;
+  float: right;
+}
+.navTop .singelKnapp {
+  margin-top: 15px;
+  float: right;
+}
+.navTop .hamburgerKnapp {
+  margin-left: 3%; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
+  margin-right: 3%; /* Mellomrom mellom hamburgerknappen og knappen til høyre */
+  margin-top: 20px; /* Mellomrom mellom hamburgerknappen og toppen av vinduet */
+  width: 60px; /* Bestemmer størrelsen på hamburgerknappen */
+  float: right;
+}
+.navTop button {
+  background: rgb(249,249,249); /* Bakgrunnsfarge på knappen */
+  border-radius: 8px; /* Runder ut knappen */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
+  font-size: 20px; /* Font-størrelse */
+  font-weight: bold; /* Fet tekst */
+  height: 70px; width: 120px; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
+}
+.Logo_navmeny {
+  height: 100px; /* Bestemmer størrelsen på logoen */
+  padding-left: 3%;
+}
+.navTop .profil_navmeny {
+  margin-top: 10px; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
+  margin-left: 3%; /* Mellomrom mellom profilbilde og LOGG UT knappen */
+  width: 80px; /* Bestemmer størrelsen på profilbildet */
+  float: right;
+  border-radius: 50%; /* For å runde av profilbildet */
+}
+#backendLoggUt {
+  margin-top: 15px;
+  float: right;
+}
+.navTop .hamburgerKnappBackend {
+  margin-left: 3%; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
+  margin-right: 3%; /* Mellomrom mellom hamburgerknappen og knappen til høyre */
+  margin-top: 20px; /* Mellomrom mellom hamburgerknappen og toppen av vinduet */
+  width: 60px; /* Bestemmer størrelsen på hamburgerknappen */
+  float: right;
+}
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for DEFAULT/Uregistrerte brukere */
+.Logo_forside {
+  padding-top: 160px; /* Plassering av logoen på default */
+  margin-bottom: 10%; /* Mellomrom mellom logo og element under */
+  width: 30%; /* Bestemmer størrelsen på logoen */
+  display: block; /* Brukes for at logoen blir sentrert */
+  margin-left: auto; /* Brukes for å plassere logoen sentrert */
+  margin-right: auto;
+}
+#artikkel1, #artikkel2, #artikkel3, #artikkel4 {
+  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
+  padding-bottom: 15px; /* Utvider innholdet i containerne for å skape luft for tekst */
+  margin: 10px; /* Mellomrom mellom containerne og den yttre boksen */
+  border-radius: 10px 10px 25px 25px; /* Avrunder kantene */
+  
+}
+
+#default_main {
+  margin-bottom: 25px; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 25px;
+  margin-right: 25px;
+  padding: 14px; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 10px 10px 25px 25px; /* Avrunder containerne */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
+#default_main article h2 {
+  color: rgb(99,112,126); /* Fargen på tittelene i containerne */
+  margin-top: 20px;
+  padding-top: 10px; /* Forstørrer containerne litt for å skape luft for tekst */
+  padding-bottom: 10px;
+  background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
+  border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containeren */
+}
+
+
+#default_main article p {
+  font-size: 18px; color: rgb(99,112,126); /* Font-størrelse på paragraf i containerne */
+
+}
+
+/*-----------------------------------------------------------------------------*/
+/* Style for BACKEND/Innloggede brukere */
+
+.profil_backend {
+  width: 200px; /* Bestemmer størrelse på profilbilde */
+  border-radius: 50%; /* Avrunder profilbildet */
+}
+
+.velkomst {
+  font-size: 30px; /* Bestemmer font-størrelse */
+  color: rgb(99,112,126); /* Farge på fonten */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.backend_header {
+  padding-top: 160px; padding-bottom: 30px;
+  text-align: center;
+}
+
+
+.bgcont p {
+  font-size: 18px; color: rgb(86, 90, 95);
+  text-align: center; /* Plasserer tekst i midten av elementet */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+}
+
+.bgcont {
+  color: rgb(92, 92, 92); /* Bakgrunnsfarge i containere i backend */
+  padding-bottom: 10px;
+  background-color: rgb(252, 252, 252);
+  border-radius: 10px 10px 25px 25px; /* Avrunder containeren */
+  width: 70%; /* Størrelse på container på backend */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bgcont h2 {  
+  color: rgb(99,112,126); /* Tittel på containerne i backend */
+  padding-bottom: 10px; padding-top: 10px;
+  background-color: rgb(147,181,179);
+  text-align: center; /* Plasserer teksten midt i tittel-containern */
+  font-size: 20px; color: rgb(99,112,126);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-transform: uppercase; /* Transformerer tekster til UCASE */
+  border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containern */
+}
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for DROPDOWN HAMBURGERMENY */
+
+.hamburgerMeny {
+  height: 0%; width: 100%; /* Height 0% da den ikke skal vises før vi kjører JavaScript funksjonen for å åpne hamburgermenyen */
+  position: fixed;
+  z-index: 2; /* Skal være over alle andre elementer */
+  left: 0; top: 0; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
+  background-color: rgb(200,218,211); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
+  overflow-y: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
+  transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
+  border-radius: 0 0 15px 15px; /* Avrunder containeren */
+}
+
+/* Innholdet i menyen */
+.hamburgerInnhold {
+  position: relative; /* Relativ plassering av innholdet i hamburgermenyen */
+  top: 15%; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
+}
+
+/* Selve lenkene, innhold i menyen */
+.hamburgerMeny a {
+  padding: 10px; /* Mellomrom mellom lenkene i hamburgermenyen */
+  text-decoration: none; /* Fjerner understreker fra linkene */
+  font-size: 40px; /* Font-størrelse */
+  color: #000000; /* Fargen på lenkene i hamburgermenyen */
+  display: block; /* Sørger for at lenkene kommer under hverandre */
+  transition: 0.3s; /* Effekt når man trykker på knappen */
+}
+
+/* TODO Flytt i media queries, trenger ikke hover på mobile first */
+
+/* Når mus er over hamburgermeny, hvis pointer-mus */
+.hamburgerKnapp:hover{
+  cursor:url(hand.cur), pointer;
+}
+
+/* Når mus er over hamburgermeny i backend, hvis pointer-mus */
+.hamburgerKnappBackend:hover{
+  cursor:url(hand.cur), pointer;
+}
+
+/* Hvor knappen for å lukke menyen ender opp */
+.hamburgerMeny .lukkHamburger {
+  margin-left: 90%;
+  margin-top: 10px;
+  position: absolute;
+  font-size: 60px; /* Font-størrelse da krysset er teksten "&times;" */
+  background-color: rgb(200,218,211); /* Fjerner bakgrunnen knappen */
+  color: rgb(0, 0, 0);
+  border: none; /* Fjerner border rundt knappen */
+}
+
+.hamburgerMeny button:focus {
+  outline: 0; /* Fjerner blå outline når knappen er trykt */
+}
+
+/* TODO Flytt til media query */
+
+/* Når musen er over hamburgermenyen, vis pointer-mus */
+.hamburgerMeny button:hover {
+  color: rgb(165,165,165);
+  cursor: url(hand.cur), pointer;
+}
+
+
+
+
+/* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 11.10.2019 */
+/* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 11.10.2019 */

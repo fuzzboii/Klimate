@@ -27,12 +27,12 @@
     </section>
 
     <!-- Begynnelse på øvre navigasjonsmeny -->
-    <nav class="navTop">
-            <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
-        <button id="logginnKnapp" onClick="location.href='logginn.php'">LOGG INN</button>
-        <button onClick="location.href='registrer.php'">REGISTRER</button>
+    <nav class="navTop"> 
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
         <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="aapneHamburger()">
+        <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
+        <button id="registrerKnapp" onClick="location.href='registrer.php'">REGISTRER</button>
+        <button id="logginnKnapp" onClick="location.href='logginn.php'">LOGG INN</button>
         <!-- Logoen øverst i venstre hjørne -->
         <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
     <!-- Slutt på navigasjonsmeny-->
@@ -40,7 +40,7 @@
 
     <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
     <section id="navMeny" class="hamburgerMeny">
-
+        
         <!-- Knapp som lukker vinduet etter det er åpnet -->
         <button class="lukkHamburger" onclick="lukkHamburger()">&times;</button>
     
