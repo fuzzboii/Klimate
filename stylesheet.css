@@ -282,7 +282,7 @@ p {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
-
+ 
 
 /* Medium telefoner */
 @media screen and (min-device-width: 375px) and (orientation: portrait) { /* Høyeste query som treffer gjelder, derav bare bruk av minimumsvidde */
