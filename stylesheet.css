@@ -22,6 +22,9 @@ p {
   padding-right: 3.5em;
 }
 
+#default_beskrivelse {
+  text-align: center;
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for LOGIN/REGISTRER */
@@ -381,7 +384,7 @@ p {
     font-size: 1em;
   }
 
-  .defaultP {
+  #default_beskrivelse {
     font-size: 1em;
   }
 

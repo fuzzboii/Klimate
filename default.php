@@ -60,7 +60,7 @@
     <header>
         <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
         <h1 style="display: none">Bilde av Klimate logoen.</h1>
-        <p class="defaultP">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
+        <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
     </header>
     <main id="default_main">   
         
