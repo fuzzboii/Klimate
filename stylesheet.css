@@ -102,11 +102,6 @@ p {
   height: 3.0em; width: 6.0em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
 }
 
-/* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
-.navTop button:hover {
-  color: rgba(44, 44, 44, 0.651);
-  cursor: url(hand.cur), pointer;
-}
 .navTop button:focus {
   outline: 0; /* Fjerner blå outline når knappen er trykt */
 }
@@ -114,12 +109,6 @@ p {
 .Logo_navmeny {
   width: 4em; /* Bestemmer størrelsen på logoen */
   padding-left: 1em;
-}
-
-/* Når musen er over logo, vis pointer mus og gjøre tydeligheten svakere */
-.Logo_navmeny:hover {
-  opacity: 0.7;
-  cursor: url(hand.cur), pointer;
 }
 
 .navTop .profil_navmeny {
@@ -257,15 +246,6 @@ p {
 
 /* TODO Flytt i media queries, trenger ikke hover på mobile first */
 
-/* Når mus er over hamburgermeny, hvis pointer-mus */
-.hamburgerKnapp:hover{
-  cursor:url(hand.cur), pointer;
-}
-
-/* Når mus er over hamburgermeny i backend, hvis pointer-mus */
-.hamburgerKnappBackend:hover{
-  cursor:url(hand.cur), pointer;
-}
 
 /* Hvor knappen for å lukke menyen ender opp */
 .hamburgerMeny .lukkHamburger {
@@ -283,14 +263,6 @@ p {
   outline: 0; /* Fjerner blå outline når knappen er trykt */
 }
 
-/* TODO Flytt til media query */
-
-/* Når musen er over hamburgermenyen, vis pointer-mus */
-.hamburgerMeny button:hover {
-  color: rgb(165,165,165);
-  cursor: url(hand.cur), pointer;
-}
-
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
  
@@ -304,24 +276,41 @@ p {
 }
 
 /* Ipad mini/pro portrett og landskap */
-@media screen and (min-device-width : 768px) {
+@media screen and (min-device-width : 768px) and (orientation: landscape) {
   #default_main {
     column-count: 2; 
-    flex: 50%;
-  }
-}
-
-@media screen and (min-device-width : 768px)  and (orientation : landscape) {
-  #default_main {column-count: 2;
   }
   #artikkel3 {
     break-before: column;
   }
 }
 
-
 /* Laptop */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 720px) {
+  /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
+  .navTop button:hover {
+    color: rgba(44, 44, 44, 0.651);
+    cursor: pointer;
+  }
+  /* Når musen er over hamburgermenyen, vis pointer-mus */
+  .hamburgerMeny button:hover {
+    color: rgb(165,165,165);
+    cursor: pointer;
+  }
+  /* Når mus er over hamburgermeny, hvis pointer-mus */
+  .hamburgerKnapp:hover{
+    cursor: pointer;
+  }
+
+  /* Når mus er over hamburgermeny i backend, hvis pointer-mus */
+  .hamburgerKnappBackend:hover{
+    cursor: pointer;
+  }
+  /* Når musen er over logo, vis pointer mus og gjøre tydeligheten svakere */
+  .Logo_navmeny:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
 }
 
 /* Stor laptop, medium desktop */
@@ -330,11 +319,6 @@ p {
 
 /* Stor skjerm */
 @media screen and (min-width: 2560px) {
-  #default_main {column-count: 2;
-  }
-  #artikkel3 {
-    break-before: column; 
-  }
 }
 
 @media print {
