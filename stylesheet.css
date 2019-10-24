@@ -101,6 +101,16 @@ p {
   font-weight: bold; /* Fet tekst */
   height: 3.0em; width: 7.0em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
 }
+
+/* Når musen er over Logginn/registrer, vis pointer-mus */
+.navTop button:hover {
+  color: rgba(44, 44, 44, 0.651);
+  cursor: url(hand.cur), pointer;
+}
+.navTop button:focus {
+  outline: 0; /* Fjerner blå outline når knappen er trykt */
+}
+
 .Logo_navmeny {
   width: 4em; /* Bestemmer størrelsen på logoen */
   padding-left: 1em;
