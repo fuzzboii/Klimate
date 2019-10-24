@@ -275,17 +275,17 @@ p {
 }
 
 /* Ipad mini/pro portrett og landskap */
-@media screen and (min-device-width : 768px) and (orientation: landscape) {
+@media screen and (min-width : 720px) and (orientation: landscape) {
+}
+
+/* Laptop */
+@media screen and (min-width: 720px) {
   #default_main {
     column-count: 2; 
   }
   #artikkel3 {
     break-before: column;
   }
-}
-
-/* Laptop */
-@media screen and (min-width: 720px) {
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
   .navTop button:hover {
     color: rgba(44, 44, 44, 0.651);
