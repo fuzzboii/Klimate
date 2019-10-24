@@ -1,478 +1,490 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BODY */
 body {
-  background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
-  margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
-
-}
-
-/*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for h2, p TEXT */
-
-h2 {
-  text-align: center; /* Sentrerer h2 */
-  font-size: 1em; color: rgb(99, 112, 126); /* Font-størrelse og farge */
-  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
-  text-transform: uppercase; /* Transformerer teksten til UCASE */
-}
-p {
-  font-size: 1em; color: rgb(99,112,126); /* Font-størrelse og farge */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
-  padding-left: 3.5em; /* Padding for å få plass på hver side */
-  padding-right: 3.5em;
-}
-
-
-/*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for LOGIN/REGISTRER */
-.RegInnFelt {
-  display: block; /* Sørger for at input-feltene kommer under hverandre */
-  margin-left: auto; margin-right: auto; /* Plasserer input-feltene midt i vinduet */
-  margin-top: 1em; /* Mellomrom mellom øverste input-felt og logo, samt input-feltene selv */
-  padding: 0.4em; /* Utvider størrelse på input-feltet */
-  width: 10em; /* Utvider bredden på input-feltet */
-  font-size: 1em; /* Font-størrelse */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
-  font-weight: bold; /* Fet skrift */
-  border-radius: 0.4em; /* Runder ut kantene på input-feltet */
-}
-.RegInnFelt_knappRegistrer {
-  display: block; /* Sørger for at knappen kommer under input feltet */
-  margin-left: auto; margin-right: auto; /* Plasserer knappen midt i vinduet */
-  margin-top: 1em; margin-bottom: 1em; /* Mellomrom mellom knapp og input-felt, samt knapp og bunn av vinduet */
-  padding: 0.3em; /* Forstørrer knappen */
-  width: 10em; /* Setter bredde, matcher bredden på input feltet */
-  font-size: 1.3em; /* Font-størrelse */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
-  font-weight: bold; /* Fet tekst */
-  border-radius: 0.4em; /* Runder ut knappen */
-  background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
-  color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
-}
-
-.RegInnFelt_knappLogginn {
-  display: block; /* Sørger for at knappen kommer under input feltet */
-  margin-left: auto; margin-right: auto; /* Plasserer knappen midt i vinduet */
-  margin-top: 1em; margin-bottom: 1em; /* Mellomrom mellom knapp og input-felt, samt knapp og bunn av vinduet */
-  padding: 0.3em; /* Forstørrer knappen */
-  width: 6em; /* Setter bredde, matcher bredden på input feltet */
-  font-size: 1.3em; /* Font-størrelse */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
-  font-weight: bold; /* Fet tekst */
-  border-radius: 0.4em; /* Runder ut knappen */
-  background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
-  color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
-}
-/*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for NAVIGASJONSMENY */
-.navTop {
-  background-color: rgb(200,218,211); /* Bakgrunnsfarge for navigasjonsbaren */
-  box-shadow: 0 0.5em 0.2em -0.4em rgb(99,112,126); /* Skygge under navigasjonsbaren */
-  border-radius: 0 0 10px 10px; /* For å runde av navbaren */
-  position: fixed; /* Holder navigasjonsbaren øverst i vinduet til enhver tid */
-  z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
-  width: 100%; /* Skal gå over hele siden */
-}
-.navTop #logginnKnapp {
-  margin-top: 1em;
-  margin-right: 0.5em; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
-  float: right;
-}
-.navTop #registrerKnapp {
-  margin-top: 1em;
-  float: right;
-}
-.navTop .singelKnapp {
-  margin-top: 1em;
-  float: right;
-}
-.navTop .hamburgerKnapp {
-  margin-left: 0.7em; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
-  margin-right: 0.7em; /* Mellomrom mellom hamburgerknappen og knappen til høyre */
-  margin-top: 0.5em;
-  width: 3em; /* Bestemmer størrelsen på hamburgerknappen */
-  float: right;
-}
-.navTop button {
-  background: rgb(249,249,249); /* Bakgrunnsfarge på knappen */
-  border-radius: 0.4em; /* Runder ut knappen */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
-  font-size: 0.8em; /* Font-størrelse */
-  font-weight: bold; /* Fet tekst */
-  height: 3.0em; width: 7.0em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
-}
-.Logo_navmeny {
-  width: 4em; /* Bestemmer størrelsen på logoen */
-  padding-left: 1em;
-}
-.navTop .profil_navmeny {
-  margin-top: 10px; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
-  margin-left: 3%; /* Mellomrom mellom profilbilde og LOGG UT knappen */
-  width: 80px; /* Bestemmer størrelsen på profilbildet */
-  float: right;
-  border-radius: 50%; /* For å runde av profilbildet */
-}
-#backendLoggUt {
-  margin-top: 15px;
-  float: right;
-}
-.navTop .hamburgerKnappBackend {
-  margin-left: 3%; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
-  margin-right: 3%; /* Mellomrom mellom hamburgerknappen og knappen til høyre */
-  margin-top: 20px; /* Mellomrom mellom hamburgerknappen og toppen av vinduet */
-  width: 600px; /* Bestemmer størrelsen på hamburgerknappen */
-  float: right;
-}
-/*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for DEFAULT/Uregistrerte brukere */
-.Logo_forside {
-  padding-top: 6em; /* Plassering av logoen på default */
-  margin-bottom: 2em; /* Mellomrom mellom logo og element under */
-  width: 6em; /* Bestemmer størrelsen på logoen */
-  display: block; /* Brukes for at logoen blir sentrert */
-  margin-left: auto; /* Brukes for å plassere logoen sentrert */
-  margin-right: auto;
-}
-#artikkel1, #artikkel2, #artikkel3, #artikkel4 {
-  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
-  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-}
-
-#default_main {
-  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-  margin-left: 1.5em;
-  margin-right: 1.5em;
-  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-}
-
-#default_main article h2 {
-  color: rgb(99,112,126); /* Fargen på tittelene i containerne */
-  margin-top: 1em;
-  padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
-  padding-bottom: 0.8em;
-  background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
-  border-radius: 1em 1em 0 0; /* Avrunder tittel-containeren */
-}
-
-
-#default_main article p {
-  font-size: 1em; color: rgb(99,112,126); /* Font-størrelse på paragraf i containerne */
-  padding-left: 1.5em; /* Padding for å få plass på hver side */
-  padding-right: 1.5em;
-
-}
-
-/*-----------------------------------------------------------------------------*/
-/* Style for BACKEND/Innloggede brukere */
-
-.profil_backend {
-  width: 200px; /* Bestemmer størrelse på profilbilde */
-  border-radius: 50%; /* Avrunder profilbildet */
-}
-
-.velkomst {
-  font-size: 30px; /* Bestemmer font-størrelse */
-  color: rgb(99,112,126); /* Farge på fonten */
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.backend_header {
-  padding-top: 160px; padding-bottom: 30px;
-  text-align: center;
-}
-
-
-.bgcont p {
-  font-size: 18px; color: rgb(86, 90, 95);
-  text-align: center; /* Plasserer tekst i midten av elementet */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
+    margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
   
-}
-
-.bgcont {
-  color: rgb(92, 92, 92); /* Bakgrunnsfarge i containere i backend */
-  padding-bottom: 10px;
-  background-color: rgb(252, 252, 252);
-  border-radius: 10px 10px 25px 25px; /* Avrunder containeren */
-  width: 70%; /* Størrelse på container på backend */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.bgcont h2 {  
-  color: rgb(99,112,126); /* Tittel på containerne i backend */
-  padding-bottom: 10px; padding-top: 10px;
-  background-color: rgb(147,181,179);
-  text-align: center; /* Plasserer teksten midt i tittel-containern */
-  font-size: 20px; color: rgb(99,112,126);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: uppercase; /* Transformerer tekster til UCASE */
-  border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containern */
-}
-
-
-/*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for DROPDOWN HAMBURGERMENY */
-
-.hamburgerMeny {
-  height: 0%; width: 100%; /* Height 0% da den ikke skal vises før vi kjører JavaScript funksjonen for å åpne hamburgermenyen */
-  position: fixed;
-  z-index: 2; /* Skal være over alle andre elementer */
-  left: 0; top: 0; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
-  background-color: rgb(200,218,211); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
-  overflow-y: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
-  transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
-}
-
-/* Innholdet i menyen */
-.hamburgerInnhold {
-  position: relative; /* Relativ plassering av innholdet i hamburgermenyen */
-  top: 4em; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
-}
-
-/* Selve lenkene, innhold i menyen */
-.hamburgerMeny a {
-  padding: 0.25em; /* Mellomrom mellom lenkene i hamburgermenyen */
-  text-decoration: none; /* Fjerner understreker fra linkene */
-  font-size: 1.8em; /* Font-størrelse */
-  color: #000000; /* Fargen på lenkene i hamburgermenyen */
-  display: block; /* Sørger for at lenkene kommer under hverandre */
-  transition: 0.3s; /* Effekt når man trykker på knappen */
-}
-
-/* TODO Flytt i media queries, trenger ikke hover på mobile first */
-
-/* Når mus er over hamburgermeny, hvis pointer-mus */
-.hamburgerKnapp:hover{
-  cursor:url(hand.cur), pointer;
-}
-
-/* Når mus er over hamburgermeny i backend, hvis pointer-mus */
-.hamburgerKnappBackend:hover{
-  cursor:url(hand.cur), pointer;
-}
-
-/* Hvor knappen for å lukke menyen ender opp */
-.hamburgerMeny .lukkHamburger {
-  margin-left: 5em;
-  margin-top: 0.1em;
-  position: absolute;
-  float: right;
-  font-size: 3.5em; /* Font-størrelse da krysset er teksten "&times;" */
-  background-color: rgb(200,218,211); /* Fjerner bakgrunnen knappen */
-  color: rgb(0, 0, 0);
-  border: none; /* Fjerner border rundt knappen */
-}
-
-.hamburgerMeny button:focus {
-  outline: 0; /* Fjerner blå outline når knappen er trykt */
-}
-
-/* TODO Flytt til media query */
-
-/* Når musen er over hamburgermenyen, vis pointer-mus */
-.hamburgerMeny button:hover {
-  color: rgb(165,165,165);
-  cursor: url(hand.cur), pointer;
-}
-
-/*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Media queries */
- 
-
-/* Medium telefoner */
-@media screen and (min-device-width: 375px) and (orientation: portrait) { /* Høyeste query som treffer gjelder, derav bare bruk av minimumsvidde */
-  header .Logo_forside {
-    margin-bottom: 5%;
-  }
-
-  #default_main article h2 {
-    font-size: 11px;
-  }
-
-  #default_main article p {
-    font-size: 10px;
-    padding-left: 10%;
-    padding-right: 10%;
-  }
-  #default_main article {
-    margin-bottom: 10%;
-  }
-}
-
-/* Store telefoner */
-@media screen and (min-device-width: 414px) and (orientation: portrait) {
-  header .Logo_forside {
-    width: 200px;
-  }
-  #default_main article h2 {
-    font-size: 18px;
-  }
-  #default_main article p {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  header .defaultP {
-    font-size: 18px;
-    margin-bottom: 2%;
-  }
-  #default_main article {
-    margin-bottom: 2%;
-  }
-}
-
-/* Ipad mini/pro portrett og landskap */
-@media screen and (min-device-width : 768px) {
-  /* Styles portrett*/
-  header .Logo_forside {
-    width: 30%; 
-  }
-  #default_main article h2 {
-    font-size: 30px;
-  }
-  #default_main article p {
-    font-size: 23px;
-  }
-
-  #default_main {
-    column-count: 2; 
-    flex: 50%;
-  }
-  #artikkel3 {
-    break-before: column;
-  }
-}
-
-@media screen and (min-device-width : 768px)  and (orientation : landscape) {
-  /* Styles landskap */
-  header .Logo_forside {
-    width: 20%;
-    margin-top: 5%; 
-    margin-bottom: 5%;
-  }
-  #default_main article h2 {
-    font-size: 20px;
-  }
-  #default_main article p {
-    font-size: 15px;
-  }
-  #default_main {column-count: 2;
-  }
-  #artikkel3 {
-    break-before: column;
-  }
-  #backendLoggUt {
-    margin-left: 69%;
-    height: 60px;
-  }
-  #backend_main {
-    padding-top: 25%;
-  }
-}
-
-
-/* Laptop */
-@media screen and (min-width: 1024px) {
-  header .Logo_forside {
-    width: 10%;
-    padding: 55px 0px 0px 0px;
-    margin: 0% 0% 0% 45%;
-  }    
-
-  #default_main {
-    margin-left: 15%;
-    margin-right: 15%;
-
   }
   
-  #default_main article h2 {
-    font-size: 10px;
+  /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+  /* Style for h2, p TEXT */
+  
+  h2 {
+    text-align: center; /* Sentrerer h2 */
+    font-size: 1em; color: rgb(99, 112, 126); /* Font-størrelse og farge */
+    font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+    text-transform: uppercase; /* Transformerer teksten til UCASE */
+  }
+  p {
+    font-size: 1em; color: rgb(99,112,126); /* Font-størrelse og farge */
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+    padding-left: 3.5em; /* Padding for å få plass på hver side */
+    padding-right: 3.5em;
   }
   
   
-  #default_main article p {
-    font-size: 10px;
-  
-  }
-  .navTop {
-    padding-top: 10px; 
-    padding-bottom: 10px;
-    height: 30px;
-  }
-
-  .navTop button {
-    height: 30px;
-    font-size: 16px;
-  }
-
-  .navTop #logginnKnapp {
-    margin-left: 66%;
-  }
-
-  .navTop #singelLogginnKnapp{
-    margin-left: 81%;
-  }
-  .navTop #singelRegistrerKnapp {
-    margin-left: 81%;
-  }
-  .navTop .hamburgerKnapp {
-    margin-left: 2%;
-    margin-top: 0.5%;
-    right: 1%; /* Dytter menyenknappen til høyere */
-    width: 30px;
-  }
-
-  .hamburgerMeny a {
-    font-size: 50px;
-  } 
-  #backendLoggUt {
-    margin-left: 78%;
-    height: 30px;
-  }
-  .navTop .Logo_navmeny {
-    width: 50px;
-    top: 0px; 
-  }
-
-  .navTop .Logo_navmeny:hover {
-    cursor: url(hand.cur), pointer; /* Endrer musepeker til en hånd på hover */
-  }
-
-  .navTop .profil_navmeny {
-    margin-top: 5px;
-    width: 40px;
-  }
-  .navTop .hamburgerKnappBackend{
-    margin-top: 10px;
-    margin-left: 5%;
-    width: 30px;
-  }
-  .navTop button {
-      transition-duration: 0.3s;  /* Definerer tiden det tar å åpne hamburgermenyen */
-  }
-  .navTop button:hover {
-      color: rgb(165, 165, 165); /* Definerer en farge ved hover */
-  }
-  .hamburgerMeny a:hover, .hamburgerMeny a:focus {
-    color: #f1f1f1;
-  }
-
+  /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+  /* Style for LOGIN/REGISTRER */
   .RegInnFelt {
-    display: block; /* Viser elementene i klassen under hverandre */
-    margin-left: auto; margin-right: auto;
-    margin-top: 1%;
-    padding: 15px;
-    width: 15%;
-    font-size: 15px;
-    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Angir spesifikke fonter */
-    font-weight: bold;
-    border-radius: 8px;
+    display: block; /* Sørger for at input-feltene kommer under hverandre */
+    margin-left: auto; margin-right: auto; /* Plasserer input-feltene midt i vinduet */
+    margin-top: 1em; /* Mellomrom mellom øverste input-felt og logo, samt input-feltene selv */
+    padding: 0.4em; /* Utvider størrelse på input-feltet */
+    width: 10em; /* Utvider bredden på input-feltet */
+    font-size: 1em; /* Font-størrelse */
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+    font-weight: bold; /* Fet skrift */
+    border-radius: 0.4em; /* Runder ut kantene på input-feltet */
   }
   .RegInnFelt_knappRegistrer {
+    display: block; /* Sørger for at knappen kommer under input feltet */
+    margin-left: auto; margin-right: auto; /* Plasserer knappen midt i vinduet */
+    margin-top: 1em; margin-bottom: 1em; /* Mellomrom mellom knapp og input-felt, samt knapp og bunn av vinduet */
+    padding: 0.3em; /* Forstørrer knappen */
+    width: 10em; /* Setter bredde, matcher bredden på input feltet */
+    font-size: 1.3em; /* Font-størrelse */
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+    font-weight: bold; /* Fet tekst */
+    border-radius: 0.4em; /* Runder ut knappen */
+    background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
+    color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
+  }
+  
+  .RegInnFelt_knappLogginn {
+    display: block; /* Sørger for at knappen kommer under input feltet */
+    margin-left: auto; margin-right: auto; /* Plasserer knappen midt i vinduet */
+    margin-top: 1em; margin-bottom: 1em; /* Mellomrom mellom knapp og input-felt, samt knapp og bunn av vinduet */
+    padding: 0.3em; /* Forstørrer knappen */
+    width: 6em; /* Setter bredde, matcher bredden på input feltet */
+    font-size: 1.3em; /* Font-størrelse */
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font-familie */
+    font-weight: bold; /* Fet tekst */
+    border-radius: 0.4em; /* Runder ut knappen */
+    background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
+    color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
+  }
+  /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+  /* Style for NAVIGASJONSMENY */
+  .navTop {
+    background-color: rgb(200,218,211); /* Bakgrunnsfarge for navigasjonsbaren */
+    box-shadow: 0 0.5em 0.2em -0.4em rgb(99,112,126); /* Skygge under navigasjonsbaren */
+    border-radius: 0 0 10px 10px; /* For å runde av navbaren */
+    position: fixed; /* Holder navigasjonsbaren øverst i vinduet til enhver tid */
+    z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
+    width: 100%; /* Skal gå over hele siden */
+  }
+  .navTop #logginnKnapp {
+    margin-top: 1em;
+    margin-right: 0.5em; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
+    float: right;
+  }
+  .navTop #registrerKnapp {
+    margin-top: 1em;
+    float: right;
+  }
+  .navTop .singelKnapp {
+    margin-top: 1em;
+    float: right;
+  }
+  .navTop .hamburgerKnapp {
+    margin-left: 0.7em; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
+    margin-right: 0.7em; /* Mellomrom mellom hamburgerknappen og knappen til høyre */
+    margin-top: 0.5em;
+    width: 3em; /* Bestemmer størrelsen på hamburgerknappen */
+    float: right;
+  }
+  .navTop button {
+    background: rgb(249,249,249); /* Bakgrunnsfarge på knappen */
+    border-radius: 0.4em; /* Runder ut knappen */
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
+    font-size: 0.8em; /* Font-størrelse */
+    font-weight: bold; /* Fet tekst */
+    height: 3.0em; width: 7.0em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
+  }
+  .Logo_navmeny {
+    width: 4em; /* Bestemmer størrelsen på logoen */
+    padding-left: 1em;
+  }
+  .navTop .profil_navmeny {
+    margin-top: 10px; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
+    margin-left: 3%; /* Mellomrom mellom profilbilde og LOGG UT knappen */
+    width: 80px; /* Bestemmer størrelsen på profilbildet */
+    float: right;
+    border-radius: 50%; /* For å runde av profilbildet */
+  }
+  #backendLoggUt {
+    margin-top: 15px;
+    float: right;
+  }
+  .navTop .hamburgerKnappBackend {
+    margin-left: 3%; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
+    margin-right: 3%; /* Mellomrom mellom hamburgerknappen og knappen til høyre */
+    margin-top: 20px; /* Mellomrom mellom hamburgerknappen og toppen av vinduet */
+    width: 600px; /* Bestemmer størrelsen på hamburgerknappen */
+    float: right;
+  }
+  /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+  /* Style for DEFAULT/Uregistrerte brukere */
+  .Logo_forside {
+    padding-top: 6em; /* Plassering av logoen på default */
+    margin-bottom: 2em; /* Mellomrom mellom logo og element under */
+    width: 6em; /* Bestemmer størrelsen på logoen */
+    display: block; /* Brukes for at logoen blir sentrert */
+    margin-left: auto; /* Brukes for å plassere logoen sentrert */
+    margin-right: auto;
+  }
+  #artikkel1, #artikkel2, #artikkel3, #artikkel4 {
+    background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
+    padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
+    margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+    border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  }
+  
+  #default_main {
+    margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+    border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+    background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  }
+  
+  #default_main article h2 {
+    color: rgb(99,112,126); /* Fargen på tittelene i containerne */
+    margin-top: 1em;
+    padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
+    padding-bottom: 0.8em;
+    background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
+    border-radius: 1em 1em 0 0; /* Avrunder tittel-containeren */
+  }
+  
+  
+  #default_main article p {
+    font-size: 1em; color: rgb(99,112,126); /* Font-størrelse på paragraf i containerne */
+    padding-left: 1.5em; /* Padding for å få plass på hver side */
+    padding-right: 1.5em;
+  
+  }
+  
+  /*-----------------------------------------------------------------------------*/
+  /* Style for BACKEND/Innloggede brukere */
+  
+  .profil_backend {
+    width: 200px; /* Bestemmer størrelse på profilbilde */
+    border-radius: 50%; /* Avrunder profilbildet */
+  }
+  
+  .velkomst {
+    font-size: 30px; /* Bestemmer font-størrelse */
+    color: rgb(99,112,126); /* Farge på fonten */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .backend_header {
+    padding-top: 160px; padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  
+  .bgcont p {
+    font-size: 18px; color: rgb(86, 90, 95);
+    text-align: center; /* Plasserer tekst i midten av elementet */
+    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+    
+  }
+  
+  .bgcont {
+    color: rgb(92, 92, 92); /* Bakgrunnsfarge i containere i backend */
+    padding-bottom: 10px;
+    background-color: rgb(252, 252, 252);
+    border-radius: 10px 10px 25px 25px; /* Avrunder containeren */
+    width: 70%; /* Størrelse på container på backend */
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .bgcont h2 {  
+    color: rgb(99,112,126); /* Tittel på containerne i backend */
+    padding-bottom: 10px; padding-top: 10px;
+    background-color: rgb(147,181,179);
+    text-align: center; /* Plasserer teksten midt i tittel-containern */
+    font-size: 20px; color: rgb(99,112,126);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-transform: uppercase; /* Transformerer tekster til UCASE */
+    border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containern */
+  }
+  
+  
+  /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+  /* Style for DROPDOWN HAMBURGERMENY */
+  
+  .hamburgerMeny {
+    height: 0%; width: 100%; /* Height 0% da den ikke skal vises før vi kjører JavaScript funksjonen for å åpne hamburgermenyen */
+    position: fixed;
+    z-index: 2; /* Skal være over alle andre elementer */
+    left: 0; top: 0; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
+    background-color: rgb(200,218,211); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
+    overflow-y: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
+    transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
+  }
+  
+  /* Innholdet i menyen */
+  .hamburgerInnhold {
+    position: relative; /* Relativ plassering av innholdet i hamburgermenyen */
+    top: 4em; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
+  }
+  
+  /* Selve lenkene, innhold i menyen */
+  .hamburgerMeny a {
+    padding: 0.25em; /* Mellomrom mellom lenkene i hamburgermenyen */
+    text-decoration: none; /* Fjerner understreker fra linkene */
+    font-size: 1.8em; /* Font-størrelse */
+    color: #000000; /* Fargen på lenkene i hamburgermenyen */
+    display: block; /* Sørger for at lenkene kommer under hverandre */
+    transition: 0.3s; /* Effekt når man trykker på knappen */
+  }
+  
+  /* TODO Flytt i media queries, trenger ikke hover på mobile first */
+  
+  /* Når mus er over hamburgermeny, hvis pointer-mus */
+  .hamburgerKnapp:hover{
+    cursor:url(hand.cur), pointer;
+  }
+  
+  /* Når mus er over hamburgermeny i backend, hvis pointer-mus */
+  .hamburgerKnappBackend:hover{
+    cursor:url(hand.cur), pointer;
+  }
+  
+  /* Hvor knappen for å lukke menyen ender opp */
+  .hamburgerMeny .lukkHamburger {
+    margin-left: 5em;
+    margin-top: 0.1em;
+    position: absolute;
+    float: right;
+    font-size: 3.5em; /* Font-størrelse da krysset er teksten "&times;" */
+    background-color: rgb(200,218,211); /* Fjerner bakgrunnen knappen */
+    color: rgb(0, 0, 0);
+    border: none; /* Fjerner border rundt knappen */
+  }
+  
+  .hamburgerMeny button:focus {
+    outline: 0; /* Fjerner blå outline når knappen er trykt */
+  }
+  
+  /* TODO Flytt til media query */
+  
+  /* Når musen er over hamburgermenyen, vis pointer-mus */
+  .hamburgerMeny button:hover {
+    color: rgb(165,165,165);
+    cursor: url(hand.cur), pointer;
+  }
+  
+  /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+  /* Media queries */
+   
+  
+  /* Medium telefoner */
+  @media screen and (min-device-width: 375px) and (orientation: portrait) { /* Høyeste query som treffer gjelder, derav bare bruk av minimumsvidde */
+    header .Logo_forside {
+      margin-bottom: 5%;
+    }
+  
+    #default_main article h2 {
+      font-size: 11px;
+    }
+  
+    #default_main article p {
+      font-size: 10px;
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+    #default_main article {
+      margin-bottom: 10%;
+    }
+  }
+  
+  /* Store telefoner */
+  @media screen and (min-device-width: 414px) and (orientation: portrait) {
+    header .Logo_forside {
+      width: 200px;
+    }
+    #default_main article h2 {
+      font-size: 18px;
+    }
+    #default_main article p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    header .defaultP {
+      font-size: 18px;
+      margin-bottom: 2%;
+    }
+    #default_main article {
+      margin-bottom: 2%;
+    }
+  }
+  
+  /* Ipad mini/pro portrett og landskap */
+  @media screen and (min-device-width : 768px) {
+    /* Styles portrett*/
+    header .Logo_forside {
+      width: 30%; 
+    }
+    #default_main article h2 {
+      font-size: 30px;
+    }
+    #default_main article p {
+      font-size: 23px;
+    }
+  
+    #default_main {
+      column-count: 2; 
+      flex: 50%;
+    }
+    #artikkel3 {
+      break-before: column;
+    }
+  }
+  
+  @media screen and (min-device-width : 768px)  and (orientation : landscape) {
+    /* Styles landskap */
+    header .Logo_forside {
+      width: 20%;
+      margin-top: 5%; 
+      margin-bottom: 5%;
+    }
+    #default_main article h2 {
+      font-size: 20px;
+    }
+    #default_main article p {
+      font-size: 15px;
+    }
+    #default_main {column-count: 2;
+    }
+    #artikkel3 {
+      break-before: column;
+    }
+    #backendLoggUt {
+      margin-left: 69%;
+      height: 60px;
+    }
+    #backend_main {
+      padding-top: 25%;
+    }
+  }
+  
+  
+  /* Laptop */
+  @media screen and (min-width: 1024px) {
+    header .Logo_forside {
+      width: 10%;
+      padding: 55px 0px 0px 0px;
+      margin: 0% 0% 0% 45%;
+    }    
+  
+    #default_main {
+      margin-left: 15%;
+      margin-right: 15%;
+  
+    }
+    
+    #default_main article h2 {
+      font-size: 10px;
+    }
+    
+    
+    #default_main article p {
+      font-size: 10px;
+    
+    }
+    .navTop {
+      padding-top: 10px; 
+      padding-bottom: 10px;
+      height: 30px;
+    }
+  
+    .navTop button {
+      height: 30px;
+      font-size: 16px;
+    }
+  
+    .navTop #logginnKnapp {
+      margin-left: 66%;
+    }
+  
+    .navTop #singelLogginnKnapp{
+      margin-left: 81%;
+    }
+    .navTop #singelRegistrerKnapp {
+      margin-left: 81%;
+    }
+    .navTop .hamburgerKnapp {
+      margin-left: 2%;
+      margin-top: 0.5%;
+      right: 1%; /* Dytter menyenknappen til høyere */
+      width: 30px;
+    }
+  
+    .hamburgerMeny a {
+      font-size: 50px;
+    } 
+    #backendLoggUt {
+      margin-left: 78%;
+      height: 30px;
+    }
+    .navTop .Logo_navmeny {
+      width: 50px;
+      top: 0px; 
+    }
+  
+    .navTop .Logo_navmeny:hover {
+      cursor: url(hand.cur), pointer; /* Endrer musepeker til en hånd på hover */
+    }
+  
+    .navTop .profil_navmeny {
+      margin-top: 5px;
+      width: 40px;
+    }
+    .navTop .hamburgerKnappBackend{
+      margin-top: 10px;
+      margin-left: 5%;
+      width: 30px;
+    }
+    .navTop button {
+        transition-duration: 0.3s;  /* Definerer tiden det tar å åpne hamburgermenyen */
+    }
+    .navTop button:hover {
+        color: rgb(165, 165, 165); /* Definerer en farge ved hover */
+    }
+    .hamburgerMeny a:hover, .hamburgerMeny a:focus {
+      color: #f1f1f1;
+    }
+  
+    .RegInnFelt {
+      display: block; /* Viser elementene i klassen under hverandre */
+      margin-left: auto; margin-right: auto;
+      margin-top: 1%;
+      padding: 15px;
+      width: 15%;
+      font-size: 15px;
+      font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Angir spesifikke fonter */
+      font-weight: bold;
+      border-radius: 8px;
+    }
+    .RegInnFelt_knappRegistrer {
+      display: block;
+      margin-left: auto; margin-right: auto;
+      margin-top: 1%; margin-bottom: 3%;
+      padding: 15px;
+      width: 17.74%;
+      font-size: 15px;
+      font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+  
+  .RegInnFelt_knappLogginn {
     display: block;
     margin-left: auto; margin-right: auto;
     margin-top: 1%; margin-bottom: 3%;
@@ -482,124 +494,112 @@ p {
     font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bold;
     border-radius: 8px;
-  }
-
-.RegInnFelt_knappLogginn {
-  display: block;
-  margin-left: auto; margin-right: auto;
-  margin-top: 1%; margin-bottom: 3%;
-  padding: 15px;
-  width: 17.74%;
-  font-size: 15px;
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: bold;
-  border-radius: 8px;
- }
-
-}
-
-/* Stor laptop, medium desktop */
-@media screen and (min-width: 1440px) {
-  #default_main article h2 {
-    font-size: 15px;
-  }
-
-  #default_main article p {
-    font-size: 12px;
-  }
-  header .defaultP {
-    font-size: 20px;
-  }
-  .navTop #logginnKnapp {
-    margin-left: 74%;
-    margin-right: 1%;
-  }
-  .Logo_navmeny {
-    top: 0.5%;  
-  }
-}
-
-/* Stor skjerm */
-@media screen and (min-width: 2560px) {
-  header .Logo_forside {
-    width: 10%;
-    margin-top: 2%;
-    margin-bottom: 5%;
-  }
-  #default_main {column-count: 2;
-  }
-  #artikkel3 {
-    break-before: column; 
-  }
-  #default_main article h2 {
-    font-size: 25px;
-  }
-  #default_main article p {
-    font-size: 25px;
-  }
-  .navTop {
-    padding-top: 0.5%;    
-    padding-bottom: 0.5%;
-  }
-  .navTop #logginnKnapp {
-    margin-left: 83%;  
-    margin-right: 1%; 
-  }
-  .navTop .hamburgerKnapp {
-    margin-left: 1%;
-    margin-top: 0.0%;
-  }
-}
-
-@media print {
-  .navTop {
-    display: none;
+   }
+  
   }
   
-  .Logo_navmeny {
-    display: none;
-  }
-
-  .profil_backend {
-    width: 100px;
-    margin-left: 43%;
-  }
-
-  .velkomst {
-    display: none;
+  /* Stor laptop, medium desktop */
+  @media screen and (min-width: 1440px) {
+    #default_main article h2 {
+      font-size: 15px;
+    }
+  
+    #default_main article p {
+      font-size: 12px;
+    }
+    header .defaultP {
+      font-size: 20px;
+    }
+    .navTop #logginnKnapp {
+      margin-left: 74%;
+      margin-right: 1%;
+    }
+    .Logo_navmeny {
+      top: 0.5%;  
+    }
   }
   
-  .Logo_forside {
-    width: 100px;
+  /* Stor skjerm */
+  @media screen and (min-width: 2560px) {
+    header .Logo_forside {
+      width: 10%;
+      margin-top: 2%;
+      margin-bottom: 5%;
+    }
+    #default_main {column-count: 2;
+    }
+    #artikkel3 {
+      break-before: column; 
+    }
+    #default_main article h2 {
+      font-size: 25px;
+    }
+    #default_main article p {
+      font-size: 25px;
+    }
+    .navTop {
+      padding-top: 0.5%;    
+      padding-bottom: 0.5%;
+    }
+    .navTop #logginnKnapp {
+      margin-left: 83%;  
+      margin-right: 1%; 
+    }
+    .navTop .hamburgerKnapp {
+      margin-left: 1%;
+      margin-top: 0.0%;
+    }
   }
-
-  #backend_main article h2 {
-    font-size: 16px;
+  
+  @media print {
+    .navTop {
+      display: none;
+    }
+    
+    .Logo_navmeny {
+      display: none;
+    }
+  
+    .profil_backend {
+      width: 100px;
+      margin-left: 43%;
+    }
+  
+    .velkomst {
+      display: none;
+    }
+    
+    .Logo_forside {
+      width: 100px;
+    }
+  
+    #backend_main article h2 {
+      font-size: 16px;
+    }
+  
+    #backend_main article p {
+      font-size: 14px;
+    }
+  
+    #default_main article h2{
+      font-size: 16px;
+    }
+  
+    #default_main article p {
+      font-size: 14px;
+    }
+  
+    .defaultP {
+      font-size: 14px;
+    }
+  
+    a::after {
+      content: " (" attr(href) ") ";
+    }
+  
   }
-
-  #backend_main article p {
-    font-size: 14px;
-  }
-
-  #default_main article h2{
-    font-size: 16px;
-  }
-
-  #default_main article p {
-    font-size: 14px;
-  }
-
-  .defaultP {
-    font-size: 14px;
-  }
-
-  a::after {
-    content: " (" attr(href) ") ";
-  }
-
-}
-
-
-
-/* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 11.10.2019 */
-/* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 11.10.2019 */
+  
+  
+  
+  /* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 11.10.2019 */
+  /* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 11.10.2019 */
