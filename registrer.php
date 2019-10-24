@@ -23,13 +23,6 @@
 </head>
 
 <body>
-
-    <!-- Section til bakgrunnsbildet, denne strekker seg over hele siden, class uklarhet vasker ut bakgrunnen så
-    det ikke blir så kraftig overgang mellom fargene -->
-    <section class="bakgrunn">
-        <section class="uklarhet"></section>
-    </section>
-
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop">
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->

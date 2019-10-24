@@ -21,14 +21,7 @@
 </head>
 
 
-<body>
-
-    <!-- Section til bakgrunnsbildet, denne strekker seg over hele siden, class uklarhet vasker ut bakgrunnen så
-    det ikke blir så kraftig overgang mellom fargene -->
-    <section class="bakgrunnBackend">
-        <section class="uklarhetBackend"></section>
-    </section>
-    
+<body>   
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop">
             <!-- Legger til en knapp for å logge ut når man er innlogget-->
