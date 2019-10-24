@@ -275,17 +275,17 @@ p {
 }
 
 /* Ipad mini/pro portrett og landskap */
-@media screen and (min-width : 720px) and (orientation: landscape) {
-}
-
-/* Laptop */
-@media screen and (min-width: 720px) {
+@media screen and (min-device-width : 720px) and (orientation: landscape) {
   #default_main {
     column-count: 2; 
   }
   #artikkel3 {
     break-before: column;
   }
+}
+
+/* Laptop, 720p */
+@media screen and (min-width: 1280px) {
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
   .navTop button:hover {
     color: rgba(44, 44, 44, 0.651);
@@ -312,11 +312,17 @@ p {
   }
 }
 
-/* Stor laptop, medium desktop */
-@media screen and (min-width: 1440px) {
+/* Stor laptop, medium desktop, 1080p */
+@media screen and (min-width: 1920px) {
+  #default_main {
+    column-count: 3; 
+  }
+  #artikkel4 {
+    break-before: column;
+  }
 }
 
-/* Stor skjerm */
+/* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
 }
 
