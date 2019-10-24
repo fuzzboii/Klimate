@@ -22,10 +22,6 @@ p {
   padding-right: 3.5em;
 }
 
-#default_beskrivelse {
-  text-align: center;
-}
-
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for LOGIN/REGISTRER */
 .innloggForm {
@@ -46,7 +42,7 @@ p {
 }
 .RegInnFelt {
   width: 100%; /* Angir bredde for inputfeltene */
-  padding: 10px; /* legger */
+  padding: 10px; /* legger luft rundt*/
   border-radius: 0em 0.4em 0.4em 0em; /* Runder ut hjørnene */
 }
 
@@ -94,6 +90,25 @@ p {
 
 .RegInnFelt_knappLogginn:focus {
   outline: 0; /* Fjerner blå outline i knappen*/
+}
+
+#tilbake_knapp {
+  display: block;
+  background-color: transparent; /* Gjør knappen gjennomsiktig */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  text-align: center;
+  padding: 10px; /* Hvor mye luft det skal være rundt */
+  max-width: 250px;
+  margin: auto;
+}
+
+#tilbake_knapp:focus {
+  outline: 0; /* Fjerner blå outline i feltene*/
+}
+
+#tilbake_knapp:hover {
+  color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
+  cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -157,6 +172,10 @@ p {
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
+#default_beskrivelse {
+  text-align: center; /*Sentrerer beskrivelsen i default */
+}
+
 .Logo_forside {
   padding-top: 6em; /* Plassering av logoen på default */
   margin-bottom: 2em; /* Mellomrom mellom logo og element under */

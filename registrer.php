@@ -72,6 +72,10 @@
 
             <input type="submit" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
         </form>
+
+        <!-- Sender brukeren tilbake til forsiden -->
+        <button onClick="location.href='default.php'" id="tilbake_knapp">Tilbake</button>
+        
     </main>
 </body>
 

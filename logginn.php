@@ -64,9 +64,12 @@
                 <i class="fa fa-key icon"></i> <!-- Laster inn ikonet for nøkkel fra cdnjs-bibloteket -->
                 <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Passord">
             </section>
-
-            <input type="submit" class="RegInnFelt_knappLogginn" value="Logg inn">
+            <input type="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
         </form>
+        
+        <!-- Sender brukeren tilbake til forsiden -->
+        <button onClick="location.href='default.php'" id="tilbake_knapp">Tilbake</button>
+
     </main>
 </body>
 
