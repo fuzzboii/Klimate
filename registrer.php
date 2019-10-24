@@ -8,6 +8,8 @@
 <head>
     <!-- Setter riktig charset -->
     <meta charset="UTF-8">
+    <!-- Legger til viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Setter tittelen på prosjektet -->
     <title>Klimate</title>
     <!-- Henter inn ekstern stylesheet -->
