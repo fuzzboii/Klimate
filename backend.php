@@ -34,7 +34,7 @@
             <!-- Legger til en knapp for å logge ut når man er innlogget-->
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
         <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="aapneHamburger()">
-        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+        <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_navmeny">
         <button onClick="location.href='logginn.php'" id="backendLoggUt">LOGG UT</button>
         <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
         <img src="bilder/klimateNoText.png" onClick="location.href='default.php'" alt="Klimate logo" class="Logo_navmeny">
@@ -58,7 +58,7 @@
     
     <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
     <header class="backend_header">
-        <img src="bilder/profil.png" alt="Klimate logo"class="profil_backend">
+        <img src="bilder/thjc-goat.jpg" alt="Klimate logo"class="profil_backend">
         <h1 class="velkomst">Velkommen Knut-Arne!</h1>
     </header>
 

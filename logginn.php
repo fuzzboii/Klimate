@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
     <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
+    <!-- -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Henter inn JavaScript -->
     <script language="JavaScript" src="javascript.js"> </script>
 </head>
@@ -60,9 +62,17 @@
     </header>
     <main>
         <!-- Formen som i senere tid skal brukes til autentisering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-        <form method="POST" action="backend.php"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
-            <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
-            <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
+        <form method="POST" action="backend.php" class="innloggForm"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
+            <section class="inputBoks">
+                <i class="fa fa-user icon"></i>
+                <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Brukernavn" autofocus>
+            </section>
+
+            <section class="inputBoks">
+                <i class="fa fa-envelope icon"></i>
+                <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Passord">
+            </section>
+
             <input type="submit" class="RegInnFelt_knappLogginn" value="Logg inn">
         </form>
     </main>
