@@ -74,7 +74,7 @@ p {
 }
 .navTop #logginnKnapp {
   margin-top: 1em;
-  margin-right: 0.5em; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
+  margin-right: 0.2em; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
   float: right;
 }
 .navTop #registrerKnapp {
@@ -86,10 +86,10 @@ p {
   float: right;
 }
 .navTop .hamburgerKnapp {
-  margin-left: 0.7em; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
-  margin-right: 0.7em; /* Mellomrom mellom hamburgerknappen og knappen til høyre */
-  margin-top: 0.5em;
-  width: 3em; /* Bestemmer størrelsen på hamburgerknappen */
+  margin-left: 0.6em; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
+  margin-right: 0.6em; /* Mellomrom mellom hamburgerknappen og kanten til høyre */
+  margin-top: 0.7em;
+  width: 2.8em; /* Bestemmer størrelsen på hamburgerknappen */
   float: right;
 }
 .navTop button {
@@ -99,7 +99,7 @@ p {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
   font-size: 0.8em; /* Font-størrelse */
   font-weight: bold; /* Fet tekst */
-  height: 3.0em; width: 7.0em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
+  height: 3.0em; width: 6.0em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
 }
 
 /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
