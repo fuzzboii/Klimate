@@ -249,10 +249,9 @@ p {
 
 /* Hvor knappen for å lukke menyen ender opp */
 .hamburgerMeny .lukkHamburger {
-  margin-left: 5em;
+  margin-left: 85%;
   margin-top: 0.1em;
   position: absolute;
-  float: right;
   font-size: 3.5em; /* Font-størrelse da krysset er teksten "&times;" */
   background-color: rgb(200,218,211); /* Fjerner bakgrunnen knappen */
   color: rgb(0, 0, 0);
