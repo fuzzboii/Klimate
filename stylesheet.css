@@ -11,12 +11,12 @@ body {
 
 h2 {
   text-align: center; /* Sentrerer h2 */
-  font-size: 1em; color: rgb(99, 112, 126); /* Font-størrelse og farge */
+  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
   font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
   text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 p {
-  font-size: 1em; color: rgb(99,112,126); /* Font-størrelse og farge */
+  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
   padding-left: 3.5em; /* Padding for å få plass på hver side */
   padding-right: 3.5em;
@@ -47,7 +47,7 @@ p {
   font-weight: bold; /* Fet tekst */
   border-radius: 0.4em; /* Runder ut knappen */
   background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
-  color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
+  color: rgb(44, 44, 44); /* Fargen til teksten i knappen */
 }
 
 .RegInnFelt_knappLogginn {
@@ -61,7 +61,7 @@ p {
   font-weight: bold; /* Fet tekst */
   border-radius: 0.4em; /* Runder ut knappen */
   background-color: rgb(200, 218, 211); /* Bakgrunnsfarge på knappen */
-  color: rgb(99, 112, 126); /* Fargen til teksten i knappen */
+  color: rgb(44, 44, 44); /* Fargen til teksten i knappen */
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */
@@ -143,7 +143,7 @@ p {
 }
 
 #default_main article h2 {
-  color: rgb(99,112,126); /* Fargen på tittelene i containerne */
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   margin-top: 1em;
   padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
   padding-bottom: 0.8em;
@@ -153,7 +153,7 @@ p {
 
 
 #default_main article p {
-  font-size: 1em; color: rgb(99,112,126); /* Font-størrelse på paragraf i containerne */
+  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
 
@@ -169,7 +169,7 @@ p {
 
 .velkomst {
   font-size: 1em; /* Bestemmer font-størrelse */
-  color: rgb(99,112,126); /* Farge på fonten */
+  color: rgb(44,44,44); /* Farge på fonten */
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -180,7 +180,7 @@ p {
 
 
 .bgcont p {
-  font-size: 1em; color: rgb(86, 90, 95);
+  font-size: 1em; color: rgb(44, 44, 44);
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
@@ -188,7 +188,7 @@ p {
 }
 
 .bgcont {
-  color: rgb(92, 92, 92); /* Bakgrunnsfarge i containere i backend */
+  color: rgb(44, 44, 44); /* Bakgrunnsfarge i containere i backend */
   padding-bottom: 0.6em;
   background-color: rgb(252, 252, 252);
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -198,11 +198,11 @@ p {
 }
 
 .bgcont h2 {  
-  color: rgb(99,112,126); /* Tittel på containerne i backend */
+  color: rgb(44,44,44); /* Tittel på containerne i backend */
   padding-bottom: 0.8em; padding-top: 0.8em;
   background-color: rgb(147,181,179);
   text-align: center; /* Plasserer teksten midt i tittel-containern */
-  font-size: 1em; color: rgb(99,112,126);
+  font-size: 1em; color: rgb(44,44,44);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-transform: uppercase; /* Transformerer tekster til UCASE */
   border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containern */
