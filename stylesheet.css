@@ -106,21 +106,14 @@ p {
   padding-left: 1em;
 }
 .navTop .profil_navmeny {
-  margin-top: 10px; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
-  margin-left: 3%; /* Mellomrom mellom profilbilde og LOGG UT knappen */
-  width: 80px; /* Bestemmer størrelsen på profilbildet */
+  margin-top: 0.5em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
+  margin-left: 0.7em; /* Mellomrom mellom profilbilde og LOGG UT knappen */
+  width: 3em; /* Bestemmer størrelsen på profilbildet */
   float: right;
   border-radius: 50%; /* For å runde av profilbildet */
 }
 #backendLoggUt {
-  margin-top: 15px;
-  float: right;
-}
-.navTop .hamburgerKnappBackend {
-  margin-left: 3%; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
-  margin-right: 3%; /* Mellomrom mellom hamburgerknappen og knappen til høyre */
-  margin-top: 20px; /* Mellomrom mellom hamburgerknappen og toppen av vinduet */
-  width: 600px; /* Bestemmer størrelsen på hamburgerknappen */
+  margin-top: 1em;
   float: right;
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -170,45 +163,46 @@ p {
 /* Style for BACKEND/Innloggede brukere */
 
 .profil_backend {
-  width: 200px; /* Bestemmer størrelse på profilbilde */
+  width: 7em; /* Bestemmer størrelse på profilbilde */
   border-radius: 50%; /* Avrunder profilbildet */
 }
 
 .velkomst {
-  font-size: 30px; /* Bestemmer font-størrelse */
+  font-size: 1em; /* Bestemmer font-størrelse */
   color: rgb(99,112,126); /* Farge på fonten */
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .backend_header {
-  padding-top: 160px; padding-bottom: 30px;
+  padding-top: 6em; padding-bottom: 1em;
   text-align: center;
 }
 
 
 .bgcont p {
-  font-size: 18px; color: rgb(86, 90, 95);
-  text-align: center; /* Plasserer tekst i midten av elementet */
+  font-size: 1em; color: rgb(86, 90, 95);
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+  padding-left: 1.5em; /* Padding for å få plass på hver side */
+  padding-right: 1.5em;
   
 }
 
 .bgcont {
   color: rgb(92, 92, 92); /* Bakgrunnsfarge i containere i backend */
-  padding-bottom: 10px;
+  padding-bottom: 0.6em;
   background-color: rgb(252, 252, 252);
-  border-radius: 10px 10px 25px 25px; /* Avrunder containeren */
-  width: 70%; /* Størrelse på container på backend */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  width: 18em; /* Størrelse på container på backend */
   margin-left: auto;
   margin-right: auto;
 }
 
 .bgcont h2 {  
   color: rgb(99,112,126); /* Tittel på containerne i backend */
-  padding-bottom: 10px; padding-top: 10px;
+  padding-bottom: 0.8em; padding-top: 0.8em;
   background-color: rgb(147,181,179);
   text-align: center; /* Plasserer teksten midt i tittel-containern */
-  font-size: 20px; color: rgb(99,112,126);
+  font-size: 1em; color: rgb(99,112,126);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-transform: uppercase; /* Transformerer tekster til UCASE */
   border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containern */
@@ -286,58 +280,14 @@ p {
 
 /* Medium telefoner */
 @media screen and (min-device-width: 375px) and (orientation: portrait) { /* Høyeste query som treffer gjelder, derav bare bruk av minimumsvidde */
-  header .Logo_forside {
-    margin-bottom: 5%;
-  }
-
-  #default_main article h2 {
-    font-size: 11px;
-  }
-
-  #default_main article p {
-    font-size: 10px;
-    padding-left: 10%;
-    padding-right: 10%;
-  }
-  #default_main article {
-    margin-bottom: 10%;
-  }
 }
 
 /* Store telefoner */
 @media screen and (min-device-width: 414px) and (orientation: portrait) {
-  header .Logo_forside {
-    width: 200px;
-  }
-  #default_main article h2 {
-    font-size: 18px;
-  }
-  #default_main article p {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  header .defaultP {
-    font-size: 18px;
-    margin-bottom: 2%;
-  }
-  #default_main article {
-    margin-bottom: 2%;
-  }
 }
 
 /* Ipad mini/pro portrett og landskap */
 @media screen and (min-device-width : 768px) {
-  /* Styles portrett*/
-  header .Logo_forside {
-    width: 30%; 
-  }
-  #default_main article h2 {
-    font-size: 30px;
-  }
-  #default_main article p {
-    font-size: 23px;
-  }
-
   #default_main {
     column-count: 2; 
     flex: 50%;
@@ -348,206 +298,28 @@ p {
 }
 
 @media screen and (min-device-width : 768px)  and (orientation : landscape) {
-  /* Styles landskap */
-  header .Logo_forside {
-    width: 20%;
-    margin-top: 5%; 
-    margin-bottom: 5%;
-  }
-  #default_main article h2 {
-    font-size: 20px;
-  }
-  #default_main article p {
-    font-size: 15px;
-  }
   #default_main {column-count: 2;
   }
   #artikkel3 {
     break-before: column;
-  }
-  #backendLoggUt {
-    margin-left: 69%;
-    height: 60px;
-  }
-  #backend_main {
-    padding-top: 25%;
   }
 }
 
 
 /* Laptop */
 @media screen and (min-width: 1024px) {
-  header .Logo_forside {
-    width: 10%;
-    padding: 55px 0px 0px 0px;
-    margin: 0% 0% 0% 45%;
-  }    
-
-  #default_main {
-    margin-left: 15%;
-    margin-right: 15%;
-
-  }
-  
-  #default_main article h2 {
-    font-size: 10px;
-  }
-  
-  
-  #default_main article p {
-    font-size: 10px;
-  
-  }
-  .navTop {
-    padding-top: 10px; 
-    padding-bottom: 10px;
-    height: 30px;
-  }
-
-  .navTop button {
-    height: 30px;
-    font-size: 16px;
-  }
-
-  .navTop #logginnKnapp {
-    margin-left: 66%;
-  }
-
-  .navTop #singelLogginnKnapp{
-    margin-left: 81%;
-  }
-  .navTop #singelRegistrerKnapp {
-    margin-left: 81%;
-  }
-  .navTop .hamburgerKnapp {
-    margin-left: 2%;
-    margin-top: 0.5%;
-    right: 1%; /* Dytter menyenknappen til høyere */
-    width: 30px;
-  }
-
-  .hamburgerMeny a {
-    font-size: 50px;
-  } 
-  #backendLoggUt {
-    margin-left: 78%;
-    height: 30px;
-  }
-  .navTop .Logo_navmeny {
-    width: 50px;
-    top: 0px; 
-  }
-
-  .navTop .Logo_navmeny:hover {
-    cursor: url(hand.cur), pointer; /* Endrer musepeker til en hånd på hover */
-  }
-
-  .navTop .profil_navmeny {
-    margin-top: 5px;
-    width: 40px;
-  }
-  .navTop .hamburgerKnappBackend{
-    margin-top: 10px;
-    margin-left: 5%;
-    width: 30px;
-  }
-  .navTop button {
-      transition-duration: 0.3s;  /* Definerer tiden det tar å åpne hamburgermenyen */
-  }
-  .navTop button:hover {
-      color: rgb(165, 165, 165); /* Definerer en farge ved hover */
-  }
-  .hamburgerMeny a:hover, .hamburgerMeny a:focus {
-    color: #f1f1f1;
-  }
-
-  .RegInnFelt {
-    display: block; /* Viser elementene i klassen under hverandre */
-    margin-left: auto; margin-right: auto;
-    margin-top: 1%;
-    padding: 15px;
-    width: 15%;
-    font-size: 15px;
-    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Angir spesifikke fonter */
-    font-weight: bold;
-    border-radius: 8px;
-  }
-  .RegInnFelt_knappRegistrer {
-    display: block;
-    margin-left: auto; margin-right: auto;
-    margin-top: 1%; margin-bottom: 3%;
-    padding: 15px;
-    width: 17.74%;
-    font-size: 15px;
-    font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: bold;
-    border-radius: 8px;
-  }
-
-.RegInnFelt_knappLogginn {
-  display: block;
-  margin-left: auto; margin-right: auto;
-  margin-top: 1%; margin-bottom: 3%;
-  padding: 15px;
-  width: 17.74%;
-  font-size: 15px;
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: bold;
-  border-radius: 8px;
- }
-
 }
 
 /* Stor laptop, medium desktop */
 @media screen and (min-width: 1440px) {
-  #default_main article h2 {
-    font-size: 15px;
-  }
-
-  #default_main article p {
-    font-size: 12px;
-  }
-  header .defaultP {
-    font-size: 20px;
-  }
-  .navTop #logginnKnapp {
-    margin-left: 74%;
-    margin-right: 1%;
-  }
-  .Logo_navmeny {
-    top: 0.5%;  
-  }
 }
 
 /* Stor skjerm */
 @media screen and (min-width: 2560px) {
-  header .Logo_forside {
-    width: 10%;
-    margin-top: 2%;
-    margin-bottom: 5%;
-  }
   #default_main {column-count: 2;
   }
   #artikkel3 {
     break-before: column; 
-  }
-  #default_main article h2 {
-    font-size: 25px;
-  }
-  #default_main article p {
-    font-size: 25px;
-  }
-  .navTop {
-    padding-top: 0.5%;    
-    padding-bottom: 0.5%;
-  }
-  .navTop #logginnKnapp {
-    margin-left: 83%;  
-    margin-right: 1%; 
-  }
-  .navTop .hamburgerKnapp {
-    margin-left: 1%;
-    margin-top: 0.0%;
   }
 }
 
@@ -570,27 +342,27 @@ p {
   }
   
   .Logo_forside {
-    width: 100px;
+    width: 5em;
   }
 
   #backend_main article h2 {
-    font-size: 16px;
+    font-size: 1em;
   }
 
   #backend_main article p {
-    font-size: 14px;
+    font-size: 1em;
   }
 
   #default_main article h2{
-    font-size: 16px;
+    font-size: 1em;
   }
 
   #default_main article p {
-    font-size: 14px;
+    font-size: 1em;
   }
 
   .defaultP {
-    font-size: 14px;
+    font-size: 1em;
   }
 
   a::after {
