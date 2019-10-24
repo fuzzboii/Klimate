@@ -101,10 +101,27 @@ p {
   font-weight: bold; /* Fet tekst */
   height: 3.0em; width: 7.0em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
 }
+
+/* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
+.navTop button:hover {
+  color: rgba(44, 44, 44, 0.651);
+  cursor: url(hand.cur), pointer;
+}
+.navTop button:focus {
+  outline: 0; /* Fjerner blå outline når knappen er trykt */
+}
+
 .Logo_navmeny {
   width: 4em; /* Bestemmer størrelsen på logoen */
   padding-left: 1em;
 }
+
+/* Når musen er over logo, vis pointer mus og gjøre tydeligheten svakere */
+.Logo_navmeny:hover {
+  opacity: 0.7;
+  cursor: url(hand.cur), pointer;
+}
+
 .navTop .profil_navmeny {
   margin-top: 0.5em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
   margin-left: 0.7em; /* Mellomrom mellom profilbilde og LOGG UT knappen */
