@@ -67,7 +67,7 @@ p {
 /* Style for NAVIGASJONSMENY */
 .navTop {
   background-color: rgb(200,218,211); /* Bakgrunnsfarge for navigasjonsbaren */
-  box-shadow: 0 0.2em 0.2em 0em rgb(99,112,126); /* Skygge under navigasjonsbaren */
+  box-shadow: 0 0.1em 0.4em 0em rgb(99,112,126); /* Skygge under navigasjonsbaren */
   /*border-radius: 0 0 10px 10px; /* For å runde av navbaren */
   position: fixed; /* Holder navigasjonsbaren øverst i vinduet til enhver tid */
   z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
