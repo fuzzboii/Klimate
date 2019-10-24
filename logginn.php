@@ -64,12 +64,11 @@
         <!-- Formen som i senere tid skal brukes til autentisering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
         <form method="POST" action="backend.php" class="innloggForm"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
             <section class="inputBoks">
-                <i class="fa fa-user icon"></i>
+                <i class="fa fa-user icon"></i> <!-- Laster inn ikonet for bruker fra cdnjs-bibloteket -->
                 <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Brukernavn" autofocus>
             </section>
-
             <section class="inputBoks">
-                <i class="fa fa-envelope icon"></i>
+                <i class="fa fa-key icon"></i> <!-- Laster inn ikonet for nøkkel fra cdnjs-bibloteket -->
                 <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Passord">
             </section>
 

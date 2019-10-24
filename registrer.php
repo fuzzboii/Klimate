@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
     <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
+    <!-- -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Henter inn JavaScript -->
     <script language="JavaScript" src="javascript.js"> </script>
 </head>
@@ -61,10 +63,20 @@
     <main>
         <!-- Formen som i senere tid skal brukes til registrering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
         <!-- Går til logginn.php, tanken var å vise "Registrering lykkes" hvor bruker kan ummiddelbart logge inn -->
-        <form method="POST" action="logginn.php"> <!-- My byttes ut -->
+        <form method="POST" action="logginn.php" class="innloggForm"> <!-- My byttes ut -->
+        <section class="inputBoks">
+            <i class="fa fa-user icon"></i>
             <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
+        </section>
+        <section class="inputBoks">
+            <i class="fa fa-key icon"></i>
             <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
+        </section>
+        <section class="inputBoks">
+            <i class="fa fa-key icon"></i>
             <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Bekreft passord">
+        </section>
+
             <input type="submit" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
         </form>
     </main>
