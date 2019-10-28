@@ -63,10 +63,6 @@ p {
   font-size: 1.0em; /* Font-størrelse */
 }
 
-.RegInnFelt_knappRegistrer:focus {
-  outline: 0; /* Fjerner blå outline i knappen*/
-}
-
 .RegInnFelt_knappLogginn {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white;  /* tekstfarge */
@@ -77,10 +73,6 @@ p {
   width: 100%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-}
-
-.RegInnFelt_knappLogginn:focus {
-  outline: 0; /* Fjerner blå outline i knappen*/
 }
 
 #tilbake_knapp {
@@ -137,9 +129,42 @@ p {
   height: 3.0em; width: 6.0em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
 }
 
-.navTop button:focus {
-  outline: 0; /* Fjerner blå outline når knappen er trykt */
+/* FOKUS TING */
+/*-----------------------------------------------------------------*/
+.bildeKontroll {
+  outline: 0;
 }
+
+.bildeKontroll:focus img {
+  background-color: rgb(0, 97, 21); /* Bakgrunnsfarge for navigasjonsbaren */
+  border-radius: 0.4em; /* Runder ut knappen */
+}
+
+.navTop button:focus {
+  background-color: rgb(0, 97, 21); /* Bakgrunnsfarge for navigasjonsbaren */
+  border-radius: 0.4em; /* Runder ut knappen */
+  outline: 0;
+}
+
+#tilbake_knapp:focus {
+  background-color: rgb(0, 97, 21); /* Bakgrunnsfarge for navigasjonsbaren */
+  border-radius: 0.4em; /* Runder ut knappen */
+  outline: 0;
+}
+
+.RegInnFelt_knappRegistrer:focus {
+  background-color: rgb(0, 97, 21); /* Bakgrunnsfarge for navigasjonsbaren */
+  border-radius: 0.4em; /* Runder ut knappen */
+  outline: 0; /* Fjerner blå outline i knappen*/
+}
+
+.RegInnFelt_knappLogginn:focus {
+  background-color: rgb(0, 97, 21); /* Bakgrunnsfarge for navigasjonsbaren */
+  border-radius: 0.4em; /* Runder ut knappen */
+  outline: 0; /* Fjerner blå outline i knappen*/
+}
+
+/*------------------------------------------------------------------*/
 
 .Logo_navmeny {
   width: 4em; /* Bestemmer størrelsen på logoen */
@@ -286,9 +311,6 @@ p {
   transition: 0.3s; /* Effekt når man trykker på knappen */
 }
 
-.hamburgerMeny button:focus {
-  outline: 0; /* Fjerner blå outline når knappen er trykt */
-}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */

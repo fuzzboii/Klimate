@@ -8,7 +8,13 @@ function hamburgerMeny() {
     document.getElementById("navMeny").style.height = "0%";
     $gjort = false;
   }
-  
+}
+
+function lukkHamburgerMeny() {
+  if ($gjort == true) {
+    document.getElementById("navMeny").style.height = "0%";
+    $gjort = false;
+  }
 }
 
 

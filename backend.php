@@ -26,11 +26,15 @@
     <nav class="navTop">
             <!-- Legger til en knapp for å logge ut når man er innlogget-->
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-        <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="hamburgerMeny()">
+        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="3">
+            <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
+        </a>
         <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_navmeny">
-        <button onClick="location.href='logginn.php'" id="backendLoggUt">LOGG UT</button>
+        <button onClick="location.href='logginn.php'" id="backendLoggUt" tabindex="2">LOGG UT</button>
         <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-        <img src="bilder/klimateNoText.png" onClick="location.href='default.php'" alt="Klimate logo" class="Logo_navmeny">
+        <a class="bildeKontroll" href="default.php" tabindex="1">
+            <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
+        </a> 
     <!-- Slutt på navigasjonsmeny-->
     </nav>
 
@@ -48,12 +52,12 @@
     </section>
     
     <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
-    <header class="backend_header">
+    <header class="backend_header" onclick="lukkHamburgerMeny()">
         <img src="bilder/thjc-goat.jpg" alt="Klimate logo"class="profil_backend">
         <h1 class="velkomst">Velkommen Knut-Arne!</h1>
     </header>
 
-    <main id="backend_main">
+    <main id="backend_main" onclick="lukkHamburgerMeny()">
 
         <!-- Innholdet på siden -->
             <article id="bgcont1">

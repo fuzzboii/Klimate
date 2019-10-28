@@ -24,12 +24,16 @@
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop"> 
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-        <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="hamburgerMeny()">
+        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="10">
+            <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
+        </a>
         <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
-        <button id="registrerKnapp" onClick="location.href='registrer.php'">REGISTRER</button>
-        <button id="logginnKnapp" onClick="location.href='logginn.php'">LOGG INN</button>
+        <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="9">REGISTRER</button>
+        <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="8">LOGG INN</button>
         <!-- Logoen øverst i venstre hjørne -->
-        <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
+        <a class="bildeKontroll" href="default.php" tabindex="7">
+            <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
+        </a>    
     <!-- Slutt på navigasjonsmeny-->
     </nav>
 
@@ -47,12 +51,12 @@
     </section>
     
     <!-- Logoen midten øverst på siden, med tittel -->
-    <header>
+    <header onclick="lukkHamburgerMeny()">
         <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
         <h1 style="display: none">Bilde av Klimate logoen.</h1>
         <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
     </header>
-    <main id="default_main">   
+    <main id="default_main" onclick="lukkHamburgerMeny()">   
         
         <article id="artikkel1">
             <h2>Nyeste</h2>

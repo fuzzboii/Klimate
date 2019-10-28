@@ -24,11 +24,16 @@
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop">
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-        <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="hamburgerMeny()">
+        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="3">
+            <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
+        </a>
         <!-- Legger til en knapp for å gå fra innlogging til registrering -->
-        <button class="singelKnapp" onClick="location.href='registrer.php'">REGISTRER</button>
+        <button class="singelKnapp" onClick="location.href='registrer.php'" tabindex="2">REGISTRER</button>
         <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-        <img src="bilder/klimateNoText.png" onClick="location.href='default.php'" alt="Klimate logo" class="Logo_navmeny">
+        <a class="bildeKontroll" href="default.php" tabindex="1">
+            <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
+        </a>  
+        
     <!-- Slutt på navigasjonsmeny-->
     </nav>
     <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
@@ -45,10 +50,10 @@
     </section>
 
     <!-- Logoen midten øverst på siden, med tittel -->
-    <header>
+    <header onclick="lukkHamburgerMeny()">
         <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
     </header>
-    <main>
+    <main onclick="lukkHamburgerMeny()">
         <!-- Formen som i senere tid skal brukes til autentisering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
         <form method="POST" action="backend.php" class="innloggForm"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
             <section class="inputBoks">
