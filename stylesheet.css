@@ -36,8 +36,8 @@ p {
   padding: 0.5em 0.5em 0.5em 0.5em; /* Posisjonerer ikonet i selve boksen */
   background: rgb(126, 155, 153); /* Angir bakgrunnsfarge for boksen rundt ikonet */
   color: white; /* Angir farge for ikonet */
-  width: 2em; /* Angir bredde for elementet */
-  height: 2em; /* Angir høyde for elementet */
+  max-width: 2em; /* Angir bredde for elementet */
+  max-height: 2em; /* Angir høyde for elementet */
   text-align: center; /* midtstiller ikonet i boksen */
   border-radius: 0.4em 0em 0em 0.4em; /* Runder ut hjørnene */
 }
