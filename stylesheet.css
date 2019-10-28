@@ -379,6 +379,7 @@ p {
   .hamburgerMeny {
     width: 25%;
     left: 75%;
+    max-height: 55%;
   }
 }
 
