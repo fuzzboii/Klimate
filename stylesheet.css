@@ -276,7 +276,7 @@ p {
   z-index: 2; /* Skal være over alle andre elementer */
   left: 0; top: 0; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
   background-color: rgb(200,218,211); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
-  overflow-y: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
+  overflow: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
   transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
 }
 
@@ -316,28 +316,23 @@ p {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
- 
 
-/* Medium telefoner */
-@media screen and (min-device-width: 375px) and (orientation: portrait) { /* Høyeste query som treffer gjelder, derav bare bruk av minimumsvidde */
-}
-
-/* Store telefoner */
-@media screen and (min-device-width: 414px) and (orientation: portrait) {
-}
-
-/* Ipad mini/pro portrett og landskap */
-@media screen and (min-device-width : 720px) and (orientation: landscape) {
+/* Tab */
+@media screen and (min-width : 720px) {
+  html, body {
+    overflow-x: hidden;
+  }
   #default_main {
     column-count: 2; 
   }
   #artikkel3 {
     break-before: column;
   }
+
 }
 
 /* Laptop, 720p */
-@media screen and (min-width: 1280px) {
+@media only screen and (min-width: 1280px) {
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
   .navTop button:hover {
     color: rgba(44, 44, 44, 0.651);
