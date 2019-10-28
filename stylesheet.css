@@ -25,7 +25,7 @@ p {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for LOGIN/REGISTRER */
 .innloggForm {
-  max-width:250px;margin:auto; /* Sentrerer innloggingsformen og angir en bredde */
+  max-width:250px; margin:auto; /* Sentrerer innloggingsformen og angir en bredde */
 }
 .inputBoks {
   display: flex; /* Legger ikonene og inputfeltene ved siden av hverandre*/
@@ -63,11 +63,6 @@ p {
   font-size: 1.0em; /* Font-størrelse */
 }
 
-.RegInnFelt_knappRegistrer:hover {
-  background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
-  cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
-}
-
 .RegInnFelt_knappRegistrer:focus {
   outline: 0; /* Fjerner blå outline i knappen*/
 }
@@ -82,11 +77,6 @@ p {
   width: 100%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-}
-
-.RegInnFelt_knappLogginn:hover {
-  background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
-  cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
 }
 
 .RegInnFelt_knappLogginn:focus {
@@ -107,10 +97,6 @@ p {
   outline: 0; /* Fjerner blå outline i feltene*/
 }
 
-#tilbake_knapp:hover {
-  color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
-  cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
-}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */
@@ -278,7 +264,7 @@ p {
   height: 0%; width: 100%; /* Height 0% da den ikke skal vises før vi kjører JavaScript funksjonen for å åpne hamburgermenyen */
   position: fixed;
   z-index: 2; /* Skal være over alle andre elementer */
-  left: 0; top: 0; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
+  left: 0; top: 4.2em; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
   background-color: rgb(200,218,211); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
   overflow: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
   transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
@@ -298,20 +284,6 @@ p {
   color: #000000; /* Fargen på lenkene i hamburgermenyen */
   display: block; /* Sørger for at lenkene kommer under hverandre */
   transition: 0.3s; /* Effekt når man trykker på knappen */
-}
-
-/* TODO Flytt i media queries, trenger ikke hover på mobile first */
-
-
-/* Hvor knappen for å lukke menyen ender opp */
-.hamburgerMeny .lukkHamburger {
-  margin-left: 85%;
-  margin-top: 0.1em;
-  position: absolute;
-  font-size: 3.5em; /* Font-størrelse da krysset er teksten "&times;" */
-  background-color: rgb(200,218,211); /* Fjerner bakgrunnen knappen */
-  color: rgb(0, 0, 0);
-  border: none; /* Fjerner border rundt knappen */
 }
 
 .hamburgerMeny button:focus {
@@ -337,6 +309,10 @@ p {
   }
   #bgcont3 {
     break-before: column;
+  }
+  .hamburgerMeny {
+    width: 40%;
+    left: 60%;
   }
 }
 
@@ -365,6 +341,22 @@ p {
   .Logo_navmeny:hover {
     opacity: 0.7;
     cursor: pointer;
+  }
+  .RegInnFelt_knappLogginn:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+  .RegInnFelt_knappRegistrer:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+  #tilbake_knapp:hover {
+    color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
+    cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
+  }
+  .hamburgerMeny {
+    width: 25%;
+    left: 75%;
   }
 }
 

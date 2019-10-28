@@ -23,8 +23,8 @@
 <body>
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop">
-        <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen aapneHamburger i javascript.js -->
-        <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="aapneHamburger()">
+        <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
+        <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp" onclick="hamburgerMeny()">
         <!-- Legger til en knapp for å gå fra registrering til innlogging -->
         <button class="singelKnapp" onClick="location.href='logginn.php'">LOGG INN</button>
         <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
@@ -33,9 +33,6 @@
     </nav>
     <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
     <section id="navMeny" class="hamburgerMeny">
-
-        <!-- Knapp som lukker vinduet etter det er åpnet -->
-        <button class="lukkHamburger" onclick="lukkHamburger()">&times;</button>
       
         <!-- innholdet i hamburger-menyen -->
         <section class="hamburgerInnhold">
