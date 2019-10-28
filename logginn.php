@@ -56,11 +56,11 @@
         <form method="POST" action="backend.php" class="innloggForm"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
             <section class="inputBoks">
                 <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Brukernavn" autofocus>
+                <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
             </section>
             <section class="inputBoks">
                 <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Passord">
+                <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
             </section>
             <input type="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
         </form>

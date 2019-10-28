@@ -61,7 +61,7 @@
         </section>
         <section class="inputBoks">
             <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-            <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-post adresse">
+            <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse">
         </section>
         <section class="inputBoks">
             <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
