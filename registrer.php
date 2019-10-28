@@ -16,8 +16,6 @@
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
     <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
-    <!-- -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Henter inn JavaScript -->
     <script language="JavaScript" src="javascript.js"> </script>
 </head>
@@ -58,15 +56,19 @@
         <!-- Går til logginn.php, tanken var å vise "Registrering lykkes" hvor bruker kan ummiddelbart logge inn -->
         <form method="POST" action="logginn.php" class="innloggForm"> <!-- My byttes ut -->
         <section class="inputBoks">
-            <i class="fa fa-user icon"></i>
+            <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
             <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
         </section>
         <section class="inputBoks">
-            <i class="fa fa-key icon"></i>
+            <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
+            <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-post adresse">
+        </section>
+        <section class="inputBoks">
+            <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
             <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
         </section>
         <section class="inputBoks">
-            <i class="fa fa-key icon"></i>
+            <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
             <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Bekreft passord">
         </section>
 

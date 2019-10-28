@@ -59,19 +59,23 @@
         
         <article id="artikkel1">
             <h2>Nyeste</h2>
-            <p>Regjeringen verner bilister etter økt CO₂-avgift <a href="#">Trykk her for å lese videre</a></p>
+            <p>Regjeringen verner bilister etter økt CO₂-avgift</p>
+            <a href="#">Trykk her for å lese videre</a>
         </article>
         <article id="artikkel2">
             <h2>Mest populære</h2>
-            <p>Slik ser monsterorkanen ut fra verdensrommet <a href="#">Trykk her for å lese videre</a></p>
+            <p>Slik ser monsterorkanen ut fra verdensrommet</p>
+            <a href="#">Trykk her for å lese videre</a>
         </article>
         <article id="artikkel3">
             <h2>Mest kommentert</h2>
-            <p>Svenske Greta Thunberg (16) nominert til Nobels fredspris <a href="#">Trykk her for å lese videre</a></p>
+            <p>Svenske Greta Thunberg (16) nominert til Nobels fredspris</p>
+            <a href="#">Trykk her for å lese videre</a>
         </article>
         <article id="artikkel4">
             <h2>Tilfeldig utvalgt</h2>
-            <p>Hundretusener demonstrerer for klima over hele verden <a href="#">Trykk her for å lese videre</a></p>
+            <p>Hundretusener demonstrerer for klima over hele verden</p>
+            <a href="#">Trykk her for å lese videre</a>
         </article>
         
     </main>

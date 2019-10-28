@@ -58,19 +58,23 @@
     <main id="backend_main">
 
         <!-- Innholdet på siden -->
-            <article class="bgcont">
+            <article id="bgcont1">
                 <h2>Arrangementer</h2>
-                <p>Dugnad hos KlimaVennen <a href="#">Trykk her for å lese videre</a></p>
+                <p>Dugnad hos KlimaVennen</p>
+                <a href="#">Trykk her for å lese videre</a>
             </article>
-            <article class="bgcont">
+            <article id="bgcont2">
                 <h2>Diskusjoner</h2>
-                <p>Bruk av gressklipper, bensin eller elektrisk? <a href="#">Trykk her for å lese videre</a></p>
+                <p>Bruk av gressklipper, bensin eller elektrisk?</p>
+                <a href="#">Trykk her for å lese videre</a>
             </article>
-            <article class="bgcont">
+            <article id="bgcont3">
                 <h2>Artikler</h2>
-                <p>Hundretusener demonstrerer for klima over hele verden <a href="#">Trykk her for å lese videre</a></p>
+                <p>Hundretusener demonstrerer for klima over hele verden</p>
+                <a href="#">Trykk her for å lese videre</a>
             </article>
     </main>
+    
 </body>
 
 <!-- Denne siden er utviklet av Glenn Petter Pettersen & Aron Snekkestad, siste gang endret 11.10.2019 -->

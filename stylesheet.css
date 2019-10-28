@@ -36,7 +36,7 @@ p {
   padding: 0.5em 0.5em 0.5em 0.5em; /* Posisjonerer ikonet i selve boksen */
   background: rgb(126, 155, 153); /* Angir bakgrunnsfarge for boksen rundt ikonet */
   color: white; /* Angir farge for ikonet */
-  min-width: 2em; /* Angir minimums bredde for elementet */
+  width: 2em; /* Angir minimums bredde for elementet */
   text-align: center; /* midtstiller ikonet i boksen */
   border-radius: 0.4em 0em 0em 0.4em; /* Runder ut hjørnene */
 }
@@ -210,7 +210,7 @@ p {
 }
 
 
-#default_main article p {
+#default_main article p, #default_main article a {
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
@@ -236,34 +236,37 @@ p {
   text-align: center;
 }
 
+#bgcont1, #bgcont2, #bgcont3 {
+  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
+  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
+  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+}
 
-.bgcont p {
-  font-size: 1em; color: rgb(44, 44, 44);
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+#backend_main {
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
+#backend_main article h2 {
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
+  margin-top: 1em;
+  padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
+  padding-bottom: 0.8em;
+  background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
+  border-radius: 1em 1em 0 0; /* Avrunder tittel-containeren */
+}
+
+
+#backend_main article p, #backend_main article a {
+  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
-  
-}
 
-.bgcont {
-  color: rgb(44, 44, 44); /* Bakgrunnsfarge i containere i backend */
-  padding-bottom: 0.6em;
-  background-color: rgb(252, 252, 252);
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-  width: 18em; /* Størrelse på container på backend */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.bgcont h2 {  
-  color: rgb(44,44,44); /* Tittel på containerne i backend */
-  padding-bottom: 0.8em; padding-top: 0.8em;
-  background-color: rgb(147,181,179);
-  text-align: center; /* Plasserer teksten midt i tittel-containern */
-  font-size: 1em; color: rgb(44,44,44);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-transform: uppercase; /* Transformerer tekster til UCASE */
-  border-radius: 10px 10px 0px 0px; /* Avrunder tittel-containern */
 }
 
 
@@ -328,7 +331,12 @@ p {
   #artikkel3 {
     break-before: column;
   }
-
+  #backend_main {
+    column-count: 2; 
+  }
+  #bgcont3 {
+    break-before: column;
+  }
 }
 
 /* Laptop, 720p */
@@ -365,6 +373,12 @@ p {
     column-count: 3; 
   }
   #artikkel4 {
+    break-before: column;
+  }
+  #backend_main {
+    column-count: 3; 
+  }
+  #bgcont2 {
     break-before: column;
   }
 }
