@@ -1,12 +1,14 @@
 <?php
 session_start();
 // Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
-if ($_SESSION['brukernavn']) {
+/*
+    if ($_SESSION['brukernavn']) {
     // OK
 } else {
     // Ikke OK
     // Header, ikke velkommen
 }
+*/
 include("klimate_pdo.php");
 $db = new myPDO();
 
@@ -50,16 +52,13 @@ if (isset($_POST['submit'])) {
         $_SESSION['etternavn'] = $resultat['etternavn'];;
         $_SESSION['epost'] = $resultat['epost'];
         $_SESSION['brukertype'] = $resultat['brukertype'];
-        //$_SESSION['brukertype'] = $row['brukertype'];
+
         header("Location: backend.php");
-        //loggInn();
     } else {
-        //header("location: Forelesning 2019-11-04 Kryptering.php");
+        // Gi bruker tilbakemelding
     }
 }
 
-function loggInn() {
-}
 
 ?>
 
@@ -127,7 +126,7 @@ function loggInn() {
             </section>
             <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
         </form>
-        
+
         <!-- Sender brukeren tilbake til forsiden -->
         <button onClick="" class="lenke_knapp">Glemt passord?</button>
         <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>

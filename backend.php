@@ -6,6 +6,7 @@ if ($_SESSION['brukernavn']) {
 } else {
     header("Location: default.php");
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +24,7 @@ if ($_SESSION['brukernavn']) {
     <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
     <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
     <!-- Henter inn JavaScript -->
-    <script language="JavaScript" src="javascript.js"> </script>
+    <script language="JavaScript" src="javascript.js"></script>
 </head>
 
 
@@ -36,7 +37,13 @@ if ($_SESSION['brukernavn']) {
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_navmeny">
-        <button onClick="location.href='logginn.php'" id="backendLoggUt" tabindex="2">LOGG UT</button>
+        <button onClick="loggUt()" id="backendLoggUt" tabindex="2">LOGG UT</button>
+        <script>
+            function loggUt() {
+                sessionStorage.clear(); // Fungerer ikke
+                window.location.replace("default.php");
+            }
+        </script>
         <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
         <a class="bildeKontroll" href="default.php" tabindex="1">
             <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
@@ -59,28 +66,27 @@ if ($_SESSION['brukernavn']) {
     
     <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
     <header class="backend_header" onclick="lukkHamburgerMeny()">
-        <img src="bilder/thjc-goat.jpg" alt="Klimate logo"class="profil_backend">
+        <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_backend">
         <h1 class="velkomst">Velkommen <?php echo($_SESSION['fornavn']) ?></h1>
     </header>
 
     <main id="backend_main" onclick="lukkHamburgerMeny()">
-
         <!-- Innholdet på siden -->
-            <article id="bgcont1">
-                <h2>Arrangementer</h2>
-                <p>Dugnad hos KlimaVennen</p>
-                <a href="#">Trykk her for å lese videre</a>
-            </article>
-            <article id="bgcont2">
-                <h2>Diskusjoner</h2>
-                <p>Bruk av gressklipper, bensin eller elektrisk?</p>
-                <a href="#">Trykk her for å lese videre</a>
-            </article>
-            <article id="bgcont3">
-                <h2>Artikler</h2>
-                <p>Hundretusener demonstrerer for klima over hele verden</p>
-                <a href="#">Trykk her for å lese videre</a>
-            </article>
+        <article id="bgcont1">
+            <h2>Arrangementer</h2>
+            <p>Dugnad hos KlimaVennen</p>
+            <a href="#">Trykk her for å lese videre</a>
+        </article>
+        <article id="bgcont2">
+            <h2>Diskusjoner</h2>
+            <p>Bruk av gressklipper, bensin eller elektrisk?</p>
+            <a href="#">Trykk her for å lese videre</a>
+        </article>
+        <article id="bgcont3">
+            <h2>Artikler</h2>
+            <p>Hundretusener demonstrerer for klima over hele verden</p>
+            <a href="#">Trykk her for å lese videre</a>
+        </article>
     </main>
     
 </body>

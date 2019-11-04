@@ -1,5 +1,7 @@
 /* Funksjonen som åpner og lukker gardinmenyen, bruker height for at den skal gå over hele siden */
 $gjort = false;
+
+
 function hamburgerMeny() {
   if ($gjort == false) {
     document.getElementById("navMeny").style.height = "100%";
@@ -16,6 +18,7 @@ function lukkHamburgerMeny() {
     $gjort = false;
   }
 }
+
 
 
 /* Denne siden er utviklet av Robin Kleppang, siste gang endret 23.10.2019 */
