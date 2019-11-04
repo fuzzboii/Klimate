@@ -1,5 +1,11 @@
 <?php
-
+session_start();
+// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
+if ($_SESSION['brukernavn']) {
+    // OK
+} else {
+    header("Location: default.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +60,7 @@
     <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
     <header class="backend_header" onclick="lukkHamburgerMeny()">
         <img src="bilder/thjc-goat.jpg" alt="Klimate logo"class="profil_backend">
-        <h1 class="velkomst">Velkommen Knut-Arne!</h1>
+        <h1 class="velkomst">Velkommen <?php echo($_SESSION['fornavn']) ?></h1>
     </header>
 
     <main id="backend_main" onclick="lukkHamburgerMeny()">

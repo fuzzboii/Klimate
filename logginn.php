@@ -1,4 +1,65 @@
 <?php
+session_start();
+// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
+if ($_SESSION['brukernavn']) {
+    // OK
+} else {
+    // Ikke OK
+    // Header, ikke velkommen
+}
+include("klimate_pdo.php");
+$db = new myPDO();
+
+/*
+$bruker = $_POST['bruker'];
+$passord = $_POST['passord'];
+
+$salted = $salt . $passord;
+
+if (isset($_POST['bruker']) == "leggtil") {
+    $sql = "insert into bruker(brukernavn, passord)";
+    $sql.= " values(:br, :pw)";
+    $stmt = $db -> prepare($sql);
+    $stmt -> bindParam(':br', $bruker);
+    $stmt -> bindParam(':pw', $salted);
+    $stmt -> execute();
+    echo("<!-- SQL-setningen: " . $sql . " -->");
+}
+*/
+
+if (isset($_POST['submit'])) {
+    // Saltet
+    $salt = "IT2_2019"; 
+
+    $br = $_POST['brukernavn'];
+    $pw = $_POST['passord'];
+    $kombinert = $salt . $pw;
+    // Krypterer passorder med salting
+    $spw = sha1($kombinert);
+
+    $sql = "select * from bruker where brukernavn='" . $br . "' and passord='" . $spw . "'";
+    $stmt = $db->prepare($sql);
+
+    $stmt->execute();
+
+    $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($resultat['brukernavn'] == $br and $resultat['passord'] == $spw) {
+        $_SESSION['brukernavn'] = $br;
+        $_SESSION['fornavn'] = $resultat['fornavn'];
+        $_SESSION['etternavn'] = $resultat['etternavn'];;
+        $_SESSION['epost'] = $resultat['epost'];
+        $_SESSION['brukertype'] = $resultat['brukertype'];
+        //$_SESSION['brukertype'] = $row['brukertype'];
+        header("Location: backend.php");
+        //loggInn();
+    } else {
+        //header("location: Forelesning 2019-11-04 Kryptering.php");
+    }
+}
+
+function loggInn() {
+}
 
 ?>
 
@@ -55,7 +116,7 @@
     </header>
     <main onclick="lukkHamburgerMeny()">
         <!-- Formen som i senere tid skal brukes til autentisering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-        <form method="POST" action="backend.php" class="innloggForm"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
+        <form method="POST" action="logginn.php" class="innloggForm"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
             <section class="inputBoks">
                 <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
                 <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
@@ -64,7 +125,7 @@
                 <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
                 <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
             </section>
-            <input type="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
+            <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
         </form>
         
         <!-- Sender brukeren tilbake til forsiden -->
