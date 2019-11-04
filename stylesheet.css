@@ -23,6 +23,7 @@ p {
 }
 .footer_beskrivelse {
   background-color: rgb(99, 112, 126);
+  margin: 0;
   color: white;
   font-size: 0.8em;
   padding-top: 2em;
