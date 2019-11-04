@@ -82,7 +82,7 @@ p {
   font-size: 1.0em; /* Font-størrelse */
 }
 
-#tilbake_knapp {
+.lenke_knapp {
   display: block;
   background-color: transparent; /* Gjør knappen gjennomsiktig */
   border: none; /* Fjerner ytrelinjen rundt knappen */
@@ -92,7 +92,7 @@ p {
   margin: auto;
 }
 
-#tilbake_knapp:focus {
+.lenke_knapp:focus {
   outline: 0; /* Fjerner blå outline i feltene*/
 }
 
@@ -153,7 +153,7 @@ p {
   outline: 0;
 }
 
-#tilbake_knapp:focus {
+.lenke_knapp:focus {
   background-color: rgb(0, 97, 21); /* Bakgrunnsfarge for navigasjonsbaren */
   border-radius: 0.4em; /* Runder ut knappen */
   outline: 0;
@@ -379,7 +379,7 @@ p {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
-  #tilbake_knapp:hover {
+  .lenke_knapp:hover {
     color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
     cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
   }

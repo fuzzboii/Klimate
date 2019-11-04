@@ -77,7 +77,7 @@
         </form>
 
         <!-- Sender brukeren tilbake til forsiden -->
-        <button onClick="location.href='default.php'" id="tilbake_knapp">Tilbake</button>
+        <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
         
     </main>
 </body>
