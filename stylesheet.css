@@ -21,13 +21,18 @@ p {
   padding-left: 3.5em; /* Padding for å få plass på hver side */
   padding-right: 3.5em;
 }
-.footer_beskrivelse {
+footer {
   background-color: rgb(99, 112, 126);
   margin: 0;
+  padding-top: 1em;
+  padding-bottom: 1em;
+
+}
+.footer_beskrivelse {
   color: white;
   font-size: 0.8em;
-  padding-top: 2em;
-  padding-bottom: 2em;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for LOGIN/REGISTRER */
