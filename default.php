@@ -80,6 +80,10 @@
         </article>
         
     </main>
+    <footer>
+        <p class=footer_beskrivelse>Denne siden er laget av følgende personer: <br>
+        Ajdin Bajrovic, Robin Kleppang, Glenn Pettersen, Aron Snekkestad, Petter Fiskvik</p>
+    </footer>
 </body>
 
 <!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 10.10.2019 -->
