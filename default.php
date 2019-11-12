@@ -1,18 +1,5 @@
 <?php
-// Midlertidig
-class myPDO extends PDO {
-    public function __construct() {
-      $settings = parse_ini_file('klimatetest.ini',TRUE);
-      if (!$settings) throw new exception('Får ikke åpnet ini-fil.');
-      $drv = $settings['database']['driver'];
-      $hst = $settings['database']['host'];
-      $sch = $settings['database']['schema'];
-      $usr = $settings['database']['username'];
-      $pwd = $settings['database']['password'];
-      $dns = $drv . ':host=' . $hst . ';dbname=' . $sch;
-      parent::__construct($dns,$usr,$pwd);
-    }
-  }
+
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +24,7 @@ class myPDO extends PDO {
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop"> 
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="4">
+        <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
@@ -94,14 +81,13 @@ class myPDO extends PDO {
         
     </main>
     
-	<button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
+	<button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
     <script>
 	    var mybutton = document.getElementById("toppKnapp");
 	    window.onscroll = function() {scrollFunction()};
     </script>
     <footer>
-        <p class=footer_beskrivelse>Denne siden er laget av følgende personer: <br>
-        Ajdin Bajrovic, Robin Kleppang, Glenn Pettersen, Aron Snekkestad, Petter Fiskvik</p>
+        <p class=footer_beskrivelse>&copy; Klimate 2019 | Kontakt oss</p>
     </footer>
 </body>
 

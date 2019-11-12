@@ -33,7 +33,7 @@ if ($_SESSION['brukernavn']) {
     <nav class="navTop">
             <!-- Legger til en knapp for å logge ut når man er innlogget-->
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="3">
+        <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_navmeny">
@@ -56,7 +56,7 @@ if ($_SESSION['brukernavn']) {
 
         <!-- innholdet i hamburger-menyen -->
         <section class="hamburgerInnhold">
-            <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
+        <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
             <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
             <a id = "menytab3" tabIndex = "-1" href="#">Artikler</a>
             <a id = "menytab4" tabIndex = "-1" href="#">Profil</a>
@@ -96,8 +96,7 @@ if ($_SESSION['brukernavn']) {
 	    window.onscroll = function() {scrollFunction()};
     </script>
     <footer>
-        <p class=footer_beskrivelse>Denne siden er laget av følgende personer: <br>
-        Ajdin Bajrovic, Robin Kleppang, Glenn Pettersen, Aron Snekkestad, Petter Fiskvik</p>
+        <p class=footer_beskrivelse>&copy; Klimate 2019 | Kontakt oss</p>
     </footer>
     
 </body>
