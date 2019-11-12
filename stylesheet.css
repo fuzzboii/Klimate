@@ -107,6 +107,14 @@ footer {
   outline: 0; /* Fjerner blå outline i feltene*/
 }
 
+#regFeilmelding {
+  color: red;
+}
+
+#regLykket {
+  color: darkgreen;
+}
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */

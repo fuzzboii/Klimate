@@ -25,39 +25,28 @@ if (isset($_POST['subPassord'])) {
 
             $br = $_POST['brukernavn'];
             $pw = $_POST['passord'];
-            $fn = $_POST['fornavn'];
-            $en = $_POST['etternavn'];
-            $epost = $_POST['epost'];
-            $kombinert = $salt . $pw;
-            // Krypterer passorder med salting
-            $spw = sha1($kombinert);
-            $sql = "insert into bruker(brukernavn, passord, fornavn, etternavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
-
-
-            //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-            // Prepared statement for å beskytte mot SQL injection
-            $stmt = $db->prepare($sql);
-
-            $value = $stmt->execute(); 
-            
-            if($value) {
-                echo('Bruker lagt til');
-            }
-            else{
-                echo('Bruker ikke lagt til');
-            }
-            /*
-            if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-                $_SESSION['brukernavn'] = $br;
-                $_SESSION['fornavn'] = $resultat['fornavn'];
-                $_SESSION['etternavn'] = $resultat['etternavn'];;
-                $_SESSION['epost'] = $resultat['epost'];
-                $_SESSION['brukertype'] = $resultat['brukertype'];
-
-                //header("Location: login.php");
+            if ($pw == "") {
+                header("Location: registrer.php?error=3");
             } else {
-                // Gi bruker tilbakemelding
-            }*/
+                $fn = $_POST['fornavn'];
+                $en = $_POST['etternavn'];
+                $epost = $_POST['epost'];
+                $kombinert = $salt . $pw;
+                // Krypterer passorder med salting
+                $spw = sha1($kombinert);
+                $sql = "insert into bruker(brukernavn, passord, fornavn, etternavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
+
+
+                //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+                // Prepared statement for å beskytte mot SQL injection
+                $stmt = $db->prepare($sql);
+
+                $vellykket = $stmt->execute(); 
+                
+                if($vellykket) {
+                    header("location: logginn.php?vellykket=1");
+                }
+            }
         }
         catch (PDOException $ex) {
             if ($ex->getCode() == 23000){
@@ -133,11 +122,11 @@ if (isset($_POST['subPassord'])) {
         </section>
         <section class="inputBoks">
             <img class="icon" src="bilder/fnIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
-            <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Fornavn">
+            <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
         </section>
         <section class="inputBoks">
             <img class="icon" src="bilder/enIkon.png" alt="Etternavnikon"> <!-- Ikonet for passord -->
-            <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Etternavn">
+            <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
         </section>
         <section class="inputBoks">
             <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
@@ -159,6 +148,10 @@ if (isset($_POST['subPassord'])) {
             } else if(isset($_GET['error']) && $_GET['error'] == 2) {
         ?>
         <p id="regFeilmelding">Passordene er ikke like</p>
+        <?php
+            } else if(isset($_GET['error']) && $_GET['error'] == 3) {
+        ?>
+        <p id="regFeilmelding">Skriv inn ett passord</p>
         <?php
             }
         ?>

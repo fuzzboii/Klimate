@@ -21,34 +21,45 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 if (isset($_POST['submit'])) {
     // Saltet
-    $salt = "IT2_2019"; 
+    try {
+        $salt = "IT2_2019"; 
 
-    $br = $_POST['brukernavn'];
-    $lbr = strtolower($_POST['brukernavn']);
-    $pw = $_POST['passord'];
-    $kombinert = $salt . $pw;
-    // Krypterer passorder med salting
-    $spw = sha1($kombinert);
+        $br = $_POST['brukernavn'];
+        $lbr = strtolower($_POST['brukernavn']);
+        $pw = $_POST['passord'];
+        $kombinert = $salt . $pw;
+        // Krypterer passorder med salting
+        $spw = sha1($kombinert);
 
-    $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-    // Prepared statement for å beskytte mot SQL injection
-    $stmt = $db->prepare($sql);
+        $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+        // Prepared statement for å beskytte mot SQL injection
+        $stmt = $db->prepare($sql);
 
-    $stmt->execute();
+        $stmt->execute();
 
-    $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-        $_SESSION['brukernavn'] = $br;
-        $_SESSION['fornavn'] = $resultat['fornavn'];
-        $_SESSION['etternavn'] = $resultat['etternavn'];;
-        $_SESSION['epost'] = $resultat['epost'];
-        $_SESSION['brukertype'] = $resultat['brukertype'];
+        if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
+            $_SESSION['brukernavn'] = $br;
+            $_SESSION['fornavn'] = $resultat['fornavn'];
+            $_SESSION['etternavn'] = $resultat['etternavn'];;
+            $_SESSION['epost'] = $resultat['epost'];
+            $_SESSION['brukertype'] = $resultat['brukertype'];
 
-        header("Location: backend.php");
-    } else {
-        // Gi bruker tilbakemelding
+            header("Location: backend.php");
+        } else {
+            header("Location: logginn.php?error=1");
+        }
     }
+    catch (Exception $e) {
+        echo('Feilmelding' . $e->getCode());
+    }/*
+    catch (PDOException $ex) {
+        if ($ex->getCode() == 2112122512){
+            // Duplikat brukernavn
+            header("location: registrer.php?error");
+        }
+    } */
 }
 
 
@@ -116,6 +127,17 @@ if (isset($_POST['submit'])) {
                 <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
                 <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
             </section>
+            <?php   
+                if(isset($_GET['error']) && $_GET['error'] == 1){ 
+            ?>
+            <p id="regFeilmelding">Sjekk brukernavn og passord</p>    
+            <?php 
+                }else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ 
+            ?>
+            <p id="regLykket">Bruker opprettet, vennligst logg inn</p>    
+            <?php 
+                }
+            ?>
             <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
         </form>
 
