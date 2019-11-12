@@ -61,6 +61,14 @@
             <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
         </section>
         <section class="inputBoks">
+            <img class="icon" src="bilder/fnIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
+            <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Fornavn">
+        </section>
+        <section class="inputBoks">
+            <img class="icon" src="bilder/enIkon.png" alt="Etternavnikon"> <!-- Ikonet for passord -->
+            <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Etternavn">
+        </section>
+        <section class="inputBoks">
             <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
             <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse">
         </section>
