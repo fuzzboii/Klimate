@@ -56,11 +56,11 @@ if ($_SESSION['brukernavn']) {
 
         <!-- innholdet i hamburger-menyen -->
         <section class="hamburgerInnhold">
-            <a href="#">Diskusjoner</a>
-            <a href="#">Arrangementer</a>
-            <a href="#">Artikler</a>
-            <a href="#">Profil</a>
-            <a href="#">Innstillinger</a>
+            <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
+            <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
+            <a id = "menytab3" tabIndex = "-1" href="#">Artikler</a>
+            <a id = "menytab4" tabIndex = "-1" href="#">Profil</a>
+            <a id = "menytab5" tabIndex = "-1" href="#">Innstillinger</a>
         </section>
     </section>
     

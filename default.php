@@ -37,14 +37,14 @@ class myPDO extends PDO {
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop"> 
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="10">
+        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="4">
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
-        <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="9">REGISTRER</button>
-        <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="8">LOGG INN</button>
+        <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
+        <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
         <!-- Logoen øverst i venstre hjørne -->
-        <a class="bildeKontroll" href="default.php" tabindex="7">
+        <a class="bildeKontroll" href="default.php" tabindex="1">
             <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
         </a>    
     <!-- Slutt på navigasjonsmeny-->
@@ -55,11 +55,11 @@ class myPDO extends PDO {
     
         <!-- innholdet i hamburger-menyen -->
         <section class="hamburgerInnhold">
-            <a href="#">Diskusjoner</a>
-            <a href="#">Arrangementer</a>
-            <a href="#">Artikler</a>
-            <a href="#">Profil</a>
-            <a href="#">Innstillinger</a>
+            <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
+            <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
+            <a id = "menytab3" tabIndex = "-1" href="#">Artikler</a>
+            <a id = "menytab4" tabIndex = "-1" href="#">Profil</a>
+            <a id = "menytab5" tabIndex = "-1" href="#">Innstillinger</a>
         </section>
     </section>
     
