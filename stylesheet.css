@@ -26,7 +26,6 @@ footer {
   margin: 0;
   padding-top: 1em;
   padding-bottom: 1em;
-  position: fixed;
   bottom: 0;
   width: 100%;
 
@@ -294,6 +293,30 @@ footer {
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
 
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for TILBAKE TIL TOPPEN */
+
+#toppKnapp {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: rgb(200,218,211);
+  color: black;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+#toppKnapp:hover {
+  background-color: #555;
+  color: white;
 }
 
 
