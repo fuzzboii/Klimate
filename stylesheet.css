@@ -3,8 +3,6 @@
 body {
   background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
   margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
-  position: relative;
-  min-height: 100vh;
   
 
 }
