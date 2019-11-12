@@ -89,6 +89,12 @@ if ($_SESSION['brukernavn']) {
         </article>
     </main>
     
+    <button onclick="topFunction()" id="toppKnapp" title="Tilbake til toppen">Top</button>
+    <script>
+	    var mybutton = document.getElementById("toppKnapp");
+	    window.onscroll = function() {scrollFunction()};
+    </script>
+    
 </body>
 
 <!-- Denne siden er utviklet av Glenn Petter Pettersen & Aron Snekkestad, siste gang endret 11.10.2019 -->
