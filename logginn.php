@@ -84,7 +84,7 @@ if (isset($_POST['submit'])) {
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop">
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="3">
+        <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- Legger til en knapp for å gå fra innlogging til registrering -->

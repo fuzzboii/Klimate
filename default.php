@@ -24,7 +24,7 @@
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop"> 
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-        <a class="bildeKontroll" href="#" onclick="hamburgerMeny()" tabindex="10">
+        <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="10">
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
