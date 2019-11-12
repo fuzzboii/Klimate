@@ -170,8 +170,7 @@ if (isset($_POST['subPassord'])) {
         
     </main>
     <footer>
-        <p class=footer_beskrivelse>Denne siden er laget av følgende personer: <br>
-        Ajdin Bajrovic, Robin Kleppang, Glenn Pettersen, Aron Snekkestad, Petter Fiskvik</p>
+        <p class=footer_beskrivelse>&copy; Klimate 2019 | Kontakt oss</p>
     </footer>
 </body>
 
