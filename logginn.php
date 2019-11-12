@@ -9,29 +9,26 @@ session_start();
     // Header, ikke velkommen
 }
 */
-include("klimate_pdo.php");
+// Midlertidig
+class myPDO extends PDO {
+    public function __construct() {
+      $settings = parse_ini_file('klimatetest.ini',TRUE);
+      if (!$settings) throw new exception('Får ikke åpnet ini-fil.');
+      $drv = $settings['database']['driver'];
+      $hst = $settings['database']['host'];
+      $sch = $settings['database']['schema'];
+      $usr = $settings['database']['username'];
+      $pwd = $settings['database']['password'];
+      $dns = $drv . ':host=' . $hst . ';dbname=' . $sch;
+      parent::__construct($dns,$usr,$pwd);
+    }
+  }
+//include("klimate_pdo.php");
 $db = new myPDO();
 // PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
 // 
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-/*
-$bruker = $_POST['bruker'];
-$passord = $_POST['passord'];
-
-$salted = $salt . $passord;
-
-if (isset($_POST['bruker']) == "leggtil") {
-    $sql = "insert into bruker(brukernavn, passord)";
-    $sql.= " values(:br, :pw)";
-    $stmt = $db -> prepare($sql);
-    $stmt -> bindParam(':br', $bruker);
-    $stmt -> bindParam(':pw', $salted);
-    $stmt -> execute();
-    echo("<!-- SQL-setningen: " . $sql . " -->");
-}
-*/
 
 if (isset($_POST['submit'])) {
     // Saltet
