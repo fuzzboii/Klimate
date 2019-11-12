@@ -95,6 +95,10 @@ if ($_SESSION['brukernavn']) {
 	    var mybutton = document.getElementById("toppKnapp");
 	    window.onscroll = function() {scrollFunction()};
     </script>
+    <footer>
+        <p class=footer_beskrivelse>Denne siden er laget av følgende personer: <br>
+        Ajdin Bajrovic, Robin Kleppang, Glenn Pettersen, Aron Snekkestad, Petter Fiskvik</p>
+    </footer>
     
 </body>
 
