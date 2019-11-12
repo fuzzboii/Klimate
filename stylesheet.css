@@ -28,8 +28,8 @@ footer {
   background-color: rgb(99, 112, 126);
   margin: 0;
   left: 0;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
   bottom: 0;
   width: 100%;
 
@@ -37,8 +37,8 @@ footer {
 .footer_beskrivelse {
   color: white;
   font-size: 0.8em;
-  padding-top: 1.5em;
-  padding-bottom: 1.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for LOGIN/REGISTRER */
