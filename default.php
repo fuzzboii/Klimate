@@ -81,7 +81,7 @@
         
     </main>
     
-	<button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
+	<button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
     <script>
 	    var mybutton = document.getElementById("toppKnapp");
 	    window.onscroll = function() {scrollFunction()};
