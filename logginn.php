@@ -16,6 +16,9 @@ $db = new myPDO();
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+// Kode for å hente IPen til en bruker
+// $ip = $_SERVER['REMOTE_ADDR'];
+
 if (isset($_POST['submit'])) {
     // Saltet
     $salt = "IT2_2019"; 

@@ -16,35 +16,59 @@ $db = new myPDO();
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if (isset($_POST['submit'])) {
-    // Saltet
-    $salt = "IT2_2019"; 
+if (isset($_POST['subPassord'])) {
+    if ($_POST['passord'] == $_POST['passord2']) {
+        try {
+          
+            // Saltet
+            $salt = "IT2_2019"; 
 
-    $br = $_POST['brukernavn'];
-    $lbr = strtolower($_POST['brukernavn']);
-    $pw = $_POST['passord'];
-    $kombinert = $salt . $pw;
-    // Krypterer passorder med salting
-    $spw = sha1($kombinert);
+            $br = $_POST['brukernavn'];
+            $pw = $_POST['passord'];
+            $fn = $_POST['fornavn'];
+            $en = $_POST['etternavn'];
+            $epost = $_POST['epost'];
+            $kombinert = $salt . $pw;
+            // Krypterer passorder med salting
+            $spw = sha1($kombinert);
+            $sql = "insert into bruker(brukernavn, passord, fornavn, etternavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
 
-    $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-    // Prepared statement for å beskytte mot SQL injection
-    $stmt = $db->prepare($sql);
 
-    $stmt->execute();
+            //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+            // Prepared statement for å beskytte mot SQL injection
+            $stmt = $db->prepare($sql);
 
-    $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+            $value = $stmt->execute(); 
+            
+            if($value) {
+                echo('Bruker lagt til');
+            }
+            else{
+                echo('Bruker ikke lagt til');
+            }
+            /*
+            if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
+                $_SESSION['brukernavn'] = $br;
+                $_SESSION['fornavn'] = $resultat['fornavn'];
+                $_SESSION['etternavn'] = $resultat['etternavn'];;
+                $_SESSION['epost'] = $resultat['epost'];
+                $_SESSION['brukertype'] = $resultat['brukertype'];
 
-    if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-        $_SESSION['brukernavn'] = $br;
-        $_SESSION['fornavn'] = $resultat['fornavn'];
-        $_SESSION['etternavn'] = $resultat['etternavn'];;
-        $_SESSION['epost'] = $resultat['epost'];
-        $_SESSION['brukertype'] = $resultat['brukertype'];
-
-        header("Location: backend.php");
+                //header("Location: login.php");
+            } else {
+                // Gi bruker tilbakemelding
+            }*/
+        }
+        catch (PDOException $ex) {
+            if ($ex->getCode() == 23000){
+                // Duplikat brukernavn
+                header("location: registrer.php?error=1");
+            }
+        } 
+        // Feilmelding 2 = passord ikke like
+        // 
     } else {
-        // Gi bruker tilbakemelding
+        header("location: registrer.php?error=2");
     }
 }
 ?>
@@ -102,7 +126,7 @@ if (isset($_POST['submit'])) {
     <main onclick="lukkHamburgerMeny()">
         <!-- Formen som i senere tid skal brukes til registrering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
         <!-- Går til logginn.php, tanken var å vise "Registrering lykkes" hvor bruker kan ummiddelbart logge inn -->
-        <form method="POST" action="logginn.php" class="innloggForm"> <!-- My byttes ut -->
+        <form method="POST" action="registrer.php" class="innloggForm"> <!-- My byttes ut -->
         <section class="inputBoks">
             <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
             <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
@@ -127,12 +151,22 @@ if (isset($_POST['submit'])) {
             <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
             <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Bekreft passord">
         </section>
-
-            <input type="submit" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
+        <?php   
+            if(isset($_GET['error']) && $_GET['error'] == 1){ 
+        ?>
+        <p id="regFeilmelding">Bruker eksisterer fra før</p>    
+        <?php 
+            } else if(isset($_GET['error']) && $_GET['error'] == 2) {
+        ?>
+        <p id="regFeilmelding">Passordene er ikke like</p>
+        <?php
+            }
+        ?>
+            <input type="submit" name="subPassord" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
         </form>
 
         <!-- Sender brukeren tilbake til forsiden -->
-        <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
+        <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
         
     </main>
     <footer>
