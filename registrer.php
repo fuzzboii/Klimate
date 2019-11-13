@@ -25,9 +25,23 @@ if (isset($_POST['subPassord'])) {
 
             $br = $_POST['brukernavn'];
             $pw = $_POST['passord'];
+
+            // Validering av passordstyrke
+            // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
+            $storebokstaver = preg_match('@[A-Z]@', $pw);
+            $smaabokstaver = preg_match('@[a-z]@', $pw);
+            $nummer = preg_match('@[0-9]@', $pw);
+            // Denne er for spesielle symboler
+            // $specialChars = preg_match('@[^\w]@', $password);
+
             if ($pw == "") {
+                // Ikke noe passord skrevet
                 header("Location: registrer.php?error=3");
+            } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$specialChars*/ || strlen($pw) < 8) {
+                // Ikke tilstrekkelig passord skrevet
+                header("Location: registrer.php?error=4");
             } else {
+                // OK, vi forsøker å registrere bruker
                 $fn = $_POST['fornavn'];
                 $en = $_POST['etternavn'];
                 $epost = $_POST['epost'];
@@ -152,6 +166,10 @@ if (isset($_POST['subPassord'])) {
             } else if(isset($_GET['error']) && $_GET['error'] == 3) {
         ?>
         <p id="regFeilmelding">Skriv inn ett passord</p>
+        <?php
+            } else if(isset($_GET['error']) && $_GET['error'] == 4) {
+        ?>
+        <p id="regFeilmelding">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
         <?php
             }
         ?>
