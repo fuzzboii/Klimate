@@ -22,6 +22,9 @@ p {
   padding-left: 3.5em; /* Padding for å få plass på hver side */
   padding-right: 3.5em;
 }
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for FOOTER */
 footer {
   background-color: rgb(99, 112, 126);
   margin: 0;
@@ -31,6 +34,10 @@ footer {
   bottom: 0;
   width: 100%;
 
+}
+/* Kontakt oss */
+footer a {
+  color: white;
 }
 .footer_beskrivelse {
   color: white;
@@ -61,10 +68,6 @@ footer {
   width: 100%; /* Angir bredde for inputfeltene */
   padding: 10px; /* legger luft rundt*/
   border-radius: 0em 0.4em 0.4em 0em; /* Runder ut hjørnene */
-}
-
-.RegInnFelt:focus {
-  outline: 0; /* Fjerner blå outline i feltene*/
 }
 
 .RegInnFelt_knappRegistrer {
@@ -162,6 +165,10 @@ footer {
   background-color: rgb(0, 97, 21); /* Bakgrunnsfarge for navigasjonsbaren */
   border-radius: 0.4em; /* Runder ut knappen */
   outline: 0; /* Fjerner blå outline i knappen*/
+}
+
+.RegInnFelt:focus {
+  outline: 0; /* Fjerner blå outline i feltene*/
 }
 
 /*------------------------------------------------------------------*/
@@ -419,6 +426,9 @@ footer {
     width: 25%;
     left: 75%;
     max-height: 55%;
+  }
+  footer a:hover {
+    color: rgba(44, 44, 44, 0.651); /* Farge ved hover på 'Kontakt oss' */
   }
 }
 
