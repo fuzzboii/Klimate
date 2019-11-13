@@ -1,14 +1,11 @@
 <?php
 session_start();
 // Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
-/*
-    if ($_SESSION['brukernavn']) {
-    // OK
-} else {
-    // Ikke OK
-    // Header, ikke velkommen
+// Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
+if ($_SESSION['brukernavn']) {
+    header("Location: default.php?error=2");
 }
-*/
+
 include("klimate_pdo.php");
 $db = new myPDO();
 // PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
@@ -16,7 +13,7 @@ $db = new myPDO();
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if (isset($_POST['subPassord'])) {
+if (isset($_POST['subRegistrering'])) {
     if ($_POST['passord'] == $_POST['passord2']) {
         try {
           
@@ -113,6 +110,7 @@ if (isset($_POST['subPassord'])) {
     <section id="navMeny" class="hamburgerMeny">
       
         <!-- innholdet i hamburger-menyen -->
+        <!-- -1 tabIndex som standard da menyen er lukket -->
         <section class="hamburgerInnhold">
             <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
             <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
@@ -128,8 +126,7 @@ if (isset($_POST['subPassord'])) {
     </header>
     <main onclick="lukkHamburgerMeny()">
         <!-- Formen som i senere tid skal brukes til registrering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-        <!-- Går til logginn.php, tanken var å vise "Registrering lykkes" hvor bruker kan ummiddelbart logge inn -->
-        <form method="POST" action="registrer.php" class="innloggForm"> <!-- My byttes ut -->
+        <form method="POST" action="registrer.php" class="innloggForm">
         <section class="inputBoks">
             <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
             <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
@@ -154,6 +151,7 @@ if (isset($_POST['subPassord'])) {
             <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
             <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Bekreft passord">
         </section>
+        <!-- Håndtering av feilmeldinger -->
         <?php   
             if(isset($_GET['error']) && $_GET['error'] == 1){ 
         ?>
@@ -173,7 +171,7 @@ if (isset($_POST['subPassord'])) {
         <?php
             }
         ?>
-            <input type="submit" name="subPassord" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
+            <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
         </form>
 
         <!-- Sender brukeren tilbake til forsiden -->

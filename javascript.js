@@ -3,6 +3,7 @@ $gjort = false;
 
 /* var test = document.getElementsByTagName("a").; */
 
+/* Når hamburgermenyen er lukket setter vi tabIndex for innholdet til -1 for å ikke tabbe inn i denne */
 function hamburgerMeny() {
   if ($gjort == false) {
     document.getElementById("navMeny").style.height = "100%";
@@ -23,6 +24,7 @@ function hamburgerMeny() {
   }
 }
 /* funksjon for å lukke hamburger-meny'en om man trykker utenfor dropdown'en */
+/* Når hamburgermenyen er lukket setter vi tabIndex for innholdet til -1 for å ikke tabbe inn i denne */
 function lukkHamburgerMeny() {
   if ($gjort == true) {
     document.getElementById("navMeny").style.height = "0%";
