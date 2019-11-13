@@ -55,7 +55,7 @@
             </section>
         </section>
 
-        <header class="innstillinger_header" onclick="lukkHamburgerMeny()">
+        <header class="konto_rediger_header" onclick="lukkHamburgerMeny()">
             <h1>Konto</h1>
         </header>
 
