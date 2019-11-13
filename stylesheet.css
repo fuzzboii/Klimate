@@ -108,8 +108,9 @@ footer a {
   color: red;
 }
 
-#regLykket {
+#mldOK {
   color: darkgreen;
+  text-align: center;
 }
 
 

@@ -117,8 +117,8 @@ if (isset($_POST['submit'])) {
         <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
     </header>
     <main onclick="lukkHamburgerMeny()">
-        <!-- Formen som i senere tid skal brukes til autentisering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-        <form method="POST" action="logginn.php" class="innloggForm"> <!-- Uten autentisering, for å kunne navigere hele siden uten funksjonalitet -->
+        <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
+        <form method="POST" action="logginn.php" class="innloggForm">
             <section class="inputBoks">
                 <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
                 <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
@@ -134,7 +134,7 @@ if (isset($_POST['submit'])) {
             <?php 
                 }else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ 
             ?>
-            <p id="regLykket">Bruker opprettet, vennligst logg inn</p>    
+            <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
             <?php 
                 }
             ?>

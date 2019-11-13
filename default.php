@@ -53,7 +53,14 @@
     <!-- Logoen midten øverst på siden, med tittel -->
     <header onclick="lukkHamburgerMeny()">
         <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
-        <h1 style="display: none">Bilde av Klimate logoen.</h1>
+        <h1 style="display: none">Bilde av Klimate logoen.</h1>        
+        <?php 
+            if(isset($_GET['utlogget']) && $_GET['utlogget'] == 1){ 
+        ?>
+        <p id="mldOK">Du har logget ut</p>    
+        <?php 
+            }
+        ?>
         <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
     </header>
     <main id="default_main" onclick="lukkHamburgerMeny()">   
