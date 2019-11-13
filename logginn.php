@@ -2,9 +2,10 @@
 session_start();
 // Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
-if ($_SESSION['brukernavn']) {
+if (isset($_SESSION['brukernavn'])) {
     header("Location: default.php?error=2");
 }
+
 include("klimate_pdo.php");
 $db = new myPDO();
 // PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
