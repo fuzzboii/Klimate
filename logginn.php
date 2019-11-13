@@ -19,7 +19,7 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 if (isset($_POST['submit'])) {
     // Saltet
     try {
-        $salt = "IT2_2019"; 
+        $salt = "IT2_2020"; 
 
         $br = $_POST['brukernavn'];
         $lbr = strtolower($_POST['brukernavn']);

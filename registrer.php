@@ -18,7 +18,7 @@ if (isset($_POST['subRegistrering'])) {
         try {
           
             // Saltet
-            $salt = "IT2_2019"; 
+            $salt = "IT2_2020"; 
 
             $br = $_POST['brukernavn'];
             $pw = $_POST['passord'];
