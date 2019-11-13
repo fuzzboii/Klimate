@@ -437,6 +437,9 @@ footer a {
   footer a:hover {
     color: rgba(44, 44, 44, 0.651); /* Farge ved hover på 'Kontakt oss' */
   }
+  .profil_navmeny:hover {
+    cursor: pointer;
+  }
 }
 
 /* Medium skjerm, 1080p */

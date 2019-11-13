@@ -35,7 +35,7 @@ session_start();
             if (isset($_SESSION['brukernavn'])) {
         ?>
         <!-- Mulig løsning på bruk av profilbilde <img src="bilder/</?php echo($_SESSION['profilbilde']) ?>" -->
-        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+        <img src="bilder/profil.png" alt="Profilbilde" onClick="location.href='backend.php'" class="profil_navmeny">
         <button id="registrerKnapp" onClick="location.href='backend.php?loggUt=true'" tabindex="3">LOGG UT</button>
         <?php
             } else {
