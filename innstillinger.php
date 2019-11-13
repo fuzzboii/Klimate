@@ -107,4 +107,4 @@
 </html>
 
 <!-- Denne siden er utviklet av Petter Fiskvik, siste gang endret 13.11.2019 -->
-<!-- Sist kontrollert av ____ ____, siste gang kontrollert __.__.____ -->
+<!-- Sist kontrollert av ____ ____, __.__.____ -->
