@@ -345,12 +345,12 @@ footer a {
 /* Innholdet i menyen */
 .hamburgerInnhold {
   position: relative; /* Relativ plassering av innholdet i hamburgermenyen */
-  top: 4em; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
+  top: 2em; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
 }
 
 /* Selve lenkene, innhold i menyen */
 .hamburgerMeny a {
-  padding: 0.25em; /* Mellomrom mellom lenkene i hamburgermenyen */
+  padding: 0.20em; /* Mellomrom mellom lenkene i hamburgermenyen */
   text-decoration: none; /* Fjerner understreker fra linkene */
   font-size: 1.8em; /* Font-størrelse */
   color: #000000; /* Fargen på lenkene i hamburgermenyen */
