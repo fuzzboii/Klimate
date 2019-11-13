@@ -65,7 +65,7 @@
             <!-- Tanken er å ha en button som feller ned en rullgardin -->
             <!-- med feltene 'oppgi passord', 'nytt passord', 'gjenta passord', 'bekreft' -->
             <!-- Opprette og bruke en annen klasse enn lenke_knapp? -->
-            <button class="lenke_knapp" id="endrePassordKnapp" onclick="endrePassordMeny()">Endre passord</button> <!-- kjører ikke scriptet? -->
+            <a class="lenke_knapp" id="endrePassordKnapp" href="javascript:void(0)" onclick="endrePassordMeny()">Endre passord</a> <!-- kjører ikke scriptet? -->
             <!-- Selve rullgardinen -->
             <section id="endrePassordMeny" class="endrePassordMeny">
                 <!-- Innholdet i rullgardinen -->
