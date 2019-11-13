@@ -30,9 +30,12 @@ session_start();
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
+        <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
         <?php
             if (isset($_SESSION['brukernavn'])) {
         ?>
+        <!-- <img src="bilder/</?php echo($_SESSION['profilbilde']) ?>" -->
+        <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_navmeny">
         <button id="registrerKnapp" onClick="location.href='backend.php?loggUt=true'" tabindex="3">LOGG UT</button>
         <?php
             } else {
