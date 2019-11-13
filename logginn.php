@@ -130,7 +130,7 @@ if (isset($_POST['submit'])) {
             <?php   
                 if(isset($_GET['error']) && $_GET['error'] == 1){ 
             ?>
-            <p id="regFeilmelding">Sjekk brukernavn og passord</p>    
+            <p id="mldFEIL">Sjekk brukernavn og passord</p>    
             <?php 
                 }else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ 
             ?>

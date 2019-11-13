@@ -5,7 +5,7 @@ session_start();
 if ($_SESSION['brukernavn']) {
     // OK
 } else {
-    header("Location: default.php");
+    header("Location: default.php?error=1");
 }
 
 

@@ -59,6 +59,10 @@
         ?>
         <p id="mldOK">Du har logget ut</p>    
         <?php 
+            } else if(isset($_GET['error']) && $_GET['error'] == 1){ 
+        ?>
+        <p id="mldFEIL">Du må logge inn før du kan se dette området</p>    
+        <?php 
             }
         ?>
         <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>

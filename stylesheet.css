@@ -104,8 +104,9 @@ footer a {
   margin: auto;
 }
 
-#regFeilmelding {
+#mldFEIL {
   color: red;
+  text-align: center;
 }
 
 #mldOK {
