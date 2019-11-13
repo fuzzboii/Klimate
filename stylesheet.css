@@ -296,9 +296,9 @@ footer a {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BYTT_PASSORD_MENY */
 .endrePassordMeny {
-  /* Height settes til 0, for å holde elementene skjult til de trengs */
+  /* Height settes til 0, for å holde elementene skjult til de skal vises */
   height: 0%;
-  /* overflow hidden skjuler det som evt. ville havnet utenfor de 0 prosentene */
+  /* overflow hidden skjuler det som ellers ville havnet utenfor de 0 prosentene */
   overflow: hidden;
 }
 
