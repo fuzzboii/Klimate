@@ -3,9 +3,9 @@ $gjort = false;
 
 /* var test = document.getElementsByTagName("a").; */
 
-/* Når hamburgermenyen er lukket setter vi tabIndex for innholdet til -1 for å ikke tabbe inn i denne */
 function hamburgerMeny() {
   if ($gjort == false) {
+    /* Når hamburgermenyen er åpen får menyinnholdet tabIndex for å kunne gå igjennom dette uten mus */
     document.getElementById("navMeny").style.height = "100%";
     $gjort = true;
     document.getElementById("menytab1").tabIndex = "5";
@@ -14,6 +14,7 @@ function hamburgerMeny() {
     document.getElementById("menytab4").tabIndex = "8";
     document.getElementById("menytab5").tabIndex = "9";
   } else {
+    /* Når hamburgermenyen er lukket setter vi tabIndex for innholdet til -1 for å ikke tabbe inn i denne */
     document.getElementById("navMeny").style.height = "0%";
     $gjort = false;
     document.getElementById("menytab1").tabIndex = "-1";
