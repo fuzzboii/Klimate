@@ -3,7 +3,6 @@
 body {
   background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
   margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
-  
 
 }
 
@@ -31,7 +30,6 @@ footer {
   left: 0;
   padding-top: 0.05em;
   padding-bottom: 0.05em;
-  position:fixed;
   bottom: 0;
   width: 100%;
 
@@ -388,7 +386,7 @@ footer a {
   .hamburgerMeny {
     width: 40%;
     left: 60%;
-    max-height: 70%;
+    max-height: 80%;
   }
 }
 
@@ -440,6 +438,9 @@ footer a {
   }
   .profil_navmeny:hover {
     cursor: pointer;
+  }
+  footer {
+    position: fixed;
   }
 }
 
