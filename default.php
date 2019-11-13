@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 ?>
 
@@ -24,12 +25,26 @@
     <!-- Begynnelse på øvre navigasjonsmeny -->
     <nav class="navTop"> 
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
+        <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
         <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
+        <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
+        <?php
+            if (isset($_SESSION['brukernavn'])) {
+        ?>
+        <!-- Mulig løsning på bruk av profilbilde <img src="bilder/</?php echo($_SESSION['profilbilde']) ?>" -->
+        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+        <button id="registrerKnapp" onClick="location.href='backend.php?loggUt=true'" tabindex="3">LOGG UT</button>
+        <?php
+            } else {
+        ?>
         <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
         <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
+        <?php
+            }
+        ?>
         <!-- Logoen øverst i venstre hjørne -->
         <a class="bildeKontroll" href="default.php" tabindex="1">
             <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
@@ -41,6 +56,7 @@
     <section id="navMeny" class="hamburgerMeny">
     
         <!-- innholdet i hamburger-menyen -->
+        <!-- -1 tabIndex som standard da menyen er lukket -->
         <section class="hamburgerInnhold">
             <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
             <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
@@ -62,6 +78,10 @@
             } else if(isset($_GET['error']) && $_GET['error'] == 1){ 
         ?>
         <p id="mldFEIL">Du må logge inn før du kan se dette området</p>    
+        <?php 
+            } else if(isset($_GET['error']) && $_GET['error'] == 2){ 
+        ?>
+        <p id="mldFEIL">Du må logge ut før du kan se dette området</p>    
         <?php 
             }
         ?>
