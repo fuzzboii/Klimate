@@ -250,7 +250,7 @@ footer {
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
-
+  
 }
 
 /*-----------------------------------------------------------------------------*/
@@ -306,6 +306,23 @@ footer {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for INNSTILLINGER */
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for BYTT_PASSORD_MENY */
+.endrePassordMeny {
+  /* Height settes til 0, for å holde elementene skjult til de trengs */
+  height: 0%;
+  /* overflow hidden skjuler det som evt. ville havnet utenfor de 0 prosentene */
+  overflow: hidden;
+}
+
+.endrePassordInnhold {
+  position: relative;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for TILBAKE TIL TOPPEN */
 
 #toppKnapp {
@@ -327,7 +344,6 @@ footer {
   background-color: #555;
   color: white;
 }
-
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DROPDOWN HAMBURGERMENY */
@@ -357,7 +373,6 @@ footer {
   display: block; /* Sørger for at lenkene kommer under hverandre */
   transition: 0.3s; /* Effekt når man trykker på knappen */
 }
-
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
