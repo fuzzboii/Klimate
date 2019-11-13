@@ -41,15 +41,6 @@ session_start();
             } else {
         ?>
         <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
-        <?php
-            }
-        ?>
-        <?php
-            if (isset($_SESSION['brukernavn'])) {
-        ?>
-        <?php
-            } else {
-        ?>
         <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
         <?php
             }
