@@ -71,7 +71,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
     
     <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
     <header class="backend_header" onclick="lukkHamburgerMeny()">
-        <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_backend">
+        <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
         <h1 class="velkomst">Velkommen <?php echo($_SESSION['fornavn']) ?></h1>
     </header>
 
