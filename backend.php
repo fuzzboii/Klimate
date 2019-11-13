@@ -42,7 +42,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- <img src="bilder/</?php echo($_SESSION['profilbilde']) ?>" -->
-        <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_navmeny">
+        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
         <!-- Legger til en knapp for å logge ut når man er innlogget -->
         <form method="GET" action="backend.php"> 
             <button name="loggUt" id="backendLoggUt" formmethod="GET" tabindex="2" value="true">LOGG UT</button>
