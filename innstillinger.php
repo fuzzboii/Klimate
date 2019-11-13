@@ -100,7 +100,7 @@
 	        window.onscroll = function() {scrollFunction()};
         </script>
         <footer>
-            <p class=footer_beskrivelse>&copy; Klimate 2019 | Kontakt oss</p>
+            <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
         </footer>
     </body>
 
