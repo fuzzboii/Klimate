@@ -61,11 +61,32 @@
 
         <!-- Konto, rediger. More to come -->
         <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
+            <h2>Endre epost</h2>
+            <form method="POST" class="endre_epost">
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- epost-ikon -->
+                    <input type="text" class="RegInnFelt" name="epost" value="" placeholder="Ny epost">
+                </section>
+            </form>
+            <h2>Endre fornavn</h2>
+            <form method="POST" class="endre_fornavn">
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/brukerIkon.png" alt ="Fornavnikon">
+                    <input type="text" class="RegInnFelt" name="fnavn" value="" placeholder="Nytt fornavn">
+                </section>
+            </form>
+            <h2>Endre etternavn</h2>
+            <form method="POST" class="endre_etternavn">
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/brukerIkon.png" alt="Etternavnikon">
+                    <input type="text" class="RegInnFelt" name="enavn" value="" placeholder="Nytt etternavn">
+                </section>
+            </form>
             <!-- Endre passord -->
             <!-- Tanken er å ha en button som feller ned en rullgardin -->
             <!-- med feltene 'oppgi passord', 'nytt passord', 'gjenta passord', 'bekreft' -->
             <!-- Opprette og bruke en annen klasse enn lenke_knapp? -->
-            <a class="lenke_knapp" id="endrePassordKnapp" href="javascript:void(0)" onclick="endrePassordMeny()">Endre passord</a> <!-- kjører ikke scriptet? -->
+            <button class="lenke_knapp" id="endrePassordKnapp" href="javascript:void(0)" onclick="endrePassordMeny()">Endre passord</button>
             <!-- Selve rullgardinen -->
             <section id="endrePassordMeny" class="endrePassordMeny">
                 <!-- Innholdet i rullgardinen -->
@@ -85,11 +106,6 @@
                     </section> <!-- slutt på elementer -->
                 </form> <!-- slutt på innholdet i gardinen -->
             </section> <!-- slutt på gardinen -->
-            <!-- Endre profilbilde -->
-            <!-- Hva mer? -->
-            <button class="lenke_knapp">Hva mer?</button>
-            <button class="lenke_knapp">Hva mer?</button>
-            <button class="lenke_knapp">Hva mer?</button>
         </main>
 
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
