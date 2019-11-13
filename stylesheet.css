@@ -345,7 +345,7 @@ footer a {
 /* Innholdet i menyen */
 .hamburgerInnhold {
   position: relative; /* Relativ plassering av innholdet i hamburgermenyen */
-  top: 2em; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
+  top: 1.3em; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
 }
 
 /* Selve lenkene, innhold i menyen */
@@ -381,6 +381,7 @@ footer a {
   .hamburgerMeny {
     width: 40%;
     left: 60%;
+    max-height: 70%;
   }
 }
 
@@ -425,7 +426,7 @@ footer a {
   .hamburgerMeny {
     width: 25%;
     left: 75%;
-    max-height: 55%;
+    max-height: 45%;
   }
   footer a:hover {
     color: rgba(44, 44, 44, 0.651); /* Farge ved hover på 'Kontakt oss' */
