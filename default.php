@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 ?>
 
@@ -29,8 +30,27 @@
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
+        <?php
+            if (isset($_SESSION['brukernavn'])) {
+        ?>
+        <button id="registrerKnapp" onClick="location.href='backend.php?loggUt=true'" tabindex="3">LOGG UT</button>
+        <?php
+            } else {
+        ?>
         <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
+        <?php
+            }
+        ?>
+        <?php
+            if (isset($_SESSION['brukernavn'])) {
+        ?>
+        <?php
+            } else {
+        ?>
         <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
+        <?php
+            }
+        ?>
         <!-- Logoen øverst i venstre hjørne -->
         <a class="bildeKontroll" href="default.php" tabindex="1">
             <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
