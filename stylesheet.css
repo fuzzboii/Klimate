@@ -460,6 +460,12 @@ footer a {
 
 /* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
+  #default_main {
+    column-count: 4; 
+  }
+  #artikkel2 {
+    break-before: column;
+  }
 }
 
 @media print {
