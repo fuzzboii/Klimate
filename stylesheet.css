@@ -104,12 +104,14 @@ footer a {
   margin: auto;
 }
 
-#regFeilmelding {
+#mldFEIL {
   color: red;
+  text-align: center;
 }
 
-#regLykket {
+#mldOK {
   color: darkgreen;
+  text-align: center;
 }
 
 

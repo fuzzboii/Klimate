@@ -157,19 +157,19 @@ if (isset($_POST['subPassord'])) {
         <?php   
             if(isset($_GET['error']) && $_GET['error'] == 1){ 
         ?>
-        <p id="regFeilmelding">Bruker eksisterer fra før</p>    
+        <p id="mldFEIL">Bruker eksisterer fra før</p>    
         <?php 
             } else if(isset($_GET['error']) && $_GET['error'] == 2) {
         ?>
-        <p id="regFeilmelding">Passordene er ikke like</p>
+        <p id="mldFEIL">Passordene er ikke like</p>
         <?php
             } else if(isset($_GET['error']) && $_GET['error'] == 3) {
         ?>
-        <p id="regFeilmelding">Skriv inn ett passord</p>
+        <p id="mldFEIL">Skriv inn ett passord</p>
         <?php
             } else if(isset($_GET['error']) && $_GET['error'] == 4) {
         ?>
-        <p id="regFeilmelding">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
         <?php
             }
         ?>
