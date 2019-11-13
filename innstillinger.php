@@ -10,7 +10,7 @@
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Innstillinger</title>
+        <title>Konto</title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -56,11 +56,11 @@
         </section>
 
         <header class="innstillinger_header" onclick="lukkHamburgerMeny()">
-            <h1>Innstillinger</h1>
+            <h1>Konto</h1>
         </header>
 
-        <!-- Innstillinger. More to come -->
-        <main id="innstillinger_main" onclick="lukkHamburgerMeny()">
+        <!-- Konto, rediger. More to come -->
+        <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
             <!-- Endre passord -->
             <!-- Tanken er å ha en button som feller ned en rullgardin -->
             <!-- med feltene 'oppgi passord', 'nytt passord', 'gjenta passord', 'bekreft' -->
@@ -86,8 +86,6 @@
                 </form> <!-- slutt på innholdet i gardinen -->
             </section> <!-- slutt på gardinen -->
             <!-- Endre profilbilde -->
-            <!-- Tør ikke uttale meg om hvordan dette vil fungere... -->
-            <button class="lenke_knapp">Endre profilbilde</button>
             <!-- Hva mer? -->
             <button class="lenke_knapp">Hva mer?</button>
             <button class="lenke_knapp">Hva mer?</button>
