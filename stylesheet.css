@@ -31,6 +31,7 @@ footer {
   left: 0;
   padding-top: 0.05em;
   padding-bottom: 0.05em;
+  position:fixed;
   bottom: 0;
   width: 100%;
 
