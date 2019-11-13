@@ -132,11 +132,11 @@ if (isset($_POST['subRegistrering'])) {
             <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
         </section>
         <section class="inputBoks">
-            <img class="icon" src="bilder/fnIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
+            <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
             <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
         </section>
         <section class="inputBoks">
-            <img class="icon" src="bilder/enIkon.png" alt="Etternavnikon"> <!-- Ikonet for passord -->
+            <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for passord -->
             <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
         </section>
         <section class="inputBoks">
