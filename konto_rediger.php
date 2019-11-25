@@ -27,7 +27,7 @@
             <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
                 <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
             </a>
-            <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_navmeny">
+            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
             <button onClick="loggUt()" id="backendLoggUt" tabindex="2">LOGG UT</button>
             <script>
                 function loggUt() {
@@ -67,6 +67,7 @@
                     <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- epost-ikon -->
                     <input type="text" class="RegInnFelt" name="epost" value="" placeholder="Ny epost">
                 </section>
+                <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre">
             </form>
             <h2>Endre fornavn</h2>
             <form method="POST" class="endre_fornavn">
@@ -74,6 +75,7 @@
                     <img class="icon" src="bilder/brukerIkon.png" alt ="Fornavnikon">
                     <input type="text" class="RegInnFelt" name="fnavn" value="" placeholder="Nytt fornavn">
                 </section>
+                <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre">
             </form>
             <h2>Endre etternavn</h2>
             <form method="POST" class="endre_etternavn">
@@ -81,12 +83,13 @@
                     <img class="icon" src="bilder/brukerIkon.png" alt="Etternavnikon">
                     <input type="text" class="RegInnFelt" name="enavn" value="" placeholder="Nytt etternavn">
                 </section>
+                <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre">
             </form>
             <!-- Endre passord -->
             <!-- Tanken er å ha en button som feller ned en rullgardin -->
             <!-- med feltene 'oppgi passord', 'nytt passord', 'gjenta passord', 'bekreft' -->
             <!-- Opprette og bruke en annen klasse enn lenke_knapp? -->
-            <button class="lenke_knapp" id="endrePassordKnapp" href="javascript:void(0)" onclick="endrePassordMeny()">Endre passord</button>
+            <h2 class="lenke_knapp" id="endrePassordKnapp">Endre passord</h2>
             <!-- Selve rullgardinen -->
             <section id="endrePassordMeny" class="endrePassordMeny">
                 <!-- Innholdet i rullgardinen -->
@@ -104,6 +107,7 @@
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
                         <input type="password" class="RegInnFelt" name="nyttPassordBekreft" placeholder="Bekreft nytt passord">
                     </section> <!-- slutt på elementer -->
+                    <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre"> <!-- lagre-knapp -->
                 </form> <!-- slutt på innholdet i gardinen -->
             </section> <!-- slutt på gardinen -->
         </main>
@@ -120,5 +124,5 @@
 
 </html>
 
-<!-- Denne siden er utviklet av Petter Fiskvik, siste gang endret 13.11.2019 -->
+<!-- Denne siden er utviklet av Petter Fiskvik, siste gang endret 25.11.2019 -->
 <!-- Sist kontrollert av ____ ____, __.__.____ -->

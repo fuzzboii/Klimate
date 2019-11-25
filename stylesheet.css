@@ -298,11 +298,38 @@ footer a {
   text-align: center;
 }
 
+.endre_epost {
+  max-width: 250px; margin: auto; /* Sentrerer innloggingsformen og angir en bredde */
+}
+
+.endre_fornavn {
+  max-width: 250px; margin: auto;
+}
+
+.endre_etternavn {
+  max-width: 250px; margin: auto;
+}
+
+.endre_passord_form {
+  max-width: 250px; margin: auto;
+}
+
+.konto_rediger_lagre {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white;  /* tekstfarge */
+  padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 100%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BYTT_PASSORD_MENY */
 .endrePassordMeny {
   /* Height settes til 0, for å holde elementene skjult til de skal vises */
-  height: 0%;
+  height: 100%;
   /* overflow hidden skjuler det som ellers ville havnet utenfor de 0 prosentene */
   overflow: hidden;
 }
