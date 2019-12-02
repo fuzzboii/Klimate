@@ -6,6 +6,9 @@ if (isset($_SESSION['brukernavn'])) {
     header("Location: default.php?error=2");
 }
 
+// Setter tidssonen, dette er for at One.com domenet skal fungere, brukes i sjekk mot innloggingsforsøk
+date_default_timezone_set("Europe/Oslo");
+
 include("klimate_pdo.php");
 $db = new myPDO();
 // PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
@@ -13,50 +16,91 @@ $db = new myPDO();
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+$res2 = $_SERVER['REMOTE_ADDR'];
+
+$eldste = strtotime(date("Y-m-d H:i:s")." - 300 seconds");
+$dato = date("Y-m-d H:i:s", $eldste);
+
 // Kode for å hente IPen til en bruker
 // $ip = $_SERVER['REMOTE_ADDR'];
 
 if (isset($_POST['submit'])) {
-    // Saltet
-    try {
-        $salt = "IT2_2020"; 
+    // Sjekker IP
+    // Kilder brukt:
+    // https://stackoverflow.com/questions/37120328/how-to-limit-the-number-of-login-attempts-in-a-login-script
+    // http://fulltotech.info/2019/02/limit-number-of-login-attempt-using-php-mysql/
+    // https://www.dreamincode.net/forums/topic/290000-limiting-login-attempts/
 
-        $br = $_POST['brukernavn'];
-        $lbr = strtolower($_POST['brukernavn']);
-        $pw = $_POST['passord'];
-        $kombinert = $salt . $pw;
-        // Krypterer passorder med salting
-        $spw = sha1($kombinert);
+    // Oppdaterer først utdaterte innloggingsforsøk
+    // Mulig dette kan gjøres om til trigger i databasen
+    $eldste = strtotime(date("Y-m-d H:i:s")." - 300 seconds");
+    $dato = date("Y-m-d H:i:s", $eldste);
+    $sporring = "update bruker set feillogginnteller = 0 where feillogginnsiste < '" . $dato . "'";
+    $oppdater = $db->prepare($sporring);
+    $oppdater->execute();
+  
+    // Teller antall feilet forsøk på brukers IP
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $antall = "select feillogginnteller from bruker where feilip = '" . $ip . "'";
+    $rad = $db->prepare($antall);
+    $rad->execute();
+    //foreach($rad as $forsok) {
+        //$antForsok += $forsok;
+    //}
+    $res = $rad->fetch(PDO::FETCH_ASSOC);
 
-        $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-        // Prepared statement for å beskytte mot SQL injection
-        $stmt = $db->prepare($sql);
-
-        $stmt->execute();
-
-        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-            $_SESSION['brukernavn'] = $br;
-            $_SESSION['fornavn'] = $resultat['fornavn'];
-            $_SESSION['etternavn'] = $resultat['etternavn'];;
-            $_SESSION['epost'] = $resultat['epost'];
-            $_SESSION['brukertype'] = $resultat['brukertype'];
-
-            header("Location: backend.php");
-        } else {
-            header("Location: logginn.php?error=1");
+    if ($res['feillogginnteller'] <= 5) {
+        try {
+            // Saltet
+            $salt = "IT2_2020"; 
+    
+            $br = $_POST['brukernavn'];
+            $lbr = strtolower($_POST['brukernavn']);
+            $pw = $_POST['passord'];
+            $kombinert = $salt . $pw;
+            // Krypterer passorder med salting
+            $spw = sha1($kombinert);
+    
+            $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+            // Prepared statement for å beskytte mot SQL injection
+            $stmt = $db->prepare($sql);
+    
+            $stmt->execute();
+    
+            $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
+                $_SESSION['brukernavn'] = $br;
+                $_SESSION['fornavn'] = $resultat['fornavn'];
+                $_SESSION['etternavn'] = $resultat['etternavn'];;
+                $_SESSION['epost'] = $resultat['epost'];
+                $_SESSION['brukertype'] = $resultat['brukertype'];
+    
+                header("Location: backend.php");
+            } else {    
+                // Øker teller for feilet innlogging med 1
+                $ip = $_SERVER['REMOTE_ADDR'];
+                $dato = date("Y-m-d H:i:s");
+                $insert = "update bruker set feillogginnteller = feillogginnteller+1, feillogginnsiste = '" . $dato . "', feilip = '" . $ip . "' where lower(brukernavn) = '" . $lbr . "'";
+                $input = $db->prepare($insert);
+                $input->execute();
+                
+                header("Location: logginn.php?error=1");
+            }
         }
+        catch (Exception $e) {
+            echo('Feilmelding ' . $e->getCode());
+        } /*
+        catch (PDOException $ex) {
+            if ($ex->getCode() == 2112122512){
+                // Duplikat brukernavn
+                header("location: registrer.php?error");
+            }
+        } */
+
+    } else {
+        header("Location: logginn.php?error=2");
     }
-    catch (Exception $e) {
-        echo('Feilmelding' . $e->getCode());
-    }/*
-    catch (PDOException $ex) {
-        if ($ex->getCode() == 2112122512){
-            // Duplikat brukernavn
-            header("location: registrer.php?error");
-        }
-    } */
 }
 
 
@@ -131,7 +175,11 @@ if (isset($_POST['submit'])) {
             ?>
             <p id="mldFEIL">Sjekk brukernavn og passord</p>    
             <?php 
-                }else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ 
+                } else if(isset($_GET['error']) && $_GET['error'] == 2){ 
+            ?>
+            <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
+            
+            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ 
             ?>
             <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
             <?php 
@@ -143,6 +191,8 @@ if (isset($_POST['submit'])) {
         <!-- Sender brukeren tilbake til forsiden -->
         <button onClick="" class="lenke_knapp">Glemt passord?</button>
         <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
+        Husk å slette: <?php echo($res2) ?>
+        Husk å slette: <?php echo($dato) ?>
 
     </main>
 

@@ -9,7 +9,7 @@ if (isset($_SESSION['brukernavn'])) {
 include("klimate_pdo.php");
 $db = new myPDO();
 // PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
-// 
+// TODO
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -28,13 +28,13 @@ if (isset($_POST['subRegistrering'])) {
             $storebokstaver = preg_match('@[A-Z]@', $pw);
             $smaabokstaver = preg_match('@[a-z]@', $pw);
             $nummer = preg_match('@[0-9]@', $pw);
-            // Denne er for spesielle symboler
-            // $specialChars = preg_match('@[^\w]@', $password);
+            // Denne er for spesielle symboler, ikke i bruk for øyeblikket
+            // $spesielleB = preg_match('@[^\w]@', $pw);
 
             if ($pw == "") {
                 // Ikke noe passord skrevet
                 header("Location: registrer.php?error=3");
-            } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$specialChars*/ || strlen($pw) < 8) {
+            } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
                 // Ikke tilstrekkelig passord skrevet
                 header("Location: registrer.php?error=4");
             } else {
@@ -54,6 +54,7 @@ if (isset($_POST['subRegistrering'])) {
 
                 $vellykket = $stmt->execute(); 
                 
+                // Alt gikk OK, sender til logginn med melding til bruker
                 if($vellykket) {
                     header("location: logginn.php?vellykket=1");
                 }
@@ -61,13 +62,12 @@ if (isset($_POST['subRegistrering'])) {
         }
         catch (PDOException $ex) {
             if ($ex->getCode() == 23000){
-                // Duplikat brukernavn
+                // 23000, Duplikat brukernavn
                 header("location: registrer.php?error=1");
             }
         } 
-        // Feilmelding 2 = passord ikke like
-        // 
     } else {
+        // Feilmelding 2 = passord ikke like
         header("location: registrer.php?error=2");
     }
 }
