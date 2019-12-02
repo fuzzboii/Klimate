@@ -324,6 +324,7 @@ footer a {
   width: 100%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BYTT_PASSORD_MENY */
