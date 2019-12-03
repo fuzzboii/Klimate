@@ -35,8 +35,10 @@ session_start();
             if (isset($_SESSION['brukernavn'])) {
         ?>
         <!-- Mulig løsning på bruk av profilbilde <img src="bilder/</?php echo($_SESSION['profilbilde']) ?>" -->
-        <img src="bilder/profil.png" alt="Profilbilde" onClick="location.href='backend.php'" class="profil_navmeny">
-        <button id="registrerKnapp" onClick="location.href='backend.php?loggUt=true'" tabindex="3">LOGG UT</button>
+        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
+            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+        </a>
+        <button id="registrerKnapp" onClick="location.href='backend.php?loggUt=true'" tabindex="2">LOGG UT</button>
         <?php
             } else {
         ?>
@@ -58,11 +60,25 @@ session_start();
         <!-- innholdet i hamburger-menyen -->
         <!-- -1 tabIndex som standard da menyen er lukket -->
         <section class="hamburgerInnhold">
-            <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
-            <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
-            <a id = "menytab3" tabIndex = "-1" href="#">Artikler</a>
-            <a id = "menytab4" tabIndex = "-1" href="#">Profil</a>
-            <a id = "menytab5" tabIndex = "-1" href="#">Innstillinger</a>
+            <?php
+            if (isset($_SESSION['brukernavn'])) {
+            ?>
+                <!-- Hva som vises om bruker er innlogget -->
+                <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
+                <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
+                <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+                <a id = "menytab4" tabIndex = "-1" href="backend.php">Oversikt</a>
+                <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
+            <?php
+                } else {
+            ?>
+                <!-- Hvis bruker ikke er innlogget -->
+                <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
+                <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
+                <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+            <?php 
+                }
+            ?>
         </section>
     </section>
     

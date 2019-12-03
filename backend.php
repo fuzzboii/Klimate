@@ -38,11 +38,13 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
     <nav class="navTop">
         <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
         <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-        <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
+        <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
             <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
         </a>
         <!-- <img src="bilder/</?php echo($_SESSION['profilbilde']) ?>" -->
-        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
+            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+        </a>
         <!-- Legger til en knapp for å logge ut når man er innlogget -->
         <form method="GET" action="backend.php"> 
             <button name="loggUt" id="backendLoggUt" formmethod="GET" tabindex="2" value="true">LOGG UT</button>
@@ -61,11 +63,11 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
         <!-- innholdet i hamburger-menyen -->
         <!-- -1 tabIndex som standard da menyen er lukket -->
         <section class="hamburgerInnhold">
-        <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
-            <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
-            <a id = "menytab3" tabIndex = "-1" href="#">Artikler</a>
-            <a id = "menytab4" tabIndex = "-1" href="#">Profil</a>
-            <a id = "menytab5" tabIndex = "-1" href="#">Innstillinger</a>
+            <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
+            <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
+            <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+            <a id = "menytab4" tabIndex = "-1" href="backend.php">Oversikt</a>
+            <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
         </section>
     </section>
     
