@@ -71,58 +71,42 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <h1>Konto</h1>
         </header>
 
-        <!-- Konto, rediger. More to come -->
+
         <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
-            <h2>Endre epost</h2>
-            <form method="POST" class="endre_epost">
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- epost-ikon -->
-                    <input type="text" class="RegInnFelt" name="epost" value="" placeholder="Ny epost" autofocus>
-                </section>
-                <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre">
-            </form>
-            <h2>Endre fornavn</h2>
-            <form method="POST" class="endre_fornavn">
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/brukerIkon.png" alt ="Fornavnikon">
-                    <input type="text" class="RegInnFelt" name="fnavn" value="" placeholder="Nytt fornavn">
-                </section>
-                <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre">
-            </form>
-            <h2>Endre etternavn</h2>
-            <form method="POST" class="endre_etternavn">
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/brukerIkon.png" alt="Etternavnikon">
-                    <input type="text" class="RegInnFelt" name="enavn" value="" placeholder="Nytt etternavn">
-                </section>
-                <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre">
-            </form>
-            <!-- Endre passord -->
-            <!-- Tanken er å ha en button som feller ned en rullgardin -->
-            <!-- med feltene 'oppgi passord', 'nytt passord', 'gjenta passord', 'bekreft' -->
-            <!-- Opprette og bruke en annen klasse enn lenke_knapp? -->
-            <h2 class="lenke_knapp" id="endrePassordKnapp">Endre passord</h2>
-            <!-- Selve rullgardinen -->
-            <section id="endrePassordMeny" class="endrePassordMeny">
-                <!-- Innholdet i rullgardinen -->
-                <form method="POST" class="endre_passord_form">
-                    <!-- elementer i skjemaet -->
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
-                        <input type="password" class="RegInnFelt" name="gammeltPassord" placeholder="Gjeldende passord">
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
-                        <input type="password" class="RegInnFelt" name="nyttPassord" placeholder="Nytt passord">
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
-                        <input type="password" class="RegInnFelt" name="nyttPassordBekreft" placeholder="Bekreft nytt passord">
-                    </section> <!-- slutt på elementer -->
-                    <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre"> <!-- lagre-knapp -->
-                </form> <!-- slutt på innholdet i gardinen -->
-            </section> <!-- slutt på gardinen -->
+            <section class="brukerinformasjon_rediger"> 
+            <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
+            
+            <form method="POST" action="konto_rediger.php" class="konto_rediger_Form">
+            <section class="konto_rediger_inputBoks">
+                <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
+                <input type="text" class="KontoredigeringFelt" name="brukernavn" value="" placeholder="Nytt brukernavn" autofocus>
+            </section>
+            <section class="konto_rediger_inputBoks">
+                <h3 class="endre_epost_overskrift">Endre epost</h3>
+                <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
+            </section>
+            <section class="konto_rediger_inputBoks">
+                <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
+                <input type="password" class="KontoredigeringFelt" name="gammeltpassord" value="" placeholder="Gammelt passord">
+            </section>
+            <section class="konto_rediger_inputBoks">
+                <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
+                <input type="password" class="KontoredigeringFelt" name="nyttpassord" value="" placeholder="Nytt passord">
+            </section>
+            <section class="konto_rediger_inputBoks">
+                <h3 class="endre_fornavn_overskrift">Endre fornavn</h3>
+                <input type="fornavn" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
+            </section>
+            <section class="konto_rediger_inputBoks">
+                <h3 class="endre_etternavn_overskrift">Endre etternavn</h3>
+                <input type="etternavn" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
+            </section>
+
+                <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
+                </form>
+            </section>
         </main>
+
 
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
         <script>
@@ -136,5 +120,5 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
 
 </html>
 
-<!-- Denne siden er utviklet av Petter Fiskvik, siste gang endret 25.11.2019 -->
+<!-- Denne siden er utviklet av Petter Fiskvik og Ajdin Bajrovic, siste gang endret 03.12.2019 -->
 <!-- Sist kontrollert av ____ ____, __.__.____ -->
