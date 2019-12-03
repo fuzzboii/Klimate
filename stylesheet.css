@@ -294,9 +294,9 @@ footer a {
 /* Style for KONTO, REDIGER */
 
 /* Brukeropplysninger */
-#konto_main {
-  padding-left: 3em;
-  padding-right: 3em;
+.brukerinformasjon {
+  padding-left: 4em;
+  padding-right: 4em;
 }
 
 .konto_header {

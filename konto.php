@@ -61,14 +61,16 @@
 
         <!-- Konto brukeropplysninger -->
         <main id="konto_main" onclick="lukkHamburgerMeny()">
-            <h3 class="brukeropplysninger_overskirft">Brukeropplysninger</h3>
-            
-            <h4 class="kontoinfo_brukernavn">Brukernavn: </h4>
-            <h4 class="kontoinfo_fornavn">Fornavn: </h4>
-            <h4 class="kontoinfo_etternavn">Etternavn: </h4>
-            <h4 class="kontoinfo_epost">Epost: </h4>
+            <section class="brukerinformasjon">
+                <h3 class="brukeropplysninger_overskirft">Brukeropplysninger</h3>
+                
+                <h4 class="kontoinfo_brukernavn">Brukernavn: </h4>
+                <h4 class="kontoinfo_fornavn">Fornavn: </h4>
+                <h4 class="kontoinfo_etternavn">Etternavn: </h4>
+                <h4 class="kontoinfo_epost">Epost: </h4>
 
-            <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
+                <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
+            </section> 
         </main>
 
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
