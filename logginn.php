@@ -180,9 +180,12 @@ if (isset($_POST['submit'])) {
             <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ 
             ?>
             <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
-            <?php 
-                }
+            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 2){ 
             ?>
+            <p id="mldOK">Endring av passord er vellykket</p>
+            <?php }
+            ?>
+
             <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
         </form>
 
