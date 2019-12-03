@@ -333,9 +333,14 @@ footer a {
 }
 
 /* Rediger brukeropplysninger */
+
 .konto_rediger_header {
   padding-top: 6em;
   padding-bottom: 1em;
+}
+
+.konto_rediger_header h1 {
+  max-width: 250px; margin: auto;
 }
 
 .endre_epost {
