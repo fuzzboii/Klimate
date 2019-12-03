@@ -191,8 +191,6 @@ if (isset($_POST['submit'])) {
         <!-- Sender brukeren tilbake til forsiden -->
         <button onClick="" class="lenke_knapp">Glemt passord?</button>
         <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
-        Husk å slette: <?php echo($res2) ?>
-        Husk å slette: <?php echo($dato) ?>
 
     </main>
 
