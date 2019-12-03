@@ -7,13 +7,6 @@ body {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for h2, p TEXT */
-
-h2 {
-}
-p {
-}
-/*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for FOOTER */
 footer {
   background-color: rgb(99, 112, 126);
@@ -237,13 +230,9 @@ footer a {
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
-
-  
+ 
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
-  padding-left: 3.5em; /* Padding for å få plass på hver side */
-  padding-right: 3.5em;
-  
 }
 
 /*-----------------------------------------------------------------------------*/
@@ -303,8 +292,6 @@ footer a {
 
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
-  padding-left: 3.5em; /* Padding for å få plass på hver side */
-  padding-right: 3.5em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -312,11 +299,12 @@ footer a {
 
 /* Brukeropplysninger */
 .brukerinformasjon {
-  /*padding-left: 4em;
-  padding-right: 4em;*/
   margin: auto;
-  text-align: center;
   max-width: 300px;   
+}
+
+.brukeropplysninger_overskrift {
+  max-width: 250px
 }
 
 .konto_header {
@@ -330,6 +318,7 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif;
   text-transform: capitalize;
   font-size: 1.1em;
+
 }
 
 .kontoinfo_brukernavn, .kontoinfo_fornavn, .kontoinfo_etternavn, .kontoinfo_epost {
@@ -361,23 +350,23 @@ footer a {
 }
 
 .konto_rediger_header h1 {
-  max-width: 250px; margin: auto;
+  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde */
 }
 
 .endre_epost {
-  max-width: 250px; margin: auto; /* Sentrerer innloggingsformen og angir en bredde */
+  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde */
 }
 
 .endre_fornavn {
-  max-width: 250px; margin: auto;
+  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde */
 }
 
 .endre_etternavn {
-  max-width: 250px; margin: auto;
+  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde */
 }
 
 .endre_passord_form {
-  max-width: 250px; margin: auto;
+  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde */
 }
 
 .konto_rediger_lagre {

@@ -40,7 +40,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
                 <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
             </a>
-            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+            <img src="bilder/profil.png" alt="Profilbilde" onClick="location.href='konto.php'" class="profil_navmeny">
             <!-- Legger til en knapp for å logge ut når man er innlogget -->
             <form method="GET" action="backend.php"> 
                 <button name="loggUt" id="backendLoggUt" formmethod="GET" tabindex="2" value="true">LOGG UT</button>
@@ -57,11 +57,11 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
 
             <!-- innholdet i hamburger-menyen -->
             <section class="hamburgerInnhold">
-                <a href="#">Diskusjoner</a>
-                <a href="#">Arrangementer</a>
-                <a href="#">Artikler</a>
-                <a href="#">Profil</a>
-                <a href="#">Innstillinger</a>
+                <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
+                <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
+                <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+                <a id = "menytab4" tabIndex = "-1" href="backend.php">Oversikt</a>
+                <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
             </section>
         </section>
 
