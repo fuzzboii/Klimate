@@ -107,7 +107,7 @@
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
                         <input type="password" class="RegInnFelt" name="nyttPassordBekreft" placeholder="Bekreft nytt passord">
                     </section> <!-- slutt på elementer -->
-                    <input type="submit" name="submit" value="Lagre" class="konto_rediger_lagre"> <!-- lagre-knapp -->
+                    <input type="submit" name="bytt_passord" value="Lagre" class="konto_rediger_lagre"> <!-- lagre-knapp -->
                 </form> <!-- slutt på innholdet i gardinen -->
             </section> <!-- slutt på gardinen -->
         </main>
