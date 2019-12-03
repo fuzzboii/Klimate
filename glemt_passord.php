@@ -35,38 +35,47 @@ if (isset($_POST['glemtPassord'])) {
 
         if ($pw == "") {
             // Ikke noe passord skrevet
-            header("Location: registrer.php?error=3");
+            header("Location: glemt_passord.php?error=3");
         } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
             // Ikke tilstrekkelig passord skrevet
-            header("Location: registrer.php?error=4");
+            header("Location: glemt_passord.php?error=4");
         } else {
-            // OK, vi forsøker å registrere bruker
+            // OK, vi salter passord for eksiterende bruker
             $kombinert = $salt . $pw;
             // Krypterer passorder med salting
             $spw = sha1($kombinert);
-            $sql = "update bruker set passord='" . $pw . "' where brukernavn='". $br . "'";
+            $sql = "update bruker set passord='" . $spw . "' where brukernavn='". $br . "'";
 
 
             //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
             // Prepared statement for å beskytte mot SQL injection
             $stmt = $db->prepare($sql);
 
-            $vellykket = $stmt->execute(); 
+            $stmt->execute();
+
+            //Utfører en ny spørring for å sjekke om brukeren eksisterer
+            $sql1="select brukernavn from bruker where brukernavn='" . $br . "'";
+            $stmt1 = $db->prepare($sql1);
+            $stmt1->execute();
+
+            $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+            $resultat = $stmt1->fetch();
             
             // Alt gikk OK, sender til logginn med melding til bruker
-            if($vellykket) {
-                header("location: logginn.php?vellykket=1");
+            if($resultat['brukernavn']==$br) {
+                header("location: logginn.php?vellykket=2");
+                } else {
+                //Ikke ok, ber bruker om å oppgi brukernavn på nytt
+                    header("location: glemt_passord.php?error=1");
                 }
             }
-        } catch (PDOException $ex) {
-            if ($ex->getCode() == 23000){
-            // 23000, Duplikat brukernavn
-            header("location: registrer.php?error=1");
-            }
+        } catch (Exception $e) {
+            echo('Feilmelding ' . $e->getCode());
+
         } 
     } else {
         // Feilmelding 2 = passord ikke like
-        header("location: registrer.php?error=2");
+        header("location: glemt_passord.php?error=2");
         }
     }
 ?>
@@ -126,7 +135,7 @@ if (isset($_POST['glemtPassord'])) {
     </header>
     <main onclick="lukkHamburgerMeny()">
         <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-        <form method="POST" action="logginn.php" class="innloggForm">
+        <form method="POST" action="glemt_passord.php" class="innloggForm">
             <section class="inputBoks">
                 <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
                 <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn ditt brukernavn" autofocus>
@@ -142,15 +151,20 @@ if (isset($_POST['glemtPassord'])) {
             <?php   
                 if(isset($_GET['error']) && $_GET['error'] == 1){ 
             ?>
-            <p id="mldFEIL">Sjekk brukernavn og passord</p>    
+            <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
             <?php 
                 } else if(isset($_GET['error']) && $_GET['error'] == 2){ 
             ?>
-            <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
-            
-            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ 
+            <p id="mldFEIL">Passordene er ikke like</p>
+            <?php 
+                } else if(isset($_GET['error']) && $_GET['error'] == 3){ 
             ?>
-            <p id="mldOK">Oppgi en bruker som du vil endre passord på</p>    
+            <p id="mldFEIL">Skriv inn et passord</p>
+            <?php
+            } else if(isset($_GET['error']) && $_GET['error'] == 4) {
+            ?>
+            <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                
             <?php 
                 }
             ?>
@@ -158,7 +172,7 @@ if (isset($_POST['glemtPassord'])) {
         </form>
 
         <!-- Sender brukeren tilbake til forsiden -->
-        <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
+        <button onClick="location.href='logginn.php'" class="lenke_knapp">Tilbake til logg inn</button>
 
     </main>
 
