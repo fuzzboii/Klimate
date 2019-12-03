@@ -102,7 +102,7 @@ if (isset($_POST['submit'])) {
         header("Location: logginn.php?error=2");
     }
 }
-
+ 
 
 ?>
 
