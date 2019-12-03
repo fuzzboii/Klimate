@@ -230,13 +230,9 @@ footer a {
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
-
-  
+ 
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
-  padding-left: 3.5em; /* Padding for å få plass på hver side */
-  padding-right: 3.5em;
-  
 }
 
 /*-----------------------------------------------------------------------------*/
@@ -296,8 +292,6 @@ footer a {
 
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
-  padding-left: 3.5em; /* Padding for å få plass på hver side */
-  padding-right: 3.5em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
