@@ -292,10 +292,50 @@ footer a {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for KONTO, REDIGER */
-.konto_rediger_header {
+
+/* Brukeropplysninger */
+#konto_main {
+  padding-left: 3em;
+  padding-right: 3em;
+}
+
+.konto_header {
   padding-top: 6em;
   padding-bottom: 1em;
   text-align: center;
+  font-family: Inter, Helvetica, Arial, sans-serif; 
+}
+
+.brukeropplysninger_overskirft {
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  text-transform: capitalize;
+  font-size: 1.1em;
+}
+
+.kontoinfo_brukernavn, .kontoinfo_fornavn, .kontoinfo_etternavn, .kontoinfo_epost {
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  text-transform: capitalize;
+  font-size: 0.8em;
+  font-weight: bold;
+  
+}
+
+.rediger_konto_knapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 100%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
+/* Rediger brukeropplysninger */
+.konto_rediger_header {
+  padding-top: 6em;
+  padding-bottom: 1em;
 }
 
 .endre_epost {
@@ -452,6 +492,12 @@ footer a {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
+  
+  .rediger_konto_knapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+
   .lenke_knapp:hover {
     color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
     cursor: pointer; /* Når man holder over knapp, vis pointer-mus */

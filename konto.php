@@ -27,7 +27,7 @@
             <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
                 <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
             </a>
-            <img src="bilder/thjc-goat.jpg" alt="Profilbilde" class="profil_navmeny">
+            <img src="bilder/brukerIkon.png" alt="Profilbilde" class="profil_navmeny">
             <button onClick="loggUt()" id="backendLoggUt" tabindex="2">LOGG UT</button>
             <script>
                 function loggUt() {
@@ -55,13 +55,20 @@
             </section>
         </section>
 
-        <header class="innstillinger_header" onclick="lukkHamburgerMeny()">
+        <header class="konto_header" onclick="lukkHamburgerMeny()">
             <h1>Konto</h1>
         </header>
 
         <!-- Konto brukeropplysninger -->
         <main id="konto_main" onclick="lukkHamburgerMeny()">
+            <h3 class="brukeropplysninger_overskirft">Brukeropplysninger</h3>
             
+            <h4 class="kontoinfo_brukernavn">Brukernavn: </h4>
+            <h4 class="kontoinfo_fornavn">Fornavn: </h4>
+            <h4 class="kontoinfo_etternavn">Etternavn: </h4>
+            <h4 class="kontoinfo_epost">Epost: </h4>
+
+            <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
         </main>
 
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
