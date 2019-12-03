@@ -74,10 +74,10 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <section class="brukerinformasjon">
                 <h3 class="brukeropplysninger_overskirft">Brukeropplysninger</h3>
                 
-                <h4 class="kontoinfo_brukernavn">Brukernavn: </h4>
-                <h4 class="kontoinfo_fornavn">Fornavn: </h4>
-                <h4 class="kontoinfo_etternavn">Etternavn: </h4>
-                <h4 class="kontoinfo_epost">Epost: </h4>
+                <h4 class="kontoinfo_brukernavn">Brukernavn: <?php echo($_SESSION['brukernavn']) ?></h4>
+                <h4 class="kontoinfo_fornavn">Fornavn: <?php echo($_SESSION['fornavn']) ?></h4>
+                <h4 class="kontoinfo_etternavn">Etternavn: <?php echo($_SESSION['etternavn']) ?></h4>
+                <h4 class="kontoinfo_epost">Epost: <?php echo($_SESSION['epost']) ?></h4>
 
                 <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
             </section> 
