@@ -10,18 +10,9 @@ body {
 /* Style for h2, p TEXT */
 
 h2 {
-  text-align: center; /* Sentrerer h2 */
-  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
-  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
-  text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 p {
-  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
-  padding-left: 3.5em; /* Padding for å få plass på hver side */
-  padding-right: 3.5em;
 }
-
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for FOOTER */
 footer {
@@ -43,6 +34,10 @@ footer a {
   font-size: 0.8em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
+
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+  padding-left: 3.5em; /* Padding for å få plass på hver side */
+  padding-right: 3.5em;
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for LOGIN/REGISTRER */
@@ -228,6 +223,13 @@ footer a {
   padding-bottom: 0.8em;
   background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
   border-radius: 1em 1em 0 0; /* Avrunder tittel-containeren */
+  
+  text-align: center; /* Sentrerer h2 */
+  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
+
+  
 }
 
 
@@ -235,6 +237,12 @@ footer a {
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
+
+  
+  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+  padding-left: 3.5em; /* Padding for å få plass på hver side */
+  padding-right: 3.5em;
   
 }
 
@@ -280,6 +288,11 @@ footer a {
   padding-bottom: 0.8em;
   background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
   border-radius: 1em 1em 0 0; /* Avrunder tittel-containeren */
+    
+  text-align: center; /* Sentrerer h2 */
+  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 
 
@@ -288,6 +301,10 @@ footer a {
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
 
+  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+  padding-left: 3.5em; /* Padding for å få plass på hver side */
+  padding-right: 3.5em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -295,8 +312,11 @@ footer a {
 
 /* Brukeropplysninger */
 .brukerinformasjon {
-  padding-left: 4em;
-  padding-right: 4em;
+  /*padding-left: 4em;
+  padding-right: 4em;*/
+  margin: auto;
+  text-align: center;
+  max-width: 300px;   
 }
 
 .konto_header {
@@ -306,7 +326,7 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif; 
 }
 
-.brukeropplysninger_overskirft {
+.brukeropplysninger_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
   text-transform: capitalize;
   font-size: 1.1em;
@@ -314,9 +334,9 @@ footer a {
 
 .kontoinfo_brukernavn, .kontoinfo_fornavn, .kontoinfo_etternavn, .kontoinfo_epost {
   font-family: Inter, Helvetica, Arial, sans-serif;
-  text-transform: capitalize;
   font-size: 0.8em;
   font-weight: bold;
+  text-align: left;
   
 }
 
@@ -324,6 +344,7 @@ footer a {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 1.5em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */

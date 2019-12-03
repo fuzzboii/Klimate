@@ -72,12 +72,12 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
         <!-- Konto brukeropplysninger -->
         <main id="konto_main" onclick="lukkHamburgerMeny()">
             <section class="brukerinformasjon">
-                <h3 class="brukeropplysninger_overskirft">Brukeropplysninger</h3>
+                <h2 class="brukeropplysninger_overskrift">Brukeropplysninger</h2>
                 
-                <h4 class="kontoinfo_brukernavn">Brukernavn: <?php echo($_SESSION['brukernavn']) ?></h4>
-                <h4 class="kontoinfo_fornavn">Fornavn: <?php echo($_SESSION['fornavn']) ?></h4>
-                <h4 class="kontoinfo_etternavn">Etternavn: <?php echo($_SESSION['etternavn']) ?></h4>
-                <h4 class="kontoinfo_epost">Epost: <?php echo($_SESSION['epost']) ?></h4>
+                <p class="kontoinfo_brukernavn">Brukernavn: <?php echo($_SESSION['brukernavn']) ?></p>
+                <p class="kontoinfo_fornavn">Fornavn: <?php echo($_SESSION['fornavn']) ?></p>
+                <p class="kontoinfo_etternavn">Etternavn: <?php echo($_SESSION['etternavn']) ?></p>
+                <p class="kontoinfo_epost">Epost: <?php echo($_SESSION['epost']) ?></p>
 
                 <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
             </section> 
