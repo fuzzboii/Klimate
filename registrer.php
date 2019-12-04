@@ -24,7 +24,6 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 if (isset($_POST['subRegistrering'])) {
     if ($_POST['passord'] == $_POST['passord2']) {
         try {
-          
             // Saltet
             $salt = "IT2_2020"; 
 
@@ -50,8 +49,10 @@ if (isset($_POST['subRegistrering'])) {
                 $fn = $_POST['fornavn'];
                 $en = $_POST['etternavn'];
                 $epost = $_POST['epost'];
+
+                // Salter passorder
                 $kombinert = $salt . $pw;
-                // Krypterer passorder med salting
+                // Krypterer saltet passord
                 $spw = sha1($kombinert);
                 $sql = "insert into bruker(brukernavn, passord, fornavn, etternavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
 
@@ -63,14 +64,14 @@ if (isset($_POST['subRegistrering'])) {
                 $vellykket = $stmt->execute(); 
                 
                 // Alt gikk OK, sender til logginn med melding til bruker
-                if($vellykket) {
+                if ($vellykket) {
                     header("location: logginn.php?vellykket=1");
                 }
             }
         }
         catch (PDOException $ex) {
             if ($ex->getCode() == 23000) {
-                // 23000, Duplikat brukernavn
+                // 23000, Duplikat brukernavn (Siden brukernavn er UNIQUE)
                 header("location: registrer.php?error=1");
             } else if ($ex->getCode() == '42S22') {
                 // 42S22, Kolonne eksisterer ikke
@@ -117,9 +118,9 @@ if (isset($_POST['subRegistrering'])) {
             </a> 
         <!-- Slutt på navigasjonsmeny-->
         </nav>
+
         <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
         <section id="navMeny" class="hamburgerMeny">
-        
             <!-- innholdet i hamburger-menyen -->
             <!-- -1 tabIndex som standard da menyen er lukket -->
             <section class="hamburgerInnhold">
@@ -129,12 +130,15 @@ if (isset($_POST['subRegistrering'])) {
             </section>
         </section>
 
-        <!-- Logoen midten øverst på siden, med tittel -->
+        <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+        <!-- Kan ikke legge denne direkte i body -->
         <header onclick="lukkHamburgerMeny()">
+            <!-- Logoen midten øverst på siden, med tittel -->
             <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
         </header>
+
         <main onclick="lukkHamburgerMeny()">
-            <!-- Formen som i senere tid skal brukes til registrering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
+            <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
             <form method="POST" action="registrer.php" class="innloggForm">
                 <section class="inputBoks">
                     <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
@@ -145,7 +149,7 @@ if (isset($_POST['subRegistrering'])) {
                     <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
                 </section>
                 <section class="inputBoks">
-                    <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for passord -->
+                    <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for etternavn -->
                     <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
                 </section>
                 <section class="inputBoks">
@@ -161,6 +165,7 @@ if (isset($_POST['subRegistrering'])) {
                     <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord">
                 </section>
                 <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+
                 <!-- Håndtering av feilmeldinger -->
                 <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
                     <p id="mldFEIL">Bruker eksisterer fra før</p>    
@@ -177,6 +182,7 @@ if (isset($_POST['subRegistrering'])) {
                 <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
                     <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
                 <?php } ?>       
+
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
             </form>
 
@@ -185,8 +191,10 @@ if (isset($_POST['subRegistrering'])) {
             
         </main>
 
+        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
         
+        <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
         </footer>

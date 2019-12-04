@@ -21,10 +21,9 @@ catch (PDOException $ex) {
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-
+// Hoveddelen for glemt passord
 if (isset($_POST['glemtPassord'])) {
     if ($_POST['passord'] == $_POST['passord2']) {
-        try {  
         // Saltet
         $salt = "IT2_2020"; 
 
@@ -71,14 +70,10 @@ if (isset($_POST['glemtPassord'])) {
             if($resultat['brukernavn']==$br) {
                 header("location: logginn.php?vellykket=2");
                 } else {
-                //Ikke ok, ber bruker om å oppgi brukernavn på nytt
+                    //Ikke ok, ber bruker om å oppgi brukernavn på nytt
                     header("location: glemt_passord.php?error=1");
                 }
             }
-        } catch (Exception $e) {
-            echo('Feilmelding ' . $e->getCode());
-
-        } 
     } else {
         // Feilmelding 2 = passord ikke like
         header("location: glemt_passord.php?error=2");
@@ -118,9 +113,9 @@ if (isset($_POST['glemtPassord'])) {
             <a class="bildeKontroll" href="default.php" tabindex="1">
                 <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
             </a>  
-            
         <!-- Slutt på navigasjonsmeny-->
         </nav>
+
         <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
         <section id="navMeny" class="hamburgerMeny">
 
@@ -134,7 +129,6 @@ if (isset($_POST['glemtPassord'])) {
                 <a id = "menytab5" tabIndex = "-1" href="#">Innstillinger</a>
             </section>
         </section>
-
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
         <!-- Kan ikke legge denne direkte i body -->
@@ -180,6 +174,7 @@ if (isset($_POST['glemtPassord'])) {
 
         </main>
 
+        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
         <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
         <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->

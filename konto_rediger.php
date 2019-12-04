@@ -139,9 +139,10 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             </section>
         </main>
 
-
+        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
         <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
+        <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
         </footer>

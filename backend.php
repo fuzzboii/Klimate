@@ -56,7 +56,7 @@ if ($_SESSION['brukernavn']) {
         <section id="navMeny" class="hamburgerMeny">
 
             <!-- innholdet i hamburger-menyen -->
-            <!-- -1 tabIndex som standard da menyen er lukket -->
+            <!-- -1 tabIndex som standard, man tabber ikke inn i menyen når den er lukket -->
             <section class="hamburgerInnhold">
                 <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
                 <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
@@ -74,24 +74,28 @@ if ($_SESSION['brukernavn']) {
 
         <main id="backend_main" onclick="lukkHamburgerMeny()">
             <!-- Innholdet på siden -->
+            <!-- IDene brukes til å splitte opp kolonnene i queries -->
             <article id="bgcont1">
                 <h2>Arrangementer</h2>
+                <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
                 <p>Dugnad hos KlimaVennen</p>
                 <a href="#">Trykk her for å lese videre</a>
             </article>
             <article id="bgcont2">
                 <h2>Diskusjoner</h2>
+                <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
                 <p>Bruk av gressklipper, bensin eller elektrisk?</p>
                 <a href="#">Trykk her for å lese videre</a>
             </article>
             <article id="bgcont3">
                 <h2>Artikler</h2>
+                <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
                 <p>Hundretusener demonstrerer for klima over hele verden</p>
                 <a href="#">Trykk her for å lese videre</a>
             </article>
         </main>
 
-
+        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
         <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
         <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->

@@ -59,7 +59,6 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
 
         <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
         <section id="navMeny" class="hamburgerMeny">
-
             <!-- innholdet i hamburger-menyen -->
             <section class="hamburgerInnhold">
                 <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
@@ -76,6 +75,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <h1>Konto</h1>
         </header>
 
+        <!-- Meldinger til bruker -->
         <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
             <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
         <?php } ?>
@@ -105,6 +105,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             </section> 
         </main>
 
+        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
 
         <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
