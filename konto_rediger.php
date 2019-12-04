@@ -135,7 +135,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
                     <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
                 </form>
                 <!-- Sender brukeren tilbake til forsiden -->
-                <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt</button>
+                <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
             </section>
         </main>
 

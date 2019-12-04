@@ -80,7 +80,7 @@ function kontoRullegardin() {
           this.classList.toggle("aktiv");
           var innholdRullegardin = this.nextElementSibling;
           if (aapnet == false) {
-            document.getElementById("kontoRullegardin").innerHTML = "Lukk vindu";
+            document.getElementById("kontoRullegardin").innerHTML = "Avbryt";
             aapnet = true;
           } else {
             document.getElementById("kontoRullegardin").innerHTML = "Endre passord";
