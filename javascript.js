@@ -1,7 +1,7 @@
 /* Funksjonen som åpner og lukker gardinmenyen, bruker height for at den skal gå over hele siden */
 $gjort = false;
 
-/* var test = document.getElementsByTagName("a").; */
+
 
 function hamburgerMeny() {
   if ($gjort == false) {
@@ -48,25 +48,44 @@ function scrollFunction() {
   }
 
 
-  function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
+function topFunction() {
+document.body.scrollTop = 0;
+document.documentElement.scrollTop = 0;
+}
+
+/* Tilsvarende bool for 'endre passord'-gardinen */
+$endrePassord = false;
+
+/* Funksjonen åpner og lukker rullgardinen ved trykk på knappen */
+function endrePassordMeny() {
+  if ($endrePassord == false) {
+    document.getElementById("endrePassordMeny").style.height = "100%";
+    $endrePassord = true;
+  } else {
+    document.getElementById("endrePassordMeny").style.height = "0%";
+    $endrePassord = false;
   }
+}
 
-  /* Tilsvarende bool for 'endre passord'-gardinen */
-  $endrePassord = false;
 
-  /* Funksjonen åpner og lukker rullgardinen ved trykk på knappen */
-  function endrePassordMeny() {
-    if ($endrePassord == false) {
-      document.getElementById("endrePassordMeny").style.height = "100%";
-      $endrePassord = true;
-    } else {
-      document.getElementById("endrePassordMeny").style.height = "0%";
-      $endrePassord = false;
-    }
+/* Denne blir kjørt når konto_rediger.php blir lastet inn, legger til en eventlistener */
+function kontoRullegardin() {
+  /* Funksjonen åpner og lukker rullegardinen innenfor passord endring ved klikk */
+  var element = document.getElementsByClassName("kontoRullegardin");
+  var i;
+
+  for (i = 0; i < element.length; i++) {
+      element[i].addEventListener("click", function() {
+          this.classList.toggle("aktiv");
+          var innholdRullegardin = this.nextElementSibling;
+          if (innholdRullegardin.style.display == "block") {
+              innholdRullegardin.style.display = "none";
+          } else {
+              innholdRullegardin.style.display = "block";
+          }
+      });
   }
-
+}
 
 
 

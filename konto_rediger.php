@@ -46,7 +46,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-    <body>
+    <body onload="kontoRullegardin()">
         <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop">
             <!-- Legger til en knapp for å logge ut når man er innlogget-->
@@ -104,7 +104,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
                         <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
                     </section>     
                     <!-- Passord (Rullegardin) -->
-                    <button type="button" class="passordRullegardin">Endre passord</button>
+                    <button type="button" class="kontoRullegardin">Endre passord</button>
                     <section class="innholdRullegardin">
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
@@ -140,27 +140,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
 
 
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
-        <script>
-            /* Funksjonen åpner og lukker rullegardinen innenfor passord endring ved klikk */
-            var coll = document.getElementsByClassName("passordRullegardin");
-            var i;
 
-            for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function() {
-                    this.classList.toggle("aktiv");
-                    var innholdRullegardin = this.nextElementSibling;
-                    if (innholdRullegardin.style.display == "block") {
-                        innholdRullegardin.style.display = "none";
-                    } else {
-                        innholdRullegardin.style.display = "block";
-                    }
-                });
-            }
-            
-            /* Tilbake til toppen funksjon */
-	        var mybutton = document.getElementById("toppKnapp");
-	        window.onscroll = function() {scrollFunction()};
-        </script>
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
         </footer>
