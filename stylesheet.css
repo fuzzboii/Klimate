@@ -3,7 +3,6 @@
 body {
   background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
   margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
-
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -16,7 +15,7 @@ footer {
   padding-bottom: 0.05em;
   bottom: 0;
   width: 100%;
-
+  position: absolute;
 }
 /* Kontakt oss */
 footer a {
@@ -585,9 +584,6 @@ table {
   }
   .profil_navmeny:hover {
     cursor: pointer;
-  }
-  footer {
-    position: fixed;
   }
 }
 
