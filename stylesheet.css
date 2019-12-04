@@ -327,17 +327,21 @@ td, th  {
   padding-right: 0.8em;
   padding-bottom: 0.8em;
   
+  
 }
+
 
 table {
   border-collapse: collapse;
+  
 }
 
 .rediger_konto_knapp {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 1.5em;
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
