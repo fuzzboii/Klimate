@@ -146,8 +146,8 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
         </footer>
     </body>
+    
+    <!-- Denne siden er utviklet av Petter Fiskvik og Ajdin Bajrovic, siste gang endret 03.12.2019 -->
+    <!-- Sist kontrollert av ____ ____, __.__.____ -->
 
 </html>
-
-<!-- Denne siden er utviklet av Petter Fiskvik og Ajdin Bajrovic, siste gang endret 03.12.2019 -->
-<!-- Sist kontrollert av ____ ____, __.__.____ -->

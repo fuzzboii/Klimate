@@ -4,11 +4,13 @@ session_start();
 if ($_SESSION['brukernavn']) {
     // OK
 } else {
+    // Ikke OK, sender tilbake til default med feilmelding
     header("Location: default.php?error=1");
 }
 
 // Utlogging av bruker
 if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){ 
+    // Bruker ønsker å logge ut, tømmer session før bruker blir sendt til default med tilbakemelding
     session_destroy();
     header("Location: default.php?utlogget=1");
 }
@@ -35,11 +37,11 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
     <body>
         <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop">
-            <!-- Legger til en knapp for å logge ut når man er innlogget-->
             <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
             <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
                 <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
             </a>
+            <!-- Profilbilde i navmenyen, leder til konto-siden -->
             <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
             </a>
@@ -68,6 +70,8 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             </section>
         </section>
 
+        <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+        <!-- Kan ikke legge denne direkte i body -->
         <header class="konto_header" onclick="lukkHamburgerMeny()">
             <h1>Konto</h1>
         </header>
@@ -103,12 +107,14 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
 
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
 
+        <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
         </footer>
     </body>
 
-</html>
-
+    
 <!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 13.11.2019 -->
 <!-- Sist kontrollert av ____ ____, __.__.____ -->
+
+</html>
