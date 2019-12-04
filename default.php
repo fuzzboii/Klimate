@@ -141,10 +141,7 @@ if (isset($_POST['loggUt'])) {
     </main>
     
 	<button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
-    <script>
-	    var mybutton = document.getElementById("toppKnapp");
-	    window.onscroll = function() {scrollFunction()};
-    </script>
+
     <footer>
         <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
     </footer>

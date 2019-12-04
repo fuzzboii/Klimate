@@ -108,7 +108,7 @@ if (isset($_POST['submit'])) {
     <!-- Legger til viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Setter tittelen på prosjektet -->
-    <title>Klimate</title>
+    <title>Innlogging</title>
     <!-- Henter inn ekstern stylesheet -->
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -184,6 +184,8 @@ if (isset($_POST['submit'])) {
         <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
 
     </main>
+    
+    <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
 
     <footer>
         <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>

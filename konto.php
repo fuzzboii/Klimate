@@ -47,7 +47,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <form method="POST" action="default.php">
                 <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
             </form>
-            
+
             <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
             <a class="bildeKontroll" href="default.php" tabindex="1">
                 <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
@@ -102,10 +102,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
         </main>
 
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
-        <script>
-	        var mybutton = document.getElementById("toppKnapp");
-	        window.onscroll = function() {scrollFunction()};
-        </script>
+
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
         </footer>

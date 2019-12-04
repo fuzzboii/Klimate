@@ -38,34 +38,25 @@ function lukkHamburgerMeny() {
   }
 }
 
+/* Del for å vise "Tilbake til topp" knapp */
+window.onscroll = function() { scrollFunction() };
 
+/* Når vinduet scroller, kjør denne */
 function scrollFunction() {
+  var knappen = document.getElementById("toppKnapp");
+  /* Når bruker har scrollet 20px, vis tilbake til topp knapp til bruker */
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-      mybutton.style.display = "block";
+    knappen.style.display = "block";
   } else {
-      mybutton.style.display = "none";
+    knappen.style.display = "none";
   }
-  }
-
-
+}
+/* Når bruker trykker på knappen for å gå til topp, kjør denne */
 function topFunction() {
-document.body.scrollTop = 0;
-document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
-/* Tilsvarende bool for 'endre passord'-gardinen */
-$endrePassord = false;
-
-/* Funksjonen åpner og lukker rullgardinen ved trykk på knappen */
-function endrePassordMeny() {
-  if ($endrePassord == false) {
-    document.getElementById("endrePassordMeny").style.height = "100%";
-    $endrePassord = true;
-  } else {
-    document.getElementById("endrePassordMeny").style.height = "0%";
-    $endrePassord = false;
-  }
-}
 
 
 /* Denne blir kjørt når konto_rediger.php blir lastet inn, legger til en eventlistener */
@@ -95,7 +86,7 @@ function kontoRullegardin() {
   }
 }
 
-/* Vis passord ved registrering */
+/* Vis passord ved registrering og innlogging */
 function visPassordReg() {
   var hentetReg = document.getElementsByClassName("RegInnFeltPW");
 

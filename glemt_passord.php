@@ -95,7 +95,7 @@ if (isset($_POST['glemtPassord'])) {
     <!-- Legger til viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Setter tittelen på prosjektet -->
-    <title>Klimate</title>
+    <title>Glemt Passord</title>
     <!-- Henter inn ekstern stylesheet -->
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -175,6 +175,8 @@ if (isset($_POST['glemtPassord'])) {
         <button onClick="location.href='logginn.php'" class="lenke_knapp">Tilbake til logg inn</button>
 
     </main>
+
+    <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
     <footer>
         <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
