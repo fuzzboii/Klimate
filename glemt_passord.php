@@ -6,12 +6,18 @@ if (isset($_SESSION['brukernavn'])) {
     header("Location: default.php?error=2");
 }
 
+try {
+    include("klimate_pdo.php");
+    $db = new myPDO();
+} 
+catch (PDOException $ex) {
+    if ($ex->getCode() == 1049){
+        // 1049, Databasen finnes ikke
+        header("location: default.php?error=3");
+    }
+} 
 
-include("klimate_pdo.php");
-$db = new myPDO();
-// PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
-// 
-$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 

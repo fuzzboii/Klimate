@@ -19,18 +19,9 @@ catch (PDOException $ex) {
         header("location: default.php?error=3");
     }
 } 
-// PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
-// 
-$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-$res2 = $_SERVER['REMOTE_ADDR'];
-
-$eldste = strtotime(date("Y-m-d H:i:s")." - 300 seconds");
-$dato = date("Y-m-d H:i:s", $eldste);
-
-// Kode for å hente IPen til en bruker
-// $ip = $_SERVER['REMOTE_ADDR'];
 
 if (isset($_POST['submit'])) {
     // Sjekker IP
