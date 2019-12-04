@@ -107,7 +107,7 @@ if (isset($_POST['subEndring'])) {
 
                 $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                if ($resultat['brukernavn'] == $_SESSION['brukernavn']) {
+                if ($resultat['brukernavn'] == $_SESSION['brukernavn'] && $resultat['passord'] == $spw) {
                     // Validering av passordstyrke
                     // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
                     $storebokstaver = preg_match('@[A-Z]@', $_POST['nyttpassord']);
