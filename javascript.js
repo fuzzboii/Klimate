@@ -73,11 +73,19 @@ function kontoRullegardin() {
   /* Funksjonen åpner og lukker rullegardinen innenfor passord endring ved klikk */
   var element = document.getElementsByClassName("kontoRullegardin");
   var i;
+  var aapnet = false;
 
   for (i = 0; i < element.length; i++) {
       element[i].addEventListener("click", function() {
           this.classList.toggle("aktiv");
           var innholdRullegardin = this.nextElementSibling;
+          if (aapnet == false) {
+            document.getElementById("kontoRullegardin").innerHTML = "Lukk vindu";
+            aapnet = true;
+          } else {
+            document.getElementById("kontoRullegardin").innerHTML = "Endre passord";
+            aapnet = false;
+          }
           if (innholdRullegardin.style.display == "block") {
               innholdRullegardin.style.display = "none";
           } else {

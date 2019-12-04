@@ -104,7 +104,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
                         <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
                     </section>     
                     <!-- Passord (Rullegardin) -->
-                    <button type="button" class="kontoRullegardin">Endre passord</button>
+                    <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
                     <section class="innholdRullegardin">
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
