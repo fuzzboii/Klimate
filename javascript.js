@@ -95,6 +95,31 @@ function kontoRullegardin() {
   }
 }
 
+/* Vis passord ved registrering */
+function visPassordReg() {
+  var hentetReg = document.getElementsByClassName("RegInnFeltPW");
+
+  for (i = 0; i < hentetReg.length; i++) {
+    if (hentetReg[i].type == "password") {
+      hentetReg[i].type = "text";
+    } else {
+      hentetReg[i].type = "password";
+    }
+  }
+}
+
+/* Vis passord ved brukerinstillinger */
+function visPassordInst() {
+  var hentetInst = document.getElementsByClassName("KontoredigeringFeltPW");
+
+  for (i = 0; i < hentetInst.length; i++) {
+    if (hentetInst[i].type == "password") {
+      hentetInst[i].type = "text";
+    } else {
+      hentetInst[i].type = "password";
+    }
+  }
+}
 
 
 

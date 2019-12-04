@@ -108,16 +108,17 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
                     <section class="innholdRullegardin">
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
-                            <input type="password" class="KontoredigeringFelt" name="gammeltpassord" value="" placeholder="Gammelt passord" autofocus>
+                            <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" autofocus>
                         </section>
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
-                            <input type="password" class="KontoredigeringFelt" name="nyttpassord" value="" placeholder="Nytt passord">
+                            <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord">
                         </section>
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_nyttpassordbekreft_overskrift">Bekreft nytt passord</h3>
-                            <input type="password" class="KontoredigeringFelt" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord">
+                            <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord">
                         </section>
+                        <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
                     </section>
                     <!-- Fornavn -->
                     <section class="konto_rediger_inputBoks">

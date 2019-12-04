@@ -51,7 +51,7 @@ footer a {
   text-align: center; /* midtstiller ikonet i boksen */
   border-radius: 0.4em 0em 0em 0.4em; /* Runder ut hjørnene */
 }
-.RegInnFelt {
+.RegInnFelt, .RegInnFeltPW {
   width: 100%; /* Angir bredde for inputfeltene */
   padding: 0.8em; /* legger luft rundt*/
   border-radius: 0em 0.4em 0.4em 0em; /* Runder ut hjørnene */
@@ -158,7 +158,7 @@ footer a {
   outline: 0; /* Fjerner blå outline i knappen*/
 }
 
-.RegInnFelt:focus {
+.RegInnFelt:focus, .RegInnFeltPW:focus {
   outline: 0; /* Fjerner blå outline i feltene*/
 }
 
@@ -381,7 +381,7 @@ footer a {
   
 }
 
-.KontoredigeringFelt {
+.KontoredigeringFelt, .KontoredigeringFeltPW {
   width: 90%; /* Angir bredde for inputfeltene */
   padding: 0.8em; /* legger luft rundt*/
   border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */

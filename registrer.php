@@ -124,7 +124,7 @@ if (isset($_POST['subRegistrering'])) {
         <!-- -1 tabIndex som standard da menyen er lukket -->
         <section class="hamburgerInnhold">
             <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-            <a id = "menytab3" tabIndex = "-1" href="#">Artikler</a>
+            <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
             <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
         </section>
     </section>
@@ -154,12 +154,13 @@ if (isset($_POST['subRegistrering'])) {
             </section>
             <section class="inputBoks">
                 <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
+                <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord">
             </section>
             <section class="inputBoks">
                 <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Bekreft passord">
+                <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord">
             </section>
+            <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
             <!-- Håndtering av feilmeldinger -->
             <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
                 <p id="mldFEIL">Bruker eksisterer fra før</p>    
