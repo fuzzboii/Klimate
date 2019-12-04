@@ -68,9 +68,6 @@ if (isset($_POST['subRegistrering'])) {
                 }
             }
         }
-        catch (Exception $ex) {
-            echo($ex->getCode());
-        }
         catch (PDOException $ex) {
             if ($ex->getCode() == 23000) {
                 // 23000, Duplikat brukernavn
