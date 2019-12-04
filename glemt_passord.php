@@ -176,6 +176,8 @@ if (isset($_POST['glemtPassord'])) {
 
     </main>
 
+    <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
+
     <footer>
         <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
     </footer>

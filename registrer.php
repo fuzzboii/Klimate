@@ -184,6 +184,9 @@ if (isset($_POST['subRegistrering'])) {
         <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
         
     </main>
+
+    <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
+    
     <footer>
         <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
     </footer>
