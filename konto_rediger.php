@@ -74,42 +74,76 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
 
         <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
             <section class="brukerinformasjon_rediger"> 
-            <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
-            
-            <form method="POST" action="konto_rediger.php" class="konto_rediger_Form">
-            <section class="konto_rediger_inputBoks">
-                <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
-                <input type="text" class="KontoredigeringFelt" name="brukernavn" value="" placeholder="Nytt brukernavn" autofocus>
-            </section>
-            <section class="konto_rediger_inputBoks">
-                <h3 class="endre_epost_overskrift">Endre epost</h3>
-                <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
-            </section>
-            <section class="konto_rediger_inputBoks">
-                <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
-                <input type="password" class="KontoredigeringFelt" name="gammeltpassord" value="" placeholder="Gammelt passord">
-            </section>
-            <section class="konto_rediger_inputBoks">
-                <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
-                <input type="password" class="KontoredigeringFelt" name="nyttpassord" value="" placeholder="Nytt passord">
-            </section>
-            <section class="konto_rediger_inputBoks">
-                <h3 class="endre_fornavn_overskrift">Endre fornavn</h3>
-                <input type="fornavn" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
-            </section>
-            <section class="konto_rediger_inputBoks">
-                <h3 class="endre_etternavn_overskrift">Endre etternavn</h3>
-                <input type="etternavn" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
-            </section>
-
-                <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
+                <!-- Underoverskrift -->
+                <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
+                
+                <!-- Felt for brukeropplysning endringer -->
+                <form method="POST" action="konto_rediger.php" class="konto_rediger_Form">
+                    <!-- Brukernavn -->
+                    <section class="konto_rediger_inputBoks">
+                        <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
+                        <input type="text" class="KontoredigeringFelt" name="brukernavn" value="" placeholder="Nytt brukernavn" autofocus>
+                    </section>
+                    <!-- Epost -->
+                    <section class="konto_rediger_inputBoks">
+                        <h3 class="endre_epost_overskrift">Endre epost</h3>
+                        <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
+                    </section>     
+                    <!-- Passord (Rullegardin) -->
+                    <button type="button" class="passordRullegardin">Endre passord</button>
+                    <section class="innholdRullegardin">
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
+                            <input type="password" class="KontoredigeringFelt" name="gammeltpassord" value="" placeholder="Gammelt passord" autofocus>
+                        </section>
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
+                            <input type="password" class="KontoredigeringFelt" name="nyttpassord" value="" placeholder="Nytt passord">
+                        </section>
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_nyttpassordbekreft_overskrift">Bekreft nytt passord</h3>
+                            <input type="password" class="KontoredigeringFelt" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord">
+                        </section>
+                    </section>
+                    <!-- Fornavn -->
+                    <section class="konto_rediger_inputBoks">
+                        <h3 class="endre_fornavn_overskrift">Endre fornavn</h3>
+                        <input type="fornavn" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
+                    </section>
+                    <!-- Etternavn -->
+                    <section class="konto_rediger_inputBoks">
+                        <h3 class="endre_etternavn_overskrift">Endre etternavn</h3>
+                        <input type="etternavn" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
+                    </section>
+                    
+                    <!-- Knapp for å lagre endringer -->
+                    <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
                 </form>
+                <!-- Sender brukeren tilbake til forsiden -->
+                <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt</button>
             </section>
         </main>
 
 
         <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
         <script>
+            /* Funksjonen åpner og lukker rullegardinen innenfor passord endring ved klikk */
+            var coll = document.getElementsByClassName("passordRullegardin");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function() {
+                    this.classList.toggle("aktiv");
+                    var innholdRullegardin = this.nextElementSibling;
+                    if (innholdRullegardin.style.display == "block") {
+                        innholdRullegardin.style.display = "none";
+                    } else {
+                        innholdRullegardin.style.display = "block";
+                    }
+                });
+            }
+            
+            /* Tilbake til toppen funksjon */
 	        var mybutton = document.getElementById("toppKnapp");
 	        window.onscroll = function() {scrollFunction()};
         </script>

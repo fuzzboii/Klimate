@@ -313,7 +313,6 @@ footer a {
 
 .brukeropplysninger_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
-  text-transform: capitalize;
   font-size: 1.1em;
   max-width: 250px
 
@@ -356,12 +355,11 @@ footer a {
 
 .redigerbruker_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
-  text-transform: capitalize;
   font-size: 1.1em;
   max-width: 250px
 }
 
-.endre_brukernavn_overskrift, .endre_epost_overskrift, .endre_gammeltpassord_overskrift, .endre_nyttpassord_overskrift, .endre_fornavn_overskrift, .endre_etternavn_overskrift {
+.endre_brukernavn_overskrift, .endre_epost_overskrift, .endre_gammeltpassord_overskrift, .endre_nyttpassord_overskrift, .endre_nyttpassordbekreft_overskrift, .endre_fornavn_overskrift, .endre_etternavn_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 0.8em;
   font-weight: bold;
@@ -391,29 +389,25 @@ footer a {
   margin-bottom: 1em; /* Lager luft under hver inputfelt */
 }
   
-
-/*
-.konto_rediger_header h1 {
-  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde 
+/* Rullegardin for passord innenfor redigering av brukeropplysninger*/
+.passordRullegardin {
+  background-color: #eee;
+  color: #444;
+  padding: 1em;
+  border: none;
+  border-radius: 0.4em;
+  text-align: left;
+  outline: none;
+  font-size: 1.0em;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
 }
 
-.endre_epost {
-  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde 
+.innholdRullegardin {
+  padding: 1em;
+  display: none;
+  overflow: hidden;
+  background-color: #ececec8e;
 }
-
-.endre_fornavn {
-  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde 
-}
-
-.endre_etternavn {
-  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde 
-}
-
-.endre_passord_form {
-  max-width: 250px; margin: auto; /* Sentrerer og angir en bredde 
-}
-*/
-
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BYTT_PASSORD_MENY */
@@ -557,7 +551,12 @@ footer a {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
-
+  
+  /* Hover ved rullegardin knappen på passord endring */
+  .passordRullegardin:hover {
+    background-color: #ccc;
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
   .lenke_knapp:hover {
     color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
     cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
