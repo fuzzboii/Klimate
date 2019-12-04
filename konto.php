@@ -47,7 +47,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <form method="POST" action="default.php">
                 <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
             </form>
-            
+
             <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
             <a class="bildeKontroll" href="default.php" tabindex="1">
                 <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">

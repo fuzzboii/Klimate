@@ -95,7 +95,7 @@ function kontoRullegardin() {
   }
 }
 
-/* Vis passord ved registrering */
+/* Vis passord ved registrering og innlogging */
 function visPassordReg() {
   var hentetReg = document.getElementsByClassName("RegInnFeltPW");
 
