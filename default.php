@@ -99,7 +99,11 @@ session_start();
         ?>
         <p id="mldFEIL">Du må logge ut før du kan se dette området</p>    
         <?php 
-            }
+            } else if(isset($_GET['error']) && $_GET['error'] == 3){ 
+        ?>
+        <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
+        
+        <?php }
         ?>
         <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
     </header>

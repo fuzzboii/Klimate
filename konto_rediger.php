@@ -7,6 +7,17 @@ if ($_SESSION['brukernavn']) {
     header("Location: default.php?error=1");
 }
 
+try {
+    include("klimate_pdo.php");
+    $db = new myPDO();
+} 
+catch (PDOException $ex) {
+    if ($ex->getCode() == 1049){
+        // 1049, Databasen finnes ikke
+        header("location: konto.php?error=1");
+    }
+} 
+
 // Utlogging av bruker
 if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){ 
     session_destroy();

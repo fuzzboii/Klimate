@@ -92,11 +92,13 @@ footer a {
 }
 
 #mldFEIL {
+  font-size: 1.4em;
   color: red;
   text-align: center;
 }
 
 #mldOK {
+  font-size: 1.4em;
   color: darkgreen;
   text-align: center;
 }

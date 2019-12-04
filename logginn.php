@@ -9,8 +9,16 @@ if (isset($_SESSION['brukernavn'])) {
 // Setter tidssonen, dette er for at One.com domenet skal fungere, brukes i sjekk mot innloggingsforsøk
 date_default_timezone_set("Europe/Oslo");
 
-include("klimate_pdo.php");
-$db = new myPDO();
+try {
+    include("klimate_pdo.php");
+    $db = new myPDO();
+} 
+catch (PDOException $ex) {
+    if ($ex->getCode() == 1049){
+        // 1049, Databasen finnes ikke
+        header("location: default.php?error=3");
+    }
+} 
 // PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
 // 
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -70,7 +78,7 @@ if (isset($_POST['submit'])) {
             $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
     
             if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-                $_SESSION['brukernavn'] = $br;
+                $_SESSION['brukernavn'] = $resultat['brukernavn'];
                 $_SESSION['fornavn'] = $resultat['fornavn'];
                 $_SESSION['etternavn'] = $resultat['etternavn'];;
                 $_SESSION['epost'] = $resultat['epost'];
@@ -89,14 +97,8 @@ if (isset($_POST['submit'])) {
             }
         }
         catch (Exception $e) {
-            echo('Feilmelding ' . $e->getCode());
-        } /*
-        catch (PDOException $ex) {
-            if ($ex->getCode() == 2112122512){
-                // Duplikat brukernavn
-                header("location: registrer.php?error");
-            }
-        } */
+            header("Location:logginn.php?error=3");
+        }
 
     } else {
         header("Location: logginn.php?error=2");

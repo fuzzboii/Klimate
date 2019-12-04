@@ -71,6 +71,10 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             <h1>Konto</h1>
         </header>
 
+        <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+            <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
+        <?php } ?>
+
         <!-- Konto brukeropplysninger -->
         <main id="konto_main" onclick="lukkHamburgerMeny()">
             <section class="brukerinformasjon">

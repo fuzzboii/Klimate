@@ -6,8 +6,17 @@ if (isset($_SESSION['brukernavn'])) {
     header("Location: default.php?error=2");
 }
 
-include("klimate_pdo.php");
-$db = new myPDO();
+try {
+    include("klimate_pdo.php");
+    $db = new myPDO();
+} 
+catch (PDOException $ex) {
+    if ($ex->getCode() == 1049){
+        // 1049, Databasen finnes ikke
+        header("location: default.php?error=3");
+    }
+} 
+
 // PDO emulerer til standard 'prepared statements', det er anbefalt å kun tillate ekte statements
 // TODO
 $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -61,9 +70,12 @@ if (isset($_POST['subRegistrering'])) {
             }
         }
         catch (PDOException $ex) {
-            if ($ex->getCode() == 23000){
+            if ($ex->getCode() == 23000) {
                 // 23000, Duplikat brukernavn
                 header("location: registrer.php?error=1");
+            } else if ($ex->getCode() == '42S22') {
+                // 42S22, Kolonne eksisterer ikke
+                header("location: registrer.php?error=5");
             }
         } 
     } else {
@@ -150,25 +162,21 @@ if (isset($_POST['subRegistrering'])) {
             <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Bekreft passord">
         </section>
         <!-- Håndtering av feilmeldinger -->
-        <?php   
-            if(isset($_GET['error']) && $_GET['error'] == 1){ 
-        ?>
+        <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
         <p id="mldFEIL">Bruker eksisterer fra før</p>    
-        <?php 
-            } else if(isset($_GET['error']) && $_GET['error'] == 2) {
-        ?>
+
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
         <p id="mldFEIL">Passordene er ikke like</p>
-        <?php
-            } else if(isset($_GET['error']) && $_GET['error'] == 3) {
-        ?>
+
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
         <p id="mldFEIL">Skriv inn ett passord</p>
-        <?php
-            } else if(isset($_GET['error']) && $_GET['error'] == 4) {
-        ?>
+
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
         <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-        <?php
-            }
-        ?>
+
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
+        <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
+        <?php } ?>       
             <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
         </form>
 
