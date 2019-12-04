@@ -26,6 +26,133 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
     session_destroy();
     header("Location: default.php?utlogget=1");
 }
+
+// Hoveddelen for redigering av konto
+if (isset($_POST['subEndring'])) {
+    $oppdatertBr = false;
+    $oppdatertPw = false;
+    // Tankegang: Bruker if testing på om feltene er tomme, hvis de er det, legg informasjon fra SESSION
+    // Deles opp i to deler, del for å oppdatere brukernavn, epost, fornavn og etternavn
+    // Og del for å oppdatere passord. Bruker til enhver tid brukernavn for å oppdatere informasjon
+
+    // Del for oppdatering av brukernavn, epost, fornavn og/eller etternavn
+    if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "") {
+
+        // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
+        if ($_POST['nyttbrukernavn'] == "") {
+            // Bruker har valgt å ikke oppdatere brukernavn
+            $nyttBrukernavn = $_SESSION['brukernavn'];
+        } else {
+            $nyttBrukernavn = $_POST['nyttbrukernavn'];
+        }
+    
+        if ($_POST['nyepost'] == "") {
+            // Bruker har valgt å ikke oppdatere epost
+            $nyEpost = $_SESSION['epost'];
+        } else {
+            $nyEpost = $_POST['nyepost'];
+        }
+    
+        if ($_POST['nyttfornavn'] == "") {
+            // Bruker har valgt å ikke oppdatere fornavn
+            $nyttFornavn = $_SESSION['fornavn'];
+        } else {
+            $nyttFornavn = $_POST['nyttfornavn'];
+        }
+    
+        if ($_POST['nyttetternavn'] == "") {
+            // Bruker har valgt å ikke oppdatere etternavn
+            $nyttEtternavn = $_SESSION['etternavn'];
+        } else {
+            $nyttEtternavn = $_POST['nyttetternavn'];
+        }
+
+        // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
+        $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fornavn = '" . $nyttFornavn . "', etternavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "'  where brukernavn='". $_SESSION['brukernavn'] . "'";
+        echo($oppdaterBruker);
+        $stmt = $db->prepare($oppdaterBruker);
+        $stmt->execute();
+
+        // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
+        $antall = $stmt->rowCount();
+
+        if (!$antall == "0") {
+            // Oppdaterer session-info
+            $_SESSION['brukernavn'] = $nyttBrukernavn;
+            $_SESSION['fornavn'] = $nyttFornavn;
+            $_SESSION['etternavn'] = $nyttEtternavn;
+            $_SESSION['epost'] = $nyEpost;
+            $oppdatertBr = true;
+        }
+
+    } 
+
+    // Del for oppdatering av passord, sjekker om begge passordene er like, og om bruker faktisk har skrevet noe
+    if ($_POST['nyttpassord'] != "") {
+        if ($_POST['nyttpassord'] == $_POST['bekreftnyttpassord']) {
+            // Saltet
+            $salt = "IT2_2020"; 
+
+            $lbr = strtolower($_SESSION['brukernavn']);
+            $pw = $_POST['gammeltpassord'];
+            $kombinert = $salt . $pw;
+            // Krypterer det saltede passordet
+            $spw = sha1($kombinert);
+
+            $sjekkGammelt = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+            // Prepared statement for å beskytte mot SQL injection
+            $stmt = $db->prepare($sjekkGammelt);
+
+            $stmt->execute();
+
+            $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($resultat['brukernavn'] == $_SESSION['brukernavn']) {
+                // Validering av passordstyrke
+                // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
+                $storebokstaver = preg_match('@[A-Z]@', $_POST['nyttpassord']);
+                $smaabokstaver = preg_match('@[a-z]@', $_POST['nyttpassord']);
+                $nummer = preg_match('@[0-9]@', $_POST['nyttpassord']);
+                // Denne er for spesielle symboler, ikke i bruk for øyeblikket
+                // $spesielleB = preg_match('@[^\w]@', $pw);
+                if ($_POST['nyttpassord'] == "") {
+                    // Ikke noe passord skrevet
+                    header("Location: konto_rediger.php?error=2");
+                } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                    // Ikke tilstrekkelig passord skrevet
+                    header("Location: konto_rediger.php?error=3");
+                } else {
+                    // Passord er OK, vi fortsetter
+                    $kombinert = $salt . $_POST['nyttpassord'];
+                    $nyttPassord = sha1($kombinert);
+        
+                    $oppdaterBruker = "update bruker set passord = '" . $nyttPassord . "'  where brukernavn='". $_SESSION['brukernavn'] . "'";
+        
+                    $stmt = $db->prepare($oppdaterBruker);
+                    $stmt->execute();
+
+                    // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
+                    $antall = $stmt->rowCount();
+            
+                    if (!$antall == "0") {
+                        $oppdatertPw = true;
+                    }
+                }
+            }
+        } else {
+            header("Location: konto_rediger.php?error=1");
+        }
+    }
+
+    // Hvis vi har oppdatert brukerinfo eller passord, returner bruker til kontosiden, her ser vi oppdatert info direkte
+    if ($oppdatertBr == true || $oppdatertPw == true) {
+        header("location: konto.php?vellykket=1");
+    } else {
+        header("Location: konto.php?error=2");
+    }
+    
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -96,7 +223,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
                     <!-- Brukernavn -->
                     <section class="konto_rediger_inputBoks">
                         <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
-                        <input type="text" class="KontoredigeringFelt" name="brukernavn" value="" placeholder="Nytt brukernavn" autofocus>
+                        <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="" placeholder="Nytt brukernavn" autofocus>
                     </section>
                     <!-- Epost -->
                     <section class="konto_rediger_inputBoks">
@@ -134,6 +261,15 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
                     <!-- Knapp for å lagre endringer -->
                     <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
                 </form>
+                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                    <p id="mldFEIL">Passordene er ikke like</p>
+                
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                    <p id="mldFEIL">Skriv inn et passord</p>
+                
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
+                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                <?php } ?>
                 <!-- Sender brukeren tilbake til forsiden -->
                 <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
             </section>

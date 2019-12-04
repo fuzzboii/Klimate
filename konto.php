@@ -78,7 +78,13 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
         <!-- Meldinger til bruker -->
         <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
             <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
-        <?php } ?>
+
+        <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
+            <p id="mldOK">Konto oppdatert</p>    
+
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+            <p id="mldFEIL">Kunne ikke oppdatere konto, vennligst prøv igjen senere</p>    
+        <?php } ?> 
 
         <!-- Konto brukeropplysninger -->
         <main id="konto_main" onclick="lukkHamburgerMeny()">
@@ -101,6 +107,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
                     </tr>
                 
                 </table>
+
                 <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
             </section> 
         </main>
