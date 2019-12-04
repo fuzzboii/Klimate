@@ -90,17 +90,21 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
         <main id="konto_main" onclick="lukkHamburgerMeny()">
             <section class="brukerinformasjon">
                 <table class="brukerinformasjon_tabell">
+                    <!-- Brukernavn output -->
                     <tr>
                         <th>Brukernavn:</th>
                             <td><?php echo($_SESSION['brukernavn']) ?></td>
+                    <!-- Epost output -->
                     <tr>
                         <th>Epost:</th>
                             <td><?php echo($_SESSION['epost']) ?></td>
                     </tr>  
+                    <!-- Fornavn output -->
                     <tr>
                         <th>Fornavn:</th>
                             <td><?php echo($_SESSION['fornavn']) ?></td>
                     </tr>
+                    <!-- Etternavn output -->
                     <tr>
                         <th>Etternavn:</th>
                             <td><?php echo($_SESSION['etternavn']) ?></td>
