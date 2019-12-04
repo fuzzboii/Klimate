@@ -91,28 +91,25 @@ function kontoRullegardin() {
   }
 }
 
-/* Vis passord ved registrering og innlogging */
+/* Vis passord ved registrering og innlogging*/
 function visPassordReg() {
   var hentetReg = document.getElementsByClassName("RegInnFeltPW");
-
-  for (i = 0; i < hentetReg.length; i++) {
-    if (hentetReg[i].type == "password") {
-      hentetReg[i].type = "text";
-    } else {
-      hentetReg[i].type = "password";
-    }
-  }
+  visPassord(hentetReg);
 }
 
 /* Vis passord ved brukerinstillinger */
 function visPassordInst() {
   var hentetInst = document.getElementsByClassName("KontoredigeringFeltPW");
+  visPassord(hentetInst);
+}
 
-  for (i = 0; i < hentetInst.length; i++) {
-    if (hentetInst[i].type == "password") {
-      hentetInst[i].type = "text";
+/* Funksjonalitet bak det å vise et passord */
+function visPassord(hentet) {
+  for (i = 0; i < hentet.length; i++) {
+    if (hentet[i].type == "password") {
+      hentet[i].type = "text";
     } else {
-      hentetInst[i].type = "password";
+      hentet[i].type = "password";
     }
   }
 }
