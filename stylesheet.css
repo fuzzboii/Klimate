@@ -473,6 +473,7 @@ footer a {
   padding: 0.20em; /* Mellomrom mellom lenkene i hamburgermenyen */
   text-decoration: none; /* Fjerner understreker fra linkene */
   font-size: 1.8em; /* Font-størrelse */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
   color: #000000; /* Fargen på lenkene i hamburgermenyen */
   display: block; /* Sørger for at lenkene kommer under hverandre */
   transition: 0.3s; /* Effekt når man trykker på knappen */
