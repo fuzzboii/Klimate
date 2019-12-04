@@ -65,6 +65,8 @@ function kontoRullegardin() {
   var element = document.getElementsByClassName("kontoRullegardin");
   var i;
   var aapnet = false;
+  var elementer = [];
+  elementer = document.getElementsByClassName("KontoredigeringFeltPW");
 
   for (i = 0; i < element.length; i++) {
       element[i].addEventListener("click", function() {
@@ -75,6 +77,9 @@ function kontoRullegardin() {
             aapnet = true;
           } else {
             document.getElementById("kontoRullegardin").innerHTML = "Endre passord";
+            for (i = 0; i < elementer.length; i++) {
+              elementer[i].value = "";
+            }
             aapnet = false;
           }
           if (innholdRullegardin.style.display == "block") {
