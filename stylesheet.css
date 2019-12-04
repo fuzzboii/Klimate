@@ -394,13 +394,13 @@ footer a {
 /* Rullegardin for passord innenfor redigering av brukeropplysninger*/
 .kontoRullegardin {
   background-color: #eee;
-  color: #444;
+  color: rgb(0, 0, 0);
   padding: 1em;
   border: none;
   border-radius: 0.4em;
   text-align: left;
   outline: none;
-  font-size: 1.0em;
+  font-size: 0.8em;
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
 }
 
