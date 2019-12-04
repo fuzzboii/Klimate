@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+// Utlogging av bruker
+if (isset($_POST['loggUt'])) { 
+    session_destroy();
+    header("Location: default.php?utlogget=1");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +44,9 @@ session_start();
         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
         </a>
-        <button id="registrerKnapp" onClick="location.href='backend.php?loggUt=true'" tabindex="2">LOGG UT</button>
+        <form method="POST" action="default.php">
+            <button name="loggUt" id="registrerKnapp" tabindex="2">LOGG UT</button>
+        </form>
         <?php
             } else {
         ?>

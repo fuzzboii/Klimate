@@ -136,46 +136,46 @@ if (isset($_POST['subRegistrering'])) {
     <main onclick="lukkHamburgerMeny()">
         <!-- Formen som i senere tid skal brukes til registrering på bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
         <form method="POST" action="registrer.php" class="innloggForm">
-        <section class="inputBoks">
-            <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-            <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
-        </section>
-        <section class="inputBoks">
-            <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
-            <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
-        </section>
-        <section class="inputBoks">
-            <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for passord -->
-            <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
-        </section>
-        <section class="inputBoks">
-            <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-            <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse">
-        </section>
-        <section class="inputBoks">
-            <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-            <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
-        </section>
-        <section class="inputBoks">
-            <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-            <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Bekreft passord">
-        </section>
-        <!-- Håndtering av feilmeldinger -->
-        <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-        <p id="mldFEIL">Bruker eksisterer fra før</p>    
+            <section class="inputBoks">
+                <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
+            </section>
+            <section class="inputBoks">
+                <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
+                <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
+            </section>
+            <section class="inputBoks">
+                <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for passord -->
+                <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
+            </section>
+            <section class="inputBoks">
+                <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
+                <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse">
+            </section>
+            <section class="inputBoks">
+                <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
+            </section>
+            <section class="inputBoks">
+                <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Bekreft passord">
+            </section>
+            <!-- Håndtering av feilmeldinger -->
+            <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                <p id="mldFEIL">Bruker eksisterer fra før</p>    
 
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-        <p id="mldFEIL">Passordene er ikke like</p>
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
+                <p id="mldFEIL">Passordene er ikke like</p>
 
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-        <p id="mldFEIL">Skriv inn ett passord</p>
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
+                <p id="mldFEIL">Skriv inn ett passord</p>
 
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
+                <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-        <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
-        <?php } ?>       
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
+                <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
+            <?php } ?>       
             <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
         </form>
 

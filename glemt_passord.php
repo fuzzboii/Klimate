@@ -154,26 +154,20 @@ if (isset($_POST['glemtPassord'])) {
                 <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
                 <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Gjenta passord">
             </section>
-            <?php   
-                if(isset($_GET['error']) && $_GET['error'] == 1){ 
-            ?>
-            <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
-            <?php 
-                } else if(isset($_GET['error']) && $_GET['error'] == 2){ 
-            ?>
-            <p id="mldFEIL">Passordene er ikke like</p>
-            <?php 
-                } else if(isset($_GET['error']) && $_GET['error'] == 3){ 
-            ?>
-            <p id="mldFEIL">Skriv inn et passord</p>
-            <?php
-            } else if(isset($_GET['error']) && $_GET['error'] == 4) {
-            ?>
-            <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-                
-            <?php 
-                }
-            ?>
+            <!-- Meldinger til bruker -->
+            <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
+            
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                <p id="mldFEIL">Passordene er ikke like</p>
+            
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                <p id="mldFEIL">Skriv inn et passord</p>
+            
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
+                <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+            <?php } ?>
+
             <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord">   
         </form>
 

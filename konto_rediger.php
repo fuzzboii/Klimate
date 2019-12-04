@@ -58,8 +58,8 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
             </a>
             <!-- Legger til en knapp for å logge ut når man er innlogget -->
-            <form method="GET" action="backend.php"> 
-                <button name="loggUt" id="backendLoggUt" formmethod="GET" tabindex="2" value="true">LOGG UT</button>
+            <form method="POST" action="default.php">
+                <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
             </form>
             <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
             <a class="bildeKontroll" href="default.php" tabindex="1">

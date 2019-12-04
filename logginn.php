@@ -161,23 +161,19 @@ if (isset($_POST['submit'])) {
                 <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
                 <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn passord">
             </section>
-            <?php   
-                if(isset($_GET['error']) && $_GET['error'] == 1){ 
-            ?>
-            <p id="mldFEIL">Sjekk brukernavn og passord</p>    
-            <?php 
-                } else if(isset($_GET['error']) && $_GET['error'] == 2){ 
-            ?>
-            <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
+            <!-- Meldinger til bruker -->
+            <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                <p id="mldFEIL">Sjekk brukernavn og passord</p>    
             
-            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ 
-            ?>
-            <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
-            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 2){ 
-            ?>
-            <p id="mldOK">Endring av passord er vellykket</p>
-            <?php }
-            ?>
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
+            
+            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
+                <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
+            
+            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 2){ ?>
+                <p id="mldOK">Passord endret</p>
+            <?php } ?>
 
             <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
         </form>
