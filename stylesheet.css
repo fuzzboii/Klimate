@@ -46,7 +46,7 @@ footer a {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+  font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
   padding-left: 3.5em; /* Padding for å få plass på hver side */
   padding-right: 3.5em;
 }
@@ -80,7 +80,7 @@ footer a {
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
   font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  font-family: Helvetica, Arial, sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 100%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
@@ -92,7 +92,7 @@ footer a {
   color: white;  /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
   font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  font-family: Helvetica, Arial, sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 100%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
@@ -239,7 +239,7 @@ footer a {
   
   text-align: center; /* Sentrerer h2 */
   font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
-  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
   text-transform: uppercase; /* Transformerer teksten til UCASE */
 
   
@@ -252,7 +252,7 @@ footer a {
   padding-right: 1.5em;
  
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+  font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
 }
 
 /*-----------------------------------------------------------------------------*/
@@ -499,8 +499,8 @@ table {
 .hamburgerMeny a {
   padding: 0.20em; /* Mellomrom mellom lenkene i hamburgermenyen */
   text-decoration: none; /* Fjerner understreker fra linkene */
-  font-size: 1.8em; /* Font-størrelse */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
+  font-size: 1.3em; /* Font-størrelse */
+  font-family: Helvetica, Arial, sans-serif; /* Font familie */
   color: #000000; /* Fargen på lenkene i hamburgermenyen */
   display: block; /* Sørger for at lenkene kommer under hverandre */
   transition: 0.3s; /* Effekt når man trykker på knappen */
