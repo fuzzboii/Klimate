@@ -71,6 +71,7 @@ if (isset($_POST['submit'])) {
             $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
     
             if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
+                $_SESSION['idbruker'] = $resultat['idbruker'];
                 $_SESSION['brukernavn'] = $resultat['brukernavn'];
                 $_SESSION['fornavn'] = $resultat['fornavn'];
                 $_SESSION['etternavn'] = $resultat['etternavn'];;
