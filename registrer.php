@@ -22,8 +22,11 @@ catch (PDOException $ex) {
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 if (isset($_POST['subRegistrering'])) {
+    // Tester på om passordene er like
     if ($_POST['passord'] == $_POST['passord2']) {
+        // Tester på om passordet er mindre eller lik 45 tegn
         if (strlen($_POST['passord']) <= 45) {
+            // Tester på om bruker har fyllt ut alle de obligatoriske feltene
             if ($_POST['brukernavn'] != "" && $_POST['fornavn'] != "" && $_POST['etternavn'] != "" && $_POST['epost'] != "") {
                 try {
                     // Saltet

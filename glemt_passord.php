@@ -23,61 +23,64 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Hoveddelen for glemt passord
 if (isset($_POST['glemtPassord'])) {
+    // Tester på om passordene er like
     if ($_POST['passord'] == $_POST['passord2']) {
+        // Tester på om passordet er mindre eller lik 45 tegn
         if (strlen($_POST['passord']) <= 45) {
+            // Tester på om brukernavnet er fyllt ut
             if ($_POST['brukernavn'] != "") {
-            // Saltet
-            $salt = "IT2_2020"; 
+                // Saltet
+                $salt = "IT2_2020"; 
 
-            $br = $_POST['brukernavn'];
-            $pw = $_POST['passord'];
+                $br = $_POST['brukernavn'];
+                $pw = $_POST['passord'];
 
-            // Validering av passordstyrke
-            // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
-            $storebokstaver = preg_match('@[A-Z]@', $pw);
-            $smaabokstaver = preg_match('@[a-z]@', $pw);
-            $nummer = preg_match('@[0-9]@', $pw);
-            // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-            // $spesielleB = preg_match('@[^\w]@', $pw);
+                // Validering av passordstyrke
+                // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
+                $storebokstaver = preg_match('@[A-Z]@', $pw);
+                $smaabokstaver = preg_match('@[a-z]@', $pw);
+                $nummer = preg_match('@[0-9]@', $pw);
+                // Denne er for spesielle symboler, ikke i bruk for øyeblikket
+                // $spesielleB = preg_match('@[^\w]@', $pw);
 
-            if ($pw == "") {
-                // Ikke noe passord skrevet
-                header("Location: glemt_passord.php?error=3");
-            } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
-                // Ikke tilstrekkelig passord skrevet
-                header("Location: glemt_passord.php?error=4");
-            } else {
-                // OK, vi salter passord for eksiterende bruker
-                $kombinert = $salt . $pw;
-                // Krypterer passorder med salting
-                $spw = sha1($kombinert);
-                $sql = "update bruker set passord='" . $spw . "' where brukernavn='". $br . "'";
+                if ($pw == "") {
+                    // Ikke noe passord skrevet
+                    header("Location: glemt_passord.php?error=3");
+                } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                    // Ikke tilstrekkelig passord skrevet
+                    header("Location: glemt_passord.php?error=4");
+                } else {
+                    // OK, vi salter passord for eksiterende bruker
+                    $kombinert = $salt . $pw;
+                    // Krypterer passorder med salting
+                    $spw = sha1($kombinert);
+                    $sql = "update bruker set passord='" . $spw . "' where brukernavn='". $br . "'";
 
 
-                //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-                // Prepared statement for å beskytte mot SQL injection
-                $stmt = $db->prepare($sql);
+                    //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+                    // Prepared statement for å beskytte mot SQL injection
+                    $stmt = $db->prepare($sql);
 
-                $stmt->execute();
+                    $stmt->execute();
 
-                //Utfører en ny spørring for å sjekke om brukeren eksisterer
-                $sql1="select brukernavn from bruker where brukernavn='" . $br . "'";
-                $stmt1 = $db->prepare($sql1);
-                $stmt1->execute();
+                    //Utfører en ny spørring for å sjekke om brukeren eksisterer
+                    $sql1="select brukernavn from bruker where brukernavn='" . $br . "'";
+                    $stmt1 = $db->prepare($sql1);
+                    $stmt1->execute();
 
-                $stmt1->setFetchMode(PDO::FETCH_ASSOC);
-                $resultat = $stmt1->fetch();
-                
-                // Alt gikk OK, sender til logginn med melding til bruker
-                if($resultat['brukernavn']==$br) {
-                    header("location: logginn.php?vellykket=2");
+                    $stmt1->setFetchMode(PDO::FETCH_ASSOC);
+                    $resultat = $stmt1->fetch();
+                    
+                    // Alt gikk OK, sender til logginn med melding til bruker
+                    if($resultat['brukernavn']==$br) {
+                        header("location: logginn.php?vellykket=2");
                     } else {
                         //Ikke ok, ber bruker om å oppgi brukernavn på nytt
                         header("location: glemt_passord.php?error=1");
                     }
                 }
             } else {
-                // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
+                // Feilmelding 6, bruker har ikke skrevet noe i feltet for brukernavn
                 header("location: glemt_passord.php?error=6");
             }
         } else {
