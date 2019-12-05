@@ -29,12 +29,9 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
 
 // Hoveddelen for redigering av konto
 if (isset($_POST['subEndring'])) {
+    // Boolske verdier vi tester på for å vite om noe er endret på
     $oppdatertBr = false;
     $oppdatertPw = false;
-    // Tankegang: Bruker if testing på om feltene er tomme, hvis de er det, legg informasjon fra SESSION
-    // Deles opp i to deler, del for å oppdatere brukernavn, epost, fornavn og etternavn
-    // Og del for å oppdatere passord. Bruker til enhver tid brukernavn for å oppdatere informasjon
-
     
     try {
         // Del for oppdatering av brukernavn, epost, fornavn og/eller etternavn
