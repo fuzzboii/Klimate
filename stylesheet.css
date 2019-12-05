@@ -593,11 +593,17 @@ table {
     color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
     cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
   }
+  /* Hover ved hamburger meny */
+  .hamburgerInnhold a:hover {
+    background-color: #f1f1f169 /* Setter fargen når man holder over menyvalget */
+  }
+
   .hamburgerMeny {
     width: 25%;
     left: 75%;
     max-height: 45%;
   }
+
   footer a:hover {
     color: rgba(44, 44, 44, 0.651); /* Farge ved hover på 'Kontakt oss' */
   }
