@@ -296,7 +296,7 @@ if (isset($_POST['subEndring'])) {
         </article>
     </body>
     
-    <!-- Denne siden er utviklet av Petter Fiskvik og Ajdin Bajrovic, siste gang endret 03.12.2019 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Petter Fiskvik siste gang endret 04.12.2019 -->
     <!-- Sist kontrollert av ____ ____, __.__.____ -->
 
 </html>
