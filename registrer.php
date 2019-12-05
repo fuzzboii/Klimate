@@ -23,61 +23,71 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 if (isset($_POST['subRegistrering'])) {
     if ($_POST['passord'] == $_POST['passord2']) {
-        try {
-            // Saltet
-            $salt = "IT2_2020"; 
+        if (strlen($_POST['passord']) <= 45) {
+            if ($_POST['brukernavn'] != "" && $_POST['fornavn'] != "" && $_POST['etternavn'] != "" && $_POST['epost'] != "") {
+                try {
+                    // Saltet
+                    $salt = "IT2_2020"; 
 
-            $br = $_POST['brukernavn'];
-            $pw = $_POST['passord'];
+                    $br = $_POST['brukernavn'];
+                    $pw = $_POST['passord'];
 
-            // Validering av passordstyrke
-            // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
-            $storebokstaver = preg_match('@[A-Z]@', $pw);
-            $smaabokstaver = preg_match('@[a-z]@', $pw);
-            $nummer = preg_match('@[0-9]@', $pw);
-            // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-            // $spesielleB = preg_match('@[^\w]@', $pw);
+                    // Validering av passordstyrke
+                    // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
+                    $storebokstaver = preg_match('@[A-Z]@', $pw);
+                    $smaabokstaver = preg_match('@[a-z]@', $pw);
+                    $nummer = preg_match('@[0-9]@', $pw);
+                    // Denne er for spesielle symboler, ikke i bruk for øyeblikket
+                    // $spesielleB = preg_match('@[^\w]@', $pw);
 
-            if ($pw == "") {
-                // Ikke noe passord skrevet
-                header("Location: registrer.php?error=3");
-            } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
-                // Ikke tilstrekkelig passord skrevet
-                header("Location: registrer.php?error=4");
-            } else {
-                // OK, vi forsøker å registrere bruker
-                $fn = $_POST['fornavn'];
-                $en = $_POST['etternavn'];
-                $epost = $_POST['epost'];
+                    if ($pw == "") {
+                        // Ikke noe passord skrevet
+                        header("Location: registrer.php?error=3");
+                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                        // Ikke tilstrekkelig passord skrevet
+                        header("Location: registrer.php?error=4");
+                    } else {
+                        // OK, vi forsøker å registrere bruker
+                        $fn = $_POST['fornavn'];
+                        $en = $_POST['etternavn'];
+                        $epost = $_POST['epost'];
 
-                // Salter passorder
-                $kombinert = $salt . $pw;
-                // Krypterer saltet passord
-                $spw = sha1($kombinert);
-                $sql = "insert into bruker(brukernavn, passord, fornavn, etternavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
+                        // Salter passorder
+                        $kombinert = $salt . $pw;
+                        // Krypterer saltet passord
+                        $spw = sha1($kombinert);
+                        $sql = "insert into bruker(brukernavn, passord, fornavn, etternavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
 
 
-                //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-                // Prepared statement for å beskytte mot SQL injection
-                $stmt = $db->prepare($sql);
+                        //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+                        // Prepared statement for å beskytte mot SQL injection
+                        $stmt = $db->prepare($sql);
 
-                $vellykket = $stmt->execute(); 
-                
-                // Alt gikk OK, sender til logginn med melding til bruker
-                if ($vellykket) {
-                    header("location: logginn.php?vellykket=1");
+                        $vellykket = $stmt->execute(); 
+                        
+                        // Alt gikk OK, sender til logginn med melding til bruker
+                        if ($vellykket) {
+                            header("location: logginn.php?vellykket=1");
+                        }
+                    }
                 }
+                catch (PDOException $ex) {
+                    if ($ex->getCode() == 23000) {
+                        // 23000, Duplikat brukernavn (Siden brukernavn er UNIQUE)
+                        header("location: registrer.php?error=1");
+                    } else if ($ex->getCode() == '42S22') {
+                        // 42S22, Kolonne eksisterer ikke
+                        header("location: registrer.php?error=5");
+                    }
+                } 
+            } else {
+                // Feilmelding 7, bruker har ikke skrevet noe i ett av de obligatoriske feltene
+                header("location: registrer.php?error=7");
             }
+        } else {
+            // Feilmelding 6, passord for langt
+            header("location: registrer.php?error=6");
         }
-        catch (PDOException $ex) {
-            if ($ex->getCode() == 23000) {
-                // 23000, Duplikat brukernavn (Siden brukernavn er UNIQUE)
-                header("location: registrer.php?error=1");
-            } else if ($ex->getCode() == '42S22') {
-                // 42S22, Kolonne eksisterer ikke
-                header("location: registrer.php?error=5");
-            }
-        } 
     } else {
         // Feilmelding 2 = passord ikke like
         header("location: registrer.php?error=2");
@@ -182,7 +192,13 @@ if (isset($_POST['subRegistrering'])) {
 
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
                         <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
-                    <?php } ?>       
+
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
+                        <p id="mldFEIL">Passordet er for langt, du kan maksimalt ha 45 tegn</p>
+
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
+                        <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
+                    <?php } ?>      
 
                     <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
                 </form>
