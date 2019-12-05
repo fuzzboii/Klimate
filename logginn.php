@@ -26,8 +26,6 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 if (isset($_POST['submit'])) {
     // Sjekker IP
     // Kilder brukt:
-    // https://stackoverflow.com/questions/37120328/how-to-limit-the-number-of-login-attempts-in-a-login-script
-    // http://fulltotech.info/2019/02/limit-number-of-login-attempt-using-php-mysql/
     // https://www.dreamincode.net/forums/topic/290000-limiting-login-attempts/
 
     // Oppdaterer først utdaterte innloggingsforsøk
