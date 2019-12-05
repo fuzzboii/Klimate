@@ -110,13 +110,13 @@ footer a {
 }
 
 #mldFEIL {
-  font-size: 1.4em;
+  font-size: 1em;
   color: red;
   text-align: center;
 }
 
 #mldOK {
-  font-size: 1.4em;
+  font-size: 1em;
   color: darkgreen;
   text-align: center;
 }
@@ -548,6 +548,17 @@ table {
     left: 60%;
     max-height: 80%;
   }
+  #mldFEIL {
+    font-size: 1.1em;
+    color: red;
+    text-align: center;
+  }
+
+  #mldOK {
+    font-size: 1.1em;
+    color: darkgreen;
+    text-align: center;
+  }
 }
 
 /* Laptop / Liten skjerm, 720p */
@@ -627,6 +638,17 @@ table {
   .profil_navmeny:hover {
     cursor: pointer;
   }
+  #mldFEIL {
+    font-size: 1.2em;
+    color: red;
+    text-align: center;
+  }
+
+  #mldOK {
+    font-size: 1.2em;
+    color: darkgreen;
+    text-align: center;
+  }
 }
 
 /* Medium skjerm, 1080p */
@@ -642,6 +664,17 @@ table {
   }
   #bgcont2 {
     break-before: column;
+  }
+  #mldFEIL {
+    font-size: 1.3em;
+    color: red;
+    text-align: center;
+  }
+
+  #mldOK {
+    font-size: 1.3em;
+    color: darkgreen;
+    text-align: center;
   }
 }
 

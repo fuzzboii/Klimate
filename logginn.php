@@ -78,7 +78,7 @@ if (isset($_POST['submit'])) {
                 // Øker teller for feilet innlogging med 1
                 $ip = $_SERVER['REMOTE_ADDR'];
                 $dato = date("Y-m-d H:i:s");
-                $insert = "update bruker set feillogginnteller = feillogginnteller+1, feillogginnsiste = '" . $dato . "', feilip = '" . $ip . "' where lower(brukernavn) = '" . $lbr . "'";
+                $insert = "update bruker set feillogginnteller = '" . $res['feillogginnteller'] . "'+1, feillogginnsiste = '" . $dato . "', feilip = '" . $ip . "' where lower(brukernavn) = '" . $lbr . "'";
                 $input = $db->prepare($insert);
                 $input->execute();
                 
