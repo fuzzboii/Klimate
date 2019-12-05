@@ -100,87 +100,89 @@ if (isset($_POST['glemtPassord'])) {
     </head>
 
     <body>
-        <!-- Begynnelse på øvre navigasjonsmeny -->
-        <nav class="navTop">
-            <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-            <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-            <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
-                <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
-            </a>
-            <!-- Legger til en knapp for å gå fra innlogging til registrering -->
-            <button class="singelKnapp" onClick="location.href='registrer.php'" tabindex="2">REGISTRER</button>
-            <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-            <a class="bildeKontroll" href="default.php" tabindex="1">
-                <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-            </a>  
-        <!-- Slutt på navigasjonsmeny-->
-        </nav>
+        <article class="innhold">
+            <!-- Begynnelse på øvre navigasjonsmeny -->
+            <nav class="navTop">
+                <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
+                <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
+                    <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
+                </a>
+                <!-- Legger til en knapp for å gå fra innlogging til registrering -->
+                <button class="singelKnapp" onClick="location.href='registrer.php'" tabindex="2">REGISTRER</button>
+                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
+                <a class="bildeKontroll" href="default.php" tabindex="1">
+                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
+                </a>  
+            <!-- Slutt på navigasjonsmeny-->
+            </nav>
 
-        <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
-        <section id="navMeny" class="hamburgerMeny">
+            <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
+            <section id="navMeny" class="hamburgerMeny">
 
-            <!-- innholdet i gardinmenyen -->
-            <!-- -1 tabIndex som standard da menyen er lukket -->
-            <section class="hamburgerInnhold">
-                <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
-                <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
-                <a id = "menytab3" tabIndex = "-1" href="#">Artikler</a>
-                <a id = "menytab4" tabIndex = "-1" href="#">Profil</a>
-                <a id = "menytab5" tabIndex = "-1" href="#">Innstillinger</a>
+                <!-- innholdet i gardinmenyen -->
+                <!-- -1 tabIndex som standard da menyen er lukket -->
+                <section class="hamburgerInnhold">
+                    <a id = "menytab1" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a id = "menytab2" tabIndex = "-1" href="#">Arrangementer</a>
+                    <a id = "menytab3" tabIndex = "-1" href="#">Artikler</a>
+                    <a id = "menytab4" tabIndex = "-1" href="#">Profil</a>
+                    <a id = "menytab5" tabIndex = "-1" href="#">Innstillinger</a>
+                </section>
             </section>
-        </section>
 
-        <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-        <!-- Kan ikke legge denne direkte i body -->
-        <header onclick="lukkHamburgerMeny()">
-            <!-- Logoen midten øverst på siden, med tittel -->
-            <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
-        </header>
+            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+            <!-- Kan ikke legge denne direkte i body -->
+            <header onclick="lukkHamburgerMeny()">
+                <!-- Logoen midten øverst på siden, med tittel -->
+                <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
+            </header>
 
-        <main onclick="lukkHamburgerMeny()">
-            <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-            <form method="POST" action="glemt_passord.php" class="innloggForm">
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                    <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn ditt brukernavn" autofocus>
-                </section>
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                    <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn nytt passord">
-                </section>
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                    <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Gjenta passord">
-                </section>
-                <!-- Meldinger til bruker -->
-                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                    <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                    <p id="mldFEIL">Passordene er ikke like</p>
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                    <p id="mldFEIL">Skriv inn et passord</p>
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-                <?php } ?>
+            <main onclick="lukkHamburgerMeny()">
+                <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
+                <form method="POST" action="glemt_passord.php" class="innloggForm">
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn ditt brukernavn" autofocus>
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                        <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn nytt passord">
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                        <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Gjenta passord">
+                    </section>
+                    <!-- Meldinger til bruker -->
+                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                        <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
+                    
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                        <p id="mldFEIL">Passordene er ikke like</p>
+                    
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                        <p id="mldFEIL">Skriv inn et passord</p>
+                    
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
+                        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                    <?php } ?>
 
-                <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord">   
-            </form>
+                    <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord">   
+                </form>
 
-            <!-- Sender brukeren tilbake til forsiden -->
-            <button onClick="location.href='logginn.php'" class="lenke_knapp">Tilbake til logg inn</button>
+                <!-- Sender brukeren tilbake til forsiden -->
+                <button onClick="location.href='logginn.php'" class="lenke_knapp">Tilbake til logg inn</button>
 
-        </main>
+            </main>
 
-        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-        <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
+            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
+            <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
-        <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
-        <footer>
-            <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
-        </footer>
+            <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
+            <footer>
+                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+            </footer>
+        </article>
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 11.10.2019 -->

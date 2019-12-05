@@ -1,21 +1,40 @@
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Style for BODY */
+/* Style for BODY, HTML */
 body {
   background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
   margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
+
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+}
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for ARTICLE/INNHOLD */
+.innhold {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+/* Style for MAIN */
+main {
+  flex-grow: 1; /* Fyller den tilgjengelige plassen. Dette setter footer i bunnen, siden main tar all plassen i midten */
+}
+
+/* Generell style for HEADER, MAIN, FOOTER */
+header, main, footer {
+  flex-shrink: 0; /* Standard er 1, som gjør at elementer synker i størrelse om det ikke er plass. Satt til 0 for å hindre dette */
+}
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for FOOTER */
 footer {
   background-color: rgb(99, 112, 126);
   margin: 0;
-  left: 0;
   padding-top: 0.05em;
   padding-bottom: 0.05em;
-  bottom: 0;
   width: 100%;
-  position: absolute;
 }
 /* Kontakt oss */
 footer a {

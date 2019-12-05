@@ -104,100 +104,102 @@ if (isset($_POST['subRegistrering'])) {
     </head>
 
     <body>
-        <!-- Begynnelse på øvre navigasjonsmeny -->
-        <nav class="navTop">
-            <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-            <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
-                <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
-            </a>
-            <!-- Legger til en knapp for å gå fra registrering til innlogging -->
-            <button class="singelKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
-            <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-            <a class="bildeKontroll" href="default.php" tabindex="1">
-                <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-            </a> 
-        <!-- Slutt på navigasjonsmeny-->
-        </nav>
+        <article class="innhold">
+            <!-- Begynnelse på øvre navigasjonsmeny -->
+            <nav class="navTop">
+                <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
+                    <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
+                </a>
+                <!-- Legger til en knapp for å gå fra registrering til innlogging -->
+                <button class="singelKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
+                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
+                <a class="bildeKontroll" href="default.php" tabindex="1">
+                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
+                </a> 
+            <!-- Slutt på navigasjonsmeny-->
+            </nav>
 
-        <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
-        <section id="navMeny" class="hamburgerMeny">
-            <!-- innholdet i hamburger-menyen -->
-            <!-- -1 tabIndex som standard da menyen er lukket -->
-            <section class="hamburgerInnhold">
-                <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-                <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
-                <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+            <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
+            <section id="navMeny" class="hamburgerMeny">
+                <!-- innholdet i hamburger-menyen -->
+                <!-- -1 tabIndex som standard da menyen er lukket -->
+                <section class="hamburgerInnhold">
+                    <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
+                    <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
+                    <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+                </section>
             </section>
-        </section>
 
-        <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-        <!-- Kan ikke legge denne direkte i body -->
-        <header onclick="lukkHamburgerMeny()">
-            <!-- Logoen midten øverst på siden, med tittel -->
-            <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
-        </header>
+            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+            <!-- Kan ikke legge denne direkte i body -->
+            <header onclick="lukkHamburgerMeny()">
+                <!-- Logoen midten øverst på siden, med tittel -->
+                <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
+            </header>
 
-        <main onclick="lukkHamburgerMeny()">
-            <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
-            <form method="POST" action="registrer.php" class="innloggForm">
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                    <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
-                </section>
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
-                    <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
-                </section>
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for etternavn -->
-                    <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
-                </section>
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                    <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse">
-                </section>
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                    <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord">
-                </section>
-                <section class="inputBoks">
-                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                    <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord">
-                </section>
-                <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+            <main onclick="lukkHamburgerMeny()">
+                <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
+                <form method="POST" action="registrer.php" class="innloggForm">
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
+                        <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for etternavn -->
+                        <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
+                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse">
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord">
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord">
+                    </section>
+                    <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
-                <!-- Håndtering av feilmeldinger -->
-                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                    <p id="mldFEIL">Bruker eksisterer fra før</p>    
+                    <!-- Håndtering av feilmeldinger -->
+                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                        <p id="mldFEIL">Bruker eksisterer fra før</p>    
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-                    <p id="mldFEIL">Passordene er ikke like</p>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
+                        <p id="mldFEIL">Passordene er ikke like</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                    <p id="mldFEIL">Skriv inn ett passord</p>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
+                        <p id="mldFEIL">Skriv inn ett passord</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
+                        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-                    <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
-                <?php } ?>       
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
+                        <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
+                    <?php } ?>       
 
-                <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
-            </form>
+                    <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
+                </form>
 
-            <!-- Sender brukeren tilbake til forsiden -->
-            <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
+                <!-- Sender brukeren tilbake til forsiden -->
+                <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
+                
+            </main>
+
+            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
+            <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
             
-        </main>
-
-        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-        <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
-        
-        <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
-        <footer>
-            <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
-        </footer>
+            <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
+            <footer>
+                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+            </footer>
+        </article>
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 11.10.2019 -->

@@ -181,117 +181,119 @@ if (isset($_POST['subEndring'])) {
     </head>
 
     <body onload="kontoRullegardin()">
-        <!-- Begynnelse på øvre navigasjonsmeny -->
-        <nav class="navTop">
-            <!-- Legger til en knapp for å logge ut når man er innlogget-->
-            <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-            <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
-                <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
-            </a>
-            <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
-                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
-            </a>
-            <!-- Legger til en knapp for å logge ut når man er innlogget -->
-            <form method="POST" action="default.php">
-                <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
-            </form>
-            <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-            <a class="bildeKontroll" href="default.php" tabindex="1">
-                <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-            </a> 
-        <!-- Slutt på navigasjonsmeny-->
-        </nav>
-
-        <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
-        <section id="navMeny" class="hamburgerMeny">
-
-            <!-- innholdet i hamburger-menyen -->
-            <section class="hamburgerInnhold">
-                <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-                <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
-                <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
-                <a id = "menytab4" tabIndex = "-1" href="backend.php">Oversikt</a>
-                <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
-            </section>
-        </section>
-
-        <header class="konto_rediger_header" onclick="lukkHamburgerMeny()">
-            <h1>Konto</h1>
-        </header>
-
-
-        <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
-            <section class="brukerinformasjon_rediger"> 
-                <!-- Underoverskrift -->
-                <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
-                
-                <!-- Felt for brukeropplysning endringer -->
-                <form method="POST" action="konto_rediger.php" class="konto_rediger_Form">
-                    <!-- Brukernavn -->
-                    <section class="konto_rediger_inputBoks">
-                        <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
-                        <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="" placeholder="Nytt brukernavn" autofocus>
-                    </section>
-                    <!-- Epost -->
-                    <section class="konto_rediger_inputBoks">
-                        <h3 class="endre_epost_overskrift">Endre epost</h3>
-                        <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
-                    </section>     
-                    <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
-                    <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
-                    <section class="innholdRullegardin">
-                        <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
-                            <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" autofocus>
-                        </section>
-                        <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
-                            <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord">
-                        </section>
-                        <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_nyttpassordbekreft_overskrift">Bekreft nytt passord</h3>
-                            <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord">
-                        </section>
-                        <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
-                    </section>
-                    <!-- Fornavn -->
-                    <section class="konto_rediger_inputBoks">
-                        <h3 class="endre_fornavn_overskrift">Endre fornavn</h3>
-                        <input type="fornavn" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
-                    </section>
-                    <!-- Etternavn -->
-                    <section class="konto_rediger_inputBoks">
-                        <h3 class="endre_etternavn_overskrift">Endre etternavn</h3>
-                        <input type="etternavn" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
-                    </section>
-                    
-                    <!-- Knapp for å lagre endringer -->
-                    <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
+        <article class="innhold">    
+            <!-- Begynnelse på øvre navigasjonsmeny -->
+            <nav class="navTop">
+                <!-- Legger til en knapp for å logge ut når man er innlogget-->
+                <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
+                    <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
+                </a>
+                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
+                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+                </a>
+                <!-- Legger til en knapp for å logge ut når man er innlogget -->
+                <form method="POST" action="default.php">
+                    <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
                 </form>
-                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                    <p id="mldFEIL">Passordene er ikke like</p>
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                    <p id="mldFEIL">Skriv inn et passord</p>
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
+                <a class="bildeKontroll" href="default.php" tabindex="1">
+                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
+                </a> 
+            <!-- Slutt på navigasjonsmeny-->
+            </nav>
 
-                <?php } if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                    <p id="mldFEIL">Brukernavnet er opptatt</p>    
-                <?php } ?>
-                <!-- Sender brukeren tilbake til forsiden -->
-                <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
+            <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
+            <section id="navMeny" class="hamburgerMeny">
+
+                <!-- innholdet i hamburger-menyen -->
+                <section class="hamburgerInnhold">
+                    <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
+                    <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
+                    <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a id = "menytab4" tabIndex = "-1" href="backend.php">Oversikt</a>
+                    <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
+                </section>
             </section>
-        </main>
 
-        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-        <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
+            <header class="konto_rediger_header" onclick="lukkHamburgerMeny()">
+                <h1>Konto</h1>
+            </header>
 
-        <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
-        <footer>
-            <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
-        </footer>
+
+            <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
+                <section class="brukerinformasjon_rediger"> 
+                    <!-- Underoverskrift -->
+                    <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
+                    
+                    <!-- Felt for brukeropplysning endringer -->
+                    <form method="POST" action="konto_rediger.php" class="konto_rediger_Form">
+                        <!-- Brukernavn -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="" placeholder="Nytt brukernavn" autofocus>
+                        </section>
+                        <!-- Epost -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_epost_overskrift">Endre epost</h3>
+                            <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
+                        </section>     
+                        <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
+                        <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
+                        <section class="innholdRullegardin">
+                            <section class="konto_rediger_inputBoks">
+                                <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
+                                <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" autofocus>
+                            </section>
+                            <section class="konto_rediger_inputBoks">
+                                <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
+                                <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord">
+                            </section>
+                            <section class="konto_rediger_inputBoks">
+                                <h3 class="endre_nyttpassordbekreft_overskrift">Bekreft nytt passord</h3>
+                                <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord">
+                            </section>
+                            <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
+                        </section>
+                        <!-- Fornavn -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_fornavn_overskrift">Endre fornavn</h3>
+                            <input type="fornavn" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
+                        </section>
+                        <!-- Etternavn -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_etternavn_overskrift">Endre etternavn</h3>
+                            <input type="etternavn" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
+                        </section>
+                        
+                        <!-- Knapp for å lagre endringer -->
+                        <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
+                    </form>
+                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                        <p id="mldFEIL">Passordene er ikke like</p>
+                    
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                        <p id="mldFEIL">Skriv inn et passord</p>
+                    
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
+                        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+
+                    <?php } if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                        <p id="mldFEIL">Brukernavnet er opptatt</p>    
+                    <?php } ?>
+                    <!-- Sender brukeren tilbake til forsiden -->
+                    <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
+                </section>
+            </main>
+
+            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
+            <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
+
+            <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
+            <footer>
+                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+            </footer>
+        </article>
     </body>
     
     <!-- Denne siden er utviklet av Petter Fiskvik og Ajdin Bajrovic, siste gang endret 03.12.2019 -->
