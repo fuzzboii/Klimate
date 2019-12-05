@@ -15,7 +15,7 @@ try {
 } 
 catch (Exception $ex) {
     if ($ex->getCode() == 1049) {
-        // 1049, Databasen finnes ikke
+        // 1049, Fikk koblet til men databasen finnes ikke
         header('location: default.php?error=3');
     }
     if ($ex->getCode() == 2002) {
@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
     //}
     $res = $rad->fetch(PDO::FETCH_ASSOC);
 
-    if ($res['feillogginnteller'] <= 5) {
+    if ($res['feillogginnteller'] < 5) {
         try {
             // Saltet
             $salt = "IT2_2020"; 
