@@ -318,11 +318,20 @@ footer a {
 /* Style for KONTO, REDIGER */
 
 /* Brukeropplysninger */
+#konto_main {
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
 .brukerinformasjon {
   margin: auto;
   max-width: 250px;   
+  padding-top: 2em;
 }
-
 
 .konto_header {
   padding-top: 6em;
@@ -348,7 +357,6 @@ td, th  {
   
 }
 
-
 table {
   border-collapse: collapse;
   
@@ -369,10 +377,19 @@ table {
 }
 
 /* Rediger brukeropplysninger */
+#konto_rediger_main {
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
 
 .brukerinformasjon_rediger {
   margin: auto;
-  max-width: 250px;   
+  max-width: 250px; 
+  padding-top: 2em;  
 }
 
 .konto_rediger_header {
@@ -420,7 +437,7 @@ table {
   
 /* Rullegardin for passord innenfor redigering av brukeropplysninger*/
 .kontoRullegardin {
-  background-color: #eee;
+  background-color: rgb(211, 211, 211);
   color: rgb(0, 0, 0);
   padding: 1em;
   border: none;
@@ -435,7 +452,7 @@ table {
   padding: 1em;
   display: none;
   overflow: hidden;
-  background-color: #ececec8e;
+  background-color: rgb(230, 230, 230);
   margin-top: 0.3em;
   border-radius: 0.4em;
 }
