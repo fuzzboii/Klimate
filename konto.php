@@ -118,7 +118,7 @@ if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){
             </main>
 
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="topFunction()" id="toppKnapp" title="Toppen">Tilbake til toppen</button>
+            <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
