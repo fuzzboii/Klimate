@@ -10,12 +10,16 @@ try {
     include("klimate_pdo.php");
     $db = new myPDO();
 } 
-catch (PDOException $ex) {
-    if ($ex->getCode() == 1049){
+catch (Exception $ex) {
+    if ($ex->getCode() == 1049) {
         // 1049, Databasen finnes ikke
-        header("location: default.php?error=3");
+        header('location: default.php?error=3');
     }
-} 
+    if ($ex->getCode() == 2002) {
+        // 2002, Kunne ikke koble til server
+        header('location: default.php?error=3');
+    }
+}
 
 // Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
