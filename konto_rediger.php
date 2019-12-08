@@ -71,7 +71,6 @@ if (isset($_POST['subEndring'])) {
             }
             // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
             $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fornavn = '" . $nyttFornavn . "', etternavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "'  where idbruker='". $_SESSION['idbruker'] . "'";
-            echo($oppdaterBruker);
             $stmt = $db->prepare($oppdaterBruker);
             $stmt->execute();
 
