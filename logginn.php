@@ -29,8 +29,6 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 if (isset($_POST['submit'])) {
     // Sjekker IP
-    // Kilder brukt:
-    // https://www.dreamincode.net/forums/topic/290000-limiting-login-attempts/
 
     // Oppdaterer først utdaterte innloggingsforsøk
     // Mulig dette kan gjøres om til trigger i databasen
@@ -199,7 +197,7 @@ if (isset($_POST['submit'])) {
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 11.10.2019 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 11.10.2019 -->
+    <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 04.11.2019 -->
+    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, Ajdin Bajrovic siste gang 09.12.2019 -->
 
 </html>
