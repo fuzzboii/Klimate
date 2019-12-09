@@ -40,7 +40,6 @@ if (isset($_POST['glemtPassord'])) {
                 $pw = $_POST['passord'];
 
                 // Validering av passordstyrke
-                // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
                 $storebokstaver = preg_match('@[A-Z]@', $pw);
                 $smaabokstaver = preg_match('@[a-z]@', $pw);
                 $nummer = preg_match('@[0-9]@', $pw);
@@ -208,7 +207,7 @@ if (isset($_POST['glemtPassord'])) {
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 11.10.2019 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 11.10.2019 -->
+    <!-- Denne siden er utviklet av Aron Snekkestad og Robin Kleppang, siste gang endret 09.12.2019 -->
+    <!-- Denne siden er kontrollert av Robin Kleppang, siste gang 09.12.2019 -->
 
 </html>
