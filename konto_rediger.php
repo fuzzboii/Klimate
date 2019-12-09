@@ -25,12 +25,6 @@ catch (Exception $ex) {
 // Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Utlogging av bruker
-if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){ 
-    session_destroy();
-    header("Location: default.php?utlogget=1");
-}
-
 // Hoveddelen for redigering av konto
 if (isset($_POST['subEndring'])) {
     // Boolske verdier vi tester på for å vite om noe er endret på
