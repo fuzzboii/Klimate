@@ -122,7 +122,7 @@ if ($_SESSION['brukernavn']) {
     </body>
 
     
-<!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 13.11.2019 -->
-<!-- Sist kontrollert av ____ ____, __.__.____ -->
+<!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 02.12.2019 -->
+<!-- Sist kontrollert av Robin Kleppang, siste gang 09.12.2019 -->
 
 </html>
