@@ -25,6 +25,12 @@ catch (Exception $ex) {
 // Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+// Utlogging av bruker
+if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){ 
+    session_destroy();
+    header("Location: default.php?utlogget=1");
+}
+
 // Hoveddelen for redigering av konto
 if (isset($_POST['subEndring'])) {
     // Boolske verdier vi tester på for å vite om noe er endret på
@@ -291,6 +297,6 @@ if (isset($_POST['subEndring'])) {
     </body>
     
     <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Petter Fiskvik siste gang endret 04.12.2019 -->
-    <!-- Sist kontrollert av ____ ____, __.__.____ -->
+    <!-- Sist kontrollert av Aron Snekkestad, 09.12.2019 -->
 
 </html>

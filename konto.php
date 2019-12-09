@@ -7,6 +7,13 @@ if ($_SESSION['brukernavn']) {
     // Ikke OK, sender tilbake til default med feilmelding
     header("Location: default.php?error=1");
 }
+
+// Utlogging av bruker
+if(isset($_GET['loggUt']) && $_GET['loggUt'] == "true"){ 
+    // Bruker ønsker å logge ut, tømmer session før bruker blir sendt til default med tilbakemelding
+    session_destroy();
+    header("Location: default.php?utlogget=1");
+}
 ?>
 
 <!DOCTYPE html>
@@ -121,7 +128,7 @@ if ($_SESSION['brukernavn']) {
     </body>
 
     
-<!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 02.12.2019 -->
-<!-- Sist kontrollert av Robin Kleppang, siste gang 09.12.2019 -->
+<!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 13.11.2019 -->
+<!-- Sist kontrollert av ____ ____, __.__.____ -->
 
 </html>
