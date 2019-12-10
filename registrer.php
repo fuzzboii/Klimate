@@ -60,38 +60,49 @@ if (isset($_POST['subRegistrering'])) {
                         // Ikke tilstrekkelig passord skrevet
                         header("Location: registrer.php?error=4");
                     } else {
-                        // OK, vi forsøker å registrere bruker
-                        $fn = $_POST['fornavn'];
-                        $en = $_POST['etternavn'];
-                        $epost = $_POST['epost'];
+                        // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
+                        $lbr = strtolower($_POST['brukernavn']);
+                        $sjekkbnavn = "select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "'";
+                        $sjekket = $db->prepare($sjekkbnavn);
+                        $sjekket->execute();
+                        $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
 
-                        // Salter passorder
-                        $kombinert = $salt . $pw;
-                        // Krypterer saltet passord
-                        $spw = sha1($kombinert);
-                        $sql = "insert into bruker(brukernavn, passord, fnavn, enavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
+                        // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
+                        if ($testbnavn['brukernavn'] != $lbr) {
+                            // OK, vi forsøker å registrere bruker
+                            $fn = $_POST['fornavn'];
+                            $en = $_POST['etternavn'];
+                            $epost = $_POST['epost'];
+
+                            // Salter passorder
+                            $kombinert = $salt . $pw;
+                            // Krypterer saltet passord
+                            $spw = sha1($kombinert);
+                            $sql = "insert into bruker(brukernavn, passord, fnavn, enavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
 
 
-                        //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-                        // Prepared statement for å beskytte mot SQL injection
-                        $stmt = $db->prepare($sql);
+                            // Prepared statement for å beskytte mot SQL injection
+                            $stmt = $db->prepare($sql);
 
-                        $vellykket = $stmt->execute(); 
-                        
-                        // Alt gikk OK, sender til logginn med melding til bruker
-                        if ($vellykket) {
-                            header("location: logginn.php?vellykket=1");
+                            $vellykket = $stmt->execute(); 
+                            
+                            // Alt gikk OK, sender til logginn med melding til bruker
+                            if ($vellykket) {
+                                header("location: logginn.php?vellykket=1");
+                            }
+                        } else {
+                            // Brukernavnet er tatt
+                            header("location: registrer.php?error=1");
                         }
                     }
                 }
                 catch (PDOException $ex) {
                     if ($ex->getCode() == 23000) {
-                        // 23000, Duplikat brukernavn (Siden brukernavn er UNIQUE)
+                        // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
                         header("location: registrer.php?error=1");
                     } else if ($ex->getCode() == '42S22') {
                         // 42S22, Kolonne eksisterer ikke
-                        // header("location: registrer.php?error=5");
-                        echo($ex);
+                        header("location: registrer.php?error=5");
                     }
                 } 
             } else {
@@ -193,7 +204,7 @@ if (isset($_POST['subRegistrering'])) {
 
                     <!-- Håndtering av feilmeldinger -->
                     <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                        <p id="mldFEIL">Bruker eksisterer fra før</p>    
+                        <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
 
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
                         <p id="mldFEIL">Passordene er ikke like</p>
