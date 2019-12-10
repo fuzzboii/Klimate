@@ -29,7 +29,7 @@ catch (Exception $ex) {
 }
 
 // Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-//$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Hoveddelen for redigering av konto
 if (isset($_POST['subEndring'])) {
