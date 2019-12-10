@@ -4,6 +4,7 @@ session_start();
 if ($_SESSION['brukernavn']) {
     // OK
 } else {
+    // Ikke OK, sender tilbake til default med feilmelding
     header("Location: default.php?error=1");
 }
 
@@ -18,7 +19,7 @@ if ($_SESSION['brukernavn']) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Klimate</title>
+        <title>Konto</title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -27,23 +28,21 @@ if ($_SESSION['brukernavn']) {
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-
     <body>
-        <article class="innhold">   
+        <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop">
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-                <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
                 <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
-                <!-- <img src="bilder/</?php echo($_SESSION['profilbilde']) ?>" -->
+                <!-- Profilbilde i navmenyen, leder til konto-siden -->
                 <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                 </a>
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
                 <form method="POST" action="default.php">
-                    <button name="loggUt" id="backendLoggUt" tabindex="2" value="true">LOGG UT</button>
+                    <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
                 </form>
 
                 <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
@@ -55,9 +54,7 @@ if ($_SESSION['brukernavn']) {
 
             <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
             <section id="navMeny" class="hamburgerMeny">
-
                 <!-- innholdet i hamburger-menyen -->
-                <!-- -1 tabIndex som standard, man tabber ikke inn i menyen når den er lukket -->
                 <section class="hamburgerInnhold">
                     <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
                     <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
@@ -66,34 +63,52 @@ if ($_SESSION['brukernavn']) {
                     <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
                 </section>
             </section>
-            
-            <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
-            <header class="backend_header" onclick="lukkHamburgerMeny()">
-                <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
-                <h1 class="velkomst">Velkommen <?php echo($_SESSION['fornavn']) ?></h1>
+
+            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+            <!-- Kan ikke legge denne direkte i body -->
+            <header class="konto_header" onclick="lukkHamburgerMeny()">
+                <h1>Konto</h1>
             </header>
 
-            <main id="backend_main" onclick="lukkHamburgerMeny()">
-                <!-- Innholdet på siden -->
-                <!-- IDene brukes til å splitte opp kolonnene i queries -->
-                <article id="bgcont1">
-                    <h2>Arrangementer</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Dugnad hos KlimaVennen</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
-                <article id="bgcont2">
-                    <h2>Diskusjoner</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Bruk av gressklipper, bensin eller elektrisk?</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
-                <article id="bgcont3">
-                    <h2>Artikler</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Hundretusener demonstrerer for klima over hele verden</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
+            <!-- Meldinger til bruker -->
+            <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
+
+            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
+                <p id="mldOK">Konto oppdatert</p>    
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                <p id="mldFEIL">Kunne ikke oppdatere konto, vennligst prøv igjen senere</p>    
+            <?php } ?> 
+
+            <!-- Konto brukeropplysninger -->
+            <main id="konto_main" onclick="lukkHamburgerMeny()">
+                <section class="brukerinformasjon">
+                    <table class="brukerinformasjon_tabell">
+                        <!-- Brukernavn output -->
+                        <tr>
+                            <th>Brukernavn:</th>
+                                <td><?php echo($_SESSION['brukernavn']) ?></td>
+                        <!-- Epost output -->
+                        <tr>
+                            <th>Epost:</th>
+                                <td><?php echo($_SESSION['epost']) ?></td>
+                        </tr>  
+                        <!-- Fornavn output -->
+                        <tr>
+                            <th>Fornavn:</th>
+                                <td><?php echo($_SESSION['fornavn']) ?></td>
+                        </tr>
+                        <!-- Etternavn output -->
+                        <tr>
+                            <th>Etternavn:</th>
+                                <td><?php echo($_SESSION['etternavn']) ?></td>
+                        </tr>
+                    
+                    </table>
+
+                    <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
+                </section> 
             </main>
 
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
@@ -103,10 +118,11 @@ if ($_SESSION['brukernavn']) {
             <footer>
                 <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
             </footer>
-        </article>   
+        </article>
     </body>
 
-    <!-- Denne siden er utviklet av Glenn Petter Pettersen, Robin Kleppang & Aron Snekkestad, siste gang endret 05.12.2019 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, Robin Kleppang siste gang 08.12.2019 -->
+    
+<!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 02.12.2019 -->
+<!-- Sist kontrollert av Robin Kleppang, siste gang 09.12.2019 -->
 
 </html>
