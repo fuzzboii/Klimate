@@ -67,7 +67,8 @@ if (isset($_POST['glemtPassord'])) {
                         // Anser kombinasjonen av brukernavn og epost god nok til å kunne endre passord. 
                         // Om man legger inn flere brukere med samme brukernavn og epost vil dette ikke lenger være en god løsning. 
                         $spw = sha1($kombinert);
-                        $sql = "update bruker set passord='" . $spw . "' where brukernavn='". $br . "' and epost='" . $epost . "'";
+                        $lbr = strtolower($_POST['brukernavn']);
+                        $sql = "update bruker set passord='" . $spw . "' where lower(brukernavn)='". $lbr . "' and epost='" . $epost . "'";
     
     
                         // Prepared statement for å beskytte mot SQL injection
@@ -76,14 +77,14 @@ if (isset($_POST['glemtPassord'])) {
                         $stmt->execute();
     
                         //Utfører en ny spørring for å sjekke om brukeren eksisterer
-                        $sql1="select brukernavn from bruker where brukernavn='" . $br . "' and epost='" . $epost . "'";
+                        $sql1="select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "' and epost='" . $epost . "'";
                         $stmt1 = $db->prepare($sql1);
                         $stmt1->execute();
     
                         $stmt1->setFetchMode(PDO::FETCH_ASSOC);
                         $resultat = $stmt1->fetch();
                         
-                        if($resultat['brukernavn']==$br) {
+                        if($resultat['brukernavn']==$lbr) {
                             // Alt gikk OK, sender til logginn med melding til bruker
                             header("location: logginn.php?vellykket=2");
                         } else {
