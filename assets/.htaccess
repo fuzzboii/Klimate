@@ -1,4 +1,0 @@
-AuthType Basic  
-AuthName "Klimate"  
-AuthUserFile /.htpasswd
-require valid-user
