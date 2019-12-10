@@ -7,7 +7,7 @@ if (isset($_SESSION['brukernavn'])) {
 }
 
 try {
-    include("klimate_pdo.php");
+    include("klimate_pdo_prod.php");
     $db = new mysqlPDO();
 } 
 catch (Exception $ex) {

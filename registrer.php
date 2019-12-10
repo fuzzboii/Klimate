@@ -9,7 +9,7 @@ if (isset($_SESSION['brukernavn'])) {
 // Forsøker å koble til database
 
 try {
-    include("klimate_pdo.php");
+    include("klimate_pdo_prod.php");
     $db = new mysqlPDO();
 } 
 catch (Exception $ex) {
