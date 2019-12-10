@@ -83,8 +83,8 @@ if (isset($_POST['glemtPassord'])) {
                         $stmt1->setFetchMode(PDO::FETCH_ASSOC);
                         $resultat = $stmt1->fetch();
                         
-                        // Alt gikk OK, sender til logginn med melding til bruker
                         if($resultat['brukernavn']==$br) {
+                            // Alt gikk OK, sender til logginn med melding til bruker
                             header("location: logginn.php?vellykket=2");
                         } else {
                             //Ikke ok, ber bruker om å oppgi brukernavn på nytt
