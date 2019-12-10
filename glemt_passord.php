@@ -64,8 +64,9 @@ if (isset($_POST['glemtPassord'])) {
                         // OK, vi salter passord for eksiterende bruker
                         $kombinert = $salt . $pw;
                         // Krypterer passorder med salting
-                        // Anser kombinasjonen av brukernavn og epost god nok til å kunne endre passord. 
-                        // Om man legger inn flere brukere med samme brukernavn og epost vil dette ikke lenger være en god løsning. 
+                        // Anser kombinasjonen av brukernavn og epost god nok til å kunne endre passord for nå. 
+                        // Om man legger inn flere brukere med samme brukernavn og epost vil dette ikke lenger være en god løsning
+                        // Det er ikke mulig å dobbelregistrere brukernavn med kun vår applikasjon isolert, vet ikke løsning på andres applikasjon. 
                         $spw = sha1($kombinert);
                         $lbr = strtolower($_POST['brukernavn']);
                         $sql = "update bruker set passord='" . $spw . "' where lower(brukernavn)='". $lbr . "' and epost='" . $epost . "'";
@@ -75,16 +76,11 @@ if (isset($_POST['glemtPassord'])) {
                         $stmt = $db->prepare($sql);
     
                         $stmt->execute();
-    
-                        //Utfører en ny spørring for å sjekke om brukeren eksisterer
-                        $sql1="select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "' and epost='" . $epost . "'";
-                        $stmt1 = $db->prepare($sql1);
-                        $stmt1->execute();
-    
-                        $stmt1->setFetchMode(PDO::FETCH_ASSOC);
-                        $resultat = $stmt1->fetch();
-                        
-                        if($resultat['brukernavn']==$lbr) {
+
+                        // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
+                        $antall = $stmt->rowCount();
+
+                        if (!$antall == "0") {
                             // Alt gikk OK, sender til logginn med melding til bruker
                             header("location: logginn.php?vellykket=2");
                         } else {
