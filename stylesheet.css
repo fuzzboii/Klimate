@@ -327,12 +327,14 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
+/* Setter design for brukerinformasjonen som vises i konto */
 .brukerinformasjon {
   margin: auto;
   max-width: 250px;   
   padding-top: 2em;
 }
 
+/* Style for konto header */
 .konto_header {
   padding-top: 6em;
   padding-bottom: 1em;
@@ -340,6 +342,7 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif; 
 }
 
+/* Style for overskriften i konto */
 .brukeropplysninger_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 1.1em;
@@ -347,6 +350,7 @@ footer a {
 
 }
 
+/* Tabell style */
 td, th  {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 0.8em;
@@ -358,10 +362,11 @@ td, th  {
 }
 
 table {
-  border-collapse: collapse;
+  border-collapse: collapse; 
   
 }
 
+/* Style for rediger knappen */
 .rediger_konto_knapp {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
@@ -386,12 +391,14 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
+/* Setter design for redigering av brukerinformasjon */
 .brukerinformasjon_rediger {
   margin: auto;
   max-width: 250px; 
   padding-top: 2em;  
 }
 
+/* Style for konto redigering header */
 .konto_rediger_header {
   padding-top: 6em;
   padding-bottom: 1em;
@@ -399,12 +406,14 @@ table {
   font-family: Inter, Helvetica, Arial, sans-serif; 
 }
 
+/* Style for konto redigering overskriften */
 .redigerbruker_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 1.1em;
   max-width: 250px
 }
 
+/* Style for deloverskriftene i konto redigering */
 .endre_brukernavn_overskrift, .endre_epost_overskrift, .endre_gammeltpassord_overskrift, .endre_nyttpassord_overskrift, .endre_nyttpassordbekreft_overskrift, .endre_fornavn_overskrift, .endre_etternavn_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 0.8em;
@@ -412,6 +421,7 @@ table {
   text-align: left;  
 }
 
+/* Style for lagre knappen i konto redigering */
 .KontoredigeringFelt_knappLagre {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
@@ -425,6 +435,7 @@ table {
   
 }
 
+/* Style for feltene i konto redigering */
 .KontoredigeringFelt, .KontoredigeringFeltPW {
   width: 90%; /* Angir bredde for inputfeltene */
   padding: 0.8em; /* legger luft rundt*/
@@ -728,5 +739,5 @@ table {
 
 
 
-/* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 11.10.2019 */
-/* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 11.10.2019 */
+/* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 07.12.2019 */
+/* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 09.12.2019 */
