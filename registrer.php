@@ -7,17 +7,23 @@ if (isset($_SESSION['brukernavn'])) {
 }
 
 // Forsøker å koble til database
+
 try {
-    include("klimate_pdo.php");
-    $db = new myPDO();
+    include("klimate_pdo_prod.php");
+    $db = new mysqlPDO();
 } 
 catch (Exception $ex) {
+    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
     if ($ex->getCode() == 1049) {
-        // 1049, Databasen finnes ikke
+        // 1049, Fikk koblet til men databasen finnes ikke
         header('location: default.php?error=3');
     }
     if ($ex->getCode() == 2002) {
         // 2002, Kunne ikke koble til server
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 1045) {
+        // 1045, Bruker har ikke tilgang
         header('location: default.php?error=3');
     }
 }
@@ -63,7 +69,7 @@ if (isset($_POST['subRegistrering'])) {
                         $kombinert = $salt . $pw;
                         // Krypterer saltet passord
                         $spw = sha1($kombinert);
-                        $sql = "insert into bruker(brukernavn, passord, fornavn, etternavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
+                        $sql = "insert into bruker(brukernavn, passord, fnavn, enavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
 
 
                         //$sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
@@ -84,7 +90,8 @@ if (isset($_POST['subRegistrering'])) {
                         header("location: registrer.php?error=1");
                     } else if ($ex->getCode() == '42S22') {
                         // 42S22, Kolonne eksisterer ikke
-                        header("location: registrer.php?error=5");
+                        // header("location: registrer.php?error=5");
+                        echo($ex);
                     }
                 } 
             } else {

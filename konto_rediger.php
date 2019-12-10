@@ -7,23 +7,29 @@ if ($_SESSION['brukernavn']) {
     header("Location: default.php?error=1");
 }
 
+
 try {
-    include("klimate_pdo.php");
-    $db = new myPDO();
+    include("klimate_pdo_prod.php");
+    $db = new mysqlPDO();
 } 
 catch (Exception $ex) {
+    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
     if ($ex->getCode() == 1049) {
-        // 1049, Databasen finnes ikke
-        header('location: konto.php?error=1');
+        // 1049, Fikk koblet til men databasen finnes ikke
+        header('location: default.php?error=3');
     }
     if ($ex->getCode() == 2002) {
         // 2002, Kunne ikke koble til server
-        header('location: konto.php?error=1');
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 1045) {
+        // 1045, Bruker har ikke tilgang
+        header('location: default.php?error=3');
     }
 }
 
 // Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Hoveddelen for redigering av konto
 if (isset($_POST['subEndring'])) {
@@ -64,7 +70,7 @@ if (isset($_POST['subEndring'])) {
                 $nyttEtternavn = $_POST['nyttetternavn'];
             }
             // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
-            $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fornavn = '" . $nyttFornavn . "', etternavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "'  where idbruker='". $_SESSION['idbruker'] . "'";
+            $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "'  where idbruker='". $_SESSION['idbruker'] . "'";
             $stmt = $db->prepare($oppdaterBruker);
             $stmt->execute();
 

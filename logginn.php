@@ -9,11 +9,13 @@ if (isset($_SESSION['brukernavn'])) {
 // Setter tidssonen, dette er for at One.com domenet skal fungere, brukes i sjekk mot innloggingsforsøk
 date_default_timezone_set("Europe/Oslo");
 
+
 try {
-    include("klimate_pdo.php");
-    $db = new myPDO();
+    include("klimate_pdo_prod.php");
+    $db = new mysqlPDO();
 } 
 catch (Exception $ex) {
+    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
     if ($ex->getCode() == 1049) {
         // 1049, Fikk koblet til men databasen finnes ikke
         header('location: default.php?error=3');
@@ -22,10 +24,14 @@ catch (Exception $ex) {
         // 2002, Kunne ikke koble til server
         header('location: default.php?error=3');
     }
+    if ($ex->getCode() == 1045) {
+        // 1045, Bruker har ikke tilgang
+        header('location: default.php?error=3');
+    }
 }
 
 // Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 if (isset($_POST['submit'])) {
     // Sjekker IP
@@ -71,8 +77,8 @@ if (isset($_POST['submit'])) {
             if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
                 $_SESSION['idbruker'] = $resultat['idbruker'];
                 $_SESSION['brukernavn'] = $resultat['brukernavn'];
-                $_SESSION['fornavn'] = $resultat['fornavn'];
-                $_SESSION['etternavn'] = $resultat['etternavn'];;
+                $_SESSION['fornavn'] = $resultat['fnavn'];
+                $_SESSION['etternavn'] = $resultat['enavn'];;
                 $_SESSION['epost'] = $resultat['epost'];
                 $_SESSION['brukertype'] = $resultat['brukertype'];
     

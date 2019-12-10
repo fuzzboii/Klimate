@@ -1,5 +1,5 @@
 <?php
-  class myPDO extends PDO {
+  class mysqlPDO extends PDO {
     public function __construct() {
       $settings = parse_ini_file('klimatetest.ini',TRUE);
       if (!$settings) throw new exception('Får ikke åpnet ini-fil.');
