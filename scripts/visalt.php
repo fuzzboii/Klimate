@@ -45,6 +45,8 @@ foreach ($resultat as $res) {
     echo "<br>";
     echo($res['brukernavn']);
     echo "<br>";
+    echo($res['passord']);
+    echo "<br>";
     echo($res['fnavn']);
     echo "<br>";
     echo($res['enavn']);
