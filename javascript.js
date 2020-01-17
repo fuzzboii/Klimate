@@ -2,26 +2,27 @@
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 var hamburgerMenyGjort = false;
+var hentetBurger = document.getElementsByClassName("menytab");
 
 function hamburgerMeny() {
   if (hamburgerMenyGjort == false) {
+    var tabStart = 5;
     /* Når hamburgermenyen er åpen får menyinnholdet tabIndex for å kunne gå igjennom dette uten mus */
     document.getElementById("navMeny").style.height = "100%";
     hamburgerMenyGjort = true;
-    document.getElementById("menytab1").tabIndex = "5";
-    document.getElementById("menytab2").tabIndex = "6";
-    document.getElementById("menytab3").tabIndex = "7";
-    document.getElementById("menytab4").tabIndex = "8";
-    document.getElementById("menytab5").tabIndex = "9";
+    // Bruker for løkke for å gå igjennom elementene mottat 
+    for (i = 0; i < hentetBurger.length; i++) {
+      hentetBurger[i].tabIndex = tabStart;
+      tabStart++;
+    }
   } else {
     /* Når hamburgermenyen er lukket setter vi tabIndex for innholdet til -1 for å ikke tabbe inn i denne */
     document.getElementById("navMeny").style.height = "0%";
     hamburgerMenyGjort = false;
-    document.getElementById("menytab1").tabIndex = "-1";
-    document.getElementById("menytab2").tabIndex = "-1";
-    document.getElementById("menytab3").tabIndex = "-1";
-    document.getElementById("menytab4").tabIndex = "-1";
-    document.getElementById("menytab5").tabIndex = "-1";
+    // Bruker for løkke for å gå igjennom elementene mottat 
+    for (i = 0; i < hentetBurger.length; i++) {
+      hentetBurger[i].tabIndex = "-1";
+    }
   }
 }
 /* funksjon for å lukke hamburger-meny'en om man trykker utenfor dropdown'en */
@@ -30,11 +31,10 @@ function lukkHamburgerMeny() {
   if (hamburgerMenyGjort == true) {
     document.getElementById("navMeny").style.height = "0%";
     hamburgerMenyGjort = false;
-    document.getElementById("menytab1").tabIndex = "-1";
-    document.getElementById("menytab2").tabIndex = "-1";
-    document.getElementById("menytab3").tabIndex = "-1";
-    document.getElementById("menytab4").tabIndex = "-1";
-    document.getElementById("menytab5").tabIndex = "-1";
+    // Bruker for løkke for å gå igjennom elementene mottat 
+    for (i = 0; i < hentetBurger.length; i++) {
+      hentetBurger[i].tabIndex = "-1";
+    }
   }
 }
 /*-------------------------------------------------------------------------------------------------------*/

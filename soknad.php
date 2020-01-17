@@ -66,19 +66,11 @@ if (isset($_POST['loggUt'])) {
                 <!-- innholdet i hamburger-menyen -->
                 <!-- -1 tabIndex som standard da menyen er lukket -->
                 <section class="hamburgerInnhold">
-                    <?php if (isset($_SESSION['brukernavn'])) { ?>
-                        <!-- Hva som vises om bruker er innlogget -->
-                        <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-                        <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
-                        <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
-                        <a id = "menytab4" tabIndex = "-1" href="backend.php">Oversikt</a>
-                        <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
-                    <?php } else { ?>
-                        <!-- Hvis bruker ikke er innlogget -->
-                        <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-                        <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
-                        <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
-                    <?php } ?>
+                    <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
+                    <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
+                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
+                    <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
                 </section>
             </section>
 

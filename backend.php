@@ -59,11 +59,11 @@ if ($_SESSION['brukernavn']) {
                 <!-- innholdet i hamburger-menyen -->
                 <!-- -1 tabIndex som standard, man tabber ikke inn i menyen når den er lukket -->
                 <section class="hamburgerInnhold">
-                    <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-                    <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
-                    <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
-                    <a id = "menytab4" tabIndex = "-1" href="backend.php">Oversikt</a>
-                    <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
+                    <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
+                    <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
+                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
+                    <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
                 </section>
             </section>
             
