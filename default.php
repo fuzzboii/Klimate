@@ -131,6 +131,9 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
                 <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
                     <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
+                    
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                    <p id="mldFEIL">Du kan ikke se dette området</p>  
                 <?php } ?>
 
                 <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>

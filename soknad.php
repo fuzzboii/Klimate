@@ -7,10 +7,11 @@ if (isset($_POST['loggUt'])) {
     header("Location: default.php?utlogget=1");
 }
 
-if ($_SESSION['brukernavn']) {
-    // OK
-} else {
+// Brukere skal kunne sende søknad
+if (!isset($_SESSION['brukernavn'])) {
     header("Location: default.php?error=1");
+} else if ($_SESSION['brukertype'] != '3') {
+    header("Location: default.php?error=4");
 }
 
 ?>
