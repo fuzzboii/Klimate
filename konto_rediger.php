@@ -1,5 +1,12 @@
 <?php
 session_start();
+
+//------------------------------//
+// Instillinger, faste variable //
+//------------------------------//
+include("instillinger.php");
+
+
 // Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
 if ($_SESSION['brukernavn']) {
     // OK
@@ -90,8 +97,6 @@ if (isset($_POST['subEndring'])) {
         // Del for oppdatering av passord, sjekker om begge passordene er like, og om bruker faktisk har skrevet noe
         if ($_POST['nyttpassord'] != "") {
             if ($_POST['nyttpassord'] == $_POST['bekreftnyttpassord']) {
-                // Saltet
-                $salt = "IT2_2020"; 
 
                 $lbr = strtolower($_SESSION['brukernavn']);
                 $pw = $_POST['gammeltpassord'];

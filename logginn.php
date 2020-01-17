@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+//------------------------------//
+// Instillinger, faste variable //
+//------------------------------//
+include("instillinger.php");
+
 // Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
 if (isset($_SESSION['brukernavn'])) {
@@ -48,8 +53,6 @@ if (isset($_POST['submit'])) {
 
     // Sjekker først om bruker har feilet innlogging for mange ganger
     if ($_SESSION['feilteller'] < 5) {
-        // Saltet
-        $salt = "IT2_2020"; 
 
         $br = $_POST['brukernavn'];
         $lbr = strtolower($_POST['brukernavn']);

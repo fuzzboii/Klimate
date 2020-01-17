@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+//------------------------------//
+// Instillinger, faste variable //
+//------------------------------//
+include("instillinger.php");
+
 // Utlogging av bruker
 if (isset($_POST['loggUt'])) { 
     session_destroy();
@@ -131,7 +136,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
                 <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
                     <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
-                    
+
                 <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
                     <p id="mldFEIL">Du kan ikke se dette området</p>  
                 <?php } ?>
