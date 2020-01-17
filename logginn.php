@@ -48,49 +48,44 @@ if (isset($_POST['submit'])) {
 
     // Sjekker først om bruker har feilet innlogging for mange ganger
     if ($_SESSION['feilteller'] < 5) {
-        try {
-            // Saltet
-            $salt = "IT2_2020"; 
-    
-            $br = $_POST['brukernavn'];
-            $lbr = strtolower($_POST['brukernavn']);
-            $pw = $_POST['passord'];
-            $kombinert = $salt . $pw;
-            // Krypterer passorder med salting
-            $spw = sha1($kombinert);
-    
-            $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-            // Prepared statement for å beskytte mot SQL injection
-            $stmt = $db->prepare($sql);
-    
-            $stmt->execute();
-    
-            $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-                $_SESSION['idbruker'] = $resultat['idbruker'];
-                $_SESSION['brukernavn'] = $resultat['brukernavn'];
-                $_SESSION['fornavn'] = $resultat['fnavn'];
-                $_SESSION['etternavn'] = $resultat['enavn'];;
-                $_SESSION['epost'] = $resultat['epost'];
-                $_SESSION['brukertype'] = $resultat['brukertype'];
-                
-                $_SESSION['feilteller'] = 0;
-    
-                header("Location: backend.php");
-            } else {    
-                // Øker teller for feilet innlogging med 1
-                $_SESSION['feilteller']++;
-                $_SESSION['sistFeilet'] = date("Y-m-d H:i:s");
-                
-                header("Location: logginn.php?error=1");
-            }
-        }
-        catch (Exception $e) {
-            header("Location:logginn.php?error=3");
-        }
+        // Saltet
+        $salt = "IT2_2020"; 
 
+        $br = $_POST['brukernavn'];
+        $lbr = strtolower($_POST['brukernavn']);
+        $pw = $_POST['passord'];
+        $kombinert = $salt . $pw;
+        // Krypterer passorder med salting
+        $spw = sha1($kombinert);
+
+        $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+        // Prepared statement for å beskytte mot SQL injection
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
+            $_SESSION['idbruker'] = $resultat['idbruker'];
+            $_SESSION['brukernavn'] = $resultat['brukernavn'];
+            $_SESSION['fornavn'] = $resultat['fnavn'];
+            $_SESSION['etternavn'] = $resultat['enavn'];;
+            $_SESSION['epost'] = $resultat['epost'];
+            $_SESSION['brukertype'] = $resultat['brukertype'];
+            
+            $_SESSION['feilteller'] = 0;
+
+            header("Location: backend.php");
+        } else {    
+            // Øker teller for feilet innlogging med 1
+            $_SESSION['feilteller']++;
+            $_SESSION['sistFeilet'] = date("Y-m-d H:i:s");
+            
+            header("Location: logginn.php?error=1");
+        }
     } else {
+        // Bruker har feilet for mange ganger, gir tilbakemelding til bruker
         header("Location: logginn.php?error=2");
     }
 }
