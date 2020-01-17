@@ -38,60 +38,48 @@ if (isset($_POST['glemtPassord'])) {
         if (strlen($_POST['passord']) <= 45) {
             // Tester på om brukernavnet er fyllt ut
             if ($_POST['brukernavn'] != "") {
-                // Tester på om epost er fyllt ut
-                if ($_POST['epost'] != "") {
-                    // Saltet
-                    $salt = "IT2_2020"; 
-    
-                    $epost = $_POST['epost'];
-                    $br = $_POST['brukernavn'];
-                    $pw = $_POST['passord'];
-    
-                    // Validering av passordstyrke
-                    $storebokstaver = preg_match('@[A-Z]@', $pw);
-                    $smaabokstaver = preg_match('@[a-z]@', $pw);
-                    $nummer = preg_match('@[0-9]@', $pw);
-                    // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-                    // $spesielleB = preg_match('@[^\w]@', $pw);
-    
-                    if ($pw == "") {
-                        // Ikke noe passord skrevet
-                        header("Location: glemt_passord.php?error=3");
-                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
-                        // Ikke tilstrekkelig passord skrevet
-                        header("Location: glemt_passord.php?error=4");
-                    } else {
-                        // OK, vi salter passord for eksiterende bruker
-                        $kombinert = $salt . $pw;
-                        // Krypterer passorder med salting
-                        // Anser kombinasjonen av brukernavn og epost god nok til å kunne endre passord for nå. 
-                        // Om man legger inn flere brukere med samme brukernavn og epost vil dette ikke lenger være en god løsning
-                        // Det er ikke mulig å dobbelregistrere brukernavn med kun vår applikasjon isolert, vet ikke løsning på andres applikasjon. 
-                        $spw = sha1($kombinert);
-                        $lbr = strtolower($_POST['brukernavn']);
-                        $sql = "update bruker set passord='" . $spw . "' where lower(brukernavn)='". $lbr . "' and epost='" . $epost . "'";
-    
-    
-                        // Prepared statement for å beskytte mot SQL injection
-                        $stmt = $db->prepare($sql);
-    
-                        $stmt->execute();
+                // Saltet
+                $salt = "IT2_2020"; 
+                $br = $_POST['brukernavn'];
+                $pw = $_POST['passord'];
 
-                        // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
-                        $antall = $stmt->rowCount();
+                // Validering av passordstyrke
+                $storebokstaver = preg_match('@[A-Z]@', $pw);
+                $smaabokstaver = preg_match('@[a-z]@', $pw);
+                $nummer = preg_match('@[0-9]@', $pw);
+                // Denne er for spesielle symboler, ikke i bruk for øyeblikket
+                // $spesielleB = preg_match('@[^\w]@', $pw);
 
-                        if (!$antall == "0") {
-                            // Alt gikk OK, sender til logginn med melding til bruker
-                            header("location: logginn.php?vellykket=2");
-                        } else {
-                            //Ikke ok, ber bruker om å oppgi brukernavn på nytt
-                            header("location: glemt_passord.php?error=1");
-                        }
-                    }
-
+                if ($pw == "") {
+                    // Ikke noe passord skrevet
+                    header("Location: glemt_passord.php?error=3");
+                } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                    // Ikke tilstrekkelig passord skrevet
+                    header("Location: glemt_passord.php?error=4");
                 } else {
-                    // Feilmelding 6, bruker har ikke fyllt ut felt
-                    header("location: glemt_passord.php?error=6");
+                    // OK, vi salter passord for eksiterende bruker
+                    $kombinert = $salt . $pw;
+                    // Krypterer passorder med salting 
+                    $spw = sha1($kombinert);
+                    $lbr = strtolower($_POST['brukernavn']);
+                    $sql = "update bruker set passord='" . $spw . "' where lower(brukernavn)='". $lbr . "'";
+
+
+                    // Prepared statement for å beskytte mot SQL injection
+                    $stmt = $db->prepare($sql);
+
+                    $stmt->execute();
+
+                    // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
+                    $antall = $stmt->rowCount();
+
+                    if (!$antall == "0") {
+                        // Alt gikk OK, sender til logginn med melding til bruker
+                        header("location: logginn.php?vellykket=2");
+                    } else {
+                        //Ikke ok, ber bruker om å oppgi brukernavn på nytt
+                        header("location: glemt_passord.php?error=1");
+                    }
                 }
             } else {
                 // Feilmelding 6, bruker har ikke fyllt ut felt
@@ -171,10 +159,6 @@ if (isset($_POST['glemtPassord'])) {
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
                         <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn ditt brukernavn" autofocus>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/emailIkon.png" alt="Emailikon"> <!-- Ikonet for epost -->
-                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn din epost">
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
