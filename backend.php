@@ -70,7 +70,7 @@ if ($_SESSION['brukernavn']) {
             <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
             <header class="backend_header" onclick="lukkHamburgerMeny()">
                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
-                <h1 class="velkomst">Velkommen <?php echo($_SESSION['fornavn']) ?></h1>
+                <h1 class="velkomst">Velkommen <?php if($_SESSION['fornavn'] != "") { echo($_SESSION['fornavn']); } else { echo($_SESSION['brukernavn']); } ?></h1>
             </header>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">
