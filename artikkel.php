@@ -7,10 +7,24 @@ if (isset($_POST['loggUt'])) {
     header("Location: default.php?utlogget=1");
 }
 
-if ($_SESSION['brukernavn']) {
-    // OK
-} else {
-    header("Location: default.php?error=1");
+try {
+    include("klimate_pdo.php");
+    $db = new mysqlPDO();
+} 
+catch (Exception $ex) {
+    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
+    if ($ex->getCode() == 1049) {
+        // 1049, Fikk koblet til men databasen finnes ikke
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 2002) {
+        // 2002, Kunne ikke koble til server
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 1045) {
+        // 1045, Bruker har ikke tilgang
+        header('location: default.php?error=3');
+    }
 }
 
 ?>
@@ -54,6 +68,10 @@ if ($_SESSION['brukernavn']) {
                     <form method="POST" action="default.php">
                         <button name="loggUt" id="registrerKnapp" tabindex="2">LOGG UT</button>
                     </form>
+                <?php } else { ?>
+                    <!-- Vises når bruker ikke er innlogget -->
+                    <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
+                    <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
                 <?php } ?>
                 <!-- Logoen øverst i venstre hjørne -->
                 <a class="bildeKontroll" href="default.php" tabindex="1">
@@ -68,11 +86,19 @@ if ($_SESSION['brukernavn']) {
                 <!-- innholdet i hamburger-menyen -->
                 <!-- -1 tabIndex som standard da menyen er lukket -->
                 <section class="hamburgerInnhold">
-                    <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                    <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
-                    <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
+                    <?php if (isset($_SESSION['brukernavn'])) { ?>
+                        <!-- Hva som vises om bruker er innlogget -->
+                        <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
+                        <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
+                        <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                        <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
+                        <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
+                    <?php } else { ?>
+                        <!-- Hvis bruker ikke er innlogget -->
+                        <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
+                        <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
+                        <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <?php } ?>
                 </section>
             </section>
 
@@ -85,8 +111,20 @@ if ($_SESSION['brukernavn']) {
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main id="default_main" onclick="lukkHamburgerMeny()">   
-                
+            <main onclick="lukkHamburgerMeny()">  
+                <article>
+                    <?php if(isset($_GET['artikkel'])){
+                        // Henter artikkelen bruker ønsker å se
+                        $hent = "select * from artikkel where idartikkel = " . $_GET['artikkel'];
+                        $stmt = $db->prepare($hent);
+                        $stmt->execute();
+                        $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
+                    ?>
+                        <h1><?php echo($artikkel['artnavn'])?></h1>
+                        <p><?php echo($artikkel['arttekst'])?></p>
+                        <p>Skrevet av: <?php echo($artikkel['bruker']) ?></p>
+                    <?php } ?>
+                </article>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
@@ -94,7 +132,9 @@ if ($_SESSION['brukernavn']) {
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
+                    <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                </p>
             </footer>
         </article>
     </body>

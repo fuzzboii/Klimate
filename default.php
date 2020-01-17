@@ -7,6 +7,36 @@ if (isset($_POST['loggUt'])) {
     header("Location: default.php?utlogget=1");
 }
 
+try {
+    include("klimate_pdo.php");
+    $db = new mysqlPDO();
+} 
+catch (Exception $ex) {
+    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
+    if ($ex->getCode() == 1049) {
+        // 1049, Fikk koblet til men databasen finnes ikke
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 2002) {
+        // 2002, Kunne ikke koble til server
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 1045) {
+        // 1045, Bruker har ikke tilgang
+        header('location: default.php?error=3');
+    }
+}
+
+//------------------------------//
+// Henter artikler fra database //
+//------------------------------//
+
+// Denne sorterer tilfeldig og begrenser resultatet til en artikkel
+$hentTilfeldig = "select * from artikkel order by RAND() limit 1";
+$stmtTilfeldig = $db->prepare($hentTilfeldig);
+$stmtTilfeldig->execute();
+$tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -130,9 +160,8 @@ if (isset($_POST['loggUt'])) {
                 </article>
                 <article id="artikkel4">
                     <h2>Tilfeldig utvalgt</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Hundretusener demonstrerer for klima over hele verden</p>
-                    <a href="#">Trykk her for å lese videre</a>
+                    <p><?php echo($tilfeldigArtikkel['artnavn'])?></p>
+                    <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel']) ?>">Trykk her for å lese videre</a>
                 </article>
                 
             </main>
