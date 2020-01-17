@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 // Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
 if (isset($_SESSION['brukernavn'])) {
@@ -30,31 +31,23 @@ catch (Exception $ex) {
     }
 }
 
-// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-//$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 if (isset($_POST['submit'])) {
-    // Sjekker IP
+    // Ventetiden når en bruker er lukket ute
+    $ventetid = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . "- 180 seconds"));
 
-    // Oppdaterer først utdaterte innloggingsforsøk
-    // Mulig dette kan gjøres om til trigger i databasen
-    $eldste = strtotime(date("Y-m-d H:i:s")." - 300 seconds");
-    $dato = date("Y-m-d H:i:s", $eldste);
-    $sporring = "update bruker set feillogginnteller = 0 where feillogginnsiste < '" . $dato . "'";
-    $oppdater = $db->prepare($sporring);
-    $oppdater->execute();
-  
-    // Teller antall feilet forsøk på brukers IP
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $antall = "select feillogginnteller from bruker where feilip = '" . $ip . "'";
-    $rad = $db->prepare($antall);
-    $rad->execute();
-    //foreach($rad as $forsok) {
-        //$antForsok += $forsok;
-    //}
-    $res = $rad->fetch(PDO::FETCH_ASSOC);
+    // Hvis feiltelleren ikke eksisterer har ikke bruker forsøkt å logge inn hittils, oppretter da disse med standardverdier
+    if (!isset($_SESSION['feilteller'])) {
+        $_SESSION['feilteller'] = 0;
+        $_SESSION['sistFeilet'] = date("Y-m-d H:i:s");
+    }
 
-    if ($res['feillogginnteller'] < 5) {
+    // Hvis det har gått 3 minutter mellom siste gang bruker feiler innlogging, tøm telleren
+    if ($_SESSION['sistFeilet'] <= $ventetid) {
+        $_SESSION['feilteller'] = 0;
+    }
+
+    // Sjekker først om bruker har feilet innlogging for mange ganger
+    if ($_SESSION['feilteller'] < 5) {
         try {
             // Saltet
             $salt = "IT2_2020"; 
@@ -81,15 +74,14 @@ if (isset($_POST['submit'])) {
                 $_SESSION['etternavn'] = $resultat['enavn'];;
                 $_SESSION['epost'] = $resultat['epost'];
                 $_SESSION['brukertype'] = $resultat['brukertype'];
+                
+                $_SESSION['feilteller'] = 0;
     
                 header("Location: backend.php");
             } else {    
                 // Øker teller for feilet innlogging med 1
-                $ip = $_SERVER['REMOTE_ADDR'];
-                $dato = date("Y-m-d H:i:s");
-                $insert = "update bruker set feillogginnteller = '" . $res['feillogginnteller'] . "'+1, feillogginnsiste = '" . $dato . "', feilip = '" . $ip . "' where lower(brukernavn) = '" . $lbr . "'";
-                $input = $db->prepare($insert);
-                $input->execute();
+                $_SESSION['feilteller']++;
+                $_SESSION['sistFeilet'] = date("Y-m-d H:i:s");
                 
                 header("Location: logginn.php?error=1");
             }
