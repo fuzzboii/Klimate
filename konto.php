@@ -104,6 +104,11 @@ if ($_SESSION['brukernavn']) {
                             <th>Etternavn:</th>
                                 <td><?php echo($_SESSION['etternavn']) ?></td>
                         </tr>
+                        <!-- Telefonnummer output -->
+                        <tr>
+                            <th>Telefonnummer:</th>
+                                <td><?php echo($_SESSION['telefonnummer']) ?></td>
+                        </tr>
                     
                     </table>
 
