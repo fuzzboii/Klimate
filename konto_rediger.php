@@ -209,7 +209,7 @@ if (isset($_POST['subEndring'])) {
                 <!-- innholdet i hamburger-menyen -->
                 <section class="hamburgerInnhold">
                     <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
+                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                     <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                     <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>

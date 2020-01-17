@@ -89,14 +89,14 @@ catch (Exception $ex) {
                     <?php if (isset($_SESSION['brukernavn'])) { ?>
                         <!-- Hva som vises om bruker er innlogget -->
                         <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
-                        <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
+                        <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                         <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                         <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
                     <?php } else { ?>
                         <!-- Hvis bruker ikke er innlogget -->
                         <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
-                        <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
+                        <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                     <?php } ?>
                 </section>

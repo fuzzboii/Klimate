@@ -161,7 +161,7 @@ if (isset($_POST['subRegistrering'])) {
                 <!-- -1 tabIndex som standard da menyen er lukket -->
                 <section class="hamburgerInnhold">
                     <a class = "menytab" tabIndex = "-1" href="#">Arrangementer</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Artikler</a>
+                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                     <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                 </section>
             </section>
