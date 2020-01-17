@@ -34,59 +34,53 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 if (isset($_POST['glemtPassord'])) {
     // Tester på om passordene er like
     if ($_POST['passord'] == $_POST['passord2']) {
-        // Tester på om passordet er mindre eller lik 45 tegn
-        if (strlen($_POST['passord']) <= 45) {
-            // Tester på om brukernavnet er fyllt ut
-            if ($_POST['brukernavn'] != "") {
-                // Saltet
-                $salt = "IT2_2020"; 
-                $br = $_POST['brukernavn'];
-                $pw = $_POST['passord'];
+        // Tester på om brukernavnet er fyllt ut
+        if ($_POST['brukernavn'] != "") {
+            // Saltet
+            $salt = "IT2_2020"; 
+            $br = $_POST['brukernavn'];
+            $pw = $_POST['passord'];
 
-                // Validering av passordstyrke
-                $storebokstaver = preg_match('@[A-Z]@', $pw);
-                $smaabokstaver = preg_match('@[a-z]@', $pw);
-                $nummer = preg_match('@[0-9]@', $pw);
-                // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-                // $spesielleB = preg_match('@[^\w]@', $pw);
+            // Validering av passordstyrke
+            $storebokstaver = preg_match('@[A-Z]@', $pw);
+            $smaabokstaver = preg_match('@[a-z]@', $pw);
+            $nummer = preg_match('@[0-9]@', $pw);
+            // Denne er for spesielle symboler, ikke i bruk for øyeblikket
+            // $spesielleB = preg_match('@[^\w]@', $pw);
 
-                if ($pw == "") {
-                    // Ikke noe passord skrevet
-                    header("Location: glemt_passord.php?error=3");
-                } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
-                    // Ikke tilstrekkelig passord skrevet
-                    header("Location: glemt_passord.php?error=4");
-                } else {
-                    // OK, vi salter passord for eksiterende bruker
-                    $kombinert = $salt . $pw;
-                    // Krypterer passorder med salting 
-                    $spw = sha1($kombinert);
-                    $lbr = strtolower($_POST['brukernavn']);
-                    $sql = "update bruker set passord='" . $spw . "' where lower(brukernavn)='". $lbr . "'";
-
-
-                    // Prepared statement for å beskytte mot SQL injection
-                    $stmt = $db->prepare($sql);
-
-                    $stmt->execute();
-
-                    // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
-                    $antall = $stmt->rowCount();
-
-                    if (!$antall == "0") {
-                        // Alt gikk OK, sender til logginn med melding til bruker
-                        header("location: logginn.php?vellykket=2");
-                    } else {
-                        //Ikke ok, ber bruker om å oppgi brukernavn på nytt
-                        header("location: glemt_passord.php?error=1");
-                    }
-                }
+            if ($pw == "") {
+                // Ikke noe passord skrevet
+                header("Location: glemt_passord.php?error=3");
+            } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                // Ikke tilstrekkelig passord skrevet
+                header("Location: glemt_passord.php?error=4");
             } else {
-                // Feilmelding 6, bruker har ikke fyllt ut felt
-                header("location: glemt_passord.php?error=6");
+                // OK, vi salter passord for eksiterende bruker
+                $kombinert = $salt . $pw;
+                // Krypterer passorder med salting 
+                $spw = sha1($kombinert);
+                $lbr = strtolower($_POST['brukernavn']);
+                $sql = "update bruker set passord='" . $spw . "' where lower(brukernavn)='". $lbr . "'";
+
+
+                // Prepared statement for å beskytte mot SQL injection
+                $stmt = $db->prepare($sql);
+
+                $stmt->execute();
+
+                // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
+                $antall = $stmt->rowCount();
+
+                if (!$antall == "0") {
+                    // Alt gikk OK, sender til logginn med melding til bruker
+                    header("location: logginn.php?vellykket=2");
+                } else {
+                    //Ikke ok, ber bruker om å oppgi brukernavn på nytt
+                    header("location: glemt_passord.php?error=1");
+                }
             }
         } else {
-            // Feilmelding 5, passord for langt
+            // Feilmelding 5, bruker har ikke fyllt ut felt
             header("location: glemt_passord.php?error=5");
         }
     } else {
@@ -180,11 +174,8 @@ if (isset($_POST['glemtPassord'])) {
                     
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
                         <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                        <p id="mldFEIL">Passordet kan maksimalt være 45 tegn i lengden</p>
                     
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
                         <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
                     <?php } ?>
 
