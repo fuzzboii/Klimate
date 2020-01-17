@@ -123,6 +123,9 @@ catch (Exception $ex) {
                         <h1><?php echo($artikkel['artnavn'])?></h1>
                         <p><?php echo($artikkel['arttekst'])?></p>
                         <p>Skrevet av: <?php echo($artikkel['bruker']) ?></p>
+                    <?php } else { ?>
+                        <h1>Bruker har ikke oppgitt noen artikkel</h1>
+                        <p>Vi ønsker nå å vise alle artikler i stedet osv</p>
                     <?php } ?>
                 </article>
             </main>
