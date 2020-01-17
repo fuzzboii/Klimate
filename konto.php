@@ -122,7 +122,8 @@ if ($_SESSION['brukernavn']) {
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
                 <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
-                    <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                    <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
+                    <?php if ($_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
                 </p>
             </footer>
         </article>
