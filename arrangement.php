@@ -38,7 +38,7 @@ catch (Exception $ex) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Artikler</title>
+        <title>Arrangementer</title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -113,23 +113,23 @@ catch (Exception $ex) {
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main onclick="lukkHamburgerMeny()">  
                 <article>
-                    <?php if(isset($_GET['artikkel'])){
-                        // Henter artikkelen bruker ønsker å se
-                        $hent = "select * from artikkel where idartikkel = " . $_GET['artikkel'];
+                    <?php if(isset($_GET['arrangement'])){
+                        // Henter arrangementet bruker ønsker å se
+                        $hent = "select * from event where idevent = " . $_GET['arrangement'];
                         $stmt = $db->prepare($hent);
                         $stmt->execute();
-                        $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
                         $antall = $stmt->rowCount();
                         if ($antall == 0) { ?>
-                            <h1>Artikkel ikke funnet</h1>
+                            <h1>Arrangement ikke funnet</h1>
                         <?php } else { ?>
-                            <h1><?php echo($artikkel['artnavn'])?></h1>
-                            <p><?php echo($artikkel['arttekst'])?></p>
-                            <p>Skrevet av: <?php echo($artikkel['bruker']) ?></p>
+                            <h1><?php echo($arrangement['eventnavn'])?></h1>
+                            <p><?php echo($arrangement['eventtekst'])?></p>
+                            <p>Arrangert av: <?php echo($arrangement['idbruker'] . ", "); echo($arrangement['tidspunkt'])?></p>
                         <?php } ?>
                     <?php  } else { ?>
-                        <h1>Bruker har ikke oppgitt noen artikkel</h1>
-                        <p>Vi ønsker nå å vise alle artikler i stedet osv</p>
+                        <h1>Bruker har ikke oppgitt noen arrangement</h1>
+                        <p>Vi ønsker nå å vise alle arrangementer i stedet osv</p>
                     <?php } ?>
                 </article>
             </main>
