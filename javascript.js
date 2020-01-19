@@ -46,20 +46,21 @@ function lukkHamburgerMeny() {
 /* Del for å vise "Tilbake til topp" knapp */
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
-window.onscroll = function() { scrollFunction() };
+window.onscroll = function() { skrollFunksjon() };
 
 /* Når vinduet scroller, kjør denne */
-function scrollFunction() {
+function skrollFunksjon() {
   var knappen = document.getElementById("toppKnapp");
-  /* Når bruker har scrollet 20px, vis tilbake til topp knapp til bruker */
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    /* Hvis vinduet er mer enn 20 piksler fra toppen, vis tilbake til topp knappen */
     knappen.style.display = "block";
   } else {
+    /* Hvis vinduet er mindre enn 20 piksler fra toppen, fjern tilbake til topp knappen */
     knappen.style.display = "none";
   }
 }
 /* Når bruker trykker på knappen for å gå til topp, kjør denne */
-function topFunction() {
+function tilbakeTilTopp() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
