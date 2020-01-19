@@ -119,10 +119,19 @@ catch (Exception $ex) {
                         $stmt = $db->prepare($hent);
                         $stmt->execute();
                         $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
-                        $antall = $stmt->rowCount();
-                        if ($antall == 0) { ?>
+                        $antallArrangement = $stmt->rowCount();
+                        if ($antallArrangement == 0) { ?>
                             <h1>Arrangement ikke funnet</h1>
-                        <?php } else { ?>
+                        <?php } else { 
+                            $hentBilde = "select * from eventbilde, bilder where event = " . $_GET['arrangement'] . " and idbilder = bilde";
+                            $stmtBilde = $db->prepare($hentBilde);
+                            $stmtBilde->execute();
+                            $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+                            $antallBilderFunnet = $stmtBilde->rowCount();
+                            if ($antallBilderFunnet != 0) { ?>
+                                <img src="bilder/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+
+                            <?php } ?>
                             <h1><?php echo($arrangement['eventnavn'])?></h1>
                             <p><?php echo($arrangement['eventtekst'])?></p>
                             <p>Arrangert av: <?php echo($arrangement['idbruker'] . ", "); echo($arrangement['tidspunkt'])?></p>
