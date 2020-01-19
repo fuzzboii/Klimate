@@ -7,6 +7,37 @@ if ($_SESSION['brukernavn']) {
     header("Location: default.php?error=1");
 }
 
+try {
+    include("klimate_pdo.php");
+    $db = new mysqlPDO();
+} 
+catch (Exception $ex) {
+    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
+    if ($ex->getCode() == 1049) {
+        // 1049, Fikk koblet til men databasen finnes ikke
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 2002) {
+        // 2002, Kunne ikke koble til server
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 1045) {
+        // 1045, Bruker har ikke tilgang
+        header('location: default.php?error=3');
+    }
+}
+
+//-----------------------------------//
+// Henter arrangementer fra database //
+//-----------------------------------//
+
+// Denne sorterer og henter ut det nyeste arrangementet
+$hentArrangement = "select * from event order by tidspunkt DESC limit 1";
+$stmtArrangement = $db->prepare($hentArrangement);
+$stmtArrangement->execute();
+$sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -78,9 +109,8 @@ if ($_SESSION['brukernavn']) {
                 <!-- IDene brukes til å splitte opp kolonnene i queries -->
                 <article id="bgcont1">
                     <h2>Arrangementer</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Dugnad hos KlimaVennen</p>
-                    <a href="#">Trykk her for å lese videre</a>
+                    <p><?php echo($sisteArrangement['eventnavn'])?></p>
+                    <a href="arrangement.php?arrangement=<?php echo($sisteArrangement['idevent']) ?>">Trykk her for å se dette arrangementet</a>
                 </article>
                 <article id="bgcont2">
                     <h2>Diskusjoner</h2>
