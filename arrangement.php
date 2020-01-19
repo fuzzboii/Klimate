@@ -129,7 +129,7 @@ catch (Exception $ex) {
                             $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
                             $antallBilderFunnet = $stmtBilde->rowCount();
                             if ($antallBilderFunnet != 0) { ?>
-                                <img src="bilder/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                                <img src="bilder/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet" style="height: 20em;">
 
                             <?php } ?>
                             <h1><?php echo($arrangement['eventnavn'])?></h1>
