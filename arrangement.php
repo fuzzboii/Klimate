@@ -58,16 +58,21 @@ catch (Exception $ex) {
                 </a>
                 <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
                 <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-                <?php if (isset($_SESSION['brukernavn'])) { ?>
-                    <!-- Vises når bruker er innlogget -->
-                    <?php
-                    // Del for å vise profilbilde
+                <?php if (isset($_SESSION['brukernavn'])) {
+                    // Vises når bruker er innlogget
+
+                    /* -------------------------------*/
+                    /* Del for visning av profilbilde */
+                    /* -------------------------------*/
+
                     // Henter bilde fra database utifra brukerid
+
                     $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
                     $stmtBilde = $db->prepare($hentBilde);
                     $stmtBilde->execute();
                     $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
                     $antallBilderFunnet = $stmtBilde->rowCount();
+                    
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
@@ -81,6 +86,7 @@ catch (Exception $ex) {
                             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                         </a>
                     <?php } ?>
+
                     <!-- Legger til en knapp for å logge ut når man er innlogget -->
                     <form method="POST" action="default.php">
                         <button name="loggUt" id="registrerKnapp" tabindex="2">LOGG UT</button>

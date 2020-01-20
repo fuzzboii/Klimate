@@ -38,13 +38,19 @@ if ($_SESSION['brukernavn']) {
                 </a>
                 <!-- Profilbilde i navmenyen, leder til profil-siden -->
                 <?php
-                // Del for å vise profilbilde
+
+                /* -------------------------------*/
+                /* Del for visning av profilbilde */
+                /* -------------------------------*/
+
                 // Henter bilde fra database utifra brukerid
+
                 $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
                 $stmtBilde = $db->prepare($hentBilde);
                 $stmtBilde->execute();
                 $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
                 $antallBilderFunnet = $stmtBilde->rowCount();
+                
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
@@ -58,6 +64,7 @@ if ($_SESSION['brukernavn']) {
                         <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                     </a>
                 <?php } ?>
+
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
                 <form method="POST" action="default.php">
                     <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>

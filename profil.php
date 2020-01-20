@@ -58,11 +58,15 @@ catch (Exception $ex) {
                 </a>
                 <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
                 <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-                <?php if (isset($_SESSION['brukernavn'])) { ?>
-                    <!-- Vises når bruker er innlogget -->
-                    <?php
-                    // Del for å vise profilbilde
+                <?php if (isset($_SESSION['brukernavn'])) {
+                    // Vises når bruker er innlogget
+
+                    /* -------------------------------*/
+                    /* Del for visning av profilbilde */
+                    /* -------------------------------*/
+
                     // Henter bilde fra database utifra brukerid
+                    
                     $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
                     $stmtBilde = $db->prepare($hentBilde);
                     $stmtBilde->execute();
