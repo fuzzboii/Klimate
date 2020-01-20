@@ -194,7 +194,7 @@ if (isset($_POST['subEndring'])) {
                 <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
-                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
+                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                 </a>
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->

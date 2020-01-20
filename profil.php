@@ -38,7 +38,7 @@ catch (Exception $ex) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Arrangementer</title>
+        <title>Profil</title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -61,7 +61,7 @@ catch (Exception $ex) {
                 <?php if (isset($_SESSION['brukernavn'])) { ?>
                     <!-- Vises når bruker er innlogget -->
                     <!-- Mulig løsning på bruk av profilbilde <img src="bilder/</?php echo($_SESSION['profilbilde']) ?>" -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
                         <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                     </a>
                     <!-- Legger til en knapp for å logge ut når man er innlogget -->
@@ -112,42 +112,6 @@ catch (Exception $ex) {
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main onclick="lukkHamburgerMeny()">  
-                <article>
-                    <?php if(isset($_GET['arrangement'])){
-                        // Henter arrangementet bruker ønsker å se
-                        $hent = "select * from event where idevent = " . $_GET['arrangement'];
-                        $stmt = $db->prepare($hent);
-                        $stmt->execute();
-                        $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
-                        $antallArrangement = $stmt->rowCount();
-                        // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe arrangement med denne eventid'en i databasen
-                        if ($antallArrangement == 0) { ?>
-                            <!-- Del for å vise feilmelding til bruker om at arrangementet ikke eksisterer -->
-                            <h1>Arrangement ikke funnet</h1>
-                        <?php } else { 
-                            // Del for å vise et spesifikt arrangement
-                            // Henter bilde fra database utifra eventid
-                            $hentBilde = "select hvor from event, eventbilde, bilder where idevent = " . $_GET['arrangement'] . " and idevent = event and bilde = idbilder";
-                            $stmtBilde = $db->prepare($hentBilde);
-                            $stmtBilde->execute();
-                            $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
-                            $antallBilderFunnet = $stmtBilde->rowCount();
-                            // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
-                            if ($antallBilderFunnet != 0) { ?>
-                                <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                                <img src="bilder/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet" style="height: 20em;">
-
-                            <?php } ?>
-                            <h1><?php echo($arrangement['eventnavn'])?></h1>
-                            <p><?php echo($arrangement['eventtekst'])?></p>
-                            <p>Arrangert av: <?php echo($arrangement['idbruker'] . ", "); echo($arrangement['tidspunkt'])?></p>
-                        <?php } ?>
-                    <?php  } else { ?>
-                        <!-- Del for å vise alle arrangement -->
-                        <h1>Bruker har ikke oppgitt noen arrangement</h1>
-                        <p>Vi ønsker nå å vise alle arrangementer i stedet osv</p>
-                    <?php } ?>
-                </article>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
