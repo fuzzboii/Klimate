@@ -194,9 +194,27 @@ if (isset($_POST['subEndring'])) {
                 <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
-                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
-                </a>
+                <?php
+                // Del for å vise profilbilde
+                // Henter bilde fra database utifra brukerid
+                $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+                $stmtBilde = $db->prepare($hentBilde);
+                $stmtBilde->execute();
+                $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+                $antallBilderFunnet = $stmtBilde->rowCount();
+                // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
+                if ($antallBilderFunnet != 0) { ?>
+                    <!-- Hvis vi finner et bilde til bruker viser vi det -->
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                        <img src="bilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                    </a>
+
+                <?php } else { ?>
+                    <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+                    </a>
+                <?php } ?>
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
                 <form method="POST" action="default.php">
                     <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
