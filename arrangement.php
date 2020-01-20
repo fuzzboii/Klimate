@@ -123,7 +123,7 @@ catch (Exception $ex) {
                         if ($antallArrangement == 0) { ?>
                             <h1>Arrangement ikke funnet</h1>
                         <?php } else { 
-                            $hentBilde = "select * from eventbilde, bilder where event = " . $_GET['arrangement'] . " and idbilder = bilde";
+                            $hentBilde = "select hvor from event, eventbilde, bilder where idevent = " . $_GET['arrangement'] . " and idevent = event and bilde = idbilder";
                             $stmtBilde = $db->prepare($hentBilde);
                             $stmtBilde->execute();
                             $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);

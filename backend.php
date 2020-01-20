@@ -108,7 +108,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                 <!-- Innholdet på siden -->
                 <!-- IDene brukes til å splitte opp kolonnene i queries -->
                 <article id="bgcont1">
-                    <h2>Arrangementer</h2>
+                    <h2>Siste arrangement</h2>
                     <p><?php echo($sisteArrangement['eventnavn'])?></p>
                     <a href="arrangement.php?arrangement=<?php echo($sisteArrangement['idevent']) ?>">Trykk her for å se dette arrangementet</a>
                 </article>
