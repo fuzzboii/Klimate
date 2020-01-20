@@ -120,15 +120,21 @@ catch (Exception $ex) {
                         $stmt->execute();
                         $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
                         $antallArrangement = $stmt->rowCount();
+                        // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe arrangement med denne eventid'en i databasen
                         if ($antallArrangement == 0) { ?>
+                            <!-- Del for å vise feilmelding til bruker om at arrangementet ikke eksisterer -->
                             <h1>Arrangement ikke funnet</h1>
                         <?php } else { 
+                            // Del for å vise et spesifikt arrangement
+                            // Henter bilde fra database utifra eventid
                             $hentBilde = "select hvor from event, eventbilde, bilder where idevent = " . $_GET['arrangement'] . " and idevent = event and bilde = idbilder";
                             $stmtBilde = $db->prepare($hentBilde);
                             $stmtBilde->execute();
                             $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
                             $antallBilderFunnet = $stmtBilde->rowCount();
+                            // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                             if ($antallBilderFunnet != 0) { ?>
+                                <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
                                 <img src="bilder/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet" style="height: 20em;">
 
                             <?php } ?>
@@ -137,6 +143,7 @@ catch (Exception $ex) {
                             <p>Arrangert av: <?php echo($arrangement['idbruker'] . ", "); echo($arrangement['tidspunkt'])?></p>
                         <?php } ?>
                     <?php  } else { ?>
+                        <!-- Del for å vise alle arrangement -->
                         <h1>Bruker har ikke oppgitt noen arrangement</h1>
                         <p>Vi ønsker nå å vise alle arrangementer i stedet osv</p>
                     <?php } ?>
