@@ -27,6 +27,11 @@ catch (Exception $ex) {
     }
 }
 
+$hentTilfeldig = "select * from artikkel";
+$stmtTilfeldig = $db->prepare($hentTilfeldig);
+$stmtTilfeldig->execute();
+$tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -130,10 +135,10 @@ catch (Exception $ex) {
             <header onclick="lukkHamburgerMeny()">
                 <!-- Logoen midten øverst på siden, med tittel -->
                 <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
-                <h1 style="display: none">Bilde av Klimate logoen.</h1>
+                <h1 style="display: none">Bilde av Klimate logoen.</h1> 
             </header>
 
-            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main --
             <main onclick="lukkHamburgerMeny()">  
                 <article>
                     <?php if(isset($_GET['artikkel'])){
@@ -153,8 +158,19 @@ catch (Exception $ex) {
                     <?php  } else { ?>
                         <h1>Bruker har ikke oppgitt noen artikkel</h1>
                         <p>Vi ønsker nå å vise alle artikler i stedet osv</p>
-                    <?php } ?>
-                </article>
+                    <?php } ?> 
+                </article> -->
+                <main onclick="lukkHamburgerMeny()">
+                        <!-- -------------------------- -->
+                <section id="artikkel_main">
+                    <!-- IDene brukes til å splitte opp kolonnene i queries -->
+                    <form id="A_artik">
+                        <img id="mainArtbilde" src="bilder/test-image.png" alt="Profilbilde" class="profil_navmeny">
+                        <p id="overskriftRad"><?php echo($tilfeldigArtikkel['artnavn'])?></p>
+                        <p><?php echo($tilfeldigArtikkel['artingress'])?></p>
+                        <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel']) ?>">Trykk her for å lese videre</a>
+                    </form>
+                </section>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
