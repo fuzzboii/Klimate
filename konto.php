@@ -8,6 +8,27 @@ if ($_SESSION['brukernavn']) {
     header("Location: default.php?error=1");
 }
 
+
+try {
+    include("klimate_pdo.php");
+    $db = new mysqlPDO();
+} 
+catch (Exception $ex) {
+    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
+    if ($ex->getCode() == 1049) {
+        // 1049, Fikk koblet til men databasen finnes ikke
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 2002) {
+        // 2002, Kunne ikke koble til server
+        header('location: default.php?error=3');
+    }
+    if ($ex->getCode() == 1045) {
+        // 1045, Bruker har ikke tilgang
+        header('location: default.php?error=3');
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
