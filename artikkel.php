@@ -138,7 +138,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                 <h1 style="display: none">Bilde av Klimate logoen.</h1> 
             </header>
 
-            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main --
+            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main onclick="lukkHamburgerMeny()">  
                 <article>
                     <?php if(isset($_GET['artikkel'])){
@@ -161,15 +161,72 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                     <?php } ?> 
                 </article> -->
                 <main onclick="lukkHamburgerMeny()">
-                        <!-- -------------------------- -->
+
                 <section id="artikkel_main">
-                    <!-- IDene brukes til å splitte opp kolonnene i queries -->
-                    <form id="A_artik">
-                        <img id="mainArtbilde" src="bilder/test-image.png" alt="Profilbilde" class="profil_navmeny">
-                        <p id="overskriftRad"><?php echo($tilfeldigArtikkel['artnavn'])?></p>
-                        <p><?php echo($tilfeldigArtikkel['artingress'])?></p>
-                        <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel']) ?>">Trykk her for å lese videre</a>
-                    </form>
+                    <!-- Artikkel 1 -->
+                    <article id="artikkel_art1">
+                        <section class="artikkel_innhold">
+                            <!-- her kommer innholder fra databasen -->
+                            <!-- a href= -->
+                                <!-- <figure> for bilde område -->
+                                <!-- <section class="artikkel_innholdInfo> -->
+                                    <!-- section class="dato"> -->
+                                    <!-- <h2>Artikkel overskrift</h2> -->
+                                    <!-- <p> Artikkel kort oppsummering</p> -->
+
+                        </section>
+                    </article>
+
+                    <!-- Artikkel 2 -->
+                    <article id="artikkel_art2">
+                        <section class="artikkel_innhold1">
+                            <!-- her kommer innholder fra databasen -->
+                            <!-- a href= -->
+                                <!-- <figure> for bilde område -->
+                                <!-- <section class="artikkel_innholdInfo> -->
+                                    <!-- section class="dato"> -->
+                                    <!-- <h2>Artikkel overskrift</h2> -->
+                                    <!-- <p> Artikkel kort oppsummering</p> -->                            
+                        </section>
+                    </article>
+                    
+                    <!-- Artikkel 3 -->
+                    <article id="artikkel_art3">
+                        <section class="artikkel_innhold3">
+                            <!-- her kommer innholder fra databasen -->
+                            <!-- a href= -->
+                                <!-- <figure> for bilde område -->
+                                <!-- <section class="artikkel_innholdInfo> -->
+                                    <!-- section class="dato"> -->
+                                    <!-- <h2>Artikkel overskrift</h2> -->
+                                    <!-- <p> Artikkel kort oppsummering</p> -->
+                        </section>
+                    </article>
+
+                    <!-- Artikkel 4 -->
+                    <article id="artikkel_art4">
+                        <section class="artikkel_innhold4">
+                            <!-- her kommer innholder fra databasen -->
+                            <!-- a href= -->
+                                <!-- <figure> for bilde område -->
+                                <!-- <section class="artikkel_innholdInfo> -->
+                                    <!-- section class="dato"> -->
+                                    <!-- <h2>Artikkel overskrift</h2> -->
+                                    <!-- <p> Artikkel kort oppsummering</p> -->
+                        </section>
+                    </article>
+
+                    <!-- Artikkel 5 -->
+                    <article id="artikkel_art5">
+                        <section class="artikkel_innhold5">
+                            <!-- her kommer innholder fra databasen -->
+                            <!-- a href= -->
+                                <!-- <figure> for bilde område -->
+                                <!-- <section class="artikkel_innholdInfo> -->
+                                    <!-- section class="dato"> -->
+                                    <!-- <h2>Artikkel overskrift</h2> -->
+                                    <!-- <p> Artikkel kort oppsummering</p> -->
+                        </section>
                 </section>
             </main>
             

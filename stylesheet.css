@@ -257,18 +257,6 @@ footer a {
 /*-----------------------------------------------------------------------------*/
 /* Style for ARTIKKEL */
 
-#A_artik {
-  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
-  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
-  
-}
-
-#mainArtbilde {
-width: 20%;
-  
-}
-
 #artikkel_main {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 30%;
