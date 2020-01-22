@@ -53,7 +53,7 @@ catch (Exception $ex) {
             <nav class="navTop"> 
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
                 <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="6">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
                 <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
@@ -75,25 +75,31 @@ catch (Exception $ex) {
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="5">
                             <img src="bilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                         </a>
-
                     <?php } else { ?>
                         <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="5">
                             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                         </a>
                     <?php } ?>
-                    <!-- Legger til en knapp for å logge ut når man er innlogget -->
-                    <form method="POST" action="default.php">
-                        <button name="loggUt" id="registrerKnapp" tabindex="2">LOGG UT</button>
-                    </form>
+                <!-- Legger til en knapp for å logge ut når man er innlogget -->
+                <form method="POST" action="default.php">
+                    <button name="loggUt" id="registrerKnapp" tabindex="4">LOGG UT</button>
+                </form>
                 <?php } else { ?>
                     <!-- Vises når bruker ikke er innlogget -->
-                    <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
-                    <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
+                    <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="5">REGISTRER</button>
+                    <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="4">LOGG INN</button>
                 <?php } ?>
+                <form id="sokForm_navmeny" action="sok.php">
+                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
+                    <input id="sokInp_navmeny" type="text" name="brukernavn" placeholder="Søk på brukernavn" tabindex="2">
+                </form>
+                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='sok.php'">
+                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
+                </a>
                 <!-- Logoen øverst i venstre hjørne -->
                 <a class="bildeKontroll" href="default.php" tabindex="1">
                     <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
@@ -114,11 +120,13 @@ catch (Exception $ex) {
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                         <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                         <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
+                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } else { ?>
                         <!-- Hvis bruker ikke er innlogget -->
                         <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                         <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } ?>
                 </section>
             </section>
@@ -129,7 +137,7 @@ catch (Exception $ex) {
             <?php if(isset($_GET['brukernavn']) || isset($_GET['epost'])) { ?>
                 <!-- Del for søk på bruker -->
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
-                    <h1>x Resultater (Bruker</h1>
+                    <h1>x Resultater (Bruker)</h1>
                 </header>
                 <p>!Tester ikke på data enda, ignorer variabel feil!</p>
                 <p>Skal nå søke med brukernavn: <?php echo($_GET['brukernavn']); ?></p>
@@ -163,64 +171,69 @@ catch (Exception $ex) {
                     <section id="sok_seksjon"> 
                         <!-- Rullegardin for søk på bruker -->
                         <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Brukernavn:</p>
-                                    <input type="text" class="sokBrukerFelt" name="brukernavn" placeholder="Skriv inn brukernavn">
+                            <a class="bildeKontroll" tabindex="15">
+                                <section class="innholdRullegardin">
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Brukernavn:</p>
+                                        <input type="text" class="sokBrukerFelt" tabIndex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn">
+                                    </section>
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Epost:</p>
+                                        <input type="email" class="sokBrukerFelt" tabIndex = "-1" name="epost" placeholder="Skriv inn epost">
+                                    </section>
+                                    <input type="submit" class="sokKnapp" value="Søk">
                                 </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Epost:</p>
-                                    <input type="email" class="sokBrukerFelt" name="epost" placeholder="Skriv inn epost">
-                                </section>
-                                <input type="submit" class="sokKnapp" value="Søk">
-                            </section>
-                            <button type="button" id="brukerRullegardin" class="brukerRullegardin">Søk etter bruker</button>
-                            
+                                <button type="button" id="brukerRullegardin" class="brukerRullegardin">Søk etter bruker</button>
+                            </a>   
                         </form>
                         <!-- Rullegardin for søk på artikkel -->
                         <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Tittel:</p>
-                                    <input type="text" class="sokBrukerFelt" name="artTittel" placeholder="Tittelen på artikkelen">
+                            <a class="bildeKontroll" tabindex="16">
+                                <section class="innholdRullegardin">
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Tittel:</p>
+                                        <input type="text" class="sokBrukerFelt" tabIndex = "-1" name="artTittel" placeholder="Tittelen på artikkelen">
+                                    </section>
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Dato fra:</p>
+                                        <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="artDato">
+                                    </section>
+                                    <input type="submit" class="sokKnapp" value="Søk">
                                 </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Dato fra:</p>
-                                    <input type="date" class="sokBrukerFelt" name="artDato">
-                                </section>
-                                <input type="submit" class="sokKnapp" value="Søk">
-                            </section>
-                            <button type="button" id="artikkelRullegardin" class="artikkelRullegardin">Søk etter artikkel</button>
+                                <button type="button" id="artikkelRullegardin" class="artikkelRullegardin">Søk etter artikkel</button>
+                            </a>
                         </form>
                         <!-- Rullegardin for søk på arrangement -->
                         <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Tittel:</p>
-                                    <input type="text" class="sokBrukerFelt" name="arrTittel" placeholder="Tittelen på arrangementet">
+                            <a class="bildeKontroll" class="innholdRullegardin" tabindex="17">
+                                <section class="innholdRullegardin">
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Tittel:</p>
+                                        <input type="text" class="sokBrukerFelt" tabIndex = "-1" name="arrTittel" placeholder="Tittelen på arrangementet">
+                                    </section>
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Dato fra:</p>
+                                        <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="arrDato">
+                                    </section>
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Fylke:</p>
+                                    <select name="fylke">
+                                        <option value="">Ikke spesifikt</option>
+                                        <?php 
+                                            // Henter fylker fra database
+                                            $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
+                                            $stmtFylke = $db->prepare($hentFylke);
+                                            $stmtFylke->execute();
+                                            $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach ($fylke as $innhold) { ?>
+                                                <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
+                                        <?php } ?>
+                                    </select>
+                                    </section>
+                                    <input type="submit" class="sokKnapp" value="Søk">
                                 </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Dato fra:</p>
-                                    <input type="date" class="sokBrukerFelt" name="arrDato">
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Fylke:</p>
-                                <select name="fylke">
-                                    <option value="">Ikke spesifikt</option>
-                                    <?php 
-                                        // Henter fylker fra database
-                                        $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
-                                        $stmtFylke = $db->prepare($hentFylke);
-                                        $stmtFylke->execute();
-                                        $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($fylke as $innhold) { ?>
-                                            <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
-                                    <?php } ?>
-                                </select>
-                                </section>
-                                <input type="submit" class="sokKnapp" value="Søk">
-                            </section>
-                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin">Søk etter arrangement</button>
+                                <button type="button" id="arrangementRullegardin" class="arrangementRullegardin">Søk etter arrangement</button>
+                            </a>
                         </form>
                     </section>
                 </main>

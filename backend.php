@@ -121,6 +121,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                     <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                     <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
+                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>
             

@@ -131,11 +131,13 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                         <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                         <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
+                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } else { ?>
                         <!-- Hvis bruker ikke er innlogget -->
                         <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                         <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } ?>
                 </section>
             </section>

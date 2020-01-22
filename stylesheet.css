@@ -160,6 +160,36 @@ footer a {
   font-weight: bold; /* Fet tekst */
   height: 3.0em; width: 6.9em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
 }
+.sok_navmeny {
+  display: none;
+  margin-top: 1.2em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
+  margin-right: 0.7em;
+  width: 1.8em; /* Bestemmer størrelsen på profilbildet */
+  float: right;
+}
+#sokInp_navmeny {
+  display: none;
+  margin-top: 1em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
+  margin-left: 0.7em; /* Mellomrom mellom profilbilde og LOGG UT knappen */
+  float: right;
+  width: 10em; /* Angir bredde for inputfelt */
+  padding: 0.8em; /* legger luft rundt*/
+  border-radius: 0.4em 0 0 0.4em; /* Runder ut hjørnene */
+}
+#sokBtn_navmeny {
+  display: none;
+  margin-top: 0.8em; margin-right: 0.4em;
+  padding-top: 0.6em; padding-bottom: 0.6em;
+  float: right;
+
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  border-radius: 0 0.4em 0.4em 0; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
 
 /* FOKUS TING */
 /*-----------------------------------------------------------------*/
@@ -185,12 +215,11 @@ footer a {
 .Logo_navmeny {
   width: 4em; /* Bestemmer størrelsen på logoen */
   padding-left: 0.4em;
-  padding-right: 0.4em;
 }
 
 .navTop .profil_navmeny {
   margin-top: 0.5em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
-  margin-left: 0.7em; /* Mellomrom mellom profilbilde og LOGG UT knappen */
+  margin-left: 0.2em; /* Mellomrom mellom profilbilde og LOGG UT knappen */
   width: 3em; /* Bestemmer størrelsen på profilbildet */
   float: right;
   border-radius: 50%; /* For å runde av profilbildet */
@@ -654,6 +683,13 @@ table {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
+/* Større mobiler */
+@media screen and (min-width: 370px) {
+  .sok_navmeny {
+    display: block;
+  }
+}
+
 /* Tab */
 @media screen and (min-width: 720px) {
   html, body {
@@ -686,6 +722,15 @@ table {
     font-size: 1.1em;
     color: darkgreen;
     text-align: center;
+  }
+  .sok_navmeny {
+    display: none;
+  }
+  #sokInp_navmeny {
+    display: block;
+  }
+  #sokBtn_navmeny {
+    display: block;
   }
 }
 
@@ -765,6 +810,18 @@ table {
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
+  
+  /* Hover innstillinger for søk knapp */
+  .sokKnapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+
+  .sok_seksjon form:hover {
+    background-color: #ccc;
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+
   .artikkelRullegardin:hover {
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
@@ -773,10 +830,11 @@ table {
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
-  .sokKnapp:hover {
+  #sokBtn_navmeny:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
-    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+    cursor: pointer;
   }
+
 
   footer a:hover {
     color: rgba(44, 44, 44, 0.651); /* Farge ved hover på 'Kontakt oss' */

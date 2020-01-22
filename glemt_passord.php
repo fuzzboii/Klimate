@@ -133,14 +133,13 @@ if (isset($_POST['glemtPassord'])) {
             <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
             <section id="navMeny" class="hamburgerMeny">
 
-                <!-- innholdet i gardinmenyen -->
-                <!-- -1 tabIndex som standard da menyen er lukket -->
+                <!-- innholdet i hamburger-menyen -->
+                <!-- -1 tabIndex som standard, man tabber ikke inn i menyen når den er lukket -->
                 <section class="hamburgerInnhold">
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                     <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                    <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
-                    <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
+                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>
 

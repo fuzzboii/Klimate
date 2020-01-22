@@ -6,7 +6,7 @@ var hentetBurger = document.getElementsByClassName("menytab");
 
 function hamburgerMeny() {
   if (hamburgerMenyGjort == false) {
-    var tabStart = 5;
+    var tabStart = 7;
     /* Når hamburgermenyen er åpen får menyinnholdet tabIndex for å kunne gå igjennom dette uten mus */
     document.getElementById("navMeny").style.height = "100%";
     hamburgerMenyGjort = true;
@@ -129,6 +129,7 @@ function sokRullegardin() {
 
   // Boolean for å vite om en av søkemetodene er åpnet
   var aapnet = false;
+  
 
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
   for (var i = 0; i < elementBr.length; i++) {
@@ -136,7 +137,7 @@ function sokRullegardin() {
       elementBr[i].addEventListener("click", function() {
           // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
           var innholdRullegardin = this.previousElementSibling;
-          var tabStart = 10;
+          var tabStart = 16;
           if (aapnet == false) {
             // Når vinduet er åpnet, vis "Avbryt" 
             document.getElementById("brukerRullegardin").innerHTML = "Avbryt";
@@ -196,7 +197,7 @@ function sokRullegardin() {
     elementArt[i].addEventListener("click", function() {
         // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
         var innholdRullegardin = this.previousElementSibling;
-        var tabStart = 10;
+        var tabStart = 17;
         if (aapnet == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("artikkelRullegardin").innerHTML = "Avbryt";
@@ -255,7 +256,7 @@ function sokRullegardin() {
     elementArr[i].addEventListener("click", function() {
         // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
         var innholdRullegardin = this.previousElementSibling;
-        var tabStart = 10;
+        var tabStart = 18;
         if (aapnet == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("arrangementRullegardin").innerHTML = "Avbryt";
@@ -310,33 +311,6 @@ function sokRullegardin() {
   }
 }
 
-/*-----------------------------------------------*/
-/* Del for å sette tabIndex for input felt i Søk */
-/*-----------------------------------------------*/
-var hamburgerMenyGjort = false;
-var hentetSokFelt = document.getElementsByClassName("sokBrukerFelt");
-
-function hamburgerMeny() {
-  if (hamburgerMenyGjort == false) {
-    var tabStart = 10;
-    /* Når hamburgermenyen er åpen får menyinnholdet tabIndex for å kunne gå igjennom dette uten mus */
-    document.getElementById("navMeny").style.height = "100%";
-    hamburgerMenyGjort = true;
-    // Bruker for løkke for å gå igjennom elementene mottat 
-    for (i = 0; i < hentetSokFelt.length; i++) {
-      hentetSokFelt[i].tabIndex = tabStart;
-      tabStart++;
-    }
-  } else {
-    /* Når hamburgermenyen er lukket setter vi tabIndex for innholdet til -1 for å ikke tabbe inn i denne */
-    document.getElementById("navMeny").style.height = "0%";
-    hamburgerMenyGjort = false;
-    // Bruker for løkke for å gå igjennom elementene mottat 
-    for (i = 0; i < hentetSokFelt.length; i++) {
-      hentetSokFelt[i].tabIndex = "-1";
-    }
-  }
-}
 
 
 /*-------------------------------------------------------------------------------------------------------*/
