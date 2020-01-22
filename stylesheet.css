@@ -573,6 +573,24 @@ table {
   transition: 0.3s; /* Effekt når man trykker på knappen */
 }
 
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for SØK */
+.headerSok {
+  padding-top: 5em;
+  margin-top: 1em;
+    
+  text-align: center; /* Sentrerer h1 */
+  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
+}
+
+.headerSok h1 {
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
+}
+
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
