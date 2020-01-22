@@ -47,7 +47,7 @@ catch (Exception $ex) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
+    <body onload="sokRullegardin()">
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -122,33 +122,92 @@ catch (Exception $ex) {
                     <?php } ?>
                 </section>
             </section>
-
+            
+            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
             <!-- Kan ikke legge denne direkte i body -->
-            <?php if(isset($_GET['brukersok'])) { ?>
+            <?php if(isset($_GET['brukernavn']) || isset($_GET['epost'])) { ?>
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
-                    <h1>x Resultater (Bruker)</h1>
+                    <h1>x Resultater (Bruker</h1>
                 </header>
-            <?php } else if(isset($_GET['artikkelsok'])) { ?>
+                <p>!Tester ikke på data enda, ignorer variabel feil!</p>
+                <p>Skal nå søke med brukernavn: <?php echo($_GET['brukernavn']); ?></p>
+                <p>Og / eller epost: <?php echo($_GET['epost']); ?></p>
+
+            <?php } else if(isset($_GET['artTittel']) || isset($_GET['artDato'])) { ?>
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Artikkel)</h1>
                 </header>
-            <?php } else if(isset($_GET['arrangementsok'])) { ?>
+                <p>!Tester ikke på data enda, ignorer variabel feil!</p>
+                <p>Skal nå søke med tittel: <?php echo($_GET['artTittel']); ?></p>
+                <p>Og / eller dato: <?php echo($_GET['artDato']); ?></p>
+
+            <?php } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato'])) { ?>
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Arrangement)</h1>
                 </header>
+                <p>!Tester ikke på data enda, ignorer variabel feil!</p>
+                <p>Skal nå søke med tittel: <?php echo($_GET['arrTittel']); ?></p>
+                <p>Og / eller dato: <?php echo($_GET['arrDato']); ?></p>
+
             <?php } else { ?>
+                <!-- Del for avansert søk -->
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
                     <h1>Avansert søk</h1>
                 </header>
+                <main id="sok_main" onclick="lukkHamburgerMeny()">  
+                    <!-- Rullegardin for søk på bruker -->
+                    <form method="GET">
+                        <button type="button" id="brukerRullegardin" class="brukerRullegardin">Søk etter bruker</button>
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Brukernavn:</p>
+                                <input type="text" class="sokBrukerFelt" name="brukernavn" placeholder="Skriv inn brukernavn">
+                            </section>
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Epost:</p>
+                                <input type="email" class="sokBrukerFelt" name="epost" placeholder="Skriv inn epost">
+                            </section>
+                            <input type="submit" class="sokKnapp" value="Søk">
+                        </section>
+                    </form>
+                    <!-- Rullegardin for søk på artikkel -->
+                    <form method="GET">
+                        <button type="button" id="artikkelRullegardin" class="artikkelRullegardin">Søk etter artikkel</button>
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Tittel:</p>
+                                <input type="text" class="sokBrukerFelt" name="artTittel" placeholder="Tittelen på artikkelen">
+                            </section>
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Dato fra:</p>
+                                <input type="date" class="sokBrukerFelt" name="artDato">
+                            </section>
+                            <input type="submit" class="sokKnapp" value="Søk">
+                        </section>
+                    </form>
+                    <!-- Rullegardin for søk på arrangement -->
+                    <form method="GET">
+                        <button type="button" id="arrangementRullegardin" class="arrangementRullegardin">Søk etter arrangement</button>
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Tittel:</p>
+                                <input type="text" class="sokBrukerFelt" name="arrTittel" placeholder="Tittelen på arrangementet">
+                            </section>
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Dato fra:</p>
+                                <input type="date" class="sokBrukerFelt" name="arrDato">
+                            </section>
+                            <input type="submit" class="sokKnapp" value="Søk">
+                        </section>
+                    </form>
+                </main>
             <?php } ?>
 
 
 
 
-            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main onclick="lukkHamburgerMeny()">  
-            </main>
+
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
             <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>

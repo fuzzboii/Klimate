@@ -590,6 +590,65 @@ table {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
+/* Rullegardin for søk på bruker*/
+.brukerRullegardin, .artikkelRullegardin, .arrangementRullegardin {
+  background-color: rgb(211, 211, 211);
+  color: rgb(0, 0, 0);
+  padding: 1em;
+  margin-top: 1em;
+  border: none;
+  border-radius: 0.4em;
+  text-align: left;
+  outline: none;
+  font-size: 0.8em;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+}
+
+.sok_inputBoks {
+  margin-bottom: 1em; /* Lager luft under hver inputfelt */
+}
+
+/* Style for deloverskriftene i søk */
+.sokTittel {
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-align: left;  
+}
+
+/* Setter design for avansert søk */
+#sok_main {
+  margin: auto;
+  max-width: 550px; 
+  padding-top: 2em; 
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
+/* Style for lagre knappen i konto redigering */
+.sokKnapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 100%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+/* Style for feltene i konto redigering */
+.sokBrukerFelt {
+  width: 90%; /* Angir bredde for inputfeltene */
+  padding: 0.8em; /* legger luft rundt*/
+  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
+}
+
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
@@ -698,6 +757,12 @@ table {
     width: 25%;
     left: 75%;
     max-height: 45%;
+  }
+
+  /* Hover ved rullegardin knappen for søk */
+  .brukerRullegardin:hover {
+    background-color: #ccc;
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
 
   footer a:hover {

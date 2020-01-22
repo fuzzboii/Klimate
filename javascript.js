@@ -114,6 +114,109 @@ function kontoRullegardin() {
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 
+/* Denne blir kjørt når sok.php blir lastet inn, legger til en eventlistener */
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+function sokRullegardin() {
+  // Funksjonen åpner og lukker rullegardinen innenfor passord endring ved klikk
+  // Henter alle elementer som har class kontoRullegardin og KontoredigeringFeltPW
+  var elementBr = document.getElementsByClassName("brukerRullegardin");
+  var elementArt = document.getElementsByClassName("artikkelRullegardin");
+  var elementArr = document.getElementsByClassName("arrangementRullegardin");
+  var elementInp = document.getElementsByClassName("sokBrukerFelt");
+
+  // Boolean for å vite om "Endre passord" delen er åpen eller ikke
+  var aapnetBruker = false;
+  var aapnetArtikkel = false;
+  var aapnetArrangement = false;
+
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
+  for (var i = 0; i < elementBr.length; i++) {
+      // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
+      elementBr[i].addEventListener("click", function() {
+          // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
+          var innholdRullegardin = this.nextElementSibling;
+          if (aapnetBruker == false) {
+            // Når vinduet er åpnet, vis "Avbryt" 
+            document.getElementById("brukerRullegardin").innerHTML = "Avbryt";
+            aapnetBruker = true;
+          } else {
+            // Når vinduet er lukket, vis "Endre passord" 
+            document.getElementById("brukerRullegardin").innerHTML = "Søk etter bruker";
+            // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
+            for (i = 0; i < elementInp.length; i++) {
+              elementInp[i].value = "";
+            }
+            aapnetBruker = false;
+          }
+          if (innholdRullegardin.style.display == "block") {
+              // Med none vises ikke innholdet i rullegardinen (Gammelt pw, nytt pw og bekreft nytt pw)
+              innholdRullegardin.style.display = "none";
+          } else {
+              // Nå vises innholdet
+              innholdRullegardin.style.display = "block";
+          }
+      });
+  }
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
+  for (var i = 0; i < elementArt.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
+    elementArt[i].addEventListener("click", function() {
+        // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
+        var innholdRullegardin = this.nextElementSibling;
+        if (aapnetArtikkel == false) {
+          // Når vinduet er åpnet, vis "Avbryt" 
+          document.getElementById("artikkelRullegardin").innerHTML = "Avbryt";
+          aapnetArtikkel = true;
+        } else {
+          // Når vinduet er lukket, vis "Endre passord" 
+          document.getElementById("artikkelRullegardin").innerHTML = "Søk etter artikkel";
+          // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
+          for (i = 0; i < elementInp.length; i++) {
+            elementInp[i].value = "";
+          }
+          aapnetArtikkel = false;
+        }
+        if (innholdRullegardin.style.display == "block") {
+            // Med none vises ikke innholdet i rullegardinen (Gammelt pw, nytt pw og bekreft nytt pw)
+            innholdRullegardin.style.display = "none";
+        } else {
+            // Nå vises innholdet
+            innholdRullegardin.style.display = "block";
+        }
+    });
+  }
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
+  for (var i = 0; i < elementArr.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
+    elementArr[i].addEventListener("click", function() {
+        // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
+        var innholdRullegardin = this.nextElementSibling;
+        if (aapnetArrangement == false) {
+          // Når vinduet er åpnet, vis "Avbryt" 
+          document.getElementById("arrangementRullegardin").innerHTML = "Avbryt";
+          aapnetArrangement = true;
+        } else {
+          // Når vinduet er lukket, vis "Endre passord" 
+          document.getElementById("arrangementRullegardin").innerHTML = "Søk etter arrangement";
+          // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
+          for (i = 0; i < elementInp.length; i++) {
+            elementInp[i].value = "";
+          }
+          aapnetArrangement = false;
+        }
+        if (innholdRullegardin.style.display == "block") {
+            // Med none vises ikke innholdet i rullegardinen (Gammelt pw, nytt pw og bekreft nytt pw)
+            innholdRullegardin.style.display = "none";
+        } else {
+            // Nå vises innholdet
+            innholdRullegardin.style.display = "block";
+        }
+    });
+  }
+}
+/*-------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
 
 
 
