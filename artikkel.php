@@ -159,7 +159,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         <h1>Bruker har ikke oppgitt noen artikkel</h1>
                         <p>Vi ønsker nå å vise alle artikler i stedet osv</p>
                     <?php } ?> 
-                </article> -->
+                </article>
                 <main onclick="lukkHamburgerMeny()">
 
                 <section id="artikkel_main">
@@ -228,6 +228,8 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                     <!-- <p> Artikkel kort oppsummering</p> -->
                         </section>
                 </section>
+            </main>
+            <!-- Midlertidig avslutting av 2x main, ellers går ikke footer i bunn -->
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
