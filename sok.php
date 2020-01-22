@@ -95,7 +95,7 @@ catch (Exception $ex) {
                 <?php } ?>
                 <form id="sokForm_navmeny" action="sok.php">
                     <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
-                    <input id="sokInp_navmeny" type="text" name="brukernavn" placeholder="Søk på brukernavn" tabindex="2">
+                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
                 </form>
                 <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='sok.php'">
                     <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
