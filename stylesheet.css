@@ -618,15 +618,16 @@ table {
 
 /* Setter design for avansert søk */
 #sok_main {
-  margin: auto;
-  max-width: 550px; 
   padding-top: 2em; 
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-  margin-left: 1.5em;
-  margin-right: 1.5em;
-  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+#sok_seksjon{
+  margin: auto;
+  max-width: 250px; 
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
 }
 
 /* Style for lagre knappen i konto redigering */
@@ -762,6 +763,18 @@ table {
   /* Hover ved rullegardin knappen for søk */
   .brukerRullegardin:hover {
     background-color: #ccc;
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+  .artikkelRullegardin:hover {
+    background-color: #ccc;
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+  .arrangementRullegardin:hover {
+    background-color: #ccc;
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+  .sokKnapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
 

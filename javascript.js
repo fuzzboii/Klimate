@@ -135,14 +135,23 @@ function sokRullegardin() {
       // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
       elementBr[i].addEventListener("click", function() {
           // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
-          var innholdRullegardin = this.nextElementSibling;
+          var innholdRullegardin = this.previousElementSibling;
           if (aapnetBruker == false) {
             // Når vinduet er åpnet, vis "Avbryt" 
             document.getElementById("brukerRullegardin").innerHTML = "Avbryt";
+            document.getElementById("brukerRullegardin").style.backgroundColor = "darkred";
+            document.getElementById("brukerRullegardin").style.color = "white";
             aapnetBruker = true;
+            document.getElementById("artikkelRullegardin").style.display = "none";
+            document.getElementById("arrangementRullegardin").style.display = "none";
           } else {
             // Når vinduet er lukket, vis "Endre passord" 
             document.getElementById("brukerRullegardin").innerHTML = "Søk etter bruker";
+            document.getElementById("brukerRullegardin").style.backgroundColor = "rgb(211, 211, 211)";
+            document.getElementById("brukerRullegardin").style.color = "initial";
+
+            document.getElementById("artikkelRullegardin").style.display = "block";
+            document.getElementById("arrangementRullegardin").style.display = "block";
             // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
             for (i = 0; i < elementInp.length; i++) {
               elementInp[i].value = "";
@@ -163,14 +172,23 @@ function sokRullegardin() {
     // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
     elementArt[i].addEventListener("click", function() {
         // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
-        var innholdRullegardin = this.nextElementSibling;
+        var innholdRullegardin = this.previousElementSibling;
         if (aapnetArtikkel == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("artikkelRullegardin").innerHTML = "Avbryt";
+          document.getElementById("artikkelRullegardin").style.backgroundColor = "darkred";
+          document.getElementById("artikkelRullegardin").style.color = "white";
           aapnetArtikkel = true;
+          document.getElementById("brukerRullegardin").style.display = "none";
+          document.getElementById("arrangementRullegardin").style.display = "none";
         } else {
           // Når vinduet er lukket, vis "Endre passord" 
           document.getElementById("artikkelRullegardin").innerHTML = "Søk etter artikkel";
+          document.getElementById("artikkelRullegardin").style.backgroundColor = "rgb(211, 211, 211)";
+          document.getElementById("artikkelRullegardin").style.color = "initial";
+
+          document.getElementById("brukerRullegardin").style.display = "block";
+          document.getElementById("arrangementRullegardin").style.display = "block";
           // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
           for (i = 0; i < elementInp.length; i++) {
             elementInp[i].value = "";
@@ -191,14 +209,23 @@ function sokRullegardin() {
     // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
     elementArr[i].addEventListener("click", function() {
         // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
-        var innholdRullegardin = this.nextElementSibling;
+        var innholdRullegardin = this.previousElementSibling;
         if (aapnetArrangement == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("arrangementRullegardin").innerHTML = "Avbryt";
+          document.getElementById("arrangementRullegardin").style.backgroundColor = "darkred";
+          document.getElementById("arrangementRullegardin").style.color = "white";
           aapnetArrangement = true;
+          document.getElementById("brukerRullegardin").style.display = "none";
+          document.getElementById("artikkelRullegardin").style.display = "none";
         } else {
           // Når vinduet er lukket, vis "Endre passord" 
           document.getElementById("arrangementRullegardin").innerHTML = "Søk etter arrangement";
+          document.getElementById("arrangementRullegardin").style.backgroundColor = "rgb(211, 211, 211)";
+          document.getElementById("arrangementRullegardin").style.color = "initial";
+
+          document.getElementById("brukerRullegardin").style.display = "block";
+          document.getElementById("artikkelRullegardin").style.display = "block";
           // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
           for (i = 0; i < elementInp.length; i++) {
             elementInp[i].value = "";

@@ -127,6 +127,7 @@ catch (Exception $ex) {
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
             <!-- Kan ikke legge denne direkte i body -->
             <?php if(isset($_GET['brukernavn']) || isset($_GET['epost'])) { ?>
+                <!-- Del for søk på bruker -->
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Bruker</h1>
                 </header>
@@ -135,6 +136,7 @@ catch (Exception $ex) {
                 <p>Og / eller epost: <?php echo($_GET['epost']); ?></p>
 
             <?php } else if(isset($_GET['artTittel']) || isset($_GET['artDato'])) { ?>
+                <!-- Del for søk på artikkel -->
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Artikkel)</h1>
                 </header>
@@ -143,64 +145,84 @@ catch (Exception $ex) {
                 <p>Og / eller dato: <?php echo($_GET['artDato']); ?></p>
 
             <?php } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato'])) { ?>
+                <!-- Del for søk på arrangement -->
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Arrangement)</h1>
                 </header>
                 <p>!Tester ikke på data enda, ignorer variabel feil!</p>
                 <p>Skal nå søke med tittel: <?php echo($_GET['arrTittel']); ?></p>
                 <p>Og / eller dato: <?php echo($_GET['arrDato']); ?></p>
+                <p>Og / eller fylke: <?php echo($_GET['fylke']); ?></p>
 
             <?php } else { ?>
                 <!-- Del for avansert søk -->
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
                     <h1>Avansert søk</h1>
                 </header>
-                <main id="sok_main" onclick="lukkHamburgerMeny()">  
-                    <!-- Rullegardin for søk på bruker -->
-                    <form method="GET">
-                        <button type="button" id="brukerRullegardin" class="brukerRullegardin">Søk etter bruker</button>
-                        <section class="innholdRullegardin">
-                            <section class="sok_inputBoks">
-                                <p class="sokTittel">Brukernavn:</p>
-                                <input type="text" class="sokBrukerFelt" name="brukernavn" placeholder="Skriv inn brukernavn">
+                <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+                    <section id="sok_seksjon"> 
+                        <!-- Rullegardin for søk på bruker -->
+                        <form method="GET">
+                            <section class="innholdRullegardin">
+                                <section class="sok_inputBoks">
+                                    <p class="sokTittel">Brukernavn:</p>
+                                    <input type="text" class="sokBrukerFelt" name="brukernavn" placeholder="Skriv inn brukernavn">
+                                </section>
+                                <section class="sok_inputBoks">
+                                    <p class="sokTittel">Epost:</p>
+                                    <input type="email" class="sokBrukerFelt" name="epost" placeholder="Skriv inn epost">
+                                </section>
+                                <input type="submit" class="sokKnapp" value="Søk">
                             </section>
-                            <section class="sok_inputBoks">
-                                <p class="sokTittel">Epost:</p>
-                                <input type="email" class="sokBrukerFelt" name="epost" placeholder="Skriv inn epost">
+                            <button type="button" id="brukerRullegardin" class="brukerRullegardin">Søk etter bruker</button>
+                            
+                        </form>
+                        <!-- Rullegardin for søk på artikkel -->
+                        <form method="GET">
+                            <section class="innholdRullegardin">
+                                <section class="sok_inputBoks">
+                                    <p class="sokTittel">Tittel:</p>
+                                    <input type="text" class="sokBrukerFelt" name="artTittel" placeholder="Tittelen på artikkelen">
+                                </section>
+                                <section class="sok_inputBoks">
+                                    <p class="sokTittel">Dato fra:</p>
+                                    <input type="date" class="sokBrukerFelt" name="artDato">
+                                </section>
+                                <input type="submit" class="sokKnapp" value="Søk">
                             </section>
-                            <input type="submit" class="sokKnapp" value="Søk">
-                        </section>
-                    </form>
-                    <!-- Rullegardin for søk på artikkel -->
-                    <form method="GET">
-                        <button type="button" id="artikkelRullegardin" class="artikkelRullegardin">Søk etter artikkel</button>
-                        <section class="innholdRullegardin">
-                            <section class="sok_inputBoks">
-                                <p class="sokTittel">Tittel:</p>
-                                <input type="text" class="sokBrukerFelt" name="artTittel" placeholder="Tittelen på artikkelen">
+                            <button type="button" id="artikkelRullegardin" class="artikkelRullegardin">Søk etter artikkel</button>
+                        </form>
+                        <!-- Rullegardin for søk på arrangement -->
+                        <form method="GET">
+                            <section class="innholdRullegardin">
+                                <section class="sok_inputBoks">
+                                    <p class="sokTittel">Tittel:</p>
+                                    <input type="text" class="sokBrukerFelt" name="arrTittel" placeholder="Tittelen på arrangementet">
+                                </section>
+                                <section class="sok_inputBoks">
+                                    <p class="sokTittel">Dato fra:</p>
+                                    <input type="date" class="sokBrukerFelt" name="arrDato">
+                                </section>
+                                <section class="sok_inputBoks">
+                                    <p class="sokTittel">Fylke:</p>
+                                <select name="fylke">
+                                    <option value="">Ikke spesifikt</option>
+                                    <?php 
+                                        // Henter fylker fra database
+                                        $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
+                                        $stmtFylke = $db->prepare($hentFylke);
+                                        $stmtFylke->execute();
+                                        $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($fylke as $innhold) { ?>
+                                            <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
+                                    <?php } ?>
+                                </select>
+                                </section>
+                                <input type="submit" class="sokKnapp" value="Søk">
                             </section>
-                            <section class="sok_inputBoks">
-                                <p class="sokTittel">Dato fra:</p>
-                                <input type="date" class="sokBrukerFelt" name="artDato">
-                            </section>
-                            <input type="submit" class="sokKnapp" value="Søk">
-                        </section>
-                    </form>
-                    <!-- Rullegardin for søk på arrangement -->
-                    <form method="GET">
-                        <button type="button" id="arrangementRullegardin" class="arrangementRullegardin">Søk etter arrangement</button>
-                        <section class="innholdRullegardin">
-                            <section class="sok_inputBoks">
-                                <p class="sokTittel">Tittel:</p>
-                                <input type="text" class="sokBrukerFelt" name="arrTittel" placeholder="Tittelen på arrangementet">
-                            </section>
-                            <section class="sok_inputBoks">
-                                <p class="sokTittel">Dato fra:</p>
-                                <input type="date" class="sokBrukerFelt" name="arrDato">
-                            </section>
-                            <input type="submit" class="sokKnapp" value="Søk">
-                        </section>
-                    </form>
+                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin">Søk etter arrangement</button>
+                        </form>
+                    </section>
                 </main>
             <?php } ?>
 
