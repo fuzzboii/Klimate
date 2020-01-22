@@ -114,134 +114,231 @@ function kontoRullegardin() {
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 
+
 /* Denne blir kjørt når sok.php blir lastet inn, legger til en eventlistener */
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 function sokRullegardin() {
-  // Funksjonen åpner og lukker rullegardinen innenfor passord endring ved klikk
-  // Henter alle elementer som har class kontoRullegardin og KontoredigeringFeltPW
+  // Funksjonen åpner og lukker rullegardinen for søk, lukker de andre søkemetodene 
+
+  // Henter alle elementer som brukes
   var elementBr = document.getElementsByClassName("brukerRullegardin");
   var elementArt = document.getElementsByClassName("artikkelRullegardin");
   var elementArr = document.getElementsByClassName("arrangementRullegardin");
   var elementInp = document.getElementsByClassName("sokBrukerFelt");
 
-  // Boolean for å vite om "Endre passord" delen er åpen eller ikke
-  var aapnetBruker = false;
-  var aapnetArtikkel = false;
-  var aapnetArrangement = false;
+  // Boolean for å vite om en av søkemetodene er åpnet
+  var aapnet = false;
 
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
   for (var i = 0; i < elementBr.length; i++) {
-      // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
+      // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn brukerRullegardin
       elementBr[i].addEventListener("click", function() {
-          // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
+          // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
           var innholdRullegardin = this.previousElementSibling;
-          if (aapnetBruker == false) {
+          var tabStart = 10;
+          if (aapnet == false) {
             // Når vinduet er åpnet, vis "Avbryt" 
             document.getElementById("brukerRullegardin").innerHTML = "Avbryt";
+
+            // Bytt fargen på knappen til rød for å enkelt visuelt vise hvordan man kan avbryte
             document.getElementById("brukerRullegardin").style.backgroundColor = "darkred";
             document.getElementById("brukerRullegardin").style.color = "white";
-            aapnetBruker = true;
+
+
+            // Gjemmer de to andre søkemetodene så lenge en er åpen
             document.getElementById("artikkelRullegardin").style.display = "none";
             document.getElementById("arrangementRullegardin").style.display = "none";
+
+            // FOR løkke som legger til tabIndex på valgene i menyen
+            for (i = 0; i < elementInp.length; i++) {
+              elementInp[i].tabIndex = tabStart;
+              tabStart++;
+            }
+
+            // Sett aapnet til true, søkemenyen er åpen
+            aapnet = true;
           } else {
-            // Når vinduet er lukket, vis "Endre passord" 
+            // Når vinduet er lukket, vis "Søk etter bruker" 
             document.getElementById("brukerRullegardin").innerHTML = "Søk etter bruker";
+            
+            // Setter farge tilbake til farge før åpning
             document.getElementById("brukerRullegardin").style.backgroundColor = "rgb(211, 211, 211)";
             document.getElementById("brukerRullegardin").style.color = "initial";
 
+            // Bruker har lukket valgt søkemetode, viser de to andre søkene igjen
             document.getElementById("artikkelRullegardin").style.display = "block";
             document.getElementById("arrangementRullegardin").style.display = "block";
-            // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
+
+            // FOR løkke som tømmer input feltene og setter tabIndex til -1 (Tabber ikke inn i lukket meny)
             for (i = 0; i < elementInp.length; i++) {
               elementInp[i].value = "";
+              elementInp[i].tabIndex = "-1";
             }
-            aapnetBruker = false;
+            
+            // Sett aapnet til false, søkemenyen er lukket
+            aapnet = false;
           }
+        
+          // Enkel test på om valgene skal vises
           if (innholdRullegardin.style.display == "block") {
-              // Med none vises ikke innholdet i rullegardinen (Gammelt pw, nytt pw og bekreft nytt pw)
+              // Viser ikke valgene til søket
               innholdRullegardin.style.display = "none";
           } else {
-              // Nå vises innholdet
+              // Viser valgene til søket
               innholdRullegardin.style.display = "block";
           }
       });
   }
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
   for (var i = 0; i < elementArt.length; i++) {
-    // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn artikkelRullegardin
     elementArt[i].addEventListener("click", function() {
-        // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
+        // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
         var innholdRullegardin = this.previousElementSibling;
-        if (aapnetArtikkel == false) {
+        var tabStart = 10;
+        if (aapnet == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("artikkelRullegardin").innerHTML = "Avbryt";
+
+          // Bytt fargen på knappen til rød for å enkelt visuelt vise hvordan man kan avbryte
           document.getElementById("artikkelRullegardin").style.backgroundColor = "darkred";
           document.getElementById("artikkelRullegardin").style.color = "white";
-          aapnetArtikkel = true;
+
+          // Gjemmer de to andre søkemetodene så lenge en er åpen
           document.getElementById("brukerRullegardin").style.display = "none";
           document.getElementById("arrangementRullegardin").style.display = "none";
+
+          // FOR løkke som legger til tabIndex på valgene i menyen
+          for (i = 0; i < elementInp.length; i++) {
+            elementInp[i].tabIndex = tabStart;
+            tabStart++;
+          }
+
+          // Sett aapnet til true, søkemenyen er åpen
+          aapnet = true;
         } else {
-          // Når vinduet er lukket, vis "Endre passord" 
+          // Når vinduet er lukket, vis "Søk etter artikkel" 
           document.getElementById("artikkelRullegardin").innerHTML = "Søk etter artikkel";
+
+          // Setter farge tilbake til farge før åpning
           document.getElementById("artikkelRullegardin").style.backgroundColor = "rgb(211, 211, 211)";
           document.getElementById("artikkelRullegardin").style.color = "initial";
 
+          // Bruker har lukket valgt søkemetode, viser de to andre søkene igjen
           document.getElementById("brukerRullegardin").style.display = "block";
           document.getElementById("arrangementRullegardin").style.display = "block";
-          // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
+
+          // FOR løkke som tømmer input feltene og setter tabIndex til -1 (Tabber ikke inn i lukket meny)
           for (i = 0; i < elementInp.length; i++) {
             elementInp[i].value = "";
+            elementInp[i].tabIndex = "-1";
           }
-          aapnetArtikkel = false;
+          
+          // Sett aapnet til false, søkemenyen er lukket
+          aapnet = false;
         }
+
+        // Enkel test på om valgene skal vises
         if (innholdRullegardin.style.display == "block") {
-            // Med none vises ikke innholdet i rullegardinen (Gammelt pw, nytt pw og bekreft nytt pw)
+            // Viser ikke valgene til søket
             innholdRullegardin.style.display = "none";
         } else {
-            // Nå vises innholdet
+            // Viser valgene til søket
             innholdRullegardin.style.display = "block";
         }
     });
   }
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
   for (var i = 0; i < elementArr.length; i++) {
-    // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn arrangementRullegardin
     elementArr[i].addEventListener("click", function() {
-        // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
+        // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
         var innholdRullegardin = this.previousElementSibling;
-        if (aapnetArrangement == false) {
+        var tabStart = 10;
+        if (aapnet == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("arrangementRullegardin").innerHTML = "Avbryt";
+          
+          // Bytt fargen på knappen til rød for å enkelt visuelt vise hvordan man kan avbryte
           document.getElementById("arrangementRullegardin").style.backgroundColor = "darkred";
           document.getElementById("arrangementRullegardin").style.color = "white";
-          aapnetArrangement = true;
+
+          // Gjemmer de to andre søkemetodene så lenge en er åpen
           document.getElementById("brukerRullegardin").style.display = "none";
           document.getElementById("artikkelRullegardin").style.display = "none";
+
+          // FOR løkke som legger til tabIndex på valgene i menyen
+          for (i = 0; i < elementInp.length; i++) {
+            elementInp[i].tabIndex = tabStart;
+            tabStart++;
+          }
+
+          // Sett aapnet til true, søkemenyen er åpen
+          aapnet = true;
         } else {
-          // Når vinduet er lukket, vis "Endre passord" 
+          // Når vinduet er lukket, vis "Søk etter arrangement" 
           document.getElementById("arrangementRullegardin").innerHTML = "Søk etter arrangement";
+
+          // Setter farge tilbake til farge før åpning
           document.getElementById("arrangementRullegardin").style.backgroundColor = "rgb(211, 211, 211)";
           document.getElementById("arrangementRullegardin").style.color = "initial";
 
+          // Bruker har lukket valgt søkemetode, viser de to andre søkene igjen
           document.getElementById("brukerRullegardin").style.display = "block";
           document.getElementById("artikkelRullegardin").style.display = "block";
-          // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
+
+          // FOR løkke som tømmer input feltene og setter tabIndex til -1 (Tabber ikke inn i lukket meny)
           for (i = 0; i < elementInp.length; i++) {
             elementInp[i].value = "";
+            elementInp[i].tabIndex = "-1";
           }
-          aapnetArrangement = false;
+
+          // Sett aapnet til false, søkemenyen er lukket
+          aapnet = false;
         }
+        
+        // Enkel test på om valgene skal vises
         if (innholdRullegardin.style.display == "block") {
-            // Med none vises ikke innholdet i rullegardinen (Gammelt pw, nytt pw og bekreft nytt pw)
+            // Viser ikke valgene til søket
             innholdRullegardin.style.display = "none";
         } else {
-            // Nå vises innholdet
+            // Viser valgene til søket
             innholdRullegardin.style.display = "block";
         }
     });
   }
 }
+
+/*-----------------------------------------------*/
+/* Del for å sette tabIndex for input felt i Søk */
+/*-----------------------------------------------*/
+var hamburgerMenyGjort = false;
+var hentetSokFelt = document.getElementsByClassName("sokBrukerFelt");
+
+function hamburgerMeny() {
+  if (hamburgerMenyGjort == false) {
+    var tabStart = 10;
+    /* Når hamburgermenyen er åpen får menyinnholdet tabIndex for å kunne gå igjennom dette uten mus */
+    document.getElementById("navMeny").style.height = "100%";
+    hamburgerMenyGjort = true;
+    // Bruker for løkke for å gå igjennom elementene mottat 
+    for (i = 0; i < hentetSokFelt.length; i++) {
+      hentetSokFelt[i].tabIndex = tabStart;
+      tabStart++;
+    }
+  } else {
+    /* Når hamburgermenyen er lukket setter vi tabIndex for innholdet til -1 for å ikke tabbe inn i denne */
+    document.getElementById("navMeny").style.height = "0%";
+    hamburgerMenyGjort = false;
+    // Bruker for løkke for å gå igjennom elementene mottat 
+    for (i = 0; i < hentetSokFelt.length; i++) {
+      hentetSokFelt[i].tabIndex = "-1";
+    }
+  }
+}
+
+
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 
