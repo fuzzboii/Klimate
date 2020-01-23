@@ -136,12 +136,8 @@ if (isset($_POST['submit'])) {
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>
-
-            <!-- Logoen midten øverst på siden, med tittel -->
-            <header onclick="lukkHamburgerMeny()">
-                <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
-            </header>
-            <main onclick="lukkHamburgerMeny()">
+            
+            <main id="toppMain" onclick="lukkHamburgerMeny()">
                 <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
                 <form method="POST" action="logginn.php" class="innloggForm">
                     <section class="inputBoks">

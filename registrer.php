@@ -158,7 +158,7 @@ if (isset($_POST['subRegistrering'])) {
                 </section>
             </section>
 
-            <main id="regMain" onclick="lukkHamburgerMeny()">
+            <main id="toppMain" onclick="lukkHamburgerMeny()">
                 <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
                 <form method="POST" action="registrer.php" class="innloggForm">
                     <section class="inputBoks">
