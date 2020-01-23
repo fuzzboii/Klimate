@@ -169,7 +169,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         <p>Vi ønsker nå å vise alle artikler i stedet osv</p>
                     <?php } ?> 
                 </article>
-                <main onclick="lukkHamburgerMeny()">
+                
 
                 <section id="artikkel_main">
                     <!-- Artikkel 1 -->
@@ -220,7 +220,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                 <!-- <figure> for bilde område -->
                                 <!-- <section class="artikkel_innholdInfo> -->
                                     <!-- section class="dato"> -->
-                                    <!-- <h2>Artikkel overskrift</h2> -->
+                                    <!--- <h2>Artikkel overskrift</h2> -->
                                     <!-- <p> Artikkel kort oppsummering</p> -->
                         </section>
                     </article>
@@ -238,12 +238,9 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         </section>
                 </section>
             </main>
-            <!-- Midlertidig avslutting av 2x main, ellers går ikke footer i bunn -->
-            </main>
             
-            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
-
+            
+            
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
                 <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>

@@ -143,6 +143,10 @@ catch (Exception $ex) {
                 <p>Skal nå søke med brukernavn: <?php echo($_GET['brukernavn']); ?></p>
                 <p>Og / eller epost: <?php echo($_GET['epost']); ?></p>
 
+                <!-- TODO -->
+                <?php if ($_GET['brukernavn'] != "" || $_GET['epost'] != "") {
+                }?>
+
             <?php } else if(isset($_GET['artTittel']) || isset($_GET['artDato'])) { ?>
                 <!-- Del for søk på artikkel -->
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
