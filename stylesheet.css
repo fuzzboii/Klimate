@@ -905,7 +905,7 @@ table {
   }
 
   #artikkel_art4 {
-    break-before: column;
+    break-after: column;
   }
 
   #mldFEIL {

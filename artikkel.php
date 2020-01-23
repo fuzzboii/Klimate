@@ -140,115 +140,113 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <p>Skrevet av: <?php echo($artikkel['bruker']) ?></p>
                         <?php } ?>
                     <?php  } else { ?>
-                        <h1>Bruker har ikke oppgitt noen artikkel</h1>
-                        <p>Vi ønsker nå å vise alle artikler i stedet osv</p>
+                        <!-- Artikkel 1 -->
+                        <article id="artikkel_art1">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure>
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+
+                        <!-- Artikkel 2 -->
+                        <article id="artikkel_art2">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure>
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+                        
+                        <!-- Artikkel 3 -->
+                        <article id="artikkel_art3">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure>
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+
+                        <!-- Artikkel 4 -->
+                        <article id="artikkel_art4">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure>
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+
+                        <!-- Artikkel 5 -->
+                        <article id="artikkel_art5">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure>
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
                     <?php } ?> 
                 </section>
 
-                    <!-- Artikkel 1 -->
-                    <article id="artikkel_art1">
-                        <section class="artikkel_innhold">
-                            <!-- her kommer innholder fra databasen -->
-                            <!-- a href= -->
-                            <figure>
-
-                            </figure>
-                            <section class="artikkel_innholdInfo">
-                                <section class="ArtikkelForfatter">
-                                    <p id="forfatterOversikt">Forfatter</p>
-                                </section>
-                                
-                                <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
-                                <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                            </section>
-
-                        </section>
-                    </article>
-
-                    <!-- Artikkel 2 -->
-                    <article id="artikkel_art2">
-                        <section class="artikkel_innhold">
-                            <!-- her kommer innholder fra databasen -->
-                            <!-- a href= -->
-                            <figure>
-
-                            </figure>
-                            <section class="artikkel_innholdInfo">
-                                <section class="ArtikkelForfatter">
-                                    <p id="forfatterOversikt">Forfatter</p>
-                                </section>
-                                
-                                <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
-                                <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                            </section>
-
-                        </section>
-                    </article>
-                    
-                    <!-- Artikkel 3 -->
-                    <article id="artikkel_art3">
-                        <section class="artikkel_innhold">
-                            <!-- her kommer innholder fra databasen -->
-                            <!-- a href= -->
-                            <figure>
-
-                            </figure>
-                            <section class="artikkel_innholdInfo">
-                                <section class="ArtikkelForfatter">
-                                    <p id="forfatterOversikt">Forfatter</p>
-                                </section>
-                                
-                                <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
-                                <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                            </section>
-
-                        </section>
-                    </article>
-
-                    <!-- Artikkel 4 -->
-                    <article id="artikkel_art4">
-                        <section class="artikkel_innhold">
-                            <!-- her kommer innholder fra databasen -->
-                            <!-- a href= -->
-                            <figure>
-
-                            </figure>
-                            <section class="artikkel_innholdInfo">
-                                <section class="ArtikkelForfatter">
-                                    <p id="forfatterOversikt">Forfatter</p>
-                                </section>
-                                
-                                <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
-                                <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                            </section>
-
-                        </section>
-                    </article>
-
-                    <!-- Artikkel 5 -->
-                    <article id="artikkel_art5">
-                        <section class="artikkel_innhold">
-                            <!-- her kommer innholder fra databasen -->
-                            <!-- a href= -->
-                            <figure>
-
-                            </figure>
-                            <section class="artikkel_innholdInfo">
-                                <section class="ArtikkelForfatter">
-                                    <p id="forfatterOversikt">Forfatter</p>
-                                </section>
-                                
-                                <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
-                                <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                            </section>
-
-                        </section>
-                    </article>
             </main>
             <!-- Midlertidig avslutting av 2x main, ellers går ikke footer i bunn -->
             </main>
