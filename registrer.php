@@ -163,11 +163,11 @@ if (isset($_POST['subRegistrering'])) {
                 <form method="POST" action="registrer.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" required autofocus>
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresser" required>
+                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
