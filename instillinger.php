@@ -1,19 +1,32 @@
 <?php
 
-// Konstruktør for PDO
+// Konstruktør for lokal server
 class mysqlPDO extends PDO {
     public function __construct() {
-        $settings = parse_ini_file('klimatetest.ini',TRUE);
-        if (!$settings) throw new exception('Får ikke åpnet ini-fil.');
-        $drv = $settings['database']['driver'];
-        $hst = $settings['database']['host'];
-        $sch = $settings['database']['schema'];
-        $usr = $settings['database']['username'];
-        $pwd = $settings['database']['password'];
+        $drv = 'mysql';
+        $hst = 'localhost';
+        $sch = 'Klimate';
+        $usr = 'klimate';
+        $pwd = 'kskic9866YDtre';
         $dns = $drv . ':host=' . $hst . ';dbname=' . $sch;
         parent::__construct($dns,$usr,$pwd);
     }
 }
+
+// Konstruktør for skolens server
+/*
+class mysqlPDO extends PDO {
+    public function __construct() {
+        $drv = 'mysql';
+        $hst = '128.39.19.159'; // eller 's120.hbv.no'
+        $usr = 'usr_klima';
+        $pwd = 'pw_klima';
+        $sch = 'klima';
+        $dsn = $drv . ':host=' . $hst . ';dbname=' . $sch;
+        parent::__construct($dsn,$usr,$pwd);
+    }
+}
+*/
 
 
 // Saltet
