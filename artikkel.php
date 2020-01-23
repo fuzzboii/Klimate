@@ -82,6 +82,15 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                     <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
                     <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
                 <?php } ?>
+
+                <form id="sokForm_navmeny" action="sok.php">
+                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
+                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
+                </form>
+                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='sok.php'">
+                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
+                </a>
+
                 <!-- Logoen øverst i venstre hjørne -->
                 <a class="bildeKontroll" href="default.php" tabindex="1">
                 </a>    
