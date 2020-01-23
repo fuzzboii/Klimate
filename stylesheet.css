@@ -286,41 +286,7 @@ footer a {
 /*-----------------------------------------------------------------------------*/
 /* Style for ARTIKKEL */
 
-#artikkel_main {
-  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-  margin-left: 30%;
-  
-  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-  width: 40%;
-}
 
-#artikkel_main form #overskriftRad {
-  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
-  margin-top: 1em;
-  padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
-  padding-bottom: 0.8em;
-  background-color: rgb(146, 148, 148); /* Fargen på bakgrunnen i tittel-containerne */
- 
-  font-weight: bold; 
-  text-align: left; /* Sentrerer h2 */
-  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
-  font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
-  
-
-  
-}
-
-
-#artikkel_main form p, #artikkel_main form a {
-  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
-  padding-left: 1.5em; /* Padding for å få plass på hver side */
-  padding-right: 1.5em;
- 
-  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
-  font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
-}
 
 
 /*-----------------------------------------------------------------------------*/

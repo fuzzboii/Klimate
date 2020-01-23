@@ -101,16 +101,8 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                     <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
                     <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
                 <?php } ?>
-                <form id="sokForm_navmeny" action="sok.php">
-                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
-                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
-                </form>
-                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='sok.php'">
-                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
-                </a>
                 <!-- Logoen øverst i venstre hjørne -->
                 <a class="bildeKontroll" href="default.php" tabindex="1">
-                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
                 </a>    
             <!-- Slutt på navigasjonsmeny-->
             </nav>
@@ -128,13 +120,11 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                         <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                         <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
-                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } else { ?>
                         <!-- Hvis bruker ikke er innlogget -->
                         <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                         <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } ?>
                 </section>
             </section>
@@ -142,9 +132,6 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
             <!-- Kan ikke legge denne direkte i body -->
             <header onclick="lukkHamburgerMeny()">
-                <!-- Logoen midten øverst på siden, med tittel -->
-                <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
-                <h1 style="display: none">Bilde av Klimate logoen.</h1> 
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -169,7 +156,6 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         <p>Vi ønsker nå å vise alle artikler i stedet osv</p>
                     <?php } ?> 
                 </article>
-                
 
                 <section id="artikkel_main">
                     <!-- Artikkel 1 -->
@@ -220,7 +206,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                 <!-- <figure> for bilde område -->
                                 <!-- <section class="artikkel_innholdInfo> -->
                                     <!-- section class="dato"> -->
-                                    <!--- <h2>Artikkel overskrift</h2> -->
+                                    <!-- <h2>Artikkel overskrift</h2> -->
                                     <!-- <p> Artikkel kort oppsummering</p> -->
                         </section>
                     </article>
@@ -238,9 +224,12 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         </section>
                 </section>
             </main>
+            <!-- Midlertidig avslutting av 2x main, ellers går ikke footer i bunn -->
+            </main>
             
-            
-            
+            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
+            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
+
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
                 <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
