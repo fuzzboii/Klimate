@@ -58,7 +58,7 @@ footer a {
 .inputBoks {
   display: flex; /* Legger ikonene og inputfeltene ved siden av hverandre*/
   width: 100%; /* Angir bredde for inputfeltene  */
-  margin-bottom: 1em; /* Lager luft under hver inputfelt */
+  margin-bottom: 0.8em; /* Lager luft under hver inputfelt */
 }
 .icon {
   padding: 0.5em 0.5em 0.5em 0.5em; /* Posisjonerer ikonet i selve boksen */
@@ -270,8 +270,6 @@ footer a {
   font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
   font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
   text-transform: uppercase; /* Transformerer teksten til UCASE */
-
-  
 }
 
 
@@ -283,6 +281,12 @@ footer a {
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
 }
+
+#regMain {
+  padding-top: 6em; /* Plassering av logoen på default */
+}
+
+
 /*-----------------------------------------------------------------------------*/
 /* Style for ARTIKKEL */
 

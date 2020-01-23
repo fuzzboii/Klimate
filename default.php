@@ -6,6 +6,13 @@ session_start();
 //------------------------------//
 include("instillinger.php");
 
+// Utlogging av bruker
+if (isset($_POST['loggUt'])) { 
+    session_destroy();
+    header("Location: default.php?utlogget=1");
+}
+
+
 
 
 //------------------------------//

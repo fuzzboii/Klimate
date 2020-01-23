@@ -158,14 +158,7 @@ if (isset($_POST['subRegistrering'])) {
                 </section>
             </section>
 
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header onclick="lukkHamburgerMeny()">
-                <!-- Logoen midten øverst på siden, med tittel -->
-                <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
-            </header>
-
-            <main onclick="lukkHamburgerMeny()">
+            <main id="regMain" onclick="lukkHamburgerMeny()">
                 <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
                 <form method="POST" action="registrer.php" class="innloggForm">
                     <section class="inputBoks">
