@@ -43,7 +43,6 @@ if (isset($_POST['subEndring'])) {
     // Boolske verdier vi tester på for å vite om noe er endret på
     $oppdatertBr = false;
     $oppdatertPw = false;
-    $infoTilBruker = "";
     
     try {
         // Del for oppdatering av brukernavn, epost, fornavn og/eller etternavn
