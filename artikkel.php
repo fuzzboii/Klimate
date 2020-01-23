@@ -124,7 +124,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main id="artikkel_main" onclick="lukkHamburgerMeny()">  
-                <article>
+                <section class="artikkel_section">
                     <?php if(isset($_GET['artikkel'])){
                         // Henter artikkelen bruker ønsker å se
                         $hent = "select * from artikkel where idartikkel = " . $_GET['artikkel'];
@@ -143,7 +143,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         <h1>Bruker har ikke oppgitt noen artikkel</h1>
                         <p>Vi ønsker nå å vise alle artikler i stedet osv</p>
                     <?php } ?> 
-                </article>
+                </section>
 
                     <!-- Artikkel 1 -->
                     <article id="artikkel_art1">

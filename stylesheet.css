@@ -899,6 +899,15 @@ table {
   #bgcont2 {
     break-before: column;
   }
+
+  #artikkel_main {
+    column-count: 3;
+  }
+
+  #artikkel_art4 {
+    break-before: column;
+  }
+
   #mldFEIL {
     font-size: 1.3em;
     color: red;
