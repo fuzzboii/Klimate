@@ -133,42 +133,36 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main id="artikkel_main" onclick="lukkHamburgerMeny()">  
-                <section class="artikkel_section">
-                    <?php if(isset($_GET['artikkel'])){
-                        // Henter artikkelen bruker ønsker å se
-                        $hent = "select * from artikkel where idartikkel = " . $_GET['artikkel'];
-                        $stmt = $db->prepare($hent);
-                        $stmt->execute();
-                        $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
-                        $antall = $stmt->rowCount();
-                        if ($antall == 0) { ?>
-                            <h1>Artikkel ikke funnet</h1>
-                        <?php } else { ?>
-                            <h1><?php echo($artikkel['artnavn'])?></h1>
-                            <p><?php echo($artikkel['arttekst'])?></p>
-                            <p>Skrevet av: <?php echo($artikkel['bruker']) ?></p>
-                        <?php } ?>
-                    <?php  } else { ?>
+
                         <!-- Artikkel 1 -->
                         <article id="artikkel_art1">
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
+                                    <?php
+                                        // Henter artikkelen bruker ønsker å se
+                                        $hent = "Select idartikkel, artnavn, artingress, arttekst, brukernavn FROM artikkel, bruker WHERE bruker=idbruker order by RAND() LIMIT 1";
+                                        $stmt = $db->prepare($hent);
+                                        $stmt->execute();
+                                        $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
+                                        $antall = $stmt->rowCount();
+                                     ?>
                                 <!-- a href= -->
                                 <figure>
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
                                     <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
+                                        <p id="forfatterOversikt">Forfatter: <?php echo($artikkel["brukernavn"])?></p>
                                     </section>
                                     
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+                                    <h2 id="artikkelOverskrift"><?php echo($artikkel["artnavn"])?></h2>
+                                    <p id="artikkelTekstinnhold"> <?php echo($artikkel["artingress"])?></p>
 
                                 </section>
 
                             </section>
                         </article>
+                                        
 
                         <!-- Artikkel 2 -->
                         <article id="artikkel_art2">
@@ -253,11 +247,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
                             </section>
                         </article>
-                    <?php } ?> 
-                </section>
 
-            </main>
-            <!-- Midlertidig avslutting av 2x main, ellers går ikke footer i bunn -->
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
