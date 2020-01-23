@@ -43,54 +43,61 @@ if (isset($_POST['subEndring'])) {
     // Boolske verdier vi tester på for å vite om noe er endret på
     $oppdatertBr = false;
     $oppdatertPw = false;
+    $infoTilBruker = "";
     
     try {
         // Del for oppdatering av brukernavn, epost, fornavn og/eller etternavn
         if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "") {
+            
+            // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type password)
+            if (filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL)) {
 
-            // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
-            if ($_POST['nyttbrukernavn'] == "") {
-                // Bruker har valgt å ikke oppdatere brukernavn
-                $nyttBrukernavn = $_SESSION['brukernavn'];
-            } else {
-                $nyttBrukernavn = $_POST['nyttbrukernavn'];
-            }
-        
-            if ($_POST['nyepost'] == "") {
-                // Bruker har valgt å ikke oppdatere epost
-                $nyEpost = $_SESSION['epost'];
-            } else {
-                $nyEpost = $_POST['nyepost'];
-            }
-        
-            if ($_POST['nyttfornavn'] == "") {
-                // Bruker har valgt å ikke oppdatere fornavn
-                $nyttFornavn = $_SESSION['fornavn'];
-            } else {
-                $nyttFornavn = $_POST['nyttfornavn'];
-            }
-        
-            if ($_POST['nyttetternavn'] == "") {
-                // Bruker har valgt å ikke oppdatere etternavn
-                $nyttEtternavn = $_SESSION['etternavn'];
-            } else {
-                $nyttEtternavn = $_POST['nyttetternavn'];
-            }
-            // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
-            $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "'  where idbruker='". $_SESSION['idbruker'] . "'";
-            $stmt = $db->prepare($oppdaterBruker);
-            $stmt->execute();
+                // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
+                if ($_POST['nyttbrukernavn'] == "") {
+                    // Bruker har valgt å ikke oppdatere brukernavn
+                    $nyttBrukernavn = $_SESSION['brukernavn'];
+                } else {
+                    $nyttBrukernavn = $_POST['nyttbrukernavn'];
+                }
+            
+                if ($_POST['nyepost'] == "") {
+                    // Bruker har valgt å ikke oppdatere epost
+                    $nyEpost = $_SESSION['epost'];
+                } else {
+                    $nyEpost = $_POST['nyepost'];
+                }
+            
+                if ($_POST['nyttfornavn'] == "") {
+                    // Bruker har valgt å ikke oppdatere fornavn
+                    $nyttFornavn = $_SESSION['fornavn'];
+                } else {
+                    $nyttFornavn = $_POST['nyttfornavn'];
+                }
+            
+                if ($_POST['nyttetternavn'] == "") {
+                    // Bruker har valgt å ikke oppdatere etternavn
+                    $nyttEtternavn = $_SESSION['etternavn'];
+                } else {
+                    $nyttEtternavn = $_POST['nyttetternavn'];
+                }
+                // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
+                $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "'  where idbruker='". $_SESSION['idbruker'] . "'";
+                $stmt = $db->prepare($oppdaterBruker);
+                $stmt->execute();
 
-            // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
-            $antall = $stmt->rowCount();
+                // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
+                $antall = $stmt->rowCount();
 
-            if (!$antall == "0") {
-                // Oppdaterer session-info
-                $_SESSION['brukernavn'] = $nyttBrukernavn;
-                $_SESSION['fornavn'] = $nyttFornavn;
-                $_SESSION['etternavn'] = $nyttEtternavn;
-                $_SESSION['epost'] = $nyEpost;
-                $oppdatertBr = true;
+                if (!$antall == "0") {
+                    // Oppdaterer session-info
+                    $_SESSION['brukernavn'] = $nyttBrukernavn;
+                    $_SESSION['fornavn'] = $nyttFornavn;
+                    $_SESSION['etternavn'] = $nyttEtternavn;
+                    $_SESSION['epost'] = $nyEpost;
+                    $oppdatertBr = true;
+                }
+            } else {
+                header("Location: konto_rediger.php?error=5");
             }
         } 
 
@@ -152,9 +159,7 @@ if (isset($_POST['subEndring'])) {
         // Hvis vi har oppdatert brukerinfo eller passord, returner bruker til kontosiden, her ser vi oppdatert info direkte
         if ($oppdatertBr == true || $oppdatertPw == true) {
             header("location: konto.php?vellykket=1");
-        } else {
-            header("Location: konto.php?error=2");
-        }
+        } 
     } 
     catch (PDOException $ex) {
         if ($ex->getCode() == 23000) {
@@ -320,6 +325,9 @@ if (isset($_POST['subEndring'])) {
 
                     <?php } if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
                         <p id="mldFEIL">Brukernavnet er opptatt</p>    
+
+                    <?php } if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                        <p id="mldFEIL">Epost er ikke gyldig</p>    
                     <?php } ?>
                     <!-- Sender brukeren tilbake til forsiden -->
                     <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>

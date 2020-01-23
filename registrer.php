@@ -43,68 +43,74 @@ if (isset($_POST['subRegistrering'])) {
     if ($_POST['passord'] == $_POST['passord2']) {
         // Tester på om bruker har fyllt ut alle de obligatoriske feltene
         if ($_POST['brukernavn'] != "" && $_POST['epost'] != "") {
-            try {
+            // Tester på om en gyldig epost ("NAVN@NAVN.DOMENE") er oppgitt
+            if (filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL)) {
+                try {
 
-                $br = $_POST['brukernavn'];
-                $pw = $_POST['passord'];
+                    $br = $_POST['brukernavn'];
+                    $pw = $_POST['passord'];
 
-                // Validering av passordstyrke, server validering
-                $storebokstaver = preg_match('@[A-Z]@', $pw);
-                $smaabokstaver = preg_match('@[a-z]@', $pw);
-                $nummer = preg_match('@[0-9]@', $pw);
-                // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-                // $spesielleB = preg_match('@[^\w]@', $pw);
+                    // Validering av passordstyrke, server validering
+                    $storebokstaver = preg_match('@[A-Z]@', $pw);
+                    $smaabokstaver = preg_match('@[a-z]@', $pw);
+                    $nummer = preg_match('@[0-9]@', $pw);
+                    // Denne er for spesielle symboler, ikke i bruk for øyeblikket
+                    // $spesielleB = preg_match('@[^\w]@', $pw);
 
-                if ($pw == "") {
-                    // Ikke noe passord skrevet
-                    header("Location: registrer.php?error=3");
-                } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
-                    // Ikke tilstrekkelig passord skrevet
-                    header("Location: registrer.php?error=4");
-                } else {
-                    // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
-                    $lbr = strtolower($_POST['brukernavn']);
-                    $sjekkbnavn = "select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "'";
-                    $sjekket = $db->prepare($sjekkbnavn);
-                    $sjekket->execute();
-                    $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
-
-                    // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
-                    if ($testbnavn['brukernavn'] != $lbr) {
-                        // OK, vi forsøker å registrere bruker
-                        $epost = $_POST['epost'];
-
-                        // Salter passorder
-                        $kombinert = $salt . $pw;
-                        // Krypterer saltet passord
-                        $spw = sha1($kombinert);
-                        $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', 3)";
-
-
-                        // Prepared statement for å beskytte mot SQL injection
-                        $stmt = $db->prepare($sql);
-
-                        $vellykket = $stmt->execute(); 
-                        
-                        // Alt gikk OK, sender til logginn med melding til bruker
-                        if ($vellykket) {
-                            header("location: logginn.php?vellykket=1");
-                        }
+                    if ($pw == "") {
+                        // Ikke noe passord skrevet
+                        header("Location: registrer.php?error=3");
+                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                        // Ikke tilstrekkelig passord skrevet
+                        header("Location: registrer.php?error=4");
                     } else {
-                        // Brukernavnet er tatt
-                        header("location: registrer.php?error=1");
+                        // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
+                        $lbr = strtolower($_POST['brukernavn']);
+                        $sjekkbnavn = "select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "'";
+                        $sjekket = $db->prepare($sjekkbnavn);
+                        $sjekket->execute();
+                        $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
+
+                        // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
+                        if ($testbnavn['brukernavn'] != $lbr) {
+                            // OK, vi forsøker å registrere bruker
+                            $epost = $_POST['epost'];
+
+                            // Salter passorder
+                            $kombinert = $salt . $pw;
+                            // Krypterer saltet passord
+                            $spw = sha1($kombinert);
+                            $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', 3)";
+
+
+                            // Prepared statement for å beskytte mot SQL injection
+                            $stmt = $db->prepare($sql);
+
+                            $vellykket = $stmt->execute(); 
+                            
+                            // Alt gikk OK, sender til logginn med melding til bruker
+                            if ($vellykket) {
+                                header("location: logginn.php?vellykket=1");
+                            }
+                        } else {
+                            // Brukernavnet er tatt
+                            header("location: registrer.php?error=1");
+                        }
                     }
                 }
+                catch (PDOException $ex) {
+                    if ($ex->getCode() == 23000) {
+                        // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
+                        header("location: registrer.php?error=1");
+                    } else if ($ex->getCode() == '42S22') {
+                        // 42S22, Kolonne eksisterer ikke
+                        header("location: registrer.php?error=5");
+                    }
+                } 
+            } else {
+                // Feilmelding 7, bruker har oppgitt en ugyldig epost
+                header("location: registrer.php?error=7");
             }
-            catch (PDOException $ex) {
-                if ($ex->getCode() == 23000) {
-                    // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
-                    header("location: registrer.php?error=1");
-                } else if ($ex->getCode() == '42S22') {
-                    // 42S22, Kolonne eksisterer ikke
-                    header("location: registrer.php?error=5");
-                }
-            } 
         } else {
             // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
             header("location: registrer.php?error=6");
@@ -218,7 +224,10 @@ if (isset($_POST['subRegistrering'])) {
 
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
                         <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
-                    <?php } ?>      
+
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
+                        <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
+                    <?php } ?>    
 
                     <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
                 </form>
