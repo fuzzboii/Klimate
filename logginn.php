@@ -72,8 +72,8 @@ if (isset($_POST['submit'])) {
         if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
             $_SESSION['idbruker'] = $resultat['idbruker'];
             $_SESSION['brukernavn'] = $resultat['brukernavn'];
-            $_SESSION['fornavn'] = $resultat['fornavn'];
-            $_SESSION['etternavn'] = $resultat['etternavn'];
+            $_SESSION['fornavn'] = $resultat['fnavn'];
+            $_SESSION['etternavn'] = $resultat['enavn'];
             $_SESSION['epost'] = $resultat['epost'];
             $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
             $_SESSION['brukertype'] = $resultat['brukertype'];
