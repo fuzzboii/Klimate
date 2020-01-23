@@ -289,8 +289,54 @@ footer a {
 
 /*-----------------------------------------------------------------------------*/
 /* Style for ARTIKKEL */
+#artikkel_main {
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
 
 
+#artikkel_art1 #artikkel_art2 #artikkel_art3 #artikkel_art4 #artikkel_art5 {
+  background-color: #F8F7FD; /* Bakgunn */
+  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
+  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+}
+
+figure {
+  background-color: red;
+  padding-top: 10em;
+  margin: 0;
+}
+
+.ArtikkelForfatter {
+  background-color: rgb(245,245,245);
+}
+
+#forfatterOversikt {
+  margin: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 0.5em;
+  font-weight: bold;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 0.7em;
+}
+
+#artikkelOverskrift {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.4em;
+}
+
+#artikkelTekstinnhold {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  margin-top: 0;
+}
 
 
 /*-----------------------------------------------------------------------------*/
