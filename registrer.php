@@ -158,16 +158,16 @@ if (isset($_POST['subRegistrering'])) {
                 </section>
             </section>
 
-            <main id="regMain" onclick="lukkHamburgerMeny()">
+            <main id="toppMain" onclick="lukkHamburgerMeny()">
                 <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
                 <form method="POST" action="registrer.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" required autofocus>
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresser" required>
+                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
@@ -175,7 +175,7 @@ if (isset($_POST['subRegistrering'])) {
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required>
+                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                     </section>
                     <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
