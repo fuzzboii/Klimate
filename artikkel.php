@@ -118,7 +118,8 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
             <!-- Kan ikke legge denne direkte i body -->
-            <header onclick="lukkHamburgerMeny()">
+            <header class="artikkel_header" onclick="lukkHamburgerMeny()">
+                <h1>Artikler</h1>
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->

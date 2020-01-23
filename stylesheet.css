@@ -289,6 +289,8 @@ footer a {
 
 /*-----------------------------------------------------------------------------*/
 /* Style for ARTIKKEL */
+
+/* Artikkel sin main */
 #artikkel_main {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
@@ -298,23 +300,26 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-
+/* Article feltene */
 #artikkel_art1 #artikkel_art2 #artikkel_art3 #artikkel_art4 #artikkel_art5 {
   background-color: #F8F7FD; /* Bakgunn */
   padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
   margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
 }
 
+/* Bilde feltene */
 figure {
   background-color: red;
   padding-top: 10em;
   margin: 0;
 }
 
+/* Forfatter feltet sin style */
 .ArtikkelForfatter {
   background-color: rgb(245,245,245);
 }
 
+/* "Forfatter" paragrafen sin style */
 #forfatterOversikt {
   margin: 0;
   padding-top: 0.5em;
@@ -325,6 +330,7 @@ figure {
   font-size: 0.7em;
 }
 
+/* Overskriften på artiklene */
 #artikkelOverskrift {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 1em;
@@ -332,12 +338,20 @@ figure {
   margin-bottom: 0.4em;
 }
 
+/* Tekstinnholdet for artiklene */
 #artikkelTekstinnhold {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 1em;
   margin-top: 0;
 }
 
+/* Style for artikkel header */
+.artikkel_header {
+  padding-top: 6em;
+  padding-bottom: 1em;
+  text-align: center;
+  font-family: Inter, Helvetica, Arial, sans-serif; 
+}
 
 /*-----------------------------------------------------------------------------*/
 /* Style for BACKEND/Innloggede brukere */
