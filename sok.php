@@ -115,18 +115,18 @@ catch (Exception $ex) {
                 <section class="hamburgerInnhold">
                     <?php if (isset($_SESSION['brukernavn'])) { ?>
                         <!-- Hva som vises om bruker er innlogget -->
-                        <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
-                        <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                        <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                        <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
-                        <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
-                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
+                        <a class = "menytab" tabindex = "-1" href="arrangement.php">Arrangementer</a>
+                        <a class = "menytab" tabindex = "-1" href="artikkel.php">Artikler</a>
+                        <a class = "menytab" tabindex = "-1" href="#">Diskusjoner</a>
+                        <a class = "menytab" tabindex = "-1" href="backend.php">Oversikt</a>
+                        <a class = "menytab" tabindex = "-1" href="konto.php">Konto</a>
+                        <a class = "menytab" tabindex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } else { ?>
                         <!-- Hvis bruker ikke er innlogget -->
-                        <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
-                        <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                        <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
+                        <a class = "menytab" tabindex = "-1" href="arrangement.php">Arrangementer</a>
+                        <a class = "menytab" tabindex = "-1" href="artikkel.php">Artikler</a>
+                        <a class = "menytab" tabindex = "-1" href="#">Diskusjoner</a>
+                        <a class = "menytab" tabindex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } ?>
                 </section>
             </section>
@@ -175,11 +175,11 @@ catch (Exception $ex) {
                                 <section class="innholdRullegardin">
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Brukernavn:</p>
-                                        <input type="text" class="sokBrukerFelt" tabIndex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn">
+                                        <input type="text" class="sokBrukerFelt" tabindex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn">
                                     </section>
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Epost:</p>
-                                        <input type="email" class="sokBrukerFelt" tabIndex = "-1" name="epost" placeholder="Skriv inn epost">
+                                        <input type="email" class="sokBrukerFelt" tabindex = "-1" name="epost" placeholder="Skriv inn epost">
                                     </section>
                                     <input type="submit" class="sokKnapp" value="Søk">
                                 </section>
@@ -192,11 +192,17 @@ catch (Exception $ex) {
                                 <section class="innholdRullegardin">
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Tittel:</p>
-                                        <input type="text" class="sokBrukerFelt" tabIndex = "-1" name="artTittel" placeholder="Tittelen på artikkelen">
+                                        <input type="text" class="sokBrukerFelt" tabindex = "-1" name="artTittel" placeholder="Tittelen på artikkelen">
                                     </section>
+                                    <!--
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Dato fra:</p>
-                                        <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="artDato">
+                                        <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="artDato" title="Alle artikler publisert etter oppgitt dato">
+                                    </section>
+                                    -->
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Skrevet av:</p>
+                                        <input type="text" class="sokBrukerFelt" tabindex ="-1" name="artForfatter" placeholder="Forfatter av artikkelen">
                                     </section>
                                     <input type="submit" class="sokKnapp" value="Søk">
                                 </section>
@@ -209,11 +215,11 @@ catch (Exception $ex) {
                                 <section class="innholdRullegardin">
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Tittel:</p>
-                                        <input type="text" class="sokBrukerFelt" tabIndex = "-1" name="arrTittel" placeholder="Tittelen på arrangementet">
+                                        <input type="text" class="sokBrukerFelt" tabindex = "-1" name="arrTittel" placeholder="Tittelen på arrangementet">
                                     </section>
                                     <section class="sok_inputBoks">
-                                        <p class="sokTittel">Dato fra:</p>
-                                        <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="arrDato">
+                                        <p class="sokTittel">Dato før:</p>
+                                        <input type="date" class="sokBrukerFelt" tabindex = "-1" name="arrDato" title="Alle arrangementer før oppgitt dato">
                                     </section>
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Fylke:</p>

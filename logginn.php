@@ -163,11 +163,11 @@ if (isset($_POST['submit'])) {
                 <form method="POST" action="logginn.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" required autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord">
+                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
                     </section>
                     <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
                     <!-- Meldinger til bruker -->

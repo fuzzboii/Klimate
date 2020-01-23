@@ -163,16 +163,17 @@ if (isset($_POST['glemtPassord'])) {
                 <form method="POST" action="glemt_passord.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn ditt brukernavn" autofocus>
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn ditt brukernavn" required autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn nytt passord">
+                        <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn nytt passord" required>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Gjenta passord">
+                        <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Gjenta passord" required>
                     </section>
+                    <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord"> 
                     <!-- Meldinger til bruker -->
                     <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
                         <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
@@ -188,9 +189,7 @@ if (isset($_POST['glemtPassord'])) {
                     
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
                         <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
-                    <?php } ?>
-
-                    <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord">   
+                    <?php } ?>  
                 </form>
 
                 <!-- Sender brukeren tilbake til forsiden -->

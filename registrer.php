@@ -42,14 +42,13 @@ if (isset($_POST['subRegistrering'])) {
     // Tester på om passordene er like
     if ($_POST['passord'] == $_POST['passord2']) {
         // Tester på om bruker har fyllt ut alle de obligatoriske feltene
-        if ($_POST['brukernavn'] != "" && $_POST['fornavn'] != "" && $_POST['etternavn'] != "" && $_POST['epost'] != "") {
+        if ($_POST['brukernavn'] != "" && $_POST['epost'] != "") {
             try {
 
                 $br = $_POST['brukernavn'];
                 $pw = $_POST['passord'];
 
-                // Validering av passordstyrke
-                // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
+                // Validering av passordstyrke, server validering
                 $storebokstaver = preg_match('@[A-Z]@', $pw);
                 $smaabokstaver = preg_match('@[a-z]@', $pw);
                 $nummer = preg_match('@[0-9]@', $pw);
@@ -73,15 +72,13 @@ if (isset($_POST['subRegistrering'])) {
                     // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
                     if ($testbnavn['brukernavn'] != $lbr) {
                         // OK, vi forsøker å registrere bruker
-                        $fn = $_POST['fornavn'];
-                        $en = $_POST['etternavn'];
                         $epost = $_POST['epost'];
 
                         // Salter passorder
                         $kombinert = $salt . $pw;
                         // Krypterer saltet passord
                         $spw = sha1($kombinert);
-                        $sql = "insert into bruker(brukernavn, passord, fnavn, enavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
+                        $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', 3)";
 
 
                         // Prepared statement for å beskytte mot SQL injection
@@ -187,27 +184,19 @@ if (isset($_POST['subRegistrering'])) {
                 <form method="POST" action="registrer.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
-                        <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for etternavn -->
-                        <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" required autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse">
+                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresser" required>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord">
+                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord">
+                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required>
                     </section>
                     <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
