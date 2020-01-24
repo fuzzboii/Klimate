@@ -107,6 +107,7 @@ footer a {
   padding: 0.8em; /* Hvor mye luft det skal være rundt */
   max-width: 250px;
   margin: auto;
+  font-size: 0.9em;
 }
 
 #mldFEIL {
@@ -718,6 +719,8 @@ table {
   border: 1px solid grey;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-bottom: 0.75em;
+  margin-top: 0.75em;
 }
 .infoRes_sok {
   height: 100%;
@@ -734,7 +737,7 @@ table {
 .infoResBr_sok {
   background-color: rgb(147,181,179);
   margin-bottom: 0; padding-bottom: 0.6em; padding-top: 0.6em; 
-  border-radius: 0 0 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0 0 1.44em 1.44em; /* Avrunder kantene */
   font-family: Helvetica, Arial, sans-serif;
   font-weight: bold;
 }
