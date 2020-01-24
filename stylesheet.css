@@ -809,14 +809,6 @@ table {
     break-before: column;
   }
 
-  #artikkel_main {
-    column-count: 2;
-  }
-
-  #artikkel_art3 {
-    break-after: column;
-  }
-
   .hamburgerMeny {
     width: 40%;
     left: 60%;
@@ -841,6 +833,13 @@ table {
   }
   #sokBtn_navmeny {
     display: block;
+  }
+
+  #artikkel_art3 {
+    break-after: column;
+  }
+  #artikkel_main {
+    column-count: 2; 
   }
 
 }
@@ -985,14 +984,6 @@ table {
     break-before: column;
   }
 
-  #artikkel_main {
-    column-count: 3;
-  }
-
-  #artikkel_art4 {
-    break-after: column;
-  }
-
   #mldFEIL {
     font-size: 1.3em;
     color: red;
@@ -1004,6 +995,14 @@ table {
     color: darkgreen;
     text-align: center;
   }
+  
+  #artikkel_art4 {
+    break-before: column;
+  }
+  #artikkel_main {
+    column-count: 3; 
+  }
+
 }
 
 /* Stor skjerm, 1440p */
