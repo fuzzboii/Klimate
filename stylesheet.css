@@ -303,10 +303,16 @@ footer a {
 }
 
 /* Article feltene */
-#artikkel_art1 #artikkel_art2 #artikkel_art3 #artikkel_art4 #artikkel_art5 {
+#artikkel_art1 #artikkel_art2 #artikkel_art3 #artikkel_art4 #artikkel_art5 #artikkel_art6 #artikkel_art7 #artikkel_art8 #artikkel_art9 {
   background-color: #F8F7FD; /* Bakgunn */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
-  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+
+}
+
+#artikkel_main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  padding: 10px;
 }
 
 /* Bilde feltene */
@@ -338,6 +344,7 @@ footer a {
   font-size: 1em;
   margin-top: 0.5em;
   margin-bottom: 0.4em;
+
 }
 
 /* Tekstinnholdet for artiklene */
@@ -345,6 +352,7 @@ footer a {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 1em;
   margin-top: 0;
+
 }
 
 /* Style for artikkel header */
@@ -1016,12 +1024,7 @@ table {
     text-align: center;
   }
   
-  #artikkel_art4 {
-    break-after: column;
-  }
-  #artikkel_main {
-    column-count: 3; 
-  }
+
 
 }
 

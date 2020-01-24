@@ -149,7 +149,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         $antall = $stmt->rowCount();
                                      ?>
                                 <!-- a href= -->
-                                <figure class="fig_artikkel">>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -179,8 +179,8 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         <p id="forfatterOversikt">Forfatter</p>
                                     </section>
                                     
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift2</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift2asdasddddddddddddddddddddddddddd</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummeringdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
 
                                 </section>
 
@@ -249,6 +249,91 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
                             </section>
                         </article>
+
+                        <!-- Artikkel 6 -->
+                        <article id="artikkel_art6">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure class="fig_artikkel">
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift6</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+                        
+                        <!-- Artikkel 7 -->
+                        <article id="artikkel_art7">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure class="fig_artikkel">
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift7</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+
+                        <!-- Artikkel 8 -->
+                        <article id="artikkel_art8">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure class="fig_artikkel">
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift8</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+
+                        <!-- Artikkel 9 -->
+                        <article id="artikkel_art9">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure class="fig_artikkel">
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift9</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+
 
             </main>
             
