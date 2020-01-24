@@ -124,25 +124,25 @@ include("instillinger.php");
                 <!-- TODO -->
                 <?php if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "")) {
                     // Del for søk på kombinasjon av brukernavn og epost
-                    $sokPaaKomb = "select brukernavn, epost, hvor from bruker, brukerbilde, bilder where brukernavn = '" . $_GET['brukernavn'] . "' and epost = '" . $_GET['epost'] . "' and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+                    $sokPaaKomb = "select idbruker, brukernavn, epost, hvor from bruker, brukerbilde, bilder where brukernavn = '" . $_GET['brukernavn'] . "' and epost = '" . $_GET['epost'] . "' and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
                     $stmtKomb = $db->prepare($sokPaaKomb);
                     $stmtKomb->execute();
                     $resKomb = $stmtKomb->fetchAll(PDO::FETCH_ASSOC);
 
                     foreach ($resKomb as $brukeropplysninger) { ?>
-                        <section class="brukerRes_sok">
+                        <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($brukeropplysninger['idbruker']) ?>'">
                             <figure class="bildeRes_sok">
                                 <?php if ($brukeropplysninger['hvor'] == "") { ?>
                                     <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                                    <img src="bilder/profil.png" alt="Profilbilde for <?php echo($brukeropplysninger['brukernavn'])?>" style="height: 10em; width: 10em;">
+                                    <img src="bilder/profil.png" alt="Profilbilde for <?php echo($brukeropplysninger['brukernavn'])?>">
                                 <?php } else { ?>
                                     <!-- Profilbilde som resultat av spørring -->
-                                    <img src="bilder/<?php echo($brukeropplysninger['hvor'])?>" alt="Profilbilde for <?php echo($brukeropplysninger['brukernavn'])?>" style="height: 10em; width: 10em;">
+                                    <img src="bilder/<?php echo($brukeropplysninger['hvor'])?>" alt="Profilbilde for <?php echo($brukeropplysninger['brukernavn'])?>">
                                 <?php } ?>
                             </figure>
                             <section class="infoRes_sok">
-                                <p>Brukernavn: <?php echo($brukeropplysninger['brukernavn'])?></p>
-                                <p>Epost: <?php echo($brukeropplysninger['epost'])?></p>
+                                <p class="infoResBr_sok"><?php echo($brukeropplysninger['brukernavn'])?></p>
+                                <p class="infoResEp_sok"><?php echo($brukeropplysninger['epost'])?></p>
                             </section>
                         </section>
                     <?php } ?>

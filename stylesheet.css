@@ -246,6 +246,7 @@ footer a {
   background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
   padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
   margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+  border-radius: 1em 1em 0.5em 0.5em; /* Avrunder tittel-containeren */
   
 }
 
@@ -683,7 +684,6 @@ table {
 #sok_main {
   padding-top: 2em; 
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
@@ -693,9 +693,9 @@ table {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
 }
 
-/* Style for lagre knappen i konto redigering */
+/* Style for knappene for å søke */
 .sokKnapp {
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
   font-weight: bold; /* Fet tekst */
@@ -705,11 +705,39 @@ table {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
-/* Style for feltene i konto redigering */
+/* Style for inputfeltene i søk */
 .sokBrukerFelt {
   width: 90%; /* Angir bredde for inputfeltene */
   padding: 0.8em; /* legger luft rundt*/
   border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
+}
+
+/* Style for resultatene for brukersøk */
+.brukerRes_sok {
+  max-width: 250px;
+  margin-left: auto; margin-right: auto;
+  border: 1px solid grey;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+.infoRes_sok {
+  height: 100%;
+  border-radius: 0 0 1.5em 1.5em; /* Avrunder kantene */
+  background-color: #F8F7FD;
+}
+.infoResBr_sok {
+  margin: 0;
+  padding-left: 0.4em;
+}
+.infoResEp_sok {
+  margin: 0;
+  padding-bottom: 0.4em;
+  padding-left: 0.4em;
+}
+
+.bildeRes_sok img {
+  border-radius: 50%;
+  width: 6em; 
 }
 
 
