@@ -149,17 +149,22 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         $antall = $stmt->rowCount();
                                      ?>
                                 <!-- a href= -->
-                                <figure class="fig_artikkel">>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
                                     <section class="ArtikkelForfatter">
                                         <p id="forfatterOversikt">Forfatter: <?php echo($artikkel["brukernavn"])?></p>
                                     </section>
-                                    
+                                    <!-- Tester på om stringen til artingress er lengre enn 90 karakterer, -->
+                                    <!-- hvis den er det så kortes teksten til 90 karakterer. -->
+                                    <!-- Viser hele teksten om den er kortere -->
                                     <h2 id="artikkelOverskrift"><?php echo($artikkel["artnavn"])?></h2>
-                                    <p id="artikkelTekstinnhold"> <?php echo($artikkel["artingress"])?></p>
-
+                                    <?php if(strlen($artikkel["artingress"]) >= 90) { ?>
+                                        <p id="artikkelTekstinnhold"> <?php echo(mb_strimwidth($artikkel["artingress"], 0, 90))?>...</p>
+                                    <?php } else {?>      
+                                        <p id="artikkelTekstinnhold"> <?php echo($artikkel["artingress"])?></p>
+                                    <?php }?>
                                 </section>
 
                             </section>
