@@ -246,7 +246,7 @@ footer a {
   background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
   padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
   margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
-  border-radius: 1em 1em 0.5em 0.5em; /* Avrunder tittel-containeren */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder tittel-containeren */
   
 }
 
