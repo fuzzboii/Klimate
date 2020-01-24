@@ -312,44 +312,68 @@ function sokRullegardin() {
 }
 
 /* Viser innhold på flere sider */
-var forelopigSide = 0; // Current tab is set to be the first tab (0)
+var forelopigSide = 0; // Starter med å sette side vi er på
 
 function hentSide() {
-  // This function will figure out which tab to display
+  // henter alle elementer med navn side_sok (8 resultater)
   var sideDel = document.getElementsByClassName("side_sok");
 
+  // Sjekker om side_sok eksisterer (Hvis vi er på en annen del av sok.php)
   if (typeof sideDel[forelopigSide] != 'undefined') {
+    // Hvis ikke viser vi første side av søket
     sideDel[forelopigSide].style.display = "block";
 
     if (sideDel.length > 1) {
+      // Er det mer enn 1 side, vis neste knapp
       document.getElementById('sok_nesteKnapp').style.display = "inline-block";
     } 
     if (forelopigSide > 0) {
+      // Er vi på side 2 eller høyere, vis tilbake knapp
       document.getElementById('sok_tilbKnapp').style.display = "inline-block";
     } else {
+      // Hvis vi er på side 1, gjem tilbake knapp
       document.getElementById('sok_tilbKnapp').style.display = "none";
     }
     if (sideDel.length <= (forelopigSide + 1)) {
+      // Om vi er på siste side, gjem neste knapp
       document.getElementById('sok_nesteKnapp').style.display = "none";
     }
   }
 }
 
 function visNesteSide() {
+  // Hent alle elementer med navn side_sok
   var sideDel = document.getElementsByClassName("side_sok");
+
+  // Gjem denne siden, neste side hentes i hentSide()
   sideDel[forelopigSide].style.display = "none";
+  
+  // Øk teller med 1, dette er siden vi kommer til
   forelopigSide++;
+
+  // Scroll til topp på ny side
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+
+  // Hent den nye siden
   hentSide();
 }
 
 function visForrigeSide() {
+  // Hent alle elementer med navn side_sok
   var sideDel = document.getElementsByClassName("side_sok");
+  
+  // Gjem denne siden, neste side hentes i hentSide()
   sideDel[forelopigSide].style.display = "none";
+
+  // Reduser teller med 1, dette er siden vi kommer til
   forelopigSide--;
+  
+  // Scroll til topp på ny side
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+  
+  // Hent den nye siden
   hentSide();
 }
 
