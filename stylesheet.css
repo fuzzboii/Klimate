@@ -640,9 +640,8 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for SØK */
-.headerSok {
-  padding-top: 5em;
-  margin-top: 1em;
+.sok_header {
+  padding-top: 4em;
     
   text-align: center; /* Sentrerer h1 */
   font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
@@ -650,7 +649,7 @@ table {
   text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 
-.headerSok h1 {
+.sok_header h1 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
@@ -681,7 +680,7 @@ table {
 }
 
 /* Setter design for avansert søk */
-#sok_main {
+#main_sok {
   padding-top: 2em; 
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -712,9 +711,9 @@ table {
   border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
 }
 
-/* Style for resultatene for brukersøk */
+/* Style for resultatene ved brukersøk */
 .brukerRes_sok {
-  max-width: 250px;
+  max-width: 200px;
   margin-left: auto; margin-right: auto;
   border: 1px solid grey;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -722,22 +721,41 @@ table {
 }
 .infoRes_sok {
   height: 100%;
-  border-radius: 0 0 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: #F8F7FD;
+  margin: 0;
+  padding-top: 1.6em;
+  text-align: center;
+}
+.infoRes_sok img {
+  border-radius: 50%;
+  width: 8em; 
 }
 .infoResBr_sok {
-  margin: 0;
-  padding-left: 0.4em;
+  background-color: rgb(147,181,179);
+  margin-bottom: 0; padding-bottom: 0.6em; padding-top: 0.6em; 
+  border-radius: 0 0 1.5em 1.5em; /* Avrunder kantene */
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bold;
 }
-.infoResEp_sok {
-  margin: 0;
-  padding-bottom: 0.4em;
-  padding-left: 0.4em;
+#sok_bunnSection {
+  text-align: center;
+  padding-top: 2em;
 }
-
-.bildeRes_sok img {
-  border-radius: 50%;
-  width: 6em; 
+#sok_bunnSection a {
+  font-family: Helvetica, Arial, sans-serif;
+}
+#sok_bunnSection input {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 70%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 
@@ -894,6 +912,9 @@ table {
   }
   #sokBtn_navmeny:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+  }
+  .brukerRes_sok:hover {
     cursor: pointer;
   }
 
