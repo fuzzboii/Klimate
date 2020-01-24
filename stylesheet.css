@@ -795,7 +795,7 @@ table {
     column-count: 2;
   }
 
-  #artikkel_art4 {
+  #artikkel_art3 {
     break-before: column;
   }
 
@@ -968,8 +968,6 @@ table {
 
   #artikkel_main {
     column-count: 3;
-    margin-left: 15em;
-    margin-right: 15em;
   }
 
   #artikkel_art4 {
