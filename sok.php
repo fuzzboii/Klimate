@@ -28,7 +28,7 @@ include("instillinger.php");
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body onload="sokRullegardin(), hentSide()">
+    <body onload="sokRullegardin(), hentSide()" onresize="hentSide()">
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -148,10 +148,10 @@ include("instillinger.php");
 
                                 if (!$resBilde) { ?>
                                     <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                                    <img src="bilder/profil.png" alt="Profilbilde for <?php echo($resKomb[0]['brukernavn'])?>">
+                                    <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resKomb[0]['brukernavn'])?>">
                                 <?php } else { ?>
                                     <!-- Profilbilde som resultat av spørring -->
-                                    <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resKomb[0]['brukernavn'])?>">
+                                    <img class="BildeBoksBr_sok" src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resKomb[0]['brukernavn'])?>">
                                 <?php } ?>
                                 <p class="infoResBr_sok"><?php echo($resKomb[0]['brukernavn'])?></p>
                             </figure>
@@ -203,10 +203,10 @@ include("instillinger.php");
 
                                         if (!$resBilde) { ?>
                                             <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                                            <img src="bilder/profil.png" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
+                                            <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
                                         <?php } else { ?>
                                             <!-- Profilbilde som resultat av spørring -->
-                                            <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
+                                            <img class="BildeBoksBr_sok" src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
                                         <?php } ?>
                                         <p class="infoResBr_sok"><?php echo($resBr[$j]['brukernavn'])?></p>
                                     </figure>
@@ -270,10 +270,10 @@ include("instillinger.php");
 
                                             if (!$resBilde) { ?>
                                                 <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                                                <img src="bilder/profil.png" alt="Profilbilde for <?php echo($resEp[$j]['brukernavn'])?>">
+                                                <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resEp[$j]['brukernavn'])?>">
                                             <?php } else { ?>
                                                 <!-- Profilbilde som resultat av spørring -->
-                                                <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resEp[$j]['brukernavn'])?>">
+                                                <img class="BildeBoksBr_sok" src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resEp[$j]['brukernavn'])?>">
                                             <?php } ?>
                                             <p class="infoResBr_sok"><?php echo($resEp[$j]['brukernavn'])?></p>
                                         </figure>

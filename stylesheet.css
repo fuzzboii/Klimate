@@ -723,9 +723,15 @@ table {
 /* Style for resultatene ved brukersøk */
 .side_sok {
   display: none;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+.BildeBoksBr_sok {
+  border-radius: 50%;
+  width: 8em;
 }
 .brukerRes_sok {
-  max-width: 200px;
+  width: 12em;
   margin-left: auto; margin-right: auto;
   border: 1px solid grey;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -740,10 +746,6 @@ table {
   margin: 0;
   padding-top: 1.6em;
   text-align: center;
-}
-.infoBoksBr_sok img {
-  border-radius: 50%;
-  width: 8em; 
 }
 .infoResBr_sok {
   background-color: rgb(147,181,179);
@@ -867,6 +869,18 @@ table {
   }
   #artikkel_main {
     column-count: 2; 
+  }
+  /* Grid for søk */
+  .side_sok {
+    grid-template-columns: 1fr 1fr;
+    padding-left: 8em;
+    padding-right: 8em;
+  }
+  .brukerRes_sok {
+    width: 13em;
+  }
+  .BildeBoksBr_sok {
+    width: 10em;
   }
 
 }
@@ -995,6 +1009,18 @@ table {
     color: darkgreen;
     text-align: center;
   }
+  /* Grid for søk */
+  .side_sok {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-left: 10em;
+    padding-right: 10em;
+  }
+  .brukerRes_sok {
+    width: 16em;
+  }
+  .BildeBoksBr_sok {
+    width: 12em;
+  }
 }
 
 /* Medium skjerm, 1080p */
@@ -1023,6 +1049,18 @@ table {
     color: darkgreen;
     text-align: center;
   }
+  /* Grid for søk */
+  .side_sok {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding-left: 15em;
+    padding-right: 15em;
+  }
+  .brukerRes_sok {
+    width: 20em;
+  }
+  .BildeBoksBr_sok {
+    width: 14em;
+  }
   
 
 
@@ -1036,13 +1074,25 @@ table {
   #artikkel2 {
     break-before: column;
   }
+  /* Grid for søk */
+  .side_sok {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding-left: 20em;
+    padding-right: 20em;
+  }
+  .brukerRes_sok {
+    width: 20em;
+  }
+  .BildeBoksBr_sok {
+    width: 14em;
+  }
 }
 
 @media print {
   .navTop {
     display: none;
   }
-  
+
   .Logo_forside {
     width: 5em;
   }
@@ -1075,6 +1125,7 @@ table {
   }
 
 }
+
 
 
 
