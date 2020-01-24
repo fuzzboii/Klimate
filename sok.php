@@ -120,13 +120,21 @@ include("instillinger.php");
                 <header class="headerSok" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Bruker)</h1>
                 </header>
-                <p>!Tester ikke på data enda, ignorer variabel feil!</p>
-                <p>Skal nå søke med brukernavn: <?php echo($_GET['brukernavn']); ?></p>
-                <p>Og / eller epost: <?php echo($_GET['epost']); ?></p>
 
                 <!-- TODO -->
-                <?php if ($_GET['brukernavn'] != "" || $_GET['epost'] != "") {
-                }?>
+                <?php if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "")) {?>
+                    <!-- Del for søk på kombinasjon av brukernavn og epost -->
+                    <p>Søk på kombinasjon</p>
+                <?php } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "")) { ?>
+                    <!-- Del for søk på kun brukernavn -->
+                    <p>Søk på brukernavn</p>
+                <?php } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "")) { ?>
+                    <!-- Del for søk på kun epost -->
+                    <p>Søk på epost</p>
+                <?php } else { /* Bruker har forsøkt å søke på tomme verdier, sender tilbake */ header("Location: sok.php?error=1"); } ?>
+                    
+                    
+                    
 
             <?php } else if(isset($_GET['artTittel']) || isset($_GET['artDato'])) { ?>
                 <!-- Del for søk på artikkel -->
@@ -227,6 +235,10 @@ include("instillinger.php");
                             </a>
                         </form>
                     </section>
+                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                    <p id="mldFEIL">Vennligst oppgi noen verdier å søke på</p>
+                <?php } ?>
+                    
                 </main>
             <?php } ?>
 
