@@ -179,7 +179,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         <p id="forfatterOversikt">Forfatter</p>
                                     </section>
                                     
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift2</h2>
                                     <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
 
                                 </section>
@@ -200,7 +200,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         <p id="forfatterOversikt">Forfatter</p>
                                     </section>
                                     
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift3</h2>
                                     <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
 
                                 </section>
@@ -221,7 +221,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         <p id="forfatterOversikt">Forfatter</p>
                                     </section>
                                     
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift4</h2>
                                     <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
 
                                 </section>
@@ -242,7 +242,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         <p id="forfatterOversikt">Forfatter</p>
                                     </section>
                                     
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift</h2>
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift5</h2>
                                     <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
 
                                 </section>
