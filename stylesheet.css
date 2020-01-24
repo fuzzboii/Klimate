@@ -733,7 +733,7 @@ table {
   margin-bottom: 0.75em;
   margin-top: 0.75em;
 }
-.infoRes_sok {
+.infoBoksBr_sok {
   height: 100%;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: #F8F7FD;
@@ -741,7 +741,7 @@ table {
   padding-top: 1.6em;
   text-align: center;
 }
-.infoRes_sok img {
+.infoBoksBr_sok img {
   border-radius: 50%;
   width: 8em; 
 }
@@ -767,7 +767,7 @@ table {
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 35%; /* Angir bredde på knappen */
+  width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
@@ -782,11 +782,30 @@ table {
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 70%; /* Angir bredde på knappen */
+  width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
 
+/* Del for artikkel-søk */
+.artRes_sok {
+  max-width: 300px;
+  margin-left: auto; margin-right: auto;
+  border: 1px solid grey;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-bottom: 0.75em;
+  margin-top: 0.75em;
+}
+.infoBoksArt_sok {
+  margin-left: 0.8em; margin-right: 0.8em;
+}
+.infoResArt_sok {
+  max-width: 280px;
+  margin-left: auto; margin-right: auto;
+  text-align: left;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+}
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -933,6 +952,7 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
+
   .sok_seksjon form:hover {
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
@@ -949,7 +969,7 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
-  .brukerRes_sok:hover {
+  .brukerRes_sok:hover, .artRes_sok:hover {
     cursor: pointer;
   }
   #sok_nesteKnapp:hover, #sok_tilbKnapp:hover {

@@ -28,8 +28,14 @@ if (isset($_POST['subEndring'])) {
         if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "") {
             
             // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type password)
-            if (filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL)) {
+            $epostValidert = false;
+            $epostValidert = filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL);
 
+            if ($_POST['nyepost'] == "") {
+                // Bruker har ikke oppgitt en epost, ignorerer dette
+                $epostValidert = true;
+            }
+            if ($epostValidert == true) {
                 // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
                 if ($_POST['nyttbrukernavn'] == "") {
                     // Bruker har valgt å ikke oppdatere brukernavn
