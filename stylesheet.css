@@ -796,7 +796,7 @@ table {
   }
 
   #artikkel_art3 {
-    break-before: column;
+    break-after: column;
   }
 
   .hamburgerMeny {
