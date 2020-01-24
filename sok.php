@@ -121,7 +121,7 @@ include("instillinger.php");
                 <?php if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "")) {
                     // Del for søk på kombinasjon av brukernavn og epost
                     // Ettersom kombinasjonen av brukernavn og epost alltid skal kun gi ett resultat i databasen vises kun et resultat fra databasen
-                    $sokPaaKomb = "select idbruker, brukernavn, epost from bruker where brukernavn = '" . $_GET['brukernavn'] . "' and epost = '" . $_GET['epost'] . "'";
+                    $sokPaaKomb = "select idbruker, brukernavn, epost from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'";
                     $stmtKomb = $db->prepare($sokPaaKomb);
                     $stmtKomb->execute();
                     $resKomb = $stmtKomb->fetchAll(PDO::FETCH_ASSOC); 
