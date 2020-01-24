@@ -147,7 +147,7 @@ include("instillinger.php");
                             // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                             if ($antallBilderFunnet != 0) { ?>
                                 <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                                <img src="bilder/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet" style="height: 20em;">
+                                <img src="bilder/eventbilder/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet" style="height: 20em;">
 
                             <?php } ?>
                             <h1><?php echo($arrangement['eventnavn'])?></h1>
