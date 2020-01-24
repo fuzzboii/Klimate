@@ -311,6 +311,48 @@ function sokRullegardin() {
   }
 }
 
+/* Viser innhold på flere sider */
+var forelopigSide = 0; // Current tab is set to be the first tab (0)
+
+function hentSide() {
+  // This function will figure out which tab to display
+  var sideDel = document.getElementsByClassName("side_sok");
+
+  if (typeof sideDel[forelopigSide] != 'undefined') {
+    sideDel[forelopigSide].style.display = "block";
+
+    if (sideDel.length > 1) {
+      document.getElementById('sok_nesteKnapp').style.display = "inline-block";
+    } 
+    if (forelopigSide > 0) {
+      document.getElementById('sok_tilbKnapp').style.display = "inline-block";
+    } else {
+      document.getElementById('sok_tilbKnapp').style.display = "none";
+    }
+    if (sideDel.length <= (forelopigSide + 1)) {
+      document.getElementById('sok_nesteKnapp').style.display = "none";
+    }
+  }
+}
+
+function visNesteSide() {
+  var sideDel = document.getElementsByClassName("side_sok");
+  sideDel[forelopigSide].style.display = "none";
+  forelopigSide++;
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  hentSide();
+}
+
+function visForrigeSide() {
+  var sideDel = document.getElementsByClassName("side_sok");
+  sideDel[forelopigSide].style.display = "none";
+  forelopigSide--;
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  hentSide();
+}
+
 
 
 /*-------------------------------------------------------------------------------------------------------*/
