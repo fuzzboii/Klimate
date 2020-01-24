@@ -129,16 +129,22 @@ include("instillinger.php");
                     $stmtKomb->execute();
                     $resKomb = $stmtKomb->fetchAll(PDO::FETCH_ASSOC);
 
-                    foreach ($resKomb as $brukeropplysninger) {
-                        if ($brukeropplysninger['hvor'] == "") { ?>
-                            <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                            <img src="bilder/profil.png" alt="Profilbilde for <?php echo($brukeropplysninger['brukernavn'])?>" style="height: 10em; width: 10em;">
-                        <?php } else { ?>
-                            <!-- Profilbilde som resultat av spørring -->
-                            <img src="bilder/<?php echo($brukeropplysninger['hvor'])?>" alt="Profilbilde for <?php echo($brukeropplysninger['brukernavn'])?>" style="height: 10em; width: 10em;">
-                        <?php } ?>
-                        <p>Brukernavn: <?php echo($brukeropplysninger['brukernavn'])?></p>
-                        <p>Epost: <?php echo($brukeropplysninger['epost'])?></p>
+                    foreach ($resKomb as $brukeropplysninger) { ?>
+                        <section class="brukerRes_sok">
+                            <figure class="bildeRes_sok">
+                                <?php if ($brukeropplysninger['hvor'] == "") { ?>
+                                    <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
+                                    <img src="bilder/profil.png" alt="Profilbilde for <?php echo($brukeropplysninger['brukernavn'])?>" style="height: 10em; width: 10em;">
+                                <?php } else { ?>
+                                    <!-- Profilbilde som resultat av spørring -->
+                                    <img src="bilder/<?php echo($brukeropplysninger['hvor'])?>" alt="Profilbilde for <?php echo($brukeropplysninger['brukernavn'])?>" style="height: 10em; width: 10em;">
+                                <?php } ?>
+                            </figure>
+                            <section class="infoRes_sok">
+                                <p>Brukernavn: <?php echo($brukeropplysninger['brukernavn'])?></p>
+                                <p>Epost: <?php echo($brukeropplysninger['epost'])?></p>
+                            </section>
+                        </section>
                     <?php } ?>
 
                 <?php } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "")) { ?>

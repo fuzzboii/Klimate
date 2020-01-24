@@ -149,7 +149,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         $antall = $stmt->rowCount();
                                      ?>
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">>
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -171,7 +171,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -192,7 +192,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -213,7 +213,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -234,7 +234,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">

@@ -308,7 +308,7 @@ footer a {
 }
 
 /* Bilde feltene */
-figure {
+.fig_artikkel {
   background-color: red;
   padding-top: 10em;
   margin: 0;
