@@ -28,7 +28,7 @@ include("instillinger.php");
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body onload="sokRullegardin()">
+    <body onload="sokRullegardin(), hentSide()">
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -164,10 +164,14 @@ include("instillinger.php");
 
                 <?php } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "")) {
                     // Del for søk på brukernavn
-                    $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%'";
+                    $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' order by brukernavn ASC";
                     $stmtBr = $db->prepare($sokPaaBr);
                     $stmtBr->execute();
                     $resBr = $stmtBr->fetchAll(PDO::FETCH_ASSOC); 
+                    
+                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                    $avsluttTag = 0;
+                    $antallSider = 0;
 
                     $resAntall = $stmtBr->rowCount(); ?>
                     
@@ -180,39 +184,61 @@ include("instillinger.php");
                             <h1>Ingen resultater</h1>
                         <?php } ?>
                     </header>
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+                    <main id="sok_main" onload="visSide(0)" onclick="lukkHamburgerMeny()"> 
 
-                    <?php if ($resAntall > 0 ) {
-                        foreach($resBr as $brukerinformasjon) { ?>
-                            <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($brukerinformasjon['idbruker']) ?>'">
-                                <figure class="infoRes_sok">
-                                    <?php // Henter bilde til bruker
-                                    $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $brukerinformasjon['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
-                                    $stmtBrBilde = $db->prepare($hentBrBilde);
-                                    $stmtBrBilde->execute();
-                                    $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
 
-                                    if (!$resBilde) { ?>
-                                        <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                                        <img src="bilder/profil.png" alt="Profilbilde for <?php echo($brukerinformasjon['brukernavn'])?>">
-                                    <?php } else { ?>
-                                        <!-- Profilbilde som resultat av spørring -->
-                                        <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($brukerinformasjon['brukernavn'])?>">
-                                    <?php } ?>
-                                    <p class="infoResBr_sok"><?php echo($brukerinformasjon['brukernavn'])?></p>
-                                </figure>
-                            </section>
-                        <?php }
+                    <?php if ($resAntall > 0 ) { ?>
+                        <?php for ($j = 0; $j < count($resBr); $j++) {
+                            // Hvis rest av $j delt på 9 er 0, start section (Ny side)
+                            if ($j % 8 == 0) { ?>
+                                <section class="side_sok">
+                            <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resBr[$j]['idbruker']) ?>'">
+                                    <figure class="infoRes_sok">
+                                        <?php // Henter bilde til bruker
+                                        $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resBr[$j]['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
+                                        $stmtBrBilde = $db->prepare($hentBrBilde);
+                                        $stmtBrBilde->execute();
+                                        $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
+
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
+                                            <img src="bilder/profil.png" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
+                                        <?php } else { ?>
+                                            <!-- Profilbilde som resultat av spørring -->
+                                            <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
+                                        <?php } ?>
+                                        <p class="infoResBr_sok"><?php echo($resBr[$j]['brukernavn'])?></p>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resBr) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                } ?>
+                        <?php  }
                     } ?>
                     <section id="sok_bunnSection">
+                        <?php if ($antallSider > 0) {?>
+                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                        <?php } ?>
+                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
                 <?php } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "")) {
                     // Del for søk på epost
-                    $sokPaaEp = "select idbruker, brukernavn, epost from bruker where epost = '" . $_GET['epost'] . "'";
+                    $sokPaaEp = "select idbruker, brukernavn from bruker where epost = '" . $_GET['epost'] . "' order by brukernavn ASC";
                     $stmtEp = $db->prepare($sokPaaEp);
                     $stmtEp->execute();
                     $resEp = $stmtEp->fetchAll(PDO::FETCH_ASSOC); 
+                    
+                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                    $avsluttTag = 0;
+                    $antallSider = 0;
 
                     $resAntall = $stmtEp->rowCount(); ?>
                     
@@ -225,31 +251,49 @@ include("instillinger.php");
                             <h1>Ingen resultater</h1>
                         <?php } ?>
                     </header>
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+                    <main id="sok_main" onload="visSide(0)" onclick="lukkHamburgerMeny()"> 
 
-                    <?php if ($resAntall > 0 ) {
-                        foreach($resEp as $brukerinformasjon) { ?>
-                            <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($brukerinformasjon['idbruker']) ?>'">
-                                <figure class="infoRes_sok">
-                                    <?php // Henter bilde til bruker
-                                    $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $brukerinformasjon['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
-                                    $stmtBrBilde = $db->prepare($hentBrBilde);
-                                    $stmtBrBilde->execute();
-                                    $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
 
-                                    if (!$resBilde) { ?>
-                                        <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                                        <img src="bilder/profil.png" alt="Profilbilde for <?php echo($brukerinformasjon['brukernavn'])?>">
-                                    <?php } else { ?>
-                                        <!-- Profilbilde som resultat av spørring -->
-                                        <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($brukerinformasjon['brukernavn'])?>">
-                                    <?php } ?>
-                                    <p class="infoResBr_sok"><?php echo($brukerinformasjon['brukernavn'])?></p>
-                                </figure>
-                            </section>
-                        <?php }
+                    <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resEp); $j++) {
+                                // Hvis rest av $j delt på 9 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_sok">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                    <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resEp[$j]['idbruker']) ?>'">
+                                        <figure class="infoRes_sok">
+                                            <?php // Henter bilde til bruker
+                                            $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resEp[$j]['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
+                                            $stmtBrBilde = $db->prepare($hentBrBilde);
+                                            $stmtBrBilde->execute();
+                                            $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
+
+                                            if (!$resBilde) { ?>
+                                                <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
+                                                <img src="bilder/profil.png" alt="Profilbilde for <?php echo($resEp[$j]['brukernavn'])?>">
+                                            <?php } else { ?>
+                                                <!-- Profilbilde som resultat av spørring -->
+                                                <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resEp[$j]['brukernavn'])?>">
+                                            <?php } ?>
+                                            <p class="infoResBr_sok"><?php echo($resEp[$j]['brukernavn'])?></p>
+                                        </figure>
+                                    </section>
+                                    <?php 
+                                    // Hvis telleren har nådd 8
+                                    if (($avsluttTag == 8) || $j == (count($resEp) - 1)) { ?>
+                                        </section>     
+                                    <?php 
+                                        // Sett telleren til 0, mulighet for mer enn 2 sider
+                                        $avsluttTag = 0;
+                                    } ?>
+                            <?php  }
                     } ?>
                     <section id="sok_bunnSection">
+                        <?php if ($antallSider > 0) {?>
+                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                        <?php } ?>
+                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
                 <?php } else { /* Bruker har forsøkt å søke på tomme verdier, sender tilbake */ header("Location: sok.php?error=1"); } ?>
@@ -257,7 +301,7 @@ include("instillinger.php");
                     
                     
 
-            <?php } else if(isset($_GET['artTittel']) || isset($_GET['artDato'])) { ?>
+            <?php } else if(isset($_GET['artTittel']) || isset($_GET['artForfatter'])) { ?>
                 <!-- Del for søk på artikkel -->
                 <header class="sok_header" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Artikkel)</h1>
@@ -265,7 +309,7 @@ include("instillinger.php");
                 <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                 <p>!Tester ikke på data enda, ignorer variabel feil!</p>
                 <p>Skal nå søke med tittel: <?php echo($_GET['artTittel']); ?></p>
-                <p>Og / eller dato: <?php echo($_GET['artDato']); ?></p>
+                <p>Og / eller dato: <?php echo($_GET['artForfatter']); ?></p>
 
             <?php } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato'])) { ?>
                 <!-- Del for søk på arrangement -->

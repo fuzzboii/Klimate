@@ -713,6 +713,9 @@ table {
 }
 
 /* Style for resultatene ved brukersøk */
+.side_sok {
+  display: none;
+}
 .brukerRes_sok {
   max-width: 200px;
   margin-left: auto; margin-right: auto;
@@ -742,8 +745,23 @@ table {
   font-weight: bold;
 }
 #sok_bunnSection {
+  display: block;
   text-align: center;
   padding-top: 2em;
+}
+
+#sok_tilbKnapp, #sok_nesteKnapp {
+  display: none;
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  margin: 0;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 35%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 #sok_bunnSection a {
   font-family: Helvetica, Arial, sans-serif;
