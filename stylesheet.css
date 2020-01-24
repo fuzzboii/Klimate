@@ -916,23 +916,20 @@ table {
     max-height: 45%;
   }
 
-  /* Hover ved rullegardin knappen for søk */
+  /* Hover-instillinger for søk*/
+
   .brukerRullegardin:hover {
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
-  
-  /* Hover innstillinger for søk knapp */
   .sokKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
-
   .sok_seksjon form:hover {
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
-
   .artikkelRullegardin:hover {
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
@@ -946,6 +943,10 @@ table {
     cursor: pointer;
   }
   .brukerRes_sok:hover {
+    cursor: pointer;
+  }
+  #sok_nesteKnapp:hover, #sok_tilbKnapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
 

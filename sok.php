@@ -222,7 +222,7 @@ include("instillinger.php");
                         <?php  }
                     } ?>
                     <section id="sok_bunnSection">
-                        <?php if ($antallSider > 0) {?>
+                        <?php if ($antallSider > 1) {?>
                             <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                         <?php } ?>
                         <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
@@ -289,7 +289,7 @@ include("instillinger.php");
                             <?php  }
                     } ?>
                     <section id="sok_bunnSection">
-                        <?php if ($antallSider > 0) {?>
+                        <?php if ($antallSider > 1) {?>
                             <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                         <?php } ?>
                         <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
