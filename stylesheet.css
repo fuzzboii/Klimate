@@ -107,6 +107,7 @@ footer a {
   padding: 0.8em; /* Hvor mye luft det skal være rundt */
   max-width: 250px;
   margin: auto;
+  font-size: 0.9em;
 }
 
 #mldFEIL {
@@ -246,6 +247,7 @@ footer a {
   background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
   padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
   margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder tittel-containeren */
   
 }
 
@@ -308,10 +310,11 @@ footer a {
 }
 
 /* Bilde feltene */
-figure {
+.fig_artikkel {
   background-color: red;
   padding-top: 10em;
   margin: 0;
+  height: 5em;
 }
 
 /* Forfatter feltet sin style */
@@ -325,7 +328,6 @@ figure {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   padding-left: 0.5em;
-  font-weight: bold;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 0.7em;
 }
@@ -637,9 +639,8 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for SØK */
-.headerSok {
-  padding-top: 5em;
-  margin-top: 1em;
+.sok_header {
+  padding-top: 4em;
     
   text-align: center; /* Sentrerer h1 */
   font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
@@ -647,7 +648,7 @@ table {
   text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 
-.headerSok h1 {
+.sok_header h1 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
@@ -678,10 +679,9 @@ table {
 }
 
 /* Setter design for avansert søk */
-#sok_main {
+#main_sok {
   padding-top: 2em; 
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
@@ -691,9 +691,9 @@ table {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
 }
 
-/* Style for lagre knappen i konto redigering */
+/* Style for knappene for å søke */
 .sokKnapp {
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
   font-weight: bold; /* Fet tekst */
@@ -703,11 +703,60 @@ table {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
-/* Style for feltene i konto redigering */
+/* Style for inputfeltene i søk */
 .sokBrukerFelt {
   width: 90%; /* Angir bredde for inputfeltene */
   padding: 0.8em; /* legger luft rundt*/
   border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
+}
+
+/* Style for resultatene ved brukersøk */
+.brukerRes_sok {
+  max-width: 200px;
+  margin-left: auto; margin-right: auto;
+  border: 1px solid grey;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-bottom: 0.75em;
+  margin-top: 0.75em;
+}
+.infoRes_sok {
+  height: 100%;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: #F8F7FD;
+  margin: 0;
+  padding-top: 1.6em;
+  text-align: center;
+}
+.infoRes_sok img {
+  border-radius: 50%;
+  width: 8em; 
+}
+.infoResBr_sok {
+  background-color: rgb(147,181,179);
+  margin-bottom: 0; padding-bottom: 0.6em; padding-top: 0.6em; 
+  border-radius: 0 0 1.44em 1.44em; /* Avrunder kantene */
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+#sok_bunnSection {
+  text-align: center;
+  padding-top: 2em;
+}
+#sok_bunnSection a {
+  font-family: Helvetica, Arial, sans-serif;
+}
+#sok_bunnSection input {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 70%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 
@@ -739,6 +788,15 @@ table {
   #bgcont3 {
     break-before: column;
   }
+
+  #artikkel_main {
+    column-count: 2;
+  }
+
+  #artikkel_art4 {
+    break-before: column;
+  }
+
   .hamburgerMeny {
     width: 40%;
     left: 60%;
@@ -764,6 +822,7 @@ table {
   #sokBtn_navmeny {
     display: block;
   }
+
 }
 
 /* Laptop / Liten skjerm, 720p */
@@ -866,6 +925,9 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
+  .brukerRes_sok:hover {
+    cursor: pointer;
+  }
 
 
   footer a:hover {
@@ -904,6 +966,8 @@ table {
 
   #artikkel_main {
     column-count: 3;
+    margin-left: 15em;
+    margin-right: 15em;
   }
 
   #artikkel_art4 {

@@ -76,7 +76,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                        <img src="bilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                        <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                     </a>
 
                 <?php } else { ?>
@@ -134,7 +134,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                    <img src="bilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_backend">
+                    <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_backend">
                 <?php } else { ?>
                     <!-- Hvis ikke noe bilde ble funnet benytter vi et standard profilbilde -->
                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">

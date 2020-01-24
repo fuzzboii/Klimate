@@ -197,7 +197,7 @@ function sokRullegardin() {
     elementArt[i].addEventListener("click", function() {
         // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
         var innholdRullegardin = this.previousElementSibling;
-        var tabStart = 17;
+        var tabStart = 21;
         if (aapnet == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("artikkelRullegardin").innerHTML = "Avbryt";
@@ -256,7 +256,7 @@ function sokRullegardin() {
     elementArr[i].addEventListener("click", function() {
         // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
         var innholdRullegardin = this.previousElementSibling;
-        var tabStart = 18;
+        var tabStart = 26;
         if (aapnet == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("arrangementRullegardin").innerHTML = "Avbryt";

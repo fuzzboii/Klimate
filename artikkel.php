@@ -63,7 +63,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                            <img src="bilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                            <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                         </a>
 
                     <?php } else { ?>
@@ -116,11 +116,13 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                         <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                         <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
+                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } else { ?>
                         <!-- Hvis bruker ikke er innlogget -->
                         <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                         <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                     <?php } ?>
                 </section>
             </section>
@@ -147,7 +149,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         $antall = $stmt->rowCount();
                                      ?>
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">>
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -169,7 +171,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -190,7 +192,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -211,7 +213,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">
@@ -232,7 +234,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             <section class="artikkel_innhold">
                                 <!-- her kommer innholder fra databasen -->
                                 <!-- a href= -->
-                                <figure>
+                                <figure class="fig_artikkel">
 
                                 </figure>
                                 <section class="artikkel_innholdInfo">

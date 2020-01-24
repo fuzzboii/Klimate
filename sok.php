@@ -57,7 +57,7 @@ include("instillinger.php");
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="5">
-                            <img src="bilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                            <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                         </a>
                     <?php } else { ?>
                         <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
@@ -117,31 +117,162 @@ include("instillinger.php");
             <!-- Kan ikke legge denne direkte i body -->
             <?php if(isset($_GET['brukernavn']) || isset($_GET['epost'])) { ?>
                 <!-- Del for søk på bruker -->
-                <header class="headerSok" onclick="lukkHamburgerMeny()">
-                    <h1>x Resultater (Bruker)</h1>
-                </header>
-                <p>!Tester ikke på data enda, ignorer variabel feil!</p>
-                <p>Skal nå søke med brukernavn: <?php echo($_GET['brukernavn']); ?></p>
-                <p>Og / eller epost: <?php echo($_GET['epost']); ?></p>
 
-                <!-- TODO -->
-                <?php if ($_GET['brukernavn'] != "" || $_GET['epost'] != "") {
-                }?>
+                <?php if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "")) {
+                    // Del for søk på kombinasjon av brukernavn og epost
+                    // Ettersom kombinasjonen av brukernavn og epost alltid skal kun gi ett resultat i databasen vises kun et resultat fra databasen
+                    $sokPaaKomb = "select idbruker, brukernavn, epost from bruker where brukernavn = '" . $_GET['brukernavn'] . "' and epost = '" . $_GET['epost'] . "'";
+                    $stmtKomb = $db->prepare($sokPaaKomb);
+                    $stmtKomb->execute();
+                    $resKomb = $stmtKomb->fetchAll(PDO::FETCH_ASSOC); 
+
+                    $resAntall = $stmtKomb->rowCount(); ?>
+                    
+                    <header class="sok_header" onclick="lukkHamburgerMeny()">
+                        <?php if ($resAntall == 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultat</h1>
+                        <?php } else { ?>
+                            <h1>Ingen resultater</h1>
+                        <?php } ?>
+                    </header>
+                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                    <?php if ($resAntall > 0) { ?>
+                        <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resKomb[0]['idbruker']) ?>'">
+                            <figure class="infoRes_sok">
+                                <?php // Henter bilde til bruker
+                                $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resKomb[0]['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
+                                $stmtBrBilde = $db->prepare($hentBrBilde);
+                                $stmtBrBilde->execute();
+                                $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
+
+                                if (!$resBilde) { ?>
+                                    <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
+                                    <img src="bilder/profil.png" alt="Profilbilde for <?php echo($resKomb[0]['brukernavn'])?>">
+                                <?php } else { ?>
+                                    <!-- Profilbilde som resultat av spørring -->
+                                    <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resKomb[0]['brukernavn'])?>">
+                                <?php } ?>
+                                <p class="infoResBr_sok"><?php echo($resKomb[0]['brukernavn'])?></p>
+                            </figure>
+                        </section>
+                    <?php } ?>
+                    <section id="sok_bunnSection">
+                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    </section>
+                        
+
+                <?php } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "")) {
+                    // Del for søk på brukernavn
+                    $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%'";
+                    $stmtBr = $db->prepare($sokPaaBr);
+                    $stmtBr->execute();
+                    $resBr = $stmtBr->fetchAll(PDO::FETCH_ASSOC); 
+
+                    $resAntall = $stmtBr->rowCount(); ?>
+                    
+                    <header class="sok_header" onclick="lukkHamburgerMeny()">
+                        <?php if ($resAntall > 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultater</h1>
+                        <?php } else if ($resAntall == 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultat</h1>
+                        <?php } else { ?>
+                            <h1>Ingen resultater</h1>
+                        <?php } ?>
+                    </header>
+                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                    <?php if ($resAntall > 0 ) {
+                        foreach($resBr as $brukerinformasjon) { ?>
+                            <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($brukerinformasjon['idbruker']) ?>'">
+                                <figure class="infoRes_sok">
+                                    <?php // Henter bilde til bruker
+                                    $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $brukerinformasjon['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
+                                    $stmtBrBilde = $db->prepare($hentBrBilde);
+                                    $stmtBrBilde->execute();
+                                    $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
+
+                                    if (!$resBilde) { ?>
+                                        <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
+                                        <img src="bilder/profil.png" alt="Profilbilde for <?php echo($brukerinformasjon['brukernavn'])?>">
+                                    <?php } else { ?>
+                                        <!-- Profilbilde som resultat av spørring -->
+                                        <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($brukerinformasjon['brukernavn'])?>">
+                                    <?php } ?>
+                                    <p class="infoResBr_sok"><?php echo($brukerinformasjon['brukernavn'])?></p>
+                                </figure>
+                            </section>
+                        <?php }
+                    } ?>
+                    <section id="sok_bunnSection">
+                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    </section>
+                <?php } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "")) {
+                    // Del for søk på epost
+                    $sokPaaEp = "select idbruker, brukernavn, epost from bruker where epost = '" . $_GET['epost'] . "'";
+                    $stmtEp = $db->prepare($sokPaaEp);
+                    $stmtEp->execute();
+                    $resEp = $stmtEp->fetchAll(PDO::FETCH_ASSOC); 
+
+                    $resAntall = $stmtEp->rowCount(); ?>
+                    
+                    <header class="sok_header" onclick="lukkHamburgerMeny()">
+                        <?php if ($resAntall > 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultater</h1>
+                        <?php } else if ($resAntall == 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultat</h1>
+                        <?php } else { ?>
+                            <h1>Ingen resultater</h1>
+                        <?php } ?>
+                    </header>
+                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                    <?php if ($resAntall > 0 ) {
+                        foreach($resEp as $brukerinformasjon) { ?>
+                            <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($brukerinformasjon['idbruker']) ?>'">
+                                <figure class="infoRes_sok">
+                                    <?php // Henter bilde til bruker
+                                    $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $brukerinformasjon['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
+                                    $stmtBrBilde = $db->prepare($hentBrBilde);
+                                    $stmtBrBilde->execute();
+                                    $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
+
+                                    if (!$resBilde) { ?>
+                                        <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
+                                        <img src="bilder/profil.png" alt="Profilbilde for <?php echo($brukerinformasjon['brukernavn'])?>">
+                                    <?php } else { ?>
+                                        <!-- Profilbilde som resultat av spørring -->
+                                        <img src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($brukerinformasjon['brukernavn'])?>">
+                                    <?php } ?>
+                                    <p class="infoResBr_sok"><?php echo($brukerinformasjon['brukernavn'])?></p>
+                                </figure>
+                            </section>
+                        <?php }
+                    } ?>
+                    <section id="sok_bunnSection">
+                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    </section>
+                <?php } else { /* Bruker har forsøkt å søke på tomme verdier, sender tilbake */ header("Location: sok.php?error=1"); } ?>
+                    
+                    
+                    
 
             <?php } else if(isset($_GET['artTittel']) || isset($_GET['artDato'])) { ?>
                 <!-- Del for søk på artikkel -->
-                <header class="headerSok" onclick="lukkHamburgerMeny()">
+                <header class="sok_header" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Artikkel)</h1>
                 </header>
+                <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                 <p>!Tester ikke på data enda, ignorer variabel feil!</p>
                 <p>Skal nå søke med tittel: <?php echo($_GET['artTittel']); ?></p>
                 <p>Og / eller dato: <?php echo($_GET['artDato']); ?></p>
 
             <?php } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato'])) { ?>
                 <!-- Del for søk på arrangement -->
-                <header class="headerSok" onclick="lukkHamburgerMeny()">
+                <header class="sok_header" onclick="lukkHamburgerMeny()">
                     <h1>x Resultater (Arrangement)</h1>
                 </header>
+                <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                 <p>!Tester ikke på data enda, ignorer variabel feil!</p>
                 <p>Skal nå søke med tittel: <?php echo($_GET['arrTittel']); ?></p>
                 <p>Og / eller dato: <?php echo($_GET['arrDato']); ?></p>
@@ -149,14 +280,14 @@ include("instillinger.php");
 
             <?php } else { ?>
                 <!-- Del for avansert søk -->
-                <header class="headerSok" onclick="lukkHamburgerMeny()">
+                <header class="sok_header" onclick="lukkHamburgerMeny()">
                     <h1>Avansert søk</h1>
                 </header>
                 <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                     <section id="sok_seksjon"> 
                         <!-- Rullegardin for søk på bruker -->
                         <form method="GET">
-                            <a class="bildeKontroll" tabindex="15">
+                            <a tabindex="15">
                                 <section class="innholdRullegardin">
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Brukernavn:</p>
@@ -173,7 +304,7 @@ include("instillinger.php");
                         </form>
                         <!-- Rullegardin for søk på artikkel -->
                         <form method="GET">
-                            <a class="bildeKontroll" tabindex="16">
+                            <a tabindex="20">
                                 <section class="innholdRullegardin">
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Tittel:</p>
@@ -196,7 +327,7 @@ include("instillinger.php");
                         </form>
                         <!-- Rullegardin for søk på arrangement -->
                         <form method="GET">
-                            <a class="bildeKontroll" class="innholdRullegardin" tabindex="17">
+                            <a tabindex="25">
                                 <section class="innholdRullegardin">
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Tittel:</p>
@@ -227,8 +358,12 @@ include("instillinger.php");
                             </a>
                         </form>
                     </section>
-                </main>
+                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                    <p id="mldFEIL">Vennligst oppgi noen verdier å søke på</p>
+                <?php } ?>
+                    
             <?php } ?>
+            </main>
 
 
 
@@ -249,6 +384,6 @@ include("instillinger.php");
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret xx.xx.xxxx -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang xx.xx.xxxx -->
+    <!-- Denne siden er kontrollert av , siste gang xx.xx.xxxx -->
 
 </html>
