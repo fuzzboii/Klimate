@@ -314,6 +314,7 @@ footer a {
   background-color: red;
   padding-top: 10em;
   margin: 0;
+  height: 5em;
 }
 
 /* Forfatter feltet sin style */
@@ -327,7 +328,6 @@ footer a {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   padding-left: 0.5em;
-  font-weight: bold;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 0.7em;
 }
@@ -790,6 +790,15 @@ table {
   #bgcont3 {
     break-before: column;
   }
+
+  #artikkel_main {
+    column-count: 2;
+  }
+
+  #artikkel_art4 {
+    break-before: column;
+  }
+
   .hamburgerMeny {
     width: 40%;
     left: 60%;
@@ -815,6 +824,7 @@ table {
   #sokBtn_navmeny {
     display: block;
   }
+
 }
 
 /* Laptop / Liten skjerm, 720p */
@@ -958,6 +968,8 @@ table {
 
   #artikkel_main {
     column-count: 3;
+    margin-left: 15em;
+    margin-right: 15em;
   }
 
   #artikkel_art4 {
