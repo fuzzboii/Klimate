@@ -983,8 +983,10 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
-  .brukerRes_sok:hover, .artRes_sok:hover {
+  .infoBoksBr_sok:hover, .artRes_sok:hover {
     cursor: pointer;
+    box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126); /* Skygge under navigasjonsbaren */
+    transition: box-shadow 0.3s;
   }
   #sok_nesteKnapp:hover, #sok_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
