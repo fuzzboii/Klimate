@@ -28,6 +28,21 @@ class mysqlPDO extends PDO {
 }
 */
 
+// Konstruktør for Klimate.no
+/*
+class mysqlPDO extends PDO {
+    public function __construct() {
+        $drv = 'mysql';
+        $hst = 'localhost';
+        $usr = 'klimate_no';
+        $pwd = 'bpg5sJNWjhL74Ye85tjr23pB';
+        $sch = 'klimate_no';
+        $dsn = $drv . ':host=' . $hst . ';dbname=' . $sch;
+        parent::__construct($dsn,$usr,$pwd);
+    }
+}
+*/
+
 
 // Saltet
 $salt = "IT2_2020"; 

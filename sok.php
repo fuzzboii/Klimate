@@ -626,7 +626,7 @@ include("instillinger.php");
                     </section>
                 <?php }
 
-            } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato'])) {
+            } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato']) || isset($_GET['fylke'])) {
 
                 /* ---------------------------*/
                 /* -------------------------- */
