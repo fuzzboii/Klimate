@@ -141,7 +141,7 @@ include("instillinger.php");
                             <h1>Ingen resultater</h1>
                         <?php } ?>
                     </header>
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+                    <main onclick="lukkHamburgerMeny()"> 
 
                     <?php if ($resAntall > 0) { ?>
                         <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resKomb[0]['idbruker']) ?>'">
