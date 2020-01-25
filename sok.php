@@ -111,16 +111,22 @@ include("instillinger.php");
                     <?php } ?>
                 </section>
             </section>
-            
-            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <?php if(isset($_GET['brukernavn']) || isset($_GET['epost'])) { ?>
-                <!-- Del for søk på bruker -->
 
-                <?php if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "")) {
-                    // Del for søk på kombinasjon av brukernavn og epost
-                    // Ettersom kombinasjonen av brukernavn og epost alltid skal kun gi ett resultat i databasen vises kun et resultat fra databasen
+            <!-- Start på PHP IF-ELSE som utgjør siden -->
+            <?php if(isset($_GET['brukernavn']) || isset($_GET['epost'])) {
+
+                /* ----------------------*/
+                /* --------------------- */
+                /* Del for søk på bruker */
+                /* --------------------- */
+                /* --------------------- */
+
+                if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "")) {
+
+                    /* -----------------------------------*/
+                    /* Del for søk på brukernavn og epost */
+                    /* ---------------------------------- */
+
                     $sokPaaKomb = "select idbruker, brukernavn, epost from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'";
                     $stmtKomb = $db->prepare($sokPaaKomb);
                     $stmtKomb->execute();
@@ -163,7 +169,11 @@ include("instillinger.php");
                         
 
                 <?php } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "")) {
-                    // Del for søk på brukernavn
+
+                    /* ------------------------------*/
+                    /* Del for søk på kun brukernavn */
+                    /* ----------------------------- */
+
                     $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' order by brukernavn ASC";
                     $stmtBr = $db->prepare($sokPaaBr);
                     $stmtBr->execute();
@@ -230,7 +240,11 @@ include("instillinger.php");
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
                 <?php } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "")) {
-                    // Del for søk på epost
+
+                    /* -------------------------*/
+                    /* Del for søk på kun epost */
+                    /* ------------------------ */
+
                     $sokPaaEp = "select idbruker, brukernavn from bruker where epost = '" . $_GET['epost'] . "' order by brukernavn ASC";
                     $stmtEp = $db->prepare($sokPaaEp);
                     $stmtEp->execute();
@@ -296,16 +310,40 @@ include("instillinger.php");
                         <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
-                <?php } else { /* Bruker har forsøkt å søke på tomme verdier, sender tilbake */ header("Location: sok.php?error=1"); } ?>
+                <?php } else {
                     
+                    /* ------------------------------------------- */
+                    /* Del for om bruker har oppgitt tomme verdier */
+                    /* ------------------------------------------- */
+                    ?>
+
+                    <header class="sok_header" onclick="lukkHamburgerMeny()">
+                        <h1>Ingen resultater</h1>
+                    </header>
+
+                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                    <section id="sok_bunnSection">
+                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    </section>
+                <?php } ?>
                     
                     
 
-            <?php } else if(isset($_GET['artTittel']) || isset($_GET['artForfatter'])) { ?>
-                <!-- Del for søk på artikkel -->
+            <?php } else if(isset($_GET['artTittel']) || isset($_GET['artForfatter'])) {
 
-                <?php if (($_GET['artTittel'] != "") && (!isset($_GET['artForfatter']))) {
-                    // Del for søk på kun tittel (Om bruker har fylt inn navbar søk)
+                /* ------------------------*/
+                /* ----------------------- */
+                /* Del for søk på artikkel */
+                /* ----------------------- */
+                /* ----------------------- */
+
+                if (($_GET['artTittel'] != "") && (!isset($_GET['artForfatter']))) {
+
+                    /* --------------------------*/
+                    /* Del for søk på kun tittel */
+                    /* ------------------------- */
+
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
                     $stmtArt = $db->prepare($sokPaaArt);
                     $stmtArt->execute();
@@ -367,8 +405,79 @@ include("instillinger.php");
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
 
+                <?php } else if (($_GET['artTittel'] != "") && ($_GET['artForfatter'] != "")) {
+
+                    /* --------------------------------------------------*/
+                    /* Del for søk på kombinasjon av tittel og forfatter */
+                    /* ------------------------------------------------- */
+
+                    $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                    $stmtArt = $db->prepare($sokPaaArt);
+                    $stmtArt->execute();
+                    $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
+                    
+                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                    $avsluttTag = 0;
+                    $antallSider = 0;
+
+                    $resAntall = $stmtArt->rowCount(); ?>
+                    
+                    <header class="sok_header" onclick="lukkHamburgerMeny()">
+                        <?php if ($resAntall > 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultater</h1>
+                        <?php } else if ($resAntall == 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultat</h1>
+                        <?php } else { ?>
+                            <h1>Ingen resultater</h1>
+                        <?php } ?>
+                    </header>
+                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+
+                    <?php if ($resAntall > 0 ) { ?>
+                        <?php for ($j = 0; $j < count($resArt); $j++) {
+                            // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                            if ($j % 8 == 0) { ?>
+                                <section class="side_sok">
+                            <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
+                                    <figure class="infoBoksArt_sok">
+                                        <h1 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h1>
+                                        <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
+                                        <?php 
+                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                        if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
+                                            <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['brukernavn'])?></p>
+                                        <?php } else { ?>
+                                            <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['enavn']); if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {echo(", "); echo($resArt[$j]['fnavn']); } ?></p>
+                                        <?php } ?>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                } ?>
+                        <?php  }
+                    } ?>
+                    <section id="sok_bunnSection">
+                        <?php if ($antallSider > 1) {?>
+                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                        <?php } ?>
+                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    </section>
+
                 <?php } else if (($_GET['artTittel'] != "") && ($_GET['artForfatter'] == "")) {
-                    // Del for søk på tittel
+
+                    /* ----------------------*/
+                    /* Del for søk på tittel */
+                    /* --------------------- */
+
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
                     $stmtArt = $db->prepare($sokPaaArt);
                     $stmtArt->execute();
@@ -431,7 +540,11 @@ include("instillinger.php");
                     </section>
 
                 <?php } else if (($_GET['artTittel'] == "") && ($_GET['artForfatter'] != "")) {
-                    // Del for søk på forfatter (Søker på brukernavn, fornavn eller etternavn)
+
+                    /* -------------------------*/
+                    /* Del for søk på forfatter */
+                    /* ------------------------ */
+
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
                     $stmtArt = $db->prepare($sokPaaArt);
                     $stmtArt->execute();
@@ -495,20 +608,118 @@ include("instillinger.php");
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
                 <?php 
-                } 
+                } else {
+                    
+                    /* ------------------------------------------- */
+                    /* Del for om bruker har oppgitt tomme verdier */
+                    /* ------------------------------------------- */
+                    ?>
 
-            } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato'])) { ?>
-                <!-- Del for søk på arrangement -->
-                <header class="sok_header" onclick="lukkHamburgerMeny()">
-                    <h1>x Resultater (Arrangement)</h1>
-                </header>
-                <main id="sok_main" onclick="lukkHamburgerMeny()"> 
-                <p>!Tester ikke på data enda, ignorer variabel feil!</p>
-                <p>Skal nå søke med tittel: <?php echo($_GET['arrTittel']); ?></p>
-                <p>Og / eller dato: <?php echo($_GET['arrDato']); ?></p>
-                <p>Og / eller fylke: <?php echo($_GET['fylke']); ?></p>
+                    <header class="sok_header" onclick="lukkHamburgerMeny()">
+                        <h1>Ingen resultater</h1>
+                    </header>
 
-            <?php } else { ?>
+                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                    <section id="sok_bunnSection">
+                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    </section>
+                <?php }
+
+            } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato'])) {
+
+                /* ---------------------------*/
+                /* -------------------------- */
+                /* Del for søk på arrangement */
+                /* -------------------------- */
+                /* -------------------------- */
+
+                if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "")) {
+
+                    /* ---------------------------------------------*/
+                    /* Del for søk på kombinasjon av tittel og dato */
+                    /* -------------------------------------------- */
+
+                    $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                    $stmtArt = $db->prepare($sokPaaArt);
+                    $stmtArt->execute();
+                    $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
+                    
+                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                    $avsluttTag = 0;
+                    $antallSider = 0;
+
+                    $resAntall = $stmtArt->rowCount(); 
+                ?>
+                    
+                    <header class="sok_header" onclick="lukkHamburgerMeny()">
+                        <?php if ($resAntall > 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultater</h1>
+                        <?php } else if ($resAntall == 1) { ?>
+                            <h1><?php echo($resAntall)?> Resultat</h1>
+                        <?php } else { ?>
+                            <h1>Ingen resultater</h1>
+                        <?php } ?>
+                    </header>
+
+                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                    <?php if ($resAntall > 0 ) { ?>
+                        <?php for ($j = 0; $j < count($resArt); $j++) {
+                            // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                            if ($j % 8 == 0) { ?>
+                                <section class="side_sok">
+                            <?php $antallSider++; } $avsluttTag++; ?>
+                            <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
+                                <figure class="infoBoksArt_sok">
+                                    <h1 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h1>
+                                    <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
+                                    <?php 
+                                    // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                    if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
+                                        <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['brukernavn'])?></p>
+                                    <?php } else { ?>
+                                        <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['enavn']); if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {echo(", "); echo($resArt[$j]['fnavn']); } ?></p>
+                                    <?php } ?>
+                                </figure>
+                            </section>
+                            <?php 
+                            // Hvis telleren har nådd 8
+                            if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
+                                </section>     
+                            <?php 
+                                // Sett telleren til 0, mulighet for mer enn 2 sider
+                                $avsluttTag = 0;
+                            }
+                        }
+                    } ?>
+
+                    <section id="sok_bunnSection">
+                        <?php if ($antallSider > 1) {?>
+                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                        <?php } ?>
+                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    </section>
+            <?php } else {
+                    
+                    /* ------------------------------------------- */
+                    /* Del for om bruker har oppgitt tomme verdier */
+                    /* ------------------------------------------- */
+                    ?>
+
+                    <header class="sok_header" onclick="lukkHamburgerMeny()">
+                        <h1>Ingen resultater</h1>
+                    </header>
+
+                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                    <section id="sok_bunnSection">
+                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    </section>
+            <?php }
+            } else { ?>
                 <!-- Del for avansert søk -->
                 <header class="sok_header" onclick="lukkHamburgerMeny()">
                     <h1>Avansert søk</h1>
