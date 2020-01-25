@@ -811,7 +811,7 @@ table {
 
 /* Del for arrangement-søk */
 .arrRes_sok {
-  max-width: 300px;
+  width: 14em;
   margin-left: auto; margin-right: auto;
   border: 1px solid grey;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -820,14 +820,14 @@ table {
   margin-top: 0.75em;
 }
 .BildeBoksArr_sok {
-  width: 14em;  height: 8em;
+  width: 12em;  height: 7em;
   object-fit: cover;
   border: 1px solid black;
   border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   box-shadow: 0 0 0.1em 0.01em black;
 }
 .infoBoksArr_sok {
-  margin-left: 0.8em; margin-right: 0.8em;
+  margin-left: 0.9em; margin-right: 0.9em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -901,6 +901,12 @@ table {
   }
   .BildeBoksBr_sok {
     width: 9em;
+  }
+  .arrRes_sok {
+    width: 14em;
+  }
+  .BildeBoksArr_sok {
+    width: 12em;  height: 7em;
   }
 
 }
@@ -1049,6 +1055,12 @@ table {
   .BildeBoksBr_sok {
     width: 10em;
   }
+  .arrRes_sok {
+    width: 16em;
+  }
+  .BildeBoksArr_sok {
+    width: 14em;  height: 8em;
+  }
 }
 
 /* Medium skjerm, 1080p */
@@ -1089,9 +1101,15 @@ table {
   .BildeBoksBr_sok {
     width: 12em;
   }
-  
-
-
+  .arrRes_sok {
+    width: 18em;
+  }
+  .BildeBoksArr_sok {
+    width: 15em;  height: 9em;
+  }
+  .infoBoksArr_sok {
+    margin-left: 1.4em; margin-right: 1.4em;
+  }
 }
 
 /* Stor skjerm, 1440p */
@@ -1113,6 +1131,12 @@ table {
   }
   .BildeBoksBr_sok {
     width: 12em;
+  }
+  .arrRes_sok {
+    
+  }
+  .BildeBoksArr_sok {
+
   }
 }
 
