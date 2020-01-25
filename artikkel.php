@@ -175,7 +175,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                     </section>
                                     
                                     <h2 id="artikkelOverskrift">Artikkel overskrift2asdasddddddddddddddddddddddddddd</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummeringdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummeringdddddAAddddAAAAAAddingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAingdddddAAddddAAAAAAddAAAAAAddddddddddddAAAAAAAAAddddddddddddAAAAAAAdddddddddddddddddddddddddd</p>
 
                                 </section>
 
