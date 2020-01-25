@@ -911,6 +911,10 @@ table {
     opacity: 0.7;
     cursor: pointer;
   }
+  .bildeKontroll img:hover {
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126); /* Skygge under navigasjonsbaren */
+    transition: box-shadow 0.3s;
+  }
 
   /* Hover innstillinger for logg inn knapp */
   .RegInnFelt_knappLogginn:hover {
