@@ -1057,22 +1057,62 @@ table {
     width: 14em;  height: 8em;
   }
 
+  #backend_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+  
+  #konto_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_rediger_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
   #artikkel_main {
     grid-template-columns: 1fr 1fr 1fr; 
+    margin-left: 10em;
+    margin-right: 10em;
   }
 }
 
 /* Medium skjerm, 1080p */
 @media screen and (min-width: 1920px) {
   #default_main {
-    column-count: 3; 
+    column-count: 3;
+    margin-left: 10em;
+    margin-right: 10em; 
   }
+
   #artikkel4 {
     break-before: column;
   }
-  #backend_main {
-    column-count: 3; 
+
+  #artikkel_main {
+    margin-left: 10em;
+    margin-right: 10em;
+    grid-template-columns: 1fr 1fr 1fr; 
+  
   }
+  #backend_main {
+    column-count: 3;
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+  
+  #konto_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_rediger_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
   #bgcont2 {
     break-before: column;
   }
@@ -1110,19 +1150,39 @@ table {
     margin-left: 1.4em; margin-right: 1.4em;
   }
 
-  #artikkel_main {
-    grid-template-columns: 1fr 1fr 1fr; 
-  
-}
 
 /* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
   #default_main {
-    column-count: 4; 
+    column-count: 4;
+    margin-left: 10em;
+    margin-right: 10em; 
   }
   #artikkel2 {
     break-before: column;
   }
+  
+  #backend_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #artikkel_main {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_rediger_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
   /* Grid for søk */
   .side_sok {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -1135,7 +1195,9 @@ table {
   .BildeBoksBr_sok {
     width: 12em;
   }
-}
+
+
+
 
 @media print {
   .navTop {
@@ -1168,8 +1230,6 @@ table {
     font-size: 1em;
   }
 
-  #artikkel_main {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
 
   /* Viser fulle lenken til sider på print */
   a::after {
