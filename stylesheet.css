@@ -1111,7 +1111,7 @@ table {
   }
 
   #artikkel_main {
-    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
   
 }
 
@@ -1169,7 +1169,7 @@ table {
   }
 
   #artikkel_main {
-    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
 
   /* Viser fulle lenken til sider på print */
   a::after {
