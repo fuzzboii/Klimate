@@ -328,6 +328,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
                             </section>
                         </article>
+                        
 
 
             </main>
