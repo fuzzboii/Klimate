@@ -912,7 +912,7 @@ table {
     cursor: pointer;
   }
   .bildeKontroll img:hover {
-    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126); /* Skygge under navigasjonsbaren */
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.3s;
   }
 
@@ -962,9 +962,11 @@ table {
 
   /* Hover-instillinger for søk*/
 
-  .brukerRullegardin:hover {
+  .brukerRullegardin:hover, .artikkelRullegardin:hover, .arrangementRullegardin:hover{
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126); /* Skygge */
+    transition: box-shadow 0.3s;
   }
   .sokKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
@@ -989,7 +991,7 @@ table {
   }
   .infoBoksBr_sok:hover, .artRes_sok:hover {
     cursor: pointer;
-    box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126); /* Skygge under navigasjonsbaren */
+    box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.3s;
   }
   #sok_nesteKnapp:hover, #sok_tilbKnapp:hover {
