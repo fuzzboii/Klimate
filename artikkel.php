@@ -330,6 +330,68 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                             </section>
                         </article>
                         
+                       <!-- Artikkel 10 -->
+                       <article id="artikkel_art10">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure class="fig_artikkel">
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift3</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+                        
+                       <!-- Artikkel 11 -->
+                       <article id="artikkel_art11">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure class="fig_artikkel">
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift3</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>
+
+                       <!-- Artikkel 12 -->
+                       <article id="artikkel_art12">
+                            <section class="artikkel_innhold">
+                                <!-- her kommer innholder fra databasen -->
+                                <!-- a href= -->
+                                <figure class="fig_artikkel">
+
+                                </figure>
+                                <section class="artikkel_innholdInfo">
+                                    <section class="ArtikkelForfatter">
+                                        <p id="forfatterOversikt">Forfatter</p>
+                                    </section>
+                                    
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift3</h2>
+                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
+
+                                </section>
+
+                            </section>
+                        </article>  
 
 
             </main>
