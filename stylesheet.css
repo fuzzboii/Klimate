@@ -312,7 +312,7 @@ footer a {
   grid-template-columns: 1fr;
   grid-gap: 1em;
   padding: 1em;
-  word-break:break-word;
+  overflow-wrap: break-word;
 }
 
 /* Bilde feltene */
