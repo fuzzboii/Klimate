@@ -187,11 +187,11 @@ include("instillinger.php");
                     
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
                         <?php if ($resAntall > 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultater</h1>
+                            <h2><?php echo($resAntall)?> Resultater</h2>
                         <?php } else if ($resAntall == 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultat</h1>
+                            <h2><?php echo($resAntall)?> Resultat</h2>
                         <?php } else { ?>
-                            <h1>Ingen resultater</h1>
+                            <h2>Ingen resultater</h2>
                         <?php } ?>
                     </header>
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -258,11 +258,11 @@ include("instillinger.php");
                     
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
                         <?php if ($resAntall > 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultater</h1>
+                            <h2><?php echo($resAntall)?> Resultater</h2>
                         <?php } else if ($resAntall == 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultat</h1>
+                            <h2><?php echo($resAntall)?> Resultat</h2>
                         <?php } else { ?>
-                            <h1>Ingen resultater</h1>
+                            <h2>Ingen resultater</h2>
                         <?php } ?>
                     </header>
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -318,7 +318,7 @@ include("instillinger.php");
                     ?>
 
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
-                        <h1>Ingen resultater</h1>
+                        <h2>Ingen resultater</h2>
                     </header>
 
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -357,11 +357,11 @@ include("instillinger.php");
                     
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
                         <?php if ($resAntall > 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultater</h1>
+                            <h2><?php echo($resAntall)?> Resultater</h2>
                         <?php } else if ($resAntall == 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultat</h1>
+                            <h2><?php echo($resAntall)?> Resultat</h2>
                         <?php } else { ?>
-                            <h1>Ingen resultater</h1>
+                            <h2>Ingen resultater</h2>
                         <?php } ?>
                     </header>
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -375,7 +375,7 @@ include("instillinger.php");
                             <?php $antallSider++; } $avsluttTag++; ?>
                                 <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
                                     <figure class="infoBoksArt_sok">
-                                        <h1 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h1>
+                                        <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
                                         <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
                                         <?php 
                                         // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
@@ -424,11 +424,11 @@ include("instillinger.php");
                     
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
                         <?php if ($resAntall > 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultater</h1>
+                            <h2><?php echo($resAntall)?> Resultater</h2>
                         <?php } else if ($resAntall == 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultat</h1>
+                            <h2><?php echo($resAntall)?> Resultat</h2>
                         <?php } else { ?>
-                            <h1>Ingen resultater</h1>
+                            <h2>Ingen resultater</h2>
                         <?php } ?>
                     </header>
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -442,7 +442,7 @@ include("instillinger.php");
                             <?php $antallSider++; } $avsluttTag++; ?>
                                 <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
                                     <figure class="infoBoksArt_sok">
-                                        <h1 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h1>
+                                        <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
                                         <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
                                         <?php 
                                         // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
@@ -491,11 +491,11 @@ include("instillinger.php");
                     
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
                         <?php if ($resAntall > 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultater</h1>
+                            <h2><?php echo($resAntall)?> Resultater</h2>
                         <?php } else if ($resAntall == 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultat</h1>
+                            <h2><?php echo($resAntall)?> Resultat</h2>
                         <?php } else { ?>
-                            <h1>Ingen resultater</h1>
+                            <h2>Ingen resultater</h2>
                         <?php } ?>
                     </header>
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -509,7 +509,7 @@ include("instillinger.php");
                             <?php $antallSider++; } $avsluttTag++; ?>
                                 <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
                                     <figure class="infoBoksArt_sok">
-                                        <h1 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h1>
+                                        <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
                                         <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
                                         <?php 
                                         // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
@@ -559,11 +559,11 @@ include("instillinger.php");
                     
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
                         <?php if ($resAntall > 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultater</h1>
+                            <h2><?php echo($resAntall)?> Resultater</h2>
                         <?php } else if ($resAntall == 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultat</h1>
+                            <h2><?php echo($resAntall)?> Resultat</h2>
                         <?php } else { ?>
-                            <h1>Ingen resultater</h1>
+                            <h2>Ingen resultater</h2>
                         <?php } ?>
                     </header>
 
@@ -577,7 +577,7 @@ include("instillinger.php");
                             <?php $antallSider++; } $avsluttTag++; ?>
                             <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
                                 <figure class="infoBoksArt_sok">
-                                    <h1 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h1>
+                                    <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
                                     <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
                                     <?php 
                                     // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
@@ -616,7 +616,7 @@ include("instillinger.php");
                     ?>
 
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
-                        <h1>Ingen resultater</h1>
+                        <h2>Ingen resultater</h2>
                     </header>
 
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -634,58 +634,75 @@ include("instillinger.php");
                 /* -------------------------- */
                 /* -------------------------- */
 
-                if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "")) {
+                if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] != "")) {
 
-                    /* ---------------------------------------------*/
-                    /* Del for søk på kombinasjon av tittel og dato */
-                    /* -------------------------------------------- */
+                    /* ----------------------------------------------------*/
+                    /* Del for søk på kombinasjon av tittel, dato og fylke */
+                    /* --------------------------------------------------- */
 
-                    $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
-                    $stmtArt = $db->prepare($sokPaaArt);
-                    $stmtArt->execute();
-                    $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
+                    $sokPaaArrAlt = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                    $stmtArrAlt = $db->prepare($sokPaaArrAlt);
+                    $stmtArrAlt->execute();
+                    $resArrAlt = $stmtArrAlt->fetchAll(PDO::FETCH_ASSOC); 
                     
                     // Variabel som brukes til å fortelle når vi kan avslutte side_sok
                     $avsluttTag = 0;
                     $antallSider = 0;
 
-                    $resAntall = $stmtArt->rowCount(); 
+                    $resAntall = $stmtArrAlt->rowCount(); 
                 ?>
                     
                     <header class="sok_header" onclick="lukkHamburgerMeny()">
                         <?php if ($resAntall > 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultater</h1>
+                            <h2><?php echo($resAntall)?> Resultater</h2>
                         <?php } else if ($resAntall == 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultat</h1>
+                            <h2><?php echo($resAntall)?> Resultat</h2>
                         <?php } else { ?>
-                            <h1>Ingen resultater</h1>
+                            <h2>Ingen resultater</h2>
                         <?php } ?>
                     </header>
 
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
 
                     <?php if ($resAntall > 0 ) { ?>
-                        <?php for ($j = 0; $j < count($resArt); $j++) {
+                        <?php for ($j = 0; $j < count($resArrAlt); $j++) {
                             // Hvis rest av $j delt på 8 er 0, start section (Ny side)
                             if ($j % 8 == 0) { ?>
                                 <section class="side_sok">
                             <?php $antallSider++; } $avsluttTag++; ?>
-                            <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
-                                <figure class="infoBoksArt_sok">
-                                    <h1 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h1>
-                                    <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
+                            <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArrAlt[$j]['idevent']) ?>'">
+                                <figure class="infoBoksArr_sok">
+
+                                    <?php // Henter bilde til arrangementet
+                                    $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArrAlt[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                    $stmtArrBilde = $db->prepare($hentArrBilde);
+                                    $stmtArrBilde->execute();
+                                    $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
+                                    
+                                    if (!$resBilde) { ?>
+                                        <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
+                                        <img class="BildeBoksArr_sok" src="bilder/eventbilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <?php } else { ?>
+                                        <!-- Arrangementbilde som resultat av spørring -->
+                                        <img class="BildeBoksArr_sok" src="bilder/eventbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArrAlt[$j]['eventnavn'])?>">
+                                    <?php } ?>
+
+                                    <h2 class="infoResArr_sok"><?php echo($resArrAlt[$j]['eventnavn'])?></h2>
+                                    <p class="infoResArr_sok"><?php echo($resArrAlt[$j]['tidspunkt'])?></p>
+                                    <p class="infoResArr_sok"><?php echo($resArrAlt[$j]['veibeskrivelse'])?></p>
+                                    <p class="infoResArr_sok"><?php echo($resArrAlt[$j]['fylkenavn'])?></p>
                                     <?php 
                                     // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                    if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
-                                        <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['brukernavn'])?></p>
+                                    if (preg_match("/\S/", $resArrAlt[$j]['enavn']) == 0) { ?>
+                                        <p class="infoResArr_sok">Arrangert av <?php echo($resArrAlt[$j]['brukernavn'])?></p>
                                     <?php } else { ?>
-                                        <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['enavn']); if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {echo(", "); echo($resArt[$j]['fnavn']); } ?></p>
+                                        <p class="infoResArr_sok">Arrangert av <?php echo($resArrAlt[$j]['enavn']); if(preg_match("/\S/", $resArrAlt[$j]['fnavn']) == 1) {echo(", "); echo($resArrAlt[$j]['fnavn']); } ?></p>
                                     <?php } ?>
                                 </figure>
                             </section>
                             <?php 
                             // Hvis telleren har nådd 8
-                            if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
+                            if (($avsluttTag == 8) || $j == (count($resArrAlt) - 1)) { ?>
                                 </section>     
                             <?php 
                                 // Sett telleren til 0, mulighet for mer enn 2 sider
@@ -702,27 +719,540 @@ include("instillinger.php");
                         <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
-            <?php } else {
-                    
-                    /* ------------------------------------------- */
-                    /* Del for om bruker har oppgitt tomme verdier */
-                    /* ------------------------------------------- */
+                
+                <?php } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
+
+                        /* ---------------------------------------------*/
+                        /* Del for søk på kombinasjon av tittel og dato */
+                        /* -------------------------------------------- */
+
+                        $sokPaaTtlDto = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                        $stmtTtlDto = $db->prepare($sokPaaTtlDto);
+                        $stmtTtlDto->execute();
+                        $resTtlDto = $stmtTtlDto->fetchAll(PDO::FETCH_ASSOC); 
+                        
+                        // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                        $avsluttTag = 0;
+                        $antallSider = 0;
+
+                        $resAntall = $stmtTtlDto->rowCount(); 
                     ?>
+                        
+                        <header class="sok_header" onclick="lukkHamburgerMeny()">
+                            <?php if ($resAntall > 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultater</h2>
+                            <?php } else if ($resAntall == 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultat</h2>
+                            <?php } else { ?>
+                                <h2>Ingen resultater</h2>
+                            <?php } ?>
+                        </header>
 
-                    <header class="sok_header" onclick="lukkHamburgerMeny()">
-                        <h1>Ingen resultater</h1>
-                    </header>
+                        <main id="sok_main" onclick="lukkHamburgerMeny()"> 
 
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+                        <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resTtlDto); $j++) {
+                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_sok">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resTtlDto[$j]['idevent']) ?>'">
+                                    <figure class="infoBoksArr_sok">
 
-                    <section id="sok_bunnSection">
-                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
-                    </section>
+                                        <?php // Henter bilde til arrangementet
+                                        $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resTtlDto[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $stmtArrBilde = $db->prepare($hentArrBilde);
+                                        $stmtArrBilde->execute();
+                                        $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
+                                        
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <?php } else { ?>
+                                            <!-- Arrangementbilde som resultat av spørring -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resTtlDto[$j]['eventnavn'])?>">
+                                        <?php } ?>
+
+                                        <h2 class="infoResArr_sok"><?php echo($resTtlDto[$j]['eventnavn'])?></h2>
+                                        <p class="infoResArr_sok"><?php echo($resTtlDto[$j]['tidspunkt'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resTtlDto[$j]['veibeskrivelse'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resTtlDto[$j]['fylkenavn'])?></p>
+                                        <?php 
+                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                        if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resTtlDto[$j]['brukernavn'])?></p>
+                                        <?php } else { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resTtlDto[$j]['enavn']); if(preg_match("/\S/", $resTtlDto[$j]['fnavn']) == 1) {echo(", "); echo($resTtlDto[$j]['fnavn']); } ?></p>
+                                        <?php } ?>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resTtlDto) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                }
+                            }
+                        } ?>
+
+                        <section id="sok_bunnSection">
+                            <?php if ($antallSider > 1) {?>
+                                <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <?php } ?>
+                            <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                            <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                            <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                        </section>
+                 <?php } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] == "")) {
+
+                        /* ----------------------*/
+                        /* Del for søk på tittel */
+                        /* --------------------- */
+
+                        $sokPaaArrTtl = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                        $stmtArrTtl = $db->prepare($sokPaaArrTtl);
+                        $stmtArrTtl->execute();
+                        $resArrTtl = $stmtArrTtl->fetchAll(PDO::FETCH_ASSOC); 
+
+                        // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                        $avsluttTag = 0;
+                        $antallSider = 0;
+
+                        $resAntall = $stmtArrTtl->rowCount(); 
+                        ?>
+
+                        <header class="sok_header" onclick="lukkHamburgerMeny()">
+                            <?php if ($resAntall > 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultater</h2>
+                            <?php } else if ($resAntall == 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultat</h2>
+                            <?php } else { ?>
+                                <h2>Ingen resultater</h2>
+                            <?php } ?>
+                        </header>
+
+                        <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                        <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resArrTtl); $j++) {
+                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_sok">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArrTtl[$j]['idevent']) ?>'">
+                                    <figure class="infoBoksArr_sok">
+
+                                        <?php // Henter bilde til arrangementet
+                                        $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArrTtl[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $stmtArrBilde = $db->prepare($hentArrBilde);
+                                        $stmtArrBilde->execute();
+                                        $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
+                                        
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <?php } else { ?>
+                                            <!-- Arrangementbilde som resultat av spørring -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArrTtl[$j]['eventnavn'])?>">
+                                        <?php } ?>
+
+                                        <h2 class="infoResArr_sok"><?php echo($resArrTtl[$j]['eventnavn'])?></h2>
+                                        <p class="infoResArr_sok"><?php echo($resArrTtl[$j]['tidspunkt'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrTtl[$j]['veibeskrivelse'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrTtl[$j]['fylkenavn'])?></p>
+                                        <?php 
+                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                        if (preg_match("/\S/", $resArrTtl[$j]['enavn']) == 0) { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrTtl[$j]['brukernavn'])?></p>
+                                        <?php } else { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrTtl[$j]['enavn']); if(preg_match("/\S/", $resArrTtl[$j]['fnavn']) == 1) {echo(", "); echo($resArrTtl[$j]['fnavn']); } ?></p>
+                                        <?php } ?>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resArrTtl) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                }
+                            }
+                        } ?>
+
+                        <section id="sok_bunnSection">
+                            <?php if ($antallSider > 1) {?>
+                                <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <?php } ?>
+                            <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                            <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                            <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                        </section>
+                    <?php } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] != "")) {
+
+                        /* -----------------------------*/
+                        /* Del for søk på dato og fylke */
+                        /* -----------------------------*/
+
+                        $sokPaaArrDtFlk = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                        $stmtArrDtFlk = $db->prepare($sokPaaArrDtFlk);
+                        $stmtArrDtFlk->execute();
+                        $resArrDtFlk = $stmtArrDtFlk->fetchAll(PDO::FETCH_ASSOC); 
+
+                        // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                        $avsluttTag = 0;
+                        $antallSider = 0;
+
+                        $resAntall = $stmtArrDtFlk->rowCount(); 
+                        ?>
+
+                        <header class="sok_header" onclick="lukkHamburgerMeny()">
+                            <?php if ($resAntall > 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultater</h2>
+                            <?php } else if ($resAntall == 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultat</h2>
+                            <?php } else { ?>
+                                <h2>Ingen resultater</h2>
+                            <?php } ?>
+                        </header>
+
+                        <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                        <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resArrDtFlk); $j++) {
+                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_sok">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArrDtFlk[$j]['idevent']) ?>'">
+                                    <figure class="infoBoksArr_sok">
+
+                                        <?php // Henter bilde til arrangementet
+                                        $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArrDtFlk[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $stmtArrBilde = $db->prepare($hentArrBilde);
+                                        $stmtArrBilde->execute();
+                                        $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
+                                        
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <?php } else { ?>
+                                            <!-- Arrangementbilde som resultat av spørring -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArrDtFlk[$j]['eventnavn'])?>">
+                                        <?php } ?>
+
+                                        <h2 class="infoResArr_sok"><?php echo($resArrDtFlk[$j]['eventnavn'])?></h2>
+                                        <p class="infoResArr_sok"><?php echo($resArrDtFlk[$j]['tidspunkt'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrDtFlk[$j]['veibeskrivelse'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrDtFlk[$j]['fylkenavn'])?></p>
+                                        <?php 
+                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                        if (preg_match("/\S/", $resArrDtFlk[$j]['enavn']) == 0) { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrDtFlk[$j]['brukernavn'])?></p>
+                                        <?php } else { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrDtFlk[$j]['enavn']); if(preg_match("/\S/", $resArrDtFlk[$j]['fnavn']) == 1) {echo(", "); echo($resArrDtFlk[$j]['fnavn']); } ?></p>
+                                        <?php } ?>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resArrDtFlk) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                }
+                            }
+                        } ?>
+
+                        <section id="sok_bunnSection">
+                            <?php if ($antallSider > 1) {?>
+                                <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <?php } ?>
+                            <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                            <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                            <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                        </section>
+                    <?php } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
+
+                        /* ---------------------*/
+                        /* Del for søk på fylke */
+                        /* ---------------------*/
+
+                        $sokPaaArrFlk = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                        $stmtArrFlk = $db->prepare($sokPaaArrFlk);
+                        $stmtArrFlk->execute();
+                        $resArrFlk = $stmtArrFlk->fetchAll(PDO::FETCH_ASSOC); 
+
+                        // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                        $avsluttTag = 0;
+                        $antallSider = 0;
+
+                        $resAntall = $stmtArrFlk->rowCount(); 
+                        ?>
+
+                        <header class="sok_header" onclick="lukkHamburgerMeny()">
+                            <?php if ($resAntall > 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultater</h2>
+                            <?php } else if ($resAntall == 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultat</h2>
+                            <?php } else { ?>
+                                <h2>Ingen resultater</h2>
+                            <?php } ?>
+                        </header>
+
+                        <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                        <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resArrFlk); $j++) {
+                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_sok">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArrFlk[$j]['idevent']) ?>'">
+                                    <figure class="infoBoksArr_sok">
+
+                                        <?php // Henter bilde til arrangementet
+                                        $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArrFlk[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $stmtArrBilde = $db->prepare($hentArrBilde);
+                                        $stmtArrBilde->execute();
+                                        $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
+                                        
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <?php } else { ?>
+                                            <!-- Arrangementbilde som resultat av spørring -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArrFlk[$j]['eventnavn'])?>">
+                                        <?php } ?>
+
+                                        <h2 class="infoResArr_sok"><?php echo($resArrFlk[$j]['eventnavn'])?></h2>
+                                        <p class="infoResArr_sok"><?php echo($resArrFlk[$j]['tidspunkt'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrFlk[$j]['veibeskrivelse'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrFlk[$j]['fylkenavn'])?></p>
+                                        <?php 
+                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                        if (preg_match("/\S/", $resArrFlk[$j]['enavn']) == 0) { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrFlk[$j]['brukernavn'])?></p>
+                                        <?php } else { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrFlk[$j]['enavn']); if(preg_match("/\S/", $resArrFlk[$j]['fnavn']) == 1) {echo(", "); echo($resArrFlk[$j]['fnavn']); } ?></p>
+                                        <?php } ?>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resArrFlk) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                }
+                            }
+                        } ?>
+
+                        <section id="sok_bunnSection">
+                            <?php if ($antallSider > 1) {?>
+                                <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <?php } ?>
+                            <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                            <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                            <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                        </section>
+
+                    <?php } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
+
+                        /* --------------------*/
+                        /* Del for søk på dato */
+                        /* --------------------*/
+
+                        $sokPaaArrFlk = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                        $stmtArrFlk = $db->prepare($sokPaaArrFlk);
+                        $stmtArrFlk->execute();
+                        $resArrFlk = $stmtArrFlk->fetchAll(PDO::FETCH_ASSOC); 
+
+                        // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                        $avsluttTag = 0;
+                        $antallSider = 0;
+
+                        $resAntall = $stmtArrFlk->rowCount(); 
+                        ?>
+
+                        <header class="sok_header" onclick="lukkHamburgerMeny()">
+                            <?php if ($resAntall > 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultater</h2>
+                            <?php } else if ($resAntall == 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultat</h2>
+                            <?php } else { ?>
+                                <h2>Ingen resultater</h2>
+                            <?php } ?>
+                        </header>
+
+                        <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                        <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resArrFlk); $j++) {
+                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_sok">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArrFlk[$j]['idevent']) ?>'">
+                                    <figure class="infoBoksArr_sok">
+
+                                        <?php // Henter bilde til arrangementet
+                                        $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArrFlk[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $stmtArrBilde = $db->prepare($hentArrBilde);
+                                        $stmtArrBilde->execute();
+                                        $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
+                                        
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <?php } else { ?>
+                                            <!-- Arrangementbilde som resultat av spørring -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArrFlk[$j]['eventnavn'])?>">
+                                        <?php } ?>
+
+                                        <h2 class="infoResArr_sok"><?php echo($resArrFlk[$j]['eventnavn'])?></h2>
+                                        <p class="infoResArr_sok"><?php echo($resArrFlk[$j]['tidspunkt'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrFlk[$j]['veibeskrivelse'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrFlk[$j]['fylkenavn'])?></p>
+                                        <?php 
+                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                        if (preg_match("/\S/", $resArrFlk[$j]['enavn']) == 0) { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrFlk[$j]['brukernavn'])?></p>
+                                        <?php } else { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrFlk[$j]['enavn']); if(preg_match("/\S/", $resArrFlk[$j]['fnavn']) == 1) {echo(", "); echo($resArrFlk[$j]['fnavn']); } ?></p>
+                                        <?php } ?>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resArrFlk) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                }
+                            }
+                        } ?>
+
+                        <section id="sok_bunnSection">
+                            <?php if ($antallSider > 1) {?>
+                                <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <?php } ?>
+                            <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                            <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                            <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                        </section>
+
+                    <?php } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
+
+                        /* -------------------------------*/
+                        /* Del for søk på tittel og fylke */
+                        /* -------------------------------*/
+
+                        $sokPaaArrTtlFlk = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                        $stmtArrTtlFlk = $db->prepare($sokPaaArrTtlFlk);
+                        $stmtArrTtlFlk->execute();
+                        $resArrTtlFlk = $stmtArrTtlFlk->fetchAll(PDO::FETCH_ASSOC); 
+
+                        // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                        $avsluttTag = 0;
+                        $antallSider = 0;
+
+                        $resAntall = $stmtArrTtlFlk->rowCount(); 
+                        ?>
+
+                        <header class="sok_header" onclick="lukkHamburgerMeny()">
+                            <?php if ($resAntall > 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultater</h2>
+                            <?php } else if ($resAntall == 1) { ?>
+                                <h2><?php echo($resAntall)?> Resultat</h2>
+                            <?php } else { ?>
+                                <h2>Ingen resultater</h2>
+                            <?php } ?>
+                        </header>
+
+                        <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                        <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resArrTtlFlk); $j++) {
+                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_sok">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArrTtlFlk[$j]['idevent']) ?>'">
+                                    <figure class="infoBoksArr_sok">
+
+                                        <?php // Henter bilde til arrangementet
+                                        $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArrTtlFlk[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $stmtArrBilde = $db->prepare($hentArrBilde);
+                                        $stmtArrBilde->execute();
+                                        $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
+                                        
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <?php } else { ?>
+                                            <!-- Arrangementbilde som resultat av spørring -->
+                                            <img class="BildeBoksArr_sok" src="bilder/eventbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArrTtlFlk[$j]['eventnavn'])?>">
+                                        <?php } ?>
+
+                                        <h2 class="infoResArr_sok"><?php echo($resArrTtlFlk[$j]['eventnavn'])?></h2>
+                                        <p class="infoResArr_sok"><?php echo($resArrTtlFlk[$j]['tidspunkt'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrTtlFlk[$j]['veibeskrivelse'])?></p>
+                                        <p class="infoResArr_sok"><?php echo($resArrTtlFlk[$j]['fylkenavn'])?></p>
+                                        <?php 
+                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                        if (preg_match("/\S/", $resArrTtlFlk[$j]['enavn']) == 0) { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrTtlFlk[$j]['brukernavn'])?></p>
+                                        <?php } else { ?>
+                                            <p class="infoResArr_sok">Arrangert av <?php echo($resArrTtlFlk[$j]['enavn']); if(preg_match("/\S/", $resArrTtlFlk[$j]['fnavn']) == 1) {echo(", "); echo($resArrTtlFlk[$j]['fnavn']); } ?></p>
+                                        <?php } ?>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resArrTtlFlk) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                }
+                            }
+                        } ?>
+
+                        <section id="sok_bunnSection">
+                            <?php if ($antallSider > 1) {?>
+                                <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <?php } ?>
+                            <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
+                            <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                            <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                        </section>
+                <?php } else {
+                
+                /* ------------------------------------------- */
+                /* Del for om bruker har oppgitt tomme verdier */
+                /* ------------------------------------------- */
+                ?>
+
+                <header class="sok_header" onclick="lukkHamburgerMeny()">
+                    <h2>Ingen resultater</h2>
+                </header>
+
+                <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+
+                <section id="sok_bunnSection">
+                    <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                </section>
             <?php }
             } else { ?>
                 <!-- Del for avansert søk -->
                 <header class="sok_header" onclick="lukkHamburgerMeny()">
-                    <h1>Avansert søk</h1>
+                    <h2>Avansert søk</h2>
                 </header>
                 <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                     <section id="sok_seksjon"> 

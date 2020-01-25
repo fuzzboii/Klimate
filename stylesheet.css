@@ -809,6 +809,26 @@ table {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
 }
 
+/* Del for arrangement-søk */
+.arrRes_sok {
+  max-width: 300px;
+  margin-left: auto; margin-right: auto;
+  border: 1px solid grey;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-bottom: 0.75em;
+  margin-top: 0.75em;
+}
+.BildeBoksArr_sok {
+  width: 14em;  height: 8em;
+  object-fit: cover;
+  border: 1px solid black;
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
+  box-shadow: 0 0 0.1em 0.01em black;
+}
+.infoBoksArr_sok {
+  margin-left: 0.8em; margin-right: 0.8em;
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
