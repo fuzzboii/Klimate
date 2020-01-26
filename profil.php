@@ -187,7 +187,7 @@ $navnProfil = $stmtNavnProfil->fetch(PDO::FETCH_ASSOC);
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret xx.xx.xxxx -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang xx.xx.xxxx -->
+    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 26.01.2020 -->
+    <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 26.01.2020 -->
 
 </html>
