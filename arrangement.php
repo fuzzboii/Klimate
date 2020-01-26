@@ -27,7 +27,7 @@ include("instillinger.php");
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body onload="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
+    <body onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -175,10 +175,10 @@ include("instillinger.php");
                             <?php for ($j = 0; $j < count($resArr); $j++) {
                                 // Hvis rest av $j delt på 8 er 0, start section (Ny side)
                                 if ($j % 8 == 0) { ?>
-                                    <section class="side_arrangement">
+                                    <section class="arrangement_hovedsection">
                                 <?php $antallSider++; } $avsluttTag++; ?>
-                                <section class="res_arrangement" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'">
-                                    <figure class="infoBoks_arrangement">
+                                <section class="arrangement_ressection" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'">
+                                    <figure class="arrangement_infoBoks">
 
                                         <?php // Henter bilde til arrangementet
                                         $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArr[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
@@ -188,29 +188,29 @@ include("instillinger.php");
                                         
                                         if (!$resBilde) { ?>
                                             <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
-                                            <img class="BildeBoks_arrangement" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                            <img class="arrangement_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                         <?php } else { ?>
                                             <!-- Arrangementbilde som resultat av spørring -->
-                                            <img class="BildeBoks_arrangement" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                            <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
                                         <?php } ?>
                                     </figure>
 
-                                    <p class="tidspunkt_arrangement">
+                                    <p class="arrangement_tidspunkt">
                                         <?php 
                                             $dato = date_create($resArr[$j]['tidspunkt']);
                                             echo(date_format($dato,"d/m/Y"));
                                         ?>
                                     </p>
-                                    <img class="rFloatBilde_arrangement" src="bilder/datoIkon.png">
-                                    <p class="fylke_arrangement"><?php echo($resArr[$j]['fylkenavn'])?></p>
-                                    <img class="rFloatBilde_arrangement" src="bilder/stedIkon.png">
-                                    <img class="navn_arrangement" src="bilder/brukerIkonS.png">
+                                    <img class="arrangement_rFloatBilde" src="bilder/datoIkon.png">
+                                    <p class="arrangement_fylke"><?php echo($resArr[$j]['fylkenavn'])?></p>
+                                    <img class="arrangement_rFloatBilde" src="bilder/stedIkon.png">
+                                    <img class="arrangement_navn" src="bilder/brukerIkonS.png">
                                     <?php 
                                     // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
                                     if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>
-                                        <p class="navn_arrangement"><?php echo($resArr[$j]['brukernavn'])?></p>
+                                        <p class="arrangement_navn"><?php echo($resArr[$j]['brukernavn'])?></p>
                                     <?php } else { ?>
-                                        <p class="navn_arrangement"><?php echo($resArr[$j]['enavn']) ?></p>
+                                        <p class="arrangement_navn"><?php echo($resArr[$j]['enavn']) ?></p>
                                     <?php } ?>
                                     <h2><?php echo($resArr[$j]['eventnavn'])?></h2>
                                 </section>
@@ -229,8 +229,8 @@ include("instillinger.php");
                             <?php if ($antallSider > 1) {?>
                                 <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                             <?php } ?>
-                            <button type="button" id="arrangement_tilbKnapp" onclick="visForrigeSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Forrige</button>
-                            <button type="button" id="arrangement_nesteKnapp" onclick="visNesteSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Neste</button>
+                            <button type="button" id="arrangement_tilbKnapp" onclick="visForrigeSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Forrige</button>
+                            <button type="button" id="arrangement_nesteKnapp" onclick="visNesteSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Neste</button>
                         </section>
                     <?php } ?>
                 </article>

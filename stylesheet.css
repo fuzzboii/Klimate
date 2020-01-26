@@ -844,14 +844,14 @@ table {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
-.side_arrangement {
+.arrangement_hovedsection {
   display: none;
   grid-template-columns: 1fr;
   grid-gap: 10px;
   padding-left: 1em; padding-right: 1em; 
 }
 
-.res_arrangement {
+.arrangement_ressection {
   border: 1px solid grey;
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
@@ -859,15 +859,15 @@ table {
   margin-top: 0.75em;
 }
 
-.infoBoks_arrangement {
+.arrangement_infoBoks {
   margin: 0;
 }
 
-.infoBoks_arrangement img {
+.arrangement_infoBoks img {
   width: 100%;
 }
 
-.res_arrangement h2 {
+.arrangement_ressection h2 {
   font-size: 1em;
   padding-bottom: 0.5em;
   padding-top: 0.4em;
@@ -881,39 +881,39 @@ table {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.res_arrangement p {
+.arrangement_ressection p {
   margin: 0;
   font-size: 0.7em;
   padding-top: 0.1em; padding-bottom: 0.4em;
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.rFloatBilde_arrangement {
+.arrangement_rFloatBilde {
   height: 1em;
   float: right;
 }
 
-.navn_arrangement {
+.arrangement_navn {
   float: left;
   height: 1em;
   padding-left: 0.2em;
 }
 
-.tidspunkt_arrangement, .fylke_arrangement {
+.arrangement_tidspunkt, .arrangement_fylke {
   float: right;
 }
 
-.fylke_arrangement {
+.arrangement_fylke {
   padding-right: 0.8em;
   padding-left: 0.2em;
 }
 
-.tidspunkt_arrangement {
+.arrangement_tidspunkt {
   padding-right: 0.2em;
   padding-left: 0.2em;
 }
 
-.BildeBoks_arrangement {
+.arrangement_BildeBoks {
   height: 8em;
   object-fit: cover;
   border-radius: 0.65em 0.65em 0 0; /* Avrunder kantene */
@@ -1007,12 +1007,12 @@ table {
   }
 
   /* Grid for arrangement */
-  .side_arrangement {
+  .arrangement_hovedsection {
     grid-template-columns: 1fr 1fr;
     padding-left: 4em;
     padding-right: 4em;
   }
-  .BildeBoks_arrangement {
+  .arrangement_BildeBoks {
     height: 9em;
   }
 
@@ -1122,7 +1122,7 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
-  .infoBoksBr_sok:hover, .artRes_sok:hover, .arrRes_sok:hover, .res_arrangement:hover {
+  .infoBoksBr_sok:hover, .artRes_sok:hover, .arrRes_sok:hover, .arrangement_ressection:hover {
     cursor: pointer;
     box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.3s;
@@ -1170,12 +1170,12 @@ table {
   }
   
   /* Grid for arrangement */
-  .side_arrangement {
+  .arrangement_hovedsection {
     grid-template-columns: 1fr 1fr 1fr;
     padding-left: 5em;
     padding-right: 5em;
   }
-  .BildeBoks_arrangement {
+  .arrangement_BildeBoks {
     height: 10em;
   }
 
@@ -1272,12 +1272,12 @@ table {
     margin-left: 1.4em; margin-right: 1.4em;
   }
   /* Grid for arrangementer */
-  .side_arrangement {
+  .arrangement_hovedsection {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding-left: 7em;
     padding-right: 7em;
   }
-  .BildeBoks_arrangement {
+  .arrangement_BildeBoks {
     height: 12em;
   }
 }
