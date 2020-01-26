@@ -142,7 +142,10 @@ include("instillinger.php");
                                 <img src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet" style="height: 20em;">
 
                             <?php } ?>
-                            <h1><?php echo($arrangement['eventnavn'])?></h1>
+
+                            <header class="arrangement_header" onclick="lukkHamburgerMeny()">
+                                <h1><?php echo($arrangement['eventnavn'])?></h1>
+                            </header>
                             <p><?php echo($arrangement['eventtekst'])?></p>
                             <p>Arrangert av: <?php echo($arrangement['idbruker'] . ", "); echo($arrangement['tidspunkt'])?></p>
                         <?php } ?>
