@@ -115,6 +115,28 @@ include("instillinger.php");
                 </section>
             </section>
 
+            <!-- Bilde av brukeren. Nesten identisk med innlogget brukers bilde -->
+            <!-- ENDRE SQL-SETNINGEN TIL Å SØKE PÅ EN ANNEN BRUKER -->
+            <?php
+            $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+            $stmtProfilbilde = $db->prepare($hentProfilbilde);
+            $stmtProfilbilde->execute();
+            $profilbilde = $stmtProfilbilde->fetch(PDO::FETCH_ASSOC);
+            $antallProfilbildeilderFunnet = $stmtProfilbilde->rowCount();
+            // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
+            if ($antallProfilbildeFunnet != 0) { ?>
+                <!-- Hvis vi finner et bilde til bruker viser vi det -->
+                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                    <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profilbilde">
+                </a>
+
+            <?php } else { ?>
+                <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
+                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                    <img src="bilder/profil.png" alt="Profilbilde" class="profilbilde">
+                </a>
+            <?php } ?>
+
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
             <!-- Kan ikke legge denne direkte i body -->
             <header onclick="lukkHamburgerMeny()">
