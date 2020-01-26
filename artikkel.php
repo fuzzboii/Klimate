@@ -139,10 +139,12 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                         <!-- Artikkel 1 -->
                         <article id="artikkel_art1">
                             <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
+                                <!-- her kommer innholdet fra databasen -->
                                     <?php
                                         // Henter artikkelen bruker ønsker å se
-                                        $hent = "Select idartikkel, artnavn, artingress, arttekst, brukernavn FROM artikkel, bruker WHERE bruker=idbruker order by RAND() LIMIT 1";
+                                        $hent = "Select idartikkel, artnavn, artingress, arttekst, brukernavn 
+                                                 FROM artikkel, bruker 
+                                                 WHERE bruker=idbruker order by RAND() LIMIT 1";
                                         $stmt = $db->prepare($hent);
                                         $stmt->execute();
                                         $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -160,8 +162,8 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                     <!-- hvis den er det så kortes teksten til 90 karakterer. -->
                                     <!-- Viser hele teksten om den er kortere -->
                                     <h2 id="artikkelOverskrift"><?php echo($artikkel["artnavn"])?></h2>
-                                    <?php if(strlen($artikkel["artingress"]) >= 90) { ?>
-                                        <p id="artikkelTekstinnhold"> <?php echo(mb_strimwidth($artikkel["artingress"], 0, 90))?>...</p>
+                                    <?php if(strlen($artikkel["artingress"]) >= 86) { ?>
+                                        <p id="artikkelTekstinnhold"> <?php echo(mb_strimwidth($artikkel["artingress"], 0, 85))?>...</p>
                                     <?php } else {?>      
                                         <p id="artikkelTekstinnhold"> <?php echo($artikkel["artingress"])?></p>
                                     <?php }?>
