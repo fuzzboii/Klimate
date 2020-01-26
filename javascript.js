@@ -320,8 +320,9 @@ function hentSide() {
 
   // Sjekker om side_sok eksisterer (Hvis vi er på en annen del av sok.php)
   if (typeof sideDel[forelopigSide] != 'undefined') {
+    var bredde = window.innerWidth;
     // Hvis ikke viser vi første side av søket
-    sideDel[forelopigSide].style.display = "block";
+    sideDel[forelopigSide].style.display = "grid";
 
     if (sideDel.length > 1) {
       // Er det mer enn 1 side, vis neste knapp

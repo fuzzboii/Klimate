@@ -28,8 +28,14 @@ if (isset($_POST['subEndring'])) {
         if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "") {
             
             // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type password)
-            if (filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL)) {
+            $epostValidert = false;
+            $epostValidert = filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL);
 
+            if ($_POST['nyepost'] == "") {
+                // Bruker har ikke oppgitt en epost, ignorerer dette
+                $epostValidert = true;
+            }
+            if ($epostValidert == true) {
                 // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
                 if ($_POST['nyttbrukernavn'] == "") {
                     // Bruker har valgt å ikke oppdatere brukernavn
@@ -196,7 +202,7 @@ if (isset($_POST['subEndring'])) {
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                        <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                        <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                     </a>
 
                 <?php } else { ?>
@@ -214,13 +220,13 @@ if (isset($_POST['subEndring'])) {
                     <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                     <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
                 </form>
-                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='sok.php'">
+                <a href="javascript:void(0)" onClick="location.href='sok.php'">
                     <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
                 </a>
-                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-                <a class="bildeKontroll" href="default.php" tabindex="1">
-                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-                </a> 
+                <!-- Logoen øverst i venstre hjørne -->
+                <a href="default.php" tabindex="1">
+                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
+                </a>
             <!-- Slutt på navigasjonsmeny-->
             </nav>
 
@@ -317,7 +323,7 @@ if (isset($_POST['subEndring'])) {
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
+                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                     <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
                     <?php if ($_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
                 </p>

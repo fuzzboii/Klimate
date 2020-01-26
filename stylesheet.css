@@ -303,10 +303,16 @@ footer a {
 }
 
 /* Article feltene */
-#artikkel_art1 #artikkel_art2 #artikkel_art3 #artikkel_art4 #artikkel_art5 {
+#artikkel_art1 #artikkel_art2 #artikkel_art3 #artikkel_art4 #artikkel_art5 #artikkel_art6 #artikkel_art7 #artikkel_art8 #artikkel_art9 #artikkel_art10 #artikkel_art11 #artikkel_art12 {
   background-color: #F8F7FD; /* Bakgunn */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
-  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+}
+
+#artikkel_main {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1em;
+  padding: 1em;
+  overflow-wrap: break-word;
 }
 
 /* Bilde feltene */
@@ -332,12 +338,14 @@ footer a {
   font-size: 0.7em;
 }
 
+
 /* Overskriften på artiklene */
 #artikkelOverskrift {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 1em;
   margin-top: 0.5em;
   margin-bottom: 0.4em;
+
 }
 
 /* Tekstinnholdet for artiklene */
@@ -345,6 +353,7 @@ footer a {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 1em;
   margin-top: 0;
+
 }
 
 /* Style for artikkel header */
@@ -355,9 +364,6 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif; 
 }
 
-.artikkel_innholdInfo {
-  margin-bottom: 3em;
-}
 
 /*-----------------------------------------------------------------------------*/
 /* Style for BACKEND/Innloggede brukere */
@@ -715,9 +721,15 @@ table {
 /* Style for resultatene ved brukersøk */
 .side_sok {
   display: none;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+.BildeBoksBr_sok {
+  border-radius: 50%;
+  width: 8em;
 }
 .brukerRes_sok {
-  max-width: 200px;
+  width: 12em;
   margin-left: auto; margin-right: auto;
   border: 1px solid grey;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -725,17 +737,13 @@ table {
   margin-bottom: 0.75em;
   margin-top: 0.75em;
 }
-.infoRes_sok {
+.infoBoksBr_sok {
   height: 100%;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: #F8F7FD;
   margin: 0;
   padding-top: 1.6em;
   text-align: center;
-}
-.infoRes_sok img {
-  border-radius: 50%;
-  width: 8em; 
 }
 .infoResBr_sok {
   background-color: rgb(147,181,179);
@@ -759,7 +767,7 @@ table {
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 35%; /* Angir bredde på knappen */
+  width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
@@ -774,7 +782,7 @@ table {
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 70%; /* Angir bredde på knappen */
+  width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
@@ -786,6 +794,45 @@ table {
   display: block; /* Sentrerer bildet, sammen meg margin: auto */
   margin-left: auto;
   margin-right: auto;
+/* Del for artikkel-søk */
+.artRes_sok {
+  max-width: 300px;
+  margin-left: auto; margin-right: auto;
+  border: 1px solid grey;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-bottom: 0.75em;
+  margin-top: 0.75em;
+}
+.infoBoksArt_sok {
+  margin-left: 0.8em; margin-right: 0.8em;
+}
+.infoResArt_sok {
+  max-width: 280px;
+  margin-left: auto; margin-right: auto;
+  text-align: left;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+}
+
+/* Del for arrangement-søk */
+.arrRes_sok {
+  width: 14em;
+  margin-left: auto; margin-right: auto;
+  border: 1px solid grey;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-bottom: 0.75em;
+  margin-top: 0.75em;
+}
+.BildeBoksArr_sok {
+  width: 12em;  height: 7em;
+  object-fit: cover;
+  border: 1px solid black;
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
+  box-shadow: 0 0 0.1em 0.01em black;
+}
+.infoBoksArr_sok {
+  margin-left: 0.9em; margin-right: 0.9em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -842,11 +889,26 @@ table {
     display: block;
   }
 
-  #artikkel_art2 {
-    break-after: column;
-  }
   #artikkel_main {
-    column-count: 2; 
+    grid-template-columns: 1fr 1fr; 
+  }
+  /* Grid for søk */
+  .side_sok {
+    grid-template-columns: 1fr 1fr;
+    padding-left: 8em;
+    padding-right: 8em;
+  }
+  .brukerRes_sok {
+    width: 13em;
+  }
+  .BildeBoksBr_sok {
+    width: 9em;
+  }
+  .arrRes_sok {
+    width: 14em;
+  }
+  .BildeBoksArr_sok {
+    width: 12em;  height: 7em;
   }
 
 }
@@ -876,6 +938,10 @@ table {
   .Logo_navmeny:hover {
     opacity: 0.7;
     cursor: pointer;
+  }
+  .bildeKontroll img:hover {
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126); /* Skygge */
+    transition: box-shadow 0.3s;
   }
 
   /* Hover innstillinger for logg inn knapp */
@@ -924,14 +990,17 @@ table {
 
   /* Hover-instillinger for søk*/
 
-  .brukerRullegardin:hover {
+  .brukerRullegardin:hover, .artikkelRullegardin:hover, .arrangementRullegardin:hover{
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126); /* Skygge */
+    transition: box-shadow 0.3s;
   }
   .sokKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
+
   .sok_seksjon form:hover {
     background-color: #ccc;
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
@@ -948,8 +1017,10 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
-  .brukerRes_sok:hover {
+  .infoBoksBr_sok:hover, .artRes_sok:hover, .arrRes_sok:hover {
     cursor: pointer;
+    box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126); /* Skygge */
+    transition: box-shadow 0.3s;
   }
   #sok_nesteKnapp:hover, #sok_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
@@ -974,19 +1045,81 @@ table {
     color: darkgreen;
     text-align: center;
   }
+  /* Grid for søk */
+  .side_sok {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-left: 10em;
+    padding-right: 10em;
+  }
+  .brukerRes_sok {
+    width: 16em;
+  }
+  .BildeBoksBr_sok {
+    width: 10em;
+  }
+  .arrRes_sok {
+    width: 16em;
+  }
+  .BildeBoksArr_sok {
+    width: 14em;  height: 8em;
+  }
+
+  #backend_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+  
+  #konto_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_rediger_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #artikkel_main {
+    grid-template-columns: 1fr 1fr 1fr; 
+    margin-left: 10em;
+    margin-right: 10em;
+  }
 }
 
 /* Medium skjerm, 1080p */
 @media screen and (min-width: 1920px) {
   #default_main {
-    column-count: 3; 
+    column-count: 3;
+    margin-left: 10em;
+    margin-right: 10em; 
   }
+
   #artikkel4 {
     break-before: column;
   }
-  #backend_main {
-    column-count: 3; 
+
+  #artikkel_main {
+    margin-left: 10em;
+    margin-right: 10em;
+    grid-template-columns: 1fr 1fr 1fr; 
+  
   }
+  #backend_main {
+    column-count: 3;
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+  
+  #konto_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_rediger_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
   #bgcont2 {
     break-before: column;
   }
@@ -1002,31 +1135,82 @@ table {
     color: darkgreen;
     text-align: center;
   }
-  
-  #artikkel_art4 {
-    break-after: column;
+  /* Grid for søk */
+  .side_sok {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding-left: 15em;
+    padding-right: 15em;
   }
-  #artikkel_main {
-    column-count: 3; 
+  .brukerRes_sok {
+    width: 18em;
+  }
+  .BildeBoksBr_sok {
+    width: 12em;
+  }
+  .arrRes_sok {
+    width: 18em;
+  }
+  .BildeBoksArr_sok {
+    width: 15em;  height: 9em;
+  }
+  .infoBoksArr_sok {
+    margin-left: 1.4em; margin-right: 1.4em;
   }
 
-}
 
 /* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
   #default_main {
-    column-count: 4; 
+    column-count: 4;
+    margin-left: 10em;
+    margin-right: 10em; 
   }
   #artikkel2 {
     break-before: column;
   }
-}
+  
+  #backend_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #artikkel_main {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_rediger_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  /* Grid for søk */
+  .side_sok {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding-left: 20em;
+    padding-right: 20em;
+  }
+  .brukerRes_sok {
+    width: 18em;
+  }
+  .BildeBoksBr_sok {
+    width: 12em;
+  }
+
+
+
 
 @media print {
   .navTop {
     display: none;
   }
-  
+
   .Logo_forside {
     width: 5em;
   }
@@ -1053,12 +1237,14 @@ table {
     font-size: 1em;
   }
 
+
   /* Viser fulle lenken til sider på print */
   a::after {
     content: " (" attr(href) ") ";
   }
 
 }
+
 
 
 

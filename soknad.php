@@ -65,7 +65,7 @@ if (!isset($_SESSION['brukernavn'])) {
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                            <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                         </a>
 
                     <?php } else { ?>
@@ -84,14 +84,13 @@ if (!isset($_SESSION['brukernavn'])) {
                     <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                     <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
                 </form>
-                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='sok.php'">
+                <a href="javascript:void(0)" onClick="location.href='sok.php'">
                     <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
                 </a>
-
                 <!-- Logoen øverst i venstre hjørne -->
-                <a class="bildeKontroll" href="default.php" tabindex="1">
-                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-                </a>    
+                <a href="default.php" tabindex="1">
+                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
+                </a>  
             <!-- Slutt på navigasjonsmeny-->
             </nav>
 
@@ -128,7 +127,7 @@ if (!isset($_SESSION['brukernavn'])) {
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
             </footer>
         </article>
     </body>
