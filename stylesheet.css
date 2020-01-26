@@ -844,6 +844,82 @@ table {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
+.side_arrangement {
+  display: none;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  padding-left: 1em; padding-right: 1em; 
+}
+
+.res_arrangement {
+  border: 1px solid grey;
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-bottom: 0.75em;
+  margin-top: 0.75em;
+}
+
+.infoBoks_arrangement {
+  margin: 0;
+}
+
+.infoBoks_arrangement img {
+  width: 100%;
+}
+
+.res_arrangement h2 {
+  font-size: 1em;
+  padding-bottom: 0.5em;
+  padding-top: 0.4em;
+  padding-left: 1.5%;
+  margin-bottom: 0;
+  margin-top: 1.3em;
+  width: 98.5%;
+  word-break: break-all;
+  background-color: rgb(147,181,179);
+  border-radius: 0 0 0.92em 0.92em; /* Avrunder kantene */
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.res_arrangement p {
+  margin: 0;
+  font-size: 0.7em;
+  padding-top: 0.1em; padding-bottom: 0.4em;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.rFloatBilde_arrangement {
+  height: 1em;
+  float: right;
+}
+
+.navn_arrangement {
+  float: left;
+  height: 1em;
+  padding-left: 0.2em;
+}
+
+.tidspunkt_arrangement, .fylke_arrangement {
+  float: right;
+}
+
+.fylke_arrangement {
+  padding-right: 0.8em;
+  padding-left: 0.2em;
+}
+
+.tidspunkt_arrangement {
+  padding-right: 0.2em;
+  padding-left: 0.2em;
+}
+
+.BildeBoks_arrangement {
+  height: 8em;
+  object-fit: cover;
+  border-radius: 0.55em 0.55em 0 0; /* Avrunder kantene */
+  box-shadow: 0 0 0.1em 0.01em black;
+}
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
@@ -928,6 +1004,16 @@ table {
   }
   .BildeBoksArr_sok {
     width: 12em;  height: 7em;
+  }
+
+  /* Grid for arrangement */
+  .side_arrangement {
+    grid-template-columns: 1fr 1fr;
+    padding-left: 4em;
+    padding-right: 4em;
+  }
+  .BildeBoks_arrangement {
+    height: 9em;
   }
 
 }
@@ -1082,6 +1168,16 @@ table {
   .BildeBoksArr_sok {
     width: 14em;  height: 8em;
   }
+  
+  /* Grid for arrangement */
+  .side_arrangement {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-left: 5em;
+    padding-right: 5em;
+  }
+  .BildeBoks_arrangement {
+    height: 10em;
+  }
 
   #backend_main {
     margin-left: 10em;
@@ -1174,6 +1270,15 @@ table {
   }
   .infoBoksArr_sok {
     margin-left: 1.4em; margin-right: 1.4em;
+  }
+  /* Grid for arrangementer */
+  .side_arrangement {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding-left: 7em;
+    padding-right: 7em;
+  }
+  .BildeBoks_arrangement {
+    height: 12em;
   }
 }
 

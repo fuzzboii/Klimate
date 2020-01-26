@@ -149,7 +149,7 @@ include("instillinger.php");
                     <?php  } else {
 
                         // Del for å vise alle arrangement 
-                        $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                        $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
                     
                         $stmtArr = $db->prepare($hentAlleArr);
                         $stmtArr->execute();
@@ -174,8 +174,8 @@ include("instillinger.php");
                                 if ($j % 8 == 0) { ?>
                                     <section class="side_arrangement">
                                 <?php $antallSider++; } $avsluttTag++; ?>
-                                <section class="arrRes_arrangement" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'">
-                                    <figure class="infoBoksArr_arrangement">
+                                <section class="res_arrangement" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'">
+                                    <figure class="infoBoks_arrangement">
 
                                         <?php // Henter bilde til arrangementet
                                         $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArr[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
@@ -185,24 +185,31 @@ include("instillinger.php");
                                         
                                         if (!$resBilde) { ?>
                                             <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
-                                            <img class="BildeBoksArr_sok" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                            <img class="BildeBoks_arrangement" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                         <?php } else { ?>
                                             <!-- Arrangementbilde som resultat av spørring -->
-                                            <img class="BildeBoksArr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
-                                        <?php } ?>
-
-                                        <h2 class="infoBoksArr_arrangement"><?php echo($resArr[$j]['eventnavn'])?></h2>
-                                        <p class="infoBoksArr_arrangement"><?php echo($resArr[$j]['tidspunkt'])?></p>
-                                        <p class="infoBoksArr_arrangement"><?php echo($resArr[$j]['veibeskrivelse'])?></p>
-                                        <p class="infoBoksArr_arrangement"><?php echo($resArr[$j]['fylkenavn'])?></p>
-                                        <?php 
-                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                        if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>
-                                            <p class="infoBoksArr_arrangement">Arrangert av <?php echo($resArr[$j]['brukernavn'])?></p>
-                                        <?php } else { ?>
-                                            <p class="infoBoksArr_arrangement">Arrangert av <?php echo($resArr[$j]['enavn']); if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {echo(", "); echo($resArr[$j]['fnavn']); } ?></p>
+                                            <img class="BildeBoks_arrangement" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
                                         <?php } ?>
                                     </figure>
+
+                                    <p class="tidspunkt_arrangement">
+                                        <?php 
+                                            $dato = date_create($resArr[$j]['tidspunkt']);
+                                            echo(date_format($dato,"d/m/Y"));
+                                        ?>
+                                    </p>
+                                    <img class="rFloatBilde_arrangement" src="bilder/datoIkon.png">
+                                    <p class="fylke_arrangement"><?php echo($resArr[$j]['fylkenavn'])?></p>
+                                    <img class="rFloatBilde_arrangement" src="bilder/stedIkon.png">
+                                    <img class="navn_arrangement" src="bilder/brukerIkonS.png">
+                                    <?php 
+                                    // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                    if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>
+                                        <p class="navn_arrangement"><?php echo($resArr[$j]['brukernavn'])?></p>
+                                    <?php } else { ?>
+                                        <p class="navn_arrangement"><?php echo($resArr[$j]['enavn']) ?></p>
+                                    <?php } ?>
+                                    <h2><?php echo($resArr[$j]['eventnavn'])?></h2>
                                 </section>
                                 <?php 
                                 // Hvis telleren har nådd 8

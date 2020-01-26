@@ -213,7 +213,7 @@ include("instillinger.php");
                         <?php } ?>
                     </header>
 
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+                    <main onclick="lukkHamburgerMeny()"> 
 
 
                     <?php if ($resAntall > 0 ) { ?>
