@@ -202,7 +202,7 @@ if (isset($_POST['subEndring'])) {
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                        <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                        <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                     </a>
 
                 <?php } else { ?>
