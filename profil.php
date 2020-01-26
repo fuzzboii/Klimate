@@ -132,21 +132,30 @@ include("instillinger.php");
                 $antallProfilbilderFunnet = $stmtProfilbilde->rowCount();
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallProfilbilderFunnet != 0) { ?>
-                    <!-- Hvis vi finner et bilde til bruker viser vi det -->
+                    <!-- Hvis vi finner et bilde til brukeren viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
                         <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
                     </a>
     
                 <?php } else { ?>
-                    <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
+                    <!-- Hvis brukeren ikke har noe profilbilde, bruk standard profilbilde -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
                         <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                     </a>
                 <?php } ?>
+                <!-- ENDRE TIL Å MATCHE PÅ PROFILEN SOM VISES -->
+                <h1 class="velkomst"><?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) { echo($_SESSION['fornavn']); } else { echo($_SESSION['brukernavn']); } ?></h1>
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main onclick="lukkHamburgerMeny()">  
+            <main class="profil_main" onclick="lukkHamburgerMeny()">  
+                <h1>Personlig informasjon</h1>
+                <h1>Interesser</h1>
+                    <p>Test, TEST, test, TEST, test, TEST</p>
+                <h1>Om</h1>
+                <h1>Artikler</h1>
+                <h1>Kommentarer</h1>
+                <h1>Arrangementer</h1>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
