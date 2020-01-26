@@ -27,7 +27,7 @@ include("instillinger.php");
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
+    <body onload="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -154,10 +154,82 @@ include("instillinger.php");
                             <p><?php echo($arrangement['eventtekst'])?></p>
                             <p>Arrangert av: <?php echo($arrangement['idbruker'] . ", "); echo($arrangement['tidspunkt'])?></p>
                         <?php } ?>
-                    <?php  } else { ?>
-                        <!-- Del for å vise alle arrangement -->
-                        <h1>Bruker har ikke oppgitt noen arrangement</h1>
-                        <p>Vi ønsker nå å vise alle arrangementer i stedet osv</p>
+                    <?php  } else {
+
+                        // Del for å vise alle arrangement 
+                        $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                    
+                        $stmtArr = $db->prepare($hentAlleArr);
+                        $stmtArr->execute();
+                        $resArr = $stmtArr->fetchAll(PDO::FETCH_ASSOC); 
+                        
+                        // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                        $avsluttTag = 0;
+                        $antallSider = 0;
+
+                        $resAntall = $stmtArr->rowCount(); 
+                        ?>
+                        
+                        <header class="arrangement_header" onclick="lukkHamburgerMeny()">
+                            <h2>Arrangementer</h2>
+                        </header>
+
+                        <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
+
+                        <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resArr); $j++) {
+                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_arrangement">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="arrRes_arrangement" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'">
+                                    <figure class="infoBoksArr_arrangement">
+
+                                        <?php // Henter bilde til arrangementet
+                                        $hentArrBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArr[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $stmtArrBilde = $db->prepare($hentArrBilde);
+                                        $stmtArrBilde->execute();
+                                        $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
+                                        
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
+                                            <img class="BildeBoksArr_sok" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <?php } else { ?>
+                                            <!-- Arrangementbilde som resultat av spørring -->
+                                            <img class="BildeBoksArr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                        <?php } ?>
+
+                                        <h2 class="infoBoksArr_arrangement"><?php echo($resArr[$j]['eventnavn'])?></h2>
+                                        <p class="infoBoksArr_arrangement"><?php echo($resArr[$j]['tidspunkt'])?></p>
+                                        <p class="infoBoksArr_arrangement"><?php echo($resArr[$j]['veibeskrivelse'])?></p>
+                                        <p class="infoBoksArr_arrangement"><?php echo($resArr[$j]['fylkenavn'])?></p>
+                                        <?php 
+                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                        if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>
+                                            <p class="infoBoksArr_arrangement">Arrangert av <?php echo($resArr[$j]['brukernavn'])?></p>
+                                        <?php } else { ?>
+                                            <p class="infoBoksArr_arrangement">Arrangert av <?php echo($resArr[$j]['enavn']); if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {echo(", "); echo($resArr[$j]['fnavn']); } ?></p>
+                                        <?php } ?>
+                                    </figure>
+                                </section>
+                                <?php 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resArr) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                }
+                            }
+                        } ?>
+
+                        <section id="sok_bunnSection">
+                            <?php if ($antallSider > 1) {?>
+                                <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <?php } ?>
+                            <button type="button" id="arrangement_tilbKnapp" onclick="visForrigeSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Forrige</button>
+                            <button type="button" id="arrangement_nesteKnapp" onclick="visNesteSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Neste</button>
+                        </section>
                     <?php } ?>
                 </article>
             </main>

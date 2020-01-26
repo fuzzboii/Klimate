@@ -314,37 +314,37 @@ function sokRullegardin() {
 /* Viser innhold på flere sider */
 var forelopigSide = 0; // Starter med å sette side vi er på
 
-function hentSide() {
-  // henter alle elementer med navn side_sok (8 resultater)
-  var sideDel = document.getElementsByClassName("side_sok");
+// Funksjonene tar imot navn på elementene så vi kan bruke samme kode til forskjellige sider
+function hentSide(side, tilbake, neste) {
+  // henter alle elementer med navn mottatt i variabel side
+  var sideDel = document.getElementsByClassName(side);
 
-  // Sjekker om side_sok eksisterer (Hvis vi er på en annen del av sok.php)
+  // Sjekker om element eksisterer
   if (typeof sideDel[forelopigSide] != 'undefined') {
-    var bredde = window.innerWidth;
     // Hvis ikke viser vi første side av søket
     sideDel[forelopigSide].style.display = "grid";
 
     if (sideDel.length > 1) {
       // Er det mer enn 1 side, vis neste knapp
-      document.getElementById('sok_nesteKnapp').style.display = "inline-block";
+      document.getElementById(neste).style.display = "inline-block";
     } 
     if (forelopigSide > 0) {
       // Er vi på side 2 eller høyere, vis tilbake knapp
-      document.getElementById('sok_tilbKnapp').style.display = "inline-block";
+      document.getElementById(tilbake).style.display = "inline-block";
     } else {
       // Hvis vi er på side 1, gjem tilbake knapp
-      document.getElementById('sok_tilbKnapp').style.display = "none";
+      document.getElementById(tilbake).style.display = "none";
     }
     if (sideDel.length <= (forelopigSide + 1)) {
       // Om vi er på siste side, gjem neste knapp
-      document.getElementById('sok_nesteKnapp').style.display = "none";
+      document.getElementById(neste).style.display = "none";
     }
   }
 }
 
-function visNesteSide() {
+function visNesteSide(side, tilbake, neste) {
   // Hent alle elementer med navn side_sok
-  var sideDel = document.getElementsByClassName("side_sok");
+  var sideDel = document.getElementsByClassName(side);
 
   // Gjem denne siden, neste side hentes i hentSide()
   sideDel[forelopigSide].style.display = "none";
@@ -357,12 +357,12 @@ function visNesteSide() {
   document.documentElement.scrollTop = 0;
 
   // Hent den nye siden
-  hentSide();
+  hentSide(side, tilbake, neste);
 }
 
-function visForrigeSide() {
+function visForrigeSide(side, tilbake, neste) {
   // Hent alle elementer med navn side_sok
-  var sideDel = document.getElementsByClassName("side_sok");
+  var sideDel = document.getElementsByClassName(side);
   
   // Gjem denne siden, neste side hentes i hentSide()
   sideDel[forelopigSide].style.display = "none";
@@ -375,7 +375,7 @@ function visForrigeSide() {
   document.documentElement.scrollTop = 0;
   
   // Hent den nye siden
-  hentSide();
+  hentSide(side, tilbake, neste);
 }
 
 
