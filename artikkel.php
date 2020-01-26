@@ -147,7 +147,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                      ?>
                                 <!-- a href= -->
                                 <figure class="fig_artikkel">
-
+                                    
                                 </figure>
                                 <section class="artikkel_innholdInfo">
                                     <section class="ArtikkelForfatter">
@@ -181,9 +181,9 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                         <p id="forfatterOversikt">Forfatter</p>
                                     </section>
                                     
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift2asdasddddddddddddddddddddddddddd</h2>
-                                    <p id="artikkelTekstinnhold"> Uværet er i ferd med å avta etter å ha vart i nesten en uke i Spania, men stormen har etterlatt seg store ødeleggelser.
-                                                                    Fredag bekreftet spanske myndigheter at 13 personer har mistet livet i stormen Gloria som herjet i østlige og sørlige deler av landet søndag. Redningsarbeiderne lette fredag fortsatt etter fire savnede personer på Ibiza og Mallorca, skriver BBC. Spanias statsminister Pedro Sanchez var lørdag på besøk i flere området i landet for å se på ødeleggelsene etter stormen.</p>
+                                    <h2 id="artikkelOverskrift">Artikkel overskrift2</h2>
+                                    <p id="artikkelTekstinnhold"> <?php echo(mb_strimwidth("Uværet er i ferd med å avta etter å ha vart i nesten en uke i Spania, men stormen har etterlatt seg store ødeleggelser.
+                                                                    Fredag bekreftet spanske myndigheter at 13 personer har mistet livet i stormen Gloria som herjet i østlige og sørlige deler av landet søndag. Redningsarbeiderne lette fredag fortsatt etter fire savnede personer på Ibiza og Mallorca, skriver BBC. Spanias statsminister Pedro Sanchez var lørdag på besøk i flere området i landet for å se på ødeleggelsene etter stormen.", 0, 85))?></p>
 
                                 </section>
 
