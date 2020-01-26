@@ -149,6 +149,7 @@ include("instillinger.php");
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
+                <!-- Personalia, etc -->
                 <h1>Personlig informasjon</h1>
                 <h1>Interesser</h1>
                     <p>Test, TEST, test, TEST, test, TEST</p>
