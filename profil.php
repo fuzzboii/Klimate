@@ -6,7 +6,21 @@ session_start();
 //------------------------------//
 include("instillinger.php");
 
+//------------------------------//
+// Henting av data på bruker    //
+//------------------------------//
 
+// Henting av brukernavn
+$hentBrukernavnProfil = "select brukernavn from bruker where idbruker = " . $_GET['bruker'];
+$stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
+$stmtBrukernavnProfil->execute();
+$brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
+
+// Henting av navn //     EVT KUN BRUKERNAVN, AVHENGIG AV BRUKERENS REGISTRERTE INNSTILLINGER
+$hentNavnProfil = "Select fnavn, enavn from bruker where idbruker = " . $_GET['bruker'];
+$stmtNavnProfil = $db->prepare($hentNavnProfil);
+$stmtNavnProfil->execute();
+$navnProfil = $stmtNavnProfil->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -122,8 +136,8 @@ include("instillinger.php");
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
             <!-- Kan ikke legge denne direkte i body -->
             <header class="profil_header" onclick="lukkHamburgerMeny()">
-                <!-- Bilde av brukeren. Nesten identisk med innlogget brukers bilde -->
-                <!-- ENDRE SQL-SETNINGEN TIL Å SØKE PÅ EN ANNEN BRUKER -->
+                <!-- Bilde av brukeren -->
+                <!-- ENDRE SQL-SETNINGEN TIL Å SØKE PÅ IDBRUKER I URL. FLYTT DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
                 <?php
                 $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
                 $stmtProfilbilde = $db->prepare($hentProfilbilde);
@@ -143,8 +157,9 @@ include("instillinger.php");
                         <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                     </a>
                 <?php } ?>
-                <!-- ENDRE TIL Å MATCHE PÅ PROFILEN SOM VISES -->
-                <h1 class="velkomst"><?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) { echo($_SESSION['fornavn']); } else { echo($_SESSION['brukernavn']); } ?></h1>
+                <!-- Vis brukerens (bruker-)navn -->
+                <h1 class="velkomst"> <?php echo implode(' ', $brukernavnProfil) ?> </h1>
+                <h1 class="velkomst"> <?php echo implode(' ', $navnProfil) ?></h1>
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
