@@ -113,7 +113,7 @@ include("instillinger.php");
             </section>
 
             <!-- Start på PHP IF-ELSE som utgjør siden -->
-            <?php if(isset($_GET['brukernavn']) || isset($_GET['epost'])) {
+            <?php if(isset($_GET['brukernavn']) || isset($_GET['epost']) || isset($_GET['interesse'])) {
 
                 /* ----------------------*/
                 /* --------------------- */
@@ -121,60 +121,69 @@ include("instillinger.php");
                 /* --------------------- */
                 /* --------------------- */
 
-                if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "")) {
+                // Spørringen som endrer seg utifra brukers valg
+                $sokPaaArr = "";
+
+                if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "") && ($_GET['interesse'] == "")) {
 
                     /* -----------------------------------*/
                     /* Del for søk på brukernavn og epost */
                     /* ---------------------------------- */
-
-                    $sokPaaKomb = "select idbruker, brukernavn, epost from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'";
-                    $stmtKomb = $db->prepare($sokPaaKomb);
-                    $stmtKomb->execute();
-                    $resKomb = $stmtKomb->fetchAll(PDO::FETCH_ASSOC); 
-
-                    $resAntall = $stmtKomb->rowCount(); ?>
                     
-                    <header class="sok_header" onclick="lukkHamburgerMeny()">
-                        <?php if ($resAntall == 1) { ?>
-                            <h1><?php echo($resAntall)?> Resultat</h1>
-                        <?php } else { ?>
-                            <h1>Ingen resultater</h1>
-                        <?php } ?>
-                    </header>
-                    <main onclick="lukkHamburgerMeny()"> 
+                    $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'";
 
-                    <?php if ($resAntall > 0) { ?>
-                        <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resKomb[0]['idbruker']) ?>'">
-                            <figure class="infoBoksBr_sok">
-                                <?php // Henter bilde til bruker
-                                $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resKomb[0]['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
-                                $stmtBrBilde = $db->prepare($hentBrBilde);
-                                $stmtBrBilde->execute();
-                                $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
 
-                                if (!$resBilde) { ?>
-                                    <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                                    <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resKomb[0]['brukernavn'])?>">
-                                <?php } else { ?>
-                                    <!-- Profilbilde som resultat av spørring -->
-                                    <img class="BildeBoksBr_sok" src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resKomb[0]['brukernavn'])?>">
-                                <?php } ?>
-                                <p class="infoResBr_sok"><?php echo($resKomb[0]['brukernavn'])?></p>
-                            </figure>
-                        </section>
-                    <?php } ?>
-                    <section id="sok_bunnSection">
-                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
-                    </section>
-                        
-
-                <?php } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "")) {
+                } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "") && ($_GET['interesse'] == "")) {
 
                     /* ------------------------------*/
                     /* Del for søk på kun brukernavn */
                     /* ----------------------------- */
-
+                
                     $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' order by brukernavn ASC";
+
+
+                } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "") && ($_GET['interesse'] == "")) {
+
+                    /* -------------------------*/
+                    /* Del for søk på kun epost */
+                    /* ------------------------ */
+
+                    $sokPaaBr = "select idbruker, brukernavn from bruker where epost = '" . $_GET['epost'] . "' order by brukernavn ASC";
+                     
+                    
+                } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "") && ($_GET['interesse'] != "")) {
+
+                    /* --------------------------------------------- */
+                    /* Del for søk på brukernavn, epost og interesse */
+                    /* --------------------------------------------- */
+
+                    $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                     
+                    
+                } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "") && ($_GET['interesse'] != "")) {
+
+                    /* ------------------------------------------ */
+                    /* Del for søk på kun brukernavn og interesse */
+                    /* ------------------------------------------ */
+
+                    $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                     
+                    
+                } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "") && ($_GET['interesse'] != "")) {
+
+                    /* ------------------------------------- */
+                    /* Del for søk på kun epost og interesse */
+                    /* ------------------------------------- */
+
+                    $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                     
+                    
+                } 
+
+
+
+                if($sokPaaBr != "") {
+
                     $stmtBr = $db->prepare($sokPaaBr);
                     $stmtBr->execute();
                     $resBr = $stmtBr->fetchAll(PDO::FETCH_ASSOC); 
@@ -194,6 +203,7 @@ include("instillinger.php");
                             <h2>Ingen resultater</h2>
                         <?php } ?>
                     </header>
+
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
 
 
@@ -239,77 +249,6 @@ include("instillinger.php");
                         <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
-                <?php } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "")) {
-
-                    /* -------------------------*/
-                    /* Del for søk på kun epost */
-                    /* ------------------------ */
-
-                    $sokPaaEp = "select idbruker, brukernavn from bruker where epost = '" . $_GET['epost'] . "' order by brukernavn ASC";
-                    $stmtEp = $db->prepare($sokPaaEp);
-                    $stmtEp->execute();
-                    $resEp = $stmtEp->fetchAll(PDO::FETCH_ASSOC); 
-                    
-                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
-                    $avsluttTag = 0;
-                    $antallSider = 0;
-
-                    $resAntall = $stmtEp->rowCount(); ?>
-                    
-                    <header class="sok_header" onclick="lukkHamburgerMeny()">
-                        <?php if ($resAntall > 1) { ?>
-                            <h2><?php echo($resAntall)?> Resultater</h2>
-                        <?php } else if ($resAntall == 1) { ?>
-                            <h2><?php echo($resAntall)?> Resultat</h2>
-                        <?php } else { ?>
-                            <h2>Ingen resultater</h2>
-                        <?php } ?>
-                    </header>
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
-
-
-                    <?php if ($resAntall > 0 ) { ?>
-                            <?php for ($j = 0; $j < count($resEp); $j++) {
-                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
-                                if ($j % 8 == 0) { ?>
-                                    <section class="side_sok">
-                                <?php $antallSider++; } $avsluttTag++; ?>
-                                    <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resEp[$j]['idbruker']) ?>'">
-                                        <figure class="infoBoksBr_sok">
-                                            <?php // Henter bilde til bruker
-                                            $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resEp[$j]['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
-                                            $stmtBrBilde = $db->prepare($hentBrBilde);
-                                            $stmtBrBilde->execute();
-                                            $resBilde = $stmtBrBilde->fetch(PDO::FETCH_ASSOC);
-
-                                            if (!$resBilde) { ?>
-                                                <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
-                                                <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resEp[$j]['brukernavn'])?>">
-                                            <?php } else { ?>
-                                                <!-- Profilbilde som resultat av spørring -->
-                                                <img class="BildeBoksBr_sok" src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resEp[$j]['brukernavn'])?>">
-                                            <?php } ?>
-                                            <p class="infoResBr_sok"><?php echo($resEp[$j]['brukernavn'])?></p>
-                                        </figure>
-                                    </section>
-                                    <?php 
-                                    // Hvis telleren har nådd 8
-                                    if (($avsluttTag == 8) || $j == (count($resEp) - 1)) { ?>
-                                        </section>     
-                                    <?php 
-                                        // Sett telleren til 0, mulighet for mer enn 2 sider
-                                        $avsluttTag = 0;
-                                    } ?>
-                            <?php  }
-                    } ?>
-                    <section id="sok_bunnSection">
-                        <?php if ($antallSider > 1) {?>
-                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
-                        <?php } ?>
-                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
-                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
-                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
-                    </section>
                 <?php } else {
                     
                     /* ------------------------------------------- */
@@ -338,214 +277,55 @@ include("instillinger.php");
                 /* ----------------------- */
                 /* ----------------------- */
 
-                if (($_GET['artTittel'] != "") && (!isset($_GET['artForfatter']))) {
+                // Spørringen som endrer seg utifra brukers valg
+                $sokPaaArt = "";
+
+                // Enkel test hvis bruker kun ønsker å søke på tittel (Fra navmeny)
+                $sokPaaKunTtl = true;
+                if (isset($_GET['artForfatter'])) {
+                    $sokPaaKunTtl = false;
+                }
+
+                if (($_GET['artTittel'] != "") && ($sokPaaKunTtl = true)) {
 
                     /* --------------------------*/
                     /* Del for søk på kun tittel */
                     /* ------------------------- */
 
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
-                    $stmtArt = $db->prepare($sokPaaArt);
-                    $stmtArt->execute();
-                    $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
                     
-                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
-                    $avsluttTag = 0;
-                    $antallSider = 0;
 
-                    $resAntall = $stmtArt->rowCount(); ?>
-                    
-                    <header class="sok_header" onclick="lukkHamburgerMeny()">
-                        <?php if ($resAntall > 1) { ?>
-                            <h2><?php echo($resAntall)?> Resultater</h2>
-                        <?php } else if ($resAntall == 1) { ?>
-                            <h2><?php echo($resAntall)?> Resultat</h2>
-                        <?php } else { ?>
-                            <h2>Ingen resultater</h2>
-                        <?php } ?>
-                    </header>
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
-
-
-                    <?php if ($resAntall > 0 ) { ?>
-                        <?php for ($j = 0; $j < count($resArt); $j++) {
-                            // Hvis rest av $j delt på 8 er 0, start section (Ny side)
-                            if ($j % 8 == 0) { ?>
-                                <section class="side_sok">
-                            <?php $antallSider++; } $avsluttTag++; ?>
-                                <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
-                                    <figure class="infoBoksArt_sok">
-                                        <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
-                                        <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
-                                        <?php 
-                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                        if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
-                                            <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['brukernavn'])?></p>
-                                        <?php } else { ?>
-                                            <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['enavn']); if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {echo(", "); echo($resArt[$j]['fnavn']); } ?></p>
-                                        <?php } ?>
-                                    </figure>
-                                </section>
-                                <?php 
-                                // Hvis telleren har nådd 8
-                                if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
-                                    </section>     
-                                <?php 
-                                    // Sett telleren til 0, mulighet for mer enn 2 sider
-                                    $avsluttTag = 0;
-                                } ?>
-                        <?php  }
-                    } ?>
-                    <section id="sok_bunnSection">
-                        <?php if ($antallSider > 1) {?>
-                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
-                        <?php } ?>
-                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
-                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
-                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
-                    </section>
-
-                <?php } else if (($_GET['artTittel'] != "") && ($_GET['artForfatter'] != "")) {
+                } else if (($_GET['artTittel'] != "") && ($sokPaaKunTtl == false)) {
 
                     /* --------------------------------------------------*/
                     /* Del for søk på kombinasjon av tittel og forfatter */
                     /* ------------------------------------------------- */
 
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
-                    $stmtArt = $db->prepare($sokPaaArt);
-                    $stmtArt->execute();
-                    $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
                     
-                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
-                    $avsluttTag = 0;
-                    $antallSider = 0;
 
-                    $resAntall = $stmtArt->rowCount(); ?>
-                    
-                    <header class="sok_header" onclick="lukkHamburgerMeny()">
-                        <?php if ($resAntall > 1) { ?>
-                            <h2><?php echo($resAntall)?> Resultater</h2>
-                        <?php } else if ($resAntall == 1) { ?>
-                            <h2><?php echo($resAntall)?> Resultat</h2>
-                        <?php } else { ?>
-                            <h2>Ingen resultater</h2>
-                        <?php } ?>
-                    </header>
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
-
-
-                    <?php if ($resAntall > 0 ) { ?>
-                        <?php for ($j = 0; $j < count($resArt); $j++) {
-                            // Hvis rest av $j delt på 8 er 0, start section (Ny side)
-                            if ($j % 8 == 0) { ?>
-                                <section class="side_sok">
-                            <?php $antallSider++; } $avsluttTag++; ?>
-                                <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
-                                    <figure class="infoBoksArt_sok">
-                                        <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
-                                        <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
-                                        <?php 
-                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                        if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
-                                            <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['brukernavn'])?></p>
-                                        <?php } else { ?>
-                                            <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['enavn']); if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {echo(", "); echo($resArt[$j]['fnavn']); } ?></p>
-                                        <?php } ?>
-                                    </figure>
-                                </section>
-                                <?php 
-                                // Hvis telleren har nådd 8
-                                if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
-                                    </section>     
-                                <?php 
-                                    // Sett telleren til 0, mulighet for mer enn 2 sider
-                                    $avsluttTag = 0;
-                                } ?>
-                        <?php  }
-                    } ?>
-                    <section id="sok_bunnSection">
-                        <?php if ($antallSider > 1) {?>
-                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
-                        <?php } ?>
-                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
-                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
-                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
-                    </section>
-
-                <?php } else if (($_GET['artTittel'] != "") && ($_GET['artForfatter'] == "")) {
+                } else if (($_GET['artTittel'] != "") && ($sokPaaKunTtl == false)) {
 
                     /* ----------------------*/
                     /* Del for søk på tittel */
                     /* --------------------- */
 
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
-                    $stmtArt = $db->prepare($sokPaaArt);
-                    $stmtArt->execute();
-                    $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
                     
-                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
-                    $avsluttTag = 0;
-                    $antallSider = 0;
 
-                    $resAntall = $stmtArt->rowCount(); ?>
-                    
-                    <header class="sok_header" onclick="lukkHamburgerMeny()">
-                        <?php if ($resAntall > 1) { ?>
-                            <h2><?php echo($resAntall)?> Resultater</h2>
-                        <?php } else if ($resAntall == 1) { ?>
-                            <h2><?php echo($resAntall)?> Resultat</h2>
-                        <?php } else { ?>
-                            <h2>Ingen resultater</h2>
-                        <?php } ?>
-                    </header>
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
-
-
-                    <?php if ($resAntall > 0 ) { ?>
-                        <?php for ($j = 0; $j < count($resArt); $j++) {
-                            // Hvis rest av $j delt på 8 er 0, start section (Ny side)
-                            if ($j % 8 == 0) { ?>
-                                <section class="side_sok">
-                            <?php $antallSider++; } $avsluttTag++; ?>
-                                <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
-                                    <figure class="infoBoksArt_sok">
-                                        <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
-                                        <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
-                                        <?php 
-                                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                        if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
-                                            <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['brukernavn'])?></p>
-                                        <?php } else { ?>
-                                            <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['enavn']); if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {echo(", "); echo($resArt[$j]['fnavn']); } ?></p>
-                                        <?php } ?>
-                                    </figure>
-                                </section>
-                                <?php 
-                                // Hvis telleren har nådd 8
-                                if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
-                                    </section>     
-                                <?php 
-                                    // Sett telleren til 0, mulighet for mer enn 2 sider
-                                    $avsluttTag = 0;
-                                } ?>
-                        <?php  }
-                    } ?>
-                    <section id="sok_bunnSection">
-                        <?php if ($antallSider > 1) {?>
-                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
-                        <?php } ?>
-                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
-                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
-                        <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
-                    </section>
-
-                <?php } else if (($_GET['artTittel'] == "") && ($_GET['artForfatter'] != "")) {
+                } else if (($_GET['artTittel'] == "") && ($sokPaaKunTtl == false)) {
 
                     /* -------------------------*/
                     /* Del for søk på forfatter */
                     /* ------------------------ */
 
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                    
+                    
+                }
+
+                
+                if ($sokPaaArt != "") {
                     $stmtArt = $db->prepare($sokPaaArt);
                     $stmtArt->execute();
                     $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
@@ -810,6 +590,21 @@ include("instillinger.php");
                                     <section class="sok_inputBoks">
                                         <p class="sokTittel">Epost:</p>
                                         <input type="email" class="sokBrukerFelt" tabindex = "-1" name="epost" placeholder="Skriv inn epost">
+                                    </section>
+                                    <section class="sok_inputBoks">
+                                        <p class="sokTittel">Interesse:</p>
+                                    <select name="interesse">
+                                        <option value="">Ikke spesifikt</option>
+                                        <?php 
+                                            // Henter interesser fra database
+                                            $hentInt = "select interessenavn from interesse order by interessenavn ASC";
+                                            $stmtInt = $db->prepare($hentInt);
+                                            $stmtInt->execute();
+                                            $interesse = $stmtInt->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach ($interesse as $innhold) { ?>
+                                                <option value="<?php echo($innhold['interessenavn'])?>"><?php echo($innhold['interessenavn'])?></option>
+                                        <?php } ?>
+                                    </select>
                                     </section>
                                     <input type="submit" class="sokKnapp" value="Søk">
                                 </section>
