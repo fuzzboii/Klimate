@@ -122,7 +122,7 @@ include("instillinger.php");
                 /* --------------------- */
 
                 // Spørringen som endrer seg utifra brukers valg
-                $sokPaaArr = "";
+                $sokPaaBr = "";
 
                 if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "") && ($_GET['interesse'] == "")) {
 
@@ -176,6 +176,15 @@ include("instillinger.php");
                     /* ------------------------------------- */
 
                     $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                     
+                    
+                } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] == "") && ($_GET['interesse'] != "")) {
+
+                    /* ---------------------------- */
+                    /* Del for søk på kun interesse */
+                    /* ---------------------------- */
+
+                    $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
                      
                     
                 } 
