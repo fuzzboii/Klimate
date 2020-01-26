@@ -115,7 +115,7 @@ include("instillinger.php");
             </section>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main onclick="lukkHamburgerMeny()">  
+            <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
                 <article>
                     <?php if(isset($_GET['arrangement'])){
                         // Henter arrangementet bruker ønsker å se
@@ -168,8 +168,6 @@ include("instillinger.php");
                         <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                             <h1>Arrangementer</h1>
                         </header>
-
-                        <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
 
                         <?php if ($resAntall > 0 ) { ?>
                             <?php for ($j = 0; $j < count($resArr); $j++) {
