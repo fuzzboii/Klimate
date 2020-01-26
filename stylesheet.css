@@ -829,12 +829,30 @@ table {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for Arrangement */
+
+.arrangement_header {
+  padding-top: 4em;
+    
+  text-align: center; /* Sentrerer h1 */
+  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
+}
+
+.arrangement_header h1 {
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
+}
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
 .profilbilde {
   width: 7em;
   display: block; /* Sentrerer bildet, sammen meg margin: auto */
   margin-left: auto;
   margin-right: auto;
+}
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
@@ -1157,7 +1175,7 @@ table {
   .infoBoksArr_sok {
     margin-left: 1.4em; margin-right: 1.4em;
   }
-
+}
 
 /* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
@@ -1203,8 +1221,7 @@ table {
   .BildeBoksBr_sok {
     width: 12em;
   }
-
-
+}
 
 
 @media print {

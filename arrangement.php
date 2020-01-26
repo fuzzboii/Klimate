@@ -114,14 +114,6 @@ include("instillinger.php");
                 </section>
             </section>
 
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header onclick="lukkHamburgerMeny()">
-                <!-- Logoen midten øverst på siden, med tittel -->
-                <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
-                <h1 style="display: none">Bilde av Klimate logoen.</h1>
-            </header>
-
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main onclick="lukkHamburgerMeny()">  
                 <article>
@@ -171,7 +163,7 @@ include("instillinger.php");
                         ?>
                         
                         <header class="arrangement_header" onclick="lukkHamburgerMeny()">
-                            <h2>Arrangementer</h2>
+                            <h1>Arrangementer</h1>
                         </header>
 
                         <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
