@@ -114,9 +114,9 @@ include("instillinger.php");
                 </section>
             </section>
 
-            <!----------------------------------
-            Del for brukerinformasjon (om andre)
-            ----------------------------------->
+            <!-----------------------
+            Del for brukerinformasjon
+            ------------------------>
 
             
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
