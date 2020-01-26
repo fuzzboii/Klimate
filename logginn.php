@@ -114,13 +114,13 @@ if (isset($_POST['submit'])) {
                     <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                     <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
                 </form>
-                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='sok.php'">
+                <a href="javascript:void(0)" onClick="location.href='sok.php'">
                     <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
                 </a>
-                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-                <a class="bildeKontroll" href="default.php" tabindex="1">
-                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-                </a>  
+                <!-- Logoen øverst i venstre hjørne -->
+                <a href="default.php" tabindex="1">
+                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
+                </a>
                 
             <!-- Slutt på navigasjonsmeny-->
             </nav>
@@ -177,7 +177,7 @@ if (isset($_POST['submit'])) {
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
             </footer>
         </article>
     </body>

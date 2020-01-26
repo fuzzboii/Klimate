@@ -96,13 +96,13 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                     <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                     <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
                 </form>
-                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='sok.php'">
+                <a href="javascript:void(0)" onClick="location.href='sok.php'">
                     <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
                 </a>
-                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-                <a class="bildeKontroll" href="default.php" tabindex="1">
-                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-                </a> 
+                <!-- Logoen øverst i venstre hjørne -->
+                <a href="default.php" tabindex="1">
+                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
+                </a>
             <!-- Slutt på navigasjonsmeny-->
             </nav>
 
@@ -139,7 +139,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                     <!-- Hvis ikke noe bilde ble funnet benytter vi et standard profilbilde -->
                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
                 <?php } ?>
-                <h1 class="velkomst">Velkommen <?php if($_SESSION['fornavn'] != "") { echo($_SESSION['fornavn']); } else { echo($_SESSION['brukernavn']); } ?></h1>
+                <h1 class="velkomst">Velkommen <?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) { echo($_SESSION['fornavn']); } else { echo($_SESSION['brukernavn']); } ?></h1>
             </header>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">
@@ -169,7 +169,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
+                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                     <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
                     <?php if ($_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
                 </p>
