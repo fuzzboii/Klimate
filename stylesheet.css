@@ -830,12 +830,18 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
-.profilbilde {
-  width: 7em;
-  display: block; /* Sentrerer bildet, sammen meg margin: auto */
+.profil_header {
+  padding-top: 6em; padding-bottom: 1em;
+  text-align: center;
+}
+
+.profil_bilde {
+  width: 10em;
+  display: block;
   margin-left: auto;
   margin-right: auto;
-  
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
