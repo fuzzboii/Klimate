@@ -738,8 +738,7 @@ table {
   font-family: Helvetica, Arial, sans-serif;
   font-weight: bold;
 }
-#arrangement_bunnSection {
-  display: block;
+#sok_bunnSection {
   text-align: center;
   padding-top: 2em;
 }
@@ -836,6 +835,11 @@ table {
   grid-template-columns: 1fr;
   grid-gap: 10px;
   padding-left: 1em; padding-right: 1em; 
+}
+#arrangement_bunnSection {
+  display: block;
+  text-align: center;
+  padding-top: 2em;
 }
 
 .arrangement_ressection {
@@ -1209,6 +1213,26 @@ table {
   }
   .BildeBoksArr_sok {
     width: 14em;  height: 8em;
+  }
+
+  /* Grid for avansert søk */
+  #sok_main {
+    width: 100%;
+  }
+  #sok_seksjon {
+    display: grid;
+    margin: 0;
+    margin-left: auto; margin-right: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+  }
+  .sok_form {
+  }
+  .innholdRullegardin {
+    display: block;
+  }
+  #brukerRullegardin, #artikkelRullegardin, #arrangementRullegardin {
+    display: none;
   }
   
   /* Grid for arrangement */
