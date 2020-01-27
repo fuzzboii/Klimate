@@ -131,6 +131,7 @@ include("instillinger.php");
                             <!-- Del for å vise feilmelding til bruker om at artikkel ikke eksisterer -->
                             <h1>Artikkel ikke funnet</h1>
                         <?php } else { 
+                            // ------------------------------ artikler som blir klikket på -----------------------------
                             // Del for å vise en spesifik artikkel
                             // Henter bilde fra database utifra artikkelid
                             $hentBilde = "select hvor from artikkel, artikkelbilde, bilder where idartikkel = " . $_GET['artikkel'] . " and idartikkel = artikkel and bilde = idbilder";
@@ -150,11 +151,12 @@ include("instillinger.php");
                             <p>Forfatter: <?php echo($artikkel['idbruker'] . ", ")?></p>
                         <?php } ?>
                     <?php  } else {
-
+                        // -------------------- Artikler som vises på artikkel.php forside----------------
+                    
                         // Del for å vise alle artikler 
                         $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn, enavn, fnavn
                                         FROM artikkel, bruker
-                                        WHERE bruker=idbruker order by RAND() LIMIT 1";
+                                        WHERE bruker=idbruker order by idartikkel";
                     
                         $stmtArt = $db->prepare($hentAlleArt);
                         $stmtArt->execute();
