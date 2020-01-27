@@ -86,41 +86,43 @@ function kontoRullegardin() {
   var aapnet = false;
 
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
-  if (bredde < 720) {
-    for (var i = 0; i < element.length; i++) {
-        // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
-        element[i].addEventListener("click", function() {
-            // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
-            var innholdRullegardin = this.nextElementSibling;
-            if (aapnet == false) {
-              // Når vinduet er åpnet, vis "Avbryt" 
-              document.getElementById("kontoRullegardin").innerHTML = "Avbryt";
-              aapnet = true;
-            } else {
-              // Når vinduet er lukket, vis "Endre passord" 
-              document.getElementById("kontoRullegardin").innerHTML = "Endre passord";
-              // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
-              for (i = 0; i < elementPW.length; i++) {
-                elementPW[i].value = "";
-              }
-              aapnet = false;
+  for (var i = 0; i < element.length; i++) {
+      // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn kontoRullegardin
+      element[i].addEventListener("click", function() {
+          // nextElementSibling returnerer det neste elementet som følger gjeldende element (this)
+          var innholdRullegardin = this.nextElementSibling;
+          if (aapnet == false) {
+            // Når vinduet er åpnet, vis "Avbryt" 
+            document.getElementById("kontoRullegardin").innerHTML = "Avbryt";
+            aapnet = true;
+          } else {
+            // Når vinduet er lukket, vis "Endre passord" 
+            document.getElementById("kontoRullegardin").innerHTML = "Endre passord";
+            // FOR løkke som tømmer input feltene da bruker ikke lenger ønsker å oppdatere passord
+            for (i = 0; i < elementPW.length; i++) {
+              elementPW[i].value = "";
             }
-            if (innholdRullegardin.style.display == "block") {
-                // Med none vises ikke innholdet i rullegardinen (Gammelt pw, nytt pw og bekreft nytt pw)
-                innholdRullegardin.style.display = "none";
-            } else {
-                // Nå vises innholdet
-                innholdRullegardin.style.display = "block";
-            }
-        });
-    }
-  } 
+            aapnet = false;
+          }
+          if (innholdRullegardin.style.display == "block") {
+              // Med none vises ikke innholdet i rullegardinen (Gammelt pw, nytt pw og bekreft nytt pw)
+              innholdRullegardin.style.display = "none";
+          } else {
+              // Nå vises innholdet
+              innholdRullegardin.style.display = "block";
+          }
+      });
+  }
 }
 function fiksRullegardin() {
   // Henter bredde 
   var bredde = window.innerWidth;
 
-  if (document.getElementById("konto_rediger_pw").style.display == "none" && bredde >= 720) {
+  if (bredde >= 720) {
+    document.getElementById("konto_rediger_pw").style.display = "block";
+  } else if (document.getElementById("konto_rediger_pw").innerHTML == "Endre passord") {
+    document.getElementById("konto_rediger_pw").style.display = "none";
+  } else if (document.getElementById("konto_rediger_pw").innerHTML == "Avbryt") {
     document.getElementById("konto_rediger_pw").style.display = "block";
   }
 }
