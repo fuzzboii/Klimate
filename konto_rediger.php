@@ -256,7 +256,7 @@ if (isset($_POST['subEndring'])) {
                     <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
                     
                     <!-- Felt for brukeropplysning endringer -->
-                    <form method="POST" action="konto_rediger.php" class="konto_rediger_Form">
+                    <form id="konto_rediger_form" method="POST" action="konto_rediger.php" class="konto_rediger_Form">
                         <!-- Brukernavn -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
@@ -266,24 +266,7 @@ if (isset($_POST['subEndring'])) {
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_epost_overskrift">Endre epost</h3>
                             <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
-                        </section>     
-                        <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
-                        <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
-                        <section class="innholdRullegardin">
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" autofocus>
-                            </section>
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord">
-                            </section>
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_nyttpassordbekreft_overskrift">Bekreft nytt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord">
-                            </section>
-                            <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
-                        </section>
+                        </section>    
                         <!-- Fornavn -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_fornavn_overskrift">Endre fornavn</h3>
@@ -295,9 +278,29 @@ if (isset($_POST['subEndring'])) {
                             <input type="etternavn" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
                         </section>
                         
-                        <!-- Knapp for å lagre endringer -->
-                        <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
                     </form>
+
+                    <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
+                    <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
+                    <section class="innholdRullegardin">
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" form="konto_rediger_form" autofocus>
+                        </section>
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord" form="konto_rediger_form">
+                        </section>
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_nyttpassordbekreft_overskrift">Bekreft nytt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form">
+                        </section>
+                        <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
+                    </section>
+
+                    <!-- Knapp for å lagre endringer -->
+                    <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer" form="konto_rediger_form">
+
                     <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
                         <p id="mldFEIL">Passordene er ikke like</p>
                     
