@@ -120,7 +120,7 @@ include("instillinger.php");
             <main id="artikkel_main" onclick="lukkHamburgerMeny()">
                     <?php if(isset($_GET['artikkel'])){
                         // Henter artikkelen bruker ønsker å se
-                        $hent = "select * from artikkel where idartikkel = " . $_GET['artikkel'];
+                        $hent = "select * from artikkel, bruker where bruker=idbruker and idartikkel = " . $_GET['artikkel'];
                         $stmt = $db->prepare($hent);
                         $stmt->execute();
                         $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -133,7 +133,9 @@ include("instillinger.php");
                             // ------------------------------ artikler som blir klikket på -----------------------------
                             // Del for å vise en spesifik artikkel
                             // Henter bilde fra database utifra artikkelid
-                            $hentBilde = "select hvor from artikkel, artikkelbilde, bilder where idartikkel = " . $_GET['artikkel'] . " and idartikkel = artikkel and bilde = idbilder";
+                            $hentBilde = "select hvor 
+                                         from artikkel, artikkelbilde, bilder 
+                                         where idartikkel = " . $_GET['artikkel'] . " and idartikkel = artikkel and bilde = idbilder";
                             $stmtBilde = $db->prepare($hentBilde);
                             $stmtBilde->execute();
                             $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -144,10 +146,10 @@ include("instillinger.php");
                                 <img src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel" style="height: 20em;">
 
                             <?php } ?>
-                            <h1><?php echo($artikkel['artnavn'])?></h1>
+                            <h1 class="artikkel_header"><?php echo($artikkel['artnavn'])?></h1>
                             <p><?php echo($artikkel['artingress'])?></p>
                             <p><?php echo($artikkel['arttekst'])?></p>
-                            <p>Forfatter: <?php echo($artikkel['idbruker'] . ", ")?></p>
+                            <p>Forfatter: <?php echo($artikkel['enavn'] . ", " . $artikkel['fnavn'])?></p>
                         <?php } ?>
                     <?php  } else {
                         // -------------------- Artikler som vises på artikkel.php forside----------------
@@ -171,8 +173,6 @@ include("instillinger.php");
                         <header class="artikkel_header" onclick="lukkHamburgerMeny()">
                             <h1>Artikler</h1>
                         </header>
-
-                        <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                           
                         <?php if ($resAntall > 0 ) { ?>
                             <?php for ($j = 0; $j < count($resArt); $j++) {
