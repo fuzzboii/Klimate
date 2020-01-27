@@ -7,12 +7,6 @@ session_start();
 include("instillinger.php");
 
 
-
-$hentTilfeldig = "select * from artikkel";
-$stmtTilfeldig = $db->prepare($hentTilfeldig);
-$stmtTilfeldig->execute();
-$tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +27,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
+    <body onload="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')" onresize="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -122,285 +116,117 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                 </section>
             </section>
 
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header class="artikkel_header" onclick="lukkHamburgerMeny()">
-                <h1>Artikler</h1>
-            </header>
-
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main id="artikkel_main" onclick="lukkHamburgerMeny()">  
+            <main onclick="lukkHamburgerMeny()">  
+                <article>
+                    <?php if(isset($_GET['artikkel'])){
+                        // Henter artikkelen bruker ønsker å se
+                        $hent = "select * from artikkel where idartikkel = " . $_GET['artikkel'];
+                        $stmt = $db->prepare($hent);
+                        $stmt->execute();
+                        $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $antallArtikkel = $stmt->rowCount();
+                        // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe artikkel med denne artikkelid i databasen
+                        if ($antallArtikkel == 0) { ?>
+                            <!-- Del for å vise feilmelding til bruker om at artikkel ikke eksisterer -->
+                            <h1>Artikkel ikke funnet</h1>
+                        <?php } else { 
+                            // Del for å vise en spesifik artikkel
+                            // Henter bilde fra database utifra artikkelid
+                            $hentBilde = "select hvor from artikkel, artikkelbilde, bilder where idartikkel = " . $_GET['artikkel'] . " and idartikkel = artikkel and bilde = idbilder";
+                            $stmtBilde = $db->prepare($hentBilde);
+                            $stmtBilde->execute();
+                            $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+                            $antallBilderFunnet = $stmtBilde->rowCount();
+                            // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
+                            if ($antallBilderFunnet != 0) { ?>
+                                <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
+                                <img src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel" style="height: 20em;">
 
-                        <!-- Artikkel 1 -->
-                        <article id="artikkel_art1">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholdet fra databasen -->
-                                    <?php
-                                        // Henter artikkelen bruker ønsker å se
-                                        $hent = "Select idartikkel, artnavn, artingress, arttekst, brukernavn 
-                                                 FROM artikkel, bruker 
-                                                 WHERE bruker=idbruker order by RAND() LIMIT 1";
-                                        $stmt = $db->prepare($hent);
-                                        $stmt->execute();
-                                        $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
-                                        $antall = $stmt->rowCount();
-                                     ?>
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-                                    
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter: <?php echo($artikkel["brukernavn"])?></p>
-                                    </section>
-                                    <!-- Tester på om stringen til artingress er lengre enn 90 karakterer, -->
-                                    <!-- hvis den er det så kortes teksten til 90 karakterer. -->
-                                    <!-- Viser hele teksten om den er kortere -->
-                                    <h2 id="artikkelOverskrift"><?php echo($artikkel["artnavn"])?></h2>
-                                    <?php if(strlen($artikkel["artingress"]) >= 86) { ?>
-                                        <p id="artikkelTekstinnhold"> <?php echo(mb_strimwidth($artikkel["artingress"], 0, 85))?>...</p>
-                                    <?php } else {?>      
-                                        <p id="artikkelTekstinnhold"> <?php echo($artikkel["artingress"])?></p>
-                                    <?php }?>
-                                </section>
+                            <?php } ?>
+                            <h1><?php echo($artikkel['artnavn'])?></h1>
+                            <p><?php echo($artikkel['artingress'])?></p>
+                            <p><?php echo($artikkel['arttekst'])?></p>
+                            <p>Forfatter: <?php echo($artikkel['idbruker'] . ", ")?></p>
+                        <?php } ?>
+                    <?php  } else {
 
-                            </section>
-                        </article>
+                        // Del for å vise alle artikler 
+                        $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn
+                                        FROM artikkel, bruker
+                                        WHERE bruker=idbruker order by RAND() LIMIT 1";
+                    
+                        $stmtArt = $db->prepare($hentAlleArt);
+                        $stmtArt->execute();
+                        $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
+                        
+                        // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                        $avsluttTag = 0;
+                        $antallSider = 0;
+
+                        $resAntall = $stmtArt->rowCount(); 
+                        ?>            
+            
+                        <header class="artikkel_header" onclick="lukkHamburgerMeny()">
+                            <h1>Artikler</h1>
+                        </header>
+
+                        <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+                        <main id="artikkel_main" onclick="lukkHamburgerMeny()">  
+                        <?php if ($resAntall > 0 ) { ?>
+                            <?php for ($j = 0; $j < count($resArt); $j++) {
+                                // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                                if ($j % 8 == 0) { ?>
+                                    <section class="side_artikkel">
+                                <?php $antallSider++; } $avsluttTag++; ?>
+                                <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idevent']) ?>'">
+                                    <figure class="infoBoks_artikkel">
+
+                                        <?php // Henter bilde til artikkel
+                                        $hentArtBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArt[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $stmtArtBilde = $db->prepare($hentArtBilde);
+                                        $stmtArtBilde->execute();
+                                        $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
                                         
-
-                        <!-- Artikkel 2 -->
-                        <article id="artikkel_art2">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard atikkelbilde om redaktør ikke har lastet opp noe enda -->
+                                            <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <?php } else { ?>
+                                            <!-- Artikkeltbilde som resultat av spørring -->
+                                            <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArt[$j]['eventnavn'])?>">
+                                        <?php } ?>
+                                    </figure>
                                     
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift2</h2>
-                                    <p id="artikkelTekstinnhold"> <?php echo(mb_strimwidth("Uværet er i ferd med å avta etter å ha vart i nesten en uke i Spania, men stormen har etterlatt seg store ødeleggelser.
-                                                                    Fredag bekreftet spanske myndigheter at 13 personer har mistet livet i stormen Gloria som herjet i østlige og sørlige deler av landet søndag. Redningsarbeiderne lette fredag fortsatt etter fire savnede personer på Ibiza og Mallorca, skriver BBC. Spanias statsminister Pedro Sanchez var lørdag på besøk i flere området i landet for å se på ødeleggelsene etter stormen.", 0, 85))?></p>
-
+                                    <img class="navn_artikkel" src="bilder/brukerIkonS.png">
+                                    <?php 
+                                    // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                    if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
+                                        <p class="navn_artikkel"><?php echo($resArt[$j]['brukernavn'])?></p>
+                                    <?php } else { ?>
+                                        <p class="navn_artikkel"><?php echo($resArt[$j]['enavn']) ?></p>
+                                    <?php } ?>
+                                    <h2><?php echo($resArt[$j]['eventnavn'])?></h2>
                                 </section>
-
-                            </section>
-                        </article>
-                        
-                        <!-- Artikkel 3 -->
-                        <article id="artikkel_art3">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift3</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-
-                        <!-- Artikkel 4 -->
-                        <article id="artikkel_art4">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift4</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-
-                        <!-- Artikkel 5 -->
-                        <article id="artikkel_art5">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift5</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-
-                        <!-- Artikkel 6 -->
-                        <article id="artikkel_art6">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift6</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-                        
-                        <!-- Artikkel 7 -->
-                        <article id="artikkel_art7">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift7</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-
-                        <!-- Artikkel 8 -->
-                        <article id="artikkel_art8">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift8</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-
-                        <!-- Artikkel 9 -->
-                        <article id="artikkel_art9">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift9</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-                        
-                       <!-- Artikkel 10 -->
-                       <article id="artikkel_art10">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift3</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-                        
-                       <!-- Artikkel 11 -->
-                       <article id="artikkel_art11">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift3</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>
-
-                       <!-- Artikkel 12 -->
-                       <article id="artikkel_art12">
-                            <section class="artikkel_innhold">
-                                <!-- her kommer innholder fra databasen -->
-                                <!-- a href= -->
-                                <figure class="fig_artikkel">
-
-                                </figure>
-                                <section class="artikkel_innholdInfo">
-                                    <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
-                                    </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift3</h2>
-                                    <p id="artikkelTekstinnhold"> Artikkel kort oppsummering</p>
-
-                                </section>
-
-                            </section>
-                        </article>  
-
-
+                                <?php
+ 
+                                // Hvis telleren har nådd 8
+                                if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
+                                    </section>     
+                                <?php 
+                                    // Sett telleren til 0, mulighet for mer enn 2 sider
+                                    $avsluttTag = 0;
+                                }
+                            }
+                        } ?>
+                        <section id="sok_bunnSection">
+                            <?php if ($antallSider > 1) {?>
+                                <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <?php } ?>
+                            <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
+                            <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
+                        </section>
+                    <?php } ?>
+                </article>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
