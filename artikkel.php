@@ -205,7 +205,8 @@ include("instillinger.php");
                                     <?php } else { ?>
                                         <p class="navn_artikkel"><?php echo($resArt[$j]['enavn']) ?></p>
                                     <?php } ?>
-                                    <h2><?php echo($resArt[$j]['eventnavn'])?></h2>
+                                    <h2><?php echo($resArt[$j]['artnavn'])?></h2>
+                                    <p><?php echo($resArt[$j]['artingress'])?></p>
                                 </section>
                                 <?php
  
