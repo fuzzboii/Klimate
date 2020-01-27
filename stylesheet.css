@@ -864,11 +864,10 @@ table {
 }
 
 .arrangement_ressection {
-  border: 1px solid grey;
-  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
   margin-bottom: 0.75em;
   margin-top: 0.75em;
+  margin-left: 0.5em; margin-right: 0.5em; 
 }
 
 .arrangement_infoBoks {
@@ -888,7 +887,6 @@ table {
   margin-top: 1.3em;
   width: 98.5%;
   word-break: break-all;
-  background-color: rgb(147,181,179);
   border-radius: 0 0 0.85em 0.85em; /* Avrunder kantene */
   font-family: Helvetica, Arial, sans-serif;
 }
@@ -926,9 +924,8 @@ table {
 }
 
 .arrangement_BildeBoks {
-  height: 8em;
+  height: 10em;
   object-fit: cover;
-  border-radius: 0.65em 0.65em 0 0; /* Avrunder kantene */
   box-shadow: 0 0 0.1em 0.01em black;
 }
 /* Del for visning av spesifikt arrangement */
@@ -1100,7 +1097,7 @@ table {
     padding-right: 4em;
   }
   .arrangement_BildeBoks {
-    height: 9em;
+    height: 11em;
   }
 
   /* Grid for Konto_rediger */
@@ -1303,7 +1300,7 @@ table {
     padding-right: 5em;
   }
   .arrangement_BildeBoks {
-    height: 10em;
+    height: 12em;
   }
 
   #backend_main {
@@ -1395,7 +1392,7 @@ table {
     padding-right: 7em;
   }
   .arrangement_BildeBoks {
-    height: 12em;
+    height: 13em;
   }
 }
 
