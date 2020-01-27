@@ -15,12 +15,24 @@ $hentBrukernavnProfil = "select brukernavn from bruker where idbruker = " . $_GE
 $stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
 $stmtBrukernavnProfil->execute();
 $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
+// Implode. But why? Er det en NULL på slutten av listen som telles?
+$brukernavnProfil = implode ("", $brukernavnProfil);
 
-// Henting av navn //     EVT KUN BRUKERNAVN, AVHENGIG AV BRUKERENS REGISTRERTE INNSTILLINGER
-$hentNavnProfil = "Select fnavn, enavn from bruker where idbruker = " . $_GET['bruker'];
-$stmtNavnProfil = $db->prepare($hentNavnProfil);
-$stmtNavnProfil->execute();
-$navnProfil = $stmtNavnProfil->fetch(PDO::FETCH_ASSOC);
+// Henting av navn/tlf/mail //     EVT KUN BRUKERNAVN, AVHENGIG AV BRUKERENS REGISTRERTE INNSTILLINGER
+$hentPersonaliaProfil = "Select fnavn, enavn, epost, telefonnummer from bruker where idbruker = " . $_GET['bruker'];
+$stmtPersonaliaProfil = $db->prepare($hentPersonaliaProfil);
+$stmtPersonaliaProfil->execute();
+$personaliaProfil = $stmtPersonaliaProfil->fetch(PDO::FETCH_ASSOC);
+// Imploder arrayet med breakpoints
+$personaliaProfil = implode("<br/>\n", $personaliaProfil)."<br/>";
+
+// Henting av beskrivelse
+$hentBeskrivelseProfil = "select beskrivelse from bruker where idbruker = " . $_GET['bruker'];
+$stmtBeskrivelseProfil = $db->prepare($hentBeskrivelseProfil);
+$stmtBeskrivelseProfil->execute();
+$beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
+// Implode. But why?
+$beskrivelseProfil = implode ("", $beskrivelseProfil);
 
 ?>
 
@@ -158,17 +170,17 @@ $navnProfil = $stmtNavnProfil->fetch(PDO::FETCH_ASSOC);
                     </a>
                 <?php } ?>
                 <!-- Vis brukerens (bruker-)navn -->
-                <h1 class="velkomst"> <?php echo implode(' ', $brukernavnProfil) ?> </h1>
-                <h1 class="velkomst"> <?php echo implode(' ', $navnProfil) ?></h1>
+                <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
                 <!-- Personalia, etc -->
                 <h1>Personlig informasjon</h1>
+                    <p> <?php echo $personaliaProfil ?> </p>
                 <h1>Interesser</h1>
-                    <p>Test, TEST, test, TEST, test, TEST</p>
                 <h1>Om</h1>
+                    <p> <?php echo $beskrivelseProfil ?> </p>
                 <h1>Artikler</h1>
                 <h1>Kommentarer</h1>
                 <h1>Arrangementer</h1>
