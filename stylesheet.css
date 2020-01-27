@@ -317,10 +317,13 @@ footer a {
 
 /* Bilde feltene */
 .fig_artikkel {
-  background-color: red;
   padding-top: 10em;
   margin: 0;
   height: 5em;
+
+  background-image: url('bilder/artikkelbilder/artikkel1.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /* Forfatter feltet sin style */
@@ -908,6 +911,11 @@ table {
 
 /* Laptop / Liten skjerm, 720p */
 @media only screen and (min-width: 1280px) {
+
+  #artikkel_art1:hover {
+    
+    cursor: pointer;
+  }
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
   .navTop button:hover {
     color: rgba(44, 44, 44, 0.651);

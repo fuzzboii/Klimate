@@ -138,14 +138,15 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                     <?php
                                         // Henter artikkelen bruker ønsker å se
                                         $hent = "Select idartikkel, artnavn, artingress, arttekst, brukernavn 
-                                                 FROM artikkel, bruker 
-                                                 WHERE bruker=idbruker order by RAND() LIMIT 1";
+                                        FROM artikkel, bruker 
+                                        WHERE bruker=idbruker order by idartikkel";
                                         $stmt = $db->prepare($hent);
                                         $stmt->execute();
                                         $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
                                         $antall = $stmt->rowCount();
                                      ?>
                                 <!-- a href= -->
+                                
                                 <figure class="fig_artikkel">
                                     
                                 </figure>
@@ -178,13 +179,17 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                                 </figure>
                                 <section class="artikkel_innholdInfo">
                                     <section class="ArtikkelForfatter">
-                                        <p id="forfatterOversikt">Forfatter</p>
+                                        <p id="forfatterOversikt">Forfatter: <?php echo($artikkel["brukernavn"])?></p>
                                     </section>
-                                    
-                                    <h2 id="artikkelOverskrift">Artikkel overskrift2</h2>
-                                    <p id="artikkelTekstinnhold"> <?php echo(mb_strimwidth("Uværet er i ferd med å avta etter å ha vart i nesten en uke i Spania, men stormen har etterlatt seg store ødeleggelser.
-                                                                    Fredag bekreftet spanske myndigheter at 13 personer har mistet livet i stormen Gloria som herjet i østlige og sørlige deler av landet søndag. Redningsarbeiderne lette fredag fortsatt etter fire savnede personer på Ibiza og Mallorca, skriver BBC. Spanias statsminister Pedro Sanchez var lørdag på besøk i flere området i landet for å se på ødeleggelsene etter stormen.", 0, 85))?></p>
-
+                                    <!-- Tester på om stringen til artingress er lengre enn 90 karakterer, -->
+                                    <!-- hvis den er det så kortes teksten til 90 karakterer. -->
+                                    <!-- Viser hele teksten om den er kortere -->
+                                    <h2 id="artikkelOverskrift"><?php echo($artikkel["artnavn"])?></h2>
+                                    <?php if(strlen($artikkel["artingress"]) >= 86) { ?>
+                                        <p id="artikkelTekstinnhold"> <?php echo(mb_strimwidth($artikkel["artingress"], 0, 85))?>...</p>
+                                    <?php } else {?>      
+                                        <p id="artikkelTekstinnhold"> <?php echo($artikkel["artingress"])?></p>
+                                    <?php }?>
                                 </section>
 
                             </section>
