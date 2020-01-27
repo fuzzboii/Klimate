@@ -28,7 +28,7 @@ include("instillinger.php");
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body onload="sokRullegardin(), hentSide()" onresize="hentSide()">
+    <body onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -57,7 +57,7 @@ include("instillinger.php");
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="5">
-                            <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                         </a>
                     <?php } else { ?>
                         <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
@@ -213,7 +213,7 @@ include("instillinger.php");
                         <?php } ?>
                     </header>
 
-                    <main id="sok_main" onclick="lukkHamburgerMeny()"> 
+                    <main onclick="lukkHamburgerMeny()"> 
 
 
                     <?php if ($resAntall > 0 ) { ?>
@@ -235,7 +235,7 @@ include("instillinger.php");
                                             <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
                                         <?php } else { ?>
                                             <!-- Profilbilde som resultat av spørring -->
-                                            <img class="BildeBoksBr_sok" src="bilder/brukerbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
+                                            <img class="BildeBoksBr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
                                         <?php } ?>
                                         <p class="infoResBr_sok"><?php echo($resBr[$j]['brukernavn'])?></p>
                                     </figure>
@@ -254,8 +254,8 @@ include("instillinger.php");
                         <?php if ($antallSider > 1) {?>
                             <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                         <?php } ?>
-                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
-                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Forrige</button>
+                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Neste</button>
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
                 <?php } else {
@@ -392,8 +392,8 @@ include("instillinger.php");
                         <?php if ($antallSider > 1) {?>
                             <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                         <?php } ?>
-                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
-                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Forrige</button>
+                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Neste</button>
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
                 <?php 
@@ -526,10 +526,10 @@ include("instillinger.php");
                                     
                                     if (!$resBilde) { ?>
                                         <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
-                                        <img class="BildeBoksArr_sok" src="bilder/eventbilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                        <img class="BildeBoksArr_sok" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                     <?php } else { ?>
                                         <!-- Arrangementbilde som resultat av spørring -->
-                                        <img class="BildeBoksArr_sok" src="bilder/eventbilder/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                        <img class="BildeBoksArr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
                                     <?php } ?>
 
                                     <h2 class="infoResArr_sok"><?php echo($resArr[$j]['eventnavn'])?></h2>
@@ -560,8 +560,8 @@ include("instillinger.php");
                         <?php if ($antallSider > 1) {?>
                             <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                         <?php } ?>
-                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide()">Forrige</button>
-                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide()">Neste</button>
+                        <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Forrige</button>
+                        <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Neste</button>
                         <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
                     </section>
                 <?php } else {

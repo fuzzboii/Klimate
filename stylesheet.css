@@ -755,7 +755,7 @@ table {
   font-family: Helvetica, Arial, sans-serif;
   font-weight: bold;
 }
-#sok_bunnSection {
+#arrangement_bunnSection {
   display: block;
   text-align: center;
   padding-top: 2em;
@@ -774,10 +774,10 @@ table {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
-#sok_bunnSection a {
+#arrangement_bunnSection a {
   font-family: Helvetica, Arial, sans-serif;
 }
-#sok_bunnSection input {
+#arrangement_bunnSection input {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
@@ -831,6 +831,164 @@ table {
   margin-left: 0.9em; margin-right: 0.9em;
 }
 
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for Arrangement */
+
+.arrangement_header {
+  padding-top: 4em;
+    
+  text-align: center; /* Sentrerer h1 */
+  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
+}
+
+.arrangement_header h1 {
+  font-size: 1em;
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
+}
+
+.arrangement_hovedsection {
+  display: none;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  padding-left: 1em; padding-right: 1em; 
+}
+
+.arrangement_ressection {
+  border: 1px solid grey;
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-bottom: 0.75em;
+  margin-top: 0.75em;
+}
+
+.arrangement_infoBoks {
+  margin: 0;
+}
+
+.arrangement_infoBoks img {
+  width: 100%;
+}
+
+.arrangement_ressection h2 {
+  font-size: 1em;
+  padding-bottom: 0.5em;
+  padding-top: 0.4em;
+  padding-left: 1.5%;
+  margin-bottom: 0;
+  margin-top: 1.3em;
+  width: 98.5%;
+  word-break: break-all;
+  background-color: rgb(147,181,179);
+  border-radius: 0 0 0.85em 0.85em; /* Avrunder kantene */
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.arrangement_ressection p {
+  margin: 0;
+  font-size: 0.7em;
+  padding-top: 0.1em; padding-bottom: 0.4em;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.arrangement_rFloatBilde {
+  height: 1em;
+  float: right;
+}
+
+.arrangement_navn {
+  float: left;
+  height: 1em;
+  padding-left: 0.2em;
+}
+
+.arrangement_tidspunkt, .arrangement_fylke {
+  float: right;
+}
+
+.arrangement_fylke {
+  padding-right: 0.8em;
+  padding-left: 0.2em;
+}
+
+.arrangement_tidspunkt {
+  padding-right: 0.2em;
+  padding-left: 0.2em;
+}
+
+.arrangement_BildeBoks {
+  height: 8em;
+  object-fit: cover;
+  border-radius: 0.65em 0.65em 0 0; /* Avrunder kantene */
+  box-shadow: 0 0 0.1em 0.01em black;
+}
+/* Del for visning av spesifikt arrangement */
+#arrangement_fullSizeBilde {
+  width: 100%;
+  margin-top: 4.3em;
+  box-shadow: 0 0 0.1em 0.01em black;
+}
+#arrangement_headerMBilde {
+  padding-left: 0.4em; padding-right: 0.4em;
+  font-size: 0.7em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
+}
+#arrangement_tekst {
+  margin-bottom: 0.2em;
+  padding-left: 0.3em; padding-right: 0.3em;
+}
+#arrangement_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#arrangement_omEvent {
+  margin-left: 0.2em; margin-right: 0.2em; margin-bottom: 0.4em;
+  border-radius: 0.65em 0.65em 0.65em 0.65em; /* Avrunder kantene */
+  box-shadow: 0 0 0.1em 0.01em black;
+  border: 1px solid black;
+}
+#arrangement_omEvent h3 {
+  padding-top: 0.5em;
+  margin: 0;
+  margin-left: auto; margin-right: auto;
+  width: 50%;
+  text-align: center;
+}
+#arrangement_navn, #arrangement_mail, .arrangement_adresse, #arrangement_dato {
+  padding-top: 0.3em;
+  margin-top: 0; margin-bottom: 0;
+  margin-left: 0.2em; margin-right: 0.2em;
+}
+#arrangement_dato {
+  padding-bottom: 0.5em;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for PROFIL */
+.profil_header {
+  padding-top: 6em; padding-bottom: 1em;
+  text-align: center;
+}
+
+.profil_bilde {
+  width: 10em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profil_main {
+  margin-left: 5em;
+}
+
+.profil_main p {
+  margin-left: 1em;
+}
+
+  
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
@@ -905,6 +1063,16 @@ table {
   }
   .BildeBoksArr_sok {
     width: 12em;  height: 7em;
+  }
+
+  /* Grid for arrangement */
+  .arrangement_hovedsection {
+    grid-template-columns: 1fr 1fr;
+    padding-left: 4em;
+    padding-right: 4em;
+  }
+  .arrangement_BildeBoks {
+    height: 9em;
   }
 
 }
@@ -1018,7 +1186,7 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
-  .infoBoksBr_sok:hover, .artRes_sok:hover, .arrRes_sok:hover {
+  .infoBoksBr_sok:hover, .artRes_sok:hover, .arrRes_sok:hover, .arrangement_ressection:hover {
     cursor: pointer;
     box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.3s;
@@ -1063,6 +1231,16 @@ table {
   }
   .BildeBoksArr_sok {
     width: 14em;  height: 8em;
+  }
+  
+  /* Grid for arrangement */
+  .arrangement_hovedsection {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-left: 5em;
+    padding-right: 5em;
+  }
+  .arrangement_BildeBoks {
+    height: 10em;
   }
 
   #backend_main {
@@ -1157,7 +1335,16 @@ table {
   .infoBoksArr_sok {
     margin-left: 1.4em; margin-right: 1.4em;
   }
-
+  /* Grid for arrangementer */
+  .arrangement_hovedsection {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding-left: 7em;
+    padding-right: 7em;
+  }
+  .arrangement_BildeBoks {
+    height: 12em;
+  }
+}
 
 /* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
@@ -1203,8 +1390,7 @@ table {
   .BildeBoksBr_sok {
     width: 12em;
   }
-
-
+}
 
 
 @media print {
