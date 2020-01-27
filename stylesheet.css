@@ -325,7 +325,6 @@ footer a {
   width: 98.5%;
   word-break: break-all;
   background-color: rgb(147,181,179);
-  border-radius: 0 0 0.92em 0.92em; /* Avrunder kantene */
   font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -348,6 +347,20 @@ footer a {
   border-radius: 0.55em 0.55em 0 0; /* Avrunder kantene */
   box-shadow: 0 0 0.1em 0.01em black;
 }
+.artikkel_header {
+  padding-top: 4em;
+    
+  text-align: center; /* Sentrerer h1 */
+  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
+  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
+  text-transform: uppercase; /* Transformerer teksten til UCASE */
+}
+
+.navn_artikkel {
+  /* Gir blad-form avrunding på profilbilde i artikkel */
+  border-radius: 60% 10%;
+}
+
 
 
 

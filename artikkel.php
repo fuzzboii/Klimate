@@ -117,8 +117,7 @@ include("instillinger.php");
             </section>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main onclick="lukkHamburgerMeny()">  
-                <article>
+            <main id="artikkel_main" onclick="lukkHamburgerMeny()">
                     <?php if(isset($_GET['artikkel'])){
                         // Henter artikkelen bruker ønsker å se
                         $hent = "select * from artikkel where idartikkel = " . $_GET['artikkel'];
@@ -154,7 +153,7 @@ include("instillinger.php");
                         // -------------------- Artikler som vises på artikkel.php forside----------------
                     
                         // Del for å vise alle artikler 
-                        $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn, enavn, fnavn
+                        $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn, enavn, fnavn, bruker
                                         FROM artikkel, bruker
                                         WHERE bruker=idbruker order by idartikkel";
                     
@@ -174,7 +173,7 @@ include("instillinger.php");
                         </header>
 
                         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-                        <main id="artikkel_main" onclick="lukkHamburgerMeny()">  
+                          
                         <?php if ($resAntall > 0 ) { ?>
                             <?php for ($j = 0; $j < count($resArt); $j++) {
                                 // Hvis rest av $j delt på 8 er 0, start section (Ny side)
@@ -198,14 +197,21 @@ include("instillinger.php");
                                             <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArt[$j]['eventnavn'])?>">
                                         <?php } ?>
                                     </figure>
-                                    
-                                    <img class="navn_artikkel" src="bilder/brukerIkonS.png">
+                                    <!-- brukerens profilbilde -->
+                                    <!-- blir hentet fram avhengig av hvilken bruker som har skrevet artikkelen -->
+                                    <?php
+                                    $hentPb="select bruker, hvor from brukerbilde, bilder where bilde=idbilder and bruker= " . $resArt[$j]["bruker"] ;
+                                    $stmtHentPb = $db->prepare($hentPb);
+                                    $stmtHentPb->execute();
+                                    $brukerPB = $stmtHentPb->fetch(PDO::FETCH_ASSOC);
+                                    ?>
+                                    <img class="navn_artikkel" src="bilder/opplastet/<?php echo($brukerPB["hvor"])?>">
                                     <?php 
                                     // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
                                     if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
                                         <p class="navn_artikkel"><?php echo($resArt[$j]['brukernavn'])?></p>
                                     <?php } else { ?>
-                                        <p class="navn_artikkel"><?php echo($resArt[$j]['enavn']) ?></p>
+                                        <p class="navn_artikkel"><?php echo($resArt[$j]['fnavn']) ?> <?php echo($resArt[$j]['enavn']) ?></p>
                                     <?php } ?>
                                     <h2><?php echo($resArt[$j]['artnavn'])?></h2>
                                     <p><?php echo($resArt[$j]['artingress'])?></p>
@@ -242,7 +248,6 @@ include("instillinger.php");
                     <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
                 </p>
             </footer>
-        </article>
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret xx.xx.xxxx -->
