@@ -79,6 +79,9 @@ function kontoRullegardin() {
   var element = document.getElementsByClassName("kontoRullegardin");
   var elementPW = document.getElementsByClassName("KontoredigeringFeltPW");
 
+  // Henter 
+  var bredde = window.innerWidth;
+
   // Boolean for å vite om "Endre passord" delen er åpen eller ikke
   var aapnet = false;
 
@@ -109,6 +112,18 @@ function kontoRullegardin() {
               innholdRullegardin.style.display = "block";
           }
       });
+  }
+}
+function fiksRullegardin() {
+  // Henter bredde 
+  var bredde = window.innerWidth;
+
+  if (bredde >= 720) {
+    document.getElementById("konto_rediger_pw").style.display = "block";
+  } else if (document.getElementById("kontoRullegardin").innerHTML == "Endre passord") {
+    document.getElementById("konto_rediger_pw").style.display = "none";
+  } else if (document.getElementById("kontoRullegardin").innerHTML == "Avbryt") {
+    document.getElementById("konto_rediger_pw").style.display = "block";
   }
 }
 /*-------------------------------------------------------------------------------------------------------*/

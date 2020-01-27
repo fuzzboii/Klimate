@@ -549,7 +549,7 @@ table {
   width: 100%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-  
+  margin-top: 1em;
 }
 
 /* Style for feltene i konto redigering */
@@ -1103,6 +1103,25 @@ table {
     height: 9em;
   }
 
+  /* Grid for Konto_rediger */
+  .brukerinformasjon_rediger {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 600px;
+  }
+  #konto_rediger_form {
+    grid-column: 1/1;
+  }
+  #kontoRullegardin {
+    display: none;
+  }
+  .KontoredigeringFelt_knappLagre {
+    grid-column: 1/span 2;
+  }
+  .brukerinformasjon_rediger .lenke_knapp {
+    grid-column: 1/span 2;
+  }
+
 }
 
 /* Laptop / Liten skjerm, 720p */
@@ -1297,11 +1316,6 @@ table {
     margin-right: 10em;
   }
 
-  #konto_rediger_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
   #artikkel_main {
     grid-template-columns: 1fr 1fr 1fr; 
     margin-left: 10em;
@@ -1334,11 +1348,6 @@ table {
   }
   
   #konto_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #konto_rediger_main {
     margin-left: 10em;
     margin-right: 10em;
   }
@@ -1413,11 +1422,6 @@ table {
   }
 
   #konto_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #konto_rediger_main {
     margin-left: 10em;
     margin-right: 10em;
   }
