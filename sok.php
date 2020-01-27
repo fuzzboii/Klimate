@@ -615,7 +615,7 @@ include("instillinger.php");
                                         <?php } ?>
                                     </select>
                                     </section>
-                                    <input type="submit" class="sokKnapp" value="Søk">
+                                    <input type="submit" class="sokKnapp" value="Søk på bruker">
                                 </section>
                                 <button type="button" id="brukerRullegardin" class="brukerRullegardin">Søk etter bruker</button>
                             </a>   
@@ -638,7 +638,7 @@ include("instillinger.php");
                                         <p class="sokTittel">Skrevet av:</p>
                                         <input type="text" class="sokBrukerFelt" tabindex ="-1" name="artForfatter" placeholder="Forfatter av artikkelen">
                                     </section>
-                                    <input type="submit" class="sokKnapp" value="Søk">
+                                    <input type="submit" class="sokKnapp" value="Søk på artikkel">
                                 </section>
                                 <button type="button" id="artikkelRullegardin" class="artikkelRullegardin">Søk etter artikkel</button>
                             </a>
@@ -670,7 +670,7 @@ include("instillinger.php");
                                         <?php } ?>
                                     </select>
                                     </section>
-                                    <input type="submit" class="sokKnapp" value="Søk">
+                                    <input type="submit" class="sokKnapp" value="Søk på arrangement">
                                 </section>
                                 <button type="button" id="arrangementRullegardin" class="arrangementRullegardin">Søk etter arrangement</button>
                             </a>
