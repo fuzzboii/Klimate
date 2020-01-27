@@ -120,9 +120,9 @@ function fiksRullegardin() {
 
   if (bredde >= 720) {
     document.getElementById("konto_rediger_pw").style.display = "block";
-  } else if (document.getElementById("konto_rediger_pw").innerHTML == "Endre passord") {
+  } else if (document.getElementById("kontoRullegardin").innerHTML == "Endre passord") {
     document.getElementById("konto_rediger_pw").style.display = "none";
-  } else if (document.getElementById("konto_rediger_pw").innerHTML == "Avbryt") {
+  } else if (document.getElementById("kontoRullegardin").innerHTML == "Avbryt") {
     document.getElementById("konto_rediger_pw").style.display = "block";
   }
 }
