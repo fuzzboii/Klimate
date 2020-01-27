@@ -951,9 +951,8 @@ table {
 }
 #arrangement_omEvent {
   margin-left: 0.2em; margin-right: 0.2em; margin-bottom: 0.4em;
-  border-radius: 0.65em 0.65em 0.65em 0.65em; /* Avrunder kantene */
+  border-radius: 0.1em 0.1em 0.1em 0.1em; /* Avrunder kantene */
   box-shadow: 0 0 0.1em 0.01em black;
-  border: 1px solid black;
 }
 #arrangement_omEvent h3 {
   padding-top: 0.5em;
@@ -1002,6 +1001,21 @@ table {
   .sok_navmeny {
     display: block;
   }
+  /* Del for visning av spesifikt arrangement */
+  #arrangement_fullSizeBilde {
+    display: block;
+    width: 23em;
+    margin-left: auto; margin-right: auto;
+    box-shadow: 0 0 0.1em 0.01em black;
+  }
+  #arrangement_omEvent {
+    max-width: 700px;
+    margin-left: auto; margin-right: auto;
+  }
+  #arrangement_headerMBilde {
+    text-align: center;
+  }
+
 }
 
 /* Tab */

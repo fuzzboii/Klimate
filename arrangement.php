@@ -140,44 +140,47 @@ include("instillinger.php");
                     $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
                     $antallBilderFunnet = $stmtBilde->rowCount();
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
-                    if ($antallBilderFunnet != 0) { ?>
-                        <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                        <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                    ?> 
+                    <section id="arrangement_spes"> 
+                        <?php if ($antallBilderFunnet != 0) { ?>
+                            <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
+                            <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
 
-                        <header id="arrangement_headerMBilde" onclick="lukkHamburgerMeny()">
-                            <h1><?php echo($arrangement['eventnavn'])?></h1>
-                        </header>
-                    <?php } else { ?>
-                        <header class="arrangement_header" onclick="lukkHamburgerMeny()">
-                            <h1><?php echo($arrangement['eventnavn'])?></h1>
-                        </header>
-                    <?php } ?>
-                    <section id="arrangement_omEvent">
-                        <h3>Om arrangementet</h3>
-                        <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
-
-                        <h3>Om arrangør</h3>
-                        <?php 
-                        // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                        if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
-                            <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
+                            <header id="arrangement_headerMBilde" onclick="lukkHamburgerMeny()">
+                                <h1><?php echo($arrangement['eventnavn'])?></h1>
+                            </header>
                         <?php } else { ?>
-                            <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
+                            <header class="arrangement_header" onclick="lukkHamburgerMeny()">
+                                <h1><?php echo($arrangement['eventnavn'])?></h1>
+                            </header>
                         <?php } ?>
-                        <p id="arrangement_mail">Epost: <a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
+                        <section id="arrangement_omEvent">
+                            <h3>Om arrangementet</h3>
+                            <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
 
-                        <h3>Sted</h3>
-                        <?php 
-                            $dato = date_create($arrangement['tidspunkt']);
-                        ?>
-                        <!-- Lenke som leder til Google Maps med adresse -->
-                        <p class="arrangement_adresse">Adresse: <a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'])?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
-                        <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
-                        
-                        <h3>Dato</h3>
-                        <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 2)) ?></p>
-                    </section>
-                <?php } ?>
+                            <h3>Om arrangør</h3>
+                            <?php 
+                            // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                            if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
+                                <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
+                            <?php } else { ?>
+                                <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
+                            <?php } ?>
+                            <p id="arrangement_mail">Epost: <a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
+
+                            <h3>Sted</h3>
+                            <?php 
+                                $dato = date_create($arrangement['tidspunkt']);
+                            ?>
+                            <!-- Lenke som leder til Google Maps med adresse -->
+                            <p class="arrangement_adresse">Adresse: <a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'])?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
+                            <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
+                            
+                            <h3>Dato</h3>
+                            <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 2)) ?></p>
+                        </section>
+                    <?php } ?>
+                </section>
             <?php  } else {
 
                 // Del for å vise alle arrangement 
