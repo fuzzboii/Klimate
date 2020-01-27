@@ -6,7 +6,33 @@ session_start();
 //------------------------------//
 include("instillinger.php");
 
+//------------------------------//
+// Henting av data på bruker    //
+//------------------------------//
 
+// Henting av brukernavn
+$hentBrukernavnProfil = "select brukernavn from bruker where idbruker = " . $_GET['bruker'];
+$stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
+$stmtBrukernavnProfil->execute();
+$brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
+// Implode. But why? Er det en NULL på slutten av listen som telles?
+$brukernavnProfil = implode ("", $brukernavnProfil);
+
+// Henting av navn/tlf/mail //     EVT KUN BRUKERNAVN, AVHENGIG AV BRUKERENS REGISTRERTE INNSTILLINGER
+$hentPersonaliaProfil = "Select fnavn, enavn, epost, telefonnummer from bruker where idbruker = " . $_GET['bruker'];
+$stmtPersonaliaProfil = $db->prepare($hentPersonaliaProfil);
+$stmtPersonaliaProfil->execute();
+$personaliaProfil = $stmtPersonaliaProfil->fetch(PDO::FETCH_ASSOC);
+// Imploder arrayet med breakpoints
+$personaliaProfil = implode("<br/>\n", $personaliaProfil)."<br/>";
+
+// Henting av beskrivelse
+$hentBeskrivelseProfil = "select beskrivelse from bruker where idbruker = " . $_GET['bruker'];
+$stmtBeskrivelseProfil = $db->prepare($hentBeskrivelseProfil);
+$stmtBeskrivelseProfil->execute();
+$beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
+// Implode. But why?
+$beskrivelseProfil = implode ("", $beskrivelseProfil);
 
 ?>
 
@@ -114,16 +140,16 @@ include("instillinger.php");
                 </section>
             </section>
 
-            <!----------------------------------
-            Del for brukerinformasjon (om andre)
-            ----------------------------------->
+            <!-----------------------
+            Del for brukerinformasjon
+            ------------------------>
 
             
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
             <!-- Kan ikke legge denne direkte i body -->
-            <header class="backend_header" onclick="lukkHamburgerMeny()">
-                <!-- Bilde av brukeren. Nesten identisk med innlogget brukers bilde -->
-                <!-- ENDRE SQL-SETNINGEN TIL Å SØKE PÅ EN ANNEN BRUKER -->
+            <header class="profil_header" onclick="lukkHamburgerMeny()">
+                <!-- Bilde av brukeren -->
+                <!-- ENDRE SQL-SETNINGEN TIL Å SØKE PÅ IDBRUKER I URL. FLYTT DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
                 <?php
                 $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
                 $stmtProfilbilde = $db->prepare($hentProfilbilde);
@@ -132,21 +158,32 @@ include("instillinger.php");
                 $antallProfilbilderFunnet = $stmtProfilbilde->rowCount();
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallProfilbilderFunnet != 0) { ?>
-                    <!-- Hvis vi finner et bilde til bruker viser vi det -->
+                    <!-- Hvis vi finner et bilde til brukeren viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                        <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_backend">
+                        <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
                     </a>
     
                 <?php } else { ?>
-                    <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
+                    <!-- Hvis brukeren ikke har noe profilbilde, bruk standard profilbilde -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                        <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
+                        <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                     </a>
                 <?php } ?>
+                <!-- Vis brukerens (bruker-)navn -->
+                <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main onclick="lukkHamburgerMeny()">  
+            <main class="profil_main" onclick="lukkHamburgerMeny()">  
+                <!-- Personalia, etc -->
+                <h1>Personlig informasjon</h1>
+                    <p> <?php echo $personaliaProfil ?> </p>
+                <h1>Interesser</h1>
+                <h1>Om</h1>
+                    <p> <?php echo $beskrivelseProfil ?> </p>
+                <h1>Artikler</h1>
+                <h1>Kommentarer</h1>
+                <h1>Arrangementer</h1>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
@@ -162,7 +199,7 @@ include("instillinger.php");
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret xx.xx.xxxx -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang xx.xx.xxxx -->
+    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 26.01.2020 -->
+    <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 26.01.2020 -->
 
 </html>
