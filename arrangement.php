@@ -177,9 +177,6 @@ include("instillinger.php");
                         <h3>Dato</h3>
                         <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 2)) ?></p>
                     </section>
-
-                    <section id="arrangement_omArrangor">
-                    </section>
                 <?php } ?>
             <?php  } else {
 
