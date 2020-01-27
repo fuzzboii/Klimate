@@ -131,6 +131,7 @@ include("instillinger.php");
                             <!-- Del for å vise feilmelding til bruker om at artikkel ikke eksisterer -->
                             <h1>Artikkel ikke funnet</h1>
                         <?php } else { 
+                            // ------------------------------ artikler som blir klikket på -----------------------------
                             // Del for å vise en spesifik artikkel
                             // Henter bilde fra database utifra artikkelid
                             $hentBilde = "select hvor from artikkel, artikkelbilde, bilder where idartikkel = " . $_GET['artikkel'] . " and idartikkel = artikkel and bilde = idbilder";
@@ -150,11 +151,12 @@ include("instillinger.php");
                             <p>Forfatter: <?php echo($artikkel['idbruker'] . ", ")?></p>
                         <?php } ?>
                     <?php  } else {
-
+                        // -------------------- Artikler som vises på artikkel.php forside----------------
+                    
                         // Del for å vise alle artikler 
-                        $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn
+                        $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn, enavn, fnavn
                                         FROM artikkel, bruker
-                                        WHERE bruker=idbruker order by RAND() LIMIT 1";
+                                        WHERE bruker=idbruker order by idartikkel";
                     
                         $stmtArt = $db->prepare($hentAlleArt);
                         $stmtArt->execute();
@@ -179,11 +181,11 @@ include("instillinger.php");
                                 if ($j % 8 == 0) { ?>
                                     <section class="side_artikkel">
                                 <?php $antallSider++; } $avsluttTag++; ?>
-                                <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idevent']) ?>'">
+                                <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
                                     <figure class="infoBoks_artikkel">
 
                                         <?php // Henter bilde til artikkel
-                                        $hentArtBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArt[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $hentArtBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArt[$j]['idartikkel'] . " and eventbilde.bilde = bilder.idbilder";
                                         $stmtArtBilde = $db->prepare($hentArtBilde);
                                         $stmtArtBilde->execute();
                                         $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
@@ -205,7 +207,8 @@ include("instillinger.php");
                                     <?php } else { ?>
                                         <p class="navn_artikkel"><?php echo($resArt[$j]['enavn']) ?></p>
                                     <?php } ?>
-                                    <h2><?php echo($resArt[$j]['eventnavn'])?></h2>
+                                    <h2><?php echo($resArt[$j]['artnavn'])?></h2>
+                                    <p><?php echo($resArt[$j]['artingress'])?></p>
                                 </section>
                                 <?php
  

@@ -1066,6 +1066,11 @@ table {
 
 /* Laptop / Liten skjerm, 720p */
 @media only screen and (min-width: 1280px) {
+
+  #artikkel_art1:hover {
+    
+    cursor: pointer;
+  }
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
   .navTop button:hover {
     color: rgba(44, 44, 44, 0.651);
