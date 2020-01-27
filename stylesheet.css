@@ -1317,11 +1317,6 @@ table {
     margin-right: 10em;
   }
 
-  #konto_rediger_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
   #artikkel_main {
     grid-template-columns: 1fr 1fr 1fr; 
     margin-left: 10em;
@@ -1354,11 +1349,6 @@ table {
   }
   
   #konto_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #konto_rediger_main {
     margin-left: 10em;
     margin-right: 10em;
   }
@@ -1433,11 +1423,6 @@ table {
   }
 
   #konto_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #konto_rediger_main {
     margin-left: 10em;
     margin-right: 10em;
   }
