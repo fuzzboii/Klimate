@@ -1060,6 +1060,26 @@ table {
     width: 12em;  height: 7em;
   }
 
+  /* Grid for avansert søk */
+  #sok_main {
+    width: 100%;
+  }
+  #sok_seksjon {
+    max-width: 700px;
+    display: grid;
+    margin: 0;
+    margin-left: auto; margin-right: auto;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+  #brukerRullegardin, #artikkelRullegardin, #arrangementRullegardin {
+    display: none;
+  }
+  .innholdRullegardin {
+    display: block;
+    margin-left: 1em; margin-right: 1em;
+  }
+
   /* Grid for arrangement */
   .arrangement_hovedsection {
     grid-template-columns: 1fr 1fr;
@@ -1233,19 +1253,15 @@ table {
     width: 100%;
   }
   #sok_seksjon {
+    max-width: 1200px;
     display: grid;
-    margin: 0;
-    margin-left: auto; margin-right: auto;
     grid-template-columns: 1fr 1fr 1fr;
-    width: 100%;
-  }
-  .sok_form {
-  }
-  .innholdRullegardin {
-    display: block;
   }
   #brukerRullegardin, #artikkelRullegardin, #arrangementRullegardin {
     display: none;
+  }
+  .innholdRullegardin {
+    display: block;
   }
   
   /* Grid for arrangement */
