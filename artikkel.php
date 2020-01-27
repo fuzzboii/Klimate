@@ -152,7 +152,7 @@ include("instillinger.php");
                     <?php  } else {
 
                         // Del for å vise alle artikler 
-                        $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn
+                        $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn, enavn, fnavn
                                         FROM artikkel, bruker
                                         WHERE bruker=idbruker order by RAND() LIMIT 1";
                     
@@ -179,11 +179,11 @@ include("instillinger.php");
                                 if ($j % 8 == 0) { ?>
                                     <section class="side_artikkel">
                                 <?php $antallSider++; } $avsluttTag++; ?>
-                                <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idevent']) ?>'">
+                                <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
                                     <figure class="infoBoks_artikkel">
 
                                         <?php // Henter bilde til artikkel
-                                        $hentArtBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArt[$j]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $hentArtBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArt[$j]['idartikkel'] . " and eventbilde.bilde = bilder.idbilder";
                                         $stmtArtBilde = $db->prepare($hentArtBilde);
                                         $stmtArtBilde->execute();
                                         $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
