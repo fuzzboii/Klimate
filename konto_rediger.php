@@ -174,7 +174,7 @@ if (isset($_POST['subEndring'])) {
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-    <body onload="kontoRullegardin()">
+    <body onload="kontoRullegardin()" onresize="fiksRullegardin()">
         <article class="innhold">    
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop">
@@ -282,7 +282,7 @@ if (isset($_POST['subEndring'])) {
 
                     <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
                     <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
-                    <section class="innholdRullegardin">
+                    <section id="konto_rediger_pw" class="innholdRullegardin">
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
                             <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" form="konto_rediger_form" autofocus>
