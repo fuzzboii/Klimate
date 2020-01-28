@@ -7,6 +7,13 @@ session_start();
 include("instillinger.php");
 
 //------------------------------//
+// Test om man ser egen profil  //
+//------------------------------//
+if ($_SESSION['idbruker'] == $_GET['bruker']) {
+    $egen = true;
+}
+
+//------------------------------//
 // Henting av data på bruker    //
 //------------------------------//
 
@@ -15,16 +22,25 @@ $hentBrukernavnProfil = "select brukernavn from bruker where idbruker = " . $_GE
 $stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
 $stmtBrukernavnProfil->execute();
 $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
-// Implode. But why? Er det en NULL på slutten av listen som telles?
+// Imploder. But why? Er det en NULL på slutten av listen som telles?
 $brukernavnProfil = implode ("", $brukernavnProfil);
 
-// Henting av navn/tlf/mail //     EVT KUN BRUKERNAVN, AVHENGIG AV BRUKERENS REGISTRERTE INNSTILLINGER
+// Henting av navn/tlf/mail, avhengig av brukerens innstillinger
 $hentPersonaliaProfil = "Select fnavn, enavn, epost, telefonnummer from bruker where idbruker = " . $_GET['bruker'];
 $stmtPersonaliaProfil = $db->prepare($hentPersonaliaProfil);
 $stmtPersonaliaProfil->execute();
 $personaliaProfil = $stmtPersonaliaProfil->fetch(PDO::FETCH_ASSOC);
-// Imploder arrayet med breakpoints
-$personaliaProfil = implode("<br/>\n", $personaliaProfil)."<br/>";
+// Imploder arrayet med linjebrudd
+$personaliaProfil = implode("<br/>\n", $personaliaProfil);
+
+// Henting av interesser
+$hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = "
+                        . $_GET['bruker'] . " and brukerinteresse.interesse=interesse.idinteresse;";
+$stmtInteresseProfil = $db->prepare($hentInteresseProfil);
+$stmtInteresseProfil->execute();
+$interesseProfil = $stmtInteresseProfil->fetch(PDO::FETCH_ASSOC);
+// Imploder med kommaseparering    // WiP ///////////////////////////////////////////////////////////////////
+$interesseProfil = implode(", ", $interesseProfil); // LEGG INN IF-TESTING FØR IMPLODERING
 
 // Henting av beskrivelse
 $hentBeskrivelseProfil = "select beskrivelse from bruker where idbruker = " . $_GET['bruker'];
@@ -32,7 +48,24 @@ $stmtBeskrivelseProfil = $db->prepare($hentBeskrivelseProfil);
 $stmtBeskrivelseProfil->execute();
 $beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
 // Implode. But why?
-$beskrivelseProfil = implode ("", $beskrivelseProfil);
+$beskrivelseProfil = implode("", $beskrivelseProfil);
+
+// Henting av artikler
+$hentArtikkelProfil = "select artnavn from artikkel where bruker = " . $_GET['bruker'];
+$stmtArtikkelProfil = $db->prepare($hentArtikkelProfil);
+$stmtArtikkelProfil->execute();
+$artikkelProfil = $stmtArtikkelProfil->fetch(PDO::FETCH_ASSOC);
+// Imploder med linjebrudd
+$artikkelProfil = implode("<br/>\n", $artikkelProfil);
+
+// Henting av arrangementer
+$hentArrangementProfil = "select eventnavn from event where idbruker = " .$_GET['bruker'];
+$stmtArrangementProfil = $db->prepare($hentArrangementProfil);
+$stmtArrangementProfil->execute();
+$arrangementProfil = $stmtArrangementProfil->fetch(PDO::FETCH_ASSOC);
+// Test med linjebrudd
+$arrangementProfil = implode("<br/>\n", $arrangementProfil);
+
 
 ?>
 
@@ -177,13 +210,16 @@ $beskrivelseProfil = implode ("", $beskrivelseProfil);
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
                 <!-- Personalia, etc -->
                 <h1>Personlig informasjon</h1>
-                    <p> <?php echo $personaliaProfil ?> </p>
+                    <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
                 <h1>Interesser</h1>
+                    <p> <?php echo $interesseProfil ?> </p> <!-- DROPDOWN, -->
                 <h1>Om</h1>
-                    <p> <?php echo $beskrivelseProfil ?> </p>
+                    <p> <?php echo $beskrivelseProfil ?> </p> <!-- REDIGER -->
                 <h1>Artikler</h1>
-                <h1>Kommentarer</h1>
+                    <p> <?php echo $artikkelProfil ?> </p>
                 <h1>Arrangementer</h1>
+                    <p> <?php echo $arrangementProfil ?> </p>
+                <h1>Kommentarer (?)</h1>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
