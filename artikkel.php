@@ -189,7 +189,7 @@ if (isset($_POST['publiserArtikkel'])) {
                                     <?php if(preg_match("/\S/", $artikkel['enavn']) == 0){?>
                                         <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"> Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['brukernavn'])?></span></a>
                                     <?php } else {?> 
-                                        <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'">Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['enavn'] . " " . $artikkel['fnavn'])?></span></a>
+                                        <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'">Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></span></a>
                                     <?php }?>
                                 </section>
                             <?php } ?>
