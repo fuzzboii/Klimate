@@ -376,6 +376,11 @@ footer a {
 .res_artikkel:hover {
 cursor: pointer;
 box-shadow: 0 0 0.1em 0.01em black;
+}
+
+.artikkelForfatter:hover{
+  cursor: pointer;
+  color: rgb(112, 112, 112);
 
 }
 
