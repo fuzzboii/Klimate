@@ -16,6 +16,19 @@ if ($_SESSION['brukernavn']) {
     header("Location: default.php?error=1");
 }
 
+if (isset($_POST['avregistrerMeg'])) {
+    $avregistreringQ = "update bruker set brukertype = 4 where idbruker = '" . $_SESSION['idbruker'] . "'";
+    $avregistreringstmt = $db->prepare($avregistreringQ);
+    $avregistreringstmt->execute();
+    $avregistreringRes = $avregistreringstmt->fetch(PDO::FETCH_ASSOC);
+
+    $antallEndret = $avregistreringstmt->rowCount();
+
+    if($antallEndret != 0) {
+        session_destroy();
+        header('Location: default.php?avregistrert=true');
+    }
+}
 
 
 ?>
@@ -160,20 +173,20 @@ if ($_SESSION['brukernavn']) {
                     <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
                     
                     <button onclick="bekreftAvregistrering()" class="konto_avregistrer" id="konto_avregistrerKnapp">Avregistrering</button>
-                </section> 
 
-                <section id="konto_bekreftAvr">
-                    <section id="konto_bekreftAvrInnhold">
-                        <h2>Avregistrering</h2>
-                        <p>Er du sikker på av du vil avregistrere?</p>
-                        <form method="POST" action="konto.php">
-                            <input type="checkbox" id="konto_checkbox" name="Ja" required>
-                            <p id="konto_checkbox">Ja, jeg er sikker på at jeg vil avregistrere meg selv</p>
-                            <button id="konto_avregistrerKnapp" name="avregistrerMeg">Avregistrer</button>
-                        </form>
-                        <button id="konto_avbrytKnapp" onclick="bekreftAvregistrering()">Avbryt</button>
+                    <section id="konto_bekreftAvr" style="display: none;">
+                        <section id="konto_bekreftAvrInnhold">
+                            <h2>Avregistrering</h2>
+                            <p>Er du sikker på av du vil avregistrere?</p>
+                            <form method="POST" action="konto.php">
+                                <input type="checkbox" id="konto_checkbox" name="Ja" required>
+                                <p id="konto_checkbox">Ja, jeg er sikker på at jeg vil avregistrere meg selv</p>
+                                <button id="konto_avregistrerKnapp" name="avregistrerMeg">Avregistrer</button>
+                            </form>
+                            <button id="konto_avbrytKnapp" onclick="bekreftAvregistrering()">Avbryt</button>
+                        </section>
                     </section>
-                </section>
+                </section> 
             </main>
 
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->

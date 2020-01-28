@@ -131,7 +131,13 @@ function fiksRullegardin() {
 
 // Åpner en bekreftelses-boks for å avregistrere en bruker
 function bekreftAvregistrering() {
-  alert('test');
+  var knapp = document.getElementById('konto_bekreftAvr');
+
+  if (knapp.style.display == 'none') {
+    knapp.style.display = 'block';
+  } else {
+    knapp.style.display = 'none';
+  }
 }
 
 /*-------------------------------------------------------------------------------------------------------*/

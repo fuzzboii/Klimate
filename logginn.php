@@ -53,17 +53,21 @@ if (isset($_POST['submit'])) {
         $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-            $_SESSION['idbruker'] = $resultat['idbruker'];
-            $_SESSION['brukernavn'] = $resultat['brukernavn'];
-            $_SESSION['fornavn'] = $resultat['fnavn'];
-            $_SESSION['etternavn'] = $resultat['enavn'];
-            $_SESSION['epost'] = $resultat['epost'];
-            $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
-            $_SESSION['brukertype'] = $resultat['brukertype'];
-            
-            $_SESSION['feilteller'] = 0;
+            if ($resultat['brukertype'] != 4) {
+                $_SESSION['idbruker'] = $resultat['idbruker'];
+                $_SESSION['brukernavn'] = $resultat['brukernavn'];
+                $_SESSION['fornavn'] = $resultat['fnavn'];
+                $_SESSION['etternavn'] = $resultat['enavn'];
+                $_SESSION['epost'] = $resultat['epost'];
+                $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
+                $_SESSION['brukertype'] = $resultat['brukertype'];
+                
+                $_SESSION['feilteller'] = 0;
 
-            header("Location: backend.php");
+                header("Location: backend.php");
+            } else {
+                header("Location: default.php?error=5");
+            }
         } else {    
             // Øker teller for feilet innlogging med 1
             $_SESSION['feilteller']++;

@@ -153,6 +153,12 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
                 <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
                     <p id="mldFEIL">Du kan ikke se dette området</p>  
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                    <p id="mldFEIL">Denne brukeren er avregistrert</p>  
+
+                <?php } else if(isset($_GET['avregistrert']) && $_GET['avregistrert'] == "true"){ ?>
+                    <p id="mldFEIL">Du har blitt avregistrert</p>  
                 <?php } ?>
 
                 <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
