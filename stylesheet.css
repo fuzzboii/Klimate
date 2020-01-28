@@ -450,8 +450,13 @@ box-shadow: 0 0 0.1em 0.01em black;
 /* Brukeropplysninger */
 #konto_main {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding-top: 4em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  
 }
 
 /* Setter design for brukerinformasjonen som vises i konto */
@@ -1407,8 +1412,32 @@ table {
   .arrangement_BildeBoks {
     height: 12em;
   }
+  #default_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #sok_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
 
   #backend_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_rediger_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #arrangement_main {
     margin-left: 10em;
     margin-right: 10em;
   }
@@ -1442,12 +1471,40 @@ table {
     grid-template-columns: 1fr 1fr 1fr; 
   
   }
+  
   #backend_main {
     column-count: 3;
     margin-left: 10em;
     margin-right: 10em;
   }
 
+  #sok_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #konto_rediger_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #arrangement_main {
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  #artikkel_main {
+    grid-template-columns: 1fr 1fr 1fr; 
+    margin-left: 10em;
+    margin-right: 10em;
+  }
+
+  
   #bgcont2 {
     break-before: column;
   }
