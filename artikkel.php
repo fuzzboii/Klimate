@@ -178,7 +178,7 @@ include("instillinger.php");
                             <?php for ($j = 0; $j < count($resArt); $j++) {
                                 // Hvis rest av $j delt på 8 er 0, start section (Ny side)
                                 if ($j % 8 == 0) { ?>
-                                    <section class="side_artikkel">
+                                <section class="side_artikkel">
                                 <?php $antallSider++; } $avsluttTag++; ?>
                                 <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
                                     <figure class="infoBoks_artikkel">
@@ -235,7 +235,6 @@ include("instillinger.php");
                             <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                         </section>
                     <?php } ?>
-                </article>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
