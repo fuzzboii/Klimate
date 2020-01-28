@@ -234,6 +234,12 @@ include("instillinger.php");
                             <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
                             <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                         </section>
+                    <?php } else if (isset($_GET['nyartikkel']) && $_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 3 { ?>      
+            
+                        <header class="artikkel_header" onclick="lukkHamburgerMeny()">
+                            <h1>Artikler</h1>
+                        </header>
+
                     <?php } ?>
             </main>
             
