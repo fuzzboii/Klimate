@@ -149,7 +149,12 @@ include("instillinger.php");
                             <h1 class="artikkel_header"><?php echo($artikkel['artnavn'])?></h1>
                             <p><?php echo($artikkel['artingress'])?></p>
                             <p><?php echo($artikkel['arttekst'])?></p>
-                            <p>Forfatter: <?php echo($artikkel['enavn'] . ", " . $artikkel['fnavn'])?></p>
+
+                            <?php if(preg_match("/\S/", $artikkel['enavn']) == 0){?>
+                                <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"> Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['brukernavn'])?></span></p>
+                            <?php } else {?> 
+                                <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'">Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['enavn'] . " " . $artikkel['fnavn'])?></span></p>
+                            <?php }?>
                         <?php } ?>
                     <?php  } else {
                         // -------------------- Artikler som vises på artikkel.php forside----------------
