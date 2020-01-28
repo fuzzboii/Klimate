@@ -203,7 +203,7 @@ include("instillinger.php");
                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                     <h1>Arrangementer</h1>
                 </header>
-
+                <main id="arrangement_main" onclick="lukkHamburgerMeny()">
                 <?php if ($resAntall > 0 ) { ?>
                     <?php for ($j = 0; $j < count($resArr); $j++) {
                         // Hvis rest av $j delt på 8 er 0, start section (Ny side)

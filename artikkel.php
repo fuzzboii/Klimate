@@ -6,6 +6,40 @@ session_start();
 //------------------------------//
 include("instillinger.php");
 
+if (isset($_POST['publiserArtikkel'])) {
+    if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel'] > 0)) {
+        if (strlen($_POST['ingress']) <= 255 || $_POST['ingress'] == "") {
+            if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['tittel'] > 0)) {
+                // Tar utgangspunkt i at bruker ikke har lastet opp bilde
+                $harBilde = false;
+
+                // Del for filopplastning
+                if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+                    // Sjekker om navnet er tomt
+                    if (empty($_FILES['bilde']['name'])) {
+                        // Sjekker om navnet er for langt, 123 tegn for å få plass til '.jpeg' som lengste filtype
+                        if (strlen($_FILES['bilde']['name']) > 123) {
+                            // Tillater maks 15MB
+                            if ($_FILES['bilde']['size'] > 15728640) {
+                                // Lagringsplass hentes fra innstillinger
+                                if (move_uploaded_file($_FILES['bilde']['tmp_name'], $lagringsplass . $_FILES['bilde']['name'])) {
+                                    $harbilde = true;
+                                } // Filen ble ikke lastet opp
+                            } // Filen er for stor
+                        } // Filnavnet er for langt
+                    } // Filnavnet er tomt
+                } // Filen ble ikke mottatt
+                
+                if ($harbilde == true) {
+                    // Legger til bildet i databasen, dette kan være sin egne spørring
+                }
+
+
+            } // Innholdet er for langt
+        } // Ingress er for langt
+    } // Tittel er for lang
+}
+
 
 ?>
 
@@ -166,8 +200,29 @@ include("instillinger.php");
     
                             </main>
                         <?php } ?>
+                    <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      
+            
+                        <header class="artikkel_header" onclick="lukkHamburgerMeny()">
+                            <h1>Ny artikkel</h1>
+                        </header>
 
-                    <?php  } else {
+                        <main id="artikkel_main" onclick="lukkHamburgerMeny()">
+
+                        <article id="artikkel_articleNy">
+                            <form method="POST" action="artikkel.php">
+                                <h2>Tittel</h2>
+                                <input type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
+                                <h2>Ingress</h2>
+                                <textarea maxlength="255" name="ingress" rows="3" cols="35" placeholder="Skriv inn inngress, la være blank for å ta 255 tegn fra innhold"></textarea>
+                                <h2>Innhold</h2>
+                                <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required></textarea>
+                                <h2>Bilde</h2>
+                                <input type="file" name="bilde" accept=".jpg, .jpeg, .png">
+                                <input id="artikkel_submitNy" type="submit" name="publiserArtikkel" value="Opprett artikkel">
+                            </form>
+                        </article>
+
+                    <?php } else {
                         // -------------------- Artikler som vises på artikkel.php forside----------------
                     
                         // Del for å vise alle artikler 
@@ -251,7 +306,7 @@ include("instillinger.php");
                             <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
                             <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                         </section>
-                    <?php } ?>
+                    <?php }  ?>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->

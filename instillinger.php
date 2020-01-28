@@ -47,6 +47,9 @@ class mysqlPDO extends PDO {
 // Saltet
 $salt = "IT2_2020"; 
 
+// Lagringsplass for bilder opplastet av brukere
+$lagringsplass = "/bilder/opplastet/";
+
 
 // Prøver å koble til databasen
 try {
