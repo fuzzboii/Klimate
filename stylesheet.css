@@ -389,6 +389,19 @@ footer a {
 
 }
 
+.Artikkel_innhold {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.ForfatterInfo {
+  font-family: Helvetica, Arial, sans-serif;
+}
+.ForfatterInfo p{
+  display: inline;
+  font-weight: bold;
+}
+
+
 /*-----------------------------------------------------------------------------*/
 /* Style for BACKEND/Innloggede brukere */
 
@@ -491,7 +504,7 @@ td, th  {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 0.8em;
   text-align: left;
-  padding-right: 0.8em;
+  padding-right: 0.4em;
   padding-bottom: 0.8em;
   
 }
@@ -1340,6 +1353,7 @@ table {
       color: rgb(112, 112, 112);
     
     }
+
   /* artikkel overskrift */
   .artikkel_overskrift {
     font-size: 3em;
