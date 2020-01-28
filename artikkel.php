@@ -6,6 +6,28 @@ session_start();
 //------------------------------//
 include("instillinger.php");
 
+if (isset($_POST['publiserArtikkel'])) {
+    if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel'] > 0)) {
+        if (strlen($_POST['ingress']) <= 255 || $_POST['ingress'] == "") {
+            if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['tittel'] > 0)) {
+
+                // Del for filopplastning
+                if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+                    if (empty($_FILES['bilde']['name']))
+                        // Sjekker om navnet er for langt, 123 tegn for å få plass til '.jpeg' som lengste filtype
+                        if (strlen($_FILES['bilde']['name']) > 123) {
+                            // Lagringsplass hentes fra innstillinger
+                            if (move_uploaded_file($_FILES['bilde']['tmp_name'], $lagringsplass)) {
+
+                            } // Filen ble ikke lastet opp
+                        } // Filnavnet er for langt
+                    } // Filnavnet er tomt
+                } // Filen er mottatt 
+            } // Innholdet er for langt
+        } // Ingress er for langt
+    } // Tittel er for lang
+}
+
 
 ?>
 
@@ -156,7 +178,7 @@ include("instillinger.php");
                                 <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'">Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['enavn'] . " " . $artikkel['fnavn'])?></span></p>
                             <?php }?>
                         <?php } ?>
-                    <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 3)) { ?>      
+                    <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      
             
                         <header class="artikkel_header" onclick="lukkHamburgerMeny()">
                             <h1>Ny artikkel</h1>
@@ -174,7 +196,7 @@ include("instillinger.php");
                                 <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required></textarea>
                                 <h2>Bilde</h2>
                                 <input type="file" name="bilde" accept=".jpg, .jpeg, .png">
-                                <input id="artikkel_submitNy" type="submit" value="Opprett artikkel">
+                                <input id="artikkel_submitNy" type="submit" name="publiserArtikkel" value="Opprett artikkel">
                             </form>
                         </article>
 
