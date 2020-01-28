@@ -149,9 +149,9 @@ $beskrivelseProfil = implode ("", $beskrivelseProfil);
             <!-- Kan ikke legge denne direkte i body -->
             <header class="profil_header" onclick="lukkHamburgerMeny()">
                 <!-- Bilde av brukeren -->
-                <!-- ENDRE SQL-SETNINGEN TIL Å SØKE PÅ IDBRUKER I URL. FLYTT DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
+                <!-- FLYTT SØK-DELEN AV DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
                 <?php
-                $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+                $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_GET['bruker'] . " and idbruker = bruker and bilde = idbilder";
                 $stmtProfilbilde = $db->prepare($hentProfilbilde);
                 $stmtProfilbilde->execute();
                 $profilbilde = $stmtProfilbilde->fetch(PDO::FETCH_ASSOC);
@@ -159,17 +159,17 @@ $beskrivelseProfil = implode ("", $beskrivelseProfil);
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallProfilbilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til brukeren viser vi det -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
-                        <img src="bilder/brukerbilder/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
+                    <a class="bildeKontroll" tabindex="3">
+                        <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
                     </a>
     
                 <?php } else { ?>
                     <!-- Hvis brukeren ikke har noe profilbilde, bruk standard profilbilde -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                    <a class="bildeKontroll" tabindex="3">
                         <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                     </a>
                 <?php } ?>
-                <!-- Vis brukerens (bruker-)navn -->
+                <!-- Vis brukernavn -->
                 <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
             </header>
 
