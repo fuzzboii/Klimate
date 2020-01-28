@@ -13,7 +13,7 @@ if (isset($_POST['publiserArtikkel'])) {
 
                 // Del for filopplastning
                 if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
-                    if (empty($_FILES['bilde']['name']))
+                    if (empty($_FILES['bilde']['name'])) {
                         // Sjekker om navnet er for langt, 123 tegn for å få plass til '.jpeg' som lengste filtype
                         if (strlen($_FILES['bilde']['name']) > 123) {
                             // Lagringsplass hentes fra innstillinger
