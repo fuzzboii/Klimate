@@ -205,7 +205,7 @@ include("instillinger.php");
                                     $stmtHentPb->execute();
                                     $brukerPB = $stmtHentPb->fetch(PDO::FETCH_ASSOC);
                                     ?>
-                                    <img class="navn_artikkel" src="bilder/opplastet/<?php echo($brukerPB["hvor"])?>">
+                                    <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB["hvor"])?>">
                                     <?php 
                                     // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
                                     if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
