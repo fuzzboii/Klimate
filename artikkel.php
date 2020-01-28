@@ -215,9 +215,9 @@ if (isset($_POST['publiserArtikkel'])) {
                                     <h1 class="artikkel_overskrift"><?php echo($artikkel['artnavn'])?></h1>
                                     <p><?php echo($artikkel['artingress'])?></p>
                                     <p><?php echo($artikkel['arttekst'])?></p>
-                                    <button id="tilbKnappArtikkel" onClick="location.href='artikkel.php'">Forrige</button>
                                 </section>
                                 
+                                <button id="tilbKnappArtikkel" onClick="location.href='artikkel.php'">Tilbake</button>
                                 
                             </main>
                         <?php } ?>
