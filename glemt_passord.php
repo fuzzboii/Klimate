@@ -2,9 +2,9 @@
 session_start();
 
 //------------------------------//
-// Instillinger, faste variable //
+// Innstillinger, faste variable //
 //------------------------------//
-include("instillinger.php");
+include("innstillinger.php");
 
 
 // Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
