@@ -114,6 +114,8 @@ function kontoRullegardin() {
       });
   }
 }
+
+// For å sikre riktig visning når bruker endrer størrelsen på vinduet
 function fiksRullegardin() {
   // Henter bredde 
   var bredde = window.innerWidth;
@@ -126,6 +128,12 @@ function fiksRullegardin() {
     document.getElementById("konto_rediger_pw").style.display = "block";
   }
 }
+
+// Åpner en bekreftelses-boks for å avregistrere en bruker
+function bekreftAvregistrering() {
+  alert('test');
+}
+
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 

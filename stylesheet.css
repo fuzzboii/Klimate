@@ -437,9 +437,6 @@ footer a {
 /* Brukeropplysninger */
 #konto_main {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-  margin-left: 1.5em;
-  margin-right: 1.5em;
-  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
@@ -463,7 +460,7 @@ footer a {
 .brukeropplysninger_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 1.1em;
-  max-width: 250px
+  max-width: 250px;
 
 }
 
@@ -475,7 +472,68 @@ td, th  {
   padding-right: 0.8em;
   padding-bottom: 0.8em;
   
+}
+
+#konto_bekreftAvr {
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border: 2px solid red;
+  background-color: white;
+  z-index: 1; /* Sitter over det andre innholdet */
+  position: fixed;
+  top: 0; 
+  margin-top: 6em;
+  max-width: 345px;
+  margin-left: auto; margin-right: auto;
+}
+
+#konto_bekreftAvrInnhold {
+  margin-left: 0.4em; margin-right: 0.4em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+#konto_bekreftAvrInnhold h2 {
+  margin-top: 0.2em;
+}
+
+#konto_avbrytKnapp {
+  background-color: grey; /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 30%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.8em; /* Font-størrelse */
+  margin-top: 1em;
+}
+
+#konto_checkbox {
+  display: inline;
+}
+
+#konto_checkbox input {
+  width: 3em;
+}
+
+#konto_avregistrerKnapp {
+  display: block;
+  margin-left: auto; margin-right: auto;
   
+  background-color: red; /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.8em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 70%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 table {
@@ -1321,11 +1379,6 @@ table {
     margin-left: 10em;
     margin-right: 10em;
   }
-  
-  #konto_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
 
   #artikkel_main {
     grid-template-columns: 1fr 1fr 1fr; 
@@ -1354,11 +1407,6 @@ table {
   }
   #backend_main {
     column-count: 3;
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-  
-  #konto_main {
     margin-left: 10em;
     margin-right: 10em;
   }
@@ -1428,11 +1476,6 @@ table {
 
   #artikkel_main {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #konto_main {
     margin-left: 10em;
     margin-right: 10em;
   }
