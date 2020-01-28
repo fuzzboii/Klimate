@@ -4,7 +4,7 @@ session_start();
 //------------------------------//
 // Instillinger, faste variable //
 //------------------------------//
-include("instillinger.php");
+include("innstillinger.php");
 
 
 

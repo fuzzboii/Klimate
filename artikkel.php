@@ -2,43 +2,55 @@
 session_start();
 
 //------------------------------//
-// Instillinger, faste variable //
+// Innstillinger, faste variable //
 //------------------------------//
-include("instillinger.php");
+include("innstillinger.php");
 
-if (isset($_POST['publiserArtikkel'])) {
+var_dump($_FILES);
+var_dump($_POST);
+
+/*if (isset($_POST['publiserArtikkel'])) {
     if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel'] > 0)) {
         if (strlen($_POST['ingress']) <= 255 || $_POST['ingress'] == "") {
             if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['tittel'] > 0)) {
                 // Tar utgangspunkt i at bruker ikke har lastet opp bilde
                 $harBilde = false;
 
+                $tittel = filter_var($_POST['tittel'], FILTER_SANITIZE_STRING);
+                if ($_POST['ingress'] != "") {
+                    $ingress = filter_var($_POST['ingress'], FILTER_SANITIZE_STRING);
+                } else {
+                    $ingress = filter_var(substr($_POST['innhold'], 0, 255), FILTER_SANITIZE_STRING);
+                }
+                $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
+
+                $nyArtikkelQ = "insert into artikkel(artnavn, artingress, arttekst, bruker) values('" . $tittel . "', '" . $ingress . "', '" . $innhold . "', '" . $_SESSION['idbruker'] . "')";
+                $nyArtikkelSTMT = $db->prepare($nyArtikkelQ);
+                $nyArtikkelSTMT->execute();
+                $artikkelid = $db->lastInsertId();
+
                 // Del for filopplastning
                 if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
-                    // Sjekker om navnet er tomt
-                    if (empty($_FILES['bilde']['name'])) {
-                        // Sjekker om navnet er for langt, 123 tegn for å få plass til '.jpeg' som lengste filtype
-                        if (strlen($_FILES['bilde']['name']) > 123) {
-                            // Tillater maks 15MB
-                            if ($_FILES['bilde']['size'] > 15728640) {
-                                // Lagringsplass hentes fra innstillinger
-                                if (move_uploaded_file($_FILES['bilde']['tmp_name'], $lagringsplass . $_FILES['bilde']['name'])) {
-                                    $harbilde = true;
-                                } // Filen ble ikke lastet opp
-                            } // Filen er for stor
-                        } // Filnavnet er for langt
-                    } // Filnavnet er tomt
+                    $bildenavn = "artikkel" . $artikkelid;
+                    // Tillater maks 2MB (Standard i PHP.ini, går utifra at alt kjører standardinstillinger)
+                    if ($_FILES['bilde']['size'] > 2097152‬) {
+                        // Lagringsplass hentes fra innstillinger
+                        if (move_uploaded_file($_FILES['bilde']['tmp_name'], $lagringsplass . $bildenavn)) {
+                            $harbilde = true;
+                        } // Filen ble ikke lastet opp
+                    } // Filen er for stor
                 } // Filen ble ikke mottatt
                 
                 if ($harbilde == true) {
                     // Legger til bildet i databasen, dette kan være sin egne spørring
+                    $nyArtikkelQBilde = "insert into bilder(hvor) values('" . $
                 }
 
 
             } // Innholdet er for langt
         } // Ingress er for langt
     } // Tittel er for lang
-}
+}*/
 
 
 ?>
@@ -207,7 +219,7 @@ if (isset($_POST['publiserArtikkel'])) {
                                 <h2>Innhold</h2>
                                 <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required></textarea>
                                 <h2>Bilde</h2>
-                                <input type="file" name="bilde" accept=".jpg, .jpeg, .png">
+                                <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
                                 <input id="artikkel_submitNy" type="submit" name="publiserArtikkel" value="Opprett artikkel">
                             </form>
                         </article>
