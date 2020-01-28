@@ -156,7 +156,19 @@ include("instillinger.php");
                                 <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'">Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['enavn'] . " " . $artikkel['fnavn'])?></span></p>
                             <?php }?>
                         <?php } ?>
-                    <?php  } else {
+                    <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 3)) { ?>      
+            
+                        <header class="artikkel_header" onclick="lukkHamburgerMeny()">
+                            <h1>Ny artikkel</h1>
+                        </header>
+
+                        <main id="artikkel_main" onclick="lukkHamburgerMeny()">
+
+                        <article id="artikkel_articleNy">
+
+                        </article>
+
+                    <?php } else {
                         // -------------------- Artikler som vises på artikkel.php forside----------------
                     
                         // Del for å vise alle artikler 
@@ -240,13 +252,7 @@ include("instillinger.php");
                             <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
                             <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                         </section>
-                    <?php } else if (isset($_GET['nyartikkel']) && $_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 3 { ?>      
-            
-                        <header class="artikkel_header" onclick="lukkHamburgerMeny()">
-                            <h1>Artikler</h1>
-                        </header>
-
-                    <?php } ?>
+                    <?php }  ?>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
