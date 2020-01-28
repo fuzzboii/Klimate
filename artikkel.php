@@ -117,7 +117,7 @@ include("instillinger.php");
             </section>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main id="artikkel_main" onclick="lukkHamburgerMeny()">
+            
                     <?php if(isset($_GET['artikkel'])){
                         // Henter artikkelen bruker ønsker å se
                         $hent = "select * from artikkel, bruker where bruker=idbruker and idartikkel = " . $_GET['artikkel'];
@@ -178,6 +178,7 @@ include("instillinger.php");
                         <header class="artikkel_header" onclick="lukkHamburgerMeny()">
                             <h1>Artikler</h1>
                         </header>
+                        <main id="artikkel_main" onclick="lukkHamburgerMeny()">
                           
                         <?php if ($resAntall > 0 ) { ?>
                             <?php for ($j = 0; $j < count($resArt); $j++) {
