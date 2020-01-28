@@ -291,17 +291,27 @@ footer a {
 
 /*-----------------------------------------------------------------------------*/
 /* Style for ARTIKKEL */
-.artikkel_header {
+
+#artikkel_main {
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   padding-top: 4em;
-    
-  text-align: center; /* Sentrerer h1 */
-  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
-  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
-  text-transform: uppercase; /* Transformerer teksten til UCASE */
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
+.artikkel_header {
+  padding-top: 6em;
+  padding-bottom: 1em;
+  text-align: center;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+   
 }
 
 .artikkel_header h1 {
-  font-size: 1em;
+  font-size: 1.5em;
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
@@ -361,13 +371,6 @@ footer a {
   height: 8em;
   object-fit: cover;
   box-shadow: 0 0 0.1em 0.01em black;
-}
-.artikkel_header {
-  padding-top: 4em;
-  text-align: center; /* Sentrerer h1 */
-  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
-  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
-  text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 
 .res_artikkel:hover {
