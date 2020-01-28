@@ -6,13 +6,11 @@ session_start();
 //------------------------------//
 include("innstillinger.php");
 
-var_dump($_FILES);
-var_dump($_POST);
 
-/*if (isset($_POST['publiserArtikkel'])) {
-    if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel'] > 0)) {
+if (isset($_POST['publiserArtikkel'])) {
+    if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel']) > 0) {
         if (strlen($_POST['ingress']) <= 255 || $_POST['ingress'] == "") {
-            if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['tittel'] > 0)) {
+            if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['tittel']) > 0) {
                 // Tar utgangspunkt i at bruker ikke har lastet opp bilde
                 $harBilde = false;
 
@@ -23,34 +21,41 @@ var_dump($_POST);
                     $ingress = filter_var(substr($_POST['innhold'], 0, 255), FILTER_SANITIZE_STRING);
                 }
                 $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
-
+                
                 $nyArtikkelQ = "insert into artikkel(artnavn, artingress, arttekst, bruker) values('" . $tittel . "', '" . $ingress . "', '" . $innhold . "', '" . $_SESSION['idbruker'] . "')";
                 $nyArtikkelSTMT = $db->prepare($nyArtikkelQ);
                 $nyArtikkelSTMT->execute();
                 $artikkelid = $db->lastInsertId();
-
+                
                 // Del for filopplastning
                 if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
-                    $bildenavn = "artikkel" . $artikkelid;
-                    // Tillater maks 2MB (Standard i PHP.ini, går utifra at alt kjører standardinstillinger)
-                    if ($_FILES['bilde']['size'] > 2097152‬) {
-                        // Lagringsplass hentes fra innstillinger
-                        if (move_uploaded_file($_FILES['bilde']['tmp_name'], $lagringsplass . $bildenavn)) {
-                            $harbilde = true;
-                        } // Filen ble ikke lastet opp
-                    } // Filen er for stor
-                } // Filen ble ikke mottatt
-                
+                    $navn = "artikkel" . $artikkelid;
+                    $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
+                    $bildenavn = $navn . $filtype;
+                    echo($bildenavn);
+                    if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
+                        $harbilde = true;
+                    } // Filen ble ikke lastet opp
+                }
                 if ($harbilde == true) {
                     // Legger til bildet i databasen, dette kan være sin egne spørring
-                    $nyArtikkelQBilde = "insert into bilder(hvor) values('" . $
+                    $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+                    $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+                    $nyttBildeSTMT->execute();
+                    $bildeid = $db->lastInsertId();
+
+                    $nyKoblingQ = "insert into artikkelbilde(idartikkel, idbilde) values('" . $artikkelid . "', '" . $bildeid . "')";
+                    $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+                    $nyKoblingSTMT->execute();
                 }
+
+                header('Location: artikkel.php?artikkel=' . $artikkelid);
 
 
             } // Innholdet er for langt
         } // Ingress er for langt
     } // Tittel er for lang
-}*/
+}
 
 
 ?>
@@ -221,7 +226,7 @@ var_dump($_POST);
                         <main id="artikkel_main" onclick="lukkHamburgerMeny()">
 
                         <article id="artikkel_articleNy">
-                            <form method="POST" action="artikkel.php">
+                            <form method="POST" action="artikkel.php" enctype="multipart/form-data">
                                 <h2>Tittel</h2>
                                 <input type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
                                 <h2>Ingress</h2>
@@ -257,6 +262,8 @@ var_dump($_POST);
                             <h1>Artikler</h1>
                         </header>
                         <main id="artikkel_main" onclick="lukkHamburgerMeny()">
+
+                        <a href="artikkel.php?nyartikkel">Trykk på meg for ny artikkel</a>
                           
                         <?php if ($resAntall > 0 ) { ?>
                             <?php for ($j = 0; $j < count($resArt); $j++) {
