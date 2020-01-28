@@ -1530,7 +1530,7 @@ table {
     font-size: 2em;
   }
   .side_artikkel {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
 
