@@ -165,7 +165,17 @@ include("instillinger.php");
                         <main id="artikkel_main" onclick="lukkHamburgerMeny()">
 
                         <article id="artikkel_articleNy">
-
+                            <form method="POST" action="artikkel.php">
+                                <h2>Tittel</h2>
+                                <input type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
+                                <h2>Ingress</h2>
+                                <textarea maxlength="255" name="ingress" rows="3" cols="35" placeholder="Skriv inn inngress, la være blank for å ta 255 tegn fra innhold"></textarea>
+                                <h2>Innhold</h2>
+                                <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required></textarea>
+                                <h2>Bilde</h2>
+                                <input type="file" name="bilde" accept=".jpg, .jpeg, .png">
+                                <input id="artikkel_submitNy" type="submit" value="Opprett artikkel">
+                            </form>
                         </article>
 
                     <?php } else {
