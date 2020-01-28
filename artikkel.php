@@ -187,9 +187,9 @@ if (isset($_POST['publiserArtikkel'])) {
                                 <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">
                                 <section>
                                     <?php if(preg_match("/\S/", $artikkel['enavn']) == 0){?>
-                                        <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"> Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['brukernavn'])?></span></a>
+                                        <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"> Skrevet av <?php echo($artikkel['brukernavn'])?></a>
                                     <?php } else {?> 
-                                        <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'">Skrevet av <span style="text-decoration: underline;"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></span></a>
+                                        <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'">Skrevet av <?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
                                     <?php }?>
                                 </section>
                             <?php } ?>
