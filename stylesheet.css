@@ -351,6 +351,13 @@ footer a {
   height: 1em;
 }
 
+.navn_artikkel_bilde {
+  float: left;
+  height: 1em;
+  padding-right: 0.3em;
+
+}
+
 .BildeBoks_artikkel {
   height: 8em;
   object-fit: cover;
@@ -364,10 +371,7 @@ footer a {
   text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 
-.navn_artikkel {
-  /* Gir blad-form avrunding på profilbilde i artikkel */
-  border-radius: 60% 10%;
-}
+
 
 
 
