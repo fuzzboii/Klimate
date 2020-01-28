@@ -303,12 +303,20 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
+
 .artikkel_header {
-  padding-top: 6em;
+  padding-top: 1em;
   padding-bottom: 1em;
   text-align: center;
   font-family: Inter, Helvetica, Arial, sans-serif;
    
+}
+.artikkel_overskrift {
+  padding-top: 0em;
+  padding-bottom: 0em;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  font-size: 1.3em;
+
 }
 
 .artikkel_header h1 {
@@ -374,17 +382,12 @@ footer a {
   box-shadow: 0 0 0.1em 0.01em black;
 }
 
-.res_artikkel:hover {
-cursor: pointer;
-box-shadow: 0 0 0.1em 0.01em black;
-}
-
-.artikkelForfatter:hover{
-  cursor: pointer;
-  color: rgb(112, 112, 112);
+.bildeArtikkel {
+  max-width: 100%;
+  object-fit: cover;
+  box-shadow: 0 0 0.1em 0.01em black;
 
 }
-
 
 /*-----------------------------------------------------------------------------*/
 /* Style for BACKEND/Innloggede brukere */
@@ -1115,6 +1118,10 @@ table {
   #arrangement_headerMBilde {
     text-align: center;
   }
+  /* artikkel overskrift */
+  .artikkel_overskrift {
+    font-size: 2em;
+  }
 
 }
 
@@ -1230,6 +1237,10 @@ table {
   .brukerinformasjon_rediger .lenke_knapp {
     grid-column: 1/span 2;
   }
+  /* artikkel overskrift */
+  .artikkel_overskrift {
+    font-size: 3em;
+  }
 
 }
 
@@ -1316,6 +1327,22 @@ table {
     width: 25%;
     left: 75%;
     max-height: 45%;
+  }
+  /* Hover for artikkel  */
+  .res_artikkel:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0.1em 0.05em black;
+    transition: box-shadow 0.3s;
+    }
+    
+  .artikkelForfatter:hover{
+      cursor: pointer;
+      color: rgb(112, 112, 112);
+    
+    }
+  /* artikkel overskrift */
+  .artikkel_overskrift {
+    font-size: 3em;
   }
 
   /* Hover-instillinger for søk*/
@@ -1455,7 +1482,10 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
-
+  /* artikkel overskrift */
+  .artikkel_overskrift {
+    font-size: 2em;
+  }
   .side_artikkel {
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -1556,6 +1586,10 @@ table {
   .arrangement_BildeBoks {
     height: 13em;
   }
+  /* artikkel overskrift */
+  .artikkel_overskrift {
+    font-size: 3em;
+  }
 }
 
 /* Stor skjerm, 1440p */
@@ -1591,6 +1625,10 @@ table {
   }
   .BildeBoksBr_sok {
     width: 12em;
+  }
+  /* artikkel overskrift */
+  .artikkel_overskrift {
+    font-size: 3em;
   }
 }
 
