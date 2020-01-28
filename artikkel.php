@@ -10,19 +10,31 @@ if (isset($_POST['publiserArtikkel'])) {
     if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel'] > 0)) {
         if (strlen($_POST['ingress']) <= 255 || $_POST['ingress'] == "") {
             if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['tittel'] > 0)) {
+                // Tar utgangspunkt i at bruker ikke har lastet opp bilde
+                $harBilde = false;
 
                 // Del for filopplastning
                 if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+                    // Sjekker om navnet er tomt
                     if (empty($_FILES['bilde']['name'])) {
                         // Sjekker om navnet er for langt, 123 tegn for å få plass til '.jpeg' som lengste filtype
                         if (strlen($_FILES['bilde']['name']) > 123) {
-                            // Lagringsplass hentes fra innstillinger
-                            if (move_uploaded_file($_FILES['bilde']['tmp_name'], $lagringsplass)) {
-
-                            } // Filen ble ikke lastet opp
+                            // Tillater maks 15MB
+                            if ($_FILES['bilde']['size'] > 15728640) {
+                                // Lagringsplass hentes fra innstillinger
+                                if (move_uploaded_file($_FILES['bilde']['tmp_name'], $lagringsplass . $_FILES['bilde']['name'])) {
+                                    $harbilde = true;
+                                } // Filen ble ikke lastet opp
+                            } // Filen er for stor
                         } // Filnavnet er for langt
                     } // Filnavnet er tomt
-                } // Filen er mottatt 
+                } // Filen ble ikke mottatt
+                
+                if ($harbilde == true) {
+                    // Legger til bildet i databasen, dette kan være sin egne spørring
+                }
+
+
             } // Innholdet er for langt
         } // Ingress er for langt
     } // Tittel er for lang
