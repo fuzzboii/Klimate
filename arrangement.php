@@ -114,7 +114,7 @@ include("instillinger.php");
         </section>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-        <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
+       
             <?php if(isset($_GET['arrangement'])){
                 // Henter arrangementet bruker ønsker å se
                 $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
@@ -128,6 +128,7 @@ include("instillinger.php");
                     <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                         <h1>Arrangement ikke funnet</h1>
                     </header>
+                    <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
                     <section id="arrangement_bunnSection">
                         <button onclick="location.href='arrangement.php'" class="lenke_knapp">Tilbake til arrangementer</button>  
                     </section>
@@ -149,10 +150,12 @@ include("instillinger.php");
                             <header id="arrangement_headerMBilde" onclick="lukkHamburgerMeny()">
                                 <h1><?php echo($arrangement['eventnavn'])?></h1>
                             </header>
+                            <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
                         <?php } else { ?>
                             <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                                 <h1><?php echo($arrangement['eventnavn'])?></h1>
                             </header>
+                            <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
                         <?php } ?>
                         <section id="arrangement_omEvent">
                             <h3>Om arrangementet</h3>
