@@ -374,7 +374,7 @@ footer a {
 .res_artikkel p {
   margin: 0;
   font-size: 0.7em;
-  padding-top: 0.1em; padding-bottom: 0.4em;
+  padding-top: 0.3em; padding-bottom: 0.4em;
   font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -387,6 +387,7 @@ footer a {
   float: left;
   height: 1em;
   padding-right: 0.3em;
+  padding-top: 0.1em;
 
 }
 
