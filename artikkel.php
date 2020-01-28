@@ -14,6 +14,7 @@ if (isset($_POST['publiserArtikkel'])) {
                 // Tar utgangspunkt i at bruker ikke har lastet opp bilde
                 $harBilde = false;
 
+                // Sanitiserer innholdet før det blir lagt i databasen
                 $tittel = filter_var($_POST['tittel'], FILTER_SANITIZE_STRING);
                 if ($_POST['ingress'] != "") {
                     $ingress = filter_var($_POST['ingress'], FILTER_SANITIZE_STRING);
@@ -22,6 +23,7 @@ if (isset($_POST['publiserArtikkel'])) {
                 }
                 $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
                 
+                // Spørringen som oppretter artikkelen
                 $nyArtikkelQ = "insert into artikkel(artnavn, artingress, arttekst, bruker) values('" . $tittel . "', '" . $ingress . "', '" . $innhold . "', '" . $_SESSION['idbruker'] . "')";
                 $nyArtikkelSTMT = $db->prepare($nyArtikkelQ);
                 $nyArtikkelSTMT->execute();
@@ -29,21 +31,28 @@ if (isset($_POST['publiserArtikkel'])) {
                 
                 // Del for filopplastning
                 if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+                    // Kombinerer artikkel med den siste artikkelid'en
                     $navn = "artikkel" . $artikkelid;
+                    // Henter filtypen
                     $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
+                    // Kombinerer navnet med filtypen
                     $bildenavn = $navn . $filtype;
-                    echo($bildenavn);
+                    // Selve prosessen som flytter bildet til bestemt lagringsplass
                     if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
                         $harbilde = true;
-                    } // Filen ble ikke lastet opp
+                    } else {
+                        // Feilmelding her
+                    }
                 }
                 if ($harbilde == true) {
                     // Legger til bildet i databasen, dette kan være sin egne spørring
                     $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
                     $nyttBildeSTMT = $db->prepare($nyttBildeQ);
                     $nyttBildeSTMT->execute();
+                    // Returnerer siste bildeid'en
                     $bildeid = $db->lastInsertId();
 
+                    // Spørringen som lager koblingen mellom bilder og artikkel
                     $nyKoblingQ = "insert into artikkelbilde(idartikkel, idbilde) values('" . $artikkelid . "', '" . $bildeid . "')";
                     $nyKoblingSTMT = $db->prepare($nyKoblingQ);
                     $nyKoblingSTMT->execute();
