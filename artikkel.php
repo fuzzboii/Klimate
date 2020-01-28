@@ -209,8 +209,16 @@ if (isset($_POST['publiserArtikkel'])) {
                             <!-- rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen -->
                             <?php if ($antallBilderFunnet != 0) { ?>
                                 <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
-                                
-                                <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">
+                                <section class="bildeArtikkelSeksjon">
+                                    <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
+
+                                </section>
+                            <?php } ?>
+                                <section class="Artikkel_innhold">
+                                    <h1 class="artikkel_overskrift"><?php echo($artikkel['artnavn'])?></h1>
+                                    <p><?php echo($artikkel['artingress'])?></p>
+                                    <p><?php echo($artikkel['arttekst'])?></p>
+                                </section>
                                 <section class="ForfatterInfo">
                                     <?php if(preg_match("/\S/", $artikkel['enavn']) == 0){?>
                                         <p>Skrevet av</p>
@@ -219,13 +227,6 @@ if (isset($_POST['publiserArtikkel'])) {
                                         <p>Skrevet av</p> <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
                                     <?php }?>
                                 </section>
-                            <?php } ?>
-                                <section class="Artikkel_innhold">
-                                    <h1 class="artikkel_overskrift"><?php echo($artikkel['artnavn'])?></h1>
-                                    <p><?php echo($artikkel['artingress'])?></p>
-                                    <p><?php echo($artikkel['arttekst'])?></p>
-                                </section>
-                                
                                 <button id="tilbKnappArtikkel" onClick="location.href='artikkel.php'">Tilbake</button>
                                 
                             </main>

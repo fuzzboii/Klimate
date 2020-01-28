@@ -400,15 +400,21 @@ footer a {
   max-width: 100%;
   object-fit: cover;
   box-shadow: 0 0 0.1em 0.01em black;
-
 }
 
+.bildeArtikkelSeksjon {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  width: 50%;
+}
 .Artikkel_innhold {
   font-family: Helvetica, Arial, sans-serif;
 }
 
 .ForfatterInfo {
   font-family: Helvetica, Arial, sans-serif;
+  float: right;
 }
 .ForfatterInfo p{
   display: inline;
