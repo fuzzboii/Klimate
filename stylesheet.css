@@ -222,6 +222,7 @@ footer a {
   margin-top: 0.5em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
   margin-left: 0.2em; /* Mellomrom mellom profilbilde og LOGG UT knappen */
   width: 3em; /* Bestemmer størrelsen på profilbildet */
+  height: 3em;
   float: right;
   border-radius: 50%; /* For å runde av profilbildet */
 }
@@ -317,7 +318,7 @@ footer a {
 
 .side_artikkel {
   display: none;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-gap: 10px;
   padding-left: 1em; padding-right: 1em; 
 }
@@ -1161,7 +1162,7 @@ table {
     display: block;
   }
 
-  #artikkel_main {
+  .side_artikkel {
     grid-template-columns: 1fr 1fr; 
   }
   /* Grid for søk */
@@ -1356,7 +1357,6 @@ table {
     cursor: pointer;
   }
 
-
   footer a:hover {
     color: rgba(44, 44, 44, 0.651); /* Farge ved hover på 'Kontakt oss' */
   }
@@ -1454,6 +1454,10 @@ table {
   #arrangement_nesteKnapp:hover, #arrangement_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
+  }
+
+  .side_artikkel {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
 
