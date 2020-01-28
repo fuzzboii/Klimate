@@ -189,7 +189,7 @@ var_dump($_POST);
                             $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
                             $antallBilderFunnet = $stmtBilde->rowCount();
                             ?>
-                            
+                            <!--  -->
                             <!-- Innholdet i påklikket artikkel -->
                             <main id="artikkel_main" style="margin-top: 6em;"onclick="lukkHamburgerMeny()">
                             <!-- rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen -->
@@ -210,9 +210,10 @@ var_dump($_POST);
                                     <h1 class="artikkel_overskrift"><?php echo($artikkel['artnavn'])?></h1>
                                     <p><?php echo($artikkel['artingress'])?></p>
                                     <p><?php echo($artikkel['arttekst'])?></p>
+                                    <button id="tilbKnappArtikkel" onClick="location.href='artikkel.php'">Forrige</button>
                                 </section>
-
-    
+                                
+                                
                             </main>
                         <?php } ?>
                     <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      
