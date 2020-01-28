@@ -314,7 +314,6 @@ footer a {
 
 .res_artikkel {
   border: 1px;
-  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   margin-bottom: 0.75em;
   margin-top: 0.75em;
 }
@@ -351,6 +350,13 @@ footer a {
   height: 1em;
 }
 
+.navn_artikkel_bilde {
+  float: left;
+  height: 1em;
+  padding-right: 0.3em;
+
+}
+
 .BildeBoks_artikkel {
   height: 8em;
   object-fit: cover;
@@ -364,12 +370,11 @@ footer a {
   text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 
-.navn_artikkel {
-  /* Gir blad-form avrunding på profilbilde i artikkel */
-  border-radius: 60% 10%;
+.res_artikkel:hover {
+cursor: pointer;
+box-shadow: 0 0 0.1em 0.01em black;
+
 }
-
-
 
 
 /*-----------------------------------------------------------------------------*/
@@ -1211,10 +1216,6 @@ table {
 /* Laptop / Liten skjerm, 720p */
 @media only screen and (min-width: 1280px) {
 
-  #artikkel_art1:hover {
-    
-    cursor: pointer;
-  }
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
   .navTop button:hover {
     color: rgba(44, 44, 44, 0.651);
