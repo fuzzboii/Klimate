@@ -184,7 +184,7 @@ include("instillinger.php");
                                     <figure class="infoBoks_artikkel">
 
                                         <?php // Henter bilde til artikkel
-                                        $hentArtBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $resArt[$j]['idartikkel'] . " and eventbilde.bilde = bilder.idbilder";
+                                        $hentArtBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $resArt[$j]['idartikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
                                         $stmtArtBilde = $db->prepare($hentArtBilde);
                                         $stmtArtBilde->execute();
                                         $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
