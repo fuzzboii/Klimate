@@ -29,7 +29,9 @@ $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
 // Imploder. But why? Er det noe på slutten av arrayet som telles opp, og som ikke kan konverteres til streng?
 $brukernavnProfil = implode ("", $brukernavnProfil);
 
-// Henting av navn/tlf/mail, avhengig av brukerens innstillinger
+//---------------------------------------------------------------//
+// Henting av navn/tlf/mail, avhengig av brukerens innstillinger //
+//---------------------------------------------------------------//
 $hentPersonaliaProfil = "Select fnavn, enavn, epost, telefonnummer from bruker where idbruker = " . $_GET['bruker'];
 $stmtPersonaliaProfil = $db->prepare($hentPersonaliaProfil);
 $stmtPersonaliaProfil->execute();
@@ -46,6 +48,7 @@ $stmtInteresseProfil = $db->prepare($hentInteresseProfil);
 $stmtInteresseProfil->execute();
 $tellingInteresse = $stmtInteresseProfil->rowcount();
 
+// TROUBLES... NOE Å GJØRE MED FETCH AV RADER VS KOLONNER?
 // Test på resultat
 if ($tellingInteresse > 0) {
     // Hvis sant, har vi bekreftet at vi har noe å vise med echo 
