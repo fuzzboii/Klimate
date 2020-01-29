@@ -179,7 +179,7 @@ include("innstillinger.php");
                             <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
                             
                             <h3>Dato</h3>
-                            <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 2)) ?></p>
+                            <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                         </section>
                     <?php } ?>
                 </section>
