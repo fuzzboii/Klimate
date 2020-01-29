@@ -14,15 +14,19 @@ if ($_SESSION['idbruker'] == $_GET['bruker']) {
 }
 
 //------------------------------//
+//------------------------------//
 // Henting av data på bruker    //
 //------------------------------//
+//------------------------------//
 
-// Henting av brukernavn
+//-----------------------//
+// Henting av brukernavn //
+//-----------------------//
 $hentBrukernavnProfil = "select brukernavn from bruker where idbruker = " . $_GET['bruker'];
 $stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
 $stmtBrukernavnProfil->execute();
 $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
-// Imploder. But why? Er det en NULL på slutten av listen som telles?
+// Imploder. But why? Er det noe på slutten av arrayet som telles opp, og som ikke kan konverteres til streng?
 $brukernavnProfil = implode ("", $brukernavnProfil);
 
 // Henting av navn/tlf/mail, avhengig av brukerens innstillinger
@@ -33,38 +37,68 @@ $personaliaProfil = $stmtPersonaliaProfil->fetch(PDO::FETCH_ASSOC);
 // Imploder arrayet med linjebrudd
 $personaliaProfil = implode("<br/>\n", $personaliaProfil);
 
-// Henting av interesser
+//-----------------------//
+// Henting av interesser //
+//-----------------------//
 $hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = "
                         . $_GET['bruker'] . " and brukerinteresse.interesse=interesse.idinteresse;";
 $stmtInteresseProfil = $db->prepare($hentInteresseProfil);
 $stmtInteresseProfil->execute();
-$interesseProfil = $stmtInteresseProfil->fetch(PDO::FETCH_ASSOC);
-// Imploder med kommaseparering    // WiP ///////////////////////////////////////////////////////////////////
-$interesseProfil = implode(", ", $interesseProfil); // LEGG INN IF-TESTING FØR IMPLODERING
+$tellingInteresse = $stmtInteresseProfil->rowcount();
 
-// Henting av beskrivelse
+// Test på resultat
+if ($tellingInteresse > 0) {
+    // Hvis sant, har vi bekreftet at vi har noe å vise med echo 
+    $interesseProfil = $stmtInteresseProfil->fetch(PDO::FETCH_ASSOC);
+    // Imploder med kommaseparering
+    $interesseProfil = implode(", ", $interesseProfil);
+// settes ellers til en fast string
+} else $interesseProfil = "Brukeren har ingen registrerte interesser";
+
+//------------------------//
+// Henting av beskrivelse //
+//------------------------//
 $hentBeskrivelseProfil = "select beskrivelse from bruker where idbruker = " . $_GET['bruker'];
 $stmtBeskrivelseProfil = $db->prepare($hentBeskrivelseProfil);
 $stmtBeskrivelseProfil->execute();
-$beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
-// Implode. But why?
-$beskrivelseProfil = implode("", $beskrivelseProfil);
+$tellingBeskrivelse = $stmtBeskrivelseProfil->rowcount();
 
-// Henting av artikler
+// Test på resultatet   // VIRKER IKKE?
+if ($tellingBeskrivelse > 0) {
+    $beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
+    // Imploder. But why?
+    $beskrivelseProfil = implode("", $beskrivelseProfil);
+} else $beskrivelseProfil = "Brukeren har ikke skrevet en beskrivelse";
+
+//---------------------//
+// Henting av artikler //
+//---------------------//
 $hentArtikkelProfil = "select artnavn from artikkel where bruker = " . $_GET['bruker'];
 $stmtArtikkelProfil = $db->prepare($hentArtikkelProfil);
 $stmtArtikkelProfil->execute();
-$artikkelProfil = $stmtArtikkelProfil->fetch(PDO::FETCH_ASSOC);
-// Imploder med linjebrudd
-$artikkelProfil = implode("<br/>\n", $artikkelProfil);
+$tellingArtikkel = $stmtArtikkelProfil->rowcount();
 
-// Henting av arrangementer
+// Test på resultat
+if ($tellingInteresse > 0) {
+    $artikkelProfil = $stmtArtikkelProfil->fetch(PDO::FETCH_ASSOC);
+    // Imploder med linjebrudd
+    $artikkelProfil = implode("<br/>\n", $artikkelProfil);
+} else $artikkelProfil = "Brukeren har ikke skrevet noen artikler";
+
+//--------------------------//
+// Henting av arrangementer //
+//--------------------------//
 $hentArrangementProfil = "select eventnavn from event where idbruker = " .$_GET['bruker'];
 $stmtArrangementProfil = $db->prepare($hentArrangementProfil);
 $stmtArrangementProfil->execute();
-$arrangementProfil = $stmtArrangementProfil->fetch(PDO::FETCH_ASSOC);
-// Test med linjebrudd
-$arrangementProfil = implode("<br/>\n", $arrangementProfil);
+$tellingArrangement = $stmtArrangementProfil->rowcount();
+
+// test på resultatet
+if ($tellingArrangement > 0) {
+    $arrangementProfil = $stmtArrangementProfil->fetch(PDO::FETCH_ASSOC);
+    // imploder med linjebrudd
+    $arrangementProfil = implode("<br/>\n", $arrangementProfil);
+} else $arrangementProfil = "Brukeren har ikke opprettet noen arrangementer";
 
 
 ?>
@@ -235,7 +269,7 @@ $arrangementProfil = implode("<br/>\n", $arrangementProfil);
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 26.01.2020 -->
-    <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 26.01.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 29.01.2020 -->
+    <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 29.01.2020 -->
 
 </html>
