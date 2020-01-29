@@ -385,6 +385,7 @@ footer a {
 .navn_artikkel_bilde {
   float: left;
   height: 1em;
+  width: 1em;
   padding-right: 0.3em;
   padding-top: 0.1em;
 
