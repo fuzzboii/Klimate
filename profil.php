@@ -2,9 +2,9 @@
 session_start();
 
 //------------------------------//
-// Instillinger, faste variable //
+// Innstillinger, faste variable //
 //------------------------------//
-include("instillinger.php");
+include("innstillinger.php");
 
 //------------------------------//
 // Test om man ser egen profil  //

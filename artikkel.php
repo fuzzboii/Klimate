@@ -2,9 +2,69 @@
 session_start();
 
 //------------------------------//
-// Instillinger, faste variable //
+// Innstillinger, faste variable //
 //------------------------------//
-include("instillinger.php");
+include("innstillinger.php");
+
+
+if (isset($_POST['publiserArtikkel'])) {
+    if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel']) > 0) {
+        if (strlen($_POST['ingress']) <= 255 || $_POST['ingress'] == "") {
+            if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['tittel']) > 0) {
+                // Tar utgangspunkt i at bruker ikke har lastet opp bilde
+                $harBilde = false;
+
+                // Sanitiserer innholdet før det blir lagt i databasen
+                $tittel = filter_var($_POST['tittel'], FILTER_SANITIZE_STRING);
+                if ($_POST['ingress'] != "") {
+                    $ingress = filter_var($_POST['ingress'], FILTER_SANITIZE_STRING);
+                } else {
+                    $ingress = filter_var(substr($_POST['innhold'], 0, 255), FILTER_SANITIZE_STRING);
+                }
+                $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
+                
+                // Spørringen som oppretter artikkelen
+                $nyArtikkelQ = "insert into artikkel(artnavn, artingress, arttekst, bruker) values('" . $tittel . "', '" . $ingress . "', '" . $innhold . "', '" . $_SESSION['idbruker'] . "')";
+                $nyArtikkelSTMT = $db->prepare($nyArtikkelQ);
+                $nyArtikkelSTMT->execute();
+                $artikkelid = $db->lastInsertId();
+                
+                // Del for filopplastning
+                if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+                    // Kombinerer artikkel med den siste artikkelid'en
+                    $navn = "artikkel" . $artikkelid;
+                    // Henter filtypen
+                    $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
+                    // Kombinerer navnet med filtypen
+                    $bildenavn = $navn . $filtype;
+                    // Selve prosessen som flytter bildet til bestemt lagringsplass
+                    if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
+                        $harbilde = true;
+                    } else {
+                        // Feilmelding her
+                    }
+                }
+                if ($harbilde == true) {
+                    // Legger til bildet i databasen, dette kan være sin egne spørring
+                    $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+                    $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+                    $nyttBildeSTMT->execute();
+                    // Returnerer siste bildeid'en
+                    $bildeid = $db->lastInsertId();
+
+                    // Spørringen som lager koblingen mellom bilder og artikkel
+                    $nyKoblingQ = "insert into artikkelbilde(idartikkel, idbilde) values('" . $artikkelid . "', '" . $bildeid . "')";
+                    $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+                    $nyKoblingSTMT->execute();
+                }
+
+                header('Location: artikkel.php?artikkel=' . $artikkelid);
+
+
+            } // Innholdet er for langt
+        } // Ingress er for langt
+    } // Tittel er for lang
+}
 
 
 ?>
@@ -117,7 +177,7 @@ include("instillinger.php");
             </section>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main id="artikkel_main" onclick="lukkHamburgerMeny()">
+            
                     <?php if(isset($_GET['artikkel'])){
                         // Henter artikkelen bruker ønsker å se
                         $hent = "select * from artikkel, bruker where bruker=idbruker and idartikkel = " . $_GET['artikkel'];
@@ -130,28 +190,70 @@ include("instillinger.php");
                             <!-- Del for å vise feilmelding til bruker om at artikkel ikke eksisterer -->
                             <h1>Artikkel ikke funnet</h1>
                         <?php } else { 
-                            // ------------------------------ artikler som blir klikket på -----------------------------
+                            // ------------------------------ artikler som er klikket på -----------------------------
                             // Del for å vise en spesifik artikkel
                             // Henter bilde fra database utifra artikkelid
                             $hentBilde = "select hvor 
-                                         from artikkel, artikkelbilde, bilder 
-                                         where idartikkel = " . $_GET['artikkel'] . " and idartikkel = artikkel and bilde = idbilder";
+                                          from artikkel, artikkelbilde, bilder 
+                                          where artikkel.idartikkel =" . $_GET['artikkel'] . "
+                                          and artikkel.idartikkel = artikkelbilde.idartikkel 
+                                          and bilder.idbilder = artikkelbilde.idbilde";
                             $stmtBilde = $db->prepare($hentBilde);
                             $stmtBilde->execute();
                             $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
                             $antallBilderFunnet = $stmtBilde->rowCount();
-                            // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
-                            if ($antallBilderFunnet != 0) { ?>
+                            ?>
+                            <!--  -->
+                            <!-- Innholdet i påklikket artikkel -->
+                            <main id="artikkel_main" style="margin-top: 6em;"onclick="lukkHamburgerMeny()">
+                            <!-- rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen -->
+                            <?php if ($antallBilderFunnet != 0) { ?>
                                 <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
-                                <img src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel" style="height: 20em;">
+                                <section class="bildeArtikkelSeksjon">
+                                    <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
 
+                                </section>
                             <?php } ?>
-                            <h1 class="artikkel_header"><?php echo($artikkel['artnavn'])?></h1>
-                            <p><?php echo($artikkel['artingress'])?></p>
-                            <p><?php echo($artikkel['arttekst'])?></p>
-                            <p>Forfatter: <?php echo($artikkel['enavn'] . ", " . $artikkel['fnavn'])?></p>
+                                <section class="Artikkel_innhold">
+                                    <h1 class="artikkel_overskrift"><?php echo($artikkel['artnavn'])?></h1>
+                                    <p><?php echo($artikkel['artingress'])?></p>
+                                    <p><?php echo($artikkel['arttekst'])?></p>
+                                </section>
+                                <section class="ForfatterInfo">
+                                    <?php if(preg_match("/\S/", $artikkel['enavn']) == 0){?>
+                                        <p>Skrevet av</p>
+                                        <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['brukernavn'])?></a>
+                                    <?php } else {?> 
+                                        <p>Skrevet av</p> <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
+                                    <?php }?>
+                                </section>
+                                <button id="tilbKnappArtikkel" onClick="location.href='artikkel.php'">Tilbake</button>
+                                
+                            </main>
                         <?php } ?>
-                    <?php  } else {
+                    <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      
+            
+                        <header class="artikkel_header" onclick="lukkHamburgerMeny()">
+                            <h1>Ny artikkel</h1>
+                        </header>
+
+                        <main id="artikkel_main" onclick="lukkHamburgerMeny()">
+
+                        <article id="artikkel_articleNy">
+                            <form method="POST" action="artikkel.php" enctype="multipart/form-data">
+                                <h2>Tittel</h2>
+                                <input type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
+                                <h2>Ingress</h2>
+                                <textarea maxlength="255" name="ingress" rows="3" cols="35" placeholder="Skriv inn inngress, la være blank for å ta 255 tegn fra innhold"></textarea>
+                                <h2>Innhold</h2>
+                                <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required></textarea>
+                                <h2>Bilde</h2>
+                                <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
+                                <input id="artikkel_submitNy" type="submit" name="publiserArtikkel" value="Opprett artikkel">
+                            </form>
+                        </article>
+
+                    <?php } else {
                         // -------------------- Artikler som vises på artikkel.php forside----------------
                     
                         // Del for å vise alle artikler 
@@ -173,12 +275,15 @@ include("instillinger.php");
                         <header class="artikkel_header" onclick="lukkHamburgerMeny()">
                             <h1>Artikler</h1>
                         </header>
+                        <main id="artikkel_main" onclick="lukkHamburgerMeny()">
+
+                        <a href="artikkel.php?nyartikkel">Trykk på meg for ny artikkel</a>
                           
                         <?php if ($resAntall > 0 ) { ?>
                             <?php for ($j = 0; $j < count($resArt); $j++) {
                                 // Hvis rest av $j delt på 8 er 0, start section (Ny side)
                                 if ($j % 8 == 0) { ?>
-                                    <section class="side_artikkel">
+                                <section class="side_artikkel">
                                 <?php $antallSider++; } $avsluttTag++; ?>
                                 <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
                                     <figure class="infoBoks_artikkel">
@@ -205,7 +310,7 @@ include("instillinger.php");
                                     $stmtHentPb->execute();
                                     $brukerPB = $stmtHentPb->fetch(PDO::FETCH_ASSOC);
                                     ?>
-                                    <img class="navn_artikkel" src="bilder/opplastet/<?php echo($brukerPB["hvor"])?>">
+                                    <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB["hvor"])?>">
                                     <?php 
                                     // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
                                     if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
@@ -234,8 +339,7 @@ include("instillinger.php");
                             <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
                             <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                         </section>
-                    <?php } ?>
-                </article>
+                    <?php }  ?>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->

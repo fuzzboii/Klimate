@@ -2,9 +2,9 @@
 session_start();
 
 //------------------------------//
-// Instillinger, faste variable //
+// Innstillinger, faste variable //
 //------------------------------//
-include("instillinger.php");
+include("innstillinger.php");
 
 
 ?>
@@ -114,7 +114,7 @@ include("instillinger.php");
         </section>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-        <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
+       
             <?php if(isset($_GET['arrangement'])){
                 // Henter arrangementet bruker ønsker å se
                 $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
@@ -128,6 +128,7 @@ include("instillinger.php");
                     <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                         <h1>Arrangement ikke funnet</h1>
                     </header>
+                    <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
                     <section id="arrangement_bunnSection">
                         <button onclick="location.href='arrangement.php'" class="lenke_knapp">Tilbake til arrangementer</button>  
                     </section>
@@ -142,17 +143,18 @@ include("instillinger.php");
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     ?> 
                     <section id="arrangement_spes"> 
-                        <?php if ($antallBilderFunnet != 0) { ?>
-                            <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                            <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
-
                             <header id="arrangement_headerMBilde" onclick="lukkHamburgerMeny()">
                                 <h1><?php echo($arrangement['eventnavn'])?></h1>
                             </header>
+                            <main id="arrangement_main" style="margin-top: 6em;" onclick="lukkHamburgerMeny()"> 
+                                <?php if ($antallBilderFunnet != 0) { ?>
+                                <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
+                                <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
                         <?php } else { ?>
                             <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                                 <h1><?php echo($arrangement['eventnavn'])?></h1>
                             </header>
+                            <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
                         <?php } ?>
                         <section id="arrangement_omEvent">
                             <h3>Om arrangementet</h3>
@@ -200,7 +202,7 @@ include("instillinger.php");
                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                     <h1>Arrangementer</h1>
                 </header>
-
+                <main id="arrangement_main" onclick="lukkHamburgerMeny()">
                 <?php if ($resAntall > 0 ) { ?>
                     <?php for ($j = 0; $j < count($resArr); $j++) {
                         // Hvis rest av $j delt på 8 er 0, start section (Ny side)
