@@ -274,7 +274,7 @@ if (isset($_POST['publiserArtikkel'])) {
             
                         <header class="artikkel_header" onclick="lukkHamburgerMeny()">
                             <h1>Artikler</h1>
-                            <?php if($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1) { ?>
+                            <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
                             <a href="artikkel.php?nyartikkel" tabindex="-1"> <!-- VIKTIG, tabindex -->
                                 <img id="artikkel_plussikon" src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
                             </a>
