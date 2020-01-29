@@ -17,6 +17,26 @@ if ($_SESSION['brukernavn']) {
 // Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_brukernavn = "";
+$input_epost = "";
+$input_fornavn = "";
+$input_etternavn = "";
+$input_telefonnummer = "";
+if (isset($_SESSION['input_brukernavn'])) {
+    $input_brukernavn = $_SESSION['input_brukernavn'];
+    $input_epost = $_SESSION['input_epost'];
+    $input_fornavn = $_SESSION['input_fornavn'];
+    $input_etternavn = $_SESSION['input_etternavn'];
+    $input_telefonnummer = $_SESSION['input_telefonnummer'];
+    unset($_SESSION['input_brukernavn']);
+    unset($_SESSION['input_epost']);
+    unset($_SESSION['input_fornavn']);
+    unset($_SESSION['input_etternavn']);
+    unset($_SESSION['input_telefonnummer']);
+}
+
 // Hoveddelen for redigering av konto
 if (isset($_POST['subEndring'])) {
     // Boolske verdier vi tester på for å vite om noe er endret på
@@ -26,6 +46,11 @@ if (isset($_POST['subEndring'])) {
     try {
         // Del for oppdatering av brukernavn, epost, fornavn og/eller etternavn
         if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "" || $_POST['nytttelefonnummer'] != "") {
+            $_SESSION['input_brukernavn'] = $_POST['nyttbrukernavn'];
+            $_SESSION['input_epost'] = $_POST['nyepost'];
+            $_SESSION['input_fornavn'] = $_POST['nyttfornavn'];
+            $_SESSION['input_etternavn'] = $_POST['nyttetternavn'];
+            $_SESSION['input_telefonnummer'] = $_POST['nytttelefonnummer'];
             
             // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type epost)
             $epostValidert = false;
@@ -34,7 +59,7 @@ if (isset($_POST['subEndring'])) {
                 // Bruker har ikke oppgitt en epost, ignorerer dette
                 $epostValidert = true;
             } else {
-                $epostValidert = filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL);
+                $epostValidert = filter_var($_POST["nyepost"], FILTER_VALIDATE_EMAIL);
             }
             if ($epostValidert == true) {
                 // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
@@ -270,27 +295,27 @@ if (isset($_POST['subEndring'])) {
                         <!-- Brukernavn -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre brukernavn</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="" placeholder="Nytt brukernavn" autofocus>
+                            <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Nytt brukernavn" autofocus>
                         </section>
                         <!-- Epost -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre epost</h3>
-                            <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
+                            <input type="email" class="KontoredigeringFelt" name="nyepost" value="<?php echo($input_epost) ?>" placeholder="Ny epost">
                         </section>    
                         <!-- Fornavn -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre fornavn</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
+                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn">
                         </section>
                         <!-- Etternavn -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre etternavn</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
+                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn">
                         </section>
                         <!-- Telefonnummer -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre telefonnummer</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="" placeholder="Nytt telefonnummer">
+                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php echo($input_telefonnummer) ?>" placeholder="Nytt telefonnummer">
                         </section>
                         
                     </form>
