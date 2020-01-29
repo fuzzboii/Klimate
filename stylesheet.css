@@ -652,7 +652,7 @@ table {
 }
 
 /* Style for deloverskriftene i konto redigering */
-.endre_brukernavn_overskrift, .endre_epost_overskrift, .endre_gammeltpassord_overskrift, .endre_nyttpassord_overskrift, .endre_nyttpassordbekreft_overskrift, .endre_fornavn_overskrift, .endre_etternavn_overskrift {
+.endre_bruker_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 0.8em;
   font-weight: bold;

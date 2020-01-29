@@ -25,9 +25,9 @@ if (isset($_POST['subEndring'])) {
     
     try {
         // Del for oppdatering av brukernavn, epost, fornavn og/eller etternavn
-        if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "") {
+        if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "" || $_POST['nytttelefonnummer'] != "") {
             
-            // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type password)
+            // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type epost)
             $epostValidert = false;
             $epostValidert = filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL);
 
@@ -64,20 +64,28 @@ if (isset($_POST['subEndring'])) {
                 } else {
                     $nyttEtternavn = $_POST['nyttetternavn'];
                 }
+            
+                if ($_POST['nytttelefonnummer'] == "") {
+                    // Bruker har valgt å ikke oppdatere etternavn
+                    $nyttTelefonnummer = $_SESSION['telefonnummer'];
+                } else {
+                    $nyttTelefonnummer = $_POST['nytttelefonnummer'];
+                }
                 // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
-                $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "'  where idbruker='". $_SESSION['idbruker'] . "'";
+                $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "', telefonnummer = '" . $nyttTelefonnummer . "'  where idbruker='". $_SESSION['idbruker'] . "'";
                 $stmt = $db->prepare($oppdaterBruker);
                 $stmt->execute();
 
                 // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
                 $antall = $stmt->rowCount();
 
-                if (!$antall == "0") {
+                if ($antall > 0) {
                     // Oppdaterer session-info
                     $_SESSION['brukernavn'] = $nyttBrukernavn;
                     $_SESSION['fornavn'] = $nyttFornavn;
                     $_SESSION['etternavn'] = $nyttEtternavn;
                     $_SESSION['epost'] = $nyEpost;
+                    $_SESSION['telefonnummer'] = $nyttTelefonnummer;
                     $oppdatertBr = true;
                 }
             } else {
@@ -259,23 +267,28 @@ if (isset($_POST['subEndring'])) {
                     <form id="konto_rediger_form" method="POST" action="konto_rediger.php" class="konto_rediger_Form">
                         <!-- Brukernavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
+                            <h3 class="endre_bruker_overskrift">Endre brukernavn</h3>
                             <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="" placeholder="Nytt brukernavn" autofocus>
                         </section>
                         <!-- Epost -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_epost_overskrift">Endre epost</h3>
+                            <h3 class="endre_bruker_overskrift">Endre epost</h3>
                             <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
                         </section>    
                         <!-- Fornavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_fornavn_overskrift">Endre fornavn</h3>
-                            <input type="fornavn" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
+                            <h3 class="endre_bruker_overskrift">Endre fornavn</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
                         </section>
                         <!-- Etternavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_etternavn_overskrift">Endre etternavn</h3>
-                            <input type="etternavn" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
+                            <h3 class="endre_bruker_overskrift">Endre etternavn</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
+                        </section>
+                        <!-- Telefonnummer -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Endre telefonnummer</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="" placeholder="Nytt telefonnummer">
                         </section>
                         
                     </form>
@@ -284,15 +297,15 @@ if (isset($_POST['subEndring'])) {
                     <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
                     <section id="konto_rediger_pw" class="innholdRullegardin">
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
+                            <h3 class="endre_bruker_overskrift">Gammelt passord</h3>
                             <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" form="konto_rediger_form" autofocus>
                         </section>
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
+                            <h3 class="endre_bruker_overskrift">Nytt passord</h3>
                             <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord" form="konto_rediger_form">
                         </section>
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_nyttpassordbekreft_overskrift">Bekreft nytt passord</h3>
+                            <h3 class="endre_bruker_overskrift">Bekreft nytt passord</h3>
                             <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form">
                         </section>
                         <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
