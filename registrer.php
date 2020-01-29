@@ -18,7 +18,20 @@ if (isset($_SESSION['brukernavn'])) {
 // Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_brukernavn = "";
+$input_epost = "";
+if (isset($_SESSION['input_brukernavn'])) {
+    $input_brukernavn = $_SESSION['input_brukernavn'];
+    $input_epost = $_SESSION['input_epost'];
+    unset($_SESSION['input_brukernavn']);
+    unset($_SESSION['input_epost']);
+}
+
 if (isset($_POST['subRegistrering'])) {
+    $_SESSION['input_brukernavn'] = $_POST['brukernavn'];
+    $_SESSION['input_epost'] = $_POST['epost'];
     // Tester på om passordene er like
     if ($_POST['passord'] == $_POST['passord2']) {
         // Tester på om bruker har fyllt ut alle de obligatoriske feltene
@@ -162,11 +175,11 @@ if (isset($_POST['subRegistrering'])) {
                 <form method="POST" action="registrer.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
+                        <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->

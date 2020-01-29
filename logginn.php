@@ -17,9 +17,16 @@ if (isset($_SESSION['brukernavn'])) {
 // Setter tidssonen, dette er for at One.com domenet skal fungere, brukes i sjekk mot innloggingsforsøk
 date_default_timezone_set("Europe/Oslo");
 
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_brukernavn = "";
+if (isset($_SESSION['input_session'])) {
+    $input_brukernavn = $_SESSION['input_session'];
+    unset($_SESSION['input_session']);
+}
 
 
 if (isset($_POST['submit'])) {
+    $_SESSION['input_session'] = $_POST['brukernavn'];
     // Ventetiden når en bruker er lukket ute
     $ventetid = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . "- 180 seconds"));
 
@@ -146,7 +153,7 @@ if (isset($_POST['submit'])) {
                 <form method="POST" action="logginn.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" required autofocus>
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
