@@ -48,15 +48,13 @@ $stmtInteresseProfil = $db->prepare($hentInteresseProfil);
 $stmtInteresseProfil->execute();
 $tellingInteresse = $stmtInteresseProfil->rowcount();
 
-// TROUBLES... NOE Å GJØRE MED FETCH AV RADER VS KOLONNER?
 // Test på resultat
 if ($tellingInteresse > 0) {
-    // Hvis sant, har vi bekreftet at vi har noe å vise med echo 
-    $interesseProfil = $stmtInteresseProfil->fetch(PDO::FETCH_ASSOC);
-    // Imploder med kommaseparering
-    $interesseProfil = implode(", ", $interesseProfil);
-// settes ellers til en fast string
-} else $interesseProfil = "Brukeren har ingen registrerte interesser";
+    // Hvis sant, har vi bekreftet at vi har noe å vise med echo
+    // Resulterer i et 2D array
+    $interesseProfil = $stmtInteresseProfil->fetchAll(PDO::FETCH_ASSOC);
+// settes ellers til null, for øyeblikket
+} else $interesseProfil = null;
 
 //------------------------//
 // Henting av beskrivelse //
@@ -71,7 +69,7 @@ if ($tellingBeskrivelse > 0) {
     $beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
     // Imploder. But why?
     $beskrivelseProfil = implode("", $beskrivelseProfil);
-} else $beskrivelseProfil = "Brukeren har ikke skrevet en beskrivelse";
+} else $beskrivelseProfil = null;
 
 //---------------------//
 // Henting av artikler //
@@ -82,26 +80,22 @@ $stmtArtikkelProfil->execute();
 $tellingArtikkel = $stmtArtikkelProfil->rowcount();
 
 // Test på resultat
-if ($tellingInteresse > 0) {
-    $artikkelProfil = $stmtArtikkelProfil->fetch(PDO::FETCH_ASSOC);
-    // Imploder med linjebrudd
-    $artikkelProfil = implode("<br/>\n", $artikkelProfil);
-} else $artikkelProfil = "Brukeren har ikke skrevet noen artikler";
+if ($tellingArtikkel > 0) {
+    $artikkelProfil = $stmtArtikkelProfil->fetchAll(PDO::FETCH_ASSOC);
+} else $artikkelProfil = null;
 
 //--------------------------//
 // Henting av arrangementer //
 //--------------------------//
-$hentArrangementProfil = "select eventnavn from event where idbruker = " .$_GET['bruker'];
+$hentArrangementProfil = "select eventnavn from event where idbruker = " . $_GET['bruker'];
 $stmtArrangementProfil = $db->prepare($hentArrangementProfil);
 $stmtArrangementProfil->execute();
 $tellingArrangement = $stmtArrangementProfil->rowcount();
 
 // test på resultatet
 if ($tellingArrangement > 0) {
-    $arrangementProfil = $stmtArrangementProfil->fetch(PDO::FETCH_ASSOC);
-    // imploder med linjebrudd
-    $arrangementProfil = implode("<br/>\n", $arrangementProfil);
-} else $arrangementProfil = "Brukeren har ikke opprettet noen arrangementer";
+    $arrangementProfil = $stmtArrangementProfil->fetchAll(PDO::FETCH_ASSOC);
+} else $arrangementProfil = null;
 
 
 ?>
@@ -247,16 +241,46 @@ if ($tellingArrangement > 0) {
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
                 <!-- Personalia, etc -->
                 <h1>Personlig informasjon</h1>
-                    <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
+                <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
+                
                 <h1>Interesser</h1>
-                    <p> <?php echo $interesseProfil ?> </p> <!-- DROPDOWN, -->
+                <!-- Nøstet foreach, fordi resultatet av søk fra to tabeller ble 2D-array -->
+                <!-- Ytre løkke -->
+                <p> <?php if ($tellingInteresse != null) {
+                        foreach ($interesseProfil as $rad) {
+                        // Indre løkke, med innhold som $row //    
+                        foreach ($rad as $kolonne) {
+                            echo($kolonne . '. ');
+                        } // Slutt, indre løkke    
+                    } // Slutt, ytre løkke
+                } ?> <!-- Slutt, IF-test --> 
+                </p> <!-- DROPDOWN, -->
                 <h1>Om</h1>
-                    <p> <?php echo $beskrivelseProfil ?> </p> <!-- REDIGER -->
+                <p> <?php echo $beskrivelseProfil ?> </p> <!-- OG REDIGER -->
+                
                 <h1>Artikler</h1>
-                    <p> <?php echo $artikkelProfil ?> </p>
+                <p> <?php if ($tellingArtikkel != null) {
+                        foreach ($artikkelProfil as $rad) {
+                        // Indre løkke, med innhold som $row //    
+                        foreach ($rad as $kolonne) {
+                            echo($kolonne . '<br/>');
+                        } // Slutt, indre løkke    
+                    } // Slutt, ytre løkke
+                } ?> <!-- Slutt, IF-test --> 
+                </p>
+                
                 <h1>Arrangementer</h1>
-                    <p> <?php echo $arrangementProfil ?> </p>
-                <h1>Kommentarer (?)</h1>
+                <p> <?php if ($tellingArrangement != null) {
+                        foreach ($arrangementProfil as $rad) {
+                        // Indre løkke, med innhold som $row //    
+                        foreach ($rad as $kolonne) {
+                            echo($kolonne . '<br/>');
+                        } // Slutt, indre løkke    
+                    } // Slutt, ytre løkke
+                } ?> <!-- Slutt, IF-test --> 
+                </p>
+                
+                <!-- <h1>Kommentarer</h1> -->
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
