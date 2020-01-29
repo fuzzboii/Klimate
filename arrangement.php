@@ -156,30 +156,41 @@ include("innstillinger.php");
                             </header>
                             <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
                         <?php } ?>
+                        <!-- -----------------påklikket arrangement---------------------  -->
                         <section id="arrangement_omEvent">
                             <h3>Om arrangementet</h3>
                             <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
 
-                            <h3>Om arrangør</h3>
-                            <?php 
-                            // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                            if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
-                                <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
-                            <?php } else { ?>
-                                <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
-                            <?php } ?>
-                            <p id="arrangement_mail">Epost: <a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
+                             
 
-                            <h3>Sted</h3>
-                            <?php 
-                                $dato = date_create($arrangement['tidspunkt']);
-                            ?>
-                            <!-- Lenke som leder til Google Maps med adresse -->
-                            <p class="arrangement_adresse">Adresse: <a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'])?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
-                            <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
+                            </section>
+                            <section class="arg_informasjon">
+                                
+                                <section class="argInf_dato">
+                                    <h3>Dato</h3>
+                                    <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
+                                </section>
+                                <section class="argInf_sted">
+                                    <h3>Sted</h3>
+                                    <?php 
+                                        $dato = date_create($arrangement['tidspunkt']);
+                                    ?>
+                                    <!-- Lenke som leder til Google Maps med adresse -->
+                                    <p class="arrangement_adresse">Adresse: <a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'])?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
+                                    <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
+                                </section>
+                                <section class="argInf_om">
+                                    <h3>Om arrangør</h3>
+                                    <?php 
+                                    // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                    if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
+                                        <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
+                                    <?php } else { ?>
+                                        <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
+                                    <?php } ?>
+                                    <p id="arrangement_mail">Epost: <a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
+                                </section>
                             
-                            <h3>Dato</h3>
-                            <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                         </section>
                     <?php } ?>
                 </section>

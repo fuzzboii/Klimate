@@ -424,10 +424,6 @@ footer a {
   font-weight: bold;
   display: inline;
 }
-#artikkel_plussikon {
-  float: right;
-  margin-right: 10em;
-}
 
 
 /*-----------------------------------------------------------------------------*/
@@ -652,7 +648,7 @@ table {
 }
 
 /* Style for deloverskriftene i konto redigering */
-.endre_bruker_overskrift {
+.endre_brukernavn_overskrift, .endre_epost_overskrift, .endre_gammeltpassord_overskrift, .endre_nyttpassord_overskrift, .endre_nyttpassordbekreft_overskrift, .endre_fornavn_overskrift, .endre_etternavn_overskrift {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 0.8em;
   font-weight: bold;
@@ -1093,16 +1089,11 @@ table {
   flex-direction: column;
 }
 #arrangement_omEvent {
-  margin-left: 0.2em; margin-right: 0.2em; margin-bottom: 0.4em;
-  border-radius: 0.1em 0.1em 0.1em 0.1em; /* Avrunder kantene */
+ 
   box-shadow: 0 0 0.1em 0.01em black;
 }
 #arrangement_omEvent h3 {
-  padding-top: 0.5em;
-  margin: 0;
-  margin-left: auto; margin-right: auto;
-  width: 50%;
-  text-align: center;
+  
 }
 #arrangement_navn, #arrangement_mail, .arrangement_adresse, #arrangement_dato {
   padding-top: 0.3em;
@@ -1111,6 +1102,41 @@ table {
 }
 #arrangement_dato {
   padding-bottom: 0.5em;
+}
+/* styling for påklikket arrangment */
+
+
+.argInf_dato {
+  
+}
+
+.argInf_sted {
+  
+}
+
+.argInf_om {
+  
+}
+
+/* overskrifter */
+.argInf_dato h3 {
+  margin: 0;
+  
+  background-color: rgb(200,218,211);
+}
+
+.argInf_sted h3 {
+  margin: 0;
+  background-color: rgb(200,218,211);
+}
+
+.argInf_om h3 {
+  margin: 0;
+  background-color: rgb(200,218,211);
+}
+
+.argInf_dato, .argInf_sted, .argInf_om {
+  
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -1152,8 +1178,7 @@ table {
     box-shadow: 0 0 0.1em 0.01em black;
   }
   #arrangement_omEvent {
-    max-width: 700px;
-    margin-left: auto; margin-right: auto;
+    
   }
   #arrangement_headerMBilde {
     text-align: center;
@@ -1280,6 +1305,37 @@ table {
   /* artikkel overskrift */
   .artikkel_overskrift {
     font-size: 3em;
+  }
+
+
+  /* Styling for påklikket arrangement */
+  .arg_informasjon {
+    display: flex;
+    margin-left: auto; margin-right: auto;
+     max-width: 65%;
+     box-shadow: 0 0 0.1em 0.01em black;
+  }
+
+  .argInf_dato h3 {
+  }
+  
+  .argInf_sted h3 {
+    
+  }
+  
+  .argInf_om h3 {
+    
+  }
+
+  .argInf_dato {
+  }
+  
+  .argInf_sted {
+    
+  }
+  
+  .argInf_om {
+    
   }
 
 }
