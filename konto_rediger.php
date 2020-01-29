@@ -29,11 +29,12 @@ if (isset($_POST['subEndring'])) {
             
             // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type epost)
             $epostValidert = false;
-            $epostValidert = filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL);
 
             if ($_POST['nyepost'] == "") {
                 // Bruker har ikke oppgitt en epost, ignorerer dette
                 $epostValidert = true;
+            } else {
+                $epostValidert = filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL);
             }
             if ($epostValidert == true) {
                 // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
@@ -65,8 +66,9 @@ if (isset($_POST['subEndring'])) {
                     $nyttEtternavn = $_POST['nyttetternavn'];
                 }
             
-                if ($_POST['nytttelefonnummer'] == "") {
-                    // Bruker har valgt å ikke oppdatere etternavn
+                // Sjekker på om bruker har skrevet et telefonnummer, maks 12 tegn (0047) 
+                if (!preg_match('/^[0-9]{0,12}$/', $_POST['nytttelefonnummer'])) {
+                    // Bruker har valgt å ikke oppdatere telefonnummer, eller et ugyldig telefonnummer er skrevet
                     $nyttTelefonnummer = $_SESSION['telefonnummer'];
                 } else {
                     $nyttTelefonnummer = $_POST['nytttelefonnummer'];
