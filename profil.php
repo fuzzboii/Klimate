@@ -9,16 +9,16 @@ include("innstillinger.php");
 //------------------------------//
 // Test om man ser egen profil  //
 //------------------------------//
-if ($_SESSION['idbruker'] == $_GET['bruker']) {
-    $egen = true;
-}
+
+ if ($_SESSION['idbruker'] == $_GET['bruker']) {
+     $egen = true;
+ }
 
 //------------------------------//
 //------------------------------//
 // Henting av data på bruker    //
 //------------------------------//
 //------------------------------//
-
 //-----------------------//
 // Henting av brukernavn //
 //-----------------------//
@@ -146,13 +146,13 @@ if ($tellingArrangement > 0) {
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
                             <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                         </a>
 
                     <?php } else { ?>
                         <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
                             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                         </a>
                     <?php } ?>
