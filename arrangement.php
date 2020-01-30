@@ -244,7 +244,7 @@ if (isset($_POST['publiserArrangement'])) {
                                         $dato = date_create($arrangement['tidspunkt']);
                                     ?>
                                     <!-- Lenke som leder til Google Maps med adresse -->
-                                    <p class="arrangement_adresse">Adresse: <a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'])?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
+                                    <p class="arrangement_adresse">Adresse: <a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
                                     <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
                                 </section>
                                 <section class="argInf_om">
