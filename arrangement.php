@@ -243,36 +243,37 @@ if (isset($_POST['publiserArrangement'])) {
                                 
                         <!-- -----------------påklikket arrangement---------------------  -->
                         <section id="arrangement_omEvent">
-                            <section id="argInf_DatoSted">
+                            <section id="argInf_meta">
                             <?php if ($antallBilderFunnet != 0) { ?>
                                 <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
                                     <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
                             <?php } else { ?>
                                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
-                                    <h1><?php echo($arrangement['eventnavn'])?></h1>
+                                    
                                 </header>
                                 <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
                             <?php } ?>
                             
                                 <section class="argInf_dato">
-                                        <h3>Dato</h3>
-                                        <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
+                                        <h2>Dato</h2>
+                                        <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                                 </section>
                                 
                                 <section class="argInf_sted">
-                                    <h3>Sted</h3>
+                                    <h2>Sted</h2>
                                     <?php 
                                         $dato = date_create($arrangement['tidspunkt']);
                                     ?>
                                     <!-- Lenke som leder til Google Maps med adresse -->
-                                    <p class="arrangement_adresse">Adresse: <a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
+                                    <p class="arrangement_adresse"><a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
                                     <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
                                 </section>
                             </section>
                             <section id="argInf_om">
-                                <h2>Om arrangementet</h2>
+                                <h1><?php echo($arrangement['eventnavn'])?></h1>
+                                <h2>Arrangement beskrivelse</h2>
                                 <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
-                                <h3>Om arrangør</h3>
+                                <h2>Arrangør</h2>
                                 <?php 
                                 // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
                                 if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
@@ -280,7 +281,8 @@ if (isset($_POST['publiserArrangement'])) {
                                 <?php } else { ?>
                                     <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
                                 <?php } ?>
-                                <p id="arrangement_mail">Epost: <a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
+                                <h2>Kontakt</h2>
+                                <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                             </section>
                             
                         </section>
