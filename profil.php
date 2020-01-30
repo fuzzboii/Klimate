@@ -12,6 +12,21 @@ include("innstillinger.php");
 
  if ($_SESSION['idbruker'] == $_GET['bruker']) {
      $egen = true;
+ } else $egen = false;
+
+ //-----------------------------//
+ // Oppdaterer egen beskrivelse //
+ //-----------------------------//
+ // Litt usikker på om vi trenger den første if-testen.
+ // Muligheten skal uansett bare være tilstede for å oppdatere når $egen er sann, 
+ // men heller for mye integritet enn for lite
+ if ($egen) {
+    if (isset($_POST['beskrivelse'])) {
+        echo "PLACEHOLDER - OPPDATERT";
+        $oppdaterBeskrivelse = "update bruker set beskrivelse = " . $_POST['beskrivelse'] . " where idbruker = " . $_SESSION['idbruker'];
+        $stmtOppdaterBeskrivelse = $db->prepare($oppdaterBeskrivelse);
+        $stmtOppdaterBeskrivelse->execute();
+    }
  }
 
 //------------------------------//
@@ -261,7 +276,10 @@ if ($tellingArrangement > 0) {
                 </section>
                 
                 <h1>Om</h1>
-                <p> <?php echo $beskrivelseProfil ?> </p> <!-- OG REDIGER -->
+                <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <textarea name="beskrivelse" maxlength="1024"><?php echo $beskrivelseProfil ?></textarea>
+                    <input type="submit" value="Oppdater" />
+                </form>
                 
                 <h1>Artikler</h1>
                 <p> <?php if ($tellingArtikkel != null) {
