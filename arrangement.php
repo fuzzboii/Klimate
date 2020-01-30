@@ -240,29 +240,25 @@ if (isset($_POST['publiserArrangement'])) {
                                 <h1><?php echo($arrangement['eventnavn'])?></h1>
                             </header>
                             <main id="arrangement_main" style="margin-top: 6em;" onclick="lukkHamburgerMeny()"> 
-                                <?php if ($antallBilderFunnet != 0) { ?>
-                                <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                                <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
-                        <?php } else { ?>
-                            <header class="arrangement_header" onclick="lukkHamburgerMeny()">
-                                <h1><?php echo($arrangement['eventnavn'])?></h1>
-                            </header>
-                            <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
-                        <?php } ?>
+                                
                         <!-- -----------------påklikket arrangement---------------------  -->
                         <section id="arrangement_omEvent">
-                            <h3>Om arrangementet</h3>
-                            <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
-
-                             
-
-                            </section>
-                            <section class="arg_informasjon">
-                                
+                            <section id="argInf_DatoSted">
+                            <?php if ($antallBilderFunnet != 0) { ?>
+                                <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
+                                    <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                            <?php } else { ?>
+                                <header class="arrangement_header" onclick="lukkHamburgerMeny()">
+                                    <h1><?php echo($arrangement['eventnavn'])?></h1>
+                                </header>
+                                <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
+                            <?php } ?>
+                            
                                 <section class="argInf_dato">
-                                    <h3>Dato</h3>
-                                    <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
+                                        <h3>Dato</h3>
+                                        <p id="arrangement_dato">Når: <?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                                 </section>
+                                
                                 <section class="argInf_sted">
                                     <h3>Sted</h3>
                                     <?php 
@@ -272,17 +268,20 @@ if (isset($_POST['publiserArrangement'])) {
                                     <p class="arrangement_adresse">Adresse: <a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
                                     <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
                                 </section>
-                                <section class="argInf_om">
-                                    <h3>Om arrangør</h3>
-                                    <?php 
-                                    // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                    if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
-                                        <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
-                                    <?php } else { ?>
-                                        <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
-                                    <?php } ?>
-                                    <p id="arrangement_mail">Epost: <a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
-                                </section>
+                            </section>
+                            <section id="argInf_om">
+                                <h2>Om arrangementet</h2>
+                                <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
+                                <h3>Om arrangør</h3>
+                                <?php 
+                                // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                                if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
+                                    <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
+                                <?php } else { ?>
+                                    <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
+                                <?php } ?>
+                                <p id="arrangement_mail">Epost: <a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
+                            </section>
                             
                         </section>
                     <?php } ?>
