@@ -352,10 +352,10 @@ if (isset($_POST['subEndring'])) {
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
                         <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-                    <?php } if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
                         <p id="mldFEIL">Brukernavnet er opptatt</p>    
 
-                    <?php } if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
                         <p id="mldFEIL">Epost er ikke gyldig</p>    
                     <?php } ?>
                     <!-- Sender brukeren tilbake til forsiden -->
