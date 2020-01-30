@@ -236,9 +236,6 @@ if (isset($_POST['publiserArrangement'])) {
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     ?> 
                     <section id="arrangement_spes"> 
-                        <header id="arrangement_headerMBilde" onclick="lukkHamburgerMeny()">
-                            <h1><?php echo($arrangement['eventnavn'])?></h1>
-                        </header>
                         <main id="arrangement_main" style="margin-top: 6em;" onclick="lukkHamburgerMeny()"> 
                                     
                         <!-- -----------------påklikket arrangement---------------------  -->
@@ -248,10 +245,7 @@ if (isset($_POST['publiserArrangement'])) {
                                 <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
                                 <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
                             <?php } else { ?>
-                                <header class="arrangement_header" onclick="lukkHamburgerMeny()">
-                                    
-                                </header>
-                                <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
+                                <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
                             
                             <section class="argInf_dato">
