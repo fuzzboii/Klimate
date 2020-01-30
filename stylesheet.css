@@ -1103,8 +1103,6 @@ table {
 #arrangement_dato {
   padding-bottom: 0.5em;
 }
-/* styling for påklikket arrangment */
-
 
 .argInf_dato {
   
@@ -1116,6 +1114,11 @@ table {
 
 .argInf_om {
   
+}
+
+/* Del for visning av nytt arrangement */
+#arrangement_arrangementNy input {
+  display: block;
 }
 
 /* overskrifter */

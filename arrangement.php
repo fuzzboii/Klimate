@@ -7,6 +7,74 @@ session_start();
 include("innstillinger.php");
 
 
+if (isset($_POST['publiserArrangement'])) {
+    if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel']) > 0) {
+        if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['innhold']) > 0) {
+            if ($_POST['tidspunkt'] != "") {
+                if (strtotime($_POST['tidspunkt']) > strtotime(date("Y-m-d H:i:s"))) {
+                    // Tid OK
+                    if(strlen($_POST['adresse']) <= 250 && strlen($_POST['adresse']) > 0) {
+                        // Adresse OK
+                        
+                        // Tar utgangspunkt i at bruker ikke har lastet opp bilde
+                        $harBilde = false;
+
+                        // Sanitiserer innholdet før det blir lagt i databasen
+                        $tittel = filter_var($_POST['tittel'], FILTER_SANITIZE_STRING);
+                        $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
+                        $tidspunkt = $_POST['tidspunkt'];
+                        $adresse = filter_var($_POST['adresse'], FILTER_SANITIZE_STRING);
+
+                        // Henter IDen til fylket som ble valgt
+                        $hentFylkeQ = "select idfylke from fylke where fylkenavn = '" . $_POST['fylke'] . "'";                        
+                        $hentFylkeSTMT = $db->prepare($hentFylkeQ);
+                        $hentFylkeSTMT->execute();
+                        $idfylke = $hentFylkeSTMT->fetch(PDO::FETCH_ASSOC); 
+                        
+                        // Spørringen som oppretter arrangementet
+                        $nyttArrangementQ = "insert into event(eventnavn, eventtekst, tidspunkt, veibeskrivelse, idbruker, fylke) values('" . $tittel . "', '" . $innhold . "', '" . $tidspunkt . "', '" . $adresse . "', '" . $_SESSION['idbruker'] . "', '" . $idfylke['idfylke'] . "')";
+                        $nyttArrangementSTMT = $db->prepare($nyttArrangementQ);
+                        $nyttArrangementSTMT->execute();
+                        $idevent = $db->lastInsertId();
+                        
+                        // Del for filopplastning
+                        if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+                            // Kombinerer artikkel med den siste idevent'en
+                            $navn = "event" . $idevent;
+                            // Henter filtypen
+                            $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
+                            // Kombinerer navnet med filtypen
+                            $bildenavn = $navn . $filtype;
+                            // Selve prosessen som flytter bildet til bestemt lagringsplass
+                            if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
+                                $harbilde = true;
+                            } else {
+                                // Feilmelding her
+                            }
+                        }
+                        if ($harbilde == true) {
+                            // Legger til bildet i databasen, dette kan være sin egne spørring
+                            $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+                            $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+                            $nyttBildeSTMT->execute();
+                            // Returnerer siste bildeid'en
+                            $bildeid = $db->lastInsertId();
+
+                            // Spørringen som lager koblingen mellom bilder og arrangement
+                            $nyKoblingQ = "insert into eventbilde(event, bilde) values('" . $idevent . "', '" . $bildeid . "')";
+                            $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+                            $nyKoblingSTMT->execute();
+                        }
+
+                        header('Location: arrangement.php?arrangement=' . $idevent);
+
+                    }
+                }
+            } // Innholdet er for langt
+        } // Ingress er for langt
+    } // Tittel er for lang
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -194,10 +262,46 @@ include("innstillinger.php");
                         </section>
                     <?php } ?>
                 </section>
-            <?php  } else {
+            <?php  } else if (isset($_GET['nyarrangement'])) { ?>      
+            
+                <header class="arrangement_header" onclick="lukkHamburgerMeny()">
+                    <h1>Nytt arrangement</h1>
+                </header>
+
+                <main id="arrangement_main" onclick="lukkHamburgerMeny()">
+
+                <article id="arrangement_arrangementNy">
+                    <form method="POST" action="arrangement.php" enctype="multipart/form-data">
+                        <h2>Tittel</h2>
+                        <input type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
+                        <h2>Innhold</h2>
+                        <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv litt hva arrangementet handler om" required></textarea>
+                        <h2>Dato</h2>
+                        <input type="datetime-local" name="tidspunkt" required>
+                        <h2>Adresse</h2>
+                        <input type="text" maxlength="250" name="adresse" placeholder="Oppgi adresse" required>
+                        <select name="fylke" required>
+                            <option value="">Velg fylke</option>
+                            <?php 
+                                // Henter fylker fra database
+                                $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
+                                $stmtFylke = $db->prepare($hentFylke);
+                                $stmtFylke->execute();
+                                $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($fylke as $innhold) { ?>
+                                    <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
+                            <?php } ?>
+                        </select>
+                        <h2>Bilde</h2>
+                        <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
+                        <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
+                    </form>
+                </article>
+
+            <?php } else {
 
                 // Del for å vise alle arrangement 
-                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
             
                 $stmtArr = $db->prepare($hentAlleArr);
                 $stmtArr->execute();
@@ -212,6 +316,9 @@ include("innstillinger.php");
                 
                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                     <h1>Arrangementer</h1>
+                    <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
+                        <img id="arrangement_plussikon" src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
+                    </a>
                 </header>
                 <main id="arrangement_main" onclick="lukkHamburgerMeny()">
                 <?php if ($resAntall > 0 ) { ?>
