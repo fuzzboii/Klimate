@@ -19,14 +19,14 @@ date_default_timezone_set("Europe/Oslo");
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_brukernavn = "";
-if (isset($_SESSION['input_session'])) {
-    $input_brukernavn = $_SESSION['input_session'];
-    unset($_SESSION['input_session']);
+if (isset($_SESSION['input_brukernavn'])) {
+    $input_brukernavn = $_SESSION['input_brukernavn'];
+    unset($_SESSION['input_brukernavn']);
 }
 
 
 if (isset($_POST['submit'])) {
-    $_SESSION['input_session'] = $_POST['brukernavn'];
+    $_SESSION['input_brukernavn'] = $_POST['brukernavn'];
     // Ventetiden når en bruker er lukket ute
     $ventetid = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . "- 180 seconds"));
 
@@ -70,6 +70,9 @@ if (isset($_POST['submit'])) {
                 $_SESSION['brukertype'] = $resultat['brukertype'];
                 
                 $_SESSION['feilteller'] = 0;
+
+                // Fjerner session variable for brukerinput om ingen feil oppstår
+                unset($_SESSION['input_brukernavn']);
 
                 header("Location: backend.php");
             } else {
