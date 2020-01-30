@@ -1072,6 +1072,11 @@ table {
 #arrangement_fullSizeBilde {
   width: 100%;
   box-shadow: 0 0 0.1em 0.01em black;
+  max-width: 18em;
+  height: 23em;
+  display: flex;
+  align-items: left;
+  justify-content: left;
 }
 #arrangement_headerMBilde {
   padding-left: 0.4em; padding-right: 0.4em;
@@ -1097,18 +1102,19 @@ table {
 #arrangement_dato {
   padding-bottom: 0.5em;
 }
-
-.argInf_dato {
+#argInf_meta {
+  grid-column: 1/span 1;
+  grid-row: 2/span 1;
   
+}
+.argInf_dato {
+
 }
 
 .argInf_sted {
   
 }
 
-#arrangement_omEvent h3 {
-  
-}
 /* styling for påklikket arrangment */
 #arrangement_omEvent {
   display: grid;
@@ -1140,9 +1146,6 @@ table {
   background-color: rgb(200,218,211);
 }
 
-.argInf_dato, .argInf_sted, .argInf_om {
-  
-}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
@@ -1178,8 +1181,6 @@ table {
   /* Del for visning av spesifikt arrangement */
   #arrangement_fullSizeBilde {
     display: block;
-    width: 23em;
-    margin-left: auto; margin-right: auto;
     box-shadow: 0 0 0.1em 0.01em black;
   }
 
@@ -1313,32 +1314,6 @@ table {
   
   #arrangement_omEvent {
     grid-template-columns: 1fr 1fr;
-  }
-  
-  .arg_informasjon {
-
-  }
-
-  .argInf_dato h3 {
-  }
-  
-  .argInf_sted h3 {
-    
-  }
-  
-  .argInf_om h3 {
-    
-  }
-
-  .argInf_dato {
-  }
-  
-  .argInf_sted {
-    
-  }
-  
-  .argInf_om {
-    
   }
 
 }
@@ -1540,7 +1515,9 @@ table {
   #arrangement_omEvent {
     grid-template-columns: 1fr 1fr;
   }
-
+  #arrangement_fullSizeBilde {
+    max-width: 23em;
+  }
   .arrangement_hovedsection {
     grid-template-columns: 1fr 1fr 1fr;
   }
