@@ -247,13 +247,16 @@ if (isset($_POST['publiserArrangement'])) {
                             <?php } else { ?>
                                 <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
+                            <button id="PameldingKnappArrangement" onClick="location.href='arrangement.php'">Påmeld</button>
                             
                             <section class="argInf_dato">
+                                <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png">
                                 <h2>Dato</h2>
                                 <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                             </section>
                             
                             <section class="argInf_sted">
+                                <img class="arrangementInnhold_rFloatBilde" src="bilder/stedIkon.png">
                                 <h2>Sted</h2>
                                 <?php 
                                     $dato = date_create($arrangement['tidspunkt']);
