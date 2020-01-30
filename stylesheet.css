@@ -964,6 +964,20 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
+#tilbKnappArrangement {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  margin: 0; margin-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 7em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
+
 .arrangement_header {
   padding-top: 6em;
   padding-bottom: 1em;
@@ -1586,11 +1600,17 @@ table {
     cursor: pointer;
   }
 
-  #artikkel_tilbKnapp:hover, #artikkel_nesteKnapp:hover, #tilbKnappArtikkel:hover {
+  #tilbKnappArrangement:hover, #artikkel_nesteKnapp:hover, #tilbKnappArtikkel:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
   
+  /* Tilbake knapp hover innstillinger for arrangement innhold */
+  #arrangement_tilbKnapp:hover, #sok_tilbKnapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+  }
+
   /* artikkel overskrift */
   .artikkel_overskrift {
     font-size: 2em;
