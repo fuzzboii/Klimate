@@ -284,7 +284,7 @@ if (isset($_POST['publiserArrangement'])) {
                                 <h2>Kontakt</h2>
                                 <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                             </section>
-                            
+                            <button id="tilbKnappArrangement" onClick="location.href='arrangement.php'">Tilbake</button>
                         </section>
                     <?php } ?>
                 </section>
@@ -412,6 +412,7 @@ if (isset($_POST['publiserArrangement'])) {
                             <?php } ?>
                             <h2><?php echo($resArr[$j]['eventnavn'])?></h2>
                         </section>
+                        
                         <?php 
                         // Hvis telleren har nådd 8
                         if (($avsluttTag == 8) || $j == (count($resArr) - 1)) { ?>
