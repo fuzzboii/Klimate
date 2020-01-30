@@ -6,73 +6,98 @@ session_start();
 //------------------------------//
 include("innstillinger.php");
 
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_tittel = "";
+$input_innhold = "";
+$input_tidspunkt = "";
+$input_adresse = "";
+$input_fylke = "";
+if (isset($_SESSION['input_tittel'])) {
+    // Legger innhold i variable som leses senere på siden
+    $input_tittel = $_SESSION['input_tittel'];
+    $input_innhold = $_SESSION['input_innhold'];
+    $input_tidspunkt = $_SESSION['input_tidspunkt'];
+    $input_adresse = $_SESSION['input_adresse'];
+    $input_fylke = $_SESSION['input_fylke'];
+    // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+    unset($_SESSION['input_tittel']);
+    unset($_SESSION['input_innhold']);
+    unset($_SESSION['input_tidspunkt']);
+    unset($_SESSION['input_adresse']);
+    unset($_SESSION['input_fylke']);
+}
 
 if (isset($_POST['publiserArrangement'])) {
+    $_SESSION['input_tittel'] = $_POST['tittel'];
+    $_SESSION['input_innhold'] = $_POST['innhold'];
+    $_SESSION['input_tidspunkt'] = $_POST['tidspunkt'];
+    $_SESSION['input_adresse'] = $_POST['adresse'];
+    $_SESSION['input_fylke'] = $_POST['fylke'];
+
     if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel']) > 0) {
         if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['innhold']) > 0) {
             if ($_POST['tidspunkt'] != "") {
                 if (strtotime($_POST['tidspunkt']) > strtotime(date("Y-m-d H:i:s"))) {
-                    // Tid OK
                     if(strlen($_POST['adresse']) <= 250 && strlen($_POST['adresse']) > 0) {
-                        // Adresse OK
+                        if($_POST['fylke'] != "") {
                         
-                        // Tar utgangspunkt i at bruker ikke har lastet opp bilde
-                        $harBilde = false;
+                            // Tar utgangspunkt i at bruker ikke har lastet opp bilde
+                            $harBilde = false;
 
-                        // Sanitiserer innholdet før det blir lagt i databasen
-                        $tittel = filter_var($_POST['tittel'], FILTER_SANITIZE_STRING);
-                        $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
-                        $tidspunkt = $_POST['tidspunkt'];
-                        $adresse = filter_var($_POST['adresse'], FILTER_SANITIZE_STRING);
+                            // Sanitiserer innholdet før det blir lagt i databasen
+                            $tittel = filter_var($_POST['tittel'], FILTER_SANITIZE_STRING);
+                            $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
+                            $tidspunkt = $_POST['tidspunkt'];
+                            $adresse = filter_var($_POST['adresse'], FILTER_SANITIZE_STRING);
 
-                        // Henter IDen til fylket som ble valgt
-                        $hentFylkeQ = "select idfylke from fylke where fylkenavn = '" . $_POST['fylke'] . "'";                        
-                        $hentFylkeSTMT = $db->prepare($hentFylkeQ);
-                        $hentFylkeSTMT->execute();
-                        $idfylke = $hentFylkeSTMT->fetch(PDO::FETCH_ASSOC); 
-                        
-                        // Spørringen som oppretter arrangementet
-                        $nyttArrangementQ = "insert into event(eventnavn, eventtekst, tidspunkt, veibeskrivelse, idbruker, fylke) values('" . $tittel . "', '" . $innhold . "', '" . $tidspunkt . "', '" . $adresse . "', '" . $_SESSION['idbruker'] . "', '" . $idfylke['idfylke'] . "')";
-                        $nyttArrangementSTMT = $db->prepare($nyttArrangementQ);
-                        $nyttArrangementSTMT->execute();
-                        $idevent = $db->lastInsertId();
-                        
-                        // Del for filopplastning
-                        if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
-                            // Kombinerer artikkel med den siste idevent'en
-                            $navn = "event" . $idevent;
-                            // Henter filtypen
-                            $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
-                            // Kombinerer navnet med filtypen
-                            $bildenavn = $navn . $filtype;
-                            // Selve prosessen som flytter bildet til bestemt lagringsplass
-                            if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
-                                $harbilde = true;
-                            } else {
-                                // Feilmelding her
+                            // Henter IDen til fylket som ble valgt
+                            $hentFylkeQ = "select idfylke from fylke where fylkenavn = '" . $_POST['fylke'] . "'";                        
+                            $hentFylkeSTMT = $db->prepare($hentFylkeQ);
+                            $hentFylkeSTMT->execute();
+                            $idfylke = $hentFylkeSTMT->fetch(PDO::FETCH_ASSOC); 
+                            
+                            // Spørringen som oppretter arrangementet
+                            $nyttArrangementQ = "insert into event(eventnavn, eventtekst, tidspunkt, veibeskrivelse, idbruker, fylke) values('" . $tittel . "', '" . $innhold . "', '" . $tidspunkt . "', '" . $adresse . "', '" . $_SESSION['idbruker'] . "', '" . $idfylke['idfylke'] . "')";
+                            $nyttArrangementSTMT = $db->prepare($nyttArrangementQ);
+                            $nyttArrangementSTMT->execute();
+                            $idevent = $db->lastInsertId();
+                            
+                            // Del for filopplastning
+                            if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+                                // Kombinerer artikkel med den siste idevent'en
+                                $navn = "event" . $idevent;
+                                // Henter filtypen
+                                $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
+                                // Kombinerer navnet med filtypen
+                                $bildenavn = $navn . $filtype;
+                                // Selve prosessen som flytter bildet til bestemt lagringsplass
+                                if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
+                                    $harbilde = true;
+                                } else {
+                                    // Feilmelding her
+                                }
                             }
-                        }
-                        if ($harbilde == true) {
-                            // Legger til bildet i databasen, dette kan være sin egne spørring
-                            $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
-                            $nyttBildeSTMT = $db->prepare($nyttBildeQ);
-                            $nyttBildeSTMT->execute();
-                            // Returnerer siste bildeid'en
-                            $bildeid = $db->lastInsertId();
+                            if ($harbilde == true) {
+                                // Legger til bildet i databasen, dette kan være sin egne spørring
+                                $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+                                $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+                                $nyttBildeSTMT->execute();
+                                // Returnerer siste bildeid'en
+                                $bildeid = $db->lastInsertId();
 
-                            // Spørringen som lager koblingen mellom bilder og arrangement
-                            $nyKoblingQ = "insert into eventbilde(event, bilde) values('" . $idevent . "', '" . $bildeid . "')";
-                            $nyKoblingSTMT = $db->prepare($nyKoblingQ);
-                            $nyKoblingSTMT->execute();
-                        }
+                                // Spørringen som lager koblingen mellom bilder og arrangement
+                                $nyKoblingQ = "insert into eventbilde(event, bilde) values('" . $idevent . "', '" . $bildeid . "')";
+                                $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+                                $nyKoblingSTMT->execute();
+                            }
 
-                        header('Location: arrangement.php?arrangement=' . $idevent);
-
-                    }
-                }
-            } // Innholdet er for langt
-        } // Ingress er for langt
-    } // Tittel er for lang
+                            header('Location: arrangement.php?arrangement=' . $idevent);
+                        } else { header('Location: arrangement.php?nyarrangement=error6'); } // Fylke ikke oppgitt
+                    } else { header('Location: arrangement.php?nyarrangement=error5'); } // Adresse tomt / for langt
+                } else { header('Location: arrangement.php?nyarrangement=error4'); } // Dato tilbake i tid
+            } else { header('Location: arrangement.php?nyarrangement=error3'); } // Tidspunkt ikke oppgitt
+        } else { header('Location: arrangement.php?nyarrangement=error2'); } // Innholdt tomt / for langt
+    } else { header('Location: arrangement.php?nyarrangement=error1'); } // Tittel tomt / for langt
 }
 
 ?>
@@ -273,16 +298,18 @@ if (isset($_POST['publiserArrangement'])) {
                 <article id="arrangement_arrangementNy">
                     <form method="POST" action="arrangement.php" enctype="multipart/form-data">
                         <h2>Tittel</h2>
-                        <input type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
+                        <input type="text" maxlength="45" name="tittel" value="<?php echo($input_tittel) ?>" placeholder="Skriv inn tittel" autofocus required>
                         <h2>Innhold</h2>
-                        <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv litt hva arrangementet handler om" required></textarea>
+                        <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv litt hva arrangementet handler om" required><?php echo($input_innhold) ?></textarea>
                         <h2>Dato</h2>
-                        <input type="datetime-local" name="tidspunkt" required>
+                        <input type="datetime-local" name="tidspunkt" value="<?php echo($input_tidspunkt) ?>" required>
                         <h2>Adresse</h2>
-                        <input type="text" maxlength="250" name="adresse" placeholder="Oppgi adresse" required>
+                        <input type="text" maxlength="250" name="adresse" value="<?php echo($input_adresse) ?>" placeholder="Oppgi adresse" required>
                         <select name="fylke" required>
-                            <option value="">Velg fylke</option>
-                            <?php 
+                            <?php if($input_fylke != "") { ?><option value="<?php echo($input_fylke) ?>"><?php echo($input_fylke) ?></option>
+                            <?php } else { ?>
+                                <option value="">Velg fylke</option>
+                            <?php }
                                 // Henter fylker fra database
                                 $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
                                 $stmtFylke = $db->prepare($hentFylke);
@@ -294,6 +321,26 @@ if (isset($_POST['publiserArrangement'])) {
                         </select>
                         <h2>Bilde</h2>
                         <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
+
+                        <?php if($_GET['nyarrangement'] == "error1"){ ?>
+                            <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
+                    
+                        <?php } else if($_GET['nyarrangement'] == "error2"){ ?>
+                            <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
+                        
+                        <?php } else if($_GET['nyarrangement'] == "error3") { ?>
+                            <p id="mldFEIL">Oppgi en dato</p>
+
+                        <?php } else if($_GET['nyarrangement'] == "error4"){ ?>
+                            <p id="mldFEIL">Datoen må være forover i tid</p>    
+
+                        <?php } else if($_GET['nyarrangement'] == "error5"){ ?>
+                            <p id="mldFEIL">Adresse for lang eller ikke oppgitt</p>   
+
+                        <?php } else if($_GET['nyarrangement'] == "error6"){ ?>
+                            <p id="mldFEIL">Fylke ikke oppgitt</p>    
+                        <?php } ?>
+
                         <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
                     </form>
                 </article>
