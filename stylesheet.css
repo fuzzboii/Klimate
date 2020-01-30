@@ -3,6 +3,7 @@
 body {
   background-color: rgb(242, 246, 245); /* Universale bakgrunnsfargen */
   margin: 0; /* Brukes for å få navigasjonsbaren helt ut til kantene */
+  font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
 
 }
 
@@ -1160,6 +1161,15 @@ table {
   margin-left: auto;
   margin-right: auto;
 }
+.interesserTags {
+  display: flex;
+}
+
+.interesserTags p {
+  background-color: rgb(200,218,211);
+  padding: 0.3em;
+  border-radius: 0.7em;
+}
 
 .profil_main {
   margin-left: 5em;
@@ -1167,7 +1177,20 @@ table {
 
 .profil_main p {
   margin-left: 1em;
+  
+
 }
+
+.profil_main {
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding-top: 4em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
 
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
