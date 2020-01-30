@@ -247,6 +247,7 @@ if (isset($_POST['publiserArrangement'])) {
                             <?php if ($antallBilderFunnet != 0) { ?>
                                 <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
                                     <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                                    <button id="PameldingKnappArrangement" onClick="">Påmeld</button>
                             <?php } else { ?>
                                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                                     
@@ -255,11 +256,13 @@ if (isset($_POST['publiserArrangement'])) {
                             <?php } ?>
                             
                                 <section class="argInf_dato">
-                                        <h2>Dato</h2>
-                                        <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
+                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png">
+                                    <h2>Dato</h2>
+                                    <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                                 </section>
                                 
                                 <section class="argInf_sted">
+                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/stedIkon.png">
                                     <h2>Sted</h2>
                                     <?php 
                                         $dato = date_create($arrangement['tidspunkt']);
@@ -285,6 +288,7 @@ if (isset($_POST['publiserArrangement'])) {
                                 <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                             </section>
                             <button id="tilbKnappArrangement" onClick="location.href='arrangement.php'">Tilbake</button>
+                            
                         </section>
                     <?php } ?>
                 </section>
