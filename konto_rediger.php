@@ -25,11 +25,13 @@ $input_fornavn = "";
 $input_etternavn = "";
 $input_telefonnummer = "";
 if (isset($_SESSION['input_brukernavn'])) {
+    // Legger innhold i variable som leses senere på siden
     $input_brukernavn = $_SESSION['input_brukernavn'];
     $input_epost = $_SESSION['input_epost'];
     $input_fornavn = $_SESSION['input_fornavn'];
     $input_etternavn = $_SESSION['input_etternavn'];
     $input_telefonnummer = $_SESSION['input_telefonnummer'];
+    // Sletter innholdet så dette ikke eksisterer utenfor denne siden
     unset($_SESSION['input_brukernavn']);
     unset($_SESSION['input_epost']);
     unset($_SESSION['input_fornavn']);
@@ -165,7 +167,7 @@ if (isset($_POST['subEndring'])) {
                         // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
                         $antall = $stmt->rowCount();
                 
-                        if (!$antall == "0") {
+                        if ($antall > 0) {
                             $oppdatertPw = true;
                         }
                     }
