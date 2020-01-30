@@ -236,60 +236,50 @@ if (isset($_POST['publiserArrangement'])) {
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     ?> 
                     <section id="arrangement_spes"> 
-                            <header id="arrangement_headerMBilde" onclick="lukkHamburgerMeny()">
-                                <h1><?php echo($arrangement['eventnavn'])?></h1>
-                            </header>
-                            <main id="arrangement_main" style="margin-top: 6em;" onclick="lukkHamburgerMeny()"> 
-                                
+                        <main id="arrangement_main" style="margin-top: 6em;" onclick="lukkHamburgerMeny()"> 
+                                    
                         <!-- -----------------påklikket arrangement---------------------  -->
                         <section id="arrangement_omEvent">
                             <section id="argInf_meta">
                             <?php if ($antallBilderFunnet != 0) { ?>
                                 <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                                    <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
-                                    <button id="PameldingKnappArrangement" onClick="">Påmeld</button>
+                                <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
                             <?php } else { ?>
-                                <header class="arrangement_header" onclick="lukkHamburgerMeny()">
-                                    
-                                </header>
-                                <main id="arrangement_main" onclick="lukkHamburgerMeny()"> 
+                                <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
                             
-                                <section class="argInf_dato">
-                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png">
-                                    <h2>Dato</h2>
-                                    <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
-                                </section>
-                                
-                                <section class="argInf_sted">
-                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/stedIkon.png">
-                                    <h2>Sted</h2>
-                                    <?php 
-                                        $dato = date_create($arrangement['tidspunkt']);
-                                    ?>
-                                    <!-- Lenke som leder til Google Maps med adresse -->
-                                    <p class="arrangement_adresse"><a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
-                                    <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
-                                </section>
+                            <section class="argInf_dato">
+                                <h2>Dato</h2>
+                                <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                             </section>
-                            <section id="argInf_om">
-                                <h1><?php echo($arrangement['eventnavn'])?></h1>
-                                <h2>Arrangement beskrivelse</h2>
-                                <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
-                                <h2>Arrangør</h2>
-                                <?php 
-                                // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
-                                    <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
-                                <?php } else { ?>
-                                    <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
-                                <?php } ?>
-                                <h2>Kontakt</h2>
-                                <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
-                            </section>
-                            <button id="tilbKnappArrangement" onClick="location.href='arrangement.php'">Tilbake</button>
                             
+                            <section class="argInf_sted">
+                                <h2>Sted</h2>
+                                <?php 
+                                    $dato = date_create($arrangement['tidspunkt']);
+                                ?>
+                                <!-- Lenke som leder til Google Maps med adresse -->
+                                <p class="arrangement_adresse"><a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
+                                <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
+                            </section>
                         </section>
+                        <section id="argInf_om">
+                            <h1><?php echo($arrangement['eventnavn'])?></h1>
+                            <h2>Arrangement beskrivelse</h2>
+                            <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
+                            <h2>Arrangør</h2>
+                            <?php 
+                            // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
+                            if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
+                                <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
+                            <?php } else { ?>
+                                <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
+                            <?php } ?>
+                            <h2>Kontakt</h2>
+                            <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
+                        </section>
+                        <button id="tilbKnappArrangement" onClick="location.href='arrangement.php'">Tilbake</button>
+                    </section>
                     <?php } ?>
                 </section>
             <?php  } else if (isset($_GET['nyarrangement'])) { ?>      

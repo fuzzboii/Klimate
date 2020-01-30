@@ -116,6 +116,13 @@ if (isset($_POST['subEndring'])) {
                     $_SESSION['epost'] = $nyEpost;
                     $_SESSION['telefonnummer'] = $nyttTelefonnummer;
                     $oppdatertBr = true;
+
+                    // Alt gikk ok, fjerner session variable for brukerinput
+                    unset($_SESSION['input_brukernavn']);
+                    unset($_SESSION['input_epost']);
+                    unset($_SESSION['input_fornavn']);
+                    unset($_SESSION['input_etternavn']);
+                    unset($_SESSION['input_telefonnummer']);
                 }
             } else {
                 header("Location: konto_rediger.php?error=5");

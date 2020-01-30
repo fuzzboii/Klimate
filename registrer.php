@@ -83,6 +83,10 @@ if (isset($_POST['subRegistrering'])) {
                             
                             // Alt gikk OK, sender til logginn med melding til bruker
                             if ($vellykket) {
+                                // Fjerner session variable for brukerinput om ingen feil oppstår
+                                unset($_SESSION['input_brukernavn']);
+                                unset($_SESSION['input_epost']);
+
                                 header("location: logginn.php?vellykket=1");
                             }
                         } else {
