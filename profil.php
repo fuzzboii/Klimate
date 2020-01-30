@@ -244,7 +244,7 @@ if ($tellingArrangement > 0) {
                 <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
                 
                 <h1>Interesser</h1>
-                <!-- Nøstet foreach, fordi resultatet av søk fra to tabeller ble 2D-array -->
+                <!-- Nøstet foreach, fordi resultatet av søk ble 2D-array -->
                 <!-- Ytre løkke -->
                 <p> <?php if ($tellingInteresse != null) {
                         foreach ($interesseProfil as $rad) {
