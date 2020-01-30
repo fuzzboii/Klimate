@@ -1088,13 +1088,7 @@ table {
   display: flex;
   flex-direction: column;
 }
-#arrangement_omEvent {
- 
-  box-shadow: 0 0 0.1em 0.01em black;
-}
-#arrangement_omEvent h3 {
-  
-}
+
 #arrangement_navn, #arrangement_mail, .arrangement_adresse, #arrangement_dato {
   padding-top: 0.3em;
   margin-top: 0; margin-bottom: 0;
@@ -1104,17 +1098,14 @@ table {
   padding-bottom: 0.5em;
 }
 /* styling for påklikket arrangment */
-
-
-.argInf_dato {
-  
+#arrangement_omEvent {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  padding-left: 1em; padding-right: 1em; 
+  box-shadow: 0 0 0.1em 0.01em black;
 }
-
-.argInf_sted {
-  
-}
-
-.argInf_om {
+#arrangement_omEvent h3 {
   
 }
 
@@ -1177,9 +1168,7 @@ table {
     margin-left: auto; margin-right: auto;
     box-shadow: 0 0 0.1em 0.01em black;
   }
-  #arrangement_omEvent {
-    
-  }
+
   #arrangement_headerMBilde {
     text-align: center;
   }
@@ -1276,14 +1265,6 @@ table {
     margin-left: 1em; margin-right: 1em;
   }
 
-  /* Grid for arrangement */
-  .arrangement_hovedsection {
-    grid-template-columns: 1fr 1fr;
-  }
-  .arrangement_BildeBoks {
-    height: 11em;
-  }
-
   /* Grid for Konto_rediger */
   .brukerinformasjon_rediger {
     display: grid;
@@ -1307,13 +1288,21 @@ table {
     font-size: 3em;
   }
 
-
+  /* Grid for arrangement */
+  .arrangement_hovedsection {
+    grid-template-columns: 1fr 1fr;
+  }
+  .arrangement_BildeBoks {
+    height: 11em;
+  }
   /* Styling for påklikket arrangement */
+  
+  #arrangement_omEvent {
+    grid-template-columns: 1fr 1fr;
+  }
+  
   .arg_informasjon {
-    display: flex;
-    margin-left: auto; margin-right: auto;
-     max-width: 65%;
-     box-shadow: 0 0 0.1em 0.01em black;
+
   }
 
   .argInf_dato h3 {
@@ -1534,6 +1523,10 @@ table {
   }
   
   /* Grid for arrangement */
+  #arrangement_omEvent {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .arrangement_hovedsection {
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -1683,6 +1676,10 @@ table {
     margin-left: 1.4em; margin-right: 1.4em;
   }
   /* Grid for arrangementer */
+  #arrangement_omEvent {
+    grid-template-columns: 1fr 1fr;
+  }
+  
   .arrangement_hovedsection {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
