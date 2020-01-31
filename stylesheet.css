@@ -1268,7 +1268,7 @@ table {
   }
   /* artikkel overskrift */
   .artikkel_overskrift {
-    font-size: 2em;
+    font-size: 1.5em;
   }
 
 }
@@ -1491,11 +1491,6 @@ table {
     
     }
 
-  /* artikkel overskrift */
-  .artikkel_overskrift {
-    font-size: 3em;
-  }
-
   /* Hover-instillinger for søk*/
 
   .brukerRullegardin:hover, .artikkelRullegardin:hover, .arrangementRullegardin:hover{
@@ -1648,11 +1643,6 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
-
-  /* artikkel overskrift */
-  .artikkel_overskrift {
-    font-size: 2em;
-  }
   .side_artikkel {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
@@ -1725,9 +1715,6 @@ table {
   }
   #arrangement_main {
     max-width: 100em;
-    margin-left: auto; margin-right: auto;
-  }
-  #artikkel_main {
     margin-left: auto; margin-right: auto;
   }
 }
