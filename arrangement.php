@@ -265,7 +265,7 @@ if(isset($_POST['paameld'])) {
                             <?php } ?>
                             <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <?php if(isset($_SESSION['idbruker'])) {
-                                    $hentPaameldteQ = "select bruker_id from påmelding where påmelding.bruker_id = '" . $_SESSION['idbruker'] . "'";
+                                    $hentPaameldteQ = "select bruker_id from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
                                     $hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
                                     $hentPaameldteSTMT->execute();
                                     $paameldt = $hentPaameldteSTMT->rowCount();
