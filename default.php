@@ -179,9 +179,7 @@ if (isset($_POST['loggUt'])) {
                     </article>
                     <article id="artikkel4">
                         <h2>Tilfeldig utvalgt</h2>
-                        <p><?php echo($tilfeldigArtikkel['artingress'])?></p>
-                        <a href="artikkel.php?artikkel=
-                            <?php 
+                        <p><?php 
                             //------------------------------//
                             // Henter artikler fra database //
                             //------------------------------//
@@ -192,7 +190,9 @@ if (isset($_POST['loggUt'])) {
                             $stmtTilfeldig->execute();
                             $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC); 
                         
-                        echo($tilfeldigArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
+                        echo($tilfeldigArtikkel['artingress'])?></p>
+                        
+                        <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
                 <?php } ?>
             </main>
