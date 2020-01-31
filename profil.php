@@ -256,10 +256,10 @@ if ($tellingArrangement > 0) {
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
             
                 <!-- Personalia, etc -->
-                <h1>Personlig informasjon</h1>
+                <h2>Personlig informasjon</h2>
                 <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
                 
-                <h1>Interesser</h1>
+                <h2>Interesser</h2>
                 <!-- Nøstet foreach, fordi resultatet av søk fra to tabeller ble 2D-array -->
                 <!-- Ytre løkke -->
                 <section class="interesserTags">
@@ -275,13 +275,13 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </section>
                 
-                <h1>Om</h1>
+                <h2>Om</h2>
                 <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                     <textarea name="beskrivelse" maxlength="1024"><?php echo $beskrivelseProfil ?></textarea>
                     <input type="submit" value="Oppdater" />
                 </form>
                 
-                <h1>Artikler</h1>
+                <h2>Artikler</h2>
                 <p> <?php if ($tellingArtikkel != null) {
                         foreach ($artikkelProfil as $rad) {
                         // Indre løkke, med innhold som $row //    
@@ -292,7 +292,7 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </p>
                 
-                <h1>Arrangementer</h1>
+                <h2>Arrangementer</h2>
                 <p> <?php if ($tellingArrangement != null) {
                         foreach ($arrangementProfil as $rad) {
                         // Indre løkke, med innhold som $row //    
@@ -303,7 +303,7 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </p>
                 
-                <!-- <h1>Kommentarer</h1> -->
+                <!-- <h2>Kommentarer</h2> -->
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
