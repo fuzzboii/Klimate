@@ -534,8 +534,7 @@ include("innstillinger.php");
 
                                     <h2 class="infoResArr_sok"><?php echo($resArr[$j]['eventnavn'])?></h2>
                                     <p class="infoResArr_sok"><?php echo($resArr[$j]['tidspunkt'])?></p>
-                                    <p class="infoResArr_sok"><?php echo($resArr[$j]['veibeskrivelse'])?></p>
-                                    <p class="infoResArr_sok"><?php echo($resArr[$j]['fylkenavn'])?></p>
+                                    <p class="infoResArr_sok"><?php echo($resArr[$j]['veibeskrivelse'] . ", " . $resArr[$j]['fylkenavn'])?></p>
                                     <?php 
                                     // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
                                     if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>

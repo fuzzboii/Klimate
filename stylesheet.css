@@ -872,6 +872,7 @@ table {
   border-radius: 50%;
   width: 8em;
   height: 8em;
+  object-fit: cover;
 }
 .brukerRes_sok {
   width: 12em;
@@ -970,6 +971,7 @@ table {
 }
 .infoBoksArr_sok {
   margin-left: 0.9em; margin-right: 0.9em;
+  word-break: break-word;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
