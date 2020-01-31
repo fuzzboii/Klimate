@@ -100,12 +100,20 @@ if (isset($_POST['publiserArrangement'])) {
     } else { header('Location: arrangement.php?nyarrangement=error1'); } // Tittel tomt / for langt
 }
 
-if(isset($_POST['paamelding'])) {
-    if($_POST['paameld'] == "paameld") {
-        // Påmeld personen
-    } else if($_POST['paameld') == "paameldt" {
-        // Avmeld personen
+if(isset($_POST['paameld'])) {
+    if($_POST['paameld'] == "Paameld") {
+        $paameldingQ = "insert into påmelding(event_id, bruker_id) values (" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ")";
+        $paameldingSTMT = $db->prepare($paameldingQ);
+        $paameldingSTMT->execute();
+
+    } else if($_POST['paameld'] == "Paameldt") {
+        $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+        $avmeldingSTMT = $db->prepare($avmeldingQ);
+        $avmeldingSTMT->execute();
+        
     }
+
+    //header("Location: arrangement.php?arrangement=" . $_GET['arrangement']);
 }
 
 ?>
@@ -255,7 +263,7 @@ if(isset($_POST['paamelding'])) {
                             <?php } else { ?>
                                 <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
-                            <form method="POST" action="arrangement.php" name="paamelding">
+                            <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <?php if(isset($_SESSION['idbruker'])) {
                                     $hentPaameldteQ = "select bruker_id from påmelding where påmelding.bruker_id = '" . $_SESSION['idbruker'] . "'";
                                     $hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
@@ -263,9 +271,9 @@ if(isset($_POST['paamelding'])) {
                                     $paameldt = $hentPaameldteSTMT->rowCount();
 
                                     if($paameldt > 0) { ?>
-                                        <input type="button" id="arrangement_paameldt" name="paameld" value="Påmeldt">
+                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Påmeldt</button>
                                     <?php } else { ?>
-                                        <input type="button" id="arrangement_paameld" name="paameld" value="Påmeld">
+                                        <button id="arrangement_paameld" name="paameld" value="Paameld">Påmeld</button>
                                 <?php } } ?>
                             </form>
                             
