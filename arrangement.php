@@ -251,8 +251,8 @@ if(isset($_POST['paameld'])) {
                     $antallBilderFunnet = $stmtBilde->rowCount();
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     ?> 
-                    <section id="arrangement_spes"> 
-                        <main id="arrangement_main" style="margin-top: 6em;" onclick="lukkHamburgerMeny()"> 
+                    <main id="arrangement_main" style="margin-top: 6em;" onclick="lukkHamburgerMeny()"> 
+                        <section id="arrangement_spes"> 
                                     
                         <!-- -----------------påklikket arrangement---------------------  -->
                         <section id="arrangement_omEvent">
