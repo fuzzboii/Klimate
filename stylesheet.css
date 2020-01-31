@@ -1378,10 +1378,6 @@ table {
   .brukerinformasjon_rediger .lenke_knapp {
     grid-column: 1/span 2;
   }
-  /* artikkel overskrift */
-  .artikkel_overskrift {
-    font-size: 3em;
-  }
 
   /* Grid for arrangement */
   .arrangement_hovedsection {
@@ -1620,9 +1616,9 @@ table {
   }
 
   #artikkel_main {
+    max-width: 100em;
     grid-template-columns: 1fr 1fr 1fr; 
-    margin-left: 10em;
-    margin-right: 10em;
+    margin-left: auto; margin-right: auto;
   }
   #arrangement_nesteKnapp:hover, #arrangement_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
@@ -1727,12 +1723,11 @@ table {
   .arrangement_BildeBoks {
     height: 13em;
   }
-  /* artikkel overskrift */
-  .artikkel_overskrift {
-    font-size: 3em;
-  }
   #arrangement_main {
     max-width: 100em;
+    margin-left: auto; margin-right: auto;
+  }
+  #artikkel_main {
     margin-left: auto; margin-right: auto;
   }
 }
@@ -1755,10 +1750,6 @@ table {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     padding-left: 20em;
     padding-right: 20em;
-  }
-  /* artikkel overskrift */
-  .artikkel_overskrift {
-    font-size: 3em;
   }
 }
 
