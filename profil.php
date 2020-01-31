@@ -280,10 +280,14 @@ if ($tellingArrangement > 0) {
                 </section>
                 
                 <h2>Om</h2>
-                <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                    <textarea name="beskrivelse" maxlength="1024"><?php echo $beskrivelseProfil ?></textarea>
-                    <input type="submit" value="Oppdater" />
-                </form>
+                <?php if((isset($_SESSION['idbruker'])) && ($_SESSION['idbruker'] == $_GET['bruker'])) { ?>
+                    <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                        <textarea name="beskrivelse" maxlength="1024"><?php echo $beskrivelseProfil ?></textarea>
+                        <input type="submit" value="Oppdater" />
+                    </form>
+                <?php } else { ?>
+                    <p><?php echo($beskrivelseProfil) ?></p>
+                <?php } ?>
                 
                 <h2>Artikler</h2>
                 <p> <?php if ($tellingArtikkel != null) {
