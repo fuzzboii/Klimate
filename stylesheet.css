@@ -1226,6 +1226,9 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
+.profil_beskrivelse textarea, .profil_beskrivelse input {
+  display: block;
+}
 
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/

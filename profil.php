@@ -281,7 +281,7 @@ if ($tellingArrangement > 0) {
                 
                 <h2>Om</h2>
                 <?php if((isset($_SESSION['idbruker'])) && ($_SESSION['idbruker'] == $_GET['bruker'])) { ?>
-                    <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                         <textarea name="beskrivelse" maxlength="1024"><?php echo $beskrivelseProfil ?></textarea>
                         <input type="submit" value="Oppdater" />
                     </form>
