@@ -1765,6 +1765,17 @@ table {
     font-size: 1em;
   }
 
+  .arrangement_header, .artikkel_header {
+    padding-top: 0;
+  }
+
+  .arrangement_header a {
+    display: none;
+  }
+  
+  .arrangement_ressection::after, .res_artikkel::after {
+    content: " (" attr(onclick) ") ";
+  }
 
   /* Viser fulle lenken til sider på print */
   a::after {
