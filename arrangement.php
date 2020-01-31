@@ -100,6 +100,14 @@ if (isset($_POST['publiserArrangement'])) {
     } else { header('Location: arrangement.php?nyarrangement=error1'); } // Tittel tomt / for langt
 }
 
+if(isset($_POST['paamelding'])) {
+    if($_POST['paameld'] == "paameld") {
+        // Påmeld personen
+    } else if($_POST['paameld') == "paameldt" {
+        // Avmeld personen
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -247,7 +255,19 @@ if (isset($_POST['publiserArrangement'])) {
                             <?php } else { ?>
                                 <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
-                            <button id="PameldingKnappArrangement" onClick="location.href='arrangement.php'">Påmeld</button>
+                            <form method="POST" action="arrangement.php" name="paamelding">
+                                <?php if(isset($_SESSION['idbruker'])) {
+                                    $hentPaameldteQ = "select bruker_id from påmelding where påmelding.bruker_id = '" . $_SESSION['idbruker'] . "'";
+                                    $hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
+                                    $hentPaameldteSTMT->execute();
+                                    $paameldt = $hentPaameldteSTMT->rowCount();
+
+                                    if($paameldt > 0) { ?>
+                                        <input type="button" id="arrangement_paameldt" name="paameld" value="Påmeldt">
+                                    <?php } else { ?>
+                                        <input type="button" id="arrangement_paameld" name="paameld" value="Påmeld">
+                                <?php } } ?>
+                            </form>
                             
                             <section class="argInf_dato">
                                 <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png">

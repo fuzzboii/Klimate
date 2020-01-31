@@ -318,25 +318,6 @@ footer a {
 
 }
 
-  #PameldingKnappArrangement {
-  background-color: rgb(207, 207, 207); /* bakgrunnsfarge på knapp */
-  color: rgb(0, 0, 0); /* tekstfarge */
-  margin: 0; margin-bottom: 1em; margin-top: 0.3em;
-  font-weight: normal; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
-  border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 7em; /* Angir bredde på knappen */
-  border-radius: 0.2em; /* Runder ut knappen */
-  padding: 0.5em;
-  font-size: 1.0em; /* Font-størrelse */
-  float: right;
-  }
-
-.arrangementInnhold_rFloatBilde {
-  height: 1em;
-  float: left;
-}
-
 .artikkel_header {
   padding-top: 6em;
   padding-bottom: 1em;
@@ -1000,6 +981,39 @@ table {
 }
 
 
+#arrangement_paameldt {
+  background-color: rgba(36, 209, 100, 0.637); /* bakgrunnsfarge på knapp */
+  color: rgb(0, 0, 0); /* tekstfarge */
+  margin: 0; margin-bottom: 1em; margin-top: 0.3em;
+  font-weight: normal; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 7em; /* Angir bredde på knappen */
+  border-radius: 0.2em; /* Runder ut knappen */
+  padding: 0.5em;
+  font-size: 1.0em; /* Font-størrelse */
+  float: right;
+}
+
+#arrangement_paameld {
+  background-color: rgb(207, 207, 207); /* bakgrunnsfarge på knapp */
+  color: rgb(0, 0, 0); /* tekstfarge */
+  margin: 0; margin-bottom: 1em; margin-top: 0.3em;
+  font-weight: normal; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 7em; /* Angir bredde på knappen */
+  border-radius: 0.2em; /* Runder ut knappen */
+  padding: 0.5em;
+  font-size: 1.0em; /* Font-størrelse */
+  float: right;
+}
+
+.arrangementInnhold_rFloatBilde {
+  height: 1em;
+  float: left;
+}
+
 .arrangement_header {
   padding-top: 6em;
   padding-bottom: 1em;
@@ -1631,8 +1645,14 @@ table {
     cursor: pointer;
   }
 
+  /* Avmelding knapp hover innstillinger for arrangement innhold */
+  #arrangement_paameldt:hover {
+    background-color: rgba(221, 24, 24, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+  }
+
   /* Påmelding knapp hover innstillinger for arrangement innhold */
-  #PameldingKnappArrangement:hover, #sok_tilbKnapp:hover {
+  #arrangement_paameld:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
