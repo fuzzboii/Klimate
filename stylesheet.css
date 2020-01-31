@@ -871,6 +871,7 @@ table {
 .BildeBoksBr_sok {
   border-radius: 50%;
   width: 8em;
+  height: 8em;
 }
 .brukerRes_sok {
   width: 12em;
@@ -1309,6 +1310,7 @@ table {
   }
   .BildeBoksBr_sok {
     width: 9em;
+    height: 9em;
   }
   .arrRes_sok {
     width: 14em;
@@ -1544,6 +1546,7 @@ table {
   }
   .BildeBoksBr_sok {
     width: 10em;
+    height: 10em;
   }
   .arrRes_sok {
     width: 16em;
@@ -1552,10 +1555,6 @@ table {
     width: 14em;  height: 8em;
   }
 
-  /* Grid for avansert søk */
-  #sok_main {
-    width: 100%;
-  }
   #sok_seksjon {
     max-width: 1200px;
     display: grid;
@@ -1580,11 +1579,6 @@ table {
     height: 12em;
   }
   #default_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #sok_main {
     margin-left: 10em;
     margin-right: 10em;
   }
@@ -1650,54 +1644,16 @@ table {
 @media screen and (min-width: 1920px) {
   #default_main {
     column-count: 3;
-    margin-left: 10em;
-    margin-right: 10em; 
   }
 
   #artikkel4 {
     break-before: column;
   }
-
-  #artikkel_main {
-    margin-left: 10em;
-    margin-right: 10em;
-    grid-template-columns: 1fr 1fr 1fr; 
-  
-  }
   
   #backend_main {
     column-count: 3;
-    margin-left: 10em;
-    margin-right: 10em;
   }
 
-  #sok_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #konto_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #konto_rediger_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #arrangement_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #artikkel_main {
-    grid-template-columns: 1fr 1fr 1fr; 
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  
   #bgcont2 {
     break-before: column;
   }
@@ -1724,6 +1680,7 @@ table {
   }
   .BildeBoksBr_sok {
     width: 12em;
+    height: 12em;
   }
   .arrRes_sok {
     width: 18em;
@@ -1755,22 +1712,13 @@ table {
 @media screen and (min-width: 2560px) {
   #default_main {
     column-count: 4;
-    margin-left: 10em;
-    margin-right: 10em; 
   }
   #artikkel2 {
     break-before: column;
   }
-  
-  #backend_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
 
   #artikkel_main {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin-left: 10em;
-    margin-right: 10em;
   }
 
   /* Grid for søk */
@@ -1778,12 +1726,6 @@ table {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     padding-left: 20em;
     padding-right: 20em;
-  }
-  .brukerRes_sok {
-    width: 18em;
-  }
-  .BildeBoksBr_sok {
-    width: 12em;
   }
   /* artikkel overskrift */
   .artikkel_overskrift {
