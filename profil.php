@@ -23,7 +23,7 @@ include("innstillinger.php");
  if ($egen) {
     if (isset($_POST['beskrivelse'])) {
         echo "PLACEHOLDER - OPPDATERT";
-        $oppdaterBeskrivelse = "update bruker set beskrivelse = " . $_POST['beskrivelse'] . " where idbruker = " . $_SESSION['idbruker'];
+        $oppdaterBeskrivelse = "update bruker set beskrivelse = '" . $_POST['beskrivelse'] . "' where idbruker = " . $_SESSION['idbruker'];
         $stmtOppdaterBeskrivelse = $db->prepare($oppdaterBeskrivelse);
         $stmtOppdaterBeskrivelse->execute();
     }
