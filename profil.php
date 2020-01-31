@@ -26,7 +26,6 @@ if (isset($_SESSION['idbruker'])) {
  // men heller for mye integritet enn for lite
  if ($egen) {
     if (isset($_POST['beskrivelse'])) {
-        echo "PLACEHOLDER - OPPDATERT";
         $oppdaterBeskrivelse = "update bruker set beskrivelse = '" . $_POST['beskrivelse'] . "' where idbruker = " . $_SESSION['idbruker'];
         $stmtOppdaterBeskrivelse = $db->prepare($oppdaterBeskrivelse);
         $stmtOppdaterBeskrivelse->execute();
