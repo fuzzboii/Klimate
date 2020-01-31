@@ -286,7 +286,7 @@ if ($tellingArrangement > 0) {
                         <input type="submit" value="Oppdater" />
                     </form>
                 <?php } else { ?>
-                    <p><?php echo($beskrivelseProfil) ?></p>
+                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
                 <?php } ?>
                 
                 <h2>Artikler</h2>
