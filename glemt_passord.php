@@ -14,10 +14,6 @@ if (isset($_SESSION['brukernavn'])) {
 }
 
 
-// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
 // Hoveddelen for glemt passord
 if (isset($_POST['glemtPassord'])) {
     // Tester på om passordene er like

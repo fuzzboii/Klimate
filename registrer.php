@@ -14,11 +14,6 @@ if (isset($_SESSION['brukernavn'])) {
     header("Location: default.php?error=2");
 }
 
-
-// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_brukernavn = "";
 $input_epost = "";
