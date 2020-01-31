@@ -51,24 +51,26 @@ $salt = "IT2_2020";
 $lagringsplass = "bilder/opplastet";
 
 
-// Prøver å koble til databasen
-try {
-    $db = new mysqlPDO();
-} 
-catch (Exception $ex) {
-    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
-    if ($ex->getCode() == 1049) {
-        // 1049, Fikk koblet til men databasen finnes ikke
-        header('location: default.php?error=3');
-    }
-    if ($ex->getCode() == 2002) {
-        // 2002, Kunne ikke koble til server
-        header('location: default.php?error=3');
-    }
-    if ($ex->getCode() == 1045) {
-        // 1045, Bruker har ikke tilgang
-        header('location: default.php?error=3');
+
+// Prøver å koble til databasen, passer på å sjekke om siden vi er på er resultat av systemfeil, hvis ikke får vi en uendelig redirect loop
+if(!isset($_GET['systemerror'])) {
+    try {
+        $db = new mysqlPDO();
+    } 
+    catch (Exception $ex) {
+        // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
+        if ($ex->getCode() == 1049) {
+            // 1049, Fikk koblet til men databasen finnes ikke
+            header('Location: default.php?systemerror');
+        }
+        if ($ex->getCode() == 2002) {
+            // 2002, Kunne ikke koble til server
+            header('Location: default.php?systemerror');
+        }
+        if ($ex->getCode() == 1045) {
+            // 1045, Bruker har ikke tilgang
+            header('Location: default.php?systemerror');
+        }
     }
 }
-
 ?>

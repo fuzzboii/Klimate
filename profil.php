@@ -10,9 +10,13 @@ include("innstillinger.php");
 // Test om man ser egen profil  //
 //------------------------------//
 
- if ($_SESSION['idbruker'] == $_GET['bruker']) {
-     $egen = true;
- } else $egen = false;
+$egen = false;
+
+if (isset($_SESSION['idbruker'])) {
+    if ($_SESSION['idbruker'] == $_GET['bruker']) {
+        $egen = true;
+    }
+}
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
@@ -21,9 +25,9 @@ include("innstillinger.php");
  // men heller for mye integritet enn for lite
  if ($egen) {
     if (isset($_POST['beskrivelse'])) {
-        echo "PLACEHOLDER - OPPDATERT";
-        $oppdaterProfil = "update bruker where idbruker = '" . $_SESSION['idbruker'] . "' 
-                           set beskrivelse = '" . $_POST['beskrivelse']  . "'";
+        $oppdaterBeskrivelse = "update bruker set beskrivelse = '" . $_POST['beskrivelse'] . "' where idbruker = " . $_SESSION['idbruker'];
+        $stmtOppdaterBeskrivelse = $db->prepare($oppdaterBeskrivelse);
+        $stmtOppdaterBeskrivelse->execute();
     }
  }
 
@@ -254,10 +258,10 @@ if ($tellingArrangement > 0) {
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
             
                 <!-- Personalia, etc -->
-                <h1>Personlig informasjon</h1>
+                <h2>Personlig informasjon</h2>
                 <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
                 
-                <h1>Interesser</h1>
+                <h2>Interesser</h2>
                 <!-- Nøstet foreach, fordi resultatet av søk fra to tabeller ble 2D-array -->
                 <!-- Ytre løkke -->
                 <section class="interesserTags">
@@ -266,22 +270,24 @@ if ($tellingArrangement > 0) {
                         // Indre løkke, med innhold som $row //    
                         foreach ($rad as $kolonne) {
                            ?> 
-                           <p> <?php echo($kolonne); ?> </p> <!-- DROPDOWN, --> 
+                           <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p> <!-- DROPDOWN, --> 
                             <?php
                         } // Slutt, indre løkke    
                     } // Slutt, ytre løkke
                 } ?> <!-- Slutt, IF-test --> 
                 </section>
                 
-                <h1>Om</h1>
-                <?php if ($egen) { ?>
-                    <form method="POST" action="profil.php?bruker= <?php echo $_SESSION['idbruker'] ?> ">
-                        <textarea name="beskrivelse"><?php echo $beskrivelseProfil ?></textarea>
-                        <input type="submit" value="Oppdater"></button>
+                <h2>Om</h2>
+                <?php if((isset($_SESSION['idbruker'])) && ($_SESSION['idbruker'] == $_GET['bruker'])) { ?>
+                    <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                        <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
+                        <input type="submit" value="Oppdater" />
                     </form>
-                <?php } elseif($egen == false) ?> <p> <?php echo $beskrivelseProfil ?> </p>
+                <?php } else { ?>
+                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
+                <?php } ?>
                 
-                <h1>Artikler</h1>
+                <h2>Artikler</h2>
                 <p> <?php if ($tellingArtikkel != null) {
                         foreach ($artikkelProfil as $rad) {
                         // Indre løkke, med innhold som $row //    
@@ -292,7 +298,7 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </p>
                 
-                <h1>Arrangementer</h1>
+                <h2>Arrangementer</h2>
                 <p> <?php if ($tellingArrangement != null) {
                         foreach ($arrangementProfil as $rad) {
                         // Indre løkke, med innhold som $row //    
@@ -303,7 +309,7 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </p>
                 
-                <!-- <h1>Kommentarer</h1> -->
+                <!-- <h2>Kommentarer</h2> -->
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
