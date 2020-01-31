@@ -1642,6 +1642,13 @@ table {
   .side_artikkel {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
+
+  /* Styling for profil */
+  .interesserTags p:hover {
+    cursor: pointer;
+    box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
+    transition: box-shadow 0.2s;
+  }
 }
 
 /* Medium skjerm, 1080p */

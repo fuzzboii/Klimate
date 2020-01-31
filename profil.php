@@ -272,7 +272,7 @@ if ($tellingArrangement > 0) {
                         // Indre løkke, med innhold som $row //    
                         foreach ($rad as $kolonne) {
                            ?> 
-                           <p> <?php echo($kolonne); ?> </p> <!-- DROPDOWN, --> 
+                           <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p> <!-- DROPDOWN, --> 
                             <?php
                         } // Slutt, indre løkke    
                     } // Slutt, ytre løkke
