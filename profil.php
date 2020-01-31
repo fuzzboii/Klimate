@@ -17,15 +17,13 @@ include("innstillinger.php");
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
  //-----------------------------//
- // Litt usikker på om vi trenger den første if-testen.
- // Muligheten skal uansett bare være tilstede for å oppdatere når $egen er sann, 
+ // Litt usikker på om vi trenger den første if-testen (Muligheten skal uansett bare være tilstede for å oppdatere når $egen er sann), 
  // men heller for mye integritet enn for lite
  if ($egen) {
     if (isset($_POST['beskrivelse'])) {
         echo "PLACEHOLDER - OPPDATERT";
-        $oppdaterBeskrivelse = "update bruker set beskrivelse = " . $_POST['beskrivelse'] . " where idbruker = " . $_SESSION['idbruker'];
-        $stmtOppdaterBeskrivelse = $db->prepare($oppdaterBeskrivelse);
-        $stmtOppdaterBeskrivelse->execute();
+        $oppdaterProfil = "update bruker where idbruker = '" . $_SESSION['idbruker'] . "' 
+                           set beskrivelse = '" . $_POST['beskrivelse']  . "'";
     }
  }
 
@@ -276,10 +274,12 @@ if ($tellingArrangement > 0) {
                 </section>
                 
                 <h1>Om</h1>
-                <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                    <textarea name="beskrivelse" maxlength="1024"><?php echo $beskrivelseProfil ?></textarea>
-                    <input type="submit" value="Oppdater" />
-                </form>
+                <?php if ($egen) { ?>
+                    <form method="POST" action="profil.php?bruker= <?php echo $_SESSION['idbruker'] ?> ">
+                        <textarea name="beskrivelse"><?php echo $beskrivelseProfil ?></textarea>
+                        <input type="submit" value="Oppdater"></button>
+                    </form>
+                <?php } elseif($egen == false) ?> <p> <?php echo $beskrivelseProfil ?> </p>
                 
                 <h1>Artikler</h1>
                 <p> <?php if ($tellingArtikkel != null) {
