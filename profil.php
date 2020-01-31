@@ -10,9 +10,13 @@ include("innstillinger.php");
 // Test om man ser egen profil  //
 //------------------------------//
 
- if ($_SESSION['idbruker'] == $_GET['bruker']) {
-     $egen = true;
- } else $egen = false;
+$egen = false;
+
+if (isset($_SESSION['idbruker'])) {
+    if ($_SESSION['idbruker'] == $_GET['bruker']) {
+        $egen = true;
+    }
+}
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
