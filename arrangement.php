@@ -296,7 +296,7 @@ if(isset($_POST['paameld'])) {
                         </section>
                         <section id="argInf_om">
                             <h1><?php echo($arrangement['eventnavn'])?></h1>
-                            <h2>Arrangement beskrivelse</h2>
+                            <h2>Beskrivelse</h2>
                             <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
                             <h2>Arrangør</h2>
                             <?php 
