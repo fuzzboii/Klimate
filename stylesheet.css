@@ -1122,6 +1122,7 @@ table {
 /* Del for visning av spesifikt arrangement */
 #arrangement_fullSizeBilde {
   max-width: 100%;
+  width: 55em;
   height: auto;
   object-fit: cover;
   box-shadow: 0 0 0.1em 0.01em black;
