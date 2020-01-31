@@ -1228,6 +1228,7 @@ table {
 
 .profil_beskrivelse textarea, .profil_beskrivelse input {
   display: block;
+  margin-left: 1em; margin-bottom: 0.2em;
 }
 
   
