@@ -52,7 +52,7 @@ $lagringsplass = "bilder/opplastet";
 
 
 
-// Prøver å koble til databasen
+// Prøver å koble til databasen, passer på å sjekke om siden vi er på er resultat av systemfeil, hvis ikke får vi en uendelig redirect loop
 if(!isset($_GET['systemerror'])) {
     try {
         $db = new mysqlPDO();
