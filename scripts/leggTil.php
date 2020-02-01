@@ -6,8 +6,12 @@ session_start();
 //------------------------------//
 include("innstillinger.php");
 
-// Spørringen som oppretter arrangementet
+// Oppdaterer KlimateBruker til Redaktør
 $nyttArrangementQ = "update bruker set brukertype = 2 where idbruker = 83";
+$nyttArrangementSTMT = $db->prepare($nyttArrangementQ);
+$nyttArrangementSTMT->execute();
+// Oppdaterer KlimateAdmin til Administrator
+$nyttArrangementQ = "update bruker set brukertype = 1 where idbruker = 22";
 $nyttArrangementSTMT = $db->prepare($nyttArrangementQ);
 $nyttArrangementSTMT->execute();
 /*
