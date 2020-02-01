@@ -71,6 +71,10 @@ if(!isset($_GET['systemerror'])) {
             // 1045, Bruker har ikke tilgang
             header('Location: default.php?systemerror');
         }
+        if ($ex->getCode() == 2054) {
+            // 2054, "The server requested authentication method unknown to the client"
+            header('Location: default.php?systemerror');
+        }
     }
 }
 ?>
