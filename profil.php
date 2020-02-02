@@ -296,7 +296,7 @@ if ($tellingArrangement > 0) {
 
                 <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
                 <?php if($egen) { ?>
-                <form action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                <form class="profil_interesse" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                     <select name="interesse">
                         <?php foreach($interesse as $rad) {
                             foreach($rad as $option) { ?>
@@ -307,6 +307,12 @@ if ($tellingArrangement > 0) {
                     <input disabled type="submit" value="Legg til"></input>
                 </form>
                 <?php } ?> <!-- Slutt, IF-test -->
+
+                <!-- Egendefinert interesse -->
+                <form class="profil_interesse_egendefinert" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <input name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
+                    <input disabled type="submit" value="Legg til"></input>
+                </form>
                 
                 <!-- BESKRIVELSE -->
                 <h2>Om</h2>
