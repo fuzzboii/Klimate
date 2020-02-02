@@ -55,6 +55,17 @@ if ($egen) {
 //------------------------------------------------//
 // Oppdater interesser med egendefinert interesse //
 //------------------------------------------------//
+if ($egen) {
+    if (isset($_POST['interesseEgendefinert'])) {
+        $interessePlaceholder = $_POST['interesseEgendefinert'];
+        $brukerPlaceholder = $_SESSION['idbruker'];
+        $oppdaterInteresse = "insert into interesse(interessenavn) values(?)";
+        $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
+        $stmtOppdaterInteresse->execute([$interessePlaceholder]);
+    }
+}
+    // Spørsmål: legg opp dette slik at nyopprettet interesse legges til umiddelbart?
+    // Skal alle ha rettighet til å opprette nye interesserer willy-nilly?
 
 //------------------------------//
 //------------------------------//
@@ -319,7 +330,7 @@ if ($tellingArrangement > 0) {
                 <!-- Egendefinert interesse -->
                 <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                     <input name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
-                    <input disabled type="submit" value="Legg til"></input>
+                    <input type="submit" value="Legg til"></input>
                 </form>
                 
                 <?php } ?> <!-- Slutt, IF-test -->
