@@ -31,9 +31,9 @@ if (isset($_SESSION['idbruker'])) {
     }
  }
 
-//-------------------------------------------//
-// Hent alle interesser fra db, til <select> //
-//-------------------------------------------//
+//----------------------------------------------//
+// Hent alle interesser fra db, til en <select> //
+//----------------------------------------------//
 $hentInteresse = "select interessenavn from interesse";
 $stmtHentInteresse = $db->prepare($hentInteresse);
 $stmtHentInteresse->execute();
@@ -44,10 +44,17 @@ $interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
 //------------------------------------------------------//
 if ($egen) {
     if (isset($_POST['interesse'])) {
-        $oppdaterInteresse = "";
+        $brukerPlaceholder = $_SESSION['idbruker'];
+        $interessePlaceholder = $_POST['interesse'];
+        $oppdaterInteresse = "insert into brukerinteresse(bruker, interesse)
+                              values(?, ?)";
         $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
+        $stmtOppdaterInteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
     }
 }
+//------------------------------------------------//
+// Oppdater interesser med egendefinert interesse //
+//------------------------------------------------//
 
 //------------------------------//
 //------------------------------//
@@ -275,7 +282,7 @@ if ($tellingArrangement > 0) {
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
                 <!-- --------------- -->
-                <!-- Personalia, etc -->
+                <!-- BRUKERINFO ---- -->
                 <!-- --------------- -->
                 <h2>Personlig informasjon</h2>
                 <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
@@ -296,23 +303,26 @@ if ($tellingArrangement > 0) {
 
                 <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
                 <?php if($egen) { ?>
-                <form class="profil_interesse" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                     <select name="interesse">
+                        <?php $index=1 ?>
                         <?php foreach($interesse as $rad) {
                             foreach($rad as $option) { ?>
-                                <option value="<?php echo($option) ?>"> <?php echo($option) ?> </option>
+                                <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
+                                <?php $index++ ?>
                             <?php } // Slutt, indre løkke
                         } ?> <!-- Slutt, ytre løkke -->
                     </select>
-                    <input disabled type="submit" value="Legg til"></input>
+                    <input type="submit" value="Legg til"></input>
                 </form>
-                <?php } ?> <!-- Slutt, IF-test -->
 
                 <!-- Egendefinert interesse -->
-                <form class="profil_interesse_egendefinert" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                     <input name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
                     <input disabled type="submit" value="Legg til"></input>
                 </form>
+                
+                <?php } ?> <!-- Slutt, IF-test -->
                 
                 <!-- BESKRIVELSE -->
                 <h2>Om</h2>
