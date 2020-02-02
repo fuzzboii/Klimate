@@ -31,6 +31,24 @@ if (isset($_SESSION['idbruker'])) {
     }
  }
 
+//-------------------------------------------//
+// Hent alle interesser fra db, til <select> //
+//-------------------------------------------//
+$hentInteresse = "select interessenavn from interesse";
+$stmtHentInteresse = $db->prepare($hentInteresse);
+$stmtHentInteresse->execute();
+$interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
+
+//------------------------------------------------------//
+// Oppdater egene interesser fra forhåndsdefinert liste //
+//------------------------------------------------------//
+if ($egen) {
+    if (isset($_POST['interesse'])) {
+        $oppdaterInteresse = "";
+        $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
+    }
+}
+
 //------------------------------//
 //------------------------------//
 // Henting av data på bruker    //
@@ -256,29 +274,43 @@ if ($tellingArrangement > 0) {
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
-            
+                <!-- --------------- -->
                 <!-- Personalia, etc -->
+                <!-- --------------- -->
                 <h2>Personlig informasjon</h2>
                 <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
                 
+                <!-- INTERESSER -->
                 <h2>Interesser</h2>
                 <!-- Nøstet foreach, fordi resultatet av søk fra to tabeller ble 2D-array -->
                 <!-- Ytre løkke -->
                 <section class="interesserTags">
                  <?php if ($tellingInteresse != null) {
-                        foreach ($interesseProfil as $rad) {
-                        // Indre løkke, med innhold som $row //    
-                        foreach ($rad as $kolonne) {
-                           ?> 
-                           <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p> <!-- DROPDOWN, --> 
-                            <?php
-                        } // Slutt, indre løkke    
+                    foreach ($interesseProfil as $rad) {    
+                        foreach ($rad as $kolonne) { ?> 
+                        <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p> <!-- DROPDOWN, --> 
+                        <?php } // Slutt, indre løkke    
                     } // Slutt, ytre løkke
                 } ?> <!-- Slutt, IF-test --> 
                 </section>
+
+                <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+                <?php if($egen) { ?>
+                <form action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <select name="interesse">
+                        <?php foreach($interesse as $rad) {
+                            foreach($rad as $option) { ?>
+                                <option value="<?php echo($option) ?>"> <?php echo($option) ?> </option>
+                            <?php } // Slutt, indre løkke
+                        } ?> <!-- Slutt, ytre løkke -->
+                    </select>
+                    <input disabled type="submit" value="Legg til"></input>
+                </form>
+                <?php } ?> <!-- Slutt, IF-test -->
                 
+                <!-- BESKRIVELSE -->
                 <h2>Om</h2>
-                <?php if((isset($_SESSION['idbruker'])) && ($_SESSION['idbruker'] == $_GET['bruker'])) { ?>
+                <?php if($egen) { ?>
                     <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                         <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
                         <input type="submit" value="Oppdater" />
@@ -287,6 +319,7 @@ if ($tellingArrangement > 0) {
                     <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
                 <?php } ?>
                 
+                <!-- ARTIKLER -->
                 <h2>Artikler</h2>
                 <p> <?php if ($tellingArtikkel != null) {
                         foreach ($artikkelProfil as $rad) {
@@ -298,6 +331,7 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </p>
                 
+                <!-- ARRANGEMENTER -->
                 <h2>Arrangementer</h2>
                 <p> <?php if ($tellingArrangement != null) {
                         foreach ($arrangementProfil as $rad) {
