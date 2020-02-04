@@ -309,7 +309,7 @@ if(isset($_POST['paameld'])) {
                             <h2>Kontakt</h2>
                             <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                         </section>
-                        <button id="tilbKnappArrangement" onClick="location.href='arrangement.php'">Tilbake</button>
+                        <button id="arrangement_tilAlleKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
                     </section>
                     <?php } ?>
                 </section>
@@ -319,58 +319,57 @@ if(isset($_POST['paameld'])) {
                     <h1>Nytt arrangement</h1>
                 </header>
 
-                <main id="arrangement_main" onclick="lukkHamburgerMeny()">
+                <main id="arrangement_mainNy" onclick="lukkHamburgerMeny()">
+                    <article id="arrangement_arrangementNy">
+                        <form method="POST" action="arrangement.php" enctype="multipart/form-data">
+                            <h2>Tittel</h2>
+                            <input id="arrangement_inputTittel" type="text" maxlength="45" name="tittel" value="<?php echo($input_tittel) ?>" placeholder="Skriv inn tittel" autofocus required>
+                            <h2>Innhold</h2>
+                            <textarea id="arrangement_inputInnhold" maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv litt hva arrangementet handler om" required><?php echo($input_innhold) ?></textarea>
+                            <h2>Dato</h2>
+                            <input id="arrangement_inputDato" type="datetime-local" name="tidspunkt" value="<?php echo($input_tidspunkt) ?>" required>
+                            <h2>Adresse</h2>
+                            <input id="arrangement_inputAdresse" type="text" maxlength="250" name="adresse" value="<?php echo($input_adresse) ?>" placeholder="Oppgi adresse" required>
+                            <select id="arrangement_inputFylke" name="fylke" required>
+                                <?php if($input_fylke != "") { ?><option value="<?php echo($input_fylke) ?>"><?php echo($input_fylke) ?></option>
+                                <?php } else { ?>
+                                    <option value="">Velg fylke</option>
+                                <?php }
+                                    // Henter fylker fra database
+                                    $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
+                                    $stmtFylke = $db->prepare($hentFylke);
+                                    $stmtFylke->execute();
+                                    $fylkeListe = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($fylkeListe as $fylke) { ?>
+                                        <option value="<?php echo($fylke['fylkenavn'])?>"><?php echo($fylke['fylkenavn'])?></option>
+                                <?php } ?>
+                            </select>
+                            <h2>Bilde</h2>
+                            <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
 
-                <article id="arrangement_arrangementNy">
-                    <form method="POST" action="arrangement.php" enctype="multipart/form-data">
-                        <h2>Tittel</h2>
-                        <input id="arrangement_inputTittel" type="text" maxlength="45" name="tittel" value="<?php echo($input_tittel) ?>" placeholder="Skriv inn tittel" autofocus required>
-                        <h2>Innhold</h2>
-                        <textarea id="arrangement_inputInnhold" maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv litt hva arrangementet handler om" required><?php echo($input_innhold) ?></textarea>
-                        <h2>Dato</h2>
-                        <input id="arrangement_inputDato" type="datetime-local" name="tidspunkt" value="<?php echo($input_tidspunkt) ?>" required>
-                        <h2>Adresse</h2>
-                        <input id="arrangement_inputAdresse" type="text" maxlength="250" name="adresse" value="<?php echo($input_adresse) ?>" placeholder="Oppgi adresse" required>
-                        <select id="arrangement_inputFylke" name="fylke" required>
-                            <?php if($input_fylke != "") { ?><option value="<?php echo($input_fylke) ?>"><?php echo($input_fylke) ?></option>
-                            <?php } else { ?>
-                                <option value="">Velg fylke</option>
-                            <?php }
-                                // Henter fylker fra database
-                                $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
-                                $stmtFylke = $db->prepare($hentFylke);
-                                $stmtFylke->execute();
-                                $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($fylke as $innhold) { ?>
-                                    <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
-                            <?php } ?>
-                        </select>
-                        <h2>Bilde</h2>
-                        <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
-
-                        <?php if($_GET['nyarrangement'] == "error1"){ ?>
-                            <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
-                    
-                        <?php } else if($_GET['nyarrangement'] == "error2"){ ?>
-                            <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
+                            <?php if($_GET['nyarrangement'] == "error1"){ ?>
+                                <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
                         
-                        <?php } else if($_GET['nyarrangement'] == "error3") { ?>
-                            <p id="mldFEIL">Oppgi en dato</p>
+                            <?php } else if($_GET['nyarrangement'] == "error2"){ ?>
+                                <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
+                            
+                            <?php } else if($_GET['nyarrangement'] == "error3") { ?>
+                                <p id="mldFEIL">Oppgi en dato</p>
 
-                        <?php } else if($_GET['nyarrangement'] == "error4"){ ?>
-                            <p id="mldFEIL">Datoen må være forover i tid</p>    
+                            <?php } else if($_GET['nyarrangement'] == "error4"){ ?>
+                                <p id="mldFEIL">Datoen må være forover i tid</p>    
 
-                        <?php } else if($_GET['nyarrangement'] == "error5"){ ?>
-                            <p id="mldFEIL">Adresse for lang eller ikke oppgitt</p>   
+                            <?php } else if($_GET['nyarrangement'] == "error5"){ ?>
+                                <p id="mldFEIL">Adresse for lang eller ikke oppgitt</p>   
 
-                        <?php } else if($_GET['nyarrangement'] == "error6"){ ?>
-                            <p id="mldFEIL">Fylke ikke oppgitt</p>    
-                        <?php } ?>
+                            <?php } else if($_GET['nyarrangement'] == "error6"){ ?>
+                                <p id="mldFEIL">Fylke ikke oppgitt</p>    
+                            <?php } ?>
 
-                        <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
-                    </form>
-                </article>
-
+                            <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
+                        </form>
+                    </article>
+                    
             <?php } else {
 
                 // Del for å vise alle arrangement 
@@ -391,7 +390,7 @@ if(isset($_POST['paameld'])) {
                     <h1>Arrangementer</h1>
                     <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
                     <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
-                        <img id="arrangement_plussikon" src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
+                        <img src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
                     </a>
                     <?php } ?>
                 </header>
@@ -416,7 +415,7 @@ if(isset($_POST['paameld'])) {
                                     <img class="arrangement_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                 <?php } else { ?>
                                     <!-- Arrangementbilde som resultat av spørring -->
-                                    <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
                                 <?php } ?>
                             </figure>
 
