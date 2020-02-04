@@ -31,14 +31,6 @@ if (isset($_SESSION['idbruker'])) {
     }
  }
 
-//----------------------------------------------//
-// Hent alle interesser fra db, til en <select> //
-//----------------------------------------------//
-$hentInteresse = "select interessenavn from interesse";
-$stmtHentInteresse = $db->prepare($hentInteresse);
-$stmtHentInteresse->execute();
-$interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
-
 //-----------------------------------------------------//
 // Oppdater brukerinteresse fra forhåndsdefinert liste //
 //-----------------------------------------------------//
@@ -111,8 +103,6 @@ $hentPersonaliaProfil = "Select fnavn, enavn, epost, telefonnummer from bruker w
 $stmtPersonaliaProfil = $db->prepare($hentPersonaliaProfil);
 $stmtPersonaliaProfil->execute();
 $personaliaProfil = $stmtPersonaliaProfil->fetch(PDO::FETCH_ASSOC);
-// Imploder arrayet med linjebrudd
-$personaliaProfil = implode("<br/>\n", $personaliaProfil);
 
 //-----------------------//
 // Henting av interesser //
@@ -130,6 +120,14 @@ if ($tellingInteresse > 0) {
     $interesseProfil = $stmtInteresseProfil->fetchAll(PDO::FETCH_ASSOC);
 // settes ellers til null, for øyeblikket
 } else $interesseProfil = null;
+
+//----------------------------------------------//
+// Hent alle interesser fra db, til en <select> //
+//----------------------------------------------//
+$hentInteresse = "select interessenavn from interesse";
+$stmtHentInteresse = $db->prepare($hentInteresse);
+$stmtHentInteresse->execute();
+$interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
 
 //------------------------//
 // Henting av beskrivelse //
@@ -318,7 +316,15 @@ if ($tellingArrangement > 0) {
                 <!-- BRUKERINFO ---- -->
                 <!-- --------------- -->
                 <h2>Personlig informasjon</h2>
-                <p> <?php echo $personaliaProfil ?> </p> <!-- LEGG INN TEST PÅ EGEN BRUKER; MED TOGGLES, -->
+                <!-- Test på $egen -->
+                <!-- Ikke egen profil -->
+                <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
+                <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
+                <?php if(!$egen) { ?> 
+                    <p> <?php foreach($personaliaProfil as $row) {
+                        if(!empty($row)) echo($row . "<br/>");
+                    }
+                } ?> </p>
                 
                 <!-- INTERESSER -->
                 <h2>Interesser</h2>
@@ -330,7 +336,7 @@ if ($tellingArrangement > 0) {
                         foreach ($rad as $kolonne) { ?> 
                             <!-- Test om bruker er i slettemodus -->
                             <?php if (isset($_POST['slettemodus'])) { ?> 
-                                <input form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
+                                <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
                             <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
                             <?php } else { ?> 
                                 <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
@@ -343,7 +349,7 @@ if ($tellingArrangement > 0) {
                 <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
                 <?php if($egen) { ?>
                 <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                    <select name="interesse">
+                    <select class="profil_input" name="interesse">
                         <?php $index=1 ?>
                         <?php foreach($interesse as $rad) {
                             foreach($rad as $option) { ?>
@@ -352,13 +358,13 @@ if ($tellingArrangement > 0) {
                             <?php } // Slutt, indre løkke
                         } ?> <!-- Slutt, ytre løkke -->
                     </select>
-                    <input type="submit" value="Legg til"></input>
+                    <input class="profil_knapp" type="submit" value="Legg til"></input>
                 </form>
 
                 <!-- Egendefinert interesse -->
                 <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                    <input name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
-                    <input type="submit" value="Legg til"></input>
+                    <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
+                    <input class="profil_knapp" type="submit" value="Legg til"></input>
                 </form>
                 
                 <?php } ?> <!-- Slutt, IF-test -->
@@ -367,8 +373,10 @@ if ($tellingArrangement > 0) {
                 <?php if ($egen) { ?>
                 <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                     <?php if(!isset($_POST['slettemodus'])) { ?>
-                        <input type="submit" name="slettemodus" value="Slett">
-                    <?php } else ?> <input type="submit" name="avbryt" value="Avbryt"> 
+                        <input class="profil_knapp" type="submit" name="slettemodus" value="Slett">
+                    <?php } else { ?> 
+                        <input class="profil_knapp" type="submit" name="avbryt" value="Avbryt"> 
+                    <?php } ?>
                 </form>
                 <?php } ?>
                 
@@ -377,7 +385,7 @@ if ($tellingArrangement > 0) {
                 <?php if($egen) { ?>
                     <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                         <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
-                        <input type="submit" value="Oppdater" />
+                        <input class="profil_knapp" type="submit" value="Oppdater" />
                     </form>
                 <?php } else { ?>
                     <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>

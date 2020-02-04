@@ -1334,6 +1334,39 @@ table {
   background-color: rgb(200,218,211);
   padding: 0.3em;
   border-radius: 0.7em;
+  size: medium;
+}
+
+/* Interesse-tags ved sletting */
+.slett {
+  background-color: red;
+  color: white;
+  padding: 0.3em;
+  font-size: medium;
+  border-radius: 0.7em;
+  margin-left: 1em;
+  margin-bottom: 0.8em;
+}
+
+/* Knappene */
+.profil_knapp {
+  background-color: rgb(126, 155, 153);
+  margin-top: 0.5em;
+  margin-left: 1em;
+  margin-bottom: 0.5em;
+  font-size: medium;
+  padding: 0.4em;
+  color: white;
+  border-radius: 0.25em;
+}
+
+/* Input av interesse */
+.profil_input {
+  margin-top: 0.5em;
+  margin-left: 1em;
+  margin-bottom: 0.5em;
+  font-size: medium;
+  padding: 0.4em;
 }
 
 .profil_main {
@@ -1342,8 +1375,6 @@ table {
 
 .profil_main p {
   margin-left: 1em;
-  
-
 }
 
 .profil_main {
@@ -1359,6 +1390,8 @@ table {
 .profil_beskrivelse textarea, .profil_beskrivelse input {
   display: block;
   margin-left: 1em; margin-bottom: 0.2em;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: medium;
 }
 
   
