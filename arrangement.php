@@ -309,7 +309,7 @@ if(isset($_POST['paameld'])) {
                             <h2>Kontakt</h2>
                             <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                         </section>
-                        <button id="tilbKnappArrangement" onClick="location.href='arrangement.php'">Tilbake</button>
+                        <button id="arrangement_tilAlleKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
                     </section>
                     <?php } ?>
                 </section>

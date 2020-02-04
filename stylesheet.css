@@ -321,7 +321,7 @@ footer a {
 }
 
 .artikkel_header {
-  padding-top: 6em;
+  padding-top: 4em;
   padding-bottom: 1em;
   text-align: center;
   font-family: Inter, Helvetica, Arial, sans-serif;
@@ -983,8 +983,8 @@ table {
 /* Style for Arrangement */
 #arrangement_main {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-  margin-left: 1.5em;
-  margin-right: 1.5em;
+  margin-left: 0.7em;
+  margin-right: 0.7em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -1026,7 +1026,7 @@ table {
 }
 
 .arrangement_header {
-  padding-top: 6em;
+  padding-top: 4em;
   padding-bottom: 1em;
   text-align: center;
   font-family: Inter, Helvetica, Arial, sans-serif;
@@ -1156,6 +1156,19 @@ table {
   align-items: left;
   justify-content: left;
   
+}
+
+#arrangement_tilAlleKnapp {
+  margin-top: 1.5em;
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.7em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: Helvetica, Arial, sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 100%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 #arrangement_headerMBilde {
