@@ -326,15 +326,16 @@ if ($tellingArrangement > 0) {
                 <!-- Ytre løkke -->
                 <section class="interesserTags">
                  <?php if ($tellingInteresse != null) {
-                     foreach ($interesseProfil as $rad) {    
-                         foreach ($rad as $kolonne) { ?> 
-                        <!-- Test om bruker er i slettemodus -->
-                        <?php if (isset($_POST['slettemodus'])) { ?> 
-                            <input form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
-                        <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
-                        <?php } else ?> 
-                            <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
-                        <?php } // Slutt, indre løkke    
+                    foreach ($interesseProfil as $rad) {    
+                        foreach ($rad as $kolonne) { ?> 
+                            <!-- Test om bruker er i slettemodus -->
+                            <?php if (isset($_POST['slettemodus'])) { ?> 
+                                <input form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
+                            <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                            <?php } else { ?> 
+                                <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                            <?php } // Slutt, else løkke    
+                        } // Slutt, indre løkke
                     } // Slutt, ytre løkke
                 } ?> <!-- Slutt, IF-test --> 
                 </section>
