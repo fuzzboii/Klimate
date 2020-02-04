@@ -242,7 +242,7 @@ if (isset($_POST['publiserArtikkel'])) {
                         <article id="artikkel_articleNy">
                             <form method="POST" action="artikkel.php" enctype="multipart/form-data">
                                 <h2>Tittel</h2>
-                                <input type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
+                                <input id="artikkel_inputTittel" type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
                                 <h2>Ingress</h2>
                                 <textarea maxlength="255" name="ingress" rows="3" cols="35" placeholder="Skriv inn inngress, la være blank for å ta 255 tegn fra innhold"></textarea>
                                 <h2>Innhold</h2>

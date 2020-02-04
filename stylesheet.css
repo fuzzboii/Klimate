@@ -426,6 +426,22 @@ footer a {
   display: inline;
 }
 
+/* Style for ny artikkel */
+#artikkel_inputTittel {
+  width: 100%;
+  padding: 1em;
+  padding-left: 2.8em;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+#artikkel_inputTittel {
+  background-color: white;
+  background-image: url('bilder/overskriftIkon.png');
+  background-position: 0.75em 0.75em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
+}
+
 
 /*-----------------------------------------------------------------------------*/
 /* Style for BACKEND/Innloggede brukere */
@@ -1229,7 +1245,7 @@ table {
   font-family: Inter, Helvetica, Arial, sans-serif;
   font-size: 2em;
   border-bottom: 1px solid rgb(199, 199, 199);
-  overflow-wrap: break-word; 
+  word-break: break-word; 
 }
 
 #argInf_om p {

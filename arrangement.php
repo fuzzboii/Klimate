@@ -340,9 +340,9 @@ if(isset($_POST['paameld'])) {
                                 $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
                                 $stmtFylke = $db->prepare($hentFylke);
                                 $stmtFylke->execute();
-                                $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
-                                foreach ($fylke as $innhold) { ?>
-                                    <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
+                                $fylkeListe = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($fylkeListe as $fylke) { ?>
+                                    <option value="<?php echo($fylke['fylkenavn'])?>"><?php echo($fylke['fylkenavn'])?></option>
                             <?php } ?>
                         </select>
                         <h2>Bilde</h2>
