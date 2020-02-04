@@ -285,7 +285,7 @@ if (isset($_POST['publiserArtikkel'])) {
                         // Del for å vise alle artikler 
                         $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn, enavn, fnavn, bruker
                                         FROM artikkel, bruker
-                                        WHERE bruker=idbruker order by idartikkel";
+                                        WHERE bruker=idbruker order by idartikkel desc";
                     
                         $stmtArt = $db->prepare($hentAlleArt);
                         $stmtArt->execute();
