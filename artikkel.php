@@ -241,7 +241,7 @@ if (isset($_POST['publiserArtikkel'])) {
                                     <p>Skrevet av</p> <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
                                 <?php }?>
                             </section>
-                            <button id="tilbKnappArtikkel" onClick="location.href='artikkel.php'">Tilbake</button>
+                            <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             
                         </main>
                     <?php } ?>

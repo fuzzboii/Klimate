@@ -318,7 +318,7 @@ footer a {
   width: 90%;
 }
 
-#artikkel_tilbKnapp, #artikkel_nesteKnapp, #tilbKnappArtikkel{
+#artikkel_tilbKnapp, #artikkel_nesteKnapp, #artikkelValgt_tilbKnapp{
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
   padding: 1em; /* hvor mye luft rundt teksten det skal være */
@@ -1184,7 +1184,7 @@ table {
   
 }
 
-#arrangement_tilAlleKnapp {
+#arrangementValgt_tilbKnapp {
   margin-top: 1.5em;
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
@@ -1682,19 +1682,7 @@ table {
     left: 75%;
     max-height: 45%;
   }
-  /* Hover for artikkel  */
-  .res_artikkel:hover {
-    cursor: pointer;
-    box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126);
-    transition: box-shadow 0.3s;
-    }
-    
-  .artikkelForfatter:hover{
-      cursor: pointer;
-      color: rgb(112, 112, 112);
-    
-    }
-
+  
   /* Hover-instillinger for søk*/
 
   .brukerRullegardin:hover, .artikkelRullegardin:hover, .arrangementRullegardin:hover{
@@ -1829,7 +1817,31 @@ table {
     cursor: pointer;
   }
   
+  /* Hover for artikkel utvalget/resultatet  */
+  .res_artikkel:hover {
+    cursor: pointer;
+    box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126);
+    transition: box-shadow 0.3s;
+    }
+  
+  /* Hover for atikkel forfatter */
+  .artikkelForfatter:hover{
+      cursor: pointer;
+      color: rgb(112, 112, 112);
+    
+    }
 
+  /* Hover for artikkel tilbake knapp */
+  #artikkel_tilbKnapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+  }  
+  
+  /* Hover for artikkel tilbake knapp */
+  #artikkelValgt_tilbKnapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+  }    
   /* Avmelding knapp hover innstillinger for arrangement innhold */
   #arrangement_paameldt:hover {
     background-color: rgba(221, 24, 24, 0.637); /* Fargeendring/hover ved å holde over knappen */
@@ -1851,12 +1863,19 @@ table {
     cursor: pointer;
   }
 
+  /* Hover for arrangement tilbake knapp */
+  #arrangementValgt_tilbKnapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+  }
+
   /* Styling for profil */
   .interesserTags p:hover {
     cursor: pointer;
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.2s;
   }
+
 }
 
 /* Medium skjerm, 1080p */
