@@ -296,7 +296,14 @@ footer a {
 /*-----------------------------------------------------------------------------*/
 /* Style for ARTIKKEL */
 
-#artikkel_main {
+#artikkel_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#artikkel_main, #artikkel_mainNy {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -306,7 +313,12 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-  #artikkel_tilbKnapp, #artikkel_nesteKnapp, #tilbKnappArtikkel{
+/* artikkel_mainNy er gjeldende main om bruker er på delen for ny artikkel */
+#artikkel_mainNy {
+  width: 90%;
+}
+
+#artikkel_tilbKnapp, #artikkel_nesteKnapp, #tilbKnappArtikkel{
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
   padding: 1em; /* hvor mye luft rundt teksten det skal være */
@@ -452,9 +464,11 @@ footer a {
   font-weight: bold; /* Fet tekst */
   font-family: Helvetica, Arial, sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 100%; /* Angir bredde på knappen */
+  width: 12em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+  display: block;
+  float: right;
 }
 
 #artikkel_inputTittel {
@@ -981,7 +995,14 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for Arrangement */
-#arrangement_main {
+#arrangement_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#arrangement_main, #arrangement_mainNy {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 0.7em;
   margin-right: 0.7em;
@@ -989,6 +1010,11 @@ table {
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
+/* arrangement_mainNy er gjeldende main om bruker er på delen for nytt arrangement */
+#arrangement_mainNy {
+  width: 90%;
 }
 
 
@@ -1178,12 +1204,6 @@ table {
   text-transform: uppercase; /* Transformerer teksten til UCASE */
 }
 
-#arrangement_body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 #arrangement_omEvent {
   display: grid;
   grid-template-columns: 1fr;
@@ -1242,9 +1262,11 @@ table {
   font-weight: bold; /* Fet tekst */
   font-family: Helvetica, Arial, sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 100%; /* Angir bredde på knappen */
+  width: 13em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+  display: block;
+  float: right;
 }
 
 /* overskrifter */
@@ -1360,6 +1382,11 @@ table {
   /* artikkel overskrift */
   .artikkel_overskrift {
     font-size: 1.5em;
+  }
+
+  /* Styling for ny artikkel */
+  #artikkel_mainNy, #arrangement_mainNy {
+    width: 90%;
   }
 
 }
@@ -1481,6 +1508,11 @@ table {
   
   #arrangement_omEvent {
     grid-template-columns: 1fr 1fr;
+  }
+
+  /* Styling for ny artikkel og nytt arrangement */
+  #artikkel_mainNy, #arrangement_mainNy {
+    width: 40.7em;
   }
 
 }
