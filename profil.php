@@ -46,10 +46,10 @@ if ($egen) {
     if (isset($_POST['interesse'])) {
         $brukerPlaceholder = $_SESSION['idbruker'];
         $interessePlaceholder = $_POST['interesse'];
-        $oppdaterInteresse = "insert into brukerinteresse(bruker, interesse)
-                              values(?, ?)";
-        $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
-        $stmtOppdaterInteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
+        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse)
+                                    values(?, ?)";
+        $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
+        $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
     }
 }
 //-----------------------------------------------//
@@ -331,7 +331,7 @@ if ($tellingArrangement > 0) {
                         <!-- Test om bruker er i slettemodus -->
                         <?php if (isset($_POST['slettemodus'])) { ?> 
                             <input form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
-                        <!-- Ellers normal visning -->
+                        <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
                         <?php } else ?> 
                             <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
                         <?php } // Slutt, indre løkke    
