@@ -235,6 +235,8 @@ footer a {
 /* Style for DEFAULT/Uregistrerte brukere */
 #default_beskrivelse {
   text-align: center; /*Sentrerer beskrivelsen i default */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
 }
 
 .Logo_forside {
