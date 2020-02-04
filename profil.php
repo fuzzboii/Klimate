@@ -365,7 +365,9 @@ if ($tellingArrangement > 0) {
                 <!-- Slettemodus -->
                 <?php if ($egen) { ?>
                 <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                    <input type="submit" name="slettemodus" value="Slett"></input>
+                    <?php if(!isset($_POST['slettemodus'])) { ?>
+                        <input type="submit" name="slettemodus" value="Slett">
+                    <?php } else ?> <input type="submit" name="avbryt" value="Avbryt"> 
                 </form>
                 <?php } ?>
                 
