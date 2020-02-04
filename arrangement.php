@@ -313,7 +313,7 @@ if(isset($_POST['paameld'])) {
                     </section>
                     <?php } ?>
                 </section>
-            <?php  } else if (isset($_GET['nyarrangement'])) { ?>      
+            <?php  } else if (isset($_GET['nyarrangement']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      
             
                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                     <h1>Nytt arrangement</h1>
@@ -324,14 +324,14 @@ if(isset($_POST['paameld'])) {
                 <article id="arrangement_arrangementNy">
                     <form method="POST" action="arrangement.php" enctype="multipart/form-data">
                         <h2>Tittel</h2>
-                        <input type="text" maxlength="45" name="tittel" value="<?php echo($input_tittel) ?>" placeholder="Skriv inn tittel" autofocus required>
+                        <input id="arrangement_inputTittel" type="text" maxlength="45" name="tittel" value="<?php echo($input_tittel) ?>" placeholder="Skriv inn tittel" autofocus required>
                         <h2>Innhold</h2>
-                        <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv litt hva arrangementet handler om" required><?php echo($input_innhold) ?></textarea>
+                        <textarea id="arrangement_inputInnhold" maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv litt hva arrangementet handler om" required><?php echo($input_innhold) ?></textarea>
                         <h2>Dato</h2>
-                        <input type="datetime-local" name="tidspunkt" value="<?php echo($input_tidspunkt) ?>" required>
+                        <input id="arrangement_inputDato" type="datetime-local" name="tidspunkt" value="<?php echo($input_tidspunkt) ?>" required>
                         <h2>Adresse</h2>
-                        <input type="text" maxlength="250" name="adresse" value="<?php echo($input_adresse) ?>" placeholder="Oppgi adresse" required>
-                        <select name="fylke" required>
+                        <input id="arrangement_inputAdresse" type="text" maxlength="250" name="adresse" value="<?php echo($input_adresse) ?>" placeholder="Oppgi adresse" required>
+                        <select id="arrangement_inputFylke" name="fylke" required>
                             <?php if($input_fylke != "") { ?><option value="<?php echo($input_fylke) ?>"><?php echo($input_fylke) ?></option>
                             <?php } else { ?>
                                 <option value="">Velg fylke</option>
@@ -389,9 +389,11 @@ if(isset($_POST['paameld'])) {
                 
                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                     <h1>Arrangementer</h1>
+                    <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
                     <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
                         <img id="arrangement_plussikon" src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
                     </a>
+                    <?php } ?>
                 </header>
                 <main id="arrangement_main" onclick="lukkHamburgerMeny()">
                 <?php if ($resAntall > 0 ) { ?>

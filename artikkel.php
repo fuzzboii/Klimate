@@ -278,7 +278,7 @@ if (isset($_POST['publiserArtikkel'])) {
                             <a href="artikkel.php?nyartikkel" tabindex="-1"> <!-- VIKTIG, tabindex -->
                                 <img id="artikkel_plussikon" src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
                             </a>
-                        <?php } ?>
+                            <?php } ?>
                         </header>
                         <main id="artikkel_main" onclick="lukkHamburgerMeny()">
 

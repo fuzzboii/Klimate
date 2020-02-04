@@ -897,21 +897,6 @@ table {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
-#arrangement_bunnSection a {
-  font-family: Helvetica, Arial, sans-serif;
-}
-#arrangement_bunnSection input {
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
-  color: white; /* tekstfarge */
-  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-bottom: 1em;
-  font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
-  border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 7em; /* Angir bredde på knappen */
-  border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 1.0em; /* Font-størrelse */
-}
 
 /* Del for artikkel-søk */
 .artRes_sok {
@@ -965,19 +950,6 @@ table {
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-}
-
-#tilbKnappArrangement {
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
-  color: white; /* tekstfarge */
-  padding: 1em; /* hvor mye luft rundt teksten det skal være */
-  margin: 0; margin-bottom: 1em;
-  font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
-  border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 7em; /* Angir bredde på knappen */
-  border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 1.0em; /* Font-størrelse */
 }
 
 
@@ -1037,6 +1009,22 @@ table {
   display: block;
   text-align: center;
   padding-top: 2em;
+}
+
+#arrangement_bunnSection a {
+  font-family: Helvetica, Arial, sans-serif;
+}
+#arrangement_bunnSection input {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 7em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 .arrangement_ressection {
@@ -1130,6 +1118,7 @@ table {
   justify-content: left;
   
 }
+
 #arrangement_headerMBilde {
   padding-left: 0.4em; padding-right: 0.4em;
   font-size: 0.7em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
@@ -1143,7 +1132,6 @@ table {
   flex-direction: column;
 }
 
-/* styling for påklikket arrangment */
 #arrangement_omEvent {
   display: grid;
   grid-template-columns: 1fr;
@@ -1154,6 +1142,65 @@ table {
 /* Del for visning av nytt arrangement */
 #arrangement_arrangementNy input {
   display: block;
+}
+
+#arrangement_inputTittel, #arrangement_inputInnhold, #arrangement_inputDato, #arrangement_inputAdresse {
+  width: 100%;
+  padding: 1em;
+  padding-left: 2.8em;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+#arrangement_inputTittel {
+  background-color: white;
+  background-image: url('bilder/overskriftIkon.png');
+  background-position: 0.75em 0.75em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
+}
+
+#arrangement_inputInnhold {
+  background-color: white;
+  background-image: url('bilder/innholdIkon.png');
+  background-position: 0.75em 1.25em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
+}
+
+#arrangement_inputDato {
+  background-color: white;
+  background-image: url('bilder/datoIkon.png');
+  background-position: 0.75em 1em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
+}
+
+#arrangement_inputAdresse {
+  background-color: white;
+  background-image: url('bilder/stedIkon.png');
+  background-position: 0.75em 0.75em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
+}
+
+#arrangement_inputFylke {
+  width: 100%;
+  padding: 1em;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+#arrangement_submitNy {
+  margin-top: 1.5em;
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: Helvetica, Arial, sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 100%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 /* overskrifter */
@@ -1620,17 +1667,11 @@ table {
     cursor: pointer;
   }
 
-  #tilbKnappArrangement:hover, #artikkel_nesteKnapp:hover, #tilbKnappArtikkel:hover {
+  #artikkel_nesteKnapp:hover, #artikkel_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
   
-  
-  /* Tilbake knapp hover innstillinger for arrangement innhold */
-  #arrangement_tilbKnapp:hover, #sok_tilbKnapp:hover {
-    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
-    cursor: pointer;
-  }
 
   /* Avmelding knapp hover innstillinger for arrangement innhold */
   #arrangement_paameldt:hover {
@@ -1645,6 +1686,12 @@ table {
   }
   .side_artikkel {
     grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  /* Styling for arrangement */
+  #arrangement_submitNy:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
   }
 
   /* Styling for profil */
