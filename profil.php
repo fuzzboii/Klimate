@@ -318,22 +318,24 @@ if ($tellingArrangement > 0) {
                     <!-- --------------- -->
                     <!-- BRUKERINFO ---- -->
                     <!-- --------------- -->
+                    <h2>Om</h2>
+                    <h3>Oversikt</h3>
                     <section class="profil_persInf">
-                        <h2>Personlig informasjon</h2>
+                        
                     <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
                     <!-- Ikke egen profil -->
                     <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                     <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                    
-                        <p><b>Fornavn:</b> <?php echo($personaliaProfil["fnavn"])?></p>
-                        <p><b>Etternavn:</b> <?php echo($personaliaProfil["enavn"])?></p>
-                        <p><b>E-post:</b> <?php echo($personaliaProfil["epost"])?></p>
-                        <p><b>Telefonnummer:</b> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                        
+                        <p><b>Fornavn:</b></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
+                        <p><b>Etternavn:</b> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
+                        <p><b>E-post Adresse:</b></p> <p> <?php echo($personaliaProfil["epost"])?></p>
+                        <p><b>Telefonnummer:</b></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
                     </section>
                 </section>    
                 
                 <!-- BESKRIVELSE -->
-                <h2>Om</h2>
+                <h3>Beskrivelse</h3>
                 <?php if($egen) { ?>
                     
                 <?php } else { ?>
