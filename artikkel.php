@@ -6,21 +6,37 @@ session_start();
 //------------------------------//
 include("innstillinger.php");
 
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_tittel = "";
+$input_ingress = "";
+$input_innhold = "";
+
+if (isset($_SESSION['input_tittel'])) {
+    // Legger innhold i variable som leses senere på siden
+    $input_tittel = $_SESSION['input_tittel'];
+    $input_ingress = $_SESSION['input_ingress'];
+    $input_innhold = $_SESSION['input_innhold'];
+    // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+    unset($_SESSION['input_tittel']);
+    unset($_SESSION['input_tidspunkt']);
+    unset($_SESSION['input_innhold']);
+}
 
 if (isset($_POST['publiserArtikkel'])) {
+
+    $_SESSION['input_tittel'] = $_POST['tittel'];
+    $_SESSION['input_ingress'] = $_POST['ingress'];
+    $_SESSION['input_innhold'] = $_POST['innhold'];
+
     if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel']) > 0) {
-        if (strlen($_POST['ingress']) <= 255 || $_POST['ingress'] == "") {
+        if (strlen($_POST['ingress']) <= 255 && strlen($_POST['ingress']) > 0) {
             if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['tittel']) > 0) {
                 // Tar utgangspunkt i at bruker ikke har lastet opp bilde
                 $harBilde = false;
 
                 // Sanitiserer innholdet før det blir lagt i databasen
                 $tittel = filter_var($_POST['tittel'], FILTER_SANITIZE_STRING);
-                if ($_POST['ingress'] != "") {
-                    $ingress = filter_var($_POST['ingress'], FILTER_SANITIZE_STRING);
-                } else {
-                    $ingress = filter_var(substr($_POST['innhold'], 0, 255), FILTER_SANITIZE_STRING);
-                }
+                $ingress = filter_var($_POST['ingress'], FILTER_SANITIZE_STRING);
                 $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
                 
                 // Spørringen som oppretter artikkelen
@@ -60,10 +76,9 @@ if (isset($_POST['publiserArtikkel'])) {
 
                 header('Location: artikkel.php?artikkel=' . $artikkelid);
 
-
-            } // Innholdet er for langt
-        } // Ingress er for langt
-    } // Tittel er for lang
+            } else { header('Location: artikkel.php?nyartikkel=error3'); } // Innhold tomt / for langt
+        } else { header('Location: artikkel.php?nyartikkel=error2'); } // Ingress tomt / for langt
+    } else { header('Location: artikkel.php?nyartikkel=error1'); } // Tittel tomt / for langt
 }
 
 
@@ -242,13 +257,24 @@ if (isset($_POST['publiserArtikkel'])) {
                         <article id="artikkel_articleNy">
                             <form method="POST" action="artikkel.php" enctype="multipart/form-data">
                                 <h2>Tittel</h2>
-                                <input id="artikkel_inputTittel" type="text" maxlength="45" name="tittel" placeholder="Skriv inn tittel" autofocus required>
+                                <input id="artikkel_inputTittel" type="text" maxlength="45" name="tittel" value="<?php echo($input_tittel) ?>" placeholder="Skriv inn tittel" autofocus required>
                                 <h2>Ingress</h2>
-                                <textarea maxlength="255" name="ingress" rows="3" cols="35" placeholder="Skriv inn inngress, la være blank for å ta 255 tegn fra innhold"></textarea>
+                                <textarea id="artikkel_inputIngress" maxlength="255" name="ingress" rows="3" cols="35" placeholder="Skriv inn inngress" required><?php echo($input_ingress) ?></textarea>
                                 <h2>Innhold</h2>
-                                <textarea maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required></textarea>
+                                <textarea id="artikkel_inputInnhold" maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required><?php echo($input_innhold) ?></textarea>
                                 <h2>Bilde</h2>
                                 <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
+                                
+                                <?php if($_GET['nyartikkel'] == "error1"){ ?>
+                                    <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
+                            
+                                <?php } else if($_GET['nyartikkel'] == "error2"){ ?>
+                                    <p id="mldFEIL">Ingress for lang eller ikke oppgitt</p>
+                                
+                                <?php } else if($_GET['nyartikkel'] == "error3") { ?>
+                                    <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
+                                <?php } ?>
+
                                 <input id="artikkel_submitNy" type="submit" name="publiserArtikkel" value="Opprett artikkel">
                             </form>
                         </article>
