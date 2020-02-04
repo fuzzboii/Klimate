@@ -39,9 +39,9 @@ $stmtHentInteresse = $db->prepare($hentInteresse);
 $stmtHentInteresse->execute();
 $interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
 
-//------------------------------------------------------//
-// Oppdater egene interesser fra forhåndsdefinert liste //
-//------------------------------------------------------//
+//-----------------------------------------------------//
+// Oppdater brukerinteresse fra forhåndsdefinert liste //
+//-----------------------------------------------------//
 if ($egen) {
     if (isset($_POST['interesse'])) {
         $brukerPlaceholder = $_SESSION['idbruker'];
@@ -52,9 +52,9 @@ if ($egen) {
         $stmtOppdaterInteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
     }
 }
-//------------------------------------------------//
-// Oppdater interesser med egendefinert interesse //
-//------------------------------------------------//
+//-----------------------------------------------//
+// Oppdater interesse med egendefinert interesse //
+//-----------------------------------------------//
 if ($egen) {
     if (isset($_POST['interesseEgendefinert'])) {
         $interessePlaceholder = $_POST['interesseEgendefinert'];
@@ -66,6 +66,28 @@ if ($egen) {
 }
     // Spørsmål: legg opp dette slik at nyopprettet interesse legges til umiddelbart?
     // Skal alle ha rettighet til å opprette nye interesserer willy-nilly?
+
+//-----------------//
+// Slett Interesse //
+//-----------------//
+if ($egen) {
+    if (isset($_POST['interesseTilSletting'])) {
+        // Hent tilsvarende ID
+        $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
+        $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
+        $stmtHentIdInteresse->execute([$_POST['interesseTilSletting']]);
+        $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
+        $idInteresse = implode($idInteresse);
+
+        // Slett interessen
+        $slettInteresse = "delete from brukerinteresse 
+                           where bruker=?
+                           and interesse=?";
+        $stmtSlettInteresse = $db->prepare($slettInteresse);
+        $stmtSlettInteresse->execute([$_SESSION['idbruker'], $idInteresse]);
+
+    }
+}
 
 //------------------------------//
 //------------------------------//
@@ -300,13 +322,18 @@ if ($tellingArrangement > 0) {
                 
                 <!-- INTERESSER -->
                 <h2>Interesser</h2>
-                <!-- Nøstet foreach, fordi resultatet av søk fra to tabeller ble 2D-array -->
+                <!-- Nøstet foreach -->
                 <!-- Ytre løkke -->
                 <section class="interesserTags">
                  <?php if ($tellingInteresse != null) {
-                    foreach ($interesseProfil as $rad) {    
-                        foreach ($rad as $kolonne) { ?> 
-                        <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p> <!-- DROPDOWN, --> 
+                     foreach ($interesseProfil as $rad) {    
+                         foreach ($rad as $kolonne) { ?> 
+                        <!-- Test om bruker er i slettemodus -->
+                        <?php if (isset($_POST['slettemodus'])) { ?> 
+                            <input form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
+                        <!-- Ellers normal visning -->
+                        <?php } else ?> 
+                            <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
                         <?php } // Slutt, indre løkke    
                     } // Slutt, ytre løkke
                 } ?> <!-- Slutt, IF-test --> 
@@ -334,6 +361,13 @@ if ($tellingArrangement > 0) {
                 </form>
                 
                 <?php } ?> <!-- Slutt, IF-test -->
+
+                <!-- Slettemodus -->
+                <?php if ($egen) { ?>
+                <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <input type="submit" name="slettemodus" value="Slett"></input>
+                </form>
+                <?php } ?>
                 
                 <!-- BESKRIVELSE -->
                 <h2>Om</h2>
@@ -386,7 +420,7 @@ if ($tellingArrangement > 0) {
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 29.01.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 04.02.2020 -->
     <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 29.01.2020 -->
 
 </html>
