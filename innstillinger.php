@@ -50,6 +50,14 @@ $salt = "IT2_2020";
 // Lagringsplass for bilder opplastet av brukere
 $lagringsplass = "bilder/opplastet";
 
+// Del for å logge ut en bruker etter inaktivitet over lengre tid
+if (isset($_SESSION['siste_aktivitet']) && (time() - $_SESSION['siste_aktivitet'] > 7200)) {
+    // Siste brukerhandling var mer enn 2 timer siden, logger ut bruker
+    session_destroy();   // Sletter session, bruker er nå utlogget.
+    // PHP_SELF inneholder relativ plassering av siden scriptet kjører, 'default.php' hvis på default, '/gr8/default.php' ved felles kjøring osv.
+    header('Location: ' . $_SERVER['PHP_SELF']); // Laster inn samme side på nytt nå som session er tømt
+}
+$_SESSION['siste_aktivitet'] = time(); // Oppdater session timeout
 
 
 // Prøver å koble til databasen, passer på å sjekke om siden vi er på er resultat av systemfeil, hvis ikke får vi en uendelig redirect loop
