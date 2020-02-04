@@ -332,14 +332,6 @@ if ($tellingArrangement > 0) {
                     </section>
                 </section>    
                 
-                <!-- BESKRIVELSE -->
-                <h2>Om</h2>
-                <?php if($egen) { ?>
-                    
-                <?php } else { ?>
-                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
-                <?php } ?>
-
                 <!-- INTERESSER -->
                 <h2>Interesser</h2>
                 <!-- Nøstet foreach -->
@@ -360,10 +352,50 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </section>
 
+                <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
                 <?php if($egen) { ?>
-                    <button onClick="location.href='profil_rediger.php?bruker=<?php echo($_GET['bruker'])?>'" name="redigerProfil" class="rediger_konto_knapp">Rediger profil</button>
-                <?php }?>
-                <!-- <h2>Kommentarer</h2> -->
+                <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <select class="profil_input" name="interesse">
+                        <?php $index=1 ?>
+                        <?php foreach($interesse as $rad) {
+                            foreach($rad as $option) { ?>
+                                <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
+                                <?php $index++ ?>
+                            <?php } // Slutt, indre løkke
+                        } ?> <!-- Slutt, ytre løkke -->
+                    </select>
+                    <input class="profil_knapp" type="submit" value="Legg til"></input>
+                </form>
+
+                <!-- Egendefinert interesse -->
+                <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
+                    <input class="profil_knapp" type="submit" value="Legg til"></input>
+                </form>
+                
+                <?php } ?> <!-- Slutt, IF-test -->
+
+                <!-- Slettemodus -->
+                <?php if ($egen) { ?>
+                <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <?php if(!isset($_POST['slettemodus'])) { ?>
+                        <input class="profil_knapp" type="submit" name="slettemodus" value="Slett">
+                    <?php } else { ?> 
+                        <input class="profil_knapp" type="submit" name="avbryt" value="Avbryt"> 
+                    <?php } ?>
+                </form>
+                <?php } ?>
+                
+                <!-- BESKRIVELSE -->
+                <h2>Om</h2>
+                <?php if($egen) { ?>
+                    <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                        <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
+                        <input class="profil_knapp" type="submit" value="Oppdater" />
+                    </form>
+                <?php } else { ?>
+                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
+                <?php } ?>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->

@@ -1315,6 +1315,16 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
+.profil_pb {
+  
+}
+
+.profil_pb .velkomst {
+  
+}
+.bildeKontroll {
+  
+}
 .profil_header {
   padding-top: 6em; padding-bottom: 1em;
   text-align: center;
@@ -1322,9 +1332,9 @@ table {
 
 .profil_bilde {
   width: 10em;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  border-radius: 50%;
+  
+  
 }
 .interesserTags {
   display: flex;
@@ -1369,18 +1379,15 @@ table {
   padding: 0.4em;
 }
 
-.profil_main {
-  margin-left: 5em;
-}
 
 .profil_main p {
   margin-left: 1em;
 }
 
 .profil_main {
-  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-  margin-left: 1.5em;
-  margin-right: 1.5em;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
