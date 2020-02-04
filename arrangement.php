@@ -391,7 +391,7 @@ if(isset($_POST['paameld'])) {
                     <h1>Arrangementer</h1>
                     <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
                     <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
-                        <img id="arrangement_plussikon" src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
+                        <img src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
                     </a>
                     <?php } ?>
                 </header>

@@ -276,7 +276,7 @@ if (isset($_POST['publiserArtikkel'])) {
                             <h1>Artikler</h1>
                             <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
                             <a href="artikkel.php?nyartikkel" tabindex="-1"> <!-- VIKTIG, tabindex -->
-                                <img id="artikkel_plussikon" src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
+                                <img src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
                             </a>
                             <?php } ?>
                         </header>
