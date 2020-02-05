@@ -119,7 +119,7 @@ if ($tellingInteresse > 0) {
     // Resulterer i et 2D array
     $interesseProfil = $stmtInteresseProfil->fetchAll(PDO::FETCH_ASSOC);
 // settes ellers til null, for øyeblikket
-} else $interesseProfil = null;
+} else $interesseProfil = "Brukeren har ikke oppgitt noen interesser";
 
 //----------------------------------------------//
 // Hent alle interesser fra db, til en <select> //
@@ -191,7 +191,7 @@ if ($tellingArrangement > 0) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
+    <body> 
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -457,7 +457,7 @@ if ($tellingArrangement > 0) {
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 04.02.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 05.02.2020 -->
     <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 29.01.2020 -->
 
 </html>

@@ -1316,7 +1316,6 @@ table {
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
 
-
 .profil_pb .velkomst {
   text-align: center;
   margin-top: 0.5em;
@@ -1335,7 +1334,7 @@ table {
 .profil_main h2 {
  border-bottom: 1px solid #000000;
  padding-bottom: 0.5em;
- margin-bottom: 0em;
+ margin-bottom: 0.5em;
 }
 .profil_main h3 {
   font-weight: normal;
@@ -1434,6 +1433,19 @@ table {
   margin-left: 1em; margin-bottom: 0.2em;
   font-family: Helvetica, Arial, sans-serif;
   font-size: medium;
+}
+
+/* input 'arkitektur' og 'egendefinert' */
+.profil_input {
+  /* Bredde justert for ikke å flytte 'legg til' submits nedover på siden */
+  /* For å minske behovet for vertikal scroll */
+  width: 10em;
+}
+
+/* Tekstområdet 'om' */
+.profil_textarea {
+  /* Setter bredde i lodd med andre elementer */
+  width: 16em;
 }
 
   
