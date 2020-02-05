@@ -124,6 +124,9 @@ include("innstillinger.php");
                 // Spørringen som endrer seg utifra brukers valg
                 $sokPaaBr = "";
 
+                // Visuelt viser hva bruker faktisk søkte på, vises på selve siden
+                $infoOmSok = "";
+
                 if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "") && ($_GET['interesse'] == "")) {
 
                     /* -----------------------------------*/
@@ -131,6 +134,7 @@ include("innstillinger.php");
                     /* ---------------------------------- */
                     
                     $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'";
+                    $infoOmSok = "Fyll in osv";
 
 
                 } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "") && ($_GET['interesse'] == "")) {
