@@ -1318,19 +1318,6 @@ table {
 .profil_pb {
   
 }
-.rediger_profil_knapp {
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
-  padding: 1.0em; /* hvor mye luft rundt teksten det skal være */
-  
-
-  font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
-  border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 20%; /* Angir bredde på knappen */
-  border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 0.8em; /* Font-størrelse */
-}
 
 .profil_pb .velkomst {
   text-align: center;
@@ -1637,10 +1624,6 @@ table {
   
   /* Hover innstillinger for rediger konto knapp */
   .rediger_konto_knapp:hover {
-    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
-    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
-  }
-  .rediger_profil_knapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
