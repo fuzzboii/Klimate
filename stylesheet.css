@@ -1374,7 +1374,8 @@ table {
   
 }
 .interesserTags {
-  display: flex;
+  display: grid;
+  grid-template-columns: 8em 8em ;
 }
 
 .interesserTags p {
@@ -1382,6 +1383,9 @@ table {
   padding: 0.3em;
   border-radius: 0.7em;
   size: medium;
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: 1em;
 }
 
 /* Interesse-tags ved sletting */
@@ -1422,7 +1426,7 @@ table {
 }
 
 .profil_main {
-  width: 60%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   padding-top: 4em;
