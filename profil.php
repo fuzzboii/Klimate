@@ -315,6 +315,10 @@ if ($tellingArrangement > 0) {
                             <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
                         </section>
                     <?php } ?>
+
+                    <?php if($egen) { ?>
+                        <button onClick="location.href='profil_rediger.php?bruker=<?php echo($_GET['bruker'])?>'" name="redigerProfil" class="rediger_profil_knapp">Rediger brukerinstillinger</button>
+                    <?php }?>
                     <!-- --------------- -->
                     <!-- BRUKERINFO ---- -->
                     <!-- --------------- -->
@@ -336,10 +340,10 @@ if ($tellingArrangement > 0) {
                 
                 <!-- BESKRIVELSE -->
                 <h3>Beskrivelse</h3>
-                <?php if($egen) { ?>
-                    
+                <?php if($beskrivelseProfil != null) { ?>
+                    <p><?php echo($beskrivelseProfil["beskrivelse"])?>
                 <?php } else { ?>
-                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
+                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse...");} ?></p>
                 <?php } ?>
 
                 <!-- INTERESSER -->
@@ -362,9 +366,7 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </section>
 
-                <?php if($egen) { ?>
-                    <button onClick="location.href='profil_rediger.php?bruker=<?php echo($_GET['bruker'])?>'" name="redigerProfil" class="rediger_konto_knapp">Rediger profil</button>
-                <?php }?>
+                
                 <!-- <h2>Kommentarer</h2> -->
             </main>
             
