@@ -280,124 +280,170 @@ if ($tellingArrangement > 0) {
             <!-----------------------
             Del for brukerinformasjon
             ------------------------>
-
-            
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header class="profil_header" onclick="lukkHamburgerMeny()">
-                
-            </header>
-
-            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main class="profil_main" onclick="lukkHamburgerMeny()">  
-                <section class="profil_pb">
-                    <!-- Bilde av brukeren -->
-                    <!-- FLYTT SØK-DELEN AV DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
-                    <?php
-                    $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_GET['bruker'] . " and idbruker = bruker and bilde = idbilder";
-                    $stmtProfilbilde = $db->prepare($hentProfilbilde);
-                    $stmtProfilbilde->execute();
-                    $profilbilde = $stmtProfilbilde->fetch(PDO::FETCH_ASSOC);
-                    $antallProfilbilderFunnet = $stmtProfilbilde->rowCount();
-                    // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
-                    if ($antallProfilbilderFunnet != 0) { ?>
-                        <!-- Hvis vi finner et bilde til brukeren viser vi det -->
-                        <section class="bildeKontroll" tabindex="3">
-                            <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
-                            <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
-                        </section>
-        
-                    <?php } else { ?>
-                        <!-- Hvis brukeren ikke har noe profilbilde, bruk standard profilbilde -->
-                        <section class="bildeKontroll" tabindex="3">
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
-                            <!-- Vis brukernavn -->
-                            <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
-                        </section>
+            <!-- ---------------------------------------------------- -->
+            <!-- Tester på om rediger brukerinnstilinger er påklikket -->
+            <!-- ---------------------------------------------------- -->
+            <?php if(isset($_GET['innstillinger'])) { ?>
+                <header class="profil_header" onclick="lukkHamburgerMeny()">
+                    
+                </header>
+                <main class="profil_main">
+                    <!-- Del for å oppdatere brukerbeskrivelse -->
+                <?php if($egen) { ?>
+                        <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                            <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
+                            <input class="profil_knapp" type="submit" value="Oppdater" />
+                        </form>
                     <?php } ?>
-                    <!-- --------------- -->
-                    <!-- BRUKERINFO ---- -->
-                    <!-- --------------- -->
-                    <h2>Oversikt</h2>
-                    <section class="profil_persInf">
-                        
-                    <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
-                    <!-- Ikke egen profil -->
-                    <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
-                    <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                        
-                        <p><b>Fornavn:</b></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                        <p><b>Etternavn:</b> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                        <p><b>E-post Adresse:</b></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                        <p><b>Telefonnummer:</b></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                    <!-- Viser interesser -->
+                    <h2>Interesser</h2>
+                    <!-- Nøstet foreach -->
+                    <!-- Ytre løkke -->
+                    <section class="interesserTags">
+                    <?php if ($tellingInteresse != null) {
+                        foreach ($interesseProfil as $rad) {    
+                            foreach ($rad as $kolonne) { ?> 
+                                <!-- Test om bruker er i slettemodus -->
+                                <?php if (isset($_POST['slettemodus'])) { ?> 
+                                    <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
+                                <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                <?php } else { ?> 
+                                    <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                                <?php } // Slutt, else løkke    
+                            } // Slutt, indre løkke
+                        } // Slutt, ytre løkke
+                    } ?> <!-- Slutt, IF-test --> 
                     </section>
-                </section>    
-                
-                <!-- BESKRIVELSE -->
-                <h2>Om</h2>
-                <?php if($egen) { ?>
-                    <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                        <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
-                        <input class="profil_knapp" type="submit" value="Oppdater" />
+
+                    <!-- Del for å legge til interesser -->
+                    <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+                    <?php if($egen) { ?>
+                        <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                            <select class="profil_input" name="interesse">
+                                <?php $index=1 ?>
+                                <?php foreach($interesse as $rad) {
+                                    foreach($rad as $option) { ?>
+                                        <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
+                                        <?php $index++ ?>
+                                    <?php } // Slutt, indre løkke
+                                } ?> <!-- Slutt, ytre løkke -->
+                            </select>
+                            <input class="profil_knapp" type="submit" value="Legg til"></input>
+                        </form>
+
+                        <!-- Egendefinert interesse -->
+                        <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                            <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
+                            <input class="profil_knapp" type="submit" value="Legg til"></input>
+                        </form>
+                    <?php } ?> <!-- Slutt, IF-test -->
+
+                    <!-- Slettemodus -->
+                    <?php if ($egen) { ?>
+                    <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                        <?php if(!isset($_POST['slettemodus'])) { ?>
+                            <input class="profil_knapp" type="submit" name="slettemodus" value="Slett">
+                        <?php } else { ?> 
+                            <input class="profil_knapp" type="submit" name="avbryt" value="Avbryt"> 
+                        <?php } ?>
                     </form>
-                <?php } else { ?>
-                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
-                <?php } ?>
-
-                <!-- INTERESSER -->
-                <h2>Interesser</h2>
-                <!-- Nøstet foreach -->
-                <!-- Ytre løkke -->
-                <section class="interesserTags">
-                 <?php if ($tellingInteresse != null) {
-                    foreach ($interesseProfil as $rad) {    
-                        foreach ($rad as $kolonne) { ?> 
-                            <!-- Test om bruker er i slettemodus -->
-                            <?php if (isset($_POST['slettemodus'])) { ?> 
-                                <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
-                            <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
-                            <?php } else { ?> 
-                                <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
-                            <?php } // Slutt, else løkke    
-                        } // Slutt, indre løkke
-                    } // Slutt, ytre løkke
-                } ?> <!-- Slutt, IF-test --> 
-                </section>
-
-                <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
-                <?php if($egen) { ?>
-                <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                    <select class="profil_input" name="interesse">
-                        <?php $index=1 ?>
-                        <?php foreach($interesse as $rad) {
-                            foreach($rad as $option) { ?>
-                                <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
-                                <?php $index++ ?>
-                            <?php } // Slutt, indre løkke
-                        } ?> <!-- Slutt, ytre løkke -->
-                    </select>
-                    <input class="profil_knapp" type="submit" value="Legg til"></input>
-                </form>
-
-                <!-- Egendefinert interesse -->
-                <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                    <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
-                    <input class="profil_knapp" type="submit" value="Legg til"></input>
-                </form>
-                
-                <?php } ?> <!-- Slutt, IF-test -->
-
-                <!-- Slettemodus -->
-                <?php if ($egen) { ?>
-                <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                    <?php if(!isset($_POST['slettemodus'])) { ?>
-                        <input class="profil_knapp" type="submit" name="slettemodus" value="Slett">
-                    <?php } else { ?> 
-                        <input class="profil_knapp" type="submit" name="avbryt" value="Avbryt"> 
                     <?php } ?>
-                </form>
-                <?php } ?>
+                    
+                    <!-- tilbake knapp -->
+                    <?php if($egen) {?>
+                            <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Tilbake</button>
+                    <?php }?>
+
+                </main>
+            <?php } else { ?>
+                <!-- ---------- -->
+                <!-- profilside -->
+                <!-- ---------- -->
+                <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+                <!-- Kan ikke legge denne direkte i body -->
+                <header class="profil_header" onclick="lukkHamburgerMeny()">
+                    
+                </header>
+
+                <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+                <main class="profil_main" onclick="lukkHamburgerMeny()">  
+                    <section class="profil_pb">
+                        <!-- Bilde av brukeren -->
+                        <!-- FLYTT SØK-DELEN AV DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
+                        <?php
+                        $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_GET['bruker'] . " and idbruker = bruker and bilde = idbilder";
+                        $stmtProfilbilde = $db->prepare($hentProfilbilde);
+                        $stmtProfilbilde->execute();
+                        $profilbilde = $stmtProfilbilde->fetch(PDO::FETCH_ASSOC);
+                        $antallProfilbilderFunnet = $stmtProfilbilde->rowCount();
+                        // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
+                        if ($antallProfilbilderFunnet != 0) { ?>
+                            <!-- Hvis vi finner et bilde til brukeren viser vi det -->
+                            <section class="bildeKontroll" tabindex="3">
+                                <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
+                                <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
+                            </section>
             
+                        <?php } else { ?>
+                            <!-- Hvis brukeren ikke har noe profilbilde, bruk standard profilbilde -->
+                            <section class="bildeKontroll" tabindex="3">
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                                <!-- Vis brukernavn -->
+                                <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
+                                <?php if($egen) {?>
+                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
+                                <?php }?>
+                            </section>
+                        <?php } ?>
+                        
+                        
+                        
+                        <!-- --------------- -->
+                        <!-- BRUKERINFO ---- -->
+                        <!-- --------------- -->
+                        <h2>Oversikt</h2>
+                        <section class="profil_persInf">
+                            
+                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
+                        <!-- Ikke egen profil -->
+                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
+                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
+                            
+                            <p><b>Fornavn:</b></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
+                            <p><b>Etternavn:</b> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
+                            <p><b>E-post Adresse:</b></p> <p> <?php echo($personaliaProfil["epost"])?></p>
+                            <p><b>Telefonnummer:</b></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                        </section>
+                    </section>    
+                    
+                    <!-- BESKRIVELSE -->
+                    <h2>Om</h2>
+                    <?php ?>
+                        <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
+                    <?php  ?>
+
+                    <!-- INTERESSER -->
+                    <h2>Interesser</h2>
+                    <!-- Nøstet foreach -->
+                    <!-- Ytre løkke -->
+                    <section class="interesserTags">
+                    <?php if ($tellingInteresse != null) {
+                        foreach ($interesseProfil as $rad) {    
+                            foreach ($rad as $kolonne) { ?> 
+                                <!-- Test om bruker er i slettemodus -->
+                                <?php if (isset($_POST['slettemodus'])) { ?> 
+                                    <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
+                                <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                <?php } else { ?> 
+                                    <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                                <?php } // Slutt, else løkke    
+                            } // Slutt, indre løkke
+                        } // Slutt, ytre løkke
+                    } ?> <!-- Slutt, IF-test --> 
+                    </section>
+            </main>
+
+             <?php }?> <!-- Test på om brukeren har klikket på rediger -->
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
             <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
