@@ -134,7 +134,7 @@ include("innstillinger.php");
                     /* ---------------------------------- */
                     
                     $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'";
-                    $infoOmSok = "Fyll in osv";
+                    $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'];
 
 
                 } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "") && ($_GET['interesse'] == "")) {
@@ -144,6 +144,7 @@ include("innstillinger.php");
                     /* ----------------------------- */
                 
                     $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' order by brukernavn ASC";
+                    $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'];
 
 
                 } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "") && ($_GET['interesse'] == "")) {
@@ -153,6 +154,7 @@ include("innstillinger.php");
                     /* ------------------------ */
 
                     $sokPaaBr = "select idbruker, brukernavn from bruker where epost = '" . $_GET['epost'] . "' order by brukernavn ASC";
+                    $infoOmSok = "Du har søkt etter: " . $_GET['epost'];
                      
                     
                 } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "") && ($_GET['interesse'] != "")) {
@@ -162,6 +164,7 @@ include("innstillinger.php");
                     /* --------------------------------------------- */
 
                     $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                    $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'] . ", " . $_GET['interesse'];
                      
                     
                 } else if (($_GET['brukernavn'] != "") && ($_GET['epost'] == "") && ($_GET['interesse'] != "")) {
@@ -171,7 +174,8 @@ include("innstillinger.php");
                     /* ------------------------------------------ */
 
                     $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
-                     
+                    $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['interesse']; 
+
                     
                 } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] != "") && ($_GET['interesse'] != "")) {
 
@@ -180,7 +184,8 @@ include("innstillinger.php");
                     /* ------------------------------------- */
 
                     $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
-                     
+                    $infoOmSok = "Du har søkt etter: " . $_GET['epost'] . ", " . $_GET['interesse']; 
+
                     
                 } else if (($_GET['brukernavn'] == "") && ($_GET['epost'] == "") && ($_GET['interesse'] != "")) {
 
@@ -189,7 +194,8 @@ include("innstillinger.php");
                     /* ---------------------------- */
 
                     $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
-                     
+                    $infoOmSok = "Du har søkt etter: " . $_GET['interesse']; 
+
                     
                 } 
 
@@ -215,6 +221,7 @@ include("innstillinger.php");
                         <?php } else { ?>
                             <h2>Ingen resultater</h2>
                         <?php } ?>
+                        <p><?php echo($infoOmSok) ?></p>
                     </header>
 
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -292,6 +299,9 @@ include("innstillinger.php");
 
                 // Spørringen som endrer seg utifra brukers valg
                 $sokPaaArt = "";
+                
+                // Visuelt viser hva bruker faktisk søkte på, vises på selve siden
+                $infoOmSok = "";
 
                 // Enkel test hvis bruker kun ønsker å søke på tittel (Fra navmeny)
                 $sokPaaKunTtl = true;
@@ -299,41 +309,45 @@ include("innstillinger.php");
                     $sokPaaKunTtl = false;
                 }
 
-                if (($_GET['artTittel'] != "") && ($sokPaaKunTtl = true)) {
+                if (($_GET['artTittel'] != "") && ($sokPaaKunTtl == true)) {
 
                     /* --------------------------*/
                     /* Del for søk på kun tittel */
                     /* ------------------------- */
 
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
-                } else if (($_GET['artTittel'] != "") && ($sokPaaKunTtl == false)) {
+
+                } else if ((($_GET['artTittel'] != "") && $_GET['artForfatter'] != "") && ($sokPaaKunTtl == false)) {
 
                     /* --------------------------------------------------*/
                     /* Del for søk på kombinasjon av tittel og forfatter */
                     /* ------------------------------------------------- */
 
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'] . ", " . $_GET['artForfatter'];
 
-                } else if (($_GET['artTittel'] != "") && ($sokPaaKunTtl == false)) {
+
+                } else if ((($_GET['artTittel'] != "") && $_GET['artForfatter'] == "") && ($sokPaaKunTtl == false)) {
 
                     /* ----------------------*/
                     /* Del for søk på tittel */
                     /* --------------------- */
 
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
-                } else if (($_GET['artTittel'] == "") && ($sokPaaKunTtl == false)) {
+
+                } else if ((($_GET['artTittel'] == "") && $_GET['artForfatter'] != "") && ($sokPaaKunTtl == false)) {
 
                     /* -------------------------*/
                     /* Del for søk på forfatter */
                     /* ------------------------ */
 
                     $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['artForfatter'];
+
                     
                 }
 
@@ -358,6 +372,7 @@ include("innstillinger.php");
                         <?php } else { ?>
                             <h2>Ingen resultater</h2>
                         <?php } ?>
+                        <p><?php echo($infoOmSok) ?></p>
                     </header>
 
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 
@@ -429,6 +444,9 @@ include("innstillinger.php");
 
                 // Spørringen som endrer seg utifra brukers valg
                 $sokPaaArr ="";
+                
+                // Visuelt viser hva bruker faktisk søkte på, vises på selve siden
+                $infoOmSok = "";
 
                 if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] != "")) {
 
@@ -437,7 +455,8 @@ include("innstillinger.php");
                     /* --------------------------------------------------- */
 
                     $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'] . ", " . $_GET['fylke'];
+
                 } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
                     
                     /* ---------------------------------------------*/
@@ -445,7 +464,8 @@ include("innstillinger.php");
                     /* -------------------------------------------- */
 
                     $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'];
+
                 } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] == "")) {
 
                     /* ----------------------*/
@@ -453,7 +473,8 @@ include("innstillinger.php");
                     /* --------------------- */
 
                     $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'];
+
                 } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] != "")) {
 
                     /* -----------------------------*/
@@ -461,7 +482,8 @@ include("innstillinger.php");
                     /* -----------------------------*/
 
                     $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'] . ", " . $_GET['fylke'];
+ 
                 } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
 
                     /* ---------------------*/
@@ -469,7 +491,8 @@ include("innstillinger.php");
                     /* ---------------------*/
 
                     $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['fylke'];
+
                 } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
 
                     /* --------------------*/
@@ -477,7 +500,8 @@ include("innstillinger.php");
                     /* --------------------*/
 
                     $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'];
+
                 } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
 
                     /* -------------------------------*/
@@ -485,7 +509,8 @@ include("innstillinger.php");
                     /* -------------------------------*/
 
                     $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
-                    
+                    $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['fylke'];
+
                 }
 
                 if ($sokPaaArr != "") {
@@ -509,6 +534,7 @@ include("innstillinger.php");
                         <?php } else { ?>
                             <h2>Ingen resultater</h2>
                         <?php } ?>
+                        <p><?php echo($infoOmSok) ?></p>
                     </header>
 
                     <main id="sok_main" onclick="lukkHamburgerMeny()"> 

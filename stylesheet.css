@@ -1470,9 +1470,6 @@ table {
 
 /* Tab */
 @media screen and (min-width: 720px) {
-  html, body {
-    overflow-x: hidden;
-  }
   #default_main {
     column-count: 2; 
   }
