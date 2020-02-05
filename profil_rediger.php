@@ -290,12 +290,36 @@ if ($tellingArrangement > 0) {
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main class="profil_main" onclick="lukkHamburgerMeny()">  
-                
+                <section class="profil_pb">
+                    <!-- Bilde av brukeren -->
+                    <!-- FLYTT SØK-DELEN AV DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
+                    <?php
+                    $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_GET['bruker'] . " and idbruker = bruker and bilde = idbilder";
+                    $stmtProfilbilde = $db->prepare($hentProfilbilde);
+                    $stmtProfilbilde->execute();
+                    $profilbilde = $stmtProfilbilde->fetch(PDO::FETCH_ASSOC);
+                    $antallProfilbilderFunnet = $stmtProfilbilde->rowCount();
+                    // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
+                    if ($antallProfilbilderFunnet != 0) { ?>
+                        <!-- Hvis vi finner et bilde til brukeren viser vi det -->
+                        <section class="bildeKontroll" tabindex="3">
+                            <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
+                            <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
+                        </section>
+        
+                    <?php } else { ?>
+                        <!-- Hvis brukeren ikke har noe profilbilde, bruk standard profilbilde -->
+                        <section class="bildeKontroll" tabindex="3">
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                            <!-- Vis brukernavn -->
+                            <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
+                        </section>
+                    <?php } ?>
                     <!-- --------------- -->
                     <!-- BRUKERINFO ---- -->
                     <!-- --------------- -->
-                    <section class="profil_Inf">
-                        <h1>har ikke begynt å style denne siden enda, ignorer stylen foreløpig</h1>
+                    <section class="profil_persInf">
+                        <h2>Personlig informasjon</h2>
                     <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
                     <!-- Ikke egen profil -->
                     <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->

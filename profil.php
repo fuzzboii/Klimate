@@ -315,15 +315,10 @@ if ($tellingArrangement > 0) {
                             <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
                         </section>
                     <?php } ?>
-
-                    <?php if($egen) { ?>
-                        <button onClick="location.href='profil_rediger.php?bruker=<?php echo($_GET['bruker'])?>'" name="redigerProfil" class="rediger_profil_knapp">Rediger brukerinstillinger</button>
-                    <?php }?>
                     <!-- --------------- -->
                     <!-- BRUKERINFO ---- -->
                     <!-- --------------- -->
-                    <h2>Om</h2>
-                    <h3>Oversikt</h3>
+                    <h2>Oversikt</h2>
                     <section class="profil_persInf">
                         
                     <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
@@ -339,11 +334,14 @@ if ($tellingArrangement > 0) {
                 </section>    
                 
                 <!-- BESKRIVELSE -->
-                <h3>Beskrivelse</h3>
-                <?php if($beskrivelseProfil != null) { ?>
-                    <p><?php echo($beskrivelseProfil["beskrivelse"])?>
+                <h2>Om</h2>
+                <?php if($egen) { ?>
+                    <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                        <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
+                        <input class="profil_knapp" type="submit" value="Oppdater" />
+                    </form>
                 <?php } else { ?>
-                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse...");} ?></p>
+                    <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
                 <?php } ?>
 
                 <!-- INTERESSER -->
@@ -366,9 +364,39 @@ if ($tellingArrangement > 0) {
                 } ?> <!-- Slutt, IF-test --> 
                 </section>
 
+                <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+                <?php if($egen) { ?>
+                <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <select class="profil_input" name="interesse">
+                        <?php $index=1 ?>
+                        <?php foreach($interesse as $rad) {
+                            foreach($rad as $option) { ?>
+                                <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
+                                <?php $index++ ?>
+                            <?php } // Slutt, indre løkke
+                        } ?> <!-- Slutt, ytre løkke -->
+                    </select>
+                    <input class="profil_knapp" type="submit" value="Legg til"></input>
+                </form>
+
+                <!-- Egendefinert interesse -->
+                <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
+                    <input class="profil_knapp" type="submit" value="Legg til"></input>
+                </form>
                 
-                <!-- <h2>Kommentarer</h2> -->
-            </main>
+                <?php } ?> <!-- Slutt, IF-test -->
+
+                <!-- Slettemodus -->
+                <?php if ($egen) { ?>
+                <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <?php if(!isset($_POST['slettemodus'])) { ?>
+                        <input class="profil_knapp" type="submit" name="slettemodus" value="Slett">
+                    <?php } else { ?> 
+                        <input class="profil_knapp" type="submit" name="avbryt" value="Avbryt"> 
+                    <?php } ?>
+                </form>
+                <?php } ?>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
             <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>

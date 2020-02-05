@@ -1185,14 +1185,14 @@ table {
 }
 
 #arrangementValgt_tilbKnapp {
-  margin-top: 1.5em;
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
-  padding: 0.7em; /* hvor mye luft rundt teksten det skal være */
+  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  margin: 0; margin-bottom: 1em;
   font-weight: bold; /* Fet tekst */
-  font-family: Helvetica, Arial, sans-serif; /* font-type */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 100%; /* Angir bredde på knappen */
+  width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
@@ -1317,19 +1317,6 @@ table {
 /* Style for PROFIL */
 .profil_pb {
   
-}
-.rediger_profil_knapp {
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
-  padding: 1.0em; /* hvor mye luft rundt teksten det skal være */
-  
-
-  font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
-  border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 20%; /* Angir bredde på knappen */
-  border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 0.8em; /* Font-størrelse */
 }
 
 .profil_pb .velkomst {
@@ -1474,9 +1461,6 @@ table {
 
 /* Tab */
 @media screen and (min-width: 720px) {
-  html, body {
-    overflow-x: hidden;
-  }
   #default_main {
     column-count: 2; 
   }
@@ -1644,10 +1628,6 @@ table {
   
   /* Hover innstillinger for rediger konto knapp */
   .rediger_konto_knapp:hover {
-    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
-    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
-  }
-  .rediger_profil_knapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
