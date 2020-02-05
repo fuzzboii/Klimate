@@ -14,9 +14,6 @@ if ($_SESSION['brukernavn']) {
     header("Location: default.php?error=1");
 }
 
-// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_brukernavn = "";
@@ -116,6 +113,13 @@ if (isset($_POST['subEndring'])) {
                     $_SESSION['epost'] = $nyEpost;
                     $_SESSION['telefonnummer'] = $nyttTelefonnummer;
                     $oppdatertBr = true;
+
+                    // Alt gikk ok, fjerner session variable for brukerinput
+                    unset($_SESSION['input_brukernavn']);
+                    unset($_SESSION['input_epost']);
+                    unset($_SESSION['input_fornavn']);
+                    unset($_SESSION['input_etternavn']);
+                    unset($_SESSION['input_telefonnummer']);
                 }
             } else {
                 header("Location: konto_rediger.php?error=5");
@@ -238,13 +242,13 @@ if (isset($_POST['subEndring'])) {
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
                         <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                     </a>
 
                 <?php } else { ?>
                     <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
                         <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                     </a>
                 <?php } ?>

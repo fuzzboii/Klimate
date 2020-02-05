@@ -15,16 +15,6 @@ if (isset($_POST['loggUt'])) {
 
 
 
-//------------------------------//
-// Henter artikler fra database //
-//------------------------------//
-
-// Denne sorterer tilfeldig og begrenser resultatet til en artikkel
-$hentTilfeldig = "select * from artikkel order by RAND() limit 1";
-$stmtTilfeldig = $db->prepare($hentTilfeldig);
-$stmtTilfeldig->execute();
-$tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -63,22 +53,23 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                     /* -------------------------------*/
 
                     // Henter bilde fra database utifra brukerid
-
-                    $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
-                    $stmtBilde = $db->prepare($hentBilde);
-                    $stmtBilde->execute();
-                    $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
-                    $antallBilderFunnet = $stmtBilde->rowCount();
+                    if(!isset($_GET['systemerror'])) {
+                        $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+                        $stmtBilde = $db->prepare($hentBilde);
+                        $stmtBilde->execute();
+                        $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+                        $antallBilderFunnet = $stmtBilde->rowCount();
+                    } else {$antallBilderFunnet = 0;}
                     
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
                             <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
                         </a>
 
                     <?php } else { ?>
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php'" tabindex="3">
+                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
                             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
                         </a>
 
@@ -148,7 +139,7 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
                 <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
                     <p id="mldFEIL">Du må logge ut før du kan se dette området</p>   
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                <?php } else if(isset($_GET['systemerror'])){ ?>
                     <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
 
                 <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
@@ -163,35 +154,47 @@ $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC);
 
                 <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
             </header>
-
+            
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main id="default_main" onclick="lukkHamburgerMeny()">   
-                
-                <!-- IDene brukes til å splitte opp kolonnene i queries -->
-                <article id="artikkel1">
-                    <h2>Nyeste</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Regjeringen verner bilister etter økt CO₂-avgift</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
-                <article id="artikkel2">
-                    <h2>Mest populære</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Slik ser monsterorkanen ut fra verdensrommet</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
-                <article id="artikkel3">
-                    <h2>Mest kommentert</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Svenske Greta Thunberg (16) nominert til Nobels fredspris</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
-                <article id="artikkel4">
-                    <h2>Tilfeldig utvalgt</h2>
-                    <p><?php echo($tilfeldigArtikkel['artingress'])?></p>
-                    <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel']) ?>">Trykk her for å lese videre</a>
-                </article>
-                
+                <?php if(!isset($_GET['systemerror'])){ ?>
+                    <!-- IDene brukes til å splitte opp kolonnene i queries -->
+                    <article id="artikkel1">
+                        <h2>Nyeste</h2>
+                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
+                        <p>Regjeringen verner bilister etter økt CO₂-avgift</p>
+                        <a href="#">Trykk her for å lese videre</a>
+                    </article>
+                    <article id="artikkel2">
+                        <h2>Mest populære</h2>
+                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
+                        <p>Slik ser monsterorkanen ut fra verdensrommet</p>
+                        <a href="#">Trykk her for å lese videre</a>
+                    </article>
+                    <article id="artikkel3">
+                        <h2>Mest kommentert</h2>
+                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
+                        <p>Svenske Greta Thunberg (16) nominert til Nobels fredspris</p>
+                        <a href="#">Trykk her for å lese videre</a>
+                    </article>
+                    <article id="artikkel4">
+                        <h2>Tilfeldig utvalgt</h2>
+                        <p><?php 
+                            //------------------------------//
+                            // Henter artikler fra database //
+                            //------------------------------//
+
+                            // Denne sorterer tilfeldig og begrenser resultatet til en artikkel
+                            $hentTilfeldig = "select idartikkel, artingress from artikkel order by RAND() limit 1";
+                            $stmtTilfeldig = $db->prepare($hentTilfeldig);
+                            $stmtTilfeldig->execute();
+                            $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC); 
+                        
+                        echo($tilfeldigArtikkel['artingress'])?></p>
+                        
+                        <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
+                    </article>
+                <?php } ?>
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->

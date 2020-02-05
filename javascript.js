@@ -447,5 +447,17 @@ function visPassord(hentet) {
 /*-------------------------------------------------------------------------------------------------------*/
 
 
+/* Ved påmeldt arrangement, vis avmeld ved mouseover */
+/*-------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
+function visAvmeld(valg) {
+  var knapp = document.getElementById("arrangement_paameldt");
+  if(valg == "Avmeld") {
+    document.getElementById("arrangement_paameldt").innerHTML = "Avmeld";
+  } else if(valg == "Paameld") {
+    document.getElementById("arrangement_paameldt").innerHTML = "Påmeldt";
+  }
+}
+
 /* Denne siden er utviklet av Robin Kleppang, sist endret 13.11.2019 */
 /* Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 11.10.2019 */
