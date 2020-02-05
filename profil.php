@@ -119,7 +119,7 @@ if ($tellingInteresse > 0) {
     // Resulterer i et 2D array
     $interesseProfil = $stmtInteresseProfil->fetchAll(PDO::FETCH_ASSOC);
 // settes ellers til null, for øyeblikket
-} else $interesseProfil = null;
+} else $interesseProfil = "Brukeren har ikke oppgitt noen interesser";
 
 //----------------------------------------------//
 // Hent alle interesser fra db, til en <select> //
@@ -191,7 +191,7 @@ if ($tellingArrangement > 0) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
+    <body> 
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -337,7 +337,7 @@ if ($tellingArrangement > 0) {
                 <h2>Om</h2>
                 <?php if($egen) { ?>
                     <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                        <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
+                        <textarea class="profil_textarea" name="beskrivelse" maxlength="1024" rows="5" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
                         <input class="profil_knapp" type="submit" value="Oppdater" />
                     </form>
                 <?php } else { ?>
@@ -349,7 +349,7 @@ if ($tellingArrangement > 0) {
                 <!-- Nøstet foreach -->
                 <!-- Ytre løkke -->
                 <section class="interesserTags">
-                 <?php if ($tellingInteresse != null) {
+                 <?php if ($tellingInteresse > 0) {
                     foreach ($interesseProfil as $rad) {    
                         foreach ($rad as $kolonne) { ?> 
                             <!-- Test om bruker er i slettemodus -->
@@ -361,7 +361,9 @@ if ($tellingArrangement > 0) {
                             <?php } // Slutt, else løkke    
                         } // Slutt, indre løkke
                     } // Slutt, ytre løkke
-                } ?> <!-- Slutt, IF-test --> 
+                } else { ?> 
+                    <p> <?php echo($interesseProfil) ?> </p>
+                <?php } ?> 
                 </section>
 
                 <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
@@ -411,7 +413,7 @@ if ($tellingArrangement > 0) {
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 04.02.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 05.02.2020 -->
     <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 29.01.2020 -->
 
 </html>
