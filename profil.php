@@ -11,6 +11,7 @@ include("innstillinger.php");
 //------------------------------//
 // Bruker ikke innlogget
 if (!isset($_SESSION['idbruker'])) {
+    // Sendes til forsiden
     header('Location: default.php');
 }
 
@@ -25,13 +26,14 @@ if (isset($_POST['endreBilde'])) {
     // Del for filopplastning
     if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
         // Kombinerer artikkel med den siste idevent'en
-        $navn = "event" . $_SESSION['idbruker'];
+        $navn = "bruker" . $_SESSION['idbruker'];
         // Henter filtypen
         $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
         // Kombinerer navnet med filtypen
         $bildenavn = $navn . $filtype;
         // Selve prosessen som flytter bildet til bestemt lagringsplass
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
+
         // Legger til bildet i databasen
         $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
         $nyttBildeSTMT = $db->prepare($nyttBildeQ);
@@ -40,7 +42,7 @@ if (isset($_POST['endreBilde'])) {
         $bildeid = $db->lastInsertId();
         
         // Spørringen som lager koblingen mellom bilder og bruker
-        $nyKoblingQ = "insert into brukerbilde(event, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
+        $nyKoblingQ = "insert into brukerbilde(bruker, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
         $nyKoblingSTMT = $db->prepare($nyKoblingQ);
         $nyKoblingSTMT->execute();
     }
@@ -353,7 +355,7 @@ if ($tellingArrangement > 0) {
                 <main class="profil_main">
                 <h2>Oversikt</h2>
                     <h3>Endre profilbilde</h3>
-                    <form class="profil_bilde" method="POST" action="profil.php?bruker= <?php echo $_SESSION['idbruker'] ?> &instillinger= <?php echo $_SESSION['idbruker'] ?>">
+                    <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
                         <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
                         <input type="submit" name="endreBilde">
