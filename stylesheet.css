@@ -137,6 +137,7 @@ footer a {
   resize: none;
 }
 
+
 .inputBoksSoknad {
   display: flex; /* Legger ikonene og inputfeltene ved siden av hverandre*/
   max-width: 20,4em; /* Angir bredde for inputfeltene  */
@@ -161,11 +162,31 @@ footer a {
   margin-left: 1.5em;
   margin-right: 1.5em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
   max-width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+
+#soknad_form {
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+  padding: 2em;
+}
+
+#soknad_header {
+  padding-top: 6em;
+  padding-bottom: 1em;
+  text-align: center;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+#soknad_header h1 {
+  font-size: 1.5em;
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -1398,6 +1419,10 @@ table {
  grid-template-columns: 8.5em auto;
  font-size: 0.83em;
  overflow: auto;
+ margin-bottom: 2em;
+}
+.brukerBeskrivelse p{
+  overflow-wrap: break-word;
 }
 
 .profil_persInf p{
@@ -1406,6 +1431,7 @@ table {
 }
 .profil_bilde {
   width: 10em;
+  height: 10em;
   border-radius: 50%;
 }
 
@@ -1450,14 +1476,16 @@ table {
 
 /* Knappene */
 .profil_knapp {
-  background-color: rgb(126, 155, 153);
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
-  margin-left: 1em;
   margin-bottom: 0.5em;
-  font-size: medium;
-  padding: 0.4em;
-  color: white;
-  border-radius: 0.25em;
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.80em; /* Font-størrelse */
 }
 
 /* Input av interesse */
@@ -1473,6 +1501,7 @@ table {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -1481,9 +1510,17 @@ table {
 
 .profil_beskrivelse textarea, .profil_beskrivelse input {
   display: block;
-  margin-left: 1em; margin-bottom: 0.2em;
+  margin-left: 0em; margin-bottom: 0.2em;
   font-family: Helvetica, Arial, sans-serif;
   font-size: medium;
+}
+.profil_beskrivelse textarea{
+  width: 50%;
+  padding-top: 4em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  resize: none;
 }
 
 /* input 'arkitektur' og 'egendefinert' */
@@ -1498,6 +1535,8 @@ table {
   /* Setter bredde i lodd med andre elementer */
   width: 16em;
 }
+
+
 
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
