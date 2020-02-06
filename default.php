@@ -63,9 +63,18 @@ if (isset($_POST['loggUt'])) {
                     
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     if ($antallBilderFunnet != 0) { ?>
-                        <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
+                        <!-- Hvis vi finner et bilde til arrangementet viser vi det. Ut i fra brukertype settes riktig farge i border -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                            <?php if ($_SESSION['brukertype'] == 2) { ?>
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                            
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                            
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                            
+                            <?php } ?>
                         </a>
 
                     <?php } else { ?>
