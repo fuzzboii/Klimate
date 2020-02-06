@@ -1407,9 +1407,9 @@ table {
   text-align: center;
 }
 .profil_main h2 {
- border-bottom: 1px solid #000000;
+ border-bottom: 1px solid lightgrey;
  padding-bottom: 0.5em;
- margin-bottom: 0.5em;
+ margin-bottom: 0;
 }
 .profil_main h3 {
   font-weight: normal;
@@ -1452,8 +1452,10 @@ table {
 /* .interesserTags {} */
 
 .interesserTags .proInt {
-  background-color: rgb(200,218,211);
+  background-color: transparent;
+  
   padding: 0.3em;
+  border:rgb(83, 105, 104) solid 2px;
   border-radius: 0.7em;
   font-size: 1em;
   text-align: center;
@@ -1463,19 +1465,24 @@ table {
   float: left; 
 }
 
+.interesserTags {
+  
+  padding-bottom: 1.5em;
+}
+
 /* Interesse-tags ved sletting */
 .slett {
-  background-color: darkred;
-  color: white;
+  background-color: transparent;
+  color: black;
   padding: 0.3em;
+  border:red solid 2px;
   border-radius: 0.7em;
   font-size: 1em;
   text-align: center;
   margin-bottom: 0;
   margin-right: 0.5em;
   margin-top: 0.5em;
-  border:none;
-  float: left;
+  float: left; 
 }
 
 /* Knappene */
@@ -1490,6 +1497,22 @@ table {
   margin-bottom: 0.5em;
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.80em; /* Font-størrelse */
+}
+
+.profil_knapp2 {
+  background-color: darkred; /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.80em; /* Font-størrelse */
+}
+.interesserSection {
+  display: grid;
 }
 
 .leggTilInt {
@@ -1510,10 +1533,24 @@ table {
 /* Input av interesse */
 .profil_input {
   margin-top: 0em;
-  margin-left: 1em;
+  
   margin-bottom: 0.5em;
   font-size: medium;
   padding: 0.4em;
+  width: 10em;
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
+.profil_inputTekst {
+  margin-top: 0em;
+  
+  margin-bottom: 0.5em;
+  font-size: medium;
+  padding: 0.4em;
+  width: 9em;
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
 .profil_main {
@@ -1541,16 +1578,6 @@ table {
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
     
-}
-
-/* input 'arkitektur' og 'egendefinert' */
-.profil_input {
-  /* Bredde justert for ikke å flytte 'legg til' submits nedover på siden */
-  /* For å minske behovet for vertikal scroll */
-  width: 10em;
-  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
-  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-  
 }
 
 /* Tekstområdet 'om' */

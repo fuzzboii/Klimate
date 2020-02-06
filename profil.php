@@ -306,19 +306,6 @@ if ($tellingArrangement > 0) {
                 <main class="profil_main">
                 <h2>Oversikt</h2>
                         <h3>Endre visnings innstillinger for oversikt</h3>
-                        <section class="profil_persInf">
-                        
-                            
-                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
-                        <!-- Ikke egen profil -->
-                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
-                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            
-                            <p><b>Fornavn:</b></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                            <p><b>Etternavn:</b> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                            <p><b>E-post Adresse:</b></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                            <p><b>Telefonnummer:</b></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
-                        </section>
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
@@ -330,59 +317,60 @@ if ($tellingArrangement > 0) {
                     <h2>Interesser</h2>
                     <!-- Nøstet foreach -->
                     <!-- Ytre løkke -->
-                    <section class="interesserTags">
-                        <?php if ($tellingInteresse != null) {
-                            foreach ($interesseProfil as $rad) {    
-                                foreach ($rad as $kolonne) { ?> 
-                                    <!-- Test om bruker er i slettemodus -->
-                                    <?php if (isset($_POST['slettemodus'])) { ?> 
-                                        <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
-                                    <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
-                                    <?php } else { ?> 
-                                        <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
-                                    <?php } // Slutt, else løkke    
-                                } // Slutt, indre løkke
-                            } // Slutt, ytre løkke
-                        } ?> <!-- Slutt, IF-test -->
-                    </section>
+                    <section class="interesserSection">
+                        <section class="interesserTags">
+                            <?php if ($tellingInteresse != null) {
+                                foreach ($interesseProfil as $rad) {    
+                                    foreach ($rad as $kolonne) { ?> 
+                                        <!-- Test om bruker er i slettemodus -->
+                                        <?php if (isset($_POST['slettemodus'])) { ?> 
+                                            <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
+                                        <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                        <?php } else { ?> 
+                                            <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                                        <?php } // Slutt, else løkke    
+                                    } // Slutt, indre løkke
+                                } // Slutt, ytre løkke
+                            } ?> <!-- Slutt, IF-test -->
+                        </section>
 
-                    <!-- Del for å legge til interesser -->
-                    <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
-                    <section>
-                    <?php if($egen) { ?>
-                        <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <select class="profil_input" name="interesse">
-                                <?php $index=1 ?>
-                                <?php foreach($interesse as $rad) {
-                                    foreach($rad as $option) { ?>
-                                        <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
-                                        <?php $index++ ?>
-                                    <?php } // Slutt, indre løkke
-                                } ?> <!-- Slutt, ytre løkke -->
-                                
-                            </select>
-                            <input class="profil_knapp" type="submit" value="Legg til"></input>
+                        <!-- Del for å legge til interesser -->
+                        <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+                        
+                        <?php if($egen) { ?>
+                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                                <select class="profil_input" name="interesse">
+                                    <?php $index=1 ?>
+                                    <?php foreach($interesse as $rad) {
+                                        foreach($rad as $option) { ?>
+                                            <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
+                                            <?php $index++ ?>
+                                        <?php } // Slutt, indre løkke
+                                    } ?> <!-- Slutt, ytre løkke -->
+                                    
+                                </select>
+                                <input class="profil_knapp" type="submit" value="Legg til"></input>
+                            </form>
+
+                            <!-- Egendefinert interesse -->
+                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                                <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
+                                <input class="profil_knapp" type="submit" value="Legg til"></input>
+                            </form>
+                        <?php } ?> <!-- Slutt, IF-test -->
+
+                        <!-- Slettemodus -->
+                        <?php if ($egen) { ?>
+                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <?php if(!isset($_POST['slettemodus'])) { ?>
+                                <input class="profil_knapp" type="submit" name="slettemodus" value="Slett Interesse">
+                            <?php } else { ?> 
+                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
+                            <?php } ?>
                         </form>
-
-                        <!-- Egendefinert interesse -->
-                        <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
-                            <input class="profil_knapp" type="submit" value="Legg til"></input>
-                        </form>
-                    <?php } ?> <!-- Slutt, IF-test -->
-
-                    <!-- Slettemodus -->
-                    <?php if ($egen) { ?>
-                    <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                        <?php if(!isset($_POST['slettemodus'])) { ?>
-                            <input class="profil_knapp" type="submit" name="slettemodus" value="Slett">
-                        <?php } else { ?> 
-                            <input class="profil_knapp" type="submit" name="avbryt" value="Avbryt"> 
                         <?php } ?>
-                    </form>
-                    <?php } ?>
-
-                </section>
+                        
+                    </section> 
                     
                     <!-- tilbake knapp -->
                     <?php if($egen) {?>
