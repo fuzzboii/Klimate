@@ -913,6 +913,15 @@ table {
   border-radius: 0.4em;
 }
 
+.konto_rediger_slettKnapp {
+  color: red;
+  background-color: transparent; /* Gjør knappen gjennomsiktig */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  text-align: center;
+  padding: 0; /* Hvor mye luft det skal være rundt */
+  max-width: 250px;
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BYTT_PASSORD_MENY */
 .endrePassordMeny {
@@ -1839,7 +1848,7 @@ table {
     max-width: 600px;
   }
   #konto_rediger_form {
-    grid-column: 1/1;
+    grid-column: 1/ 2;
   }
   #kontoRullegardin {
     display: none;
@@ -1940,6 +1949,10 @@ table {
     color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
     cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
   }
+  .konto_rediger_slettKnapp {
+    cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
+  }
+
   /* Hover ved hamburger meny */
   .hamburgerInnhold a:hover {
     background-color: #f1f1f169 /* Setter fargen når man holder over menyvalget */
