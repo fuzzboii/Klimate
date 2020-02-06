@@ -18,6 +18,34 @@ if ($_SESSION['idbruker'] == $_GET['bruker']) {
     $egen = true;
     } else $egen = false;
 
+// -------------------- //
+// Oppdater profilbilde //
+// -------------------- //
+if (isset($_POST['endreBilde'])) {
+    if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+        // Kombinerer artikkel med idbruker
+        $navn = "bruker" . $_SESSION['idbruker'];
+        // Henter filtypen
+        $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
+        // Kombinerer navnet med filtypen
+        $bildenavn = $navn . $filtype;
+        // Selve prosessen som flytter bildet til bestemt lagringsplass
+        move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
+        }
+
+        // Legger til bildet i databasen, dette kan være sin egne spørring
+        $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+        $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+        $nyttBildeSTMT->execute();
+        // Returnerer siste bildeid'en
+        $bildeid = $db->lastInsertId();
+        
+        // Spørringen som lager koblingen mellom bilder og bruker
+        $nyKoblingQ = "insert into bruker(bilde) values(" . $bildeid . ") where bruker=" . $_SESSION['idbruker'];
+        $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+        $nyKoblingSTMT->execute();
+}
+
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
  //-----------------------------//
@@ -90,6 +118,9 @@ if ($egen) {
             $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse) values(?, ?)";
             $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
             $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
+        } else {
+            // Ellers viser vi en feilmelding
+            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger=' . $_SESSION['idbruker'] . '&error=1');
         }
     }
 }
@@ -320,7 +351,13 @@ if ($tellingArrangement > 0) {
                 
                 <main class="profil_main">
                 <h2>Oversikt</h2>
-                        <h3>Vis eller skjul personalia</h3>
+                    <h3>Endre profilbilde</h3>
+                    <form class="profil_bilde" method="POST" action="profil.php?bruker= <?php echo $_SESSION['idbruker'] ?> &instillinger= <?php echo $_SESSION['idbruker'] ?>">
+                        <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
+                        <input type="submit" name="endreBilde">
+                    </form>
+
+                    <h3>Vis eller skjul personalia</h3>
                         <section class="profil_persInf">
                         
                             
@@ -352,7 +389,7 @@ if ($tellingArrangement > 0) {
                                 <!-- Test om bruker er i slettemodus -->
                                 <?php if (isset($_POST['slettemodus'])) { ?> 
                                     <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
-                                <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                <!-- Ellers normal visning -->
                                 <?php } else { ?> 
                                     <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
                                 <?php } // Slutt, else løkke    
@@ -380,6 +417,9 @@ if ($tellingArrangement > 0) {
                         </form>
 
                         <!-- Egendefinert interesse -->
+                        <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                            <p id="mldFeil">Denne interessen er allerede registrert!</p>
+                        <?php } ?>
                         <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
                             <input class="profil_knapp" type="submit" value="Legg til"></input>
