@@ -132,7 +132,7 @@ if (isset($_POST['submit'])) {
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main id="default_main" onclick="lukkHamburgerMeny()">   
+            <main id="soknad_main" onclick="lukkHamburgerMeny()">   
                 <form action="soknad.php" method="post">    
                     <section class="inputBoks" style="margin-top: 1em;">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
