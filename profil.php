@@ -331,26 +331,24 @@ if ($tellingArrangement > 0) {
                     <!-- Nøstet foreach -->
                     <!-- Ytre løkke -->
                     <section class="interesserTags">
-                    <?php if ($tellingInteresse != null) {
-                        foreach ($interesseProfil as $rad) {    
-                            foreach ($rad as $kolonne) { ?> 
-                                <!-- Test om bruker er i slettemodus -->
-                                <?php if (isset($_POST['slettemodus'])) { ?> 
-                                    <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
-                                <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
-                                <?php } else { ?> 
-                                    <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
-                                <?php } // Slutt, else løkke    
-                            } // Slutt, indre løkke
-                        } // Slutt, ytre løkke
-                    } ?> <!-- Slutt, IF-test -->
-                    <p class="leggTilInt">Legg til egendefinert</p> 
-                    <p class="leggTilInt">Legg til eksisterende</p>
+                        <?php if ($tellingInteresse != null) {
+                            foreach ($interesseProfil as $rad) {    
+                                foreach ($rad as $kolonne) { ?> 
+                                    <!-- Test om bruker er i slettemodus -->
+                                    <?php if (isset($_POST['slettemodus'])) { ?> 
+                                        <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
+                                    <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                    <?php } else { ?> 
+                                        <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                                    <?php } // Slutt, else løkke    
+                                } // Slutt, indre løkke
+                            } // Slutt, ytre løkke
+                        } ?> <!-- Slutt, IF-test -->
                     </section>
 
                     <!-- Del for å legge til interesser -->
                     <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
-                    
+                    <section>
                     <?php if($egen) { ?>
                         <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <select class="profil_input" name="interesse">
@@ -361,6 +359,7 @@ if ($tellingArrangement > 0) {
                                         <?php $index++ ?>
                                     <?php } // Slutt, indre løkke
                                 } ?> <!-- Slutt, ytre løkke -->
+                                
                             </select>
                             <input class="profil_knapp" type="submit" value="Legg til"></input>
                         </form>
@@ -382,6 +381,8 @@ if ($tellingArrangement > 0) {
                         <?php } ?>
                     </form>
                     <?php } ?>
+
+                </section>
                     
                     <!-- tilbake knapp -->
                     <?php if($egen) {?>

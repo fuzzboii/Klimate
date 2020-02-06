@@ -1455,28 +1455,27 @@ table {
   background-color: rgb(200,218,211);
   padding: 0.3em;
   border-radius: 0.7em;
-  size: medium;
+  font-size: 1em;
   text-align: center;
   margin-bottom: 0;
   margin-right: 0.5em;
   margin-top: 0.5em;
-  float: left;
-  
-  
-  
+  float: left; 
 }
 
 /* Interesse-tags ved sletting */
 .slett {
-  background-color: darkred; /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
-  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
-  font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
-  border: none; /* Fjerner ytrelinjen rundt knappen */
+  background-color: darkred;
+  color: white;
+  padding: 0.3em;
+  border-radius: 0.7em;
+  font-size: 1em;
+  text-align: center;
+  margin-bottom: 0;
+  margin-right: 0.5em;
   margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  border-radius: 0.4em; /* Runder ut knappen */
+  border:none;
+  float: left;
 }
 
 /* Knappene */
@@ -1510,7 +1509,7 @@ table {
 
 /* Input av interesse */
 .profil_input {
-  margin-top: 0.5em;
+  margin-top: 0em;
   margin-left: 1em;
   margin-bottom: 0.5em;
   font-size: medium;
@@ -1551,6 +1550,7 @@ table {
   width: 10em;
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  
 }
 
 /* Tekstområdet 'om' */
@@ -1559,7 +1559,13 @@ table {
   width: 16em;
 }
 
+.profil_interesse {
+  float: right; 
+}
 
+.profil_interesse_egendefinert {
+  float: right;
+}
 
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -1992,6 +1998,12 @@ table {
 
   /* Styling for profil */
   .interesserTags p:hover {
+    cursor: pointer;
+    box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
+    transition: box-shadow 0.2s;
+  }
+
+  .slett:hover {
     cursor: pointer;
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.2s;
