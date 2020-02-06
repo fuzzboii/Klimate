@@ -1390,6 +1390,10 @@ table {
  grid-template-columns: 8.5em auto;
  font-size: 0.83em;
  overflow: auto;
+ margin-bottom: 2em;
+}
+.brukerBeskrivelse p{
+  overflow-wrap: break-word;
 }
 
 .profil_persInf p{
@@ -1442,14 +1446,16 @@ table {
 
 /* Knappene */
 .profil_knapp {
-  background-color: rgb(126, 155, 153);
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
-  margin-left: 1em;
   margin-bottom: 0.5em;
-  font-size: medium;
-  padding: 0.4em;
-  color: white;
-  border-radius: 0.25em;
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.80em; /* Font-størrelse */
 }
 
 /* Input av interesse */
@@ -1465,6 +1471,7 @@ table {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -1473,9 +1480,17 @@ table {
 
 .profil_beskrivelse textarea, .profil_beskrivelse input {
   display: block;
-  margin-left: 1em; margin-bottom: 0.2em;
+  margin-left: 0em; margin-bottom: 0.2em;
   font-family: Helvetica, Arial, sans-serif;
   font-size: medium;
+}
+.profil_beskrivelse textarea{
+  width: 50%;
+  padding-top: 4em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  resize: none;
 }
 
 /* input 'arkitektur' og 'egendefinert' */
@@ -1490,6 +1505,8 @@ table {
   /* Setter bredde i lodd med andre elementer */
   width: 16em;
 }
+
+
 
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
