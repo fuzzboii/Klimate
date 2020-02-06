@@ -405,11 +405,6 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-/* artikkel_mainNy er gjeldende main om bruker er på delen for ny artikkel */
-#artikkel_mainNy {
-  width: 90%;
-}
-
 #artikkel_tilbKnapp, #artikkel_nesteKnapp, #artikkelValgt_tilbKnapp{
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
@@ -1215,12 +1210,6 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-/* arrangement_mainNy er gjeldende main om bruker er på delen for nytt arrangement */
-#arrangement_mainNy {
-  width: 90%;
-}
-
-
 #arrangement_paameldt {
   background-color: rgba(36, 209, 100, 0.637); /* bakgrunnsfarge på knapp */
   color: rgb(0, 0, 0); /* tekstfarge */
@@ -1797,11 +1786,6 @@ table {
     font-size: 1.5em;
   }
 
-  /* Styling for ny artikkel */
-  #artikkel_mainNy, #arrangement_mainNy {
-    width: 90%;
-  }
-
 }
 
 /* Tab */
@@ -1926,10 +1910,6 @@ table {
     grid-template-columns: 1fr 1fr;
   }
 
-  /* Styling for ny artikkel og nytt arrangement */
-  #artikkel_mainNy, #arrangement_mainNy {
-    width: 40.7em;
-  }
 
 }
 
@@ -2142,9 +2122,15 @@ table {
     
   }
 
-  #artikkel_main {
-    grid-template-columns: 1fr 1fr 1fr; 
-    margin-left: 10em; margin-right: 10em;
+  #artikkel_main { 
+    margin-left: 10em; 
+    margin-right: 10em;
+  }
+
+  /* Styling for ny artikkel og nytt arrangement */
+  #artikkel_mainNy, #arrangement_mainNy {
+    margin-left: 10em;
+    margin-right: 10em;
   }
 
   #arrangement_nesteKnapp:hover, #arrangement_tilbKnapp:hover {
@@ -2163,7 +2149,7 @@ table {
   }
   
   /* Hover innstillinger for slett arrangement knapp */
-#konto_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover {
+  #konto_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover {
     cursor: pointer;
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126);
     transition: box-shadow 0.1s;
@@ -2301,7 +2287,20 @@ table {
   }
   #arrangement_main {
     max-width: 100em;
-    margin-left: auto; margin-right: auto;
+    margin-left: auto; 
+    margin-right: auto;
+  }
+
+  #artikkel_main {
+    max-width: 100em;
+    margin-left: auto; 
+    margin-right: auto;
+  }
+
+  #artikkel_mainNy, #arrangement_mainNy {
+    max-width: 100em;
+    margin-left: auto; 
+    margin-right: auto;
   }
 
 }
