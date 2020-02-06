@@ -19,6 +19,7 @@ html, body {
   flex-direction: column;
   align-items: stretch;
 }
+
 /* Style for MAIN */
 main {
   flex-grow: 1; /* Fyller den tilgjengelige plassen. Dette setter footer i bunnen, siden main tar all plassen i midten */
@@ -136,6 +137,7 @@ footer a {
   resize: none;
 }
 
+
 .inputBoksSoknad {
   display: flex; /* Legger ikonene og inputfeltene ved siden av hverandre*/
   max-width: 20,4em; /* Angir bredde for inputfeltene  */
@@ -160,11 +162,31 @@ footer a {
   margin-left: 1.5em;
   margin-right: 1.5em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
   max-width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+
+#soknad_form {
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+  padding: 2em;
+}
+
+#soknad_header {
+  padding-top: 6em;
+  padding-bottom: 1em;
+  text-align: center;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+#soknad_header h1 {
+  font-size: 1.5em;
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -868,18 +890,25 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for SØK */
+#sok_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .sok_header {
   padding-top: 6em;
   padding-bottom: 1em;
   text-align: center;
   font-family: Inter, Helvetica, Arial, sans-serif;
-   
 }
 
 .sok_header h1 {
   font-size: 1.5em;
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
+
 
 /* Rullegardin for søk på bruker*/
 .brukerRullegardin, .artikkelRullegardin, .arrangementRullegardin {
