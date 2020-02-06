@@ -1561,7 +1561,7 @@ table {
   background-color: transparent;
   
   padding: 0.3em;
-  border:rgb(83, 105, 104) solid 2px;
+  border:rgba(36, 209, 100, 0.637) solid 2px;
   border-radius: 0.7em;
   font-size: 1em;
   text-align: center;
@@ -2146,14 +2146,18 @@ table {
   /* Styling for profil */
   .interesserTags p:hover {
     cursor: pointer;
-    box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
-    transition: box-shadow 0.2s;
+    border-color: rgba(36, 209, 100, 0.637);
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    color: #F8F7FD;
+    transition: background-color 0.2s;
   }
 
   .slett:hover {
     cursor: pointer;
-    box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
-    transition: box-shadow 0.2s;
+    border-color: red;
+    background-color: red; /* Skygge */
+    color: #F8F7FD;
+    transition: background-color 0.2s;
   }
 
 }
