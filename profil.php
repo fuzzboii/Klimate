@@ -38,8 +38,7 @@ if ($egen) {
     if (isset($_POST['interesse'])) {
         $brukerPlaceholder = $_SESSION['idbruker'];
         $interessePlaceholder = $_POST['interesse'];
-        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse)
-                                    values(?, ?)";
+        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse) values(?, ?)";
         $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
         $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
     }
@@ -49,29 +48,51 @@ if ($egen) {
 //-----------------------------------------------//
 if ($egen) {
     if (isset($_POST['interesseEgendefinert'])) {
-        $interessePlaceholder = $_POST['interesseEgendefinert'];
-        $brukerPlaceholder = $_SESSION['idbruker'];
-        $oppdaterInteresse = "insert into interesse(interessenavn) values(?)";
-        $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
-        $stmtOppdaterInteresse->execute([$interessePlaceholder]);
+        // Kontroller at interessen også er unik sammenlignet i lower case
+        // Hent alle navnene fra interesse
+        $sammenligning = "select lower(interessenavn) as interessenavn from interesse";
+        $stmtSammenligning = $db->prepare($sammenligning);
+        $stmtSammenligning->execute();
+        $interesseSammenlign = $stmtSammenligning->fetchAll(PDO::FETCH_ASSOC);
 
-        // Hent id til ny interesse fra interesser
-        $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
-        $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
-        $stmtHentIdInteresse->execute([$_POST['interesseEgendefinert']]);
-        $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
+        // Lower case egendefinert interesse til sammenligning
+        $egendefinertLower = strtolower($_POST['interesseEgendefinert']);
 
-        // Oppdater så brukerinteresse med denne verdien
-        $brukerPlaceholder = $_SESSION['idbruker'];
-        $interessePlaceholder = $idInteresse['idinteresse'];
-        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse)
-                                    values(?, ?)";
-        $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
-        $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
+        // Sammenlign hvert navn
+        foreach($interesseSammenlign as $e) {
+            foreach($e as $navn) {
+                if($egendefinertLower == $navn) {
+                    // Opprett en variabel som tilsiser en match
+                    $funnet = true;
+                }
+            }
+        } // Slutt, foreach
+
+        // Oppdater database hvis ingen match ble funnet
+        if(!isset($funnet)) {
+            // Oppdater interesse
+            // ucwords endrer første bokstav (i hvert ord, evt.) til upper case
+            $interessePlaceholder = ucwords($egendefinertLower);
+            $brukerPlaceholder = $_SESSION['idbruker'];
+            $oppdaterInteresse = "insert into interesse(interessenavn) values(?)";
+            $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
+            $stmtOppdaterInteresse->execute([$interessePlaceholder]);
+
+            // Hent id til ny interesse fra interesse
+            $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
+            $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
+            $stmtHentIdInteresse->execute([$_POST['interesseEgendefinert']]);
+            $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
+
+            // Oppdater så brukerinteresse med denne verdien
+            $brukerPlaceholder = $_SESSION['idbruker'];
+            $interessePlaceholder = $idInteresse['idinteresse'];
+            $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse) values(?, ?)";
+            $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
+            $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
+        }
     }
 }
-    // Spørsmål: legg opp dette slik at nyopprettet interesse legges til umiddelbart?
-    // Skal alle ha rettighet til å opprette nye interesserer willy-nilly?
 
 //-----------------//
 // Slett Interesse //
@@ -299,7 +320,7 @@ if ($tellingArrangement > 0) {
                 
                 <main class="profil_main">
                 <h2>Oversikt</h2>
-                        <h3>Endre visnings innstillinger for oversikt</h3>
+                        <h3>Vis eller skjul personalia</h3>
                         <section class="profil_persInf">
                         
                             
@@ -308,10 +329,10 @@ if ($tellingArrangement > 0) {
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                         <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
                             
-                            <p><b>Fornavn:</b></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                            <p><b>Etternavn:</b> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                            <p><b>E-post Adresse:</b></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                            <p><b>Telefonnummer:</b></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                            <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
+                            <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
+                            <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p>
+                            <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
                         </section>
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
@@ -346,6 +367,7 @@ if ($tellingArrangement > 0) {
                     <?php if($egen) { ?>
                         <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <select class="profil_input" name="interesse">
+                                <!-- Denne indexen holder styr på tilsvarende idinteresse i database -->
                                 <?php $index=1 ?>
                                 <?php foreach($interesse as $rad) {
                                     foreach($rad as $option) { ?>
@@ -436,10 +458,10 @@ if ($tellingArrangement > 0) {
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                         <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
                             
-                            <p><b>Fornavn:</b></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                            <p><b>Etternavn:</b> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                            <p><b>E-post Adresse:</b></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                            <p><b>Telefonnummer:</b></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                            <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
+                            <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
+                            <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p>
+                            <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
                         </section>
                     </section>    
                     
