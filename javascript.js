@@ -51,7 +51,7 @@ window.onscroll = function() { skrollFunksjon() };
 /* Når vinduet scroller, kjør denne */
 function skrollFunksjon() {
   var knappen = document.getElementById("toppKnapp");
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+  if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
     /* Hvis vinduet er mer enn 20 piksler fra toppen, vis tilbake til topp knappen */
     knappen.style.display = "block";
   } else {
