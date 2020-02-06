@@ -50,8 +50,7 @@ if (isset($_POST['submit'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
-        <article class="innhold">
+    <body class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
@@ -134,27 +133,35 @@ if (isset($_POST['submit'])) {
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main id="soknad_main" onclick="lukkHamburgerMeny()">  
                 <form action="soknad.php" method="post">    
-                    <section class="inputBoksSoknad" style="margin-top: 1em;">
-                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($_SESSION['brukernavn']) ?>" readonly>
+                    <section id="soknad_form">    
+                        <section class="inputBoksSoknad" style="margin-top: 1em;">
+                            <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                            <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($_SESSION['brukernavn']) ?>" readonly>
+                        </section>
+                        <section class="inputBoksSoknad">
+                            <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
+                            <input type="email" class="RegInnFelt" name="epost" value="<?php echo($_SESSION['epost']) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
+                        </section>
+                        <section class="inputBoksSoknad">
+                            <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for fornavn -->
+                            <input type="fnavn" class="RegInnFelt" name="fnavn" value="<?php echo($_SESSION['fornavn']) ?>" placeholder="Skriv inn fornavnet ditt" required title="Skriv inn fornavnet ditt">
+                        </section>
+                        <section class="inputBoksSoknad">
+                            <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet til etternavn -->
+                            <input type="enavn" class="RegInnFelt" name="enavn" value="<?php echo($_SESSION['etternavn']) ?>" placeholder="Skriv inn etternavnet ditt" required title="Skriv inn etternavnet ditt">
+                        </section>
+                        <section class="inputBoksSoknad">
+                            <img class="icon" src="bilder/telefonIkon.png" alt="telefonikon"> <!-- Ikonet for telefonnummer -->
+                            <input type="telefon" class="RegInnFelt" name="telefon" value="<?php echo($_SESSION['telefonnummer']) ?>" placeholder="Skriv inn telefonnummer" required title="Skriv inn ditt telefonnummer">
+                        </section>
                     </section>
-                    <section class="inputBoksSoknad">
-                        <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="<?php echo($_SESSION['epost']) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse" autofocus>
-                    </section>
-                    <section class="inputBoksSoknad">
-                        <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for fornavn -->
-                        <input type="fnavn" class="RegInnFelt" name="fnavn" value="<?php echo($_SESSION['fornavn']) ?>" placeholder="Skriv inn fornavnet ditt" required title="Skriv inn fornavnet ditt">
-                    </section>
-                    <section class="inputBoksSoknad">
-                        <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet til etternavn -->
-                        <input type="enavn" class="RegInnFelt" name="enavn" value="<?php echo($_SESSION['etternavn']) ?>" placeholder="Skriv inn etternavnet ditt" required title="Skriv inn etternavnet ditt">
-                    </section>
-                    <secton>
-                        <textarea class="textarea_Soknad" name="soknaden" placeholder="Vennligst fyll ut din søknad..." rows="15" cols="60"></textarea>     
-                    </section>
-                    <section>
-                        <button type="submit" name="submit" class="soknad_knapp" style="margin-top: 2em;">Send søknad</button>
+                    <section id="soknad_form">
+                        <section>
+                            <textarea class="textarea_Soknad" name="soknaden" placeholder="Vennligst fyll ut din søknad..." rows="13    " cols="60" autofocus   ></textarea>     
+                        </section>
+                        <section>
+                            <button type="submit" name="submit" class="soknad_knapp" style="margin-top: 2em;">Send søknad</button>
+                        </section>
                     </section>
                 </form>
             </main>
@@ -166,7 +173,6 @@ if (isset($_POST['submit'])) {
             <footer>
                 <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
             </footer>
-        </article>
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret xx.xx.xxxx -->
