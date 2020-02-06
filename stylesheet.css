@@ -336,7 +336,34 @@ footer a {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+/* Style for artikkel redaktørpanel */
+#artikkel_redpanel {
+  display: grid;
+  grid-template-columns: 20em 3em;
+  justify-content: right;
+  align-content: center;
+  text-align: center;
+  padding-right: 1em;
+
+}
+
+#artikkel_redpanel img {
+  width: 2em;
+  height: 2em;
+  padding-top: 0.5em;
+
+}
+
+#artikkel_redpanel p, a {
+  text-decoration: none;
+  color: black;
+}
+
+#artikkel_redpanel p {
+  text-align: right;
+  font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
 #artikkel_main, #artikkel_mainNy {
@@ -1035,7 +1062,34 @@ table {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+/* Style for arrangement redaktørpanel */
+#arrangement_redpanel {
+  display: grid;
+  grid-template-columns: 20em 3em;
+  justify-content: right;
+  align-content: center;
+  text-align: center;
+  padding-right: 1em;
+
+}
+
+#arrangement_redpanel img {
+  width: 2em;
+  height: 2em;
+  padding-top: 0.5em;
+
+}
+
+#arrangement_redpanel p, a {
+  text-decoration: none;
+  color: black;
+}
+
+#arrangement_redpanel p {
+  text-align: right;
+  font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
 #arrangement_main, #arrangement_mainNy {
