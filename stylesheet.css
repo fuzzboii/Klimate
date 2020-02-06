@@ -923,6 +923,9 @@ table {
   font-size: 0.8em;
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
 }
+.brukerRullegardin:focus, .artikkelRullegardin:focus, .arrangementRullegardin:focus{
+  background-color: #ccc;
+}
 
 .sok_inputBoks {
   margin-bottom: 1em; /* Lager luft under hver inputfelt */
@@ -949,8 +952,14 @@ table {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
 }
 
-/* Style for knappene for å søke */
-.sokKnapp {
+/* Style for inputfeltene i søk */
+.sokBrukerFelt {
+  width: 90%; /* Angir bredde for inputfeltene */
+  padding: 0.8em; /* legger luft rundt*/
+  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
+}
+
+.sokBrukerFelt[type="submit"] {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
@@ -960,12 +969,6 @@ table {
   width: 100%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-}
-/* Style for inputfeltene i søk */
-.sokBrukerFelt {
-  width: 90%; /* Angir bredde for inputfeltene */
-  padding: 0.8em; /* legger luft rundt*/
-  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
 }
 
 /* Style for resultatene ved brukersøk */
@@ -1431,6 +1434,7 @@ table {
 }
 .profil_bilde {
   width: 10em;
+  height: 10em;
   border-radius: 50%;
 }
 
@@ -1808,7 +1812,7 @@ table {
     box-shadow: 0 0 0.1em 0.05em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.3s;
   }
-  .sokKnapp:hover {
+  .sokBrukerFelt:hover[type="submit"] {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }

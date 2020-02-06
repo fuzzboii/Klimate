@@ -9,14 +9,14 @@ include("innstillinger.php");
 //------------------------------//
 // Test om man ser egen profil  //
 //------------------------------//
-
-$egen = false;
-
-if (isset($_SESSION['idbruker'])) {
-    if ($_SESSION['idbruker'] == $_GET['bruker']) {
-        $egen = true;
-    }
+// Bruker ikke innlogget
+if (!isset($_SESSION['idbruker'])) {
+    header('Location: default.php');
 }
+
+if ($_SESSION['idbruker'] == $_GET['bruker']) {
+    $egen = true;
+    } else $egen = false;
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
@@ -54,6 +54,21 @@ if ($egen) {
         $oppdaterInteresse = "insert into interesse(interessenavn) values(?)";
         $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
         $stmtOppdaterInteresse->execute([$interessePlaceholder]);
+
+        // Hent id til ny interesse fra interesser
+        $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
+        $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
+        $stmtHentIdInteresse->execute([$_POST['interesseEgendefinert']]);
+        $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
+        $idInteresse = implode($idInteresse);
+
+        // Oppdater så brukerinteresse med denne verdien
+        $brukerPlaceholder = $_SESSION['idbruker'];
+        $interessePlaceholder = $idInteresse;
+        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse)
+                                    values(?, ?)";
+        $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
+        $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
     }
 }
     // Spørsmål: legg opp dette slik at nyopprettet interesse legges til umiddelbart?
@@ -94,7 +109,7 @@ $stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
 $stmtBrukernavnProfil->execute();
 $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
 // Imploder. But why? Er det noe på slutten av arrayet som telles opp, og som ikke kan konverteres til streng?
-$brukernavnProfil = implode ("", $brukernavnProfil);
+if (isset($brukernavnProfil)) $brukernavnProfil = implode ("", $brukernavnProfil);
 
 //---------------------------------------------------------------//
 // Henting av navn/tlf/mail, avhengig av brukerens innstillinger //
@@ -137,7 +152,7 @@ $stmtBeskrivelseProfil = $db->prepare($hentBeskrivelseProfil);
 $stmtBeskrivelseProfil->execute();
 $tellingBeskrivelse = $stmtBeskrivelseProfil->rowcount();
 
-// Test på resultatet   // VIRKER IKKE?
+// Test på resultatet
 if ($tellingBeskrivelse > 0) {
     $beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
     // Imploder. But why?
@@ -409,10 +424,9 @@ if ($tellingArrangement > 0) {
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                                 <!-- Vis brukernavn -->
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
-                                <?php if($egen) {?>
-                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
-                                <?php }?>
                             </section>
+                        <?php } if($egen) {?>
+                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
                         <?php } ?>
                         
                         
@@ -465,7 +479,7 @@ if ($tellingArrangement > 0) {
                     </section>
             </main>
 
-             <?php }?> <!-- Test på om brukeren har klikket på rediger -->
+             <?php } ?> <!-- Test på om brukeren har klikket på rediger -->
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
             <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
