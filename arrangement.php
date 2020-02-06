@@ -329,23 +329,25 @@ if (isset($_POST['slettDenne'])) {
                         </section>
                         <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
                         <?php 
-                        $hentEierQ = "select idbruker from event where idbruker = " . $_SESSION['idbruker'] . " and idevent = " . $_GET['arrangement'];
-                        $hentEierSTMT = $db->prepare($hentEierQ);
-                        $hentEierSTMT->execute();
-                        $arrangementEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
+                        if(isset($_SESSION['brukernavn'])) {
+                            $hentEierQ = "select idbruker from event where idbruker = " . $_SESSION['idbruker'] . " and idevent = " . $_GET['arrangement'];
+                            $hentEierSTMT = $db->prepare($hentEierQ);
+                            $hentEierSTMT->execute();
+                            $arrangementEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
 
-                        if ($arrangementEier != false || $_SESSION['brukertype'] == 1) { ?>
-                            <input type="button" id="arrangement_slettKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')" value="Slett dette arrangementet">
-                            <section id="arrangement_bekreftSlett" style="display: none;">
-                                <section id="arrangement_bekreftSlettInnhold">
-                                    <h2>Sletting</h2>
-                                    <p>Er du sikker på av du vil slette dette arrangementet?</p>
-                                    <form method="POST" action="arrangement.php">
-                                        <button id="arrangement_slettKnapp" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
-                                    </form>
-                                    <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>
+                            if ($arrangementEier != false || $_SESSION['brukertype'] == 1) { ?>
+                                <input type="button" id="arrangement_slettKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')" value="Slett dette arrangementet">
+                                <section id="arrangement_bekreftSlett" style="display: none;">
+                                    <section id="arrangement_bekreftSlettInnhold">
+                                        <h2>Sletting</h2>
+                                        <p>Er du sikker på av du vil slette dette arrangementet?</p>
+                                        <form method="POST" action="arrangement.php">
+                                            <button id="arrangement_slettKnapp" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
+                                        </form>
+                                        <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>
+                                    </section>
                                 </section>
-                            </section>
+                            <?php } ?>
                         <?php } ?>
                     </section>
                     <?php } ?>
