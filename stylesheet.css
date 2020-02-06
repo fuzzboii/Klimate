@@ -1286,6 +1286,18 @@ table {
   padding-left: 1em; padding-right: 1em;
 }
 
+#arrangement_slettKnapp {
+  float: right;
+  color: white;
+  background-color: red;
+  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
 /* Del for visning av nytt arrangement */
 #arrangement_arrangementNy input {
   display: block;
@@ -1916,6 +1928,11 @@ table {
   #artikkel_nesteKnapp:hover, #artikkel_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
+  }
+  /* Del for arrangement */
+  #arrangement_slettKnapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
   }
   
   /* Hover for artikkel utvalget/resultatet  */

@@ -310,6 +310,17 @@ if(isset($_POST['paameld'])) {
                             <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                         </section>
                         <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
+                        <?php 
+                        $hentEierQ = "select idbruker from event where " . $_SESSION['idbruker'] . " = idbruker";
+                        $hentEierSTMT = $db->prepare($hentEierQ);
+                        $hentEierSTMT->execute();
+                        $arrangementEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
+                        
+                        if ($arrangementEier )
+                        ?>
+                        <form method="POST" action="arrangement.php">
+                            <input id="arrangement_slettKnapp" type="submit" name="slettDenne" value="Slett dette arrangementet">
+                        </form>
                     </section>
                     <?php } ?>
                 </section>
