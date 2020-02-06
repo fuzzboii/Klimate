@@ -390,10 +390,9 @@ if ($tellingArrangement > 0) {
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                                 <!-- Vis brukernavn -->
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
-                                <?php if($egen) {?>
-                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
-                                <?php }?>
                             </section>
+                        <?php } if($egen) {?>
+                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
                         <?php } ?>
                         
                         
@@ -443,7 +442,7 @@ if ($tellingArrangement > 0) {
                     </section>
             </main>
 
-             <?php }?> <!-- Test på om brukeren har klikket på rediger -->
+             <?php } ?> <!-- Test på om brukeren har klikket på rediger -->
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
             <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
