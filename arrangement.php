@@ -120,6 +120,11 @@ if (isset($_POST['slettDenne'])) {
     $slettBildeSTMT = $db->prepare($slettBildeQ);
     $slettBildeSTMT->execute();
 
+    // Sletter alle som har meldt seg på arrangementet
+    $slettPaameldingQ = "delete from påmelding where event_id = " . $_POST['slettDenne'];
+    $slettPaameldingSTMT = $db->prepare($slettPaameldingQ);
+    $slettPaameldingSTMT->execute();
+
     // Sletter så arrangementet
     $slettingQ = "delete from event where idevent = " . $_POST['slettDenne'];
     $slettingSTMT= $db->prepare($slettingQ);
