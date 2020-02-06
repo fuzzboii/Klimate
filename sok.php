@@ -77,8 +77,8 @@ include("innstillinger.php");
                 <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                 <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
             </form>
-            <a href="javascript:void(0)" onClick="location.href='sok.php'">
-                <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
+            <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
             </a>
             <!-- Logoen øverst i venstre hjørne -->
             <a href="default.php" tabindex="1">
@@ -642,9 +642,9 @@ include("innstillinger.php");
                                     <?php } ?>
                                 </select>
                                 </section>
-                                <input type="submit" class="sokKnapp" value="Søk på bruker">
+                                <input type="submit" value="Søk på bruker"  class="sokBrukerFelt" tabindex ="-1">
                             </section>
-                            <button type="button" id="brukerRullegardin" class="brukerRullegardin">Søk etter bruker</button>
+                            <button type="button" id="brukerRullegardin" class="brukerRullegardin" tabindex ="-1">Søk etter bruker</button>
                         
                     </form>
                     <!-- Rullegardin for søk på artikkel -->
@@ -664,9 +664,9 @@ include("innstillinger.php");
                                     <p class="sokTittel">Skrevet av:</p>
                                     <input type="text" class="sokBrukerFelt" tabindex ="-1" name="artForfatter" placeholder="Forfatter av artikkelen">
                                 </section>
-                                <input type="submit" class="sokKnapp" value="Søk på artikkel">
+                                <input type="submit" value="Søk på artikkel" class="sokBrukerFelt" tabindex ="-1">
                             </section>
-                            <button type="button" id="artikkelRullegardin" class="artikkelRullegardin">Søk etter artikkel</button>
+                            <button type="button" id="artikkelRullegardin" class="artikkelRullegardin" tabindex ="-1">Søk etter artikkel</button>
                         
                     </form>
                     <!-- Rullegardin for søk på arrangement -->
@@ -695,9 +695,9 @@ include("innstillinger.php");
                                     <?php } ?>
                                 </select>
                                 </section>
-                                <input type="submit" class="sokKnapp" value="Søk på arrangement">
+                                <input type="submit" value="Søk på arrangement" class="sokBrukerFelt" tabindex ="-1">
                             </section>
-                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" class="sokBrukerFelt" tabindex = "-1">Søk etter arrangement</button>
+                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex = "-1">Søk etter arrangement</button>
                        
                     </form>
                 </section>
@@ -712,7 +712,7 @@ include("innstillinger.php");
 
         <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
         <footer>
-            <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
+            <p class=footer_beskrivelse>&copy; Klimate 2020 | <a tabindex="26" href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
                 <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>

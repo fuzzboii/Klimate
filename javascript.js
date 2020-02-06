@@ -159,21 +159,7 @@ function sokRullegardin() {
   // Boolean for å vite om en av søkemetodene er åpnet
   var aapnet = false;
   
-  var tabStart = 16;
-  // FOR løkke som legger til tabIndex på valgene i menyen
-  for (i = 0; i < elementInp.length; i++) {
-    elementInp[i].tabIndex = tabStart;
-    tabStart++;
-  }
-  
-  var tabStart = 21;
-  // FOR løkke som legger til tabIndex på valgene i menyen
-  for (i = 0; i < elementInp.length; i++) {
-    elementInp[i].tabIndex = tabStart;
-    tabStart++;
-  }
-
-  var tabStart = 26;          
+  var tabStart = 15;
   // FOR løkke som legger til tabIndex på valgene i menyen
   for (i = 0; i < elementInp.length; i++) {
     elementInp[i].tabIndex = tabStart;
@@ -216,7 +202,9 @@ function sokRullegardin() {
 
             // FOR løkke som tømmer input feltene og setter tabIndex til -1 (Tabber ikke inn i lukket meny)
             for (i = 0; i < elementInp.length; i++) {
-              elementInp[i].value = "";
+              if (!elementInp[i].value == "Søk på bruker") {
+                elementInp[i].value = "";
+              }
               elementInp[i].tabIndex = "-1";
             }
             
@@ -269,7 +257,9 @@ function sokRullegardin() {
 
           // FOR løkke som tømmer input feltene og setter tabIndex til -1 (Tabber ikke inn i lukket meny)
           for (i = 0; i < elementInp.length; i++) {
-            elementInp[i].value = "";
+            if (!elementInp[i].value == "Søk på artikkel") {
+              elementInp[i].value = "";
+            }
             elementInp[i].tabIndex = "-1";
           }
           
@@ -323,7 +313,9 @@ function sokRullegardin() {
 
           // FOR løkke som tømmer input feltene og setter tabIndex til -1 (Tabber ikke inn i lukket meny)
           for (i = 0; i < elementInp.length; i++) {
-            elementInp[i].value = "";
+            if (!elementInp[i].value == "Søk på arrangement") {
+              elementInp[i].value = "";
+            }
             elementInp[i].tabIndex = "-1";
           }
 
