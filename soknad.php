@@ -124,10 +124,9 @@ if (isset($_POST['submit'])) {
 
             <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
             <!-- Kan ikke legge denne direkte i body -->
-            <header onclick="lukkHamburgerMeny()">
+            <header id="soknad_header" onclick="lukkHamburgerMeny()">
                 <!-- Logoen midten øverst på siden, med tittel -->
-                <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
-                <h1 style="display: none">Bilde av Klimate logoen.</h1>
+                <h1>Søknad om å bli redaktør</h1>
             </header>
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
