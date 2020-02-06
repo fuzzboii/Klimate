@@ -25,7 +25,7 @@ if ($_SESSION['idbruker'] == $_GET['bruker']) {
 if (isset($_POST['endreBilde'])) {
     // Del for filopplastning
     if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
-        // Kombinerer artikkel med den siste idevent'en
+        // Kombinerer bruker med idbruker
         $navn = "bruker" . $_SESSION['idbruker'];
         // Henter filtypen
         $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
@@ -34,17 +34,43 @@ if (isset($_POST['endreBilde'])) {
         // Selve prosessen som flytter bildet til bestemt lagringsplass
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
 
-        // Legger til bildet i databasen
-        $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
-        $nyttBildeSTMT = $db->prepare($nyttBildeQ);
-        $nyttBildeSTMT->execute();
-        // Returnerer siste bildeid'en
-        $bildeid = $db->lastInsertId();
         
-        // Spørringen som lager koblingen mellom bilder og bruker
-        $nyKoblingQ = "insert into brukerbilde(bruker, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
-        $nyKoblingSTMT = $db->prepare($nyKoblingQ);
-        $nyKoblingSTMT->execute();
+        // Test om brukeren har et bilde fra før
+        $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+        $stmtBilde = $db->prepare($hentBilde);
+        $stmtBilde->execute();
+        $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+        $antallBilderFunnet = $stmtBilde->rowCount();
+        // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
+        if ($antallBilderFunnet != 0) {
+            // Hvis brukeren har et bilde fra før:
+            // Slett det gamle bildet fra databasen først
+            $slettBilde = "delete from bilder where hvor='" . $bildenavn . '';
+            $stmtSlettBilde = $db->prepare($slettBilde);
+            $stmtSlettBilde->execute();
+            // Legger til bildet i databasen
+            $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+            $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+            $nyttBildeSTMT->execute();
+            // Returnerer siste bildeid'en
+            $bildeid = $db->lastInsertId();
+            // Brukerbilde må oppdateres, på raden til brukeren
+            $nyKoblingQ = "update brukerbilde set bilde='" . $bildeid . "' where bruker ='" . $_SESSION['idbruker'] . "'";
+            $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+            $nyKoblingSTMT->execute();  
+        } else {
+            // Hvis brukeren ikke har et tilknyttet bilde:
+            // Legger til bildet i databasen
+            $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+            $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+            $nyttBildeSTMT->execute();
+            // Returnerer siste bildeid'en
+            $bildeid = $db->lastInsertId();
+            // Lag en kobling mellom bilder og brukerbilde
+            $nyKoblingQ = "insert into brukerbilde(bruker, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
+            $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+            $nyKoblingSTMT->execute();
+        }
     }
 }
 
