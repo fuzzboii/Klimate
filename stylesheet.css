@@ -148,16 +148,16 @@ footer a {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
-
-#soknad_main {
+#soknad_main{
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-  display: grid;
-  grid-template-columns: 1fr;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -1519,6 +1519,11 @@ table {
   #default_main {
     column-count: 2; 
   }
+
+  #soknad_main {
+    column-count: 2;
+  }
+
   #artikkel3 {
     break-before: column;
   }
@@ -1923,6 +1928,10 @@ table {
     column-count: 3;
   }
 
+  #soknad_main {
+    column-count: 4;
+  }
+
   #artikkel4 {
     break-before: column;
   }
@@ -1985,6 +1994,10 @@ table {
 @media screen and (min-width: 2560px) {
   #default_main {
     column-count: 4;
+  }
+
+  #soknad_main {
+    column-count: 2;
   }
   #artikkel2 {
     break-before: column;
