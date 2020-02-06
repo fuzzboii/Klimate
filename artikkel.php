@@ -303,7 +303,7 @@ if (isset($_POST['publiserArtikkel'])) {
                     <main id="artikkel_main" onclick="lukkHamburgerMeny()">
                         <section id="artikkel_redpanel">
                             <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
-                            <a href="arrangement.php?nyartikkel"><p>Ny artikkel</p></a>
+                            <a href="artikkel.php?nyartikkel"><p>Ny artikkel</p></a>
                             <a href="artikkel.php?nyartikkel" tabindex="-1"> <!-- VIKTIG, tabindex -->
                                 <img src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
                             </a>
