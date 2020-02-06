@@ -18,6 +18,35 @@ if ($_SESSION['idbruker'] == $_GET['bruker']) {
     $egen = true;
     } else $egen = false;
 
+// -------------------- //
+// Oppdater profilbilde //
+// -------------------- //
+if (isset($_POST['endreBilde'])) {
+    // Del for filopplastning
+    if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+        // Kombinerer artikkel med den siste idevent'en
+        $navn = "event" . $_SESSION['idbruker'];
+        // Henter filtypen
+        $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
+        // Kombinerer navnet med filtypen
+        $bildenavn = $navn . $filtype;
+        // Selve prosessen som flytter bildet til bestemt lagringsplass
+        move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
+        // Legger til bildet i databasen
+        $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+        $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+        $nyttBildeSTMT->execute();
+        // Returnerer siste bildeid'en
+        $bildeid = $db->lastInsertId();
+        
+        // Spørringen som lager koblingen mellom bilder og bruker
+        $nyKoblingQ = "insert into brukerbilde(event, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
+        $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+        $nyKoblingSTMT->execute();
+    }
+}
+
+
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
  //-----------------------------//
@@ -38,8 +67,7 @@ if ($egen) {
     if (isset($_POST['interesse'])) {
         $brukerPlaceholder = $_SESSION['idbruker'];
         $interessePlaceholder = $_POST['interesse'];
-        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse)
-                                    values(?, ?)";
+        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse) values(?, ?)";
         $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
         $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
     }
@@ -49,30 +77,54 @@ if ($egen) {
 //-----------------------------------------------//
 if ($egen) {
     if (isset($_POST['interesseEgendefinert'])) {
-        $interessePlaceholder = $_POST['interesseEgendefinert'];
-        $brukerPlaceholder = $_SESSION['idbruker'];
-        $oppdaterInteresse = "insert into interesse(interessenavn) values(?)";
-        $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
-        $stmtOppdaterInteresse->execute([$interessePlaceholder]);
+        // Kontroller at interessen også er unik sammenlignet i lower case
+        // Hent alle navnene fra interesse
+        $sammenligning = "select lower(interessenavn) as interessenavn from interesse";
+        $stmtSammenligning = $db->prepare($sammenligning);
+        $stmtSammenligning->execute();
+        $interesseSammenlign = $stmtSammenligning->fetchAll(PDO::FETCH_ASSOC);
 
-        // Hent id til ny interesse fra interesser
-        $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
-        $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
-        $stmtHentIdInteresse->execute([$_POST['interesseEgendefinert']]);
-        $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
-        $idInteresse = implode($idInteresse);
+        // Lower case egendefinert interesse til sammenligning
+        $egendefinertLower = strtolower($_POST['interesseEgendefinert']);
 
-        // Oppdater så brukerinteresse med denne verdien
-        $brukerPlaceholder = $_SESSION['idbruker'];
-        $interessePlaceholder = $idInteresse;
-        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse)
-                                    values(?, ?)";
-        $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
-        $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
+        // Sammenlign hvert navn
+        foreach($interesseSammenlign as $e) {
+            foreach($e as $navn) {
+                if($egendefinertLower == $navn) {
+                    // Opprett en variabel som tilsiser en match
+                    $funnet = true;
+                }
+            }
+        } // Slutt, foreach
+
+        // Oppdater database hvis ingen match ble funnet
+        if(!isset($funnet)) {
+            // Oppdater interesse
+            // ucwords endrer første bokstav (i hvert ord, evt.) til upper case
+            $interessePlaceholder = ucwords($egendefinertLower);
+            $brukerPlaceholder = $_SESSION['idbruker'];
+            $oppdaterInteresse = "insert into interesse(interessenavn) values(?)";
+            $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
+            $stmtOppdaterInteresse->execute([$interessePlaceholder]);
+
+            // Hent id til ny interesse fra interesse
+            $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
+            $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
+            $stmtHentIdInteresse->execute([$_POST['interesseEgendefinert']]);
+            $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
+
+            // Oppdater så brukerinteresse med denne verdien
+            $brukerPlaceholder = $_SESSION['idbruker'];
+            $interessePlaceholder = $idInteresse['idinteresse'];
+            $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse) values(?, ?)";
+            $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
+            $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
+        } else {
+            // Ellers viser vi en feilmelding
+            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger=' . $_SESSION['idbruker'] . '&error=1');
+        }
     }
 }
-    // Spørsmål: legg opp dette slik at nyopprettet interesse legges til umiddelbart?
-    // Skal alle ha rettighet til å opprette nye interesserer willy-nilly?
 
 //-----------------//
 // Slett Interesse //
@@ -84,14 +136,13 @@ if ($egen) {
         $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
         $stmtHentIdInteresse->execute([$_POST['interesseTilSletting']]);
         $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
-        $idInteresse = implode($idInteresse);
 
         // Slett interessen
         $slettInteresse = "delete from brukerinteresse 
                            where bruker=?
                            and interesse=?";
         $stmtSlettInteresse = $db->prepare($slettInteresse);
-        $stmtSlettInteresse->execute([$_SESSION['idbruker'], $idInteresse]);
+        $stmtSlettInteresse->execute([$_SESSION['idbruker'], $idInteresse['idinteresse']]);
 
     }
 }
@@ -108,8 +159,6 @@ $hentBrukernavnProfil = "select brukernavn from bruker where idbruker = " . $_GE
 $stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
 $stmtBrukernavnProfil->execute();
 $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
-// Imploder. But why? Er det noe på slutten av arrayet som telles opp, og som ikke kan konverteres til streng?
-if (isset($brukernavnProfil)) $brukernavnProfil = implode ("", $brukernavnProfil);
 
 //---------------------------------------------------------------//
 // Henting av navn/tlf/mail, avhengig av brukerens innstillinger //
@@ -155,8 +204,6 @@ $tellingBeskrivelse = $stmtBeskrivelseProfil->rowcount();
 // Test på resultatet
 if ($tellingBeskrivelse > 0) {
     $beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
-    // Imploder. But why?
-    $beskrivelseProfil = implode("", $beskrivelseProfil);
 } else $beskrivelseProfil = null;
 
 //---------------------//
@@ -305,11 +352,31 @@ if ($tellingArrangement > 0) {
                 
                 <main class="profil_main">
                 <h2>Oversikt</h2>
-                        <h3>Endre visnings innstillinger for oversikt</h3>
+                    <h3>Endre profilbilde</h3>
+                    <form class="profil_bilde" method="POST" action="profil.php?bruker= <?php echo $_SESSION['idbruker'] ?> &instillinger= <?php echo $_SESSION['idbruker'] ?>">
+                        <h4>Velg et bilde</h4>
+                        <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
+                        <input type="submit" name="endreBilde">
+                    </form>
+
+                    <h3>Vis eller skjul personalia</h3>
+                        <section class="profil_persInf">
+                        
+                            
+                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
+                        <!-- Ikke egen profil -->
+                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
+                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
+                            
+                            <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
+                            <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
+                            <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p>
+                            <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                        </section>
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
+                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
                             <input class="profil_knapp" type="submit" value="Oppdater" />
                         </form>
                     <?php } ?>
@@ -412,7 +479,7 @@ if ($tellingArrangement > 0) {
                             <section class="bildeKontroll" tabindex="3">
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                                 <!-- Vis brukernavn -->
-                                <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
+                                <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } if($egen) {?>
                                     <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
@@ -433,10 +500,10 @@ if ($tellingArrangement > 0) {
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                         <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
                             
-                            <p><b>Fornavn:</b></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                            <p><b>Etternavn:</b> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                            <p><b>E-post Adresse:</b></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                            <p><b>Telefonnummer:</b></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                            <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
+                            <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
+                            <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p>
+                            <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
                         </section>
                     </section>    
                     
@@ -444,7 +511,7 @@ if ($tellingArrangement > 0) {
                     <section class="brukerBeskrivelse">
                     <h3>Beskrivelse</h3>
                         <?php ?>
-                            <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
+                            <p><?php if(preg_match("/\S/", $beskrivelseProfil['beskrivelse']) == 1) {echo($beskrivelseProfil['beskrivelse']);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
                         <?php  ?>
                     </section>
                     <!-- INTERESSER -->

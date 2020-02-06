@@ -112,8 +112,31 @@ if(isset($_POST['paameld'])) {
         $avmeldingSTMT->execute();
         
     }
+}
 
-    //header("Location: arrangement.php?arrangement=" . $_GET['arrangement']);
+if (isset($_POST['slettDenne'])) {
+    // Begynner med å slette referansen til bildet arrangementet har
+    $slettBildeQ = "delete from eventbilde where event = " . $_POST['slettDenne'];
+    $slettBildeSTMT = $db->prepare($slettBildeQ);
+    $slettBildeSTMT->execute();
+
+    // Sletter alle som har meldt seg på arrangementet
+    $slettPaameldingQ = "delete from påmelding where event_id = " . $_POST['slettDenne'];
+    $slettPaameldingSTMT = $db->prepare($slettPaameldingQ);
+    $slettPaameldingSTMT->execute();
+
+    // Sletter så arrangementet
+    $slettingQ = "delete from event where idevent = " . $_POST['slettDenne'];
+    $slettingSTMT= $db->prepare($slettingQ);
+    $slettingSTMT->execute();
+
+    $antallSlettet = $slettingSTMT->rowCount();
+
+    if ($antallSlettet > 0) {
+        header('location: arrangement.php?slettingok');
+    } else {
+        header('location: arrangement.php?slettingfeil');
+    }
 }
 
 ?>
@@ -310,6 +333,27 @@ if(isset($_POST['paameld'])) {
                             <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                         </section>
                         <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
+                        <?php 
+                        if(isset($_SESSION['brukernavn'])) {
+                            $hentEierQ = "select idbruker from event where idbruker = " . $_SESSION['idbruker'] . " and idevent = " . $_GET['arrangement'];
+                            $hentEierSTMT = $db->prepare($hentEierQ);
+                            $hentEierSTMT->execute();
+                            $arrangementEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
+
+                            if ($arrangementEier != false || $_SESSION['brukertype'] == 1) { ?>
+                                <input type="button" id="arrangement_slettKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')" value="Slett dette arrangementet">
+                                <section id="arrangement_bekreftSlett" style="display: none;">
+                                    <section id="arrangement_bekreftSlettInnhold">
+                                        <h2>Sletting</h2>
+                                        <p>Er du sikker på av du vil slette dette arrangementet?</p>
+                                        <form method="POST" action="arrangement.php">
+                                            <button id="arrangement_slettKnapp" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
+                                        </form>
+                                        <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>
+                                    </section>
+                                </section>
+                            <?php } ?>
+                        <?php } ?>
                     </section>
                     <?php } ?>
                 </section>
@@ -388,13 +432,19 @@ if(isset($_POST['paameld'])) {
                 
                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                     <h1>Arrangementer</h1>
-                    <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
-                    <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
-                        <img src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
-                    </a>
-                    <?php } ?>
                 </header>
                 <main id="arrangement_main" onclick="lukkHamburgerMeny()">
+                    <section id="arrangement_redpanel">
+                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
+                        <a href="arrangement.php?nyarrangement"><p>Nytt arrangement</p></a>
+                        <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
+                            <img src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
+                        </a>
+                        <?php } ?>
+                    </section>
+                    <?php if(isset($_GET['slettingok'])) { ?> <p id="mldOK">Du har slettet arrangementet</p> <?php } ?>
+                    <?php if(isset($_GET['slettingfeil'])) { ?> <p id="mldFEIL">Kunne ikke slette arrangement</p> <?php } ?>
+                    
                 <?php if ($resAntall > 0 ) { ?>
                     <?php for ($j = 0; $j < count($resArr); $j++) {
                         // Hvis rest av $j delt på 8 er 0, start section (Ny side)
