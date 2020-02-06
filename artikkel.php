@@ -82,6 +82,27 @@ if (isset($_POST['publiserArtikkel'])) {
 }
 
 
+if (isset($_POST['slettDenne'])) {
+    // Begynner med å slette referansen til bildet artikkelen har
+    $slettBildeQ = "delete from artikkelbilde where idartikkel = " . $_POST['slettDenne'];
+    $slettBildeSTMT = $db->prepare($slettBildeQ);
+    $slettBildeSTMT->execute();
+
+    // Sletter så artikkelen
+    $slettingQ = "delete from artikkel where idartikkel = " . $_POST['slettDenne'];
+    $slettingSTMT= $db->prepare($slettingQ);
+    $slettingSTMT->execute();
+
+    $antallSlettet = $slettingSTMT->rowCount();
+
+    if ($antallSlettet > 0) {
+        header('location: artikkel.php?slettingok');
+    } else {
+        header('location: artikkel.php?slettingfeil');
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -131,14 +152,32 @@ if (isset($_POST['publiserArtikkel'])) {
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                        <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                        <!-- Setter redaktør border "Oransje" -->
+                        <?php if ($_SESSION['brukertype'] == 2) { ?>
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                        <!-- Setter administrator border "Rød" -->
+                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                        <!-- Setter vanlig profil bilde -->
+                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                        <?php } ?>
                     </a>
 
                 <?php } else { ?>
-                    <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+                        <!-- Setter redaktør border "Oransje" -->
+                        <?php if ($_SESSION['brukertype'] == 2) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                        <!-- Setter administrator border "Rød" -->
+                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                        <!-- Setter vanlig profil bilde -->
+                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                        <?php } ?>
                     </a>
+
                 <?php } ?>
 
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
@@ -242,6 +281,27 @@ if (isset($_POST['publiserArtikkel'])) {
                                 <?php }?>
                             </section>
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
+                            <?php 
+                            if(isset($_SESSION['brukernavn'])) {
+                                $hentEierQ = "select bruker from artikkel where bruker = " . $_SESSION['idbruker'] . " and idartikkel = " . $_GET['artikkel'];
+                                $hentEierSTMT = $db->prepare($hentEierQ);
+                                $hentEierSTMT->execute();
+                                $artikkelEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
+
+                                if ($artikkelEier != false || $_SESSION['brukertype'] == 1) { ?>
+                                    <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett denne artikkelen">
+                                    <section id="artikkel_bekreftSlett" style="display: none;">
+                                        <section id="artikkel_bekreftSlettInnhold">
+                                            <h2>Sletting</h2>
+                                            <p>Er du sikker på av du vil slette denne artikkelen?</p>
+                                            <form method="POST" action="artikkel.php">
+                                                <button id="artikkel_bekreftSlettKnapp" name="slettDenne" value="<?php echo($_GET['artikkel']) ?>">Slett</button>
+                                            </form>
+                                            <button id="artikkel_avbrytKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')">Avbryt</button>
+                                        </section>
+                                    </section>
+                                <?php } ?>
+                            <?php } ?>
                             
                         </main>
                     <?php } ?>
@@ -309,6 +369,8 @@ if (isset($_POST['publiserArtikkel'])) {
                             </a>
                             <?php } ?>
                         </section>
+                        <?php if(isset($_GET['slettingok'])) { ?> <p id="mldOK">Du har slettet artikkelen</p> <?php } ?>
+                        <?php if(isset($_GET['slettingfeil'])) { ?> <p id="mldFEIL">Kunne ikke slette artikkelen</p> <?php } ?>
                     <?php if ($resAntall > 0 ) { ?>
                         <?php for ($j = 0; $j < count($resArt); $j++) {
                             // Hvis rest av $j delt på 8 er 0, start section (Ny side)
@@ -362,12 +424,12 @@ if (isset($_POST['publiserArtikkel'])) {
                             }
                         }
                     } ?>
-                    <section id="sok_bunnSection">
+                    <section id="artikkel_bunnSection">
                         <?php if ($antallSider > 1) {?>
                             <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
+                            <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                         <?php } ?>
-                        <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
-                        <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                     </section>
                 <?php }  ?>
         </main>

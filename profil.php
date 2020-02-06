@@ -11,6 +11,7 @@ include("innstillinger.php");
 //------------------------------//
 // Bruker ikke innlogget
 if (!isset($_SESSION['idbruker'])) {
+    // Sendes til forsiden
     header('Location: default.php');
 }
 
@@ -25,13 +26,14 @@ if (isset($_POST['endreBilde'])) {
     // Del for filopplastning
     if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
         // Kombinerer artikkel med den siste idevent'en
-        $navn = "event" . $_SESSION['idbruker'];
+        $navn = "bruker" . $_SESSION['idbruker'];
         // Henter filtypen
         $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
         // Kombinerer navnet med filtypen
         $bildenavn = $navn . $filtype;
         // Selve prosessen som flytter bildet til bestemt lagringsplass
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
+
         // Legger til bildet i databasen
         $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
         $nyttBildeSTMT = $db->prepare($nyttBildeQ);
@@ -40,7 +42,7 @@ if (isset($_POST['endreBilde'])) {
         $bildeid = $db->lastInsertId();
         
         // Spørringen som lager koblingen mellom bilder og bruker
-        $nyKoblingQ = "insert into brukerbilde(event, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
+        $nyKoblingQ = "insert into brukerbilde(bruker, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
         $nyKoblingSTMT = $db->prepare($nyKoblingQ);
         $nyKoblingSTMT->execute();
     }
@@ -282,14 +284,32 @@ if ($tellingArrangement > 0) {
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                            <!-- Setter redaktør border "Oransje" -->
+                            <?php if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                            <?php } ?>
                         </a>
 
                     <?php } else { ?>
-                        <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+                            <!-- Setter redaktør border "Oransje" -->
+                            <?php if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                            <?php } ?>
                         </a>
+
                     <?php } ?>
                     <!-- Legger til en knapp for å logge ut når man er innlogget -->
                     <form method="POST" action="default.php">
@@ -353,7 +373,7 @@ if ($tellingArrangement > 0) {
                 <main class="profil_main">
                 <h2>Oversikt</h2>
                     <h3>Endre profilbilde</h3>
-                    <form class="profil_bilde" method="POST" action="profil.php?bruker= <?php echo $_SESSION['idbruker'] ?> &instillinger= <?php echo $_SESSION['idbruker'] ?>">
+                    <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
                         <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
                         <input type="submit" name="endreBilde">
@@ -471,7 +491,7 @@ if ($tellingArrangement > 0) {
                             <!-- Hvis vi finner et bilde til brukeren viser vi det -->
                             <section class="bildeKontroll" tabindex="3">
                                 <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
-                                <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
+                                <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
             
                         <?php } else { ?>
