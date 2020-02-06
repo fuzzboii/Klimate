@@ -324,11 +324,13 @@ if ($tellingArrangement > 0) {
                                     <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
                                 <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
                                 <?php } else { ?> 
-                                    <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                                    <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
                                 <?php } // Slutt, else løkke    
                             } // Slutt, indre løkke
                         } // Slutt, ytre løkke
-                    } ?> <!-- Slutt, IF-test --> 
+                    } ?> <!-- Slutt, IF-test -->
+                    <p class="leggTilInt">Legg til egendefinert</p> 
+                    <p class="leggTilInt">Legg til eksisterende</p>
                     </section>
 
                     <!-- Del for å legge til interesser -->
@@ -455,7 +457,7 @@ if ($tellingArrangement > 0) {
                                     <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
                                 <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
                                 <?php } else { ?> 
-                                    <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                                    <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
                                 <?php } // Slutt, else løkke    
                             } // Slutt, indre løkke
                         } // Slutt, ytre løkke

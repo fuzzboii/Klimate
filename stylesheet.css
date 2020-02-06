@@ -1447,7 +1447,7 @@ table {
 }
 /* .interesserTags {} */
 
-.interesserTags p {
+.interesserTags .proInt {
   background-color: rgb(200,218,211);
   padding: 0.3em;
   border-radius: 0.7em;
@@ -1457,20 +1457,22 @@ table {
   margin-right: 0.5em;
   margin-top: 0.5em;
   float: left;
-  resize: both;
+  
   
   
 }
 
 /* Interesse-tags ved sletting */
 .slett {
-  background-color: red;
-  color: white;
-  padding: 0.3em;
-  font-size: medium;
-  border-radius: 0.7em;
-  margin-left: 1em;
-  margin-bottom: 0.8em;
+  background-color: darkred; /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-radius: 0.4em; /* Runder ut knappen */
 }
 
 /* Knappene */
@@ -1485,6 +1487,21 @@ table {
   margin-bottom: 0.5em;
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.80em; /* Font-størrelse */
+}
+
+.leggTilInt {
+  background-color: rgba(175, 175, 175, 0.1); 
+  color: rgb(83, 105, 104);
+  padding: 0.3em;
+  border-radius: 0.7em;
+  border: dashed 0.03em;
+  size: medium;
+  text-align: center;
+  margin-bottom: 0;
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+  float: left;
+  
 }
 
 /* Input av interesse */
@@ -1514,12 +1531,13 @@ table {
   font-size: medium;
 }
 .profil_beskrivelse textarea{
-  width: 50%;
+  width: 80%;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  padding-bottom: 3em;
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-  resize: none;
+    
 }
 
 /* input 'arkitektur' og 'egendefinert' */
@@ -1527,6 +1545,8 @@ table {
   /* Bredde justert for ikke å flytte 'legg til' submits nedover på siden */
   /* For å minske behovet for vertikal scroll */
   width: 10em;
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
 /* Tekstområdet 'om' */
