@@ -83,14 +83,13 @@ if ($egen) {
         $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
         $stmtHentIdInteresse->execute([$_POST['interesseTilSletting']]);
         $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
-        $idInteresse = implode($idInteresse);
 
         // Slett interessen
         $slettInteresse = "delete from brukerinteresse 
                            where bruker=?
                            and interesse=?";
         $stmtSlettInteresse = $db->prepare($slettInteresse);
-        $stmtSlettInteresse->execute([$_SESSION['idbruker'], $idInteresse]);
+        $stmtSlettInteresse->execute([$_SESSION['idbruker'], $idInteresse['idinteresse']]);
 
     }
 }
@@ -107,8 +106,6 @@ $hentBrukernavnProfil = "select brukernavn from bruker where idbruker = " . $_GE
 $stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
 $stmtBrukernavnProfil->execute();
 $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
-// Imploder. But why? Er det noe på slutten av arrayet som telles opp, og som ikke kan konverteres til streng?
-if (isset($brukernavnProfil)) $brukernavnProfil = implode ("", $brukernavnProfil);
 
 //---------------------------------------------------------------//
 // Henting av navn/tlf/mail, avhengig av brukerens innstillinger //
@@ -154,8 +151,6 @@ $tellingBeskrivelse = $stmtBeskrivelseProfil->rowcount();
 // Test på resultatet
 if ($tellingBeskrivelse > 0) {
     $beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
-    // Imploder. But why?
-    $beskrivelseProfil = implode("", $beskrivelseProfil);
 } else $beskrivelseProfil = null;
 
 //---------------------//
@@ -321,7 +316,7 @@ if ($tellingArrangement > 0) {
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
+                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
                             <input class="profil_knapp" type="submit" value="Oppdater" />
                         </form>
                     <?php } ?>
@@ -420,7 +415,7 @@ if ($tellingArrangement > 0) {
                             <section class="bildeKontroll" tabindex="3">
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                                 <!-- Vis brukernavn -->
-                                <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
+                                <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } if($egen) {?>
                                     <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
@@ -452,7 +447,7 @@ if ($tellingArrangement > 0) {
                     <section class="brukerBeskrivelse">
                     <h3>Beskrivelse</h3>
                         <?php ?>
-                            <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
+                            <p><?php if(preg_match("/\S/", $beskrivelseProfil['beskrivelse']) == 1) {echo($beskrivelseProfil['beskrivelse']);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
                         <?php  ?>
                     </section>
                     <!-- INTERESSER -->
