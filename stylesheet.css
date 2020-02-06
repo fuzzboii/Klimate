@@ -2017,7 +2017,6 @@ table {
   }
 
   #artikkel_main {
-    max-width: 100em;
     grid-template-columns: 1fr 1fr 1fr; 
     margin-left: 10em; margin-right: 10em;
   }
