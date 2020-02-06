@@ -116,6 +116,10 @@ if(isset($_POST['paameld'])) {
     //header("Location: arrangement.php?arrangement=" . $_GET['arrangement']);
 }
 
+if (isset($_POST['slettDenne'])) {
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -311,16 +315,24 @@ if(isset($_POST['paameld'])) {
                         </section>
                         <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
                         <?php 
-                        $hentEierQ = "select idbruker from event where " . $_SESSION['idbruker'] . " = idbruker";
+                        $hentEierQ = "select idbruker from event where idbruker = " . $_SESSION['idbruker'] . " and idevent = " . $_GET['arrangement'];
                         $hentEierSTMT = $db->prepare($hentEierQ);
                         $hentEierSTMT->execute();
                         $arrangementEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
-                        
-                        if ($arrangementEier) {}
-                        ?>
-                        <form method="POST" action="arrangement.php">
-                            <input id="arrangement_slettKnapp" type="submit" name="slettDenne" value="Slett dette arrangementet">
-                        </form>
+
+                        if ($arrangementEier != false || $_SESSION['brukertype'] == 1) { ?>
+                            <input type="button" id="arrangement_slettKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')" value="Slett dette arrangementet">
+                            <section id="arrangement_bekreftSlett" style="display: none;">
+                                <section id="arrangement_bekreftSlettInnhold">
+                                    <h2>Sletting</h2>
+                                    <p>Er du sikker på av du vil slette dette arrangementet?</p>
+                                    <form method="POST" action="konto.php">
+                                        <button id="arrangement_slettKnapp" name="slettMeg">Slett</button>
+                                    </form>
+                                    <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>
+                                </section>
+                            </section>
+                        <?php } ?>
                     </section>
                     <?php } ?>
                 </section>

@@ -1341,7 +1341,7 @@ table {
 }
 
 #arrangement_slettKnapp {
-  float: right;
+  margin-left: auto;
   color: white;
   background-color: red;
   padding: 1em; /* hvor mye luft rundt teksten det skal være */
@@ -1350,6 +1350,46 @@ table {
   border: none; /* Fjerner ytrelinjen rundt knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+  width: 14em;
+}
+
+
+#arrangement_bekreftSlett {
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border: 2px solid red;
+  background-color: white;
+  z-index: 1; /* Sitter over det andre innholdet */
+  margin-top: 6em;
+  max-width: 445px;
+  position: fixed;
+  left: 0; right: 0;
+  margin-left: auto; margin-right: auto;
+}
+
+#arrangement_bekreftSlettInnhold {
+  margin-left: 0.4em; margin-right: 0.4em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+#arrangement_bekreftSlettInnhold h2 {
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  margin-top: 0.2em;
+}
+
+#arrangement_avbrytKnapp {
+  background-color: grey; /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 30%; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.8em; /* Font-størrelse */
+  margin-top: 1em;
 }
 
 /* Del for visning av nytt arrangement */
@@ -1821,7 +1861,7 @@ table {
     background-color: rgba(179, 0, 0, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
-  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover {
+  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover {
     cursor: pointer;
   }
 
@@ -1994,7 +2034,12 @@ table {
   /* Del for arrangement */
   #arrangement_slettKnapp:hover {
     cursor: pointer;
-    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    background-color: rgb(145, 0, 0); /* Fargeendring/hover ved å holde over knappen */
+  }
+  
+  /* Hover innstillinger for slett arrangement knapp */
+  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover {
+    cursor: pointer;
   }
   
   /* Hover for artikkel utvalget/resultatet  */

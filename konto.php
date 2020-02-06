@@ -172,7 +172,7 @@ if (isset($_POST['avregistrerMeg'])) {
 
                     <button onClick="location.href='konto_rediger.php'" name="redigerkonto" class="rediger_konto_knapp">Rediger konto</button>
                     
-                    <button onclick="bekreftAvregistrering()" class="konto_avregistrer" id="konto_avregistrerKnapp">Avregistrering</button>
+                    <button onclick="bekreftMelding('konto_bekreftAvr')" class="konto_avregistrer" id="konto_avregistrerKnapp">Avregistrering</button>
 
                     <section id="konto_bekreftAvr" style="display: none;">
                         <section id="konto_bekreftAvrInnhold">
@@ -183,7 +183,7 @@ if (isset($_POST['avregistrerMeg'])) {
                                 <p id="konto_checkbox">Ja, jeg er sikker på at jeg vil avregistrere meg selv</p>
                                 <button id="konto_avregistrerKnapp" name="avregistrerMeg">Avregistrer</button>
                             </form>
-                            <button id="konto_avbrytKnapp" onclick="bekreftAvregistrering()">Avbryt</button>
+                            <button id="konto_avbrytKnapp" onclick="bekreftMelding('konto_bekreftAvr')">Avbryt</button>
                         </section>
                     </section>
                 </section> 
