@@ -1595,7 +1595,16 @@ table {
   font-weight: normal;
   font-size: 1.5em;
   margin-top: 0.3em;
-  
+  margin-bottom: 0;
+}
+.profil_main h4 {
+  font-weight: normal;
+  font-size: 1.0em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+#bildeK {
+  margin-left: 0.3em; margin-right: 0.3em;
 }
 .profil_persInf {
  display: grid;
@@ -1622,12 +1631,15 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-left: auto; margin-right: auto;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  text-align: center;
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 100%;
+  width: 80%;
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.83em; /* Font-størrelse */
+ 
 }
 /* .interesserTags {} */
 
@@ -2234,6 +2246,31 @@ table {
     color: #F8F7FD;
     transition: background-color 0.2s;
   }
+
+  .profil_knapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
+  .profil_knapp2:hover {
+    cursor: pointer;
+    background-color: red; /* Skygge */
+    transition: background-color 0.2s;
+  }
+  .rediger_profil_knapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
+  .rediger_profil_knapp {
+    width: 20%;
+    margin-right: 0;
+    margin-left: auto; margin-right: auto;
+  }
+
+  .profil_persInf {
+    font-size: 1em;
+   }
 
 }
 

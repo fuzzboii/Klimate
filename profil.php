@@ -375,24 +375,22 @@ if ($tellingArrangement > 0) {
                     <h3>Endre profilbilde</h3>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
-                        <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
-                        <input type="submit" name="endreBilde">
+                        <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png">
+                        <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp">
                     </form>
-
-                    <h3>Vis eller skjul personalia</h3>
-                        <section class="profil_persInf">
-                        
-                            
+                    <!-- -------------------------------------------------------------------------------------------------------------- -->
+                    <!-- <h3>Vis eller skjul personalia</h3> -->
+                    <!-- <section class="profil_persInf">     -->
                         <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
                         <!-- Ikke egen profil -->
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                         <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            
-                            <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                            <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                            <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                            <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
-                        </section>
+                            <!-- <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p> -->
+                            <!-- <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p> -->
+                            <!-- <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p> -->
+                            <!-- <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p> -->
+                        <!-- </section> -->
+                    <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
@@ -411,8 +409,8 @@ if ($tellingArrangement > 0) {
                                     foreach ($rad as $kolonne) { ?> 
                                         <!-- Test om bruker er i slettemodus -->
                                         <?php if (isset($_POST['slettemodus'])) { ?> 
-                                            <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
-                                        <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                            <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett()" value="<?php echo($kolonne) ?>"></input>
+                                            <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
                                         <?php } else { ?> 
                                             <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
                                         <?php } // Slutt, else løkke    
@@ -450,7 +448,7 @@ if ($tellingArrangement > 0) {
                         <?php if ($egen) { ?>
                         <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <?php if(!isset($_POST['slettemodus'])) { ?>
-                                <input class="profil_knapp" type="submit" name="slettemodus" value="Slett Interesse">
+                                <input class="profil_knapp" type="submit" name="slettemodus" value="Slett interesse">
                             <?php } else { ?> 
                                 <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
                             <?php } ?>
@@ -461,7 +459,7 @@ if ($tellingArrangement > 0) {
                     
                     <!-- tilbake knapp -->
                     <?php if($egen) {?>
-                            <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Tilbake</button>
+                            <p onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Tilbake</p>
                     <?php }?>
 
                 </main>
@@ -502,7 +500,7 @@ if ($tellingArrangement > 0) {
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } if($egen) {?>
-                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
+                                <p onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</p>
                         <?php } ?>
                         
                         
@@ -514,7 +512,6 @@ if ($tellingArrangement > 0) {
                         <h3>Oversikt</h3>
                         <section class="profil_persInf">
                         
-                            
                         <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
                         <!-- Ikke egen profil -->
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
