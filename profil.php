@@ -60,11 +60,10 @@ if ($egen) {
         $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
         $stmtHentIdInteresse->execute([$_POST['interesseEgendefinert']]);
         $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
-        $idInteresse = implode($idInteresse);
 
         // Oppdater så brukerinteresse med denne verdien
         $brukerPlaceholder = $_SESSION['idbruker'];
-        $interessePlaceholder = $idInteresse;
+        $interessePlaceholder = $idInteresse['idinteresse'];
         $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse)
                                     values(?, ?)";
         $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
