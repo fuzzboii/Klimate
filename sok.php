@@ -618,7 +618,6 @@ include("innstillinger.php");
                 <section id="sok_seksjon"> 
                     <!-- Rullegardin for søk på bruker -->
                     <form method="GET">
-                        <a tabindex="15">
                             <section class="innholdRullegardin">
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Brukernavn:</p>
@@ -630,7 +629,7 @@ include("innstillinger.php");
                                 </section>
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Interesse:</p>
-                                <select name="interesse">
+                                <select name="interesse" class="sokBrukerFelt" tabindex = "-1">
                                     <option value="">Ikke spesifikt</option>
                                     <?php 
                                         // Henter interesser fra database
@@ -646,11 +645,10 @@ include("innstillinger.php");
                                 <input type="submit" class="sokKnapp" value="Søk på bruker">
                             </section>
                             <button type="button" id="brukerRullegardin" class="brukerRullegardin">Søk etter bruker</button>
-                        </a>   
+                        
                     </form>
                     <!-- Rullegardin for søk på artikkel -->
                     <form method="GET">
-                        <a tabindex="20">
                             <section class="innholdRullegardin">
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Tittel:</p>
@@ -669,11 +667,10 @@ include("innstillinger.php");
                                 <input type="submit" class="sokKnapp" value="Søk på artikkel">
                             </section>
                             <button type="button" id="artikkelRullegardin" class="artikkelRullegardin">Søk etter artikkel</button>
-                        </a>
+                        
                     </form>
                     <!-- Rullegardin for søk på arrangement -->
                     <form method="GET">
-                        <a tabindex="25">
                             <section class="innholdRullegardin">
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Tittel:</p>
@@ -685,7 +682,7 @@ include("innstillinger.php");
                                 </section>
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Fylke:</p>
-                                <select name="fylke">
+                                <select name="fylke" class="sokBrukerFelt" tabindex = "-1">
                                     <option value="">Ikke spesifikt</option>
                                     <?php 
                                         // Henter fylker fra database
@@ -700,8 +697,8 @@ include("innstillinger.php");
                                 </section>
                                 <input type="submit" class="sokKnapp" value="Søk på arrangement">
                             </section>
-                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin">Søk etter arrangement</button>
-                        </a>
+                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" class="sokBrukerFelt" tabindex = "-1">Søk etter arrangement</button>
+                       
                     </form>
                 </section>
             <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>

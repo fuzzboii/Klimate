@@ -159,6 +159,26 @@ function sokRullegardin() {
   // Boolean for å vite om en av søkemetodene er åpnet
   var aapnet = false;
   
+  var tabStart = 16;
+  // FOR løkke som legger til tabIndex på valgene i menyen
+  for (i = 0; i < elementInp.length; i++) {
+    elementInp[i].tabIndex = tabStart;
+    tabStart++;
+  }
+  
+  var tabStart = 21;
+  // FOR løkke som legger til tabIndex på valgene i menyen
+  for (i = 0; i < elementInp.length; i++) {
+    elementInp[i].tabIndex = tabStart;
+    tabStart++;
+  }
+
+  var tabStart = 26;          
+  // FOR løkke som legger til tabIndex på valgene i menyen
+  for (i = 0; i < elementInp.length; i++) {
+    elementInp[i].tabIndex = tabStart;
+    tabStart++;
+  }
 
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
   for (var i = 0; i < elementBr.length; i++) {
@@ -166,7 +186,6 @@ function sokRullegardin() {
       elementBr[i].addEventListener("click", function() {
           // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
           var innholdRullegardin = this.previousElementSibling;
-          var tabStart = 16;
           if (aapnet == false) {
             // Når vinduet er åpnet, vis "Avbryt" 
             document.getElementById("brukerRullegardin").innerHTML = "Avbryt";
@@ -180,11 +199,6 @@ function sokRullegardin() {
             document.getElementById("artikkelRullegardin").style.display = "none";
             document.getElementById("arrangementRullegardin").style.display = "none";
 
-            // FOR løkke som legger til tabIndex på valgene i menyen
-            for (i = 0; i < elementInp.length; i++) {
-              elementInp[i].tabIndex = tabStart;
-              tabStart++;
-            }
 
             // Sett aapnet til true, søkemenyen er åpen
             aapnet = true;
@@ -226,7 +240,6 @@ function sokRullegardin() {
     elementArt[i].addEventListener("click", function() {
         // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
         var innholdRullegardin = this.previousElementSibling;
-        var tabStart = 21;
         if (aapnet == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("artikkelRullegardin").innerHTML = "Avbryt";
@@ -239,11 +252,6 @@ function sokRullegardin() {
           document.getElementById("brukerRullegardin").style.display = "none";
           document.getElementById("arrangementRullegardin").style.display = "none";
 
-          // FOR løkke som legger til tabIndex på valgene i menyen
-          for (i = 0; i < elementInp.length; i++) {
-            elementInp[i].tabIndex = tabStart;
-            tabStart++;
-          }
 
           // Sett aapnet til true, søkemenyen er åpen
           aapnet = true;
@@ -285,7 +293,6 @@ function sokRullegardin() {
     elementArr[i].addEventListener("click", function() {
         // previousElementSibling returnerer det forrige elementet, altså innholdet i menyen
         var innholdRullegardin = this.previousElementSibling;
-        var tabStart = 26;
         if (aapnet == false) {
           // Når vinduet er åpnet, vis "Avbryt" 
           document.getElementById("arrangementRullegardin").innerHTML = "Avbryt";
@@ -298,11 +305,7 @@ function sokRullegardin() {
           document.getElementById("brukerRullegardin").style.display = "none";
           document.getElementById("artikkelRullegardin").style.display = "none";
 
-          // FOR løkke som legger til tabIndex på valgene i menyen
-          for (i = 0; i < elementInp.length; i++) {
-            elementInp[i].tabIndex = tabStart;
-            tabStart++;
-          }
+
 
           // Sett aapnet til true, søkemenyen er åpen
           aapnet = true;
