@@ -129,9 +129,9 @@ function fiksRullegardin() {
   }
 }
 
-// Åpner en bekreftelses-boks for å avregistrere en bruker
-function bekreftAvregistrering() {
-  var knapp = document.getElementById('konto_bekreftAvr');
+// Åpner en bekreftelses-boks for å avregistrere og slette arrangement / artikler
+function bekreftMelding(element) {
+  var knapp = document.getElementById(element);
 
   if (knapp.style.display == 'none') {
     knapp.style.display = 'block';
