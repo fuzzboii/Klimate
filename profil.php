@@ -22,8 +22,30 @@ if ($_SESSION['idbruker'] == $_GET['bruker']) {
 // Oppdater profilbilde //
 // -------------------- //
 if (isset($_POST['endreBilde'])) {
-
+    // Del for filopplastning
+    if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
+        // Kombinerer artikkel med den siste idevent'en
+        $navn = "event" . $_SESSION['idbruker'];
+        // Henter filtypen
+        $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
+        // Kombinerer navnet med filtypen
+        $bildenavn = $navn . $filtype;
+        // Selve prosessen som flytter bildet til bestemt lagringsplass
+        move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
+        // Legger til bildet i databasen
+        $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+        $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+        $nyttBildeSTMT->execute();
+        // Returnerer siste bildeid'en
+        $bildeid = $db->lastInsertId();
+        
+        // Spørringen som lager koblingen mellom bilder og bruker
+        $nyKoblingQ = "insert into brukerbilde(event, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
+        $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+        $nyKoblingSTMT->execute();
+    }
 }
+
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
@@ -332,6 +354,7 @@ if ($tellingArrangement > 0) {
                 <h2>Oversikt</h2>
                     <h3>Endre profilbilde</h3>
                     <form class="profil_bilde" method="POST" action="profil.php?bruker= <?php echo $_SESSION['idbruker'] ?> &instillinger= <?php echo $_SESSION['idbruker'] ?>">
+                        <h4>Velg et bilde</h4>
                         <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
                         <input type="submit" name="endreBilde">
                     </form>
