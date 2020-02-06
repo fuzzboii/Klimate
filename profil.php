@@ -471,7 +471,7 @@ if ($tellingArrangement > 0) {
                             <!-- Hvis vi finner et bilde til brukeren viser vi det -->
                             <section class="bildeKontroll" tabindex="3">
                                 <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
-                                <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
+                                <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
             
                         <?php } else { ?>
