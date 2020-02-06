@@ -220,7 +220,7 @@ if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnum
 
     }
 
-    header("location: konto.php");
+    header("location: konto.php?vellykket=1");
 }
 
 ?>
