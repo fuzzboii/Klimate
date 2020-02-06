@@ -503,9 +503,9 @@ if (isset($_POST['slettDenne'])) {
                 <section id="arrangement_bunnSection">
                     <?php if ($antallSider > 1) {?>
                         <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                        <button type="button" id="arrangement_tilbKnapp" onclick="visForrigeSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Forrige</button>
+                        <button type="button" id="arrangement_nesteKnapp" onclick="visNesteSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Neste</button>
                     <?php } ?>
-                    <button type="button" id="arrangement_tilbKnapp" onclick="visForrigeSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Forrige</button>
-                    <button type="button" id="arrangement_nesteKnapp" onclick="visNesteSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Neste</button>
                 </section>
             <?php } ?>
         </main>

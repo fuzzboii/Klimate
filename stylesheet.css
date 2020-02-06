@@ -532,6 +532,16 @@ footer a {
   display: inline;
 }
 
+#artikkel_bunnSection {
+  display: block;
+  text-align: center;
+  padding-top: 2em;
+}
+
+#artikkel_bunnSection a {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
 #artikkel_bekreftSlettKnapp, #artikkel_slettKnapp  {
   color: white;
   background-color: red;

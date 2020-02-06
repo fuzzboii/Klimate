@@ -406,12 +406,12 @@ if (isset($_POST['slettDenne'])) {
                             }
                         }
                     } ?>
-                    <section id="sok_bunnSection">
+                    <section id="artikkel_bunnSection">
                         <?php if ($antallSider > 1) {?>
                             <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                            <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
+                            <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                         <?php } ?>
-                        <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
-                        <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
                     </section>
                 <?php }  ?>
         </main>
