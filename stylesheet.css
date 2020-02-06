@@ -19,6 +19,7 @@ html, body {
   flex-direction: column;
   align-items: stretch;
 }
+
 /* Style for MAIN */
 main {
   flex-grow: 1; /* Fyller den tilgjengelige plassen. Dette setter footer i bunnen, siden main tar all plassen i midten */
@@ -133,6 +134,14 @@ footer a {
   outline: none;
   width: 100%;
   border-radius: 0.4em;
+  resize: none;
+}
+
+
+.inputBoksSoknad {
+  display: flex; /* Legger ikonene og inputfeltene ved siden av hverandre*/
+  max-width: 20,4em; /* Angir bredde for inputfeltene  */
+  margin-bottom: 0.8em; /* Lager luft under hver inputfelt */
 }
 
 .soknad_knapp {
@@ -148,16 +157,36 @@ footer a {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
-
-#soknad_main {
+#soknad_main{
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#soknad_form {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-  display: grid;
-  grid-template-columns: 1fr;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  margin-top: 0.25em;
+  margin-bottom: 1.5em;
+  padding: 2em;
+}
+
+#soknad_header {
+  padding-top: 6em;
+  padding-bottom: 1em;
+  text-align: center;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+#soknad_header h1 {
+  font-size: 1.5em;
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -888,18 +917,25 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for SØK */
+#sok_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .sok_header {
   padding-top: 6em;
   padding-bottom: 1em;
   text-align: center;
   font-family: Inter, Helvetica, Arial, sans-serif;
-   
 }
 
 .sok_header h1 {
   font-size: 1.5em;
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
 }
+
 
 /* Rullegardin for søk på bruker*/
 .brukerRullegardin, .artikkelRullegardin, .arrangementRullegardin {
@@ -913,6 +949,9 @@ table {
   outline: none;
   font-size: 0.8em;
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+}
+.brukerRullegardin:focus, .artikkelRullegardin:focus, .arrangementRullegardin:focus{
+  background-color: #ccc;
 }
 
 .sok_inputBoks {
@@ -940,8 +979,14 @@ table {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
 }
 
-/* Style for knappene for å søke */
-.sokKnapp {
+/* Style for inputfeltene i søk */
+.sokBrukerFelt {
+  width: 90%; /* Angir bredde for inputfeltene */
+  padding: 0.8em; /* legger luft rundt*/
+  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
+}
+
+.sokBrukerFelt[type="submit"] {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
@@ -951,12 +996,6 @@ table {
   width: 100%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-}
-/* Style for inputfeltene i søk */
-.sokBrukerFelt {
-  width: 90%; /* Angir bredde for inputfeltene */
-  padding: 0.8em; /* legger luft rundt*/
-  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
 }
 
 /* Style for resultatene ved brukersøk */
@@ -1437,6 +1476,10 @@ table {
  grid-template-columns: 8.5em auto;
  font-size: 0.83em;
  overflow: auto;
+ margin-bottom: 2em;
+}
+.brukerBeskrivelse p{
+  overflow-wrap: break-word;
 }
 
 .profil_persInf p{
@@ -1445,6 +1488,7 @@ table {
 }
 .profil_bilde {
   width: 10em;
+  height: 10em;
   border-radius: 50%;
 }
 
@@ -1489,14 +1533,16 @@ table {
 
 /* Knappene */
 .profil_knapp {
-  background-color: rgb(126, 155, 153);
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
-  margin-left: 1em;
   margin-bottom: 0.5em;
-  font-size: medium;
-  padding: 0.4em;
-  color: white;
-  border-radius: 0.25em;
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.80em; /* Font-størrelse */
 }
 
 /* Input av interesse */
@@ -1512,6 +1558,7 @@ table {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
@@ -1520,9 +1567,17 @@ table {
 
 .profil_beskrivelse textarea, .profil_beskrivelse input {
   display: block;
-  margin-left: 1em; margin-bottom: 0.2em;
+  margin-left: 0em; margin-bottom: 0.2em;
   font-family: Helvetica, Arial, sans-serif;
   font-size: medium;
+}
+.profil_beskrivelse textarea{
+  width: 50%;
+  padding-top: 4em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  resize: none;
 }
 
 /* input 'arkitektur' og 'egendefinert' */
@@ -1537,6 +1592,8 @@ table {
   /* Setter bredde i lodd med andre elementer */
   width: 16em;
 }
+
+
 
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -1573,6 +1630,11 @@ table {
   #default_main {
     column-count: 2; 
   }
+
+  #soknad_main {
+    column-count: 2;
+  }
+
   #artikkel3 {
     break-before: column;
   }
@@ -1784,7 +1846,7 @@ table {
     box-shadow: 0 0 0.1em 0.05em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.3s;
   }
-  .sokKnapp:hover {
+  .sokBrukerFelt:hover[type="submit"] {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
@@ -1977,6 +2039,10 @@ table {
     column-count: 3;
   }
 
+  #soknad_main {
+    column-count: 2;
+  }
+
   #artikkel4 {
     break-before: column;
   }
@@ -2039,6 +2105,10 @@ table {
 @media screen and (min-width: 2560px) {
   #default_main {
     column-count: 4;
+  }
+
+  #soknad_main {
+    column-count: 2;
   }
   #artikkel2 {
     break-before: column;

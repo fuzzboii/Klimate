@@ -9,14 +9,14 @@ include("innstillinger.php");
 //------------------------------//
 // Test om man ser egen profil  //
 //------------------------------//
-
-$egen = false;
-
-if (isset($_SESSION['idbruker'])) {
-    if ($_SESSION['idbruker'] == $_GET['bruker']) {
-        $egen = true;
-    }
+// Bruker ikke innlogget
+if (!isset($_SESSION['idbruker'])) {
+    header('Location: default.php');
 }
+
+if ($_SESSION['idbruker'] == $_GET['bruker']) {
+    $egen = true;
+    } else $egen = false;
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
@@ -54,6 +54,21 @@ if ($egen) {
         $oppdaterInteresse = "insert into interesse(interessenavn) values(?)";
         $stmtOppdaterInteresse = $db->prepare($oppdaterInteresse);
         $stmtOppdaterInteresse->execute([$interessePlaceholder]);
+
+        // Hent id til ny interesse fra interesser
+        $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
+        $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
+        $stmtHentIdInteresse->execute([$_POST['interesseEgendefinert']]);
+        $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
+        $idInteresse = implode($idInteresse);
+
+        // Oppdater så brukerinteresse med denne verdien
+        $brukerPlaceholder = $_SESSION['idbruker'];
+        $interessePlaceholder = $idInteresse;
+        $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse)
+                                    values(?, ?)";
+        $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
+        $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
     }
 }
     // Spørsmål: legg opp dette slik at nyopprettet interesse legges til umiddelbart?
@@ -94,7 +109,7 @@ $stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
 $stmtBrukernavnProfil->execute();
 $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
 // Imploder. But why? Er det noe på slutten av arrayet som telles opp, og som ikke kan konverteres til streng?
-$brukernavnProfil = implode ("", $brukernavnProfil);
+if (isset($brukernavnProfil)) $brukernavnProfil = implode ("", $brukernavnProfil);
 
 //---------------------------------------------------------------//
 // Henting av navn/tlf/mail, avhengig av brukerens innstillinger //
@@ -137,7 +152,7 @@ $stmtBeskrivelseProfil = $db->prepare($hentBeskrivelseProfil);
 $stmtBeskrivelseProfil->execute();
 $tellingBeskrivelse = $stmtBeskrivelseProfil->rowcount();
 
-// Test på resultatet   // VIRKER IKKE?
+// Test på resultatet
 if ($tellingBeskrivelse > 0) {
     $beskrivelseProfil = $stmtBeskrivelseProfil->fetch(PDO::FETCH_ASSOC);
     // Imploder. But why?
@@ -287,11 +302,27 @@ if ($tellingArrangement > 0) {
                 <header class="profil_header" onclick="lukkHamburgerMeny()">
                     
                 </header>
+                
                 <main class="profil_main">
+                <h2>Oversikt</h2>
+                        <h3>Endre visnings innstillinger for oversikt</h3>
+                        <section class="profil_persInf">
+                        
+                            
+                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
+                        <!-- Ikke egen profil -->
+                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
+                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
+                            
+                            <p><b>Fornavn:</b></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
+                            <p><b>Etternavn:</b> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
+                            <p><b>E-post Adresse:</b></p> <p> <?php echo($personaliaProfil["epost"])?></p>
+                            <p><b>Telefonnummer:</b></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                        </section>
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
-                        <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                            <textarea name="beskrivelse" maxlength="1000" rows="5" cols="35" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
+                        <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil ?></textarea>
                             <input class="profil_knapp" type="submit" value="Oppdater" />
                         </form>
                     <?php } ?>
@@ -317,8 +348,9 @@ if ($tellingArrangement > 0) {
 
                     <!-- Del for å legge til interesser -->
                     <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+                    
                     <?php if($egen) { ?>
-                        <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                        <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <select class="profil_input" name="interesse">
                                 <?php $index=1 ?>
                                 <?php foreach($interesse as $rad) {
@@ -332,7 +364,7 @@ if ($tellingArrangement > 0) {
                         </form>
 
                         <!-- Egendefinert interesse -->
-                        <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                        <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
                             <input class="profil_knapp" type="submit" value="Legg til"></input>
                         </form>
@@ -340,7 +372,7 @@ if ($tellingArrangement > 0) {
 
                     <!-- Slettemodus -->
                     <?php if ($egen) { ?>
-                    <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                    <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                         <?php if(!isset($_POST['slettemodus'])) { ?>
                             <input class="profil_knapp" type="submit" name="slettemodus" value="Slett">
                         <?php } else { ?> 
@@ -390,10 +422,9 @@ if ($tellingArrangement > 0) {
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                                 <!-- Vis brukernavn -->
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil ?> </h1>
-                                <?php if($egen) {?>
-                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
-                                <?php }?>
                             </section>
+                        <?php } if($egen) {?>
+                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
                         <?php } ?>
                         
                         
@@ -401,8 +432,10 @@ if ($tellingArrangement > 0) {
                         <!-- --------------- -->
                         <!-- BRUKERINFO ---- -->
                         <!-- --------------- -->
-                        <h2>Oversikt</h2>
+                        <h2>Om</h2>
+                        <h3>Oversikt</h3>
                         <section class="profil_persInf">
+                        
                             
                         <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
                         <!-- Ikke egen profil -->
@@ -417,11 +450,12 @@ if ($tellingArrangement > 0) {
                     </section>    
                     
                     <!-- BESKRIVELSE -->
-                    <h2>Om</h2>
-                    <?php ?>
-                        <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
-                    <?php  ?>
-
+                    <section class="brukerBeskrivelse">
+                    <h3>Beskrivelse</h3>
+                        <?php ?>
+                            <p><?php if(preg_match("/\S/", $beskrivelseProfil) == 1) {echo($beskrivelseProfil);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
+                        <?php  ?>
+                    </section>
                     <!-- INTERESSER -->
                     <h2>Interesser</h2>
                     <!-- Nøstet foreach -->
@@ -443,7 +477,7 @@ if ($tellingArrangement > 0) {
                     </section>
             </main>
 
-             <?php }?> <!-- Test på om brukeren har klikket på rediger -->
+             <?php } ?> <!-- Test på om brukeren har klikket på rediger -->
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
             <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
