@@ -134,19 +134,19 @@ if (isset($_POST['submit'])) {
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main id="soknad_main" onclick="lukkHamburgerMeny()">  
                 <form action="soknad.php" method="post">    
-                    <section class="inputBoks" style="margin-top: 1em;">
+                    <section class="inputBoksSoknad" style="margin-top: 1em;">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
                         <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($_SESSION['brukernavn']) ?>" readonly>
                     </section>
-                    <section class="inputBoks">
+                    <section class="inputBoksSoknad">
                         <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
                         <input type="email" class="RegInnFelt" name="epost" value="<?php echo($_SESSION['epost']) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse" autofocus>
                     </section>
-                    <section class="inputBoks">
+                    <section class="inputBoksSoknad">
                         <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for fornavn -->
                         <input type="fnavn" class="RegInnFelt" name="fnavn" value="<?php echo($_SESSION['fornavn']) ?>" placeholder="Skriv inn fornavnet ditt" required title="Skriv inn fornavnet ditt">
                     </section>
-                    <section class="inputBoks">
+                    <section class="inputBoksSoknad">
                         <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet til etternavn -->
                         <input type="enavn" class="RegInnFelt" name="enavn" value="<?php echo($_SESSION['etternavn']) ?>" placeholder="Skriv inn etternavnet ditt" required title="Skriv inn etternavnet ditt">
                     </section>

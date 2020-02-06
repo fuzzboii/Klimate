@@ -133,6 +133,13 @@ footer a {
   outline: none;
   width: 100%;
   border-radius: 0.4em;
+  resize: none;
+}
+
+.inputBoksSoknad {
+  display: flex; /* Legger ikonene og inputfeltene ved siden av hverandre*/
+  max-width: 20,4em; /* Angir bredde for inputfeltene  */
+  margin-bottom: 0.8em; /* Lager luft under hver inputfelt */
 }
 
 .soknad_knapp {
