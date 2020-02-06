@@ -22,28 +22,7 @@ if ($_SESSION['idbruker'] == $_GET['bruker']) {
 // Oppdater profilbilde //
 // -------------------- //
 if (isset($_POST['endreBilde'])) {
-    if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
-        // Kombinerer artikkel med idbruker
-        $navn = "bruker" . $_SESSION['idbruker'];
-        // Henter filtypen
-        $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
-        // Kombinerer navnet med filtypen
-        $bildenavn = $navn . $filtype;
-        // Selve prosessen som flytter bildet til bestemt lagringsplass
-        move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
-        }
 
-        // Legger til bildet i databasen, dette kan være sin egne spørring
-        $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
-        $nyttBildeSTMT = $db->prepare($nyttBildeQ);
-        $nyttBildeSTMT->execute();
-        // Returnerer siste bildeid'en
-        $bildeid = $db->lastInsertId();
-        
-        // Spørringen som lager koblingen mellom bilder og bruker
-        $nyKoblingQ = "insert into bruker(bilde) values(" . $bildeid . ") where bruker=" . $_SESSION['idbruker'];
-        $nyKoblingSTMT = $db->prepare($nyKoblingQ);
-        $nyKoblingSTMT->execute();
 }
 
  //-----------------------------//
