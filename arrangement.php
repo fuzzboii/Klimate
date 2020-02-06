@@ -316,7 +316,7 @@ if(isset($_POST['paameld'])) {
                         $hentEierSTMT->execute();
                         $arrangementEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
                         
-                        if ($arrangementEier )
+                        if ($arrangementEier) {}
                         ?>
                         <form method="POST" action="arrangement.php">
                             <input id="arrangement_slettKnapp" type="submit" name="slettDenne" value="Slett dette arrangementet">
