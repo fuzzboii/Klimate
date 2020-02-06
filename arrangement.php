@@ -399,13 +399,17 @@ if(isset($_POST['paameld'])) {
                 
                 <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                     <h1>Arrangementer</h1>
-                    <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
-                    <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
-                        <img src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
-                    </a>
-                    <?php } ?>
                 </header>
                 <main id="arrangement_main" onclick="lukkHamburgerMeny()">
+                    <section id="arrangement_redpanel">
+                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
+                        <a href="arrangement.php?nyarrangement"><p>Nytt arrangement</p></a>
+                        <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
+                            <img src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
+                        </a>
+                        <?php } ?>
+                    </section>
+                    
                 <?php if ($resAntall > 0 ) { ?>
                     <?php for ($j = 0; $j < count($resArr); $j++) {
                         // Hvis rest av $j delt på 8 er 0, start section (Ny side)
