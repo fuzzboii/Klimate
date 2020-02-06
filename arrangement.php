@@ -112,12 +112,26 @@ if(isset($_POST['paameld'])) {
         $avmeldingSTMT->execute();
         
     }
-
-    //header("Location: arrangement.php?arrangement=" . $_GET['arrangement']);
 }
 
 if (isset($_POST['slettDenne'])) {
+    // Begynner med å slette referansen til bildet arrangementet har
+    $slettBildeQ = "delete from eventbilde where event = " . $_POST['slettDenne'];
+    $slettBildeSTMT = $db->prepare($slettBildeQ);
+    $slettBildeSTMT->execute();
 
+    // Sletter så arrangementet
+    $slettingQ = "delete from event where idevent = " . $_POST['slettDenne'];
+    $slettingSTMT= $db->prepare($slettingQ);
+    $slettingSTMT->execute();
+
+    $antallSlettet = $slettingSTMT->rowCount();
+
+    if ($antallSlettet > 0) {
+        header('location: arrangement.php?slettingok');
+    } else {
+        header('location: arrangement.php?slettingfeil');
+    }
 }
 
 ?>
@@ -326,8 +340,8 @@ if (isset($_POST['slettDenne'])) {
                                 <section id="arrangement_bekreftSlettInnhold">
                                     <h2>Sletting</h2>
                                     <p>Er du sikker på av du vil slette dette arrangementet?</p>
-                                    <form method="POST" action="konto.php">
-                                        <button id="arrangement_slettKnapp" name="slettMeg">Slett</button>
+                                    <form method="POST" action="arrangement.php">
+                                        <button id="arrangement_slettKnapp" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
                                     </form>
                                     <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>
                                 </section>
@@ -421,6 +435,8 @@ if (isset($_POST['slettDenne'])) {
                         </a>
                         <?php } ?>
                     </section>
+                    <?php if(isset($_GET['slettingok'])) { ?> <p id="mldOK">Du har slettet arrangementet</p> <?php } ?>
+                    <?php if(isset($_GET['slettingfeil'])) { ?> <p id="mldFEIL">Kunne ikke slette arrangement</p> <?php } ?>
                     
                 <?php if ($resAntall > 0 ) { ?>
                     <?php for ($j = 0; $j < count($resArr); $j++) {
