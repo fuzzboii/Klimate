@@ -299,15 +299,16 @@ if (isset($_POST['publiserArtikkel'])) {
         
                     <header class="artikkel_header" onclick="lukkHamburgerMeny()">
                         <h1>Artikler</h1>
-                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
-                        <a href="artikkel.php?nyartikkel" tabindex="-1"> <!-- VIKTIG, tabindex -->
-                            <img src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
-                        </a>
-                        <?php } ?>
                     </header>
                     <main id="artikkel_main" onclick="lukkHamburgerMeny()">
-
-                    
+                        <section id="artikkel_redpanel">
+                            <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
+                            <a href="arrangement.php?nyartikkel"><p>Ny artikkel</p></a>
+                            <a href="artikkel.php?nyartikkel" tabindex="-1"> <!-- VIKTIG, tabindex -->
+                                <img src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
+                            </a>
+                            <?php } ?>
+                        </section>
                     <?php if ($resAntall > 0 ) { ?>
                         <?php for ($j = 0; $j < count($resArt); $j++) {
                             // Hvis rest av $j delt på 8 er 0, start section (Ny side)
