@@ -9,14 +9,14 @@ include("innstillinger.php");
 //------------------------------//
 // Test om man ser egen profil  //
 //------------------------------//
-
-$egen = false;
-
-if (isset($_SESSION['idbruker'])) {
-    if ($_SESSION['idbruker'] == $_GET['bruker']) {
-        $egen = true;
-    }
+// Bruker ikke innlogget
+if (!isset($_SESSION['idbruker'])) {
+    header('Location: default.php');
 }
+
+if ($_SESSION['idbruker'] == $_GET['bruker']) {
+    $egen = true;
+    } else $egen = false;
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
@@ -94,7 +94,7 @@ $stmtBrukernavnProfil = $db->prepare($hentBrukernavnProfil);
 $stmtBrukernavnProfil->execute();
 $brukernavnProfil = $stmtBrukernavnProfil->fetch(PDO::FETCH_ASSOC);
 // Imploder. But why? Er det noe på slutten av arrayet som telles opp, og som ikke kan konverteres til streng?
-$brukernavnProfil = implode ("", $brukernavnProfil);
+if (isset($brukernavnProfil)) $brukernavnProfil = implode ("", $brukernavnProfil);
 
 //---------------------------------------------------------------//
 // Henting av navn/tlf/mail, avhengig av brukerens innstillinger //
