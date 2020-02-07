@@ -346,7 +346,7 @@ if ($tellingArrangement > 0) {
                             if(file_exists("$lagringsplass/$testPaa")) {   
                                 if ($_SESSION['brukertype'] == 2) { ?>
                                     <!-- Setter redaktør border "Oransje" -->
-                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid green;">
                                 
                                 <?php 
                                 }
@@ -363,7 +363,7 @@ if ($tellingArrangement > 0) {
                             } else { 
                                 // Om filen ikke ble funnet, vis standard profilbilde
                                 if ($_SESSION['brukertype'] == 2) { ?>
-                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
                                 <!-- Setter administrator border "Rød" -->
                                 <?php } else if ($_SESSION['brukertype'] == 1) { ?>
                                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
@@ -379,7 +379,7 @@ if ($tellingArrangement > 0) {
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
                             <!-- Setter redaktør border "Oransje" -->
                             <?php if ($_SESSION['brukertype'] == 2) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
                             <!-- Setter administrator border "Rød" -->
                             <?php } else if ($_SESSION['brukertype'] == 1) { ?>
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
@@ -422,6 +422,15 @@ if ($tellingArrangement > 0) {
                 <section class="hamburgerInnhold">
                     <?php if (isset($_SESSION['idbruker'])) { ?>
                         <!-- Hva som vises om bruker er innlogget -->
+                        
+                        <!-- Redaktør meny "Oransje" -->
+                        <?php if ($_SESSION['brukertype'] == 2) { ?>
+                            <p style="color: green"> Innlogget som Redaktør </p>
+                        <!-- Administrator meny "Rød" -->
+                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                            <p style="color: red"> Innlogget som Administrator </p>
+                        <?php } ?>
+
                         <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                         <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
@@ -498,9 +507,19 @@ if ($tellingArrangement > 0) {
                                 } // Slutt, ytre løkke
                             } ?> <!-- Slutt, IF-test -->
                         </section>
-
                         <!-- Del for å legge til interesser -->
                         <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+
+                        <!-- Slettemodus -->
+                        <?php if ($egen) { ?>
+                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <?php if(!isset($_POST['slettemodus'])) { ?>
+                                <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse">
+                            <?php } else { ?> 
+                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
+                            <?php } ?>
+                        </form>
+                        <?php } ?>
                         
                         <?php if($egen) { ?>
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
@@ -519,19 +538,7 @@ if ($tellingArrangement > 0) {
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til"></input>
                             </form>
-                        <?php } ?> <!-- Slutt, IF-test -->
-
-                        <!-- Slettemodus -->
-                        <?php if ($egen) { ?>
-                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <?php if(!isset($_POST['slettemodus'])) { ?>
-                                <input class="profil_knapp" type="submit" name="slettemodus" value="Slett interesse">
-                            <?php } else { ?> 
-                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
-                            <?php } ?>
-                        </form>
-                        <?php } ?>
-                        
+                        <?php } ?> <!-- Slutt, IF-test -->                
                     </section> 
                     
                     <!-- tilbake knapp -->
