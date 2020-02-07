@@ -65,12 +65,30 @@ if (isset($_POST['loggUt'])) {
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                            <!-- Setter redaktør border "Oransje" -->
+                            <?php if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                            <?php } ?>
                         </a>
 
                     <?php } else { ?>
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+                            <!-- Setter redaktør border "Oransje" -->
+                            <?php if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                            <?php } ?>
                         </a>
 
                     <?php } ?>

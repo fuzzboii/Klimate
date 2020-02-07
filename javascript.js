@@ -446,12 +446,16 @@ function visPassord(hentet) {
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 function visAvmeld(valg) {
-  var knapp = document.getElementById("arrangement_paameldt");
   if(valg == "Avmeld") {
     document.getElementById("arrangement_paameldt").innerHTML = "Avmeld";
   } else if(valg == "Paameld") {
     document.getElementById("arrangement_paameldt").innerHTML = "Påmeldt";
   }
+}
+
+function visSlett() {
+  slettverdi = document.getElementsByClassName("slett");
+  slettverdi.value = "Slett";
 }
 
 /* Denne siden er utviklet av Robin Kleppang, sist endret 13.11.2019 */

@@ -334,14 +334,32 @@ if ($tellingArrangement > 0) {
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                            <!-- Setter redaktør border "Oransje" -->
+                            <?php if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                            <?php } ?>
                         </a>
 
                     <?php } else { ?>
-                        <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+                            <!-- Setter redaktør border "Oransje" -->
+                            <?php if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                            <?php } ?>
                         </a>
+
                     <?php } ?>
                     <!-- Legger til en knapp for å logge ut når man er innlogget -->
                     <form method="POST" action="default.php">
@@ -407,24 +425,22 @@ if ($tellingArrangement > 0) {
                     <h3>Endre profilbilde</h3>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
-                        <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
-                        <input type="submit" name="endreBilde">
+                        <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png">
+                        <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp">
                     </form>
-
-                    <h3>Vis eller skjul personalia</h3>
-                        <section class="profil_persInf">
-                        
-                            
+                    <!-- -------------------------------------------------------------------------------------------------------------- -->
+                    <!-- <h3>Vis eller skjul personalia</h3> -->
+                    <!-- <section class="profil_persInf">     -->
                         <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
                         <!-- Ikke egen profil -->
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                         <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            
-                            <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                            <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                            <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                            <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
-                        </section>
+                            <!-- <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p> -->
+                            <!-- <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p> -->
+                            <!-- <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p> -->
+                            <!-- <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p> -->
+                        <!-- </section> -->
+                    <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
@@ -436,64 +452,64 @@ if ($tellingArrangement > 0) {
                     <h2>Interesser</h2>
                     <!-- Nøstet foreach -->
                     <!-- Ytre løkke -->
-                    <section class="interesserTags">
-                    <?php if ($tellingInteresse != null) {
-                        foreach ($interesseProfil as $rad) {    
-                            foreach ($rad as $kolonne) { ?> 
-                                <!-- Test om bruker er i slettemodus -->
-                                <?php if (isset($_POST['slettemodus'])) { ?> 
-                                    <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
-                                <!-- Ellers normal visning -->
-                                <?php } else { ?> 
-                                    <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
-                                <?php } // Slutt, else løkke    
-                            } // Slutt, indre løkke
-                        } // Slutt, ytre løkke
-                    } ?> <!-- Slutt, IF-test --> 
-                    </section>
+                    <section class="interesserSection">
+                        <section class="interesserTags">
+                            <?php if ($tellingInteresse != null) {
+                                foreach ($interesseProfil as $rad) {    
+                                    foreach ($rad as $kolonne) { ?> 
+                                        <!-- Test om bruker er i slettemodus -->
+                                        <?php if (isset($_POST['slettemodus'])) { ?> 
+                                            <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett()" value="<?php echo($kolonne) ?>"></input>
+                                            <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                        <?php } else { ?> 
+                                            <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                                        <?php } // Slutt, else løkke    
+                                    } // Slutt, indre løkke
+                                } // Slutt, ytre løkke
+                            } ?> <!-- Slutt, IF-test -->
+                        </section>
 
-                    <!-- Del for å legge til interesser -->
-                    <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
-                    
-                    <?php if($egen) { ?>
-                        <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <select class="profil_input" name="interesse">
-                                <!-- Denne indexen holder styr på tilsvarende idinteresse i database -->
-                                <?php $index=1 ?>
-                                <?php foreach($interesse as $rad) {
-                                    foreach($rad as $option) { ?>
-                                        <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
-                                        <?php $index++ ?>
-                                    <?php } // Slutt, indre løkke
-                                } ?> <!-- Slutt, ytre løkke -->
-                            </select>
-                            <input class="profil_knapp" type="submit" value="Legg til"></input>
+                        <!-- Del for å legge til interesser -->
+                        <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+                        
+                        <?php if($egen) { ?>
+                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                                <select class="profil_input" name="interesse">
+                                    <?php $index=1 ?>
+                                    <?php foreach($interesse as $rad) {
+                                        foreach($rad as $option) { ?>
+                                            <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
+                                            <?php $index++ ?>
+                                        <?php } // Slutt, indre løkke
+                                    } ?> <!-- Slutt, ytre løkke -->
+                                    
+                                </select>
+                                <input class="profil_knapp" type="submit" value="Legg til"></input>
+                            </form>
+
+                            <!-- Egendefinert interesse -->
+                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                                <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
+                                <input class="profil_knapp" type="submit" value="Legg til"></input>
+                            </form>
+                        <?php } ?> <!-- Slutt, IF-test -->
+
+                        <!-- Slettemodus -->
+                        <?php if ($egen) { ?>
+                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <?php if(!isset($_POST['slettemodus'])) { ?>
+                                <input class="profil_knapp" type="submit" name="slettemodus" value="Slett interesse">
+                            <?php } else { ?> 
+                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
+                            <?php } ?>
                         </form>
-
-                        <!-- Egendefinert interesse -->
-                        <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                            <p id="mldFeil">Denne interessen er allerede registrert!</p>
                         <?php } ?>
-                        <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <input class="profil_input" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
-                            <input class="profil_knapp" type="submit" value="Legg til"></input>
-                        </form>
-                    <?php } ?> <!-- Slutt, IF-test -->
-
-                    <!-- Slettemodus -->
-                    <?php if ($egen) { ?>
-                    <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                        <?php if(!isset($_POST['slettemodus'])) { ?>
-                            <input class="profil_knapp" type="submit" name="slettemodus" value="Slett">
-                        <?php } else { ?> 
-                            <input class="profil_knapp" type="submit" name="avbryt" value="Avbryt"> 
-                        <?php } ?>
-                    </form>
-                    <?php } ?>
+                        
+                    </section> 
                     
                     <!-- tilbake knapp -->
                     <?php if($egen) {?>
-                            <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Tilbake</button>
+                            <p onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Tilbake</p>
                     <?php }?>
 
                 </main>
@@ -534,7 +550,7 @@ if ($tellingArrangement > 0) {
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } if($egen) {?>
-                                    <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</button>
+                                <p onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Rediger informasjon</p>
                         <?php } ?>
                         
                         
@@ -546,7 +562,6 @@ if ($tellingArrangement > 0) {
                         <h3>Oversikt</h3>
                         <section class="profil_persInf">
                         
-                            
                         <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
                         <!-- Ikke egen profil -->
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
@@ -579,7 +594,7 @@ if ($tellingArrangement > 0) {
                                     <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>"></input>
                                 <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
                                 <?php } else { ?> 
-                                    <p onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
+                                    <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
                                 <?php } // Slutt, else løkke    
                             } // Slutt, indre løkke
                         } // Slutt, ytre løkke

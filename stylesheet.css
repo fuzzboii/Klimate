@@ -405,11 +405,6 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-/* artikkel_mainNy er gjeldende main om bruker er på delen for ny artikkel */
-#artikkel_mainNy {
-  width: 90%;
-}
-
 #artikkel_tilbKnapp, #artikkel_nesteKnapp, #artikkelValgt_tilbKnapp{
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
@@ -913,6 +908,15 @@ table {
   border-radius: 0.4em;
 }
 
+.konto_rediger_slettKnapp {
+  color: red;
+  background-color: transparent; /* Gjør knappen gjennomsiktig */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  text-align: center;
+  padding: 0; /* Hvor mye luft det skal være rundt */
+  max-width: 250px;
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for BYTT_PASSORD_MENY */
 .endrePassordMeny {
@@ -1205,12 +1209,6 @@ table {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
-
-/* arrangement_mainNy er gjeldende main om bruker er på delen for nytt arrangement */
-#arrangement_mainNy {
-  width: 90%;
-}
-
 
 #arrangement_paameldt {
   background-color: rgba(36, 209, 100, 0.637); /* bakgrunnsfarge på knapp */
@@ -1578,15 +1576,24 @@ table {
   text-align: center;
 }
 .profil_main h2 {
- border-bottom: 1px solid #000000;
+ border-bottom: 1px solid lightgrey;
  padding-bottom: 0.5em;
- margin-bottom: 0.5em;
+ margin-bottom: 0;
 }
 .profil_main h3 {
   font-weight: normal;
   font-size: 1.5em;
   margin-top: 0.3em;
-  
+  margin-bottom: 0;
+}
+.profil_main h4 {
+  font-weight: normal;
+  font-size: 1.0em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+#bildeK {
+  margin-left: 0.3em; margin-right: 0.3em;
 }
 .profil_persInf {
  display: grid;
@@ -1613,39 +1620,50 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-left: auto; margin-right: auto;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  text-align: center;
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 100%;
+  width: 80%;
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.83em; /* Font-størrelse */
+ 
 }
 /* .interesserTags {} */
 
-.interesserTags p {
-  background-color: rgb(200,218,211);
+.interesserTags .proInt {
+  background-color: transparent;
+  
   padding: 0.3em;
+  border:rgba(36, 209, 100, 0.637) solid 2px;
   border-radius: 0.7em;
-  size: medium;
+  font-size: 1em;
   text-align: center;
   margin-bottom: 0;
   margin-right: 0.5em;
   margin-top: 0.5em;
-  float: left;
-  resize: both;
+  float: left; 
+}
+
+.interesserTags {
   
-  
+  padding-bottom: 1.5em;
 }
 
 /* Interesse-tags ved sletting */
 .slett {
-  background-color: red;
-  color: white;
+  background-color: transparent;
+  color: black;
   padding: 0.3em;
-  font-size: medium;
+  border:red solid 2px;
   border-radius: 0.7em;
-  margin-left: 1em;
-  margin-bottom: 0.8em;
+  font-size: 1em;
+  text-align: center;
+  margin-bottom: 0;
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+  float: left; 
 }
 
 /* Knappene */
@@ -1662,13 +1680,58 @@ table {
   font-size: 0.80em; /* Font-størrelse */
 }
 
+.profil_knapp2 {
+  background-color: darkred; /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.80em; /* Font-størrelse */
+}
+.interesserSection {
+  display: grid;
+}
+
+.leggTilInt {
+  background-color: rgba(175, 175, 175, 0.1); 
+  color: rgb(83, 105, 104);
+  padding: 0.3em;
+  border-radius: 0.7em;
+  border: dashed 0.03em;
+  size: medium;
+  text-align: center;
+  margin-bottom: 0;
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+  float: left;
+  
+}
+
 /* Input av interesse */
 .profil_input {
-  margin-top: 0.5em;
-  margin-left: 1em;
+  margin-top: 0em;
+  
   margin-bottom: 0.5em;
   font-size: medium;
   padding: 0.4em;
+  width: 10em;
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
+.profil_inputTekst {
+  margin-top: 0em;
+  
+  margin-bottom: 0.5em;
+  font-size: medium;
+  padding: 0.4em;
+  width: 9em;
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
 .profil_main {
@@ -1689,19 +1752,13 @@ table {
   font-size: medium;
 }
 .profil_beskrivelse textarea{
-  width: 50%;
+  width: 80%;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  padding-bottom: 3em;
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-  resize: none;
-}
-
-/* input 'arkitektur' og 'egendefinert' */
-.profil_input {
-  /* Bredde justert for ikke å flytte 'legg til' submits nedover på siden */
-  /* For å minske behovet for vertikal scroll */
-  width: 10em;
+    
 }
 
 /* Tekstområdet 'om' */
@@ -1710,7 +1767,13 @@ table {
   width: 16em;
 }
 
+.profil_interesse {
+  float: right; 
+}
 
+.profil_interesse_egendefinert {
+  float: right;
+}
 
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -1733,11 +1796,6 @@ table {
   /* artikkel overskrift */
   .artikkel_overskrift {
     font-size: 1.5em;
-  }
-
-  /* Styling for ny artikkel */
-  #artikkel_mainNy, #arrangement_mainNy {
-    width: 90%;
   }
 
 }
@@ -1839,7 +1897,7 @@ table {
     max-width: 600px;
   }
   #konto_rediger_form {
-    grid-column: 1/1;
+    grid-column: 1/ 2;
   }
   #kontoRullegardin {
     display: none;
@@ -1864,10 +1922,6 @@ table {
     grid-template-columns: 1fr 1fr;
   }
 
-  /* Styling for ny artikkel og nytt arrangement */
-  #artikkel_mainNy, #arrangement_mainNy {
-    width: 40.7em;
-  }
 
 }
 
@@ -1940,6 +1994,10 @@ table {
     color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
     cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
   }
+  .konto_rediger_slettKnapp {
+    cursor: pointer; /* Når man holder over knapp, vis pointer-mus */
+  }
+
   /* Hover ved hamburger meny */
   .hamburgerInnhold a:hover {
     background-color: #f1f1f169 /* Setter fargen når man holder over menyvalget */
@@ -2076,9 +2134,15 @@ table {
     
   }
 
-  #artikkel_main {
-    grid-template-columns: 1fr 1fr 1fr; 
-    margin-left: 10em; margin-right: 10em;
+  #artikkel_main { 
+    margin-left: 10em; 
+    margin-right: 10em;
+  }
+
+  /* Styling for ny artikkel og nytt arrangement */
+  #artikkel_mainNy, #arrangement_mainNy {
+    margin-left: 10em;
+    margin-right: 10em;
   }
 
   #arrangement_nesteKnapp:hover, #arrangement_tilbKnapp:hover {
@@ -2097,7 +2161,7 @@ table {
   }
   
   /* Hover innstillinger for slett arrangement knapp */
-#konto_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover {
+  #konto_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover {
     cursor: pointer;
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126);
     transition: box-shadow 0.1s;
@@ -2155,9 +2219,44 @@ table {
   /* Styling for profil */
   .interesserTags p:hover {
     cursor: pointer;
-    box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
-    transition: box-shadow 0.2s;
+    border-color: rgba(36, 209, 100, 0.637);
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    color: #F8F7FD;
+    transition: background-color 0.2s;
   }
+
+  .slett:hover {
+    cursor: pointer;
+    border-color: red;
+    background-color: red; /* Skygge */
+    color: #F8F7FD;
+    transition: background-color 0.2s;
+  }
+
+  .profil_knapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
+  .profil_knapp2:hover {
+    cursor: pointer;
+    background-color: red; /* Skygge */
+    transition: background-color 0.2s;
+  }
+  .rediger_profil_knapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
+  .rediger_profil_knapp {
+    width: 20%;
+    margin-right: 0;
+    margin-left: auto; margin-right: auto;
+  }
+
+  .profil_persInf {
+    font-size: 1em;
+   }
 
 }
 
@@ -2225,7 +2324,20 @@ table {
   }
   #arrangement_main {
     max-width: 100em;
-    margin-left: auto; margin-right: auto;
+    margin-left: auto; 
+    margin-right: auto;
+  }
+
+  #artikkel_main {
+    max-width: 100em;
+    margin-left: auto; 
+    margin-right: auto;
+  }
+
+  #artikkel_mainNy, #arrangement_mainNy {
+    max-width: 100em;
+    margin-left: auto; 
+    margin-right: auto;
   }
 
 }

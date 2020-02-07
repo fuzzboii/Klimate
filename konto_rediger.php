@@ -195,6 +195,34 @@ if (isset($_POST['subEndring'])) {
     
 }
 
+if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnummer'])) {
+    if (isset($_POST['fnavn'])) {
+        $slettfNavnQ = "update bruker set fnavn = null where idbruker = " . $_SESSION['idbruker'];
+        $slettfNavnSTMT = $db->prepare($slettfNavnQ);
+        $slettfNavnSTMT->execute();
+
+        $_SESSION['fornavn'] = "";
+        
+    } if (isset($_POST['enavn'])) {
+        $sletteNavnQ = "update bruker set enavn = null where idbruker = " . $_SESSION['idbruker'];
+        $sletteNavnSTMT = $db->prepare($sletteNavnQ);
+        $sletteNavnSTMT->execute();
+
+        $_SESSION['etternavn'] = "";
+
+    } if (isset($_POST['telefonnummer'])) {
+
+        $slettTlfQ = "update bruker set telefonnummer = null where idbruker = " . $_SESSION['idbruker'];
+        $sletteTlfSTMT = $db->prepare($slettTlfQ);
+        $sletteTlfSTMT->execute();
+
+        $_SESSION['telefonnummer'] = "";
+
+    }
+
+    header("location: konto.php?vellykket=1");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -243,14 +271,32 @@ if (isset($_POST['subEndring'])) {
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                        <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_navmeny">
+                        <!-- Setter redaktør border "Oransje" -->
+                        <?php if ($_SESSION['brukertype'] == 2) { ?>
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                        <!-- Setter administrator border "Rød" -->
+                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                        <!-- Setter vanlig profil bilde -->
+                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                        <?php } ?>
                     </a>
 
                 <?php } else { ?>
-                    <!-- Hvis bruker ikke har noe profilbilde, bruk standard profilbilde -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                        <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
+                        <!-- Setter redaktør border "Oransje" -->
+                        <?php if ($_SESSION['brukertype'] == 2) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                        <!-- Setter administrator border "Rød" -->
+                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                        <!-- Setter vanlig profil bilde -->
+                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                        <?php } ?>
                     </a>
+
                 <?php } ?>
 
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
@@ -295,6 +341,11 @@ if (isset($_POST['subEndring'])) {
                 <section class="brukerinformasjon_rediger"> 
                     <!-- Underoverskrift -->
                     <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
+
+                    
+                    <form id="konto_rediger_formSlett" method="POST" action="konto_rediger.php" name="slettInfo">
+
+                    </form>
                     
                     <!-- Felt for brukeropplysning endringer -->
                     <form id="konto_rediger_form" method="POST" action="konto_rediger.php" class="konto_rediger_Form">
@@ -310,17 +361,23 @@ if (isset($_POST['subEndring'])) {
                         </section>    
                         <!-- Fornavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Endre fornavn</h3>
+                            <h3 class="endre_bruker_overskrift">Endre fornavn
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="fnavn" value="(Slett)">
+                            </h3>
                             <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php if($input_fornavn != "") { echo($input_fornavn); } else { echo($_SESSION['fornavn']); } ?>" placeholder="Nytt fornavn">
                         </section>
                         <!-- Etternavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Endre etternavn</h3>
+                            <h3 class="endre_bruker_overskrift">Endre etternavn
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="enavn" value="(Slett)">
+                            </h3>
                             <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php if($input_etternavn != "") { echo($input_etternavn); } else { echo($_SESSION['etternavn']); } ?>" placeholder="Nytt etternavn">
                         </section>
                         <!-- Telefonnummer -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Endre telefonnummer</h3>
+                            <h3 class="endre_bruker_overskrift">Endre telefonnummer
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="telefonnummer" value="(Slett)">
+                            </h3>
                             <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php if($input_telefonnummer != "") { echo($input_telefonnummer); } else { echo($_SESSION['telefonnummer']); } ?>" placeholder="Nytt telefonnummer">
                         </section>
                         
