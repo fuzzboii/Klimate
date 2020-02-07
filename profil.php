@@ -507,9 +507,19 @@ if ($tellingArrangement > 0) {
                                 } // Slutt, ytre løkke
                             } ?> <!-- Slutt, IF-test -->
                         </section>
-
                         <!-- Del for å legge til interesser -->
                         <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+
+                        <!-- Slettemodus -->
+                        <?php if ($egen) { ?>
+                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <?php if(!isset($_POST['slettemodus'])) { ?>
+                                <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse">
+                            <?php } else { ?> 
+                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
+                            <?php } ?>
+                        </form>
+                        <?php } ?>
                         
                         <?php if($egen) { ?>
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
@@ -528,19 +538,7 @@ if ($tellingArrangement > 0) {
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til"></input>
                             </form>
-                        <?php } ?> <!-- Slutt, IF-test -->
-
-                        <!-- Slettemodus -->
-                        <?php if ($egen) { ?>
-                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <?php if(!isset($_POST['slettemodus'])) { ?>
-                                <input class="profil_knapp" type="submit" name="slettemodus" value="Slett interesse">
-                            <?php } else { ?> 
-                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
-                            <?php } ?>
-                        </form>
-                        <?php } ?>
-                        
+                        <?php } ?> <!-- Slutt, IF-test -->                
                     </section> 
                     
                     <!-- tilbake knapp -->

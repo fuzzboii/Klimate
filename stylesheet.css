@@ -1657,7 +1657,7 @@ table {
 
 .interesserTags {
   
-  padding-bottom: 1.5em;
+  padding-bottom: 0.5em;
 }
 
 /* Interesse-tags ved sletting */
@@ -1685,7 +1685,7 @@ table {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   border-radius: 0.4em; /* Runder ut knappen */
-  width: 7em;
+  width: 6em;
 }
 
 .profil_knapp2 {
@@ -1695,10 +1695,23 @@ table {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  margin-bottom: 1.5em;
   border-radius: 0.4em; /* Runder ut knappen */
   width: 7em;
 }
+
+.profil_knapp3 {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+  border-radius: 0.4em; /* Runder ut knappen */
+  width: 7em;
+}
+
 .interesserSection {
   display: grid;
 }
@@ -2256,11 +2269,25 @@ table {
     background-color: red; /* Skygge */
     transition: background-color 0.2s;
   }
+
+  .profil_knapp3:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
+
   .rediger_profil_knapp:hover {
     cursor: pointer;
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;
   }
+
+  .rediger_profil_knapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
+
   .rediger_profil_knapp {
     width: 20%;
     margin-right: 0;
