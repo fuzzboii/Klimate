@@ -274,13 +274,13 @@ if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnum
                         if(file_exists("$lagringsplass/$testPaa")) {   
                             if ($_SESSION['brukertype'] == 2) { ?>
                                 <!-- Setter redaktør border "Oransje" -->
-                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid green;">
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 2px solid green;">
                             
                             <?php 
                             }
                             if ($_SESSION['brukertype'] == 1) { ?>
                                 <!-- Setter administrator border "Rød" -->
-                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 2px solid red;"> 
                             <?php 
                             }
                             if ($_SESSION['brukertype'] == 3) { ?> 
@@ -291,10 +291,10 @@ if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnum
                         } else { 
                             // Om filen ikke ble funnet, vis standard profilbilde
                             if ($_SESSION['brukertype'] == 2) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
                             <!-- Setter administrator border "Rød" -->
                             <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
                             <!-- Setter vanlig profil bilde -->
                             <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
@@ -307,10 +307,10 @@ if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnum
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
                         <!-- Setter redaktør border "Oransje" -->
                         <?php if ($_SESSION['brukertype'] == 2) { ?>
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
                         <!-- Setter administrator border "Rød" -->
                         <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
                         <!-- Setter vanlig profil bilde -->
                         <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
                             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
@@ -467,6 +467,6 @@ if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnum
     </body>
     
     <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Petter Fiskvik siste gang endret 04.12.2019 -->
-    <!-- Sist kontrollert av Aron Snekkestad, 09.12.2019 -->
+    <!-- Sist kontrollert av Ajdin Bajrovic, 07.02.2020 -->
 
 </html>
