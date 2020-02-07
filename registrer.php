@@ -229,7 +229,7 @@ if (isset($_POST['subRegistrering'])) {
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 07.12.2019 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 09.12.2019 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 07.02.2020 -->
+    <!-- Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 -->
 
 </html>

@@ -466,7 +466,7 @@ if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnum
         </article>
     </body>
     
-    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Petter Fiskvik siste gang endret 04.12.2019 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Petter Fiskvik siste gang endret 07.02.2020 -->
     <!-- Sist kontrollert av Ajdin Bajrovic, 07.02.2020 -->
 
 </html>

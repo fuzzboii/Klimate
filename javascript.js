@@ -561,5 +561,5 @@ function visSlett(sletteid) {
   }
 }
 
-/* Denne siden er utviklet av Robin Kleppang, sist endret 13.11.2019 */
-/* Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 11.10.2019 */
+/* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
+/* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */

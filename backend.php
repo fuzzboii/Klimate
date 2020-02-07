@@ -228,7 +228,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
         </article>   
     </body>
 
-    <!-- Denne siden er utviklet av Glenn Petter Pettersen, Robin Kleppang & Aron Snekkestad, siste gang endret 05.12.2019 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, Robin Kleppang siste gang 08.12.2019 -->
+    <!-- Denne siden er utviklet av Glenn Petter Pettersen, Robin Kleppang & Aron Snekkestad, siste gang endret 07.02.2020 -->
+    <!-- Denne siden er kontrollert av Robin Kleppang siste gang 07.02.2020 -->
 
 </html>

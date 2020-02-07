@@ -233,6 +233,6 @@ if (isset($_POST['submit'])) {
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang og Glenn Petter Pettersen, siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang xx.xx.xxxx -->
+    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 07.02.2020 -->
 
 </html>

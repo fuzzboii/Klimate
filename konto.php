@@ -249,7 +249,7 @@ if (isset($_POST['avregistrerMeg'])) {
     </body>
 
     
-<!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 02.12.2019 -->
-<!-- Sist kontrollert av Robin Kleppang, siste gang 09.12.2019 -->
+<!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 07.02.2020 -->
+<!-- Sist kontrollert av Robin Kleppang, siste gang 07.02.2020 -->
 
 </html>
