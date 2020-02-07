@@ -18,7 +18,7 @@ class mysqlPDO extends PDO {
 class mysqlPDO extends PDO {
     public function __construct() {
         $drv = 'mysql';
-        $hst = 's120.hbv.no'; // eller ''
+        $hst = '128.39.19.159'; // eller 's120.hbv.no'
         $usr = 'usr_klima';
         $pwd = 'pw_klima';
         $sch = 'klima';
