@@ -1675,13 +1675,12 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
-  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 0.80em; /* Font-størrelse */
+  width: 7em;
 }
 
 .profil_knapp2 {
@@ -1694,7 +1693,6 @@ table {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 0.80em; /* Font-størrelse */
 }
 .interesserSection {
   display: grid;
@@ -1752,8 +1750,6 @@ table {
 .profil_beskrivelse textarea, .profil_beskrivelse input {
   display: block;
   margin-left: 0em; margin-bottom: 0.2em;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: medium;
 }
 .profil_beskrivelse textarea{
   width: 80%;
