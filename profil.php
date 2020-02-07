@@ -9,17 +9,12 @@ include("innstillinger.php");
 //------------------------------//
 // Test om man ser egen profil  //
 //------------------------------//
-/*
-// Bruker ikke innlogget
-if (!isset($_SESSION['idbruker'])) {
-    // Sendes til forsiden
-    header('Location: default.php');
-}
-*/
 
 if (isset($_SESSION['idbruker']) && $_SESSION['idbruker'] == $_GET['bruker']) {
     $egen = true;
-    } else $egen = false;
+} else {
+    $egen = false;
+};
 
 // -------------------- //
 // Oppdater profilbilde //
