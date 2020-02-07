@@ -660,6 +660,7 @@ footer a {
 }
 
 #backend_main {
+  display: grid;
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -670,7 +671,7 @@ footer a {
 
 #backend_main article h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
-  margin-top: 1em;
+  margin-top: 0;
   padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
   padding-bottom: 0.8em;
   background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
@@ -1812,7 +1813,7 @@ table {
   }
 
   #backend_main {
-    column-count: 2; 
+    grid-template-columns: 1fr 1fr;
   }
   #bgcont3 {
     break-before: column;
@@ -2269,7 +2270,7 @@ table {
   }
   
   #backend_main {
-    column-count: 3;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   #bgcont2 {
