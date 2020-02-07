@@ -2452,6 +2452,10 @@ table {
     content: " (" attr(onclick) ") ";
   }
 
+  .rediger_profil_knapp, .rediger_konto_knapp {
+    display: none;
+  }
+
   /* Viser fulle lenken til sider på print */
   a::after {
     content: " (" attr(href) ") ";
