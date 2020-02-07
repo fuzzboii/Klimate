@@ -166,7 +166,20 @@ if (isset($_POST['slettDenne'])) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Arrangementer</title>
+        <title>
+            <?php
+                if(isset($_GET['nyarrangement'])) { ?>
+                    Nytt arrangement
+                <?php } else if (isset($_GET['arrangement'])) {
+                    $hentTittelQ = "select eventnavn from event where idevent = " . $_GET['arrangement'];
+                    $hentTittelSTMT = $db -> prepare($hentTittelQ);
+                    $hentTittelSTMT->execute();
+                    $arrangement_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
+                    echo($arrangement_title['eventnavn']);
+                } else { ?>
+                    Arrangementer
+            <?php } ?>
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
