@@ -73,8 +73,6 @@ if (isset($_POST['publiserArrangement'])) {
                                 // Selve prosessen som flytter bildet til bestemt lagringsplass
                                 if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
                                     $harbilde = true;
-                                } else {
-                                    // Feilmelding her
                                 }
                             }
                             if ($harbilde == true) {
@@ -90,6 +88,13 @@ if (isset($_POST['publiserArrangement'])) {
                                 $nyKoblingSTMT = $db->prepare($nyKoblingQ);
                                 $nyKoblingSTMT->execute();
                             }
+                            
+                            // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+                            unset($_SESSION['input_tittel']);
+                            unset($_SESSION['input_innhold']);
+                            unset($_SESSION['input_tidspunkt']);
+                            unset($_SESSION['input_adresse']);
+                            unset($_SESSION['input_fylke']);
 
                             header('Location: arrangement.php?arrangement=' . $idevent);
                         } else { header('Location: arrangement.php?nyarrangement=error6'); } // Fylke ikke oppgitt
@@ -198,7 +203,7 @@ if (isset($_POST['slettDenne'])) {
             </a>
             <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
             <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-            <?php if (isset($_SESSION['brukernavn'])) {
+            <?php if (isset($_SESSION['idbruker'])) {
                 // Vises når bruker er innlogget
 
                 /* -------------------------------*/
@@ -297,7 +302,7 @@ if (isset($_POST['slettDenne'])) {
             <!-- innholdet i hamburger-menyen -->
             <!-- -1 tabIndex som standard da menyen er lukket -->
             <section class="hamburgerInnhold">
-                <?php if (isset($_SESSION['brukernavn'])) { ?>
+                <?php if (isset($_SESSION['idbruker'])) { ?>
                     <!-- Hva som vises om bruker er innlogget -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
@@ -410,7 +415,7 @@ if (isset($_POST['slettDenne'])) {
                         </section>
                         <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
                         <?php 
-                        if(isset($_SESSION['brukernavn'])) {
+                        if(isset($_SESSION['idbruker'])) {
                             $hentEierQ = "select idbruker from event where idbruker = " . $_SESSION['idbruker'] . " and idevent = " . $_GET['arrangement'];
                             $hentEierSTMT = $db->prepare($hentEierQ);
                             $hentEierSTMT->execute();
@@ -599,7 +604,7 @@ if (isset($_POST['slettDenne'])) {
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>
         </footer>
     </body>
