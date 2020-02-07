@@ -32,6 +32,29 @@ if (isset($_POST['endreBilde'])) {
         // Kombinerer navnet med filtypen
         $bildenavn = $navn . $filtype;
         // Selve prosessen som flytter bildet til bestemt lagringsplass
+        // Test om det finnes en fil med samme navn
+        // Opprett navn med de 3 ulike filtypene
+        $navnjpg = $navn . ".jpg";
+        $navnjpeg = $navn . ".jpeg";
+        $navnpng = $navn . ".png";
+        // Test på .jpg
+        if(file_exists("$lagringsplass/$navnjpg")) {
+            echo ".jpg";
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnjpg");
+            $bildenavnGammelt = $navn . "jpg";
+        } elseif(file_exists("$lagringsplass/$navnjpeg")) { // ... .jpeg
+            echo ".jpeg";
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnjpeg");
+            $bildenavnGammelt = $navn . "jpeg";
+        } elseif (file_exists("$lagringsplass/$navnpng")) { // ... .png
+            echo ".png";
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnpng");
+            $bildenavnGammelt = $navn . "png";
+        }
+        // Last opp
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
 
         
@@ -45,17 +68,18 @@ if (isset($_POST['endreBilde'])) {
         if ($antallBilderFunnet != 0) {
             // Hvis brukeren har et bilde fra før:
             // Slett det gamle bildet fra databasen først
-            $slettBilde = "delete from bilder where hvor='" . $bildenavn . '';
+            $slettBilde = "delete from bilder where hvor='" . $bildenavnGammelt . "'";
             $stmtSlettBilde = $db->prepare($slettBilde);
             $stmtSlettBilde->execute();
             // Legger til bildet i databasen
             $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
             $nyttBildeSTMT = $db->prepare($nyttBildeQ);
             $nyttBildeSTMT->execute();
-            // Returnerer siste bildeid'en
+            // Returnerer siste bildeid. Last insert id svarer til bildet vi håndterer
             $bildeid = $db->lastInsertId();
+            echo $bildeid;
             // Brukerbilde må oppdateres, på raden til brukeren
-            $nyKoblingQ = "update brukerbilde set bilde='" . $bildeid . "' where bruker ='" . $_SESSION['idbruker'] . "'";
+            $nyKoblingQ = "update brukerbilde set bilde='" . $bildeid . "' where bruker='" . $_SESSION['idbruker'] . "'";
             $nyKoblingSTMT = $db->prepare($nyKoblingQ);
             $nyKoblingSTMT->execute();  
         } else {
@@ -64,7 +88,7 @@ if (isset($_POST['endreBilde'])) {
             $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
             $nyttBildeSTMT = $db->prepare($nyttBildeQ);
             $nyttBildeSTMT->execute();
-            // Returnerer siste bildeid'en
+            // Returnerer siste bildeid
             $bildeid = $db->lastInsertId();
             // Lag en kobling mellom bilder og brukerbilde
             $nyKoblingQ = "insert into brukerbilde(bruker, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
