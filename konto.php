@@ -52,7 +52,7 @@ if (isset($_POST['avregistrerMeg'])) {
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop">
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="6">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
                 <!-- Profilbilde i navmenyen, leder til profil-siden -->
@@ -73,7 +73,7 @@ if (isset($_POST['avregistrerMeg'])) {
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
                         <?php
                         $testPaa = $bilde['hvor'];
                         // Tester på om filen faktisk finnes
@@ -110,7 +110,7 @@ if (isset($_POST['avregistrerMeg'])) {
                     </a>
 
                 <?php } else { ?>
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
                         <!-- Setter redaktør border "Oransje" -->
                         <?php if ($_SESSION['brukertype'] == 2) { ?>
                             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
@@ -127,15 +127,15 @@ if (isset($_POST['avregistrerMeg'])) {
 
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
                 <form method="POST" action="default.php">
-                    <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
+                    <button name="loggUt" id="backendLoggUt" tabindex="4">LOGG UT</button>
                 </form>
 
                 <form id="sokForm_navmeny" action="sok.php">
                     <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                     <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
                 </form>
-                <a href="javascript:void(0)" onClick="location.href='sok.php'">
-                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
+                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
                 </a>
                 <!-- Logoen øverst i venstre hjørne -->
                 <a href="default.php" tabindex="1">
