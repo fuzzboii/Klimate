@@ -622,7 +622,7 @@ $tabindex = 8;
         </footer>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret xx.xx.xxxx -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang xx.xx.xxxx -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic siste gang endret 07.02.2020 -->
+    <!-- Denne siden er kontrollert av Ajdin Bajrovic, siste gang 07.02.2020 -->
 
 </html>

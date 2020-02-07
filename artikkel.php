@@ -520,6 +520,6 @@ $tabindex = 8;
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, Aron Snekkestad, Ajdin Bajrovic siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 07.02.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 07.02.2020 -->
 
 </html>
