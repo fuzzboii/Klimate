@@ -350,9 +350,15 @@ if (isset($_POST['slettDenne'])) {
                         <!-- -----------------påklikket arrangement---------------------  -->
                         <section id="arrangement_omEvent">
                             <section id="argInf_meta">
-                            <?php if ($antallBilderFunnet != 0) { ?>
-                                <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                                <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                            <?php if ($antallBilderFunnet != 0) {
+                                // Tester på om filen faktisk finnes
+                                $testPaa = $bilde['hvor'];
+                                if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                    <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
+                                    <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                                <?php } else { ?>
+                                    <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                <?php } ?>
                             <?php } else { ?>
                                 <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
@@ -533,10 +539,16 @@ if (isset($_POST['slettDenne'])) {
                                 if (!$resBilde) { ?>
                                     <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
                                     <img class="arrangement_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                                <?php } else { ?>
-                                    <!-- Arrangementbilde som resultat av spørring -->
-                                    <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
-                                <?php } ?>
+                                <?php } else {
+                                    // Tester på om filen faktisk finnes
+                                    $testPaa = $resBilde['hvor'];
+                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                        <!-- Arrangementbilde som resultat av spørring -->
+                                        <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <?php } else { ?>
+                                        <img class="arrangement_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <?php }
+                                } ?>
                             </figure>
 
                             <p class="arrangement_tidspunkt">

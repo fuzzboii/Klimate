@@ -300,10 +300,9 @@ if (isset($_POST['slettDenne'])) {
                         // Del for å vise en spesifik artikkel
                         // Henter bilde fra database utifra artikkelid
                         $hentBilde = "select hvor 
-                                        from artikkel, artikkelbilde, bilder 
-                                        where artikkel.idartikkel =" . $_GET['artikkel'] . "
-                                        and artikkel.idartikkel = artikkelbilde.idartikkel 
-                                        and bilder.idbilder = artikkelbilde.idbilde";
+                                        from artikkelbilde, bilder 
+                                            where artikkelbilde.idartikkel =" . $_GET['artikkel'] . "
+                                                and bilder.idbilder = artikkelbilde.idbilde";
                         $stmtBilde = $db->prepare($hentBilde);
                         $stmtBilde->execute();
                         $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -316,7 +315,11 @@ if (isset($_POST['slettDenne'])) {
                         <?php if ($antallBilderFunnet != 0) { ?>
                             <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
                             <section class="bildeArtikkelSeksjon">
-                                <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
+                                <?php // Tester på om filen faktisk finnes
+                                $testPaa = $bilde['hvor'];
+                                if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                    <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
+                                <?php } ?>
 
                             </section>
                         <?php } ?>
@@ -442,10 +445,16 @@ if (isset($_POST['slettDenne'])) {
                                     if (!$resBilde) { ?>
                                         <!-- Standard atikkelbilde om redaktør ikke har lastet opp noe enda -->
                                         <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                                    <?php } else { ?>
-                                        <!-- Artikkeltbilde som resultat av spørring -->
-                                        <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArt[$j]['eventnavn'])?>">
-                                    <?php } ?>
+                                    <?php } else {
+                                        // Tester på om filen faktisk finnes
+                                        $testPaa = $resBilde['hvor'];
+                                        if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                            <!-- Artikkeltbilde som resultat av spørring -->
+                                            <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                        <?php } else { ?>
+                                            <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <?php }
+                                    } ?>
                                 </figure>
                                 <!-- brukerens profilbilde -->
                                 <!-- blir hentet fram avhengig av hvilken bruker som har skrevet artikkelen -->
