@@ -296,7 +296,7 @@ $tabindex = 7;
                         if ($j % 8 == 0) { ?>
                             <section class="side_sok">
                         <?php $antallSider++; } $avsluttTag++; ?>
-                            <section id="sok_enterKnapp<?php echo($tabindex);?>" class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resBr[$j]['idbruker']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
+                            <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resBr[$j]['idbruker']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                                 <figure class="infoBoksBr_sok">
                                     <?php // Henter bilde til bruker
                                     $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resBr[$j]['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
@@ -452,7 +452,7 @@ $tabindex = 7;
                         if ($j % 8 == 0) { ?>
                             <section class="side_sok">
                         <?php $antallSider++; } $avsluttTag++; ?>
-                        <section id="sok_enterKnapp<?php echo($tabindex);?>" class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
+                        <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                             <figure class="infoBoksArt_sok">
                                 <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
@@ -614,7 +614,7 @@ $tabindex = 7;
                         if ($j % 8 == 0) { ?>
                             <section class="side_sok">
                         <?php $antallSider++; } $avsluttTag++; ?>
-                        <section id="sok_enterKnapp<?php echo($tabindex);?>" class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
+                        <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                             <figure class="infoBoksArr_sok">
 
                                 <?php // Henter bilde til arrangementet
