@@ -656,7 +656,7 @@ if ($tellingArrangement > 0) {
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 05.02.2020 -->
-    <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 29.01.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 07.02.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 07.02.2020 -->
 
 </html>
