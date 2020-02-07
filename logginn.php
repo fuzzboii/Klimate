@@ -7,10 +7,8 @@ session_start();
 include("innstillinger.php");
 
 
-
-// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
-if (isset($_SESSION['brukernavn'])) {
+if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=2");
 }
 
