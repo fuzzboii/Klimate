@@ -290,6 +290,7 @@ footer a {
   width: 3em; /* Bestemmer størrelsen på profilbildet */
   height: 3em;
   float: right;
+  object-fit: cover;
   border-radius: 50%; /* For å runde av profilbildet */
 }
 #backendLoggUt {
@@ -1616,6 +1617,7 @@ table {
   width: 10em;
   height: 10em;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .rediger_profil_knapp {

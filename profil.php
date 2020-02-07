@@ -39,17 +39,14 @@ if (isset($_POST['endreBilde'])) {
         $navnpng = $navn . ".png";
         // Test på .jpg
         if(file_exists("$lagringsplass/$navnjpg")) {
-            echo ".jpg";
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpg");
             $bildenavnGammelt = $navn . "jpg";
         } elseif(file_exists("$lagringsplass/$navnjpeg")) { // ... .jpeg
-            echo ".jpeg";
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpeg");
             $bildenavnGammelt = $navn . "jpeg";
         } elseif (file_exists("$lagringsplass/$navnpng")) { // ... .png
-            echo ".png";
             // Dropp i så fall
             unlink("$lagringsplass/$navnpng");
             $bildenavnGammelt = $navn . "png";
@@ -77,7 +74,6 @@ if (isset($_POST['endreBilde'])) {
             $nyttBildeSTMT->execute();
             // Returnerer siste bildeid. Last insert id svarer til bildet vi håndterer
             $bildeid = $db->lastInsertId();
-            echo $bildeid;
             // Brukerbilde må oppdateres, på raden til brukeren
             $nyKoblingQ = "update brukerbilde set bilde='" . $bildeid . "' where bruker='" . $_SESSION['idbruker'] . "'";
             $nyKoblingSTMT = $db->prepare($nyKoblingQ);
