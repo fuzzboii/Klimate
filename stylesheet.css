@@ -290,6 +290,7 @@ footer a {
   width: 3em; /* Bestemmer størrelsen på profilbildet */
   height: 3em;
   float: right;
+  object-fit: cover;
   border-radius: 50%; /* For å runde av profilbildet */
 }
 #backendLoggUt {
@@ -321,6 +322,7 @@ footer a {
 }
 
 #default_main {
+  display: grid;
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -331,7 +333,7 @@ footer a {
 
 #default_main article h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
-  margin-top: 1em;
+  margin-top: 0;
   padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
   padding-bottom: 0.8em;
   background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
@@ -659,6 +661,7 @@ footer a {
 }
 
 #backend_main {
+  display: grid;
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -669,7 +672,7 @@ footer a {
 
 #backend_main article h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
-  margin-top: 1em;
+  margin-top: 0;
   padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
   padding-bottom: 0.8em;
   background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
@@ -1578,13 +1581,13 @@ table {
 .profil_main h2 {
  border-bottom: 1px solid lightgrey;
  padding-bottom: 0.5em;
- margin-bottom: 0;
+ margin-bottom: 0.2em;
 }
 .profil_main h3 {
   font-weight: normal;
   font-size: 1.5em;
   margin-top: 0.3em;
-  margin-bottom: 0;
+  margin-bottom: 0.2em;
 }
 .profil_main h4 {
   font-weight: normal;
@@ -1614,6 +1617,7 @@ table {
   width: 10em;
   height: 10em;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .rediger_profil_knapp {
@@ -1671,26 +1675,24 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
-  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 0.80em; /* Font-størrelse */
+  width: 7em;
 }
 
 .profil_knapp2 {
   background-color: darkred; /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
-  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 0.80em; /* Font-størrelse */
+  width: 7em;
 }
 .interesserSection {
   display: grid;
@@ -1748,8 +1750,6 @@ table {
 .profil_beskrivelse textarea, .profil_beskrivelse input {
   display: block;
   margin-left: 0em; margin-bottom: 0.2em;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: medium;
 }
 .profil_beskrivelse textarea{
   width: 80%;
@@ -1803,18 +1803,15 @@ table {
 /* Tab */
 @media screen and (min-width: 720px) {
   #default_main {
-    column-count: 2; 
+    grid-template-columns: 1fr 1fr;
   }
 
   #soknad_main {
     column-count: 2;
   }
 
-  #artikkel3 {
-    break-before: column;
-  }
   #backend_main {
-    column-count: 2; 
+    grid-template-columns: 1fr 1fr;
   }
   #bgcont3 {
     break-before: column;
@@ -2263,19 +2260,15 @@ table {
 /* Medium skjerm, 1080p */
 @media screen and (min-width: 1920px) {
   #default_main {
-    column-count: 3;
+    grid-template-columns: 1fr 1fr 1fr
   }
 
   #soknad_main {
     column-count: 2;
   }
-
-  #artikkel4 {
-    break-before: column;
-  }
   
   #backend_main {
-    column-count: 3;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   #bgcont2 {
@@ -2345,14 +2338,11 @@ table {
 /* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
   #default_main {
-    column-count: 4;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
   #soknad_main {
     column-count: 2;
-  }
-  #artikkel2 {
-    break-before: column;
   }
 
   #artikkel_main {

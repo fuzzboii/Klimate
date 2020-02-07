@@ -18,7 +18,7 @@ if (isset($_SESSION['input_tittel'])) {
     $input_innhold = $_SESSION['input_innhold'];
     // Sletter innholdet så dette ikke eksisterer utenfor denne siden
     unset($_SESSION['input_tittel']);
-    unset($_SESSION['input_tidspunkt']);
+    unset($_SESSION['input_ingress']);
     unset($_SESSION['input_innhold']);
 }
 
@@ -83,22 +83,39 @@ if (isset($_POST['publiserArtikkel'])) {
 
 
 if (isset($_POST['slettDenne'])) {
-    // Begynner med å slette referansen til bildet artikkelen har
-    $slettBildeQ = "delete from artikkelbilde where idartikkel = " . $_POST['slettDenne'];
-    $slettBildeSTMT = $db->prepare($slettBildeQ);
-    $slettBildeSTMT->execute();
+    // Sjekker om vi fortsatt er på riktig side (Og at bruker ikke har endret IDen vi ønsker å slette selv)
+    if ($_POST['slettDenne'] == $_GET['artikkel']) {
 
-    // Sletter så artikkelen
-    $slettingQ = "delete from artikkel where idartikkel = " . $_POST['slettDenne'];
-    $slettingSTMT= $db->prepare($slettingQ);
-    $slettingSTMT->execute();
+        // Henter henvisningen til bildet fra databasen.
+        $slettBildeFQ = "select hvor from artikkelbilde, bilder where artikkelbilde.idbilde = bilder.idbilder and artikkelbilde.idartikkel = " . $_POST['slettDenne'];
+        $slettBildeFSTMT = $db->prepare($slettBildeFQ);
+        $slettBildeFSTMT->execute();
+        $bildenavn = $slettBildeFSTMT->fetch(PDO::FETCH_ASSOC); 
 
-    $antallSlettet = $slettingSTMT->rowCount();
+        $testPaa = $bildenavn['hvor'];
+        // Test om det finnes en fil med samme navn
+        if(file_exists("$lagringsplass/$testPaa")) {
+            // Sletter bildet
+            unlink("$lagringsplass/$testPaa");
+        }
 
-    if ($antallSlettet > 0) {
-        header('location: artikkel.php?slettingok');
-    } else {
-        header('location: artikkel.php?slettingfeil');
+        // Begynner med å slette referansen til bildet artikkelen har
+        $slettBildeQ = "delete from artikkelbilde where idartikkel = " . $_POST['slettDenne'];
+        $slettBildeSTMT = $db->prepare($slettBildeQ);
+        $slettBildeSTMT->execute();
+
+        // Sletter så artikkelen
+        $slettingQ = "delete from artikkel where idartikkel = " . $_POST['slettDenne'];
+        $slettingSTMT= $db->prepare($slettingQ);
+        $slettingSTMT->execute();
+
+        $antallSlettet = $slettingSTMT->rowCount();
+
+        if ($antallSlettet > 0) {
+            header('location: artikkel.php?slettingok');
+        } else {
+            header('location: artikkel.php?slettingfeil');
+        }
     }
 }
 
@@ -114,7 +131,20 @@ if (isset($_POST['slettDenne'])) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Artikler</title>
+        <title>
+            <?php
+                if(isset($_GET['nyartikkel'])) { ?>
+                    Ny artikkel
+                <?php } else if (isset($_GET['artikkel'])) {
+                    $hentTittelQ = "select artnavn from artikkel where idartikkel = " . $_GET['artikkel'];
+                    $hentTittelSTMT = $db -> prepare($hentTittelQ);
+                    $hentTittelSTMT->execute();
+                    $artikkel_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
+                    echo($artikkel_title['artnavn']);
+                } else { ?>
+                    Artikler
+            <?php } ?> 
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -133,7 +163,7 @@ if (isset($_POST['slettDenne'])) {
             </a>
             <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
             <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-            <?php if (isset($_SESSION['brukernavn'])) {
+            <?php if (isset($_SESSION['idbruker'])) {
 
                 // Vises når bruker er innlogget
 
@@ -152,16 +182,39 @@ if (isset($_POST['slettDenne'])) {
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                        <!-- Setter redaktør border "Oransje" -->
-                        <?php if ($_SESSION['brukertype'] == 2) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
-                        <!-- Setter administrator border "Rød" -->
-                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
-                        <!-- Setter vanlig profil bilde -->
-                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
-                        <?php } ?>
+                        <?php
+                        $testPaa = $bilde['hvor'];
+                        // Tester på om filen faktisk finnes
+                        if(file_exists("$lagringsplass/$testPaa")) {   
+                            if ($_SESSION['brukertype'] == 2) { ?>
+                                <!-- Setter redaktør border "Oransje" -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                            
+                            <?php 
+                            }
+                            if ($_SESSION['brukertype'] == 1) { ?>
+                                <!-- Setter administrator border "Rød" -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                            <?php 
+                            }
+                            if ($_SESSION['brukertype'] == 3) { ?> 
+                                <!-- Setter vanlig profil bilde -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                            <?php 
+                            }
+                        } else { 
+                            // Om filen ikke ble funnet, vis standard profilbilde
+                            if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                            <?php
+                            }
+                        } ?>
                     </a>
 
                 <?php } else { ?>
@@ -211,7 +264,7 @@ if (isset($_POST['slettDenne'])) {
             <!-- innholdet i hamburger-menyen -->
             <!-- -1 tabIndex som standard da menyen er lukket -->
             <section class="hamburgerInnhold">
-                <?php if (isset($_SESSION['brukernavn'])) { ?>
+                <?php if (isset($_SESSION['idbruker'])) { ?>
                     <!-- Hva som vises om bruker er innlogget -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
@@ -247,10 +300,9 @@ if (isset($_POST['slettDenne'])) {
                         // Del for å vise en spesifik artikkel
                         // Henter bilde fra database utifra artikkelid
                         $hentBilde = "select hvor 
-                                        from artikkel, artikkelbilde, bilder 
-                                        where artikkel.idartikkel =" . $_GET['artikkel'] . "
-                                        and artikkel.idartikkel = artikkelbilde.idartikkel 
-                                        and bilder.idbilder = artikkelbilde.idbilde";
+                                        from artikkelbilde, bilder 
+                                            where artikkelbilde.idartikkel =" . $_GET['artikkel'] . "
+                                                and bilder.idbilder = artikkelbilde.idbilde";
                         $stmtBilde = $db->prepare($hentBilde);
                         $stmtBilde->execute();
                         $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -263,7 +315,11 @@ if (isset($_POST['slettDenne'])) {
                         <?php if ($antallBilderFunnet != 0) { ?>
                             <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
                             <section class="bildeArtikkelSeksjon">
-                                <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
+                                <?php // Tester på om filen faktisk finnes
+                                $testPaa = $bilde['hvor'];
+                                if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                    <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
+                                <?php } ?>
 
                             </section>
                         <?php } ?>
@@ -282,7 +338,7 @@ if (isset($_POST['slettDenne'])) {
                             </section>
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 
-                            if(isset($_SESSION['brukernavn'])) {
+                            if(isset($_SESSION['idbruker'])) {
                                 $hentEierQ = "select bruker from artikkel where bruker = " . $_SESSION['idbruker'] . " and idartikkel = " . $_GET['artikkel'];
                                 $hentEierSTMT = $db->prepare($hentEierQ);
                                 $hentEierSTMT->execute();
@@ -294,7 +350,7 @@ if (isset($_POST['slettDenne'])) {
                                         <section id="artikkel_bekreftSlettInnhold">
                                             <h2>Sletting</h2>
                                             <p>Er du sikker på av du vil slette denne artikkelen?</p>
-                                            <form method="POST" action="artikkel.php">
+                                            <form method="POST" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
                                                 <button id="artikkel_bekreftSlettKnapp" name="slettDenne" value="<?php echo($_GET['artikkel']) ?>">Slett</button>
                                             </form>
                                             <button id="artikkel_avbrytKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')">Avbryt</button>
@@ -389,10 +445,16 @@ if (isset($_POST['slettDenne'])) {
                                     if (!$resBilde) { ?>
                                         <!-- Standard atikkelbilde om redaktør ikke har lastet opp noe enda -->
                                         <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                                    <?php } else { ?>
-                                        <!-- Artikkeltbilde som resultat av spørring -->
-                                        <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArt[$j]['eventnavn'])?>">
-                                    <?php } ?>
+                                    <?php } else {
+                                        // Tester på om filen faktisk finnes
+                                        $testPaa = $resBilde['hvor'];
+                                        if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                            <!-- Artikkeltbilde som resultat av spørring -->
+                                            <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                        <?php } else { ?>
+                                            <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <?php }
+                                    } ?>
                                 </figure>
                                 <!-- brukerens profilbilde -->
                                 <!-- blir hentet fram avhengig av hvilken bruker som har skrevet artikkelen -->
@@ -441,7 +503,7 @@ if (isset($_POST['slettDenne'])) {
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>
         </footer>
     </body>

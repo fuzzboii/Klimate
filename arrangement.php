@@ -73,8 +73,6 @@ if (isset($_POST['publiserArrangement'])) {
                                 // Selve prosessen som flytter bildet til bestemt lagringsplass
                                 if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
                                     $harbilde = true;
-                                } else {
-                                    // Feilmelding her
                                 }
                             }
                             if ($harbilde == true) {
@@ -90,6 +88,13 @@ if (isset($_POST['publiserArrangement'])) {
                                 $nyKoblingSTMT = $db->prepare($nyKoblingQ);
                                 $nyKoblingSTMT->execute();
                             }
+                            
+                            // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+                            unset($_SESSION['input_tittel']);
+                            unset($_SESSION['input_innhold']);
+                            unset($_SESSION['input_tidspunkt']);
+                            unset($_SESSION['input_adresse']);
+                            unset($_SESSION['input_fylke']);
 
                             header('Location: arrangement.php?arrangement=' . $idevent);
                         } else { header('Location: arrangement.php?nyarrangement=error6'); } // Fylke ikke oppgitt
@@ -115,27 +120,43 @@ if(isset($_POST['paameld'])) {
 }
 
 if (isset($_POST['slettDenne'])) {
-    // Begynner med å slette referansen til bildet arrangementet har
-    $slettBildeQ = "delete from eventbilde where event = " . $_POST['slettDenne'];
-    $slettBildeSTMT = $db->prepare($slettBildeQ);
-    $slettBildeSTMT->execute();
+    // Sjekker om vi fortsatt er på riktig side
+    if ($_POST['slettDenne'] == $_GET['arrangement']) {
+        // Henter henvisningen til bildet fra databasen.
+        $slettBildeFQ = "select hvor from eventbilde, bilder where eventbilde.bilde = bilder.idbilder and eventbilde.event = " . $_POST['slettDenne'];
+        $slettBildeFSTMT = $db->prepare($slettBildeFQ);
+        $slettBildeFSTMT->execute();
+        $bildenavn = $slettBildeFSTMT->fetch(PDO::FETCH_ASSOC); 
 
-    // Sletter alle som har meldt seg på arrangementet
-    $slettPaameldingQ = "delete from påmelding where event_id = " . $_POST['slettDenne'];
-    $slettPaameldingSTMT = $db->prepare($slettPaameldingQ);
-    $slettPaameldingSTMT->execute();
+        $testPaa = $bildenavn['hvor'];
+        // Test om det finnes en fil med samme navn
+        if(file_exists("$lagringsplass/$testPaa")) {
+            // Sletter bildet
+            unlink("$lagringsplass/$testPaa");
+        }
 
-    // Sletter så arrangementet
-    $slettingQ = "delete from event where idevent = " . $_POST['slettDenne'];
-    $slettingSTMT= $db->prepare($slettingQ);
-    $slettingSTMT->execute();
+        // Begynner med å slette referansen til bildet arrangementet har
+        $slettBildeQ = "delete from eventbilde where event = " . $_POST['slettDenne'];
+        $slettBildeSTMT = $db->prepare($slettBildeQ);
+        $slettBildeSTMT->execute();
 
-    $antallSlettet = $slettingSTMT->rowCount();
+        // Sletter alle som har meldt seg på arrangementet
+        $slettPaameldingQ = "delete from påmelding where event_id = " . $_POST['slettDenne'];
+        $slettPaameldingSTMT = $db->prepare($slettPaameldingQ);
+        $slettPaameldingSTMT->execute();
 
-    if ($antallSlettet > 0) {
-        header('location: arrangement.php?slettingok');
-    } else {
-        header('location: arrangement.php?slettingfeil');
+        // Sletter så arrangementet
+        $slettingQ = "delete from event where idevent = " . $_POST['slettDenne'];
+        $slettingSTMT= $db->prepare($slettingQ);
+        $slettingSTMT->execute();
+
+        $antallSlettet = $slettingSTMT->rowCount();
+
+        if ($antallSlettet > 0) {
+            header('location: arrangement.php?slettingok');
+        } else {
+            header('location: arrangement.php?slettingfeil');
+        }
     }
 }
 
@@ -150,7 +171,20 @@ if (isset($_POST['slettDenne'])) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Arrangementer</title>
+        <title>
+            <?php
+                if(isset($_GET['nyarrangement'])) { ?>
+                    Nytt arrangement
+                <?php } else if (isset($_GET['arrangement'])) {
+                    $hentTittelQ = "select eventnavn from event where idevent = " . $_GET['arrangement'];
+                    $hentTittelSTMT = $db -> prepare($hentTittelQ);
+                    $hentTittelSTMT->execute();
+                    $arrangement_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
+                    echo($arrangement_title['eventnavn']);
+                } else { ?>
+                    Arrangementer
+            <?php } ?>
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -169,7 +203,7 @@ if (isset($_POST['slettDenne'])) {
             </a>
             <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
             <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-            <?php if (isset($_SESSION['brukernavn'])) {
+            <?php if (isset($_SESSION['idbruker'])) {
                 // Vises når bruker er innlogget
 
                 /* -------------------------------*/
@@ -188,16 +222,39 @@ if (isset($_POST['slettDenne'])) {
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                        <!-- Setter redaktør border "Oransje" -->
-                        <?php if ($_SESSION['brukertype'] == 2) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
-                        <!-- Setter administrator border "Rød" -->
-                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
-                        <!-- Setter vanlig profil bilde -->
-                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
-                        <?php } ?>
+                        <?php
+                        $testPaa = $bilde['hvor'];
+                        // Tester på om filen faktisk finnes
+                        if(file_exists("$lagringsplass/$testPaa")) {   
+                            if ($_SESSION['brukertype'] == 2) { ?>
+                                <!-- Setter redaktør border "Oransje" -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                            
+                            <?php 
+                            }
+                            if ($_SESSION['brukertype'] == 1) { ?>
+                                <!-- Setter administrator border "Rød" -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                            <?php 
+                            }
+                            if ($_SESSION['brukertype'] == 3) { ?> 
+                                <!-- Setter vanlig profil bilde -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                            <?php 
+                            }
+                        } else { 
+                            // Om filen ikke ble funnet, vis standard profilbilde
+                            if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                            <?php
+                            }
+                        } ?>
                     </a>
 
                 <?php } else { ?>
@@ -245,7 +302,7 @@ if (isset($_POST['slettDenne'])) {
             <!-- innholdet i hamburger-menyen -->
             <!-- -1 tabIndex som standard da menyen er lukket -->
             <section class="hamburgerInnhold">
-                <?php if (isset($_SESSION['brukernavn'])) { ?>
+                <?php if (isset($_SESSION['idbruker'])) { ?>
                     <!-- Hva som vises om bruker er innlogget -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
@@ -298,9 +355,15 @@ if (isset($_POST['slettDenne'])) {
                         <!-- -----------------påklikket arrangement---------------------  -->
                         <section id="arrangement_omEvent">
                             <section id="argInf_meta">
-                            <?php if ($antallBilderFunnet != 0) { ?>
-                                <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                                <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                            <?php if ($antallBilderFunnet != 0) {
+                                // Tester på om filen faktisk finnes
+                                $testPaa = $bilde['hvor'];
+                                if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                    <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
+                                    <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                                <?php } else { ?>
+                                    <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                <?php } ?>
                             <?php } else { ?>
                                 <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
@@ -352,7 +415,7 @@ if (isset($_POST['slettDenne'])) {
                         </section>
                         <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
                         <?php 
-                        if(isset($_SESSION['brukernavn'])) {
+                        if(isset($_SESSION['idbruker'])) {
                             $hentEierQ = "select idbruker from event where idbruker = " . $_SESSION['idbruker'] . " and idevent = " . $_GET['arrangement'];
                             $hentEierSTMT = $db->prepare($hentEierQ);
                             $hentEierSTMT->execute();
@@ -364,7 +427,7 @@ if (isset($_POST['slettDenne'])) {
                                     <section id="arrangement_bekreftSlettInnhold">
                                         <h2>Sletting</h2>
                                         <p>Er du sikker på av du vil slette dette arrangementet?</p>
-                                        <form method="POST" action="arrangement.php">
+                                        <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                             <button id="arrangement_slettKnapp" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
                                         </form>
                                         <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>
@@ -481,10 +544,16 @@ if (isset($_POST['slettDenne'])) {
                                 if (!$resBilde) { ?>
                                     <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
                                     <img class="arrangement_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                                <?php } else { ?>
-                                    <!-- Arrangementbilde som resultat av spørring -->
-                                    <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
-                                <?php } ?>
+                                <?php } else {
+                                    // Tester på om filen faktisk finnes
+                                    $testPaa = $resBilde['hvor'];
+                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                        <!-- Arrangementbilde som resultat av spørring -->
+                                        <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <?php } else { ?>
+                                        <img class="arrangement_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <?php }
+                                } ?>
                             </figure>
 
                             <p class="arrangement_tidspunkt">
@@ -535,7 +604,7 @@ if (isset($_POST['slettDenne'])) {
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>
         </footer>
     </body>

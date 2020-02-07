@@ -19,7 +19,17 @@ include("innstillinger.php");
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Søk</title>
+        <title>
+            <?php if(isset($_GET['brukernavn']) || isset($_GET['epost']) || isset($_GET['interesse'])) { ?>
+                Søk på bruker
+            <?php } else if(isset($_GET['artTittel']) || isset($_GET['artForfatter'])) { ?>
+                Søk på artikkel
+            <?php } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato']) || isset($_GET['fylke'])) { ?>
+                Søk på arrangement
+            <?php } else { ?>
+                Avansert søk
+            <?php } ?>
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -38,7 +48,7 @@ include("innstillinger.php");
             </a>
             <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
             <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-            <?php if (isset($_SESSION['brukernavn'])) {
+            <?php if (isset($_SESSION['idbruker'])) {
                 // Vises når bruker er innlogget
 
                 /* -------------------------------*/
@@ -56,16 +66,39 @@ include("innstillinger.php");
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
-                        <!-- Setter redaktør border "Oransje" -->
-                        <?php if ($_SESSION['brukertype'] == 2) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
-                        <!-- Setter administrator border "Rød" -->
-                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
-                        <!-- Setter vanlig profil bilde -->
-                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
-                            <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
-                        <?php } ?>
+                        <?php
+                        $testPaa = $bilde['hvor'];
+                        // Tester på om filen faktisk finnes
+                        if(file_exists("$lagringsplass/$testPaa")) {   
+                            if ($_SESSION['brukertype'] == 2) { ?>
+                                <!-- Setter redaktør border "Oransje" -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                            
+                            <?php 
+                            }
+                            if ($_SESSION['brukertype'] == 1) { ?>
+                                <!-- Setter administrator border "Rød" -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                            <?php 
+                            }
+                            if ($_SESSION['brukertype'] == 3) { ?> 
+                                <!-- Setter vanlig profil bilde -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                            <?php 
+                            }
+                        } else { 
+                            // Om filen ikke ble funnet, vis standard profilbilde
+                            if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                            <?php
+                            }
+                        } ?>
                     </a>
 
                 <?php } else { ?>
@@ -112,7 +145,7 @@ include("innstillinger.php");
             <!-- innholdet i hamburger-menyen -->
             <!-- -1 tabIndex som standard da menyen er lukket -->
             <section class="hamburgerInnhold">
-                <?php if (isset($_SESSION['brukernavn'])) { ?>
+                <?php if (isset($_SESSION['idbruker'])) { ?>
                     <!-- Hva som vises om bruker er innlogget -->
                     <a class = "menytab" tabindex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabindex = "-1" href="artikkel.php">Artikler</a>
@@ -262,10 +295,16 @@ include("innstillinger.php");
                                     if (!$resBilde) { ?>
                                         <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
                                         <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
-                                    <?php } else { ?>
-                                        <!-- Profilbilde som resultat av spørring -->
-                                        <img class="BildeBoksBr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
-                                    <?php } ?>
+                                    <?php } else {
+                                        // Tester på om filen faktisk finnes
+                                        $testPaa = $resBilde['hvor'];
+                                        if(file_exists("$lagringsplass/$testPaa")) {  ?> 
+                                            <!-- Profilbilde som resultat av spørring -->
+                                            <img class="BildeBoksBr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
+                                        <?php } else { ?>
+                                            <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
+                                        <?php }
+                                    } ?>
                                     <p class="infoResBr_sok"><?php echo($resBr[$j]['brukernavn'])?></p>
                                 </figure>
                             </section>
@@ -733,7 +772,7 @@ include("innstillinger.php");
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2020 | <a tabindex="26" href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>
         </footer>
     </body>

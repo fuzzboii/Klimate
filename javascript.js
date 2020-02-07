@@ -453,14 +453,15 @@ function visAvmeld(valg) {
   }
 }
 
-function visSlett(test) {
-  document.getElementsByClassName("slett").value = "Slett";
-  // alert(test);
-  document.getElementById("tp").innerHTML = n;
-  alert(document.getElementsByClassName("slett")[3].value);
-
-  
-  
+function visSlett(sletteid) {
+  var slettverdi = document.getElementById(sletteid);
+  var testPaa = slettverdi.value.substring(0, 5);
+  if (testPaa != "Slett") {
+    forVerdi = slettverdi.value;
+    slettverdi.value = "Slett " + slettverdi.value;
+  } else {
+    slettverdi.value = forVerdi;
+  }
 }
 
 /* Denne siden er utviklet av Robin Kleppang, sist endret 13.11.2019 */

@@ -9,15 +9,12 @@ include("innstillinger.php");
 //------------------------------//
 // Test om man ser egen profil  //
 //------------------------------//
-// Bruker ikke innlogget
-if (!isset($_SESSION['idbruker'])) {
-    // Sendes til forsiden
-    header('Location: default.php');
-}
 
-if ($_SESSION['idbruker'] == $_GET['bruker']) {
+if (isset($_SESSION['idbruker']) && $_SESSION['idbruker'] == $_GET['bruker']) {
     $egen = true;
-    } else $egen = false;
+} else {
+    $egen = false;
+};
 
 // -------------------- //
 // Oppdater profilbilde //
@@ -25,26 +22,76 @@ if ($_SESSION['idbruker'] == $_GET['bruker']) {
 if (isset($_POST['endreBilde'])) {
     // Del for filopplastning
     if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
-        // Kombinerer artikkel med den siste idevent'en
+        // Kombinerer bruker med idbruker
         $navn = "bruker" . $_SESSION['idbruker'];
         // Henter filtypen
         $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
         // Kombinerer navnet med filtypen
         $bildenavn = $navn . $filtype;
+        // Opprettet filnavnet for bildet som skal slettes, setter denne til tom streng hvis ikke bruker har profilbilde fra før
+        $bildenavnGammelt = "";
         // Selve prosessen som flytter bildet til bestemt lagringsplass
+        // Test om det finnes en fil med samme navn
+        // Opprett navn med de 3 ulike filtypene
+        $navnjpg = $navn . ".jpg";
+        $navnjpeg = $navn . ".jpeg";
+        $navnpng = $navn . ".png";
+        // Test på .jpg
+        if(file_exists("$lagringsplass/$navnjpg")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnjpg");
+            $bildenavnGammelt = $navn . "jpg";
+        } elseif(file_exists("$lagringsplass/$navnjpeg")) { // ... .jpeg
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnjpeg");
+            $bildenavnGammelt = $navn . "jpeg";
+        } elseif (file_exists("$lagringsplass/$navnpng")) { // ... .png
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnpng");
+            $bildenavnGammelt = $navn . "png";
+        }
+        // Last opp
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
 
-        // Legger til bildet i databasen
-        $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
-        $nyttBildeSTMT = $db->prepare($nyttBildeQ);
-        $nyttBildeSTMT->execute();
-        // Returnerer siste bildeid'en
-        $bildeid = $db->lastInsertId();
         
-        // Spørringen som lager koblingen mellom bilder og bruker
-        $nyKoblingQ = "insert into brukerbilde(bruker, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
-        $nyKoblingSTMT = $db->prepare($nyKoblingQ);
-        $nyKoblingSTMT->execute();
+        // Test om brukeren har et bilde fra før
+        $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+        $stmtBilde = $db->prepare($hentBilde);
+        $stmtBilde->execute();
+        $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+        $antallBilderFunnet = $stmtBilde->rowCount();
+        // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
+        if ($antallBilderFunnet != 0) {
+            // Hvis brukeren har et bilde fra før:
+            if($bildenavnGammelt != "") {
+                // Slett det gamle bildet fra databasen først
+                $slettBilde = "delete from bilder where hvor='" . $bildenavnGammelt . "'";
+                $stmtSlettBilde = $db->prepare($slettBilde);
+                $stmtSlettBilde->execute();
+            }
+            // Legger til bildet i databasen
+            $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+            $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+            $nyttBildeSTMT->execute();
+            // Returnerer siste bildeid. Last insert id svarer til bildet vi håndterer
+            $bildeid = $db->lastInsertId();
+            // Brukerbilde må oppdateres, på raden til brukeren
+            $nyKoblingQ = "update brukerbilde set bilde='" . $bildeid . "' where bruker='" . $_SESSION['idbruker'] . "'";
+            $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+            $nyKoblingSTMT->execute();  
+        } else {
+            // Hvis brukeren ikke har et tilknyttet bilde:
+            // Legger til bildet i databasen
+            $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+            $nyttBildeSTMT = $db->prepare($nyttBildeQ);
+            $nyttBildeSTMT->execute();
+            // Returnerer siste bildeid
+            $bildeid = $db->lastInsertId();
+            // Lag en kobling mellom bilder og brukerbilde
+            $nyKoblingQ = "insert into brukerbilde(bruker, bilde) values('" . $_SESSION['idbruker'] . "', '" . $bildeid . "')";
+            $nyKoblingSTMT = $db->prepare($nyKoblingQ);
+            $nyKoblingSTMT->execute();
+        }
     }
 }
 
@@ -133,10 +180,11 @@ if ($egen) {
 //-----------------//
 if ($egen) {
     if (isset($_POST['interesseTilSletting'])) {
+        $hentetInteresse = substr($_POST['interesseTilSletting'], 6);
         // Hent tilsvarende ID
-        $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
+        $hentIdInteresse = "select idinteresse from interesse where interessenavn= '" . $hentetInteresse . "'";
         $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
-        $stmtHentIdInteresse->execute([$_POST['interesseTilSletting']]);
+        $stmtHentIdInteresse->execute();
         $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
 
         // Slett interessen
@@ -190,7 +238,7 @@ if ($tellingInteresse > 0) {
 //----------------------------------------------//
 // Hent alle interesser fra db, til en <select> //
 //----------------------------------------------//
-$hentInteresse = "select interessenavn from interesse";
+$hentInteresse = "select idinteresse, interessenavn from interesse";
 $stmtHentInteresse = $db->prepare($hentInteresse);
 $stmtHentInteresse->execute();
 $interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
@@ -246,7 +294,15 @@ if ($tellingArrangement > 0) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Profil</title>
+        <title>
+            <?php if ($egen && !isset($_GET['innstillinger'])) {
+                    echo($_SESSION['brukernavn']);
+                  } else if(isset($_GET['innstillinger'])) { ?>
+                Rediger profil
+            <?php } else { ?>
+                Profil
+            <?php } ?>
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -266,7 +322,7 @@ if ($tellingArrangement > 0) {
                 </a>
                 <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
                 <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-                <?php if (isset($_SESSION['brukernavn'])) {
+                <?php if (isset($_SESSION['idbruker'])) {
                     // Vises når bruker er innlogget
 
                     /* -------------------------------*/
@@ -284,16 +340,39 @@ if ($tellingArrangement > 0) {
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
-                            <!-- Setter redaktør border "Oransje" -->
-                            <?php if ($_SESSION['brukertype'] == 2) { ?>
-                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
-                            <!-- Setter administrator border "Rød" -->
-                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
-                            <!-- Setter vanlig profil bilde -->
-                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
-                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
-                            <?php } ?>
+                            <?php
+                            $testPaa = $bilde['hvor'];
+                            // Tester på om filen faktisk finnes
+                            if(file_exists("$lagringsplass/$testPaa")) {   
+                                if ($_SESSION['brukertype'] == 2) { ?>
+                                    <!-- Setter redaktør border "Oransje" -->
+                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                                
+                                <?php 
+                                }
+                                if ($_SESSION['brukertype'] == 1) { ?>
+                                    <!-- Setter administrator border "Rød" -->
+                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid red;"> 
+                                <?php 
+                                }
+                                if ($_SESSION['brukertype'] == 3) { ?> 
+                                    <!-- Setter vanlig profil bilde -->
+                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                                <?php 
+                                }
+                            } else { 
+                                // Om filen ikke ble funnet, vis standard profilbilde
+                                if ($_SESSION['brukertype'] == 2) { ?>
+                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                                <!-- Setter administrator border "Rød" -->
+                                <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
+                                <!-- Setter vanlig profil bilde -->
+                                <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                                <?php
+                                }
+                            } ?>
                         </a>
 
                     <?php } else { ?>
@@ -341,7 +420,7 @@ if ($tellingArrangement > 0) {
                 <!-- innholdet i hamburger-menyen -->
                 <!-- -1 tabIndex som standard da menyen er lukket -->
                 <section class="hamburgerInnhold">
-                    <?php if (isset($_SESSION['brukernavn'])) { ?>
+                    <?php if (isset($_SESSION['idbruker'])) { ?>
                         <!-- Hva som vises om bruker er innlogget -->
                         <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                         <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
@@ -371,7 +450,7 @@ if ($tellingArrangement > 0) {
                 </header>
                 
                 <main class="profil_main">
-                <h2>Oversikt</h2>
+                <h2>Rediger informasjon</h2>
                     <h3>Endre profilbilde</h3>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
@@ -393,13 +472,14 @@ if ($tellingArrangement > 0) {
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
+                        <h3>Endre beskrivelse</h3>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <textarea name="beskrivelse" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
                             <input class="profil_knapp" type="submit" value="Oppdater" />
                         </form>
                     <?php } ?>
                     <!-- Viser interesser -->
-                    <h2>Interesser</h2>
+                    <h3>Interesser</h3>
                     <!-- Nøstet foreach -->
                     <!-- Ytre løkke -->
                     <section class="interesserSection">
@@ -409,7 +489,7 @@ if ($tellingArrangement > 0) {
                                     foreach ($rad as $kolonne) { ?> 
                                         <!-- Test om bruker er i slettemodus -->
                                         <?php if (isset($_POST['slettemodus'])) { ?> 
-                                            <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett()" value="<?php echo($kolonne) ?>"></input>
+                                            <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>"></input>
                                             <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
                                         <?php } else { ?> 
                                             <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
@@ -426,12 +506,9 @@ if ($tellingArrangement > 0) {
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                                 <select class="profil_input" name="interesse">
                                     <?php $index=1 ?>
-                                    <?php foreach($interesse as $rad) {
-                                        foreach($rad as $option) { ?>
-                                            <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
-                                            <?php $index++ ?>
-                                        <?php } // Slutt, indre løkke
-                                    } ?> <!-- Slutt, ytre løkke -->
+                                    <?php foreach($interesse as $rad) { ?>
+                                        <option value="<?php echo($rad['idinteresse']) ?>"> <?php echo($rad['interessenavn']) ?> </option>
+                                    <?php } ?> <!-- Slutt, ytre løkke -->
                                     
                                 </select>
                                 <input class="profil_knapp" type="submit" value="Legg til"></input>
@@ -488,7 +565,13 @@ if ($tellingArrangement > 0) {
                         if ($antallProfilbilderFunnet != 0) { ?>
                             <!-- Hvis vi finner et bilde til brukeren viser vi det -->
                             <section class="bildeKontroll" tabindex="3">
-                                <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
+                                <?php // Tester på om filen faktisk finnes
+                                $testPaa = $profilbilde['hvor'];
+                                if(file_exists("$lagringsplass/$testPaa")) {  ?> 
+                                    <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
+                                <?php } else { ?>
+                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                                <?php } ?>
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
             
@@ -560,7 +643,7 @@ if ($tellingArrangement > 0) {
             <footer>
                 <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                     <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                    <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                    <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
                 </p>
             </footer>
         </article>
