@@ -115,27 +115,43 @@ if(isset($_POST['paameld'])) {
 }
 
 if (isset($_POST['slettDenne'])) {
-    // Begynner med å slette referansen til bildet arrangementet har
-    $slettBildeQ = "delete from eventbilde where event = " . $_POST['slettDenne'];
-    $slettBildeSTMT = $db->prepare($slettBildeQ);
-    $slettBildeSTMT->execute();
+    // Sjekker om vi fortsatt er på riktig side
+    if ($_POST['slettDenne'] == $_GET['arrangement']) {
+        // Henter henvisningen til bildet fra databasen.
+        $slettBildeFQ = "select hvor from eventbilde, bilder where eventbilde.bilde = bilder.idbilder and eventbilde.event = " . $_POST['slettDenne'];
+        $slettBildeFSTMT = $db->prepare($slettBildeFQ);
+        $slettBildeFSTMT->execute();
+        $bildenavn = $slettBildeFSTMT->fetch(PDO::FETCH_ASSOC); 
 
-    // Sletter alle som har meldt seg på arrangementet
-    $slettPaameldingQ = "delete from påmelding where event_id = " . $_POST['slettDenne'];
-    $slettPaameldingSTMT = $db->prepare($slettPaameldingQ);
-    $slettPaameldingSTMT->execute();
+        $testPaa = $bildenavn['hvor'];
+        // Test om det finnes en fil med samme navn
+        if(file_exists("$lagringsplass/$testPaa")) {
+            // Sletter bildet
+            unlink("$lagringsplass/$testPaa");
+        }
 
-    // Sletter så arrangementet
-    $slettingQ = "delete from event where idevent = " . $_POST['slettDenne'];
-    $slettingSTMT= $db->prepare($slettingQ);
-    $slettingSTMT->execute();
+        // Begynner med å slette referansen til bildet arrangementet har
+        $slettBildeQ = "delete from eventbilde where event = " . $_POST['slettDenne'];
+        $slettBildeSTMT = $db->prepare($slettBildeQ);
+        $slettBildeSTMT->execute();
 
-    $antallSlettet = $slettingSTMT->rowCount();
+        // Sletter alle som har meldt seg på arrangementet
+        $slettPaameldingQ = "delete from påmelding where event_id = " . $_POST['slettDenne'];
+        $slettPaameldingSTMT = $db->prepare($slettPaameldingQ);
+        $slettPaameldingSTMT->execute();
 
-    if ($antallSlettet > 0) {
-        header('location: arrangement.php?slettingok');
-    } else {
-        header('location: arrangement.php?slettingfeil');
+        // Sletter så arrangementet
+        $slettingQ = "delete from event where idevent = " . $_POST['slettDenne'];
+        $slettingSTMT= $db->prepare($slettingQ);
+        $slettingSTMT->execute();
+
+        $antallSlettet = $slettingSTMT->rowCount();
+
+        if ($antallSlettet > 0) {
+            header('location: arrangement.php?slettingok');
+        } else {
+            header('location: arrangement.php?slettingfeil');
+        }
     }
 }
 
@@ -364,7 +380,7 @@ if (isset($_POST['slettDenne'])) {
                                     <section id="arrangement_bekreftSlettInnhold">
                                         <h2>Sletting</h2>
                                         <p>Er du sikker på av du vil slette dette arrangementet?</p>
-                                        <form method="POST" action="arrangement.php">
+                                        <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                             <button id="arrangement_slettKnapp" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
                                         </form>
                                         <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>

@@ -83,22 +83,39 @@ if (isset($_POST['publiserArtikkel'])) {
 
 
 if (isset($_POST['slettDenne'])) {
-    // Begynner med å slette referansen til bildet artikkelen har
-    $slettBildeQ = "delete from artikkelbilde where idartikkel = " . $_POST['slettDenne'];
-    $slettBildeSTMT = $db->prepare($slettBildeQ);
-    $slettBildeSTMT->execute();
+    // Sjekker om vi fortsatt er på riktig side (Og at bruker ikke har endret IDen vi ønsker å slette selv)
+    if ($_POST['slettDenne'] == $_GET['artikkel']) {
 
-    // Sletter så artikkelen
-    $slettingQ = "delete from artikkel where idartikkel = " . $_POST['slettDenne'];
-    $slettingSTMT= $db->prepare($slettingQ);
-    $slettingSTMT->execute();
+        // Henter henvisningen til bildet fra databasen.
+        $slettBildeFQ = "select hvor from artikkelbilde, bilder where artikkelbilde.idbilde = bilder.idbilder and artikkelbilde.idartikkel = " . $_POST['slettDenne'];
+        $slettBildeFSTMT = $db->prepare($slettBildeFQ);
+        $slettBildeFSTMT->execute();
+        $bildenavn = $slettBildeFSTMT->fetch(PDO::FETCH_ASSOC); 
 
-    $antallSlettet = $slettingSTMT->rowCount();
+        $testPaa = $bildenavn['hvor'];
+        // Test om det finnes en fil med samme navn
+        if(file_exists("$lagringsplass/$testPaa")) {
+            // Sletter bildet
+            unlink("$lagringsplass/$testPaa");
+        }
 
-    if ($antallSlettet > 0) {
-        header('location: artikkel.php?slettingok');
-    } else {
-        header('location: artikkel.php?slettingfeil');
+        // Begynner med å slette referansen til bildet artikkelen har
+        $slettBildeQ = "delete from artikkelbilde where idartikkel = " . $_POST['slettDenne'];
+        $slettBildeSTMT = $db->prepare($slettBildeQ);
+        $slettBildeSTMT->execute();
+
+        // Sletter så artikkelen
+        $slettingQ = "delete from artikkel where idartikkel = " . $_POST['slettDenne'];
+        $slettingSTMT= $db->prepare($slettingQ);
+        $slettingSTMT->execute();
+
+        $antallSlettet = $slettingSTMT->rowCount();
+
+        if ($antallSlettet > 0) {
+            header('location: artikkel.php?slettingok');
+        } else {
+            header('location: artikkel.php?slettingfeil');
+        }
     }
 }
 
@@ -294,7 +311,7 @@ if (isset($_POST['slettDenne'])) {
                                         <section id="artikkel_bekreftSlettInnhold">
                                             <h2>Sletting</h2>
                                             <p>Er du sikker på av du vil slette denne artikkelen?</p>
-                                            <form method="POST" action="artikkel.php">
+                                            <form method="POST" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
                                                 <button id="artikkel_bekreftSlettKnapp" name="slettDenne" value="<?php echo($_GET['artikkel']) ?>">Slett</button>
                                             </form>
                                             <button id="artikkel_avbrytKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')">Avbryt</button>
