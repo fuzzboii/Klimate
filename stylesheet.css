@@ -472,6 +472,7 @@ footer a {
   word-break: break-all;
   border-radius: 0 0 0.92em 0.92em; /* Avrunder kantene */
   font-family: Helvetica, Arial, sans-serif;
+  margin-left: 0.1em; margin-right: 0.1em;
 }
 
 .res_artikkel p {
@@ -479,6 +480,7 @@ footer a {
   font-size: 0.7em;
   padding-top: 0.3em; padding-bottom: 0.4em;
   font-family: Helvetica, Arial, sans-serif;
+  margin-left: 0.1em; margin-right: 0.1em;
 }
 
 .navn_artikkel {
@@ -492,6 +494,7 @@ footer a {
   width: 1em;
   padding-right: 0.3em;
   padding-top: 0.1em;
+  margin-left: 0.1em; 
 
 }
 
@@ -1194,7 +1197,9 @@ table {
 #arrangement_redpanel img {
   width: 2em;
   height: 2em;
-  padding-top: 0.5em;
+  padding-top: 0.3em; padding-bottom: 0.3em;
+  padding-left: 0.3em; padding-right: 0.3em;
+  
 
 }
 
@@ -2069,6 +2074,10 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.1s;
+  }
+
+  #arrangement_redpanel img:hover, #artikkel_redpanel img:hover {
+    filter: drop-shadow(0 0 0.3em green);
   }
   
   #sok_nesteKnapp:hover, #sok_tilbKnapp:hover {
