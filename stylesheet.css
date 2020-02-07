@@ -2082,6 +2082,7 @@ table {
 
   #arrangement_redpanel img:hover, #artikkel_redpanel img:hover {
     filter: drop-shadow(0 0 0.3em green);
+    transition: filter 0.1s;
   }
   
   #sok_nesteKnapp:hover, #sok_tilbKnapp:hover {
