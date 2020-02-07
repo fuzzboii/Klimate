@@ -7,12 +7,7 @@ session_start();
 include("innstillinger.php");
 
 
-
-// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
-if ($_SESSION['brukernavn']) {
-    // OK
-} else {
-    // Ikke OK, sender tilbake til default med feilmelding
+if (!$_SESSION['idbruker']) {
     header("Location: default.php?error=1");
 }
 
