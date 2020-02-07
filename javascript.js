@@ -402,6 +402,23 @@ function visForrigeSide(side, tilbake, neste) {
   hentSide(side, tilbake, neste);
 }
 
+// Get the input field    
+function sokTabbing(mottatClass) {
+  var mottatClass = document.getElementsByClassName("brukerRes_sok");
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
+  for (var i = 0; i < mottatClass.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn arrangementRullegardin
+    mottatClass[i].addEventListener("keyup", function(event) {
+      // Execute a function when the user releases a key on the keyboard
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Trigger the button element with a click
+        alert(event.message);
+        //document.getElementById("sok_enterKnapp" + (i - 1)).click();
+      }
+    });
+  }
+}
 
 
 /*-------------------------------------------------------------------------------------------------------*/

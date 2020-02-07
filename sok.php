@@ -38,7 +38,7 @@ include("innstillinger.php");
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="sok_body" onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
+    <body id="sok_body" onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp'), sokTabbing('brukerRes_sok')" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
         <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop"> 
             <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
@@ -178,6 +178,9 @@ include("innstillinger.php");
             // Visuelt viser hva bruker faktisk søkte på, vises på selve siden
             $infoOmSok = "";
 
+            // tabindex
+            $tabindex = 7;
+
             if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "") && ($_GET['interesse'] == "")) {
 
                 /* -----------------------------------*/
@@ -284,7 +287,7 @@ include("innstillinger.php");
                         if ($j % 8 == 0) { ?>
                             <section class="side_sok">
                         <?php $antallSider++; } $avsluttTag++; ?>
-                            <section class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resBr[$j]['idbruker']) ?>'">
+                            <section id="sok_enterKnapp<?php echo($tabindex);?>" class="brukerRes_sok" onClick="location.href='profil.php?bruker=<?php echo($resBr[$j]['idbruker']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                                 <figure class="infoBoksBr_sok">
                                     <?php // Henter bilde til bruker
                                     $hentBrBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resBr[$j]['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
@@ -315,16 +318,16 @@ include("innstillinger.php");
                             <?php 
                                 // Sett telleren til 0, mulighet for mer enn 2 sider
                                 $avsluttTag = 0;
-                            } ?>
-                    <?php  }
+                        }
+                    }
                 } ?>
                 <section id="sok_bunnSection">
                     <?php if ($antallSider > 1) {?>
                         <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                     <?php } ?>
-                    <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Forrige</button>
-                    <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Neste</button>
-                    <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 100>Forrige</button>
+                    <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 101>Neste</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 102>Tilbake til søk</button>
                 </section>
             <?php } else {
                 
@@ -679,7 +682,7 @@ include("innstillinger.php");
                             <section class="innholdRullegardin">
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Brukernavn:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn">
+                                    <input type="text" class="sokBrukerFelt" tabindex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn" autofocus>
                                 </section>
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Epost:</p>
@@ -770,7 +773,7 @@ include("innstillinger.php");
 
         <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
         <footer>
-            <p class=footer_beskrivelse>&copy; Klimate 2020 | <a tabindex="26" href="mailto:kontakt@klimate.no">Kontakt oss</a>
+            <p class=footer_beskrivelse>&copy; Klimate 2020 | <a tabindex="103" href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
                 <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>
