@@ -418,7 +418,7 @@ if ($tellingArrangement > 0) {
                                 } // Slutt, ytre løkke
                             } ?> <!-- Slutt, IF-test -->
                         </section>
-
+                        <p style="border: 1px solid black;"onmouseenter="visSlett()" id="tp">yo</p>
                         <!-- Del for å legge til interesser -->
                         <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
                         

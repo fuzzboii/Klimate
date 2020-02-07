@@ -453,9 +453,14 @@ function visAvmeld(valg) {
   }
 }
 
-function visSlett() {
-  slettverdi = document.getElementsByClassName("slett");
-  slettverdi.value = "Slett";
+function visSlett(test) {
+  document.getElementsByClassName("slett").value = "Slett";
+  // alert(test);
+  document.getElementById("tp").innerHTML = n;
+  alert(document.getElementsByClassName("slett")[3].value);
+
+  
+  
 }
 
 /* Denne siden er utviklet av Robin Kleppang, sist endret 13.11.2019 */
