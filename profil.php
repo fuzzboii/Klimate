@@ -514,7 +514,7 @@ if ($tellingArrangement > 0) {
                         <?php if ($egen) { ?>
                         <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <?php if(!isset($_POST['slettemodus'])) { ?>
-                                <input class="profil_knapp" type="submit" name="slettemodus" value="Slett interesse">
+                                <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse">
                             <?php } else { ?> 
                                 <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
                             <?php } ?>
