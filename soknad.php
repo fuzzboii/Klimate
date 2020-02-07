@@ -181,30 +181,37 @@ if (isset($_POST['submit'])) {
 
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main id="soknad_main" onclick="lukkHamburgerMeny()">  
+                <!-- Form, innholdet i denne formen skal sendes til en epost adresse. -->
                 <form action="soknad.php" method="post">    
-                    <section id="soknad_form">    
+                    <section id="soknad_form">
+                        <!-- Input av brukernavn, som beholder siste innskrevne -->    
                         <section class="inputBoksSoknad" style="margin-top: 1em;">
                             <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
                             <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($_SESSION['brukernavn']) ?>" readonly>
                         </section>
+                        <!-- Input av brukernavn, som beholder siste innskrevne -->
                         <section class="inputBoksSoknad">
                             <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
                             <input type="email" class="RegInnFelt" name="epost" value="<?php echo($_SESSION['epost']) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
                         </section>
+                        <!-- Input av brukernavn, som beholder siste innskrevne -->
                         <section class="inputBoksSoknad">
                             <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for fornavn -->
                             <input type="fnavn" class="RegInnFelt" name="fnavn" value="<?php echo($_SESSION['fornavn']) ?>" placeholder="Skriv inn fornavnet ditt" required title="Skriv inn fornavnet ditt">
                         </section>
+                        <!-- Input av brukernavn, som beholder siste innskrevne -->
                         <section class="inputBoksSoknad">
                             <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet til etternavn -->
                             <input type="enavn" class="RegInnFelt" name="enavn" value="<?php echo($_SESSION['etternavn']) ?>" placeholder="Skriv inn etternavnet ditt" required title="Skriv inn etternavnet ditt">
                         </section>
+                        <!-- Input av brukernavn, som beholder siste innskrevne -->
                         <section class="inputBoksSoknad">
                             <img class="icon" src="bilder/telefonIkon.png" alt="telefonikon"> <!-- Ikonet for telefonnummer -->
                             <input type="telefon" class="RegInnFelt" name="telefon" value="<?php echo($_SESSION['telefonnummer']) ?>" placeholder="Skriv inn telefonnummer" required title="Skriv inn ditt telefonnummer">
                         </section>
                     </section>
                     <section id="soknad_form">
+                        <!-- Tekstfelt for søknad. -->
                         <section>
                             <textarea class="textarea_Soknad" name="soknaden" placeholder="Vennligst fyll ut din søknad..." rows="13    " cols="60" autofocus   ></textarea>     
                         </section>
@@ -224,7 +231,7 @@ if (isset($_POST['submit'])) {
             </footer>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret xx.xx.xxxx -->
+    <!-- Denne siden er utviklet av Robin Kleppang og Glenn Petter Pettersen, siste gang endret 07.02.2020 -->
     <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang xx.xx.xxxx -->
 
 </html>
