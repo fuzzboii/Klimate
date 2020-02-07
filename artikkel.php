@@ -18,7 +18,7 @@ if (isset($_SESSION['input_tittel'])) {
     $input_innhold = $_SESSION['input_innhold'];
     // Sletter innholdet så dette ikke eksisterer utenfor denne siden
     unset($_SESSION['input_tittel']);
-    unset($_SESSION['input_tidspunkt']);
+    unset($_SESSION['input_ingress']);
     unset($_SESSION['input_innhold']);
 }
 
