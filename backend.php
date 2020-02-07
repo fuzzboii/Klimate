@@ -6,13 +6,10 @@ session_start();
 //------------------------------//
 include("innstillinger.php");
 
-
-
-// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
-if ($_SESSION['brukernavn']) {
-    // OK
-} else {
+// Sjekker om bruker har tilgang til å se dette området
+if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
+} else {
 }
 
 
