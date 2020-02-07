@@ -116,18 +116,18 @@ if (isset($_POST['submit'])) {
             <nav class="navTop">
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
                 <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="5">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
                 <!-- Legger til en knapp for å gå fra innlogging til registrering -->
-                <button class="singelKnapp" onClick="location.href='registrer.php'" tabindex="2">REGISTRER</button>
+                <button class="singelKnapp" onClick="location.href='registrer.php'" tabindex="4">REGISTRER</button>
                 
                 <form id="sokForm_navmeny" action="sok.php">
                     <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                     <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
                 </form>
-                <a href="javascript:void(0)" onClick="location.href='sok.php'">
-                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
+                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
                 </a>
                 <!-- Logoen øverst i venstre hjørne -->
                 <a href="default.php" tabindex="1">

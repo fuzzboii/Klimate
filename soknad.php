@@ -9,7 +9,7 @@ include("innstillinger.php");
 
 
 // Brukere skal kunne sende søknad
-if (!isset($_SESSION['brukernavn'])) {
+if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
 } else if ($_SESSION['brukertype'] != '3') {
     header("Location: default.php?error=4");
@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Klimate</title>
+        <title>Søknad</title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
                 </a>
                 <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
                 <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-                <?php if (isset($_SESSION['brukernavn'])) {
+                <?php if (isset($_SESSION['idbruker'])) {
                     // Vises når bruker er innlogget
 
                     /* -------------------------------*/

@@ -48,7 +48,7 @@ include("innstillinger.php");
             </a>
             <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
             <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-            <?php if (isset($_SESSION['brukernavn'])) {
+            <?php if (isset($_SESSION['idbruker'])) {
                 // Vises når bruker er innlogget
 
                 /* -------------------------------*/
@@ -145,7 +145,7 @@ include("innstillinger.php");
             <!-- innholdet i hamburger-menyen -->
             <!-- -1 tabIndex som standard da menyen er lukket -->
             <section class="hamburgerInnhold">
-                <?php if (isset($_SESSION['brukernavn'])) { ?>
+                <?php if (isset($_SESSION['idbruker'])) { ?>
                     <!-- Hva som vises om bruker er innlogget -->
                     <a class = "menytab" tabindex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabindex = "-1" href="artikkel.php">Artikler</a>
@@ -772,7 +772,7 @@ include("innstillinger.php");
         <footer>
             <p class=footer_beskrivelse>&copy; Klimate 2020 | <a tabindex="26" href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>
         </footer>
     </body>
