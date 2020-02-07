@@ -167,7 +167,7 @@ footer a {
   margin-right: auto;
 }
 
-#soknad_form {
+.soknad_form {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
   margin-left: 1.5em;

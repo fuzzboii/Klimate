@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
             <nav class="navTop"> 
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
                 <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="7">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
                 <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
@@ -78,7 +78,7 @@ if (isset($_POST['submit'])) {
                     // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                     if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
+                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="6">
                             <?php
                             $testPaa = $bilde['hvor'];
                             // Tester på om filen faktisk finnes
@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
                         </a>
 
                     <?php } else { ?>
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
+                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="6">
                             <!-- Setter redaktør border "Oransje" -->
                             <?php if ($_SESSION['brukertype'] == 2) { ?>
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
@@ -131,16 +131,16 @@ if (isset($_POST['submit'])) {
                     <?php } ?>
                     <!-- Legger til en knapp for å logge ut når man er innlogget -->
                     <form method="POST" action="default.php">
-                        <button name="loggUt" id="registrerKnapp" tabindex="2">LOGG UT</button>
+                        <button name="loggUt" id="registrerKnapp" tabindex="5">LOGG UT</button>
                     </form>
                 <?php } ?>
                 
                 <form id="sokForm_navmeny" action="sok.php">
-                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
-                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
+                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="4">
+                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="3">
                 </form>
-                <a href="javascript:void(0)" onClick="location.href='sok.php'">
-                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
+                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
                 </a>
                 <!-- Logoen øverst i venstre hjørne -->
                 <a href="default.php" tabindex="1">
@@ -184,7 +184,7 @@ if (isset($_POST['submit'])) {
             <main id="soknad_main" onclick="lukkHamburgerMeny()">  
                 <!-- Form, innholdet i denne formen skal sendes til en epost adresse. -->
                 <form action="soknad.php" method="post">    
-                    <section id="soknad_form">
+                    <section class="soknad_form">
                         <!-- Input av brukernavn, som beholder siste innskrevne -->    
                         <section class="inputBoksSoknad" style="margin-top: 1em;">
                             <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
@@ -211,7 +211,7 @@ if (isset($_POST['submit'])) {
                             <input type="telefon" class="RegInnFelt" name="telefon" value="<?php echo($_SESSION['telefonnummer']) ?>" placeholder="Skriv inn telefonnummer" required title="Skriv inn ditt telefonnummer">
                         </section>
                     </section>
-                    <section id="soknad_form">
+                    <section class="soknad_form">
                         <!-- Tekstfelt for søknad. -->
                         <section>
                             <textarea class="textarea_Soknad" name="soknaden" placeholder="Vennligst fyll ut din søknad..." rows="13    " cols="60" autofocus   ></textarea>     
