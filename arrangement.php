@@ -160,6 +160,10 @@ if (isset($_POST['slettDenne'])) {
     }
 }
 
+
+// tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
+$tabindex = 8;
+
 ?>
 
 <!DOCTYPE html>
@@ -193,12 +197,12 @@ if (isset($_POST['slettDenne'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="arrangement_body" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
+    <body id="arrangement_body" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp'), arrTabbing()" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
         <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop"> 
             <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
             <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-            <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
+            <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="6">
                 <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
             </a>
             <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
@@ -221,7 +225,7 @@ if (isset($_POST['slettDenne'])) {
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
                         <?php
                         $testPaa = $bilde['hvor'];
                         // Tester på om filen faktisk finnes
@@ -258,7 +262,7 @@ if (isset($_POST['slettDenne'])) {
                     </a>
 
                 <?php } else { ?>
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
                         <!-- Setter redaktør border "Oransje" -->
                         <?php if ($_SESSION['brukertype'] == 2) { ?>
                             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
@@ -275,19 +279,19 @@ if (isset($_POST['slettDenne'])) {
 
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
                 <form method="POST" action="default.php">
-                    <button name="loggUt" id="registrerKnapp" tabindex="2">LOGG UT</button>
+                    <button name="loggUt" id="registrerKnapp" tabindex="4">LOGG UT</button>
                 </form>
             <?php } else { ?>
                 <!-- Vises når bruker ikke er innlogget -->
-                <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
-                <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
+                <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="5">REGISTRER</button>
+                <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="4">LOGG INN</button>
             <?php } ?>
             <form id="sokForm_navmeny" action="sok.php">
                 <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                 <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
             </form>
-            <a href="javascript:void(0)" onClick="location.href='sok.php'">
-                <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
+            <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
             </a>
             <!-- Logoen øverst i venstre hjørne -->
             <a href="default.php" tabindex="1">
@@ -526,9 +530,9 @@ if (isset($_POST['slettDenne'])) {
                 <main id="arrangement_main" onclick="lukkHamburgerMeny()">
                     <section id="arrangement_redpanel">
                         <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
-                        <a href="arrangement.php?nyarrangement"><p>Nytt arrangement</p></a>
-                        <a href="arrangement.php?nyarrangement" tabindex="-1"> <!-- VIKTIG, tabindex -->
-                            <img src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement">
+                        <a href="arrangement.php?nyarrangement" tabindex="-1"><p>Nytt arrangement</p></a>
+                        <a href="arrangement.php?nyarrangement" tabindex="7">
+                            <img src="bilder/plussIkon.png" alt="Plussikon for å opprette nytt arrangement" tabindex="-1">
                         </a>
                         <?php } ?>
                     </section>
@@ -541,7 +545,7 @@ if (isset($_POST['slettDenne'])) {
                         if ($j % 8 == 0) { ?>
                             <section class="arrangement_hovedsection">
                         <?php $antallSider++; } $avsluttTag++; ?>
-                        <section class="arrangement_ressection" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'">
+                        <section class="arrangement_ressection" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                             <figure class="arrangement_infoBoks">
 
                                 <?php // Henter bilde til arrangementet
