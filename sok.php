@@ -19,7 +19,17 @@ include("innstillinger.php");
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Søk</title>
+        <title>
+            <?php if(isset($_GET['brukernavn']) || isset($_GET['epost']) || isset($_GET['interesse'])) { ?>
+                Søk på bruker
+            <?php } else if(isset($_GET['artTittel']) || isset($_GET['artForfatter'])) { ?>
+                Søk på artikkel
+            <?php } else if(isset($_GET['arrTittel']) || isset($_GET['arrDato']) || isset($_GET['fylke'])) { ?>
+                Søk på arrangement
+            <?php } else { ?>
+                Avansert søk
+            <?php } ?>
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
