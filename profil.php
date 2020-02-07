@@ -284,7 +284,7 @@ if ($tellingArrangement > 0) {
 
 
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
-$tabindex = 8;
+$tabindex = 10;
 
 ?>
 
@@ -314,7 +314,7 @@ $tabindex = 8;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body> 
+    <body onload="profilTabbing()"> 
         <article class="innhold">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
@@ -466,8 +466,8 @@ $tabindex = 8;
                     <h3>Endre profilbilde</h3>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
-                        <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png">
-                        <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp">
+                        <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
+                        <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
                     </form>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- <h3>Vis eller skjul personalia</h3> -->
@@ -486,8 +486,8 @@ $tabindex = 8;
                 <?php if($egen) { ?>
                         <h3>Endre beskrivelse</h3>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
-                            <input class="profil_knapp" type="submit" value="Oppdater" />
+                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
+                            <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"/>
                         </form>
                     <?php } ?>
                     <!-- Viser interesser -->
@@ -517,36 +517,36 @@ $tabindex = 8;
                         <?php if ($egen) { ?>
                         <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <?php if(!isset($_POST['slettemodus'])) { ?>
-                                <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse">
+                                <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
                             <?php } else { ?> 
-                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt"> 
+                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt" tabindex="100"> 
                             <?php } ?>
                         </form>
                         <?php } ?>
                         
                         <?php if($egen) { ?>
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                                <select class="profil_input" name="interesse">
+                                <select class="profil_input" name="interesse" tabindex="101">
                                     <?php $index=1 ?>
                                     <?php foreach($interesse as $rad) { ?>
                                         <option value="<?php echo($rad['idinteresse']) ?>"> <?php echo($rad['interessenavn']) ?> </option>
                                     <?php } ?> <!-- Slutt, ytre løkke -->
                                     
                                 </select>
-                                <input class="profil_knapp" type="submit" value="Legg til"></input>
+                                <input class="profil_knapp" type="submit" value="Legg til" tabindex="102"></input>
                             </form>
 
                             <!-- Egendefinert interesse -->
                             <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                                <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert"></input>
-                                <input class="profil_knapp" type="submit" value="Legg til"></input>
+                                <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
+                                <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
                         <?php } ?> <!-- Slutt, IF-test -->                
                     </section> 
                     
                     <!-- tilbake knapp -->
                     <?php if($egen) {?>
-                            <p onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp">Tilbake</p>
+                            <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex="105">Tilbake</button>
                     <?php }?>
 
                 </main>
@@ -642,7 +642,7 @@ $tabindex = 8;
                     } ?> <!-- Slutt, IF-test --> 
                     </section>
                     <?php if($egen) {?>
-                        <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex=7>Rediger informasjon</button>
+                        <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
                     <?php } ?>
             </main>
 

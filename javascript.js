@@ -482,6 +482,24 @@ function artTabbing() {
   }
 }
 
+// Funksjon for å trykke på en interesse på profil
+function profilTabbing() {
+  var interesse = document.getElementsByClassName("proInt");
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet proInt
+  for (var i = 0; i < interesse.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    interesse[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+}
+
 
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
