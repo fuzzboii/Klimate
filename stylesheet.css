@@ -1687,12 +1687,12 @@ table {
   background-color: darkred; /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
-  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   border-radius: 0.4em; /* Runder ut knappen */
+  width: 7em;
 }
 .interesserSection {
   display: grid;
