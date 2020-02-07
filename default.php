@@ -179,9 +179,20 @@ if (isset($_POST['loggUt'])) {
                     <!-- IDene brukes til å splitte opp kolonnene i queries -->
                     <article id="artikkel1">
                         <h2>Nyeste</h2>
-                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                        <p>Regjeringen verner bilister etter økt CO₂-avgift</p>
-                        <a href="#">Trykk her for å lese videre</a>
+                        <p><?php 
+                            //------------------------------//
+                            // Henter artikler fra database //
+                            //------------------------------//
+
+                            // Henter artikler fra database, sorterer på høyeste artikkelID og viser denne (Siden vi ikke har dato)
+                            $hentNyesteQ = "select idartikkel, artingress from artikkel order by idartikkel DESC limit 1";
+                            $hentNyesteSTMT = $db->prepare($hentNyesteQ);
+                            $hentNyesteSTMT->execute();
+                            $nyesteArtikkel = $hentNyesteSTMT->fetch(PDO::FETCH_ASSOC); 
+                        
+                        echo($nyesteArtikkel['artingress'])?></p>
+                        
+                        <a href="artikkel.php?artikkel=<?php echo($nyesteArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
                     <article id="artikkel2">
                         <h2>Mest populære</h2>
