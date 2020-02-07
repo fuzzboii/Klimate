@@ -488,7 +488,7 @@ if ($tellingArrangement > 0) {
                         </form>
                     <?php } ?>
                     <!-- Viser interesser -->
-                    <h3>Interesser</h3>
+                    <h3 class="OverskriftInter">Interesser</h3>
                     <!-- Nøstet foreach -->
                     <!-- Ytre løkke -->
                     <section class="interesserSection">
