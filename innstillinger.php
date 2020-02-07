@@ -1,7 +1,6 @@
 <?php
 
 // Konstruktør for lokal server
-/*
 class mysqlPDO extends PDO {
     public function __construct() {
         $drv = 'mysql';
@@ -13,9 +12,9 @@ class mysqlPDO extends PDO {
         parent::__construct($dns,$usr,$pwd);
     }
 }
-*/
 
 // Konstruktør for skolens server
+/*
 class mysqlPDO extends PDO {
     public function __construct() {
         $drv = 'mysql';
@@ -27,6 +26,7 @@ class mysqlPDO extends PDO {
         parent::__construct($dsn,$usr,$pwd);
     }
 }
+*/
 
 // Konstruktør for Klimate.no
 /*
