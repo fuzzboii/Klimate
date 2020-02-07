@@ -455,8 +455,8 @@ if ($tellingArrangement > 0) {
                 </header>
                 
                 <main class="profil_main">
-                <h2>Oversikt</h2>
-                    <h3>Endre profilbilde</h3>
+                <h1>Oversikt</h1>
+                    <h2>Endre profilbilde</h2>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
                         <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png">
@@ -477,6 +477,7 @@ if ($tellingArrangement > 0) {
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
+                        <h2>Endre beskrivelse</h3>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                             <textarea name="beskrivelse" placeholder="Skriv litt om deg selv"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
                             <input class="profil_knapp" type="submit" value="Oppdater" />
