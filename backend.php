@@ -173,8 +173,14 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                 $antallBilderFunnet = $stmtBilde->rowCount();
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallBilderFunnet != 0) { ?>
-                    <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_backend">
+                    <?php // Tester på om filen faktisk finnes
+                    $testPaa = $bilde['hvor'];
+                    if(file_exists("$lagringsplass/$testPaa")) {  ?> 
+                        <!-- Hvis vi finner et bilde til bruker viser vi det -->
+                        <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde" class="profil_backend">
+                    <?php } else { ?>
+                        <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
+                    <?php } ?>
                 <?php } else { ?>
                     <!-- Hvis ikke noe bilde ble funnet benytter vi et standard profilbilde -->
                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">

@@ -295,10 +295,14 @@ include("innstillinger.php");
                                     if (!$resBilde) { ?>
                                         <!-- Standard profilbilde om bruker ikke har lastet opp noe enda -->
                                         <img class="BildeBoksBr_sok" src="bilder/profil.png" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
-                                    <?php } else { ?>
-                                        <!-- Profilbilde som resultat av spørring -->
-                                        <img class="BildeBoksBr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
-                                    <?php } ?>
+                                    <?php } else {
+                                        // Tester på om filen faktisk finnes
+                                        $testPaa = $resBilde['hvor'];
+                                        if(file_exists("$lagringsplass/$testPaa")) {  ?> 
+                                            <!-- Profilbilde som resultat av spørring -->
+                                            <img class="BildeBoksBr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resBr[$j]['brukernavn'])?>">
+                                        <?php }
+                                    } ?>
                                     <p class="infoResBr_sok"><?php echo($resBr[$j]['brukernavn'])?></p>
                                 </figure>
                             </section>
