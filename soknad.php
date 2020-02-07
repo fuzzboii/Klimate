@@ -9,7 +9,7 @@ include("innstillinger.php");
 
 
 // Brukere skal kunne sende søknad
-if (!isset($_SESSION['brukernavn'])) {
+if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
 } else if ($_SESSION['brukertype'] != '3') {
     header("Location: default.php?error=4");
