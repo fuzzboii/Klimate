@@ -8,7 +8,7 @@ include("innstillinger.php");
 
 
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
-if (!isset($_SESSION['idbruker'])) {
+if (isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=2");
 }
 
