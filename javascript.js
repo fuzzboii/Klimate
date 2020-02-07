@@ -403,18 +403,19 @@ function visForrigeSide(side, tilbake, neste) {
 }
 
 // Get the input field    
-function sokTabbing(mottatClass) {
-  var mottatClass = document.getElementsByClassName("brukerRes_sok");
+function sokTabbing(mottat) {
+  var mottatClass = document.getElementsByClassName(mottat);
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
   for (var i = 0; i < mottatClass.length; i++) {
-    // Legger på en eventlistener som ser etter et klikk på alle elementer med class navn arrangementRullegardin
+    var hvilken = i;
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
     mottatClass[i].addEventListener("keyup", function(event) {
-      // Execute a function when the user releases a key on the keyboard
-      // Number 13 is the "Enter" key on the keyboard
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
       if (event.keyCode === 13) {
-        // Trigger the button element with a click
-        alert(event.message);
-        //document.getElementById("sok_enterKnapp" + (i - 1)).click();
+        // Trykk på resultatet
+        gaaTil.click();
       }
     });
   }
