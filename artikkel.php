@@ -131,7 +131,20 @@ if (isset($_POST['slettDenne'])) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Artikler</title>
+        <title>
+            <?php
+                if(isset($_GET['nyartikkel'])) { ?>
+                    Ny artikkel
+                <?php } else if (isset($_GET['artikkel'])) {
+                    $hentTittelQ = "select artnavn from artikkel where idartikkel = " . $_GET['artikkel'];
+                    $hentTittelSTMT = $db -> prepare($hentTittelQ);
+                    $hentTittelSTMT->execute();
+                    $artikkel_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
+                    echo($artikkel_title['artnavn']);
+                } else { ?>
+                    Artikler
+            <?php } ?> 
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
