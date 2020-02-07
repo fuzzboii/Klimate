@@ -466,11 +466,11 @@ function arrTabbing() {
 
 // Funksjon for å trykke på et resulat med enter for artikler
 function artTabbing() {
-  var arrangement = document.getElementsByClassName("arrangement_ressection");
-  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet arrangement_ressection
-  for (var i = 0; i < arrangement.length; i++) {
+  var artikkel = document.getElementsByClassName("res_artikkel");
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet res_artikkel
+  for (var i = 0; i < artikkel.length; i++) {
     // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
-    arrangement[i].addEventListener("keyup", function(event) {
+    artikkel[i].addEventListener("keyup", function(event) {
       // Henter dette elementet
       var gaaTil = this;
       // 13 er Enter tasten

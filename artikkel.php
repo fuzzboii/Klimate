@@ -119,6 +119,8 @@ if (isset($_POST['slettDenne'])) {
     }
 }
 
+// tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
+$tabindex = 8;
 
 ?>
 
@@ -158,7 +160,7 @@ if (isset($_POST['slettDenne'])) {
         <nav class="navTop"> 
             <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
             <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-            <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
+            <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="6">
                 <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
             </a>
             <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
@@ -181,7 +183,7 @@ if (isset($_POST['slettDenne'])) {
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
                 if ($antallBilderFunnet != 0) { ?>
                     <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
                         <?php
                         $testPaa = $bilde['hvor'];
                         // Tester på om filen faktisk finnes
@@ -218,7 +220,7 @@ if (isset($_POST['slettDenne'])) {
                     </a>
 
                 <?php } else { ?>
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
                         <!-- Setter redaktør border "Oransje" -->
                         <?php if ($_SESSION['brukertype'] == 2) { ?>
                             <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
@@ -235,20 +237,20 @@ if (isset($_POST['slettDenne'])) {
 
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
                 <form method="POST" action="default.php">
-                    <button name="loggUt" id="registrerKnapp" tabindex="2">LOGG UT</button>
+                    <button name="loggUt" id="registrerKnapp" tabindex="4">LOGG UT</button>
                 </form>
             <?php } else { ?>
                 <!-- Vises når bruker ikke er innlogget -->
-                <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="3">REGISTRER</button>
-                <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
+                <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="5">REGISTRER</button>
+                <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="4">LOGG INN</button>
             <?php } ?>
 
             <form id="sokForm_navmeny" action="sok.php">
                 <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
                 <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
             </form>
-            <a href="javascript:void(0)" onClick="location.href='sok.php'">
-                <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny">
+            <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
             </a>
             <!-- Logoen øverst i venstre hjørne -->
             <a href="default.php" tabindex="1">
@@ -428,8 +430,8 @@ if (isset($_POST['slettDenne'])) {
                     <main id="artikkel_main" onclick="lukkHamburgerMeny()">
                         <section id="artikkel_redpanel">
                             <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
-                            <a href="artikkel.php?nyartikkel"><p>Ny artikkel</p></a>
-                            <a href="artikkel.php?nyartikkel" tabindex="-1"> <!-- VIKTIG, tabindex -->
+                            <a href="artikkel.php?nyartikkel" tabindex="-1"><p>Ny artikkel</p></a>
+                            <a href="artikkel.php?nyartikkel" tabindex="7"> <!-- VIKTIG, tabindex -->
                                 <img src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
                             </a>
                             <?php } ?>
@@ -442,7 +444,7 @@ if (isset($_POST['slettDenne'])) {
                             if ($j % 8 == 0) { ?>
                             <section class="side_artikkel">
                             <?php $antallSider++; } $avsluttTag++; ?>
-                            <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
+                            <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                                 <figure class="infoBoks_artikkel">
 
                                     <?php // Henter bilde til artikkel

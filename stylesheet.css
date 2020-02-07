@@ -2068,12 +2068,12 @@ table {
     transition: box-shadow 0.3s;
   }
 
-  .brukerRes_sok:focus, .artRes_sok:focus, .arrRes_sok:focus, .arrangement_ressection:focus {
+  .brukerRes_sok:focus, .artRes_sok:focus, .arrRes_sok:focus, .arrangement_ressection:focus, .res_artikkel:focus {
     outline: 0;
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.1s;
   }
-  #sok_nesteKnapp:focus, #sok_tilbKnapp:focus, #arrangement_nesteKnapp:focus, #arrangement_tilbKnapp:focus {
+  #sok_nesteKnapp:focus, #sok_tilbKnapp:focus, #arrangement_nesteKnapp:focus, #arrangement_tilbKnapp:focus, #artikkel_nesteKnapp:focus, #artikkel_tilbKnapp:focus {
     outline: 0;
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
