@@ -986,6 +986,11 @@ table {
   transition: 0.3s; /* Effekt når man trykker på knappen */
 }
 
+.hamburgerInnhold p {
+  font-weight: normal;
+  font-family: Helvetica, Arial, sans-serif; /* Font familie */
+}
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for SØK */
