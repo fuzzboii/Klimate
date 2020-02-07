@@ -790,6 +790,6 @@ $tabindex = 7;
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 07.02.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad , siste gang 07.02.2020 -->
 
 </html>
