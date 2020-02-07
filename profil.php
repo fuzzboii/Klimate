@@ -9,11 +9,13 @@ include("innstillinger.php");
 //------------------------------//
 // Test om man ser egen profil  //
 //------------------------------//
+/*
 // Bruker ikke innlogget
 if (!isset($_SESSION['idbruker'])) {
     // Sendes til forsiden
     header('Location: default.php');
 }
+*/
 
 if ($_SESSION['idbruker'] == $_GET['bruker']) {
     $egen = true;
@@ -565,7 +567,13 @@ if ($tellingArrangement > 0) {
                         if ($antallProfilbilderFunnet != 0) { ?>
                             <!-- Hvis vi finner et bilde til brukeren viser vi det -->
                             <section class="bildeKontroll" tabindex="3">
-                                <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
+                                <?php // Tester på om filen faktisk finnes
+                                $testPaa = $profilbilde['hvor'];
+                                if(file_exists("$lagringsplass/$testPaa")) {  ?> 
+                                    <img src="bilder/opplastet/<?php echo($profilbilde['hvor'])?>" alt="Profilbilde" class="profil_bilde">
+                                <?php } else { ?>
+                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                                <?php } ?>
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
             
