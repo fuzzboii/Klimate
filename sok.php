@@ -7,6 +7,9 @@ session_start();
 include("innstillinger.php");
 
 
+// tabindex som skal brukes til å bestemme startpunkt i søkeresultat, denne endres hvis vi legger til flere elementer i navbar eller lignende
+$tabindex = 7;
+
 
 ?>
 
@@ -186,9 +189,6 @@ include("innstillinger.php");
 
             // Visuelt viser hva bruker faktisk søkte på, vises på selve siden
             $infoOmSok = "";
-
-            // tabindex
-            $tabindex = 7;
 
             if (($_GET['brukernavn'] != "") && ($_GET['epost'] != "") && ($_GET['interesse'] == "")) {
 
