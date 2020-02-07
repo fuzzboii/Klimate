@@ -185,10 +185,11 @@ if ($egen) {
 //-----------------//
 if ($egen) {
     if (isset($_POST['interesseTilSletting'])) {
+        $hentetInteresse = substr($_POST['interesseTilSletting'], 6);
         // Hent tilsvarende ID
-        $hentIdInteresse = "select idinteresse from interesse where interessenavn=?";
+        $hentIdInteresse = "select idinteresse from interesse where interessenavn= '" . $hentetInteresse . "'";
         $stmtHentIdInteresse = $db->prepare($hentIdInteresse);
-        $stmtHentIdInteresse->execute([$_POST['interesseTilSletting']]);
+        $stmtHentIdInteresse->execute();
         $idInteresse = $stmtHentIdInteresse->fetch(PDO::FETCH_ASSOC);
 
         // Slett interessen
@@ -492,7 +493,7 @@ if ($tellingArrangement > 0) {
                                     foreach ($rad as $kolonne) { ?> 
                                         <!-- Test om bruker er i slettemodus -->
                                         <?php if (isset($_POST['slettemodus'])) { ?> 
-                                            <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett()" value="<?php echo($kolonne) ?>"></input>
+                                            <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>"></input>
                                             <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
                                         <?php } else { ?> 
                                             <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'"> <?php echo($kolonne); ?> </p>
