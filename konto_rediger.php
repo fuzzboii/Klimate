@@ -381,33 +381,33 @@ if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnum
                         <!-- Brukernavn -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre brukernavn</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="<?php if($input_brukernavn != "") { echo($input_brukernavn); } else { echo($_SESSION['brukernavn']); } ?>" placeholder="Nytt brukernavn" autofocus>
+                            <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Nytt brukernavn" autofocus>
                         </section>
                         <!-- Epost -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre epost</h3>
-                            <input type="email" class="KontoredigeringFelt" name="nyepost" value="<?php if($input_epost != "") { echo($input_epost); } else { echo($_SESSION['epost']); } ?>" placeholder="Ny epost">
+                            <input type="email" class="KontoredigeringFelt" name="nyepost" value="<?php echo($input_epost) ?>" placeholder="Ny epost">
                         </section>    
                         <!-- Fornavn -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre fornavn
                                 <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="fnavn" value="(Slett)">
                             </h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php if($input_fornavn != "") { echo($input_fornavn); } else { echo($_SESSION['fornavn']); } ?>" placeholder="Nytt fornavn">
+                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn">
                         </section>
                         <!-- Etternavn -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre etternavn
                                 <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="enavn" value="(Slett)">
                             </h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php if($input_etternavn != "") { echo($input_etternavn); } else { echo($_SESSION['etternavn']); } ?>" placeholder="Nytt etternavn">
+                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn">
                         </section>
                         <!-- Telefonnummer -->
                         <section class="konto_rediger_inputBoks">
                             <h3 class="endre_bruker_overskrift">Endre telefonnummer
                                 <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="telefonnummer" value="(Slett)">
                             </h3>
-                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php if($input_telefonnummer != "") { echo($input_telefonnummer); } else { echo($_SESSION['telefonnummer']); } ?>" placeholder="Nytt telefonnummer">
+                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php echo($input_telefonnummer) ?>" placeholder="Nytt telefonnummer">
                         </section>
                         
                     </form>
