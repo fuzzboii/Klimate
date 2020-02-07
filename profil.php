@@ -17,7 +17,7 @@ if (!isset($_SESSION['idbruker'])) {
 }
 */
 
-if ($_SESSION['idbruker'] == $_GET['bruker']) {
+if (isset($_SESSION['idbruker']) && $_SESSION['idbruker'] == $_GET['bruker']) {
     $egen = true;
     } else $egen = false;
 
