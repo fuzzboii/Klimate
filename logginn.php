@@ -1,104 +1,90 @@
 <?php
 session_start();
-// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
+
+//------------------------------//
+// Innstillinger, faste variable //
+//------------------------------//
+include("innstillinger.php");
+
+
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
-if (isset($_SESSION['brukernavn'])) {
+if (isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=2");
 }
 
 // Setter tidssonen, dette er for at One.com domenet skal fungere, brukes i sjekk mot innloggingsforsøk
 date_default_timezone_set("Europe/Oslo");
 
-
-try {
-    include("klimate_pdo_prod.php");
-    $db = new mysqlPDO();
-} 
-catch (Exception $ex) {
-    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
-    if ($ex->getCode() == 1049) {
-        // 1049, Fikk koblet til men databasen finnes ikke
-        header('location: default.php?error=3');
-    }
-    if ($ex->getCode() == 2002) {
-        // 2002, Kunne ikke koble til server
-        header('location: default.php?error=3');
-    }
-    if ($ex->getCode() == 1045) {
-        // 1045, Bruker har ikke tilgang
-        header('location: default.php?error=3');
-    }
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_brukernavn = "";
+if (isset($_SESSION['input_brukernavn'])) {
+    $input_brukernavn = $_SESSION['input_brukernavn'];
+    unset($_SESSION['input_brukernavn']);
 }
 
-// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-//$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 if (isset($_POST['submit'])) {
-    // Sjekker IP
+    $_SESSION['input_brukernavn'] = $_POST['brukernavn'];
+    // Ventetiden når en bruker er lukket ute
+    $ventetid = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . "- 180 seconds"));
 
-    // Oppdaterer først utdaterte innloggingsforsøk
-    // Mulig dette kan gjøres om til trigger i databasen
-    $eldste = strtotime(date("Y-m-d H:i:s")." - 300 seconds");
-    $dato = date("Y-m-d H:i:s", $eldste);
-    $sporring = "update bruker set feillogginnteller = 0 where feillogginnsiste < '" . $dato . "'";
-    $oppdater = $db->prepare($sporring);
-    $oppdater->execute();
-  
-    // Teller antall feilet forsøk på brukers IP
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $antall = "select feillogginnteller from bruker where feilip = '" . $ip . "'";
-    $rad = $db->prepare($antall);
-    $rad->execute();
-    //foreach($rad as $forsok) {
-        //$antForsok += $forsok;
-    //}
-    $res = $rad->fetch(PDO::FETCH_ASSOC);
+    // Hvis feiltelleren ikke eksisterer har ikke bruker forsøkt å logge inn hittils, oppretter da disse med standardverdier
+    if (!isset($_SESSION['feilteller'])) {
+        $_SESSION['feilteller'] = 0;
+        $_SESSION['sistFeilet'] = date("Y-m-d H:i:s");
+    }
 
-    if ($res['feillogginnteller'] < 5) {
-        try {
-            // Saltet
-            $salt = "IT2_2020"; 
-    
-            $br = $_POST['brukernavn'];
-            $lbr = strtolower($_POST['brukernavn']);
-            $pw = $_POST['passord'];
-            $kombinert = $salt . $pw;
-            // Krypterer passorder med salting
-            $spw = sha1($kombinert);
-    
-            $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-            // Prepared statement for å beskytte mot SQL injection
-            $stmt = $db->prepare($sql);
-    
-            $stmt->execute();
-    
-            $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
+    // Hvis det har gått 3 minutter mellom siste gang bruker feiler innlogging, tøm telleren
+    if ($_SESSION['sistFeilet'] <= $ventetid) {
+        $_SESSION['feilteller'] = 0;
+    }
+
+    // Sjekker først om bruker har feilet innlogging for mange ganger
+    if ($_SESSION['feilteller'] < 5) {
+
+        $br = $_POST['brukernavn'];
+        $lbr = strtolower($_POST['brukernavn']);
+        $pw = $_POST['passord'];
+        $kombinert = $salt . $pw;
+        // Krypterer passorder med salting
+        $spw = sha1($kombinert);
+
+        $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
+        // Prepared statement for å beskytte mot SQL injection
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute();
+
+        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
+            if ($resultat['brukertype'] != 4) {
                 $_SESSION['idbruker'] = $resultat['idbruker'];
                 $_SESSION['brukernavn'] = $resultat['brukernavn'];
                 $_SESSION['fornavn'] = $resultat['fnavn'];
-                $_SESSION['etternavn'] = $resultat['enavn'];;
+                $_SESSION['etternavn'] = $resultat['enavn'];
                 $_SESSION['epost'] = $resultat['epost'];
+                $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
                 $_SESSION['brukertype'] = $resultat['brukertype'];
-    
-                header("Location: backend.php");
-            } else {    
-                // Øker teller for feilet innlogging med 1
-                $ip = $_SERVER['REMOTE_ADDR'];
-                $dato = date("Y-m-d H:i:s");
-                $insert = "update bruker set feillogginnteller = '" . $res['feillogginnteller'] . "'+1, feillogginnsiste = '" . $dato . "', feilip = '" . $ip . "' where lower(brukernavn) = '" . $lbr . "'";
-                $input = $db->prepare($insert);
-                $input->execute();
                 
-                header("Location: logginn.php?error=1");
-            }
-        }
-        catch (Exception $e) {
-            header("Location:logginn.php?error=3");
-        }
+                $_SESSION['feilteller'] = 0;
 
+                // Fjerner session variable for brukerinput om ingen feil oppstår
+                unset($_SESSION['input_brukernavn']);
+
+                header("Location: backend.php");
+            } else {
+                header("Location: default.php?error=5");
+            }
+        } else {    
+            // Øker teller for feilet innlogging med 1
+            $_SESSION['feilteller']++;
+            $_SESSION['sistFeilet'] = date("Y-m-d H:i:s");
+            
+            header("Location: logginn.php?error=1");
+        }
     } else {
+        // Bruker har feilet for mange ganger, gir tilbakemelding til bruker
         header("Location: logginn.php?error=2");
     }
 }
@@ -130,44 +116,49 @@ if (isset($_POST['submit'])) {
             <nav class="navTop">
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
                 <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="5">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
                 <!-- Legger til en knapp for å gå fra innlogging til registrering -->
-                <button class="singelKnapp" onClick="location.href='registrer.php'" tabindex="2">REGISTRER</button>
-                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-                <a class="bildeKontroll" href="default.php" tabindex="1">
-                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-                </a>  
+                <button class="singelKnapp" onClick="location.href='registrer.php'" tabindex="4">REGISTRER</button>
+                
+                <form id="sokForm_navmeny" action="sok.php">
+                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
+                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
+                </form>
+                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
+                </a>
+                <!-- Logoen øverst i venstre hjørne -->
+                <a href="default.php" tabindex="1">
+                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
+                </a>
                 
             <!-- Slutt på navigasjonsmeny-->
             </nav>
             <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
             <section id="navMeny" class="hamburgerMeny">
 
-                <!-- innholdet i gardinmenyen -->
-                <!-- -1 tabIndex som standard da menyen er lukket -->
+                <!-- innholdet i hamburger-menyen -->
+                <!-- -1 tabIndex som standard, man tabber ikke inn i menyen når den er lukket -->
                 <section class="hamburgerInnhold">
-                        <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-                        <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
-                        <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
+                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
+                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>
-
-            <!-- Logoen midten øverst på siden, med tittel -->
-            <header onclick="lukkHamburgerMeny()">
-                <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
-            </header>
-            <main onclick="lukkHamburgerMeny()">
+            
+            <main id="toppMain" onclick="lukkHamburgerMeny()">
                 <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
                 <form method="POST" action="logginn.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord">
+                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
                     </section>
                     <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
                     <!-- Meldinger til bruker -->
@@ -194,16 +185,16 @@ if (isset($_POST['submit'])) {
             </main>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
+            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
             </footer>
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 04.11.2019 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, Ajdin Bajrovic siste gang 09.12.2019 -->
+    <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 07.02.2020 -->
+    <!-- Denne siden er kontrollert av Robin Kleppang siste gang 07.02.2020 -->
 
 </html>

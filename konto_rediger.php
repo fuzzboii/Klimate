@@ -1,35 +1,37 @@
 <?php
 session_start();
-// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
-if ($_SESSION['brukernavn']) {
-    // OK
-} else {
+
+//------------------------------//
+// Innstillinger, faste variable //
+//------------------------------//
+include("innstillinger.php");
+
+// Sjekker om bruker har tilgang på denne siden
+if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
 }
 
 
-try {
-    include("klimate_pdo_prod.php");
-    $db = new mysqlPDO();
-} 
-catch (Exception $ex) {
-    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
-    if ($ex->getCode() == 1049) {
-        // 1049, Fikk koblet til men databasen finnes ikke
-        header('location: default.php?error=3');
-    }
-    if ($ex->getCode() == 2002) {
-        // 2002, Kunne ikke koble til server
-        header('location: default.php?error=3');
-    }
-    if ($ex->getCode() == 1045) {
-        // 1045, Bruker har ikke tilgang
-        header('location: default.php?error=3');
-    }
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_brukernavn = "";
+$input_epost = "";
+$input_fornavn = "";
+$input_etternavn = "";
+$input_telefonnummer = "";
+if (isset($_SESSION['input_brukernavn'])) {
+    // Legger innhold i variable som leses senere på siden
+    $input_brukernavn = $_SESSION['input_brukernavn'];
+    $input_epost = $_SESSION['input_epost'];
+    $input_fornavn = $_SESSION['input_fornavn'];
+    $input_etternavn = $_SESSION['input_etternavn'];
+    $input_telefonnummer = $_SESSION['input_telefonnummer'];
+    // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+    unset($_SESSION['input_brukernavn']);
+    unset($_SESSION['input_epost']);
+    unset($_SESSION['input_fornavn']);
+    unset($_SESSION['input_etternavn']);
+    unset($_SESSION['input_telefonnummer']);
 }
-
-// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Hoveddelen for redigering av konto
 if (isset($_POST['subEndring'])) {
@@ -39,59 +41,91 @@ if (isset($_POST['subEndring'])) {
     
     try {
         // Del for oppdatering av brukernavn, epost, fornavn og/eller etternavn
-        if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "") {
+        if ($_POST['nyttbrukernavn'] != "" || $_POST['nyepost'] != "" || $_POST['nyttfornavn'] != "" || $_POST['nyttetternavn'] != "" || $_POST['nytttelefonnummer'] != "") {
+            $_SESSION['input_brukernavn'] = $_POST['nyttbrukernavn'];
+            $_SESSION['input_epost'] = $_POST['nyepost'];
+            $_SESSION['input_fornavn'] = $_POST['nyttfornavn'];
+            $_SESSION['input_etternavn'] = $_POST['nyttetternavn'];
+            $_SESSION['input_telefonnummer'] = $_POST['nytttelefonnummer'];
+            
+            // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type epost)
+            $epostValidert = false;
 
-            // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
-            if ($_POST['nyttbrukernavn'] == "") {
-                // Bruker har valgt å ikke oppdatere brukernavn
-                $nyttBrukernavn = $_SESSION['brukernavn'];
-            } else {
-                $nyttBrukernavn = $_POST['nyttbrukernavn'];
-            }
-        
             if ($_POST['nyepost'] == "") {
-                // Bruker har valgt å ikke oppdatere epost
-                $nyEpost = $_SESSION['epost'];
+                // Bruker har ikke oppgitt en epost, ignorerer dette
+                $epostValidert = true;
             } else {
-                $nyEpost = $_POST['nyepost'];
+                $epostValidert = filter_var($_POST["nyepost"], FILTER_VALIDATE_EMAIL);
             }
-        
-            if ($_POST['nyttfornavn'] == "") {
-                // Bruker har valgt å ikke oppdatere fornavn
-                $nyttFornavn = $_SESSION['fornavn'];
-            } else {
-                $nyttFornavn = $_POST['nyttfornavn'];
-            }
-        
-            if ($_POST['nyttetternavn'] == "") {
-                // Bruker har valgt å ikke oppdatere etternavn
-                $nyttEtternavn = $_SESSION['etternavn'];
-            } else {
-                $nyttEtternavn = $_POST['nyttetternavn'];
-            }
-            // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
-            $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "'  where idbruker='". $_SESSION['idbruker'] . "'";
-            $stmt = $db->prepare($oppdaterBruker);
-            $stmt->execute();
+            if ($epostValidert == true) {
+                // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
+                if ($_POST['nyttbrukernavn'] == "") {
+                    // Bruker har valgt å ikke oppdatere brukernavn
+                    $nyttBrukernavn = $_SESSION['brukernavn'];
+                } else {
+                    $nyttBrukernavn = $_POST['nyttbrukernavn'];
+                }
+            
+                if ($_POST['nyepost'] == "") {
+                    // Bruker har valgt å ikke oppdatere epost
+                    $nyEpost = $_SESSION['epost'];
+                } else {
+                    $nyEpost = $_POST['nyepost'];
+                }
+            
+                if ($_POST['nyttfornavn'] == "") {
+                    // Bruker har valgt å ikke oppdatere fornavn
+                    $nyttFornavn = $_SESSION['fornavn'];
+                } else {
+                    $nyttFornavn = $_POST['nyttfornavn'];
+                }
+            
+                if ($_POST['nyttetternavn'] == "") {
+                    // Bruker har valgt å ikke oppdatere etternavn
+                    $nyttEtternavn = $_SESSION['etternavn'];
+                } else {
+                    $nyttEtternavn = $_POST['nyttetternavn'];
+                }
+            
+                // Sjekker på om bruker har skrevet et telefonnummer, maks 12 tegn (0047) 
+                if (!preg_match('/^[0-9]{0,12}$/', $_POST['nytttelefonnummer'])) {
+                    // Bruker har valgt å ikke oppdatere telefonnummer, eller et ugyldig telefonnummer er skrevet
+                    $nyttTelefonnummer = $_SESSION['telefonnummer'];
+                } else {
+                    $nyttTelefonnummer = $_POST['nytttelefonnummer'];
+                }
+                // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
+                $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "', telefonnummer = '" . $nyttTelefonnummer . "'  where idbruker='". $_SESSION['idbruker'] . "'";
+                $stmt = $db->prepare($oppdaterBruker);
+                $stmt->execute();
 
-            // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
-            $antall = $stmt->rowCount();
+                // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
+                $antall = $stmt->rowCount();
 
-            if (!$antall == "0") {
-                // Oppdaterer session-info
-                $_SESSION['brukernavn'] = $nyttBrukernavn;
-                $_SESSION['fornavn'] = $nyttFornavn;
-                $_SESSION['etternavn'] = $nyttEtternavn;
-                $_SESSION['epost'] = $nyEpost;
-                $oppdatertBr = true;
+                if ($antall > 0) {
+                    // Oppdaterer session-info
+                    $_SESSION['brukernavn'] = $nyttBrukernavn;
+                    $_SESSION['fornavn'] = $nyttFornavn;
+                    $_SESSION['etternavn'] = $nyttEtternavn;
+                    $_SESSION['epost'] = $nyEpost;
+                    $_SESSION['telefonnummer'] = $nyttTelefonnummer;
+                    $oppdatertBr = true;
+
+                    // Alt gikk ok, fjerner session variable for brukerinput
+                    unset($_SESSION['input_brukernavn']);
+                    unset($_SESSION['input_epost']);
+                    unset($_SESSION['input_fornavn']);
+                    unset($_SESSION['input_etternavn']);
+                    unset($_SESSION['input_telefonnummer']);
+                }
+            } else {
+                header("Location: konto_rediger.php?error=5");
             }
         } 
 
         // Del for oppdatering av passord, sjekker om begge passordene er like, og om bruker faktisk har skrevet noe
         if ($_POST['nyttpassord'] != "") {
             if ($_POST['nyttpassord'] == $_POST['bekreftnyttpassord']) {
-                // Saltet
-                $salt = "IT2_2020"; 
 
                 $lbr = strtolower($_SESSION['brukernavn']);
                 $pw = $_POST['gammeltpassord'];
@@ -134,7 +168,7 @@ if (isset($_POST['subEndring'])) {
                         // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
                         $antall = $stmt->rowCount();
                 
-                        if (!$antall == "0") {
+                        if ($antall > 0) {
                             $oppdatertPw = true;
                         }
                     }
@@ -147,9 +181,7 @@ if (isset($_POST['subEndring'])) {
         // Hvis vi har oppdatert brukerinfo eller passord, returner bruker til kontosiden, her ser vi oppdatert info direkte
         if ($oppdatertBr == true || $oppdatertPw == true) {
             header("location: konto.php?vellykket=1");
-        } else {
-            header("Location: konto.php?error=2");
-        }
+        } 
     } 
     catch (PDOException $ex) {
         if ($ex->getCode() == 23000) {
@@ -158,6 +190,34 @@ if (isset($_POST['subEndring'])) {
         }
     } 
     
+}
+
+if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnummer'])) {
+    if (isset($_POST['fnavn'])) {
+        $slettfNavnQ = "update bruker set fnavn = null where idbruker = " . $_SESSION['idbruker'];
+        $slettfNavnSTMT = $db->prepare($slettfNavnQ);
+        $slettfNavnSTMT->execute();
+
+        $_SESSION['fornavn'] = "";
+        
+    } if (isset($_POST['enavn'])) {
+        $sletteNavnQ = "update bruker set enavn = null where idbruker = " . $_SESSION['idbruker'];
+        $sletteNavnSTMT = $db->prepare($sletteNavnQ);
+        $sletteNavnSTMT->execute();
+
+        $_SESSION['etternavn'] = "";
+
+    } if (isset($_POST['telefonnummer'])) {
+
+        $slettTlfQ = "update bruker set telefonnummer = null where idbruker = " . $_SESSION['idbruker'];
+        $sletteTlfSTMT = $db->prepare($slettTlfQ);
+        $sletteTlfSTMT->execute();
+
+        $_SESSION['telefonnummer'] = "";
+
+    }
+
+    header("location: konto.php?vellykket=1");
 }
 
 ?>
@@ -180,26 +240,100 @@ if (isset($_POST['subEndring'])) {
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-    <body onload="kontoRullegardin()">
+    <body onload="kontoRullegardin()" onresize="fiksRullegardin()">
         <article class="innhold">    
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop">
                 <!-- Legger til en knapp for å logge ut når man er innlogget-->
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="4">
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="6">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
-                <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='konto.php'" tabindex="3">
-                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny">
-                </a>
+                <!-- Profilbilde i navmenyen, leder til profil-siden -->
+                <?php
+
+                /* -------------------------------*/
+                /* Del for visning av profilbilde */
+                /* -------------------------------*/
+
+                // Henter bilde fra database utifra brukerid
+
+                $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+                $stmtBilde = $db->prepare($hentBilde);
+                $stmtBilde->execute();
+                $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+                $antallBilderFunnet = $stmtBilde->rowCount();
+
+                // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
+                if ($antallBilderFunnet != 0) { ?>
+                    <!-- Hvis vi finner et bilde til bruker viser vi det -->
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
+                        <?php
+                        $testPaa = $bilde['hvor'];
+                        // Tester på om filen faktisk finnes
+                        if(file_exists("$lagringsplass/$testPaa")) {   
+                            if ($_SESSION['brukertype'] == 2) { ?>
+                                <!-- Setter redaktør border "Oransje" -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 2px solid green;">
+                            
+                            <?php 
+                            }
+                            if ($_SESSION['brukertype'] == 1) { ?>
+                                <!-- Setter administrator border "Rød" -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 2px solid red;"> 
+                            <?php 
+                            }
+                            if ($_SESSION['brukertype'] == 3) { ?> 
+                                <!-- Setter vanlig profil bilde -->
+                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
+                            <?php 
+                            }
+                        } else { 
+                            // Om filen ikke ble funnet, vis standard profilbilde
+                            if ($_SESSION['brukertype'] == 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
+                            <!-- Setter administrator border "Rød" -->
+                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
+                            <!-- Setter vanlig profil bilde -->
+                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                            <?php
+                            }
+                        } ?>
+                    </a>
+
+                <?php } else { ?>
+                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
+                        <!-- Setter redaktør border "Oransje" -->
+                        <?php if ($_SESSION['brukertype'] == 2) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
+                        <!-- Setter administrator border "Rød" -->
+                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
+                        <!-- Setter vanlig profil bilde -->
+                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
+                        <?php } ?>
+                    </a>
+
+                <?php } ?>
+
                 <!-- Legger til en knapp for å logge ut når man er innlogget -->
                 <form method="POST" action="default.php">
-                    <button name="loggUt" id="backendLoggUt" tabindex="2">LOGG UT</button>
+                    <button name="loggUt" id="backendLoggUt" tabindex="4">LOGG UT</button>
                 </form>
-                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-                <a class="bildeKontroll" href="default.php" tabindex="1">
-                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-                </a> 
+                <form id="sokForm_navmeny" action="sok.php">
+                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
+                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
+                </form>
+                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
+                </a>
+                <!-- Logoen øverst i venstre hjørne -->
+                <a href="default.php" tabindex="1">
+                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
+                </a>
             <!-- Slutt på navigasjonsmeny-->
             </nav>
 
@@ -207,12 +341,23 @@ if (isset($_POST['subEndring'])) {
             <section id="navMeny" class="hamburgerMeny">
 
                 <!-- innholdet i hamburger-menyen -->
+                <!-- -1 tabIndex som standard, man tabber ikke inn i menyen når den er lukket -->
                 <section class="hamburgerInnhold">
-                    <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-                    <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
-                    <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
-                    <a id = "menytab4" tabIndex = "-1" href="backend.php">Oversikt</a>
-                    <a id = "menytab5" tabIndex = "-1" href="konto.php">Konto</a>
+
+                    <!-- Redaktør meny "Oransje" -->
+                    <?php if ($_SESSION['brukertype'] == 2) { ?>
+                        <p style="color: green"> Innlogget som Redaktør </p>
+                    <!-- Administrator meny "Rød" -->
+                    <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                        <p style="color: red"> Innlogget som Administrator </p>
+                    <?php } ?>
+
+                    <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
+                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
+                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
+                    <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
+                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>
 
@@ -225,50 +370,69 @@ if (isset($_POST['subEndring'])) {
                 <section class="brukerinformasjon_rediger"> 
                     <!-- Underoverskrift -->
                     <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
+
+                    
+                    <form id="konto_rediger_formSlett" method="POST" action="konto_rediger.php" name="slettInfo">
+
+                    </form>
                     
                     <!-- Felt for brukeropplysning endringer -->
-                    <form method="POST" action="konto_rediger.php" class="konto_rediger_Form">
+                    <form id="konto_rediger_form" method="POST" action="konto_rediger.php" class="konto_rediger_Form">
                         <!-- Brukernavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_brukernavn_overskrift">Endre brukernavn</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="" placeholder="Nytt brukernavn" autofocus>
+                            <h3 class="endre_bruker_overskrift">Endre brukernavn</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Nytt brukernavn" autofocus>
                         </section>
                         <!-- Epost -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_epost_overskrift">Endre epost</h3>
-                            <input type="email" class="KontoredigeringFelt" name="nyepost" value="" placeholder="Ny epost">
-                        </section>     
-                        <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
-                        <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
-                        <section class="innholdRullegardin">
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_gammeltpassord_overskrift">Gammelt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" autofocus>
-                            </section>
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_nyttpassord_overskrift">Nytt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord">
-                            </section>
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_nyttpassordbekreft_overskrift">Bekreft nytt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord">
-                            </section>
-                            <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
-                        </section>
+                            <h3 class="endre_bruker_overskrift">Endre epost</h3>
+                            <input type="email" class="KontoredigeringFelt" name="nyepost" value="<?php echo($input_epost) ?>" placeholder="Ny epost">
+                        </section>    
                         <!-- Fornavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_fornavn_overskrift">Endre fornavn</h3>
-                            <input type="fornavn" class="KontoredigeringFelt" name="nyttfornavn" value="" placeholder="Nytt fornavn">
+                            <h3 class="endre_bruker_overskrift">Endre fornavn
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="fnavn" value="(Slett)">
+                            </h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn">
                         </section>
                         <!-- Etternavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_etternavn_overskrift">Endre etternavn</h3>
-                            <input type="etternavn" class="KontoredigeringFelt" name="nyttetternavn" value="" placeholder="Nytt etternavn">
+                            <h3 class="endre_bruker_overskrift">Endre etternavn
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="enavn" value="(Slett)">
+                            </h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn">
+                        </section>
+                        <!-- Telefonnummer -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Endre telefonnummer
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="telefonnummer" value="(Slett)">
+                            </h3>
+                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php echo($input_telefonnummer) ?>" placeholder="Nytt telefonnummer">
                         </section>
                         
-                        <!-- Knapp for å lagre endringer -->
-                        <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer">
                     </form>
+
+                    <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
+                    <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
+                    <section id="konto_rediger_pw" class="innholdRullegardin">
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Gammelt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" form="konto_rediger_form" autofocus>
+                        </section>
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Nytt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord" form="konto_rediger_form">
+                        </section>
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Bekreft nytt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form">
+                        </section>
+                        <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
+                    </section>
+
+                    <!-- Knapp for å lagre endringer -->
+                    <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer" form="konto_rediger_form">
+
                     <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
                         <p id="mldFEIL">Passordene er ikke like</p>
                     
@@ -278,8 +442,11 @@ if (isset($_POST['subEndring'])) {
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
                         <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-                    <?php } if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
                         <p id="mldFEIL">Brukernavnet er opptatt</p>    
+
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                        <p id="mldFEIL">Epost er ikke gyldig</p>    
                     <?php } ?>
                     <!-- Sender brukeren tilbake til forsiden -->
                     <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
@@ -287,16 +454,19 @@ if (isset($_POST['subEndring'])) {
             </main>
 
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
+            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
+                    <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
+                    <?php if ($_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                </p>
             </footer>
         </article>
     </body>
     
-    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Petter Fiskvik siste gang endret 04.12.2019 -->
-    <!-- Sist kontrollert av Aron Snekkestad, 09.12.2019 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Petter Fiskvik siste gang endret 07.02.2020 -->
+    <!-- Sist kontrollert av Ajdin Bajrovic, 07.02.2020 -->
 
 </html>

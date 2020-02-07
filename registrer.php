@@ -1,52 +1,42 @@
 <?php
 session_start();
-// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
+
+//------------------------------//
+// Innstillinger, faste variable //
+//------------------------------//
+include("innstillinger.php");
+
+
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
-if (isset($_SESSION['brukernavn'])) {
+if (isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=2");
 }
 
-// Forsøker å koble til database
-
-try {
-    include("klimate_pdo_prod.php");
-    $db = new mysqlPDO();
-} 
-catch (Exception $ex) {
-    // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
-    if ($ex->getCode() == 1049) {
-        // 1049, Fikk koblet til men databasen finnes ikke
-        header('location: default.php?error=3');
-    }
-    if ($ex->getCode() == 2002) {
-        // 2002, Kunne ikke koble til server
-        header('location: default.php?error=3');
-    }
-    if ($ex->getCode() == 1045) {
-        // 1045, Bruker har ikke tilgang
-        header('location: default.php?error=3');
-    }
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_brukernavn = "";
+$input_epost = "";
+if (isset($_SESSION['input_brukernavn'])) {
+    $input_brukernavn = $_SESSION['input_brukernavn'];
+    $input_epost = $_SESSION['input_epost'];
+    unset($_SESSION['input_brukernavn']);
+    unset($_SESSION['input_epost']);
 }
 
-// Setter så PDO kaster ut feilmelding og stopper funksjonen ved database-feil (PDOException)
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 if (isset($_POST['subRegistrering'])) {
+    $_SESSION['input_brukernavn'] = $_POST['brukernavn'];
+    $_SESSION['input_epost'] = $_POST['epost'];
     // Tester på om passordene er like
     if ($_POST['passord'] == $_POST['passord2']) {
-        // Tester på om passordet er mindre eller lik 45 tegn
-        if (strlen($_POST['passord']) <= 45) {
-            // Tester på om bruker har fyllt ut alle de obligatoriske feltene
-            if ($_POST['brukernavn'] != "" && $_POST['fornavn'] != "" && $_POST['etternavn'] != "" && $_POST['epost'] != "") {
+        // Tester på om bruker har fyllt ut alle de obligatoriske feltene
+        if ($_POST['brukernavn'] != "" && $_POST['epost'] != "") {
+            // Tester på om en gyldig epost ("NAVN@NAVN.DOMENE") er oppgitt
+            if (filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL)) {
                 try {
-                    // Saltet
-                    $salt = "IT2_2020"; 
 
                     $br = $_POST['brukernavn'];
                     $pw = $_POST['passord'];
 
-                    // Validering av passordstyrke
-                    // Kilde: https://www.codexworld.com/how-to/validate-password-strength-in-php/
+                    // Validering av passordstyrke, server validering
                     $storebokstaver = preg_match('@[A-Z]@', $pw);
                     $smaabokstaver = preg_match('@[a-z]@', $pw);
                     $nummer = preg_match('@[0-9]@', $pw);
@@ -70,15 +60,13 @@ if (isset($_POST['subRegistrering'])) {
                         // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
                         if ($testbnavn['brukernavn'] != $lbr) {
                             // OK, vi forsøker å registrere bruker
-                            $fn = $_POST['fornavn'];
-                            $en = $_POST['etternavn'];
                             $epost = $_POST['epost'];
 
                             // Salter passorder
                             $kombinert = $salt . $pw;
                             // Krypterer saltet passord
                             $spw = sha1($kombinert);
-                            $sql = "insert into bruker(brukernavn, passord, fnavn, enavn, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $fn . "', '" . $en . "', '" . $epost . "', 3)";
+                            $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', 3)";
 
 
                             // Prepared statement for å beskytte mot SQL injection
@@ -88,6 +76,10 @@ if (isset($_POST['subRegistrering'])) {
                             
                             // Alt gikk OK, sender til logginn med melding til bruker
                             if ($vellykket) {
+                                // Fjerner session variable for brukerinput om ingen feil oppstår
+                                unset($_SESSION['input_brukernavn']);
+                                unset($_SESSION['input_epost']);
+
                                 header("location: logginn.php?vellykket=1");
                             }
                         } else {
@@ -106,11 +98,11 @@ if (isset($_POST['subRegistrering'])) {
                     }
                 } 
             } else {
-                // Feilmelding 7, bruker har ikke skrevet noe i ett av de obligatoriske feltene
+                // Feilmelding 7, bruker har oppgitt en ugyldig epost
                 header("location: registrer.php?error=7");
             }
         } else {
-            // Feilmelding 6, passord for langt
+            // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
             header("location: registrer.php?error=6");
         }
     } else {
@@ -143,15 +135,23 @@ if (isset($_POST['subRegistrering'])) {
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop">
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="3">
+                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="5">
                     <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
                 </a>
                 <!-- Legger til en knapp for å gå fra registrering til innlogging -->
-                <button class="singelKnapp" onClick="location.href='logginn.php'" tabindex="2">LOGG INN</button>
-                <!-- Logoen øverst i venstre hjørne, denne leder alltid tilbake til default.php -->
-                <a class="bildeKontroll" href="default.php" tabindex="1">
-                    <img src="bilder/klimateNoText.png" alt="Klimate logo" class="Logo_navmeny">
-                </a> 
+                <button class="singelKnapp" onClick="location.href='logginn.php'" tabindex="4">LOGG INN</button>
+                
+                <form id="sokForm_navmeny" action="sok.php">
+                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
+                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
+                </form>
+                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
+                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
+                </a>
+                <!-- Logoen øverst i venstre hjørne -->
+                <a href="default.php" tabindex="1">
+                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
+                </a>
             <!-- Slutt på navigasjonsmeny-->
             </nav>
 
@@ -160,45 +160,31 @@ if (isset($_POST['subRegistrering'])) {
                 <!-- innholdet i hamburger-menyen -->
                 <!-- -1 tabIndex som standard da menyen er lukket -->
                 <section class="hamburgerInnhold">
-                    <a id = "menytab1" tabIndex = "-1" href="#">Arrangementer</a>
-                    <a id = "menytab2" tabIndex = "-1" href="#">Artikler</a>
-                    <a id = "menytab3" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
+                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
+                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>
 
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header onclick="lukkHamburgerMeny()">
-                <!-- Logoen midten øverst på siden, med tittel -->
-                <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
-            </header>
-
-            <main onclick="lukkHamburgerMeny()">
+            <main id="toppMain" onclick="lukkHamburgerMeny()">
                 <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
                 <form method="POST" action="registrer.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn brukernavn" autofocus>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/fnenIkon.png" alt="Fornavnikon"> <!-- Ikonet for Fornavn -->
-                        <input type="fornavn" class="RegInnFelt" name="fornavn" value="" placeholder="Skriv inn fornavn">
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/fnenIkon.png" alt="Etternavnikon"> <!-- Ikonet for etternavn -->
-                        <input type="etternavn" class="RegInnFelt" name="etternavn" value="" placeholder="Skriv inn etternavn">
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="" placeholder="Skriv inn e-postadresse">
+                        <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord">
+                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                     </section>
                     <section class="inputBoks">
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord">
+                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                     </section>
                     <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
@@ -219,11 +205,11 @@ if (isset($_POST['subRegistrering'])) {
                         <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
 
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
-                        <p id="mldFEIL">Passordet er for langt, du kan maksimalt ha 45 tegn</p>
+                        <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
 
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
-                        <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
-                    <?php } ?>      
+                        <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
+                    <?php } ?>    
 
                     <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
                 </form>
@@ -234,16 +220,16 @@ if (isset($_POST['subRegistrering'])) {
             </main>
 
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="topFunction()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
+            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
             
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2019 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
             </footer>
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 07.12.2019 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 09.12.2019 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 07.02.2020 -->
+    <!-- Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 -->
 
 </html>
