@@ -346,7 +346,7 @@ if ($tellingArrangement > 0) {
                             if(file_exists("$lagringsplass/$testPaa")) {   
                                 if ($_SESSION['brukertype'] == 2) { ?>
                                     <!-- Setter redaktør border "Oransje" -->
-                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid orange;">
+                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 1px solid green;">
                                 
                                 <?php 
                                 }
@@ -363,7 +363,7 @@ if ($tellingArrangement > 0) {
                             } else { 
                                 // Om filen ikke ble funnet, vis standard profilbilde
                                 if ($_SESSION['brukertype'] == 2) { ?>
-                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
                                 <!-- Setter administrator border "Rød" -->
                                 <?php } else if ($_SESSION['brukertype'] == 1) { ?>
                                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
@@ -379,7 +379,7 @@ if ($tellingArrangement > 0) {
                         <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="3">
                             <!-- Setter redaktør border "Oransje" -->
                             <?php if ($_SESSION['brukertype'] == 2) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid orange;">
+                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid green;">
                             <!-- Setter administrator border "Rød" -->
                             <?php } else if ($_SESSION['brukertype'] == 1) { ?>
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 1px solid red;"> 
@@ -422,6 +422,15 @@ if ($tellingArrangement > 0) {
                 <section class="hamburgerInnhold">
                     <?php if (isset($_SESSION['idbruker'])) { ?>
                         <!-- Hva som vises om bruker er innlogget -->
+                        
+                        <!-- Redaktør meny "Oransje" -->
+                        <?php if ($_SESSION['brukertype'] == 2) { ?>
+                            <p style="color: green"> Innlogget som Redaktør </p>
+                        <!-- Administrator meny "Rød" -->
+                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                            <p style="color: red"> Innlogget som Administrator </p>
+                        <?php } ?>
+
                         <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                         <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                         <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
