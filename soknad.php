@@ -14,7 +14,8 @@ if (!isset($_SESSION['idbruker'])) {
 } else if ($_SESSION['brukertype'] != '3') {
     header("Location: default.php?error=4");
 }
-
+// Skal få sendt til epost. 
+// Må legge til siste del for at eposten skal sendes.
 if (isset($_POST['submit'])) {
     $brukernavn = $_POST['brukernavn'];
     $epost = $_POST['epost'];
