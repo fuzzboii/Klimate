@@ -296,7 +296,13 @@ if ($tellingArrangement > 0) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Profil</title>
+        <title>
+            <?php if(isset($_GET['innstillinger'])) { ?>
+                Rediger profil
+            <?php } else { ?>
+                Profil
+            <?php } ?>
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
