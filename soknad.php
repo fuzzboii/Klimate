@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
                 </a>
                 <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
                 <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-                <?php if (isset($_SESSION['brukernavn'])) {
+                <?php if (isset($_SESSION['idbruker'])) {
                     // Vises når bruker er innlogget
 
                     /* -------------------------------*/
