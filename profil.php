@@ -33,6 +33,8 @@ if (isset($_POST['endreBilde'])) {
         $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
         // Kombinerer navnet med filtypen
         $bildenavn = $navn . $filtype;
+        // Opprettet filnavnet for bildet som skal slettes, setter denne til tom streng hvis ikke bruker har profilbilde fra før
+        $bildenavnGammelt = "";
         // Selve prosessen som flytter bildet til bestemt lagringsplass
         // Test om det finnes en fil med samme navn
         // Opprett navn med de 3 ulike filtypene
@@ -66,10 +68,12 @@ if (isset($_POST['endreBilde'])) {
         // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
         if ($antallBilderFunnet != 0) {
             // Hvis brukeren har et bilde fra før:
-            // Slett det gamle bildet fra databasen først
-            $slettBilde = "delete from bilder where hvor='" . $bildenavnGammelt . "'";
-            $stmtSlettBilde = $db->prepare($slettBilde);
-            $stmtSlettBilde->execute();
+            if($bildenavnGammelt != "") {
+                // Slett det gamle bildet fra databasen først
+                $slettBilde = "delete from bilder where hvor='" . $bildenavnGammelt . "'";
+                $stmtSlettBilde = $db->prepare($slettBilde);
+                $stmtSlettBilde->execute();
+            }
             // Legger til bildet i databasen
             $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
             $nyttBildeSTMT = $db->prepare($nyttBildeQ);
@@ -238,7 +242,7 @@ if ($tellingInteresse > 0) {
 //----------------------------------------------//
 // Hent alle interesser fra db, til en <select> //
 //----------------------------------------------//
-$hentInteresse = "select interessenavn from interesse";
+$hentInteresse = "select idinteresse, interessenavn from interesse";
 $stmtHentInteresse = $db->prepare($hentInteresse);
 $stmtHentInteresse->execute();
 $interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
@@ -505,12 +509,9 @@ if ($tellingArrangement > 0) {
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
                                 <select class="profil_input" name="interesse">
                                     <?php $index=1 ?>
-                                    <?php foreach($interesse as $rad) {
-                                        foreach($rad as $option) { ?>
-                                            <option value="<?php echo($index) ?>"> <?php echo($option) ?> </option>
-                                            <?php $index++ ?>
-                                        <?php } // Slutt, indre løkke
-                                    } ?> <!-- Slutt, ytre løkke -->
+                                    <?php foreach($interesse as $rad) { ?>
+                                        <option value="<?php echo($rad['idinteresse']) ?>"> <?php echo($rad['interessenavn']) ?> </option>
+                                    <?php } ?> <!-- Slutt, ytre løkke -->
                                     
                                 </select>
                                 <input class="profil_knapp" type="submit" value="Legg til"></input>
