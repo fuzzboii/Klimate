@@ -322,7 +322,7 @@ if ($tellingArrangement > 0) {
                 </a>
                 <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
                 <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-                <?php if (isset($_SESSION['brukernavn'])) {
+                <?php if (isset($_SESSION['idbruker'])) {
                     // Vises når bruker er innlogget
 
                     /* -------------------------------*/
@@ -420,7 +420,7 @@ if ($tellingArrangement > 0) {
                 <!-- innholdet i hamburger-menyen -->
                 <!-- -1 tabIndex som standard da menyen er lukket -->
                 <section class="hamburgerInnhold">
-                    <?php if (isset($_SESSION['brukernavn'])) { ?>
+                    <?php if (isset($_SESSION['idbruker'])) { ?>
                         <!-- Hva som vises om bruker er innlogget -->
                         
                         <!-- Redaktør meny "Oransje" -->
@@ -652,7 +652,7 @@ if ($tellingArrangement > 0) {
             <footer>
                 <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                     <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                    <?php if (isset($_SESSION['brukernavn']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
+                    <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
                 </p>
             </footer>
         </article>
