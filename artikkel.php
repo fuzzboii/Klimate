@@ -153,7 +153,7 @@ if (isset($_POST['slettDenne'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="artikkel_body" onload="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')" onresize="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">
+    <body id="artikkel_body" onload="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp'), artTabbing()" onresize="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">
         <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop"> 
             <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
