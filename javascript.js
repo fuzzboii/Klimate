@@ -403,13 +403,38 @@ function visForrigeSide(side, tilbake, neste) {
 }
 
 // Get the input field    
-function sokTabbing(mottat) {
-  var mottatClass = document.getElementsByClassName(mottat);
+function sokTabbing() {
+  var artikkel = document.getElementsByClassName("artRes_sok");
+  var bruker = document.getElementsByClassName("brukerRes_sok");
+  var arrangement = document.getElementsByClassName("arrRes_sok");
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
-  for (var i = 0; i < mottatClass.length; i++) {
-    var hvilken = i;
+  for (var i = 0; i < artikkel.length; i++) {
     // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
-    mottatClass[i].addEventListener("keyup", function(event) {
+    artikkel[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+  for (var i = 0; i < bruker.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    bruker[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+  for (var i = 0; i < arrangement.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    arrangement[i].addEventListener("keyup", function(event) {
       // Henter dette elementet
       var gaaTil = this;
       // 13 er Enter tasten

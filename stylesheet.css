@@ -2045,6 +2045,17 @@ table {
     box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.3s;
   }
+
+  .brukerRes_sok:focus, .artRes_sok:focus, .arrRes_sok:focus {
+    outline: 0;
+    box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
+    transition: box-shadow 0.1s;
+  }
+  #sok_nesteKnapp:focus, #sok_tilbKnapp:focus {
+    outline: 0;
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+  }
+  
   #sok_nesteKnapp:hover, #sok_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;

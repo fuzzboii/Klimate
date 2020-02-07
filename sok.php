@@ -41,7 +41,7 @@ $tabindex = 7;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="sok_body" onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp'), sokTabbing('brukerRes_sok')" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
+    <body id="sok_body" onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp'), sokTabbing()" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
         <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop"> 
             <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
@@ -452,7 +452,7 @@ $tabindex = 7;
                         if ($j % 8 == 0) { ?>
                             <section class="side_sok">
                         <?php $antallSider++; } $avsluttTag++; ?>
-                        <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'">
+                        <section id="sok_enterKnapp<?php echo($tabindex);?>" class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                             <figure class="infoBoksArt_sok">
                                 <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
@@ -480,9 +480,9 @@ $tabindex = 7;
                     <?php if ($antallSider > 1) {?>
                         <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                     <?php } ?>
-                    <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Forrige</button>
-                    <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Neste</button>
-                    <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 100>Forrige</button>
+                    <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 101>Neste</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 102>Tilbake til søk</button>
                 </section>
             <?php 
             } else {
@@ -614,7 +614,7 @@ $tabindex = 7;
                         if ($j % 8 == 0) { ?>
                             <section class="side_sok">
                         <?php $antallSider++; } $avsluttTag++; ?>
-                        <section class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'">
+                        <section id="sok_enterKnapp<?php echo($tabindex);?>" class="arrRes_sok" onClick="location.href='arrangement.php?arrangement=<?php echo($resArr[$j]['idevent']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                             <figure class="infoBoksArr_sok">
 
                                 <?php // Henter bilde til arrangementet
@@ -658,9 +658,9 @@ $tabindex = 7;
                     <?php if ($antallSider > 1) {?>
                         <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
                     <?php } ?>
-                    <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Forrige</button>
-                    <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">Neste</button>
-                    <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 100>Forrige</button>
+                    <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 101>Neste</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 102>Tilbake til søk</button>
                 </section>
             <?php } else {
                 
