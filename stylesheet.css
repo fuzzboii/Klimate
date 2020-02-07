@@ -1695,7 +1695,7 @@ table {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   margin-top: 0.5em;
-  margin-bottom: 0.5em;
+  margin-bottom: 1.5em;
   border-radius: 0.4em; /* Runder ut knappen */
   width: 7em;
 }
