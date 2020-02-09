@@ -16,36 +16,40 @@ if (isset($_POST['avregistrerMeg'])) {
 
     // Del for oppdatering av passord, sjekker om begge passordene er like, og om bruker faktisk har skrevet noe
     if ($_POST['passord'] != "") {
+        if ($_SESSION['brukertype'] != 1) {
+            $pw = $_POST['passord'];
 
-        $pw = $_POST['passord'];
+            // Salter passordet
+            $kombinert = $salt . $pw;
 
-        // Salter passordet
-        $kombinert = $salt . $pw;
+            // Krypterer det saltede passordet
+            $spw = sha1($kombinert);
 
-        // Krypterer det saltede passordet
-        $spw = sha1($kombinert);
+            $sjekkPassordQ = "select idbruker, passord from bruker where idbruker = " . $_SESSION['idbruker'] . " and passord = '" . $spw . "'";
+            $sjekkPassordSTMT = $db->prepare($sjekkPassordQ);
+            $sjekkPassordSTMT->execute();
+            $resultat = $sjekkPassordSTMT->fetch(PDO::FETCH_ASSOC);
 
-        $sjekkPassordQ = "select idbruker, passord from bruker where idbruker = " . $_SESSION['idbruker'] . " and passord = '" . $spw . "'";
-        $sjekkPassordSTMT = $db->prepare($sjekkPassordQ);
-        $sjekkPassordSTMT->execute();
-        $resultat = $sjekkPassordSTMT->fetch(PDO::FETCH_ASSOC);
+            if (($resultat != false) &&$resultat['idbruker'] == $_SESSION['idbruker'] && $resultat['passord'] == $spw) {
+                // Passordet er riktig, vi fortsetter med avregistrering
+                $avregistreringQ = "update bruker set brukertype = 4 where idbruker = '" . $_SESSION['idbruker'] . "'";
+                $avregistreringSTMT = $db->prepare($avregistreringQ);
+                $avregistreringSTMT->execute();
+                $avregistreringRes = $avregistreringSTMT->fetch(PDO::FETCH_ASSOC);
 
-        if (($resultat != false) &&$resultat['idbruker'] == $_SESSION['idbruker'] && $resultat['passord'] == $spw) {
-            // Passordet er riktig, vi fortsetter med avregistrering
-            $avregistreringQ = "update bruker set brukertype = 4 where idbruker = '" . $_SESSION['idbruker'] . "'";
-            $avregistreringSTMT = $db->prepare($avregistreringQ);
-            $avregistreringSTMT->execute();
-            $avregistreringRes = $avregistreringSTMT->fetch(PDO::FETCH_ASSOC);
+                $antallEndret = $avregistreringSTMT->rowCount();
 
-            $antallEndret = $avregistreringSTMT->rowCount();
-
-            if($antallEndret != 0) {
-                session_destroy();
-                header('Location: default.php?avregistrert=true');
+                if($antallEndret != 0) {
+                    session_destroy();
+                    header('Location: default.php?avregistrert=true');
+                }
+            } else {
+                // Feil passord skrevet
+                header("Location: konto.php?error=3");
             }
         } else {
-            // Feil passord skrevet
-            header("Location: konto.php?error=3");
+            // Brukertype er administrator
+            header("Location: konto.php?error=4");
         }
     } else {
         // Ikke noe passord skrevet
@@ -212,7 +216,11 @@ if (isset($_POST['avregistrerMeg'])) {
                 <p id="mldFEIL">Kunne ikke oppdatere konto, vennligst prøv igjen senere</p>  
 
             <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                <p id="mldFEIL">Feil passord skrevet ved avregistrering</p>    
+                <p id="mldFEIL">Feil passord skrevet ved avregistrering</p>
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                <p id="mldFEIL">Du kan ikke avregistrere en administrator</p>  
+
             <?php } ?>
 
             <!-- Konto brukeropplysninger -->
