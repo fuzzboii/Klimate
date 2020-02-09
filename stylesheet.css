@@ -642,6 +642,7 @@ footer a {
 
 .profil_backend {
   width: 7em; /* Bestemmer størrelse på profilbilde */
+  height: 7em; /* Bestemmer størrelse på profilbilde */
   border-radius: 50%; /* Avrunder profilbildet */
 }
 

@@ -58,24 +58,34 @@ if (isset($_POST['submit'])) {
         $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-            if ($resultat['brukertype'] != 4) {
-                $_SESSION['idbruker'] = $resultat['idbruker'];
-                $_SESSION['brukernavn'] = $resultat['brukernavn'];
-                $_SESSION['fornavn'] = $resultat['fnavn'];
-                $_SESSION['etternavn'] = $resultat['enavn'];
-                $_SESSION['epost'] = $resultat['epost'];
-                $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
-                $_SESSION['brukertype'] = $resultat['brukertype'];
+            if ($resultat['brukertype'] == 4) {
+                $oppdaterBrukertypeQ = "update bruker set brukertype = 3 where idbruker = " . $resultat['idbruker'];
+                $oppdaterBrukertypeSTMT = $db->prepare($oppdaterBrukertypeQ);
+                $oppdaterBrukertypeSTMT->execute();
                 
-                $_SESSION['feilteller'] = 0;
+                $antallEndret = $oppdaterBrukertypeSTMT->rowCount();
 
-                // Fjerner session variable for brukerinput om ingen feil oppstår
-                unset($_SESSION['input_brukernavn']);
+                if ($antallEndret == 0) {
+                    header("Location: logginn.php?error=1");
+                } else {
+                    $resultat['brukertype'] = 3;
+                }
+            } 
 
-                header("Location: backend.php");
-            } else {
-                header("Location: default.php?error=5");
-            }
+            $_SESSION['idbruker'] = $resultat['idbruker'];
+            $_SESSION['brukernavn'] = $resultat['brukernavn'];
+            $_SESSION['fornavn'] = $resultat['fnavn'];
+            $_SESSION['etternavn'] = $resultat['enavn'];
+            $_SESSION['epost'] = $resultat['epost'];
+            $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
+            $_SESSION['brukertype'] = $resultat['brukertype'];
+            
+            $_SESSION['feilteller'] = 0;
+
+            // Fjerner session variable for brukerinput om ingen feil oppstår
+            unset($_SESSION['input_brukernavn']);
+
+            header("Location: backend.php");
         } else {    
             // Øker teller for feilet innlogging med 1
             $_SESSION['feilteller']++;
@@ -167,6 +177,9 @@ if (isset($_POST['submit'])) {
                     
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
                         <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
+                        
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                        <p id="mldFEIL">Kunne ikke registrere bruker, vennligst kontakt administrator om dette problemet fortsetter</p>
                     
                     <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                         <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
