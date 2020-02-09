@@ -14,7 +14,11 @@ if (isset($_SESSION['idbruker']) && $_SESSION['idbruker'] == $_GET['bruker']) {
     $egen = true;
 } else {
     $egen = false;
-};
+}
+
+if (!isset($_GET['bruker'])) {
+    header("location: profil.php?bruker=" . $_SESSION['idbruker']);
+}
 
 // -------------------- //
 // Oppdater profilbilde //
