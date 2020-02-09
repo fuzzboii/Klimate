@@ -13,16 +13,43 @@ if (!$_SESSION['idbruker']) {
 }
 
 if (isset($_POST['avregistrerMeg'])) {
-    $avregistreringQ = "update bruker set brukertype = 4 where idbruker = '" . $_SESSION['idbruker'] . "'";
-    $avregistreringstmt = $db->prepare($avregistreringQ);
-    $avregistreringstmt->execute();
-    $avregistreringRes = $avregistreringstmt->fetch(PDO::FETCH_ASSOC);
 
-    $antallEndret = $avregistreringstmt->rowCount();
+    // Del for oppdatering av passord, sjekker om begge passordene er like, og om bruker faktisk har skrevet noe
+    if ($_POST['passord'] != "") {
 
-    if($antallEndret != 0) {
-        session_destroy();
-        header('Location: default.php?avregistrert=true');
+        $pw = $_POST['passord'];
+
+        // Salter passordet
+        $kombinert = $salt . $pw;
+
+        // Krypterer det saltede passordet
+        $spw = sha1($kombinert);
+
+        $sjekkPassordQ = "select idbruker, passord from bruker where idbruker = " . $_SESSION['idbruker'] . " and passord = '" . $spw . "'";
+        $sjekkPassordSTMT = $db->prepare($sjekkPassordQ);
+        $sjekkPassordSTMT->execute();
+        $resultat = $sjekkPassordSTMT->fetch(PDO::FETCH_ASSOC);
+
+        if (($resultat != false) &&$resultat['idbruker'] == $_SESSION['idbruker'] && $resultat['passord'] == $spw) {
+            // Passordet er riktig, vi fortsetter med avregistrering
+            $avregistreringQ = "update bruker set brukertype = 4 where idbruker = '" . $_SESSION['idbruker'] . "'";
+            $avregistreringSTMT = $db->prepare($avregistreringQ);
+            $avregistreringSTMT->execute();
+            $avregistreringRes = $avregistreringSTMT->fetch(PDO::FETCH_ASSOC);
+
+            $antallEndret = $avregistreringSTMT->rowCount();
+
+            if($antallEndret != 0) {
+                session_destroy();
+                header('Location: default.php?avregistrert=true');
+            }
+        } else {
+            // Feil passord skrevet
+            header("Location: konto.php?error=3");
+        }
+    } else {
+        // Ikke noe passord skrevet
+        header("Location: konto.php?error=1");
     }
 }
 
@@ -176,14 +203,17 @@ if (isset($_POST['avregistrerMeg'])) {
 
             <!-- Meldinger til bruker -->
             <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
+                <p id="mldFEIL">Du må oppgi et passord ved avregistrering.</p>
 
             <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                 <p id="mldOK">Konto oppdatert</p>    
 
             <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                <p id="mldFEIL">Kunne ikke oppdatere konto, vennligst prøv igjen senere</p>    
-            <?php } ?> 
+                <p id="mldFEIL">Kunne ikke oppdatere konto, vennligst prøv igjen senere</p>  
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                <p id="mldFEIL">Feil passord skrevet ved avregistrering</p>    
+            <?php } ?>
 
             <!-- Konto brukeropplysninger -->
             <main id="konto_main" onclick="lukkHamburgerMeny()">
@@ -225,8 +255,7 @@ if (isset($_POST['avregistrerMeg'])) {
                             <h2>Avregistrering</h2>
                             <p>Er du sikker på av du vil avregistrere?</p>
                             <form method="POST" action="konto.php">
-                                <input type="checkbox" id="konto_checkbox" name="Ja" required>
-                                <p id="konto_checkbox">Ja, jeg er sikker på at jeg vil avregistrere meg selv</p>
+                                <input type="password" id="konto_avregistrerpassord" name="passord" placeholder="Oppgi passord" title="Oppgi passordet ditt for å bekrefte avregistrering" required>
                                 <button id="konto_avregistrerKnapp" name="avregistrerMeg">Avregistrer</button>
                             </form>
                             <button id="konto_avbrytKnapp" onclick="bekreftMelding('konto_bekreftAvr')">Avbryt</button>

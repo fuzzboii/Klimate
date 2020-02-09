@@ -782,12 +782,10 @@ td, th  {
   margin-top: 1em;
 }
 
-#konto_checkbox {
-  display: inline;
-}
-
-#konto_checkbox input {
-  width: 3em;
+#konto_avregistrerpassord {
+  width: 90%; /* Angir bredde for inputfeltene */
+  padding: 0.8em; /* legger luft rundt*/
+  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
 }
 
 #konto_avregistrerKnapp {
