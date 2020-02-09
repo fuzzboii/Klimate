@@ -174,7 +174,7 @@ if ($egen) {
             $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
         } else {
             // Ellers viser vi en feilmelding
-            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger=' . $_SESSION['idbruker'] . '&error=1');
+            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger&error=1');
         }
     }
 }
@@ -489,7 +489,7 @@ $tabindex = 10;
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
                         <h3>Endre beskrivelse</h3>
-                        <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                        <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                             <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
                             <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"/>
                         </form>
@@ -519,7 +519,7 @@ $tabindex = 10;
 
                         <!-- Slettemodus -->
                         <?php if ($egen) { ?>
-                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                             <?php if(!isset($_POST['slettemodus'])) { ?>
                                 <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
                             <?php } else { ?> 
@@ -529,7 +529,7 @@ $tabindex = 10;
                         <?php } ?>
                         
                         <?php if($egen) { ?>
-                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">
                                     <?php $index=1 ?>
                                     <?php foreach($interesse as $rad) { ?>
@@ -541,7 +541,7 @@ $tabindex = 10;
                             </form>
 
                             <!-- Egendefinert interesse -->
-                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
@@ -646,7 +646,7 @@ $tabindex = 10;
                     } ?> <!-- Slutt, IF-test --> 
                     </section>
                     <?php if($egen) {?>
-                        <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
+                        <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
                     <?php } ?>
             </main>
 
