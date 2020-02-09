@@ -714,7 +714,7 @@ $tabindex = 7;
                                 </section>
                                 <input type="submit" value="Søk på bruker"  class="sokBrukerFelt" tabindex ="-1">
                             </section>
-                            <button type="button" id="brukerRullegardin" class="brukerRullegardin" tabindex ="-1">Søk etter bruker</button>
+                            <button type="button" id="brukerRullegardin" class="brukerRullegardin" tabindex ="8">Søk etter bruker</button>
                         
                     </form>
                     <!-- Rullegardin for søk på artikkel -->
@@ -736,7 +736,7 @@ $tabindex = 7;
                                 </section>
                                 <input type="submit" value="Søk på artikkel" class="sokBrukerFelt" tabindex ="-1">
                             </section>
-                            <button type="button" id="artikkelRullegardin" class="artikkelRullegardin" tabindex ="-1">Søk etter artikkel</button>
+                            <button type="button" id="artikkelRullegardin" class="artikkelRullegardin" tabindex ="9">Søk etter artikkel</button>
                         
                     </form>
                     <!-- Rullegardin for søk på arrangement -->
@@ -767,7 +767,7 @@ $tabindex = 7;
                                 </section>
                                 <input type="submit" value="Søk på arrangement" class="sokBrukerFelt" tabindex ="-1">
                             </section>
-                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex = "-1">Søk etter arrangement</button>
+                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex ="10">Søk etter arrangement</button>
                        
                     </form>
                 </section>

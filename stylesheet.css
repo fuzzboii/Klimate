@@ -1031,6 +1031,8 @@ table {
 }
 .brukerRullegardin:focus, .artikkelRullegardin:focus, .arrangementRullegardin:focus{
   background-color: #ccc;
+  box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
+  transition: box-shadow 0.1s;
 }
 
 .sok_inputBoks {
