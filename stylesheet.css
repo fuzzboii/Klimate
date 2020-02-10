@@ -755,6 +755,7 @@ td, th  {
   top: 0; 
   margin-top: 6em;
   max-width: 245px;
+  box-shadow: 0 0 0.2em 0.01em black;
 }
 
 #konto_bekreftAvrInnhold {
