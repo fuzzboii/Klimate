@@ -17,7 +17,11 @@ if (isset($_SESSION['idbruker']) && $_SESSION['idbruker'] == $_GET['bruker']) {
 }
 
 if (!isset($_GET['bruker'])) {
-    header("location: profil.php?bruker=" . $_SESSION['idbruker']);
+    if (!isset($_SESSION['idbruker'])) {
+        header("location: sok.php?melding=1");
+    } else {
+        header("location: profil.php?bruker=" . $_SESSION['idbruker']);
+    }
 }
 
 // -------------------- //

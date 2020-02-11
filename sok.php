@@ -683,6 +683,9 @@ $tabindex = 7;
             <!-- Del for avansert søk -->
             <header class="sok_header" onclick="lukkHamburgerMeny()">
                 <h2>Avansert søk</h2>
+                <?php if(isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
+                    <p id="mldFEIL">Vennligst søk etter en bruker først</p>
+                <?php } ?>
             </header>
             <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                 <section id="sok_seksjon"> 
