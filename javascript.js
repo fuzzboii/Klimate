@@ -339,7 +339,8 @@ function sokRullegardin() {
 var forelopigSide = 0; // Starter med å sette side vi er på
 
 // Funksjonene tar imot navn på elementene så vi kan bruke samme kode til forskjellige sider
-function hentSide(side, tilbake, neste) {
+function hentSide(side, tilbake, neste/*, res*/) {
+  var vindu = window.innerWidth;
   // henter alle elementer med navn mottatt i variabel side
   var sideDel = document.getElementsByClassName(side);
 
@@ -347,6 +348,27 @@ function hentSide(side, tilbake, neste) {
   if (typeof sideDel[forelopigSide] != 'undefined') {
     // Hvis ikke viser vi første side av søket
     sideDel[forelopigSide].style.display = "grid";
+
+
+    // var resultater = document.getElementsByClassName(res);
+    /*
+    if (vindu < 720) {
+      for(var i = 0; i < resultater.length; i++) {
+        resultater[i].style.display = "none";
+      }
+      resultater[0].style.display = "block";
+
+      resultater[start].on("swipeleft",function(){
+        resultater[start].style.display = "none";
+        start++;
+        resultater[start].style.display = "block";
+      });
+    } else {
+      for(var i = 0; i < resultater.length; i++) {
+        resultater[i].style.display = "block";
+      }
+    }
+    */
     
     if (sideDel.length > 1) {
       // Er det mer enn 1 side, vis neste knapp
@@ -401,6 +423,11 @@ function visForrigeSide(side, tilbake, neste) {
   // Hent den nye siden
   hentSide(side, tilbake, neste);
 }
+
+/*
+var start = 0;
+function visNesteSideTouch()
+*/
 
 // Funksjon for å trykke på et resulat med enter for søk
 function sokTabbing() {
