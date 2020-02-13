@@ -59,7 +59,6 @@ if (isset($_POST['avregistrerMeg'])) {
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 

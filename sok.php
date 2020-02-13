@@ -12,7 +12,6 @@ $tabindex = 7;
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 

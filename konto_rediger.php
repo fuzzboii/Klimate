@@ -221,7 +221,6 @@ if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnum
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 

@@ -70,7 +70,6 @@ if (isset($_POST['glemtPassord'])) {
         }
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 
