@@ -28,7 +28,7 @@ $stmt = $db->prepare($sql);
 $stmt->execute();
 $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$hentBilde = "select hvor from bilder";
+$hentBilde = "select * from bilder";
 $stmtBilde = $db->prepare($hentBilde);
 $stmtBilde->execute();
 $bilde = $stmtBilde->fetchAll(PDO::FETCH_ASSOC);
@@ -63,8 +63,12 @@ echo("Alle bilder");
 foreach ($bilde as $res) {
     echo "<br>";
     echo "<br>";
+    echo($res['idbilder']);
     echo "<br>";
     echo($res['hvor']);
+    echo "<br>";
+    echo($res['bilde']);
+    echo "<br>";
     echo "<br>";
 }
 echo "<br>";
