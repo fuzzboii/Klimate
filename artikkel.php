@@ -312,7 +312,7 @@ $tabindex = 8;
                         $hentBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $_GET['artikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
                         $stmtBilde = $db->prepare($hentBilde);
                         $stmtBilde->execute();
-                        $bilde = $stmtBilde->fetchAll(PDO::FETCH_ASSOC);
+                        $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
                         $antallBilderFunnet = $stmtBilde->rowCount();
                         ?>
                         <!--  -->
