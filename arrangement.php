@@ -215,7 +215,7 @@ $tabindex = 8;
 
                 // Henter bilde fra database utifra brukerid
 
-                $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+                $hentBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
                 $stmtBilde = $db->prepare($hentBilde);
                 $stmtBilde->execute();
                 $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);

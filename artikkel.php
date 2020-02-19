@@ -173,7 +173,7 @@ $tabindex = 8;
                 /* -------------------------------*/
 
                 // Henter bilde fra database utifra brukerid
-                $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+                $hentBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
                 $stmtBilde = $db->prepare($hentBilde);
                 $stmtBilde->execute();
                 $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -309,13 +309,10 @@ $tabindex = 8;
                         // ------------------------------ artikler som er klikket på -----------------------------
                         // Del for å vise en spesifik artikkel
                         // Henter bilde fra database utifra artikkelid
-                        $hentBilde = "select hvor 
-                                        from artikkelbilde, bilder 
-                                            where artikkelbilde.idartikkel =" . $_GET['artikkel'] . "
-                                                and bilder.idbilder = artikkelbilde.idbilde";
+                        $hentBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $_GET['artikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
                         $stmtBilde = $db->prepare($hentBilde);
                         $stmtBilde->execute();
-                        $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+                        $bilde = $stmtBilde->fetchAll(PDO::FETCH_ASSOC);
                         $antallBilderFunnet = $stmtBilde->rowCount();
                         ?>
                         <!--  -->
