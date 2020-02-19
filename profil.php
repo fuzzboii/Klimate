@@ -63,7 +63,7 @@ if (isset($_POST['endreBilde'])) {
 
         
         // Test om brukeren har et bilde fra før
-        $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+        $hentBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
         $stmtBilde = $db->prepare($hentBilde);
         $stmtBilde->execute();
         $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -573,7 +573,7 @@ $tabindex = 10;
                         <!-- Bilde av brukeren -->
                         <!-- FLYTT SØK-DELEN AV DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
                         <?php
-                        $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_GET['bruker'] . " and idbruker = bruker and bilde = idbilder";
+                        $hentProfilbilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_GET['bruker'] . " and brukerbilde.bilde = bilder.idbilder";
                         $stmtProfilbilde = $db->prepare($hentProfilbilde);
                         $stmtProfilbilde->execute();
                         $profilbilde = $stmtProfilbilde->fetch(PDO::FETCH_ASSOC);
