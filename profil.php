@@ -342,7 +342,7 @@ $tabindex = 10;
 
                     // Henter bilde fra database utifra brukerid
                     
-                    $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+                    $hentBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
                     $stmtBilde = $db->prepare($hentBilde);
                     $stmtBilde->execute();
                     $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -472,7 +472,7 @@ $tabindex = 10;
                 <main class="profil_main">
                 <h2>Rediger informasjon</h2>
                     <h3>Endre profilbilde</h3>
-                    <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
+                    <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
                         <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
                         <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
