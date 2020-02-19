@@ -295,7 +295,6 @@ if ($tellingArrangement > 0) {
 $tabindex = 10;
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 

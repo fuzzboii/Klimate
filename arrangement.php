@@ -165,7 +165,6 @@ if (isset($_POST['slettDenne'])) {
 $tabindex = 8;
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 

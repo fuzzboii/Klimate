@@ -16,7 +16,6 @@ if (isset($_POST['loggUt'])) {
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 

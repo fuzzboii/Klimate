@@ -24,7 +24,6 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 

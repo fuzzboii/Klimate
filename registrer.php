@@ -111,7 +111,6 @@ if (isset($_POST['subRegistrering'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 
