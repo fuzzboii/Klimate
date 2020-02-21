@@ -6,14 +6,14 @@ session_start();
 //------------------------------//
 include("innstillinger.php");
 
-
-
 // Kun innloggede brukere kan se meldinger
 if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
 }
 
-
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +25,17 @@ if (!isset($_SESSION['idbruker'])) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Innboks</title>
+        <title>
+            <?php if(isset($_POST['mottatt'])) { ?>
+                Samtale
+            <?php } else if(isset($_POST['ny'])) { ?>
+                Ny melding
+            <?php } else if(isset($_POST['utboks'])) { ?>
+                Utboks
+            <?php } else { ?>
+                Innboks
+            <?php } ?>
+        </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -155,18 +165,82 @@ if (!isset($_SESSION['idbruker'])) {
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>
+            <?php if(isset($_POST['mottatt'])) { ?>
+                <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+                <!-- Kan ikke legge denne direkte i body -->
+                <header id="meldinger_header" onclick="lukkHamburgerMeny()">
+                    <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
+                    <h1>Mottatt fra</h1>
+                </header>
 
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header id="meldinger_header" onclick="lukkHamburgerMeny()">
-                <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
-                <h1>Innboks</h1>
-            </header>
+                <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+                <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
+                    <p>Viser nå meldinger fra sender <?php echo($_POST['mottatt']) ?></p>
+                </main>
+            
+            <?php } else if(isset($_POST['ny'])) { ?>
+                <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+                <!-- Kan ikke legge denne direkte i body -->
+                <header id="meldinger_header" onclick="lukkHamburgerMeny()">
+                    <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
+                    <h1>Ny melding</h1>
+                </header>
 
-            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
-               
-            </main>
+                <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+                <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
+
+                </main>
+            
+            <?php } else if(isset($_POST['utboks'])) { ?>
+                <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+                <!-- Kan ikke legge denne direkte i body -->
+                <header id="meldinger_header" onclick="lukkHamburgerMeny()">
+                    <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
+                    <h1>Utboks</h1>
+                </header>
+
+                <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+                <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
+
+                </main>
+
+            <?php } else { ?>
+                <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+                <!-- Kan ikke legge denne direkte i body -->
+                <header id="meldinger_header" onclick="lukkHamburgerMeny()">
+                    <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
+                    <h1>Innboks</h1>
+                </header>
+
+                <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+                <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
+
+                    <?php
+                    $mottattMeldingerQ = "select idmelding, tittel, tekst, tid, lest, sender, mottaker
+                                            from melding
+                                            where mottaker = " . $_SESSION['idbruker'];
+                    $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
+                    $mottattMeldingerSTMT->execute();
+                    $resMld = $mottattMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
+
+                    $antMld = $mottattMeldingerSTMT->rowCount();
+
+
+                    if($antMld > 0) { ?>
+                        <form method="POST" id="meldinger_form" action="meldinger.php">
+                            <input type="hidden" id="meldinger_valgt_samtale" name="mottatt" value="">
+                            <?php 
+                            for($i = 0; $i < count($resMld); $i++) { ?>
+                                <section class="meldinger_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['sender']) ?>)">
+                                Halla
+                                </section>
+                            <?php } ?>
+                        </form>
+                    <?php } ?>
+
+                </main>
+
+            <?php } ?>
             
             <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
             <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>

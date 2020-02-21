@@ -588,5 +588,19 @@ function visSlett(sletteid) {
   }
 }
 
+
+
+/*-------------------*/
+/*-------------------*/
+/* Del for meldinger */
+/*-------------------*/
+/*-------------------*/
+
+function aapneSamtale(valgtSamtale) {
+  document.getElementById("meldinger_valgt_samtale").value = valgtSamtale;
+  document.getElementById("meldinger_form").submit();
+}
+
+
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
 /* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */
