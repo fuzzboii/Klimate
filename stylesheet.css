@@ -1811,9 +1811,10 @@ table {
 /* Style for MELDINGER */
 
 #meldinger_header {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr;
   padding-top: 6em;
   padding-bottom: 1em;
-  text-align: center;
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
@@ -1821,10 +1822,15 @@ table {
   font-size: 1.5em;
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   display: inline-block;
+  margin: 0;
+  margin-right: auto;
+  margin-bottom: 1em;
+  padding-right: 0.4em;
 }
 
 #meldinger_header img {
   width: 2em;
+  margin-left: auto;
 }
 
 #meldinger_sender_bilde {

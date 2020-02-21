@@ -16,7 +16,6 @@ if (!isset($_SESSION['idbruker'])) {
 header("Cache-Control: no cache");
 
 if(isset($_POST['mottatt'])) {
-    var_dump($_POST['mottatt']);
     // Er vi her henter vi ting som brukes i visning av valgt melding
     $samtaleMeldingerQ = "select tittel, tekst, tid, lest, sender
                             from melding where idmelding = " . $_POST['mottatt'] . " and mottaker = " . $_SESSION['idbruker'];
@@ -76,7 +75,7 @@ if(isset($_POST['mottatt'])) {
         <!-- Setter tittelen på prosjektet -->
         <title>
             <?php if(isset($_POST['mottatt'])) { ?>
-                Samtale med <?php echo($navn); ?>
+                Melding fra <?php echo($navn); ?>
             <?php } else if(isset($_POST['ny'])) { ?>
                 Ny melding
             <?php } else if(isset($_POST['utboks'])) { ?>
@@ -219,7 +218,10 @@ if(isset($_POST['mottatt'])) {
                 <!-- Kan ikke legge denne direkte i body -->
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
-                    <h1>Mottatt fra</h1>
+                    <h1>Melding fra <?php echo($navn); ?></h1>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -233,23 +235,27 @@ if(isset($_POST['mottatt'])) {
                     <?php } else { ?>
                         <p>Kunne ikke vise denne meldingen</p>
                     <?php } ?>
-                    <button id="meldinger_tilbKnapp" onClick="location.href='meldinger.php'">Tilbake</button>
-                </main>
+                    <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
+               </main>
             
+
             <?php } else if(isset($_POST['ny'])) { ?>
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
                 <!-- Kan ikke legge denne direkte i body -->
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Ny melding</h1>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
-                    <?php var_dump($_POST['ny']); ?>
+                    <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
                 </main>
-                <button id="meldinger_tilbKnapp" onClick="location.href='meldinger.php'">Tilbake</button>
             
+
             <?php } else if(isset($_POST['utboks'])) { ?>
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
                 <!-- Kan ikke legge denne direkte i body -->
@@ -260,8 +266,9 @@ if(isset($_POST['mottatt'])) {
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
-                    <?php var_dump($_POST['utboks']); ?>
+                    <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
                 </main>
+
 
             <?php } else { ?>
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -269,6 +276,9 @@ if(isset($_POST['mottatt'])) {
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Innboks</h1>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
