@@ -248,6 +248,7 @@ if(isset($_POST['mottatt'])) {
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
                     <?php var_dump($_POST['ny']); ?>
                 </main>
+                <button id="meldinger_tilbKnapp" onClick="location.href='meldinger.php'">Tilbake</button>
             
             <?php } else if(isset($_POST['utboks'])) { ?>
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -275,7 +276,7 @@ if(isset($_POST['mottatt'])) {
 
                     <?php
                     if($antMld > 0) { ?>
-                        <form method="POST" id="meldinger_form" action="meldinger.php">
+                        <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                             <?php 
                             for($i = 0; $i < count($resMld); $i++) {
@@ -296,13 +297,17 @@ if(isset($_POST['mottatt'])) {
                                     <?php } else { ?>
                                         <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                     <?php } ?>
-                                    <p><?php echo($navn) ?></p>
-                                    <p class="meldinger_innboks_tid"><?php echo(substr($resMld[$i]['tid'], 0, 10) . " kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
+                                    <p class="meldinger_innboks_navn"><?php echo($navn) ?></p>
+                                    <p class="meldinger_innboks_tid"><?php echo(" kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
                             
-                                    <p><?php echo($resMld[$i]['tittel']) ?></p>
+                                    <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
                             <?php } ?>
                         </form>
+                        <form method="POST" id="meldinger_form_ny" action="meldinger.php">
+                            <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
+                        </form>
+
                     <?php } else { ?>
                         <p>Innboksen din er tom</p>
                     <?php } ?>

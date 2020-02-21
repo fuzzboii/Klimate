@@ -598,7 +598,11 @@ function visSlett(sletteid) {
 
 function aapneSamtale(valgtSamtale) {
   document.getElementById("meldinger_innboks_valgt").value = valgtSamtale;
-  document.getElementById("meldinger_form").submit();
+  document.getElementById("meldinger_form_samtale").submit();
+}
+
+function aapneUtboks() {
+  document.getElementById("meldinger_form_utboks").submit();
 }
 
 

@@ -1835,24 +1835,33 @@ table {
 }
 
 .meldinger_innboks_samtale {
-  border: 1px solid black;
+  background-color: rgb(200,218,211);
+  box-shadow: 0 0 0.1em 0.05em black;
   margin-left: 0.5em; margin-right: 0.5em;
   margin-bottom: 0.8em;
+  border-radius: 1em 1em 1em 1em;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
 }
 
-.meldinger_innboks_samtale p {
-  display: inline-block;
+.meldinger_innboks_tittel { 
+  margin: 0; margin-bottom: 0.8em;
+  grid-column: 2/span 2;
 }
+
 
 .meldinger_innboks_tid {
   float: right;
 }
 
 .meldinger_innboks_bilde {
-  width: 3em;
-  height: 3em;
+  margin-left: 0.2em; margin-right: 0.2em;
+  margin-top: auto; margin-bottom: auto;
+  width: 4em;
+  height: 4em;
   border-radius: 50%;
   object-fit: cover;
+  grid-row: 1/span 2;
 }
 
 #meldinger_tilbKnapp{
@@ -1867,6 +1876,29 @@ table {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 
+}
+
+#meldinger_form_ny {
+  text-align: center;
+}
+
+#meldinger_nyKnapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  padding-right: 0;
+  margin: 0; margin-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 10em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+  
+  background-image: url('bilder/penIkon.png');
+  background-position: 0.75em 0.75em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
 }
 
   
