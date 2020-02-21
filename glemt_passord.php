@@ -122,7 +122,6 @@ if (isset($_POST['glemtPassord'])) {
                 <section class="hamburgerInnhold">
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>

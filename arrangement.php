@@ -318,7 +318,7 @@ $tabindex = 8;
 
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
+                    <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks</a>
                     <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
@@ -326,7 +326,6 @@ $tabindex = 8;
                     <!-- Hvis bruker ikke er innlogget -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 <?php } ?>
             </section>
