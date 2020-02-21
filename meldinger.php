@@ -15,6 +15,54 @@ if (!isset($_SESSION['idbruker'])) {
 // Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
 header("Cache-Control: no cache");
 
+if(isset($_POST['mottatt'])) {
+    var_dump($_POST['mottatt']);
+    // Er vi her henter vi ting som brukes i visning av valgt melding
+    $samtaleMeldingerQ = "select tittel, tekst, tid, lest, sender
+                            from melding where idmelding = " . $_POST['mottatt'] . " and mottaker = " . $_SESSION['idbruker'];
+    $samtaleMeldingerSTMT = $db->prepare($samtaleMeldingerQ);
+    $samtaleMeldingerSTMT->execute();
+    $resMld = $samtaleMeldingerSTMT->fetch(PDO::FETCH_ASSOC); 
+
+    $antMld = $samtaleMeldingerSTMT->rowCount();
+
+    if($antMld > 0) {
+        $fantSamtale = true;
+
+        $senderInfoQ = "select brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld['sender'] . 
+                        " and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+        $senderInfoSTMT = $db->prepare($senderInfoQ);
+        $senderInfoSTMT->execute();
+        $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
+        
+        if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+            $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+        } else {
+            $navn = $resInfo['brukernavn'];
+        }
+
+    } else {
+        $fantSamtale = false;
+    }
+
+} else if(isset($_POST['ny'])) {
+    // Er vi her henter vi ting som brukes i ny melding
+
+} else if(isset($_POST['utboks'])) {
+    // Er vi her henter vi ting som brukes i utboksen
+
+} else {
+    // Er vi her henter vi ting som brukes i innboksen
+    $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender, hvor
+                            from melding, brukerbilde, bilder where mottaker = " . $_SESSION['idbruker'] . 
+                            " and sender = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+    $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
+    $mottattMeldingerSTMT->execute();
+    $resMld = $mottattMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
+
+    $antMld = $mottattMeldingerSTMT->rowCount();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -27,7 +75,7 @@ header("Cache-Control: no cache");
         <!-- Setter tittelen på prosjektet -->
         <title>
             <?php if(isset($_POST['mottatt'])) { ?>
-                Samtale
+                Samtale med <?php echo($navn); ?>
             <?php } else if(isset($_POST['ny'])) { ?>
                 Ny melding
             <?php } else if(isset($_POST['utboks'])) { ?>
@@ -175,7 +223,16 @@ header("Cache-Control: no cache");
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
-                    <p>Viser nå meldinger fra sender <?php echo($_POST['mottatt']) ?></p>
+                    <?php if($fantSamtale == true) { ?>
+                        <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                        <p><?php echo($navn) ?></p>
+                        <p><?php echo($resMld['tid']) ?></p>
+                        <p><?php echo($resMld['tittel']) ?></p>
+                        <p><?php echo($resMld['tekst']) ?></p>
+                    <?php } else { ?>
+                        <p>Kunne ikke vise denne meldingen</p>
+                    <?php } ?>
+                    <button id="meldinger_tilbKnapp" onClick="location.href='meldinger.php'">Tilbake</button>
                 </main>
             
             <?php } else if(isset($_POST['ny'])) { ?>
@@ -187,8 +244,8 @@ header("Cache-Control: no cache");
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-                <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
-
+                <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
+                    <?php var_dump($_POST['ny']); ?>
                 </main>
             
             <?php } else if(isset($_POST['utboks'])) { ?>
@@ -201,7 +258,7 @@ header("Cache-Control: no cache");
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
-
+                    <?php var_dump($_POST['utboks']); ?>
                 </main>
 
             <?php } else { ?>
@@ -216,22 +273,12 @@ header("Cache-Control: no cache");
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
 
                     <?php
-                    $mottattMeldingerQ = "select idmelding, tittel, tekst, tid, lest, sender, mottaker
-                                            from melding
-                                            where mottaker = " . $_SESSION['idbruker'];
-                    $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
-                    $mottattMeldingerSTMT->execute();
-                    $resMld = $mottattMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
-
-                    $antMld = $mottattMeldingerSTMT->rowCount();
-
-
                     if($antMld > 0) { ?>
                         <form method="POST" id="meldinger_form" action="meldinger.php">
                             <input type="hidden" id="meldinger_valgt_samtale" name="mottatt" value="">
                             <?php 
                             for($i = 0; $i < count($resMld); $i++) { ?>
-                                <section class="meldinger_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['sender']) ?>)">
+                                <section class="meldinger_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
                                 Halla
                                 </section>
                             <?php } ?>
