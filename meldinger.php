@@ -225,17 +225,22 @@ if(isset($_POST['mottatt'])) {
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-                <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
+                <main id="meldinger_samtale_main" onclick="lukkHamburgerMeny()"> 
                     <?php if($fantSamtale == true) { ?>
                         <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
-                        <p><?php echo($navn) ?></p>
-                        <p><?php echo($resMld['tid']) ?></p>
-                        <p><?php echo($resMld['tittel']) ?></p>
-                        <p><?php echo($resMld['tekst']) ?></p>
+                        <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
+                        <p id="meldinger_samtale_tid"><?php echo($resMld['tid']) ?></p>
+                        <p id="meldinger_samtale_tittel"><?php echo($resMld['tittel']) ?></p>
+                        <p id="meldinger_samtale_tekst"><?php echo($resMld['tekst']) ?></p>
+
+                        <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
+                            <input id="meldinger_samtale_ny" type="text" maxlength="1024" name="tekst" value="" placeholder="Skriv her..." autofocus required>
+                            <input type="submit" name="tittel" value="">
+                        </form>
                     <?php } else { ?>
                         <p>Kunne ikke vise denne meldingen</p>
                     <?php } ?>
-                    <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
+                    <button onclick="location.href='meldinger.php'" id="meldinger_samtale_lenke" class="lenke_knapp">Tilbake til innboks</button>
                </main>
             
 

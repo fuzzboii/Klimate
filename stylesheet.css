@@ -604,6 +604,12 @@ footer a {
   padding-left: 2.8em;
   margin: 8px 0;
   box-sizing: border-box;
+  
+  background-color: white;
+  background-image: url('bilder/overskriftIkon.png');
+  background-position: 0.75em 0.75em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
 }
 
 #artikkel_inputIngress, #artikkel_inputInnhold {
@@ -626,14 +632,6 @@ footer a {
   font-size: 1.0em; /* Font-størrelse */
   display: block;
   float: right;
-}
-
-#artikkel_inputTittel {
-  background-color: white;
-  background-image: url('bilder/overskriftIkon.png');
-  background-position: 0.75em 0.75em;
-  background-repeat: no-repeat;
-  background-size: 1.6em;
 }
 
 
@@ -1855,7 +1853,6 @@ table {
   grid-column: 2/span 2;
 }
 
-
 .meldinger_innboks_tid {
   float: right;
 }
@@ -1905,6 +1902,39 @@ table {
   background-position: 0.75em 0.75em;
   background-repeat: no-repeat;
   background-size: 1.6em;
+}
+
+#meldinger_samtale_ny {
+  width: 100%;
+  padding: 1em;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 0.4em; /* Runder ut knappen */
+}
+
+/* Del for visning av spesifik melding */
+
+#meldinger_samtale_main {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr;
+  max-width: 90%;
+  margin-left: auto; margin-right: auto;
+}
+#meldinger_samtale_tittel {
+  grid-column: 1/span 3;
+  grid-row: 2/span 1;
+}
+#meldinger_samtale_tekst {
+  grid-column: 1/span 3;
+  grid-row: 3/span 1;
+}
+#meldinger_form_samtale {
+  grid-column: 1/span 2;
+  grid-row: 4/span 1;
+}
+#meldinger_samtale_lenke {
+  grid-column: 2/span 1;
+  grid-row: 5/span 1;
 }
 
   
