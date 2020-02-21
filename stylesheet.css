@@ -1805,6 +1805,23 @@ table {
   margin-top: 1.5em;
 }
 
+
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for MELDINGER */
+
+#meldinger_header {
+  padding-top: 6em;
+  padding-bottom: 1em;
+  text-align: center;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+#meldinger_header h1 {
+  font-size: 1.5em;
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
+}
+
   
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
