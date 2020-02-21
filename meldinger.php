@@ -53,14 +53,15 @@ if(isset($_POST['mottatt'])) {
 
 } else {
     // Er vi her henter vi ting som brukes i innboksen
-    $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender, hvor
-                            from melding, brukerbilde, bilder where mottaker = " . $_SESSION['idbruker'] . 
-                            " and sender = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+    $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
+                            from melding where mottaker = " . $_SESSION['idbruker'];
     $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
     $mottattMeldingerSTMT->execute();
     $resMld = $mottattMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
 
     $antMld = $mottattMeldingerSTMT->rowCount();
+    
+
 }
 
 ?>
@@ -275,14 +276,35 @@ if(isset($_POST['mottatt'])) {
                     <?php
                     if($antMld > 0) { ?>
                         <form method="POST" id="meldinger_form" action="meldinger.php">
-                            <input type="hidden" id="meldinger_valgt_samtale" name="mottatt" value="">
+                            <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                             <?php 
-                            for($i = 0; $i < count($resMld); $i++) { ?>
-                                <section class="meldinger_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
-                                Halla
+                            for($i = 0; $i < count($resMld); $i++) {
+                                $senderInfoQ = "select brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld[$i]['sender'] . 
+                                                " and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+                                $senderInfoSTMT = $db->prepare($senderInfoQ);
+                                $senderInfoSTMT->execute();
+                                $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
+                                
+                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                    $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                } else {
+                                    $navn = $resInfo['brukernavn'];
+                                } ?>
+                                <section class="meldinger_innboks_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <?php if($resInfo['hvor'] != "") { ?>
+                                        <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } else { ?>
+                                        <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                    <?php } ?>
+                                    <p><?php echo($navn) ?></p>
+                                    <p class="meldinger_innboks_tid"><?php echo(substr($resMld[$i]['tid'], 0, 10) . " kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
+                            
+                                    <p><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
                             <?php } ?>
                         </form>
+                    <?php } else { ?>
+                        <p>Innboksen din er tom</p>
                     <?php } ?>
 
                 </main>
