@@ -334,7 +334,8 @@ $tabindex = 7;
                     <?php } ?>
                     <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 100>Forrige</button>
                     <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 101>Neste</button>
-                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 102>Tilbake til søk</button>
+                    <button onclick="location.href='<?php echo($_SERVER['HTTP_REFERER']);?>'" class="lenke_knapp" tabindex = 102>Tilbake</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 103>Til søk</button>
                 </section>
             <?php } else {
                 
@@ -350,7 +351,8 @@ $tabindex = 7;
                 <main id="sok_main" onclick="lukkHamburgerMeny()"> 
 
                 <section id="sok_bunnSection">
-                    <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    <button onclick="location.href='<?php echo($_SERVER['HTTP_REFERER']);?>'" class="lenke_knapp">Tilbake</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp">Til søk</button>
                 </section>
             <?php } ?>
                 
@@ -480,7 +482,8 @@ $tabindex = 7;
                     <?php } ?>
                     <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 100>Forrige</button>
                     <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 101>Neste</button>
-                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 102>Tilbake til søk</button>
+                    <button onclick="location.href='<?php echo($_SERVER['HTTP_REFERER']);?>'" class="lenke_knapp" tabindex = 102>Tilbake</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 103>Til søk</button>
                 </section>
             <?php 
             } else {
@@ -497,7 +500,8 @@ $tabindex = 7;
                 <main id="sok_main" onclick="lukkHamburgerMeny()"> 
 
                 <section id="sok_bunnSection">
-                    <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    <button onclick="location.href='<?php echo($_SERVER['HTTP_REFERER']);?>'" class="lenke_knapp">Tilbake</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp">Til søk</button>
                 </section>
             <?php }
 
@@ -658,7 +662,8 @@ $tabindex = 7;
                     <?php } ?>
                     <button type="button" id="sok_tilbKnapp" onclick="visForrigeSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 100>Forrige</button>
                     <button type="button" id="sok_nesteKnapp" onclick="visNesteSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')" tabindex = 101>Neste</button>
-                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 102>Tilbake til søk</button>
+                    <button onclick="location.href='<?php echo($_SERVER['HTTP_REFERER']);?>'" class="lenke_knapp" tabindex = 102>Tilbake</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp" tabindex = 103>Til søk</button>
                 </section>
             <?php } else {
                 
@@ -674,7 +679,8 @@ $tabindex = 7;
                 <main id="sok_main" onclick="lukkHamburgerMeny()"> 
 
                 <section id="sok_bunnSection">
-                    <button onclick="location.href='sok.php'" class="lenke_knapp">Tilbake til søk</button>
+                    <button onclick="location.href='<?php echo($_SERVER['HTTP_REFERER']);?>'" class="lenke_knapp">Tilbake</button>
+                    <button onclick="location.href='sok.php'" class="lenke_knapp">Til søk</button>
                 </section>
             <?php }
         } else { ?>
@@ -783,7 +789,7 @@ $tabindex = 7;
 
         <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
         <footer>
-            <p class=footer_beskrivelse>&copy; Klimate <?php echo date("Y");?> | <a tabindex="103" href="mailto:kontakt@klimate.no">Kontakt oss</a>
+            <p class=footer_beskrivelse>&copy; Klimate <?php echo date("Y");?> | <a tabindex="104" href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
                 <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>
