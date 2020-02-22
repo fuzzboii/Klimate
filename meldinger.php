@@ -86,10 +86,11 @@ if(isset($_POST['mottatt'])) {
 if(isset($_POST['sendMelding'])) {
     if(isset($_POST['brukernavn'])) {
         // Henter idbruker til brukeren som ble oppgitt
-        $hentIDQ = "select idbruker from bruker where brukernavn = '" . $_SESSION['brukernavn'] . "'";
+        $hentIDQ = "select idbruker from bruker where brukernavn = '" . $_POST['brukernavn'] . "'";
         $hentIDSTMT = $db->prepare($hentIDQ);
         $hentIDSTMT->execute();
         $resID = $hentIDSTMT->fetch(PDO::FETCH_ASSOC); 
+
         $_POST['idbruker'] = $resID['idbruker'];
     }
     // Legger til en ny melding

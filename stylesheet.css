@@ -1937,7 +1937,6 @@ table {
   resize: none;
   width: 80%;
   padding: 1em;
-  margin: 8px 0;
   box-sizing: border-box;
   border-radius: 0.4em; /* Runder ut knappen */
 }
@@ -1949,13 +1948,12 @@ table {
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 3em; /* Angir bredde på knappen */
+  width: 2.6em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-  margin-bottom: 0.5em;
   
   background-image: url('bilder/pilHIkon.png');
-  background-position: 0.25em 0.5em;
+  background-position: 0.1em 0.5em;
   background-repeat: no-repeat;
   background-size: 2.6em;
 }
