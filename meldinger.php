@@ -28,7 +28,7 @@ if(isset($_POST['mottatt'])) {
     if($antMld > 0) {
         $fantSamtale = true;
 
-        $senderInfoQ = "select brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld['sender'] . 
+        $senderInfoQ = "select idbruker, brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld['sender'] . 
                         " and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
         $senderInfoSTMT = $db->prepare($senderInfoQ);
         $senderInfoSTMT->execute();
@@ -53,14 +53,31 @@ if(isset($_POST['mottatt'])) {
 } else {
     // Er vi her henter vi ting som brukes i innboksen
     $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
-                            from melding where mottaker = " . $_SESSION['idbruker'];
+                            from melding where mottaker = " . $_SESSION['idbruker'] . 
+                                " order by tid DESC";
     $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
     $mottattMeldingerSTMT->execute();
     $resMld = $mottattMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
 
     $antMld = $mottattMeldingerSTMT->rowCount();
-    
+}
 
+if(isset($_POST['sendMelding'])) {
+    // Legger til en ny melding
+    $nyMeldingQ = "insert into melding(tittel, tekst, tid, sender, mottaker) 
+                        values('" . $_POST['tittel'] . "', '" . $_POST['tekst'] . "', 
+                            NOW(), " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
+    $nyMeldingSTMT = $db->prepare($nyMeldingQ);
+    $nyMeldingSTMT->execute();
+    $sendt = $nyMeldingSTMT->rowCount();
+    
+    if($sendt > 0) {
+        // Melding sendt, gir tilbakemelding
+        header("location: meldinger.php?meldingsendt");
+    } else {
+        // Error 1, melding ikke sendt
+        header("location: meldinger.php?error=1");
+    }
 }
 
 ?>
@@ -225,17 +242,21 @@ if(isset($_POST['mottatt'])) {
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-                <main id="meldinger_samtale_main" onclick="lukkHamburgerMeny()"> 
+                <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
                     <?php if($fantSamtale == true) { ?>
-                        <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
-                        <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
-                        <p id="meldinger_samtale_tid"><?php echo($resMld['tid']) ?></p>
+                        <section id="meldinger_samtale_toppDel">
+                            <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                            <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
+                            <p id="meldinger_samtale_tid"><?php echo($resMld['tid']) ?></p>
+                        </section>
                         <p id="meldinger_samtale_tittel"><?php echo($resMld['tittel']) ?></p>
                         <p id="meldinger_samtale_tekst"><?php echo($resMld['tekst']) ?></p>
 
                         <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
-                            <input id="meldinger_samtale_ny" type="text" maxlength="1024" name="tekst" value="" placeholder="Skriv her..." autofocus required>
-                            <input type="submit" name="tittel" value="">
+                            <input type="hidden" name="idbruker" value="<?php echo($resInfo['idbruker']) ?>">
+                            <input type="hidden" name="tittel" value="Re: <?php echo(substr($resMld['tittel'], 0, 40)) ?>"> 
+                            <textarea id="meldinger_samtale_svar" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv her..." autofocus required></textarea>
+                            <input id="meldinger_samtale_knapp" type="submit" name="sendMelding" value="">
                         </form>
                     <?php } else { ?>
                         <p>Kunne ikke vise denne meldingen</p>
@@ -257,6 +278,9 @@ if(isset($_POST['mottatt'])) {
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
+                    <input type="tekst" name="brukernavn" placeholder="Skriv inn brukernavn">
+                    <input type="tekst" name="tittel" placeholder="Skriv inn tittel">
+                    <textarea id="meldinger_ny_tekst" placeholder="Skriv inn innhold"></textarea>
                     <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
                 </main>
             
@@ -288,6 +312,11 @@ if(isset($_POST['mottatt'])) {
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
+                    <?php if(isset($_GET['meldingsendt'])) { ?>
+                        <p id="mldOK">Melding sendt</p>
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                        <p id="mldFEIL">Kunne ikke sende melding</p>
+                    <?php } ?>
 
                     <?php
                     if($antMld > 0) { ?>
