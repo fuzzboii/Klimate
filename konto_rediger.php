@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-//------------------------------//
+//-------------------------------//
 // Innstillinger, faste variable //
-//------------------------------//
-include("innstillinger.php");
+//-------------------------------//
+include("inkluderes/innstillinger.php");
 
 // Sjekker om bruker har tilgang på denne siden
 if (!isset($_SESSION['idbruker'])) {

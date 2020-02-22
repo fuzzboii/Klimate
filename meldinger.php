@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-//------------------------------//
+//-------------------------------//
 // Innstillinger, faste variable //
-//------------------------------//
-include("innstillinger.php");
+//-------------------------------//
+include("inkluderes/innstillinger.php");
 
 // Kun innloggede brukere kan se meldinger
 if (!isset($_SESSION['idbruker'])) {

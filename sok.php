@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-//------------------------------//
-// Instillinger, faste variable //
-//------------------------------//
-include("innstillinger.php");
+//-------------------------------//
+// Innstillinger, faste variable //
+//-------------------------------//
+include("inkluderes/innstillinger.php");
 
 
 // tabindex som skal brukes til å bestemme startpunkt i søkeresultat, denne endres hvis vi legger til flere elementer i navbar eller lignende

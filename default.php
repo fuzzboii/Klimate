@@ -2,10 +2,10 @@
 session_start();
 
 
-//------------------------------//
+//-------------------------------//
 // Innstillinger, faste variable //
-//------------------------------//
-include("innstillinger.php");
+//-------------------------------//
+include("inkluderes/innstillinger.php");
 
 
 // Utlogging av bruker

@@ -1,7 +1,7 @@
 <?php
 
 try {
-    include("../innstillinger.php");
+    include("../inkluderes/innstillinger.php");
     $db = new mysqlPDO();
 } 
 catch (Exception $ex) {
