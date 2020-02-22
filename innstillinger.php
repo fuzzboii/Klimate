@@ -89,7 +89,7 @@ if(!isset($_GET['systemerror'])) {
 
 // Midlertidig del for å telle på uleste meldinger
 $ulesteMldQ = "select count(idmelding) as antall from melding 
-                where mottaker = " . $_SESSION['idbruker'] . "  and lest is null";
+                where mottaker = " . $_SESSION['idbruker'] . "  and lest is null or lest = 0";
 $ulesteMldSTMT = $db->prepare($ulesteMldQ);
 $ulesteMldSTMT->execute();
 $antUlest = $ulesteMldSTMT->fetch(PDO::FETCH_ASSOC); 

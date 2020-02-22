@@ -35,7 +35,7 @@ if(isset($_POST['mottatt'])) {
         $senderInfoSTMT->execute();
         $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
 
-        if($resMld['lest'] == null) {
+        if($resMld['lest'] == null || $resMld['lest'] == 0) {
             // Setter meldingen til lest
             $lestQ = "update melding set lest = 1 where idmelding = " . $resMld['idmelding'];
             $lestSTMT = $db->prepare($lestQ);
