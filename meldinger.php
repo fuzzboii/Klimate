@@ -35,10 +35,12 @@ if(isset($_POST['mottatt'])) {
         $senderInfoSTMT->execute();
         $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
 
-        // Setter meldingen til lest
-        $lestQ = "update melding set lest = 1 where idmelding = " . $resMld['idmelding'];
-        $lestSTMT = $db->prepare($lestQ);
-        $lestSTMT->execute();
+        if($resMld['lest'] == null) {
+            // Setter meldingen til lest
+            $lestQ = "update melding set lest = 1 where idmelding = " . $resMld['idmelding'];
+            $lestSTMT = $db->prepare($lestQ);
+            $lestSTMT->execute();
+        }
 
         
         if(preg_match("/\S/", $resInfo['enavn']) == 1) {
@@ -239,7 +241,7 @@ if(isset($_POST['sendMelding'])) {
 
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks</a>
+                    <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) {?> (<?php echo($antUlest['antall'])?>)<?php } ?></a>
                     <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
