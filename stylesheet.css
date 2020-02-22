@@ -1923,14 +1923,14 @@ table {
   grid-column: 2/span 1;
   grid-row: 1/span 1;
   margin: 0;
-  margin-top: 1.5em;
+  margin-top: 1em;
 }
 
 #meldinger_samtale_tid {
   grid-column: 2/span 1;
   grid-row: 1/span 1;
   margin: 0;
-  margin-top: 3em;
+  margin-top: 2.5em;
 }
 
 #meldinger_samtale_svar {

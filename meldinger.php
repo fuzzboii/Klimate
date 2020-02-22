@@ -48,7 +48,15 @@ if(isset($_POST['mottatt'])) {
     // Er vi her henter vi ting som brukes i ny melding
 
 } else if(isset($_POST['utboks'])) {
-    // Er vi her henter vi ting som brukes i utboksen
+    // Er vi her henter vi ting som brukes i innboksen
+    $sendteMeldingerQ = "select idmelding, tittel, tid, lest, mottaker
+                            from melding where sender = " . $_SESSION['idbruker'] . 
+                                " order by tid DESC";
+    $sendteMeldingerSTMT = $db->prepare($sendteMeldingerQ);
+    $sendteMeldingerSTMT->execute();
+    $resMld = $sendteMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
+
+    $antMld = $sendteMeldingerSTMT->rowCount();
 
 } else {
     // Er vi her henter vi ting som brukes i innboksen
@@ -235,7 +243,7 @@ if(isset($_POST['sendMelding'])) {
                 <!-- Kan ikke legge denne direkte i body -->
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
-                    <h1>Melding fra <?php echo($navn); ?></h1>
+                    <h1><?php if(isset($navn)) { ?>Melding fra <?php echo($navn); } ?></h1>
                     <form method="POST" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
                     </form>
@@ -247,7 +255,7 @@ if(isset($_POST['sendMelding'])) {
                         <section id="meldinger_samtale_toppDel">
                             <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
                             <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
-                            <p id="meldinger_samtale_tid"><?php echo($resMld['tid']) ?></p>
+                            <p id="meldinger_samtale_tid"><?php echo(date("F d, Y H:i", strtotime($resMld['tid']))); ?></p>
                         </section>
                         <p id="meldinger_samtale_tittel"><?php echo($resMld['tittel']) ?></p>
                         <p id="meldinger_samtale_tekst"><?php echo($resMld['tekst']) ?></p>
@@ -255,7 +263,7 @@ if(isset($_POST['sendMelding'])) {
                         <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
                             <input type="hidden" name="idbruker" value="<?php echo($resInfo['idbruker']) ?>">
                             <input type="hidden" name="tittel" value="Re: <?php echo(substr($resMld['tittel'], 0, 40)) ?>"> 
-                            <textarea id="meldinger_samtale_svar" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv her..." autofocus required></textarea>
+                            <textarea id="meldinger_samtale_svar" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv her..." required></textarea>
                             <input id="meldinger_samtale_knapp" type="submit" name="sendMelding" value="">
                         </form>
                     <?php } else { ?>
@@ -295,6 +303,43 @@ if(isset($_POST['sendMelding'])) {
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
+                    <?php
+                    if($antMld > 0) { ?>
+                        <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
+                            <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
+                            <?php 
+                            for($i = 0; $i < count($resMld); $i++) {
+                                $senderInfoQ = "select brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld[$i]['mottaker'] . 
+                                                " and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+                                $senderInfoSTMT = $db->prepare($senderInfoQ);
+                                $senderInfoSTMT->execute();
+                                $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
+                                
+                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                    $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                } else {
+                                    $navn = $resInfo['brukernavn'];
+                                } ?>
+                                <section class="meldinger_innboks_samtale">
+                                    <?php if($resInfo['hvor'] != "") { ?>
+                                        <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } else { ?>
+                                        <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                    <?php } ?>
+                                    <p class="meldinger_innboks_navn">Til: <?php echo($navn) ?></p>
+                                    <p class="meldinger_innboks_tid"><?php echo(" kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
+                            
+                                    <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
+                                </section>
+                            <?php } ?>
+                        </form>
+
+                    <?php } else { ?>
+                        <p>Utboksen din er tom</p>
+                    <?php } ?>
+                    <form method="POST" id="meldinger_form_ny" action="meldinger.php">
+                        <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
+                    </form>
                     <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
                 </main>
 
@@ -348,13 +393,14 @@ if(isset($_POST['sendMelding'])) {
                                 </section>
                             <?php } ?>
                         </form>
-                        <form method="POST" id="meldinger_form_ny" action="meldinger.php">
-                            <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
-                        </form>
 
                     <?php } else { ?>
                         <p>Innboksen din er tom</p>
                     <?php } ?>
+
+                    <form method="POST" id="meldinger_form_ny" action="meldinger.php">
+                        <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
+                    </form>
 
                 </main>
 
