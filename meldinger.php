@@ -84,6 +84,14 @@ if(isset($_POST['mottatt'])) {
 
 // Del for å legge til en ny melding, brukes både i ny melding og svar på melding
 if(isset($_POST['sendMelding'])) {
+    if(isset($_POST['brukernavn'])) {
+        // Henter idbruker til brukeren som ble oppgitt
+        $hentIDQ = "select idbruker from bruker where brukernavn = '" . $_SESSION['brukernavn'] . "'";
+        $hentIDSTMT = $db->prepare($hentIDQ);
+        $hentIDSTMT->execute();
+        $resID = $hentIDSTMT->fetch(PDO::FETCH_ASSOC); 
+        $_POST['idbruker'] = $resID['idbruker'];
+    }
     // Legger til en ny melding
     $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
                         values('" . $_POST['tittel'] . "', '" . $_POST['tekst'] . "', 
@@ -311,10 +319,15 @@ if(isset($_POST['sendMelding'])) {
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-                <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
-                    <input type="tekst" name="brukernavn" placeholder="Skriv inn brukernavn">
-                    <input type="tekst" name="tittel" placeholder="Skriv inn tittel">
-                    <textarea id="meldinger_ny_tekst" placeholder="Skriv inn innhold"></textarea>
+                <main id="meldinger_main_ny" onclick="lukkHamburgerMeny()"> 
+
+                    <form method="POST" action="meldinger.php">
+                        <input type="text" id="meldinger_ny_bruker" name="brukernavn" placeholder="Skriv inn brukernavn" autofocus required>
+                        <input type="text" id="meldinger_ny_tittel" name="tittel" maxlength="45" placeholder="Skriv inn tittel" required>
+                        <textarea id="meldinger_ny_tekst" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv inn innhold" required></textarea>
+                        <input id="meldinger_ny_knapp" type="submit" name="sendMelding" value="Send melding">
+                    </form>
+
                     <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
                 </main>
             

@@ -1856,7 +1856,7 @@ table {
 }
 
 .meldinger_innboks_tittel { 
-  margin: 0; margin-bottom: 0.8em;
+  margin: 0; margin-right: 0.2em; margin-bottom: 0.8em;
   grid-column: 2/span 2;
 }
 
@@ -1966,6 +1966,38 @@ table {
   padding-bottom: 0.5em;
   border-bottom: 1px solid black;
 }  
+
+#meldinger_ny_bruker, #meldinger_ny_tittel {
+  width: 90%; /* Angir bredde for inputfeltene */
+  padding: 0.8em; /* legger luft rundt*/
+  margin-bottom: 0.4em;
+  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
+}
+
+#meldinger_ny_tekst {
+  resize: none;
+  width: 99%;
+  padding: 1em; padding-bottom: 3em;
+  box-sizing: border-box;
+  border-radius: 0.4em; /* Runder ut knappen */
+}
+
+#meldinger_ny_knapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding-top: 1em; padding-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 10em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+  margin-bottom: 0.5em; margin-top: 0.5em;
+}
+
+#meldinger_main_ny form {
+  text-align: center;
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
