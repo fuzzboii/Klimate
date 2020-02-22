@@ -86,6 +86,15 @@ if(!isset($_GET['systemerror'])) {
     }
 }
 
+
+// Midlertidig del for å telle på uleste meldinger
+$ulesteMldQ = "select count(idmelding) as antall from melding 
+                where mottaker = " . $_SESSION['idbruker'] . "  and lest is null";
+$ulesteMldSTMT = $db->prepare($ulesteMldQ);
+$ulesteMldSTMT->execute();
+$antUlest = $ulesteMldSTMT->fetch(PDO::FETCH_ASSOC); 
+
+
 // Denne siden er utviklet av Robin Kleppang, siste gang endret 07.02.2020
 // Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020
 ?>
