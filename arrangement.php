@@ -613,7 +613,7 @@ $tabindex = 8;
 
         <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
         <footer>
-            <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
+            <p class=footer_beskrivelse>&copy; Klimate <?php echo date("Y");?> | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
                 <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
             </p>

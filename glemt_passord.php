@@ -177,7 +177,7 @@ if (isset($_POST['glemtPassord'])) {
 
             <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
             <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
+                <p class=footer_beskrivelse>&copy; Klimate <?php echo date("Y");?> | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
             </footer>
         </article>
     </body>
