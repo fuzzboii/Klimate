@@ -55,7 +55,8 @@ if (isset($_SESSION['siste_aktivitet']) && (time() - $_SESSION['siste_aktivitet'
     // Siste brukerhandling var mer enn 2 timer siden, logger ut bruker
     session_destroy();   // Sletter session, bruker er nå utlogget.
     // PHP_SELF inneholder relativ plassering av siden scriptet kjører, 'default.php' hvis på default, '/gr8/default.php' ved felles kjøring osv.
-    header('Location: ' . $_SERVER['PHP_SELF']); // Laster inn samme side på nytt nå som session er tømt
+    // Laster inn samme side på nytt nå som session er tømt (Siden bruker kanskje er på en side som kan vises av både innloggede og utloggede brukere)
+    header('Location: ' . $_SERVER['PHP_SELF']); 
 }
 $_SESSION['siste_aktivitet'] = time(); // Oppdater session timeout
 

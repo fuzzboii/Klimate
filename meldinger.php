@@ -26,6 +26,7 @@ if(isset($_POST['mottatt'])) {
     $antMld = $samtaleMeldingerSTMT->rowCount();
 
     if($antMld > 0) {
+        // Fant meldingen i databasen, setter variabel som testes på senere til true
         $fantSamtale = true;
 
         // Henter info om senderen
@@ -35,6 +36,7 @@ if(isset($_POST['mottatt'])) {
         $senderInfoSTMT->execute();
         $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
 
+        // Test på om bruker har tidligere lest denne meldingen
         if($resMld['lest'] == null || $resMld['lest'] == 0) {
             // Setter meldingen til lest
             $lestQ = "update melding set lest = 1 where idmelding = " . $resMld['idmelding'];
@@ -42,7 +44,7 @@ if(isset($_POST['mottatt'])) {
             $lestSTMT->execute();
         }
 
-        
+        // Tester på om etternavnet har noen gyldige tegn, hvis ikke vises brukernavn
         if(preg_match("/\S/", $resInfo['enavn']) == 1) {
             $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
         } else {
@@ -50,6 +52,7 @@ if(isset($_POST['mottatt'])) {
         }
 
     } else {
+        // Fant ikke meldingen i databasen, setter variabel som testes på senere til false
         $fantSamtale = false;
     }
 
@@ -79,6 +82,7 @@ if(isset($_POST['mottatt'])) {
     $antMld = $mottattMeldingerSTMT->rowCount();
 }
 
+// Del for å legge til en ny melding, brukes både i ny melding og svar på melding
 if(isset($_POST['sendMelding'])) {
     // Legger til en ny melding
     $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
@@ -247,7 +251,14 @@ if(isset($_POST['sendMelding'])) {
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
                 </section>
             </section>
-            <?php if(isset($_POST['mottatt'])) { ?>
+            <?php 
+            if(isset($_POST['mottatt'])) { 
+                /*--------------------------------*/
+                /*--------------------------------*/
+                /*--Del for å vise valgt melding--*/
+                /*--------------------------------*/
+                /*--------------------------------*/ ?>
+
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
                 <!-- Kan ikke legge denne direkte i body -->
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
@@ -282,7 +293,13 @@ if(isset($_POST['sendMelding'])) {
                </main>
             
 
-            <?php } else if(isset($_POST['ny'])) { ?>
+            <?php } else if(isset($_POST['ny'])) { 
+                /*--------------------------------*/
+                /*--------------------------------*/
+                /*---Del for å vise ny melding----*/
+                /*--------------------------------*/
+                /*--------------------------------*/ ?>
+
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
                 <!-- Kan ikke legge denne direkte i body -->
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
@@ -302,7 +319,13 @@ if(isset($_POST['sendMelding'])) {
                 </main>
             
 
-            <?php } else if(isset($_POST['utboks'])) { ?>
+            <?php } else if(isset($_POST['utboks'])) { 
+                /*--------------------------------*/
+                /*--------------------------------*/
+                /*-----Del for å vise utboksen----*/
+                /*--------------------------------*/
+                /*--------------------------------*/ ?>
+
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
                 <!-- Kan ikke legge denne direkte i body -->
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
@@ -353,7 +376,13 @@ if(isset($_POST['sendMelding'])) {
                 </main>
 
 
-            <?php } else { ?>
+            <?php } else { 
+                /*--------------------------------*/
+                /*--------------------------------*/
+                /*----Del for å vise innboksen----*/
+                /*--------------------------------*/
+                /*--------------------------------*/ ?>
+
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
                 <!-- Kan ikke legge denne direkte i body -->
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
