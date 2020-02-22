@@ -61,7 +61,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
 
                 // Henter bilde fra database utifra brukerid
 
-                $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+                $hentBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
                 $stmtBilde = $db->prepare($hentBilde);
                 $stmtBilde->execute();
                 $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -94,12 +94,13 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                         } else { 
                             // Om filen ikke ble funnet, vis standard profilbilde
                             if ($_SESSION['brukertype'] == 2) { ?>
+                                <!-- Setter redaktør border "Oransje" -->
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
-                            <!-- Setter administrator border "Rød" -->
                             <?php } else if ($_SESSION['brukertype'] == 1) { ?>
+                                <!-- Setter administrator border "Rød" -->
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
-                            <!-- Setter vanlig profil bilde -->
                             <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
+                                <!-- Setter vanlig profil bilde -->
                                 <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
                             <?php
                             }
