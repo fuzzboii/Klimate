@@ -17,7 +17,7 @@ header("Cache-Control: no cache");
 
 if(isset($_POST['mottatt'])) {
     // Er vi her henter vi ting som brukes i visning av valgt melding
-    $samtaleMeldingerQ = "select tittel, tekst, tid, lest, sender
+    $samtaleMeldingerQ = "select idmelding, tittel, tekst, tid, lest, sender
                             from melding where idmelding = " . $_POST['mottatt'] . " and mottaker = " . $_SESSION['idbruker'];
     $samtaleMeldingerSTMT = $db->prepare($samtaleMeldingerQ);
     $samtaleMeldingerSTMT->execute();
@@ -28,11 +28,18 @@ if(isset($_POST['mottatt'])) {
     if($antMld > 0) {
         $fantSamtale = true;
 
+        // Henter info om senderen
         $senderInfoQ = "select idbruker, brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld['sender'] . 
                         " and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
         $senderInfoSTMT = $db->prepare($senderInfoQ);
         $senderInfoSTMT->execute();
         $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
+
+        // Setter meldingen til lest
+        $lestQ = "update melding set lest = 1 where idmelding = " . $resMld['idmelding'];
+        $lestSTMT = $db->prepare($lestQ);
+        $lestSTMT->execute();
+
         
         if(preg_match("/\S/", $resInfo['enavn']) == 1) {
             $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
@@ -72,9 +79,9 @@ if(isset($_POST['mottatt'])) {
 
 if(isset($_POST['sendMelding'])) {
     // Legger til en ny melding
-    $nyMeldingQ = "insert into melding(tittel, tekst, tid, sender, mottaker) 
+    $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
                         values('" . $_POST['tittel'] . "', '" . $_POST['tekst'] . "', 
-                            NOW(), " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
+                            NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
     $nyMeldingSTMT = $db->prepare($nyMeldingQ);
     $nyMeldingSTMT->execute();
     $sendt = $nyMeldingSTMT->rowCount();
