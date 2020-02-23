@@ -1819,6 +1819,7 @@ table {
   margin-left: auto; margin-right: auto;
   border-top: 1px solid black;
   padding-top: 0.5em;
+  padding-left: 0.4em; padding-right: 0.4em;
 }
 
 #meldinger_header {
