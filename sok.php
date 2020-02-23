@@ -706,9 +706,9 @@ $tabindex = 7;
                                 </section>
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Interesse:</p>
-                                <select name="interesse" class="sokBrukerFelt" tabindex = "-1">
-                                    <option value="">Ikke spesifikt</option>
-                                    <?php 
+                                    <input name="interesse"  class="sokBrukerFelt" type="text" list="interesser" tabindex="-1">
+                                    <datalist id="interesser">
+                                        <?php 
                                         // Henter interesser fra database
                                         $hentInt = "select interessenavn from interesse order by interessenavn ASC";
                                         $stmtInt = $db->prepare($hentInt);
@@ -716,8 +716,8 @@ $tabindex = 7;
                                         $interesse = $stmtInt->fetchAll(PDO::FETCH_ASSOC);
                                         foreach ($interesse as $innhold) { ?>
                                             <option value="<?php echo($innhold['interessenavn'])?>"><?php echo($innhold['interessenavn'])?></option>
-                                    <?php } ?>
-                                </select>
+                                        <?php } ?>
+                                    </datalist>
                                 </section>
                                 <input type="submit" value="Søk på bruker"  class="sokBrukerFelt" tabindex ="-1">
                             </section>
@@ -759,9 +759,9 @@ $tabindex = 7;
                                 </section>
                                 <section class="sok_inputBoks">
                                     <p class="sokTittel">Fylke:</p>
-                                <select name="fylke" class="sokBrukerFelt" tabindex = "-1">
-                                    <option value="">Ikke spesifikt</option>
-                                    <?php 
+                                    <input name="fylke" class="sokBrukerFelt" type="text" list="fylker" tabindex="-1">
+                                    <datalist id="fylker">
+                                        <?php 
                                         // Henter fylker fra database
                                         $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
                                         $stmtFylke = $db->prepare($hentFylke);
@@ -770,7 +770,7 @@ $tabindex = 7;
                                         foreach ($fylke as $innhold) { ?>
                                             <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
                                     <?php } ?>
-                                </select>
+                                    </datalist>
                                 </section>
                                 <input type="submit" value="Søk på arrangement" class="sokBrukerFelt" tabindex ="-1">
                             </section>
