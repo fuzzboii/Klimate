@@ -33,7 +33,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Klimate</title>
+        <title>Oversikt</title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
