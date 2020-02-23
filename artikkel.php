@@ -396,6 +396,7 @@ $tabindex = 8;
                                 <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
                             <?php } ?>
 
+                            <a href="artikkel.php" id="artikkel_lenke_knapp">Tilbake til artikler</a> 
                             <input id="artikkel_submitNy" type="submit" name="publiserArtikkel" value="Opprett artikkel">
                         </form>
                     </article>

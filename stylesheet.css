@@ -1527,6 +1527,12 @@ table {
   float: right;
 }
 
+#arrangement_lenke_knapp, #artikkel_lenke_knapp {
+  padding: 0.8em; /* Hvor mye luft det skal være rundt */
+  font-size: 0.9em;
+  display: block;
+}
+
 /* overskrifter */
 
 

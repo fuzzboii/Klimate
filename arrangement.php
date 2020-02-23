@@ -502,8 +502,9 @@ $tabindex = 8;
                                 <p id="mldFEIL">Fylke ikke oppgitt</p>    
                             <?php } ?>
 
+                            <a href="arrangement.php" id="arrangement_lenke_knapp">Tilbake til arrangementer</a> 
                             <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
-                        </form>
+                        </form> 
                     </article>
                     
             <?php } else {
