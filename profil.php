@@ -305,13 +305,11 @@ $tabindex = 10;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
         <title>
-            <?php if ($egen && !isset($_GET['innstillinger'])) {
-                    echo($_SESSION['brukernavn']);
-                  } else if(isset($_GET['innstillinger'])) { ?>
+            <?php if(isset($_GET['innstillinger'])) { ?>
                 Rediger profil
-            <?php } else { ?>
-                Profil
-            <?php } ?>
+            <?php } else { 
+                echo("Profil | " . $brukernavnProfil['brukernavn']);
+            } ?>
         </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
