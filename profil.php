@@ -63,30 +63,17 @@ if (isset($_POST['endreBilde'])) {
 
         
         // Test om brukeren har et bilde fra før
-        $hentBilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
+        $hentBilde = "select idbilder, hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
         $stmtBilde = $db->prepare($hentBilde);
         $stmtBilde->execute();
         $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
         $antallBilderFunnet = $stmtBilde->rowCount();
         // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
         if ($antallBilderFunnet != 0) {
-            // Hvis brukeren har et bilde fra før:
-            if($bildenavnGammelt != "") {
-                // Slett det gamle bildet fra databasen først
-                $slettBilde = "delete from bilder where hvor='" . $bildenavnGammelt . "'";
-                $stmtSlettBilde = $db->prepare($slettBilde);
-                $stmtSlettBilde->execute();
-            }
             // Legger til bildet i databasen
-            $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+            $nyttBildeQ = "update bilder set hvor = '" . $bildenavn . "' where idbilder = " . $bilde['idbilder'];
             $nyttBildeSTMT = $db->prepare($nyttBildeQ);
             $nyttBildeSTMT->execute();
-            // Returnerer siste bildeid. Last insert id svarer til bildet vi håndterer
-            $bildeid = $db->lastInsertId();
-            // Brukerbilde må oppdateres, på raden til brukeren
-            $nyKoblingQ = "update brukerbilde set bilde='" . $bildeid . "' where bruker='" . $_SESSION['idbruker'] . "'";
-            $nyKoblingSTMT = $db->prepare($nyKoblingQ);
-            $nyKoblingSTMT->execute();  
         } else {
             // Hvis brukeren ikke har et tilknyttet bilde:
             // Legger til bildet i databasen
