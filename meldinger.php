@@ -30,8 +30,7 @@ if(isset($_POST['mottatt'])) {
         $fantSamtale = true;
 
         // Henter info om senderen
-        $senderInfoQ = "select idbruker, brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld['sender'] . 
-                        " and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+        $senderInfoQ = "select idbruker, brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld['sender'];
         $senderInfoSTMT = $db->prepare($senderInfoQ);
         $senderInfoSTMT->execute();
         $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
@@ -43,6 +42,13 @@ if(isset($_POST['mottatt'])) {
             $lestSTMT = $db->prepare($lestQ);
             $lestSTMT->execute();
         }
+        
+        // Henter bildet til brukeren
+        $hentBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld['sender'] . " and brukerbilde.bilde = bilder.idbilder";
+        $stmtBildeSTMT = $db->prepare($hentBildeQ);
+        $stmtBildeSTMT->execute();
+        $senderBilde = $stmtBildeSTMT->fetch(PDO::FETCH_ASSOC);
+        $funnetSenderBilde = $stmtBildeSTMT->rowCount();
 
         // Tester på om etternavnet har noen gyldige tegn, hvis ikke vises brukernavn
         if(preg_match("/\S/", $resInfo['enavn']) == 1) {
@@ -67,7 +73,6 @@ if(isset($_POST['mottatt'])) {
     $sendteMeldingerSTMT = $db->prepare($sendteMeldingerQ);
     $sendteMeldingerSTMT->execute();
     $resMld = $sendteMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
-
     $antMld = $sendteMeldingerSTMT->rowCount();
 
 } else {
@@ -282,7 +287,17 @@ if(isset($_POST['sendMelding'])) {
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()"> 
                     <?php if($fantSamtale == true) { ?>
                         <section id="meldinger_samtale_toppDel">
-                            <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                            <?php if ($funnetSenderBilde != 0) {
+                                $testPaa = $senderBilde['hvor'];
+                                // Tester på om filen faktisk finnes
+                                if(file_exists("$lagringsplass/$testPaa")) { ?> 
+                                    <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                <?php } else { ?>
+                                    <img id="meldinger_sender_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                <?php } ?>
+                            <?php } else { ?>
+                                <img id="meldinger_sender_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                            <?php } ?>
                             <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
                             <p id="meldinger_samtale_tid"><?php echo(date("F d, Y H:i", strtotime($resMld['tid']))); ?></p>
                         </section>
@@ -355,11 +370,17 @@ if(isset($_POST['sendMelding'])) {
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                             <?php 
                             for($i = 0; $i < count($resMld); $i++) {
-                                $senderInfoQ = "select brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld[$i]['mottaker'] . 
-                                                " and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+                                $senderInfoQ = "select brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld[$i]['mottaker'];
                                 $senderInfoSTMT = $db->prepare($senderInfoQ);
                                 $senderInfoSTMT->execute();
                                 $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                // Henter bildet til brukeren
+                                $mottakerBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld[$i]['mottaker'] . " and brukerbilde.bilde = bilder.idbilder";
+                                $mottakerBildeSTMT = $db->prepare($mottakerBildeQ);
+                                $mottakerBildeSTMT->execute();
+                                $mottakerBilde = $mottakerBildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                $funnetMottakerBilde = $mottakerBildeSTMT->rowCount();
                                 
                                 if(preg_match("/\S/", $resInfo['enavn']) == 1) {
                                     $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
@@ -367,8 +388,14 @@ if(isset($_POST['sendMelding'])) {
                                     $navn = $resInfo['brukernavn'];
                                 } ?>
                                 <section class="meldinger_innboks_samtale">
-                                    <?php if($resInfo['hvor'] != "") { ?>
-                                        <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php if($funnetMottakerBilde > 0) {
+                                        $testPaa = $mottakerBilde['hvor'];
+                                        // Tester på om filen faktisk finnes
+                                        if(file_exists("$lagringsplass/$testPaa")) { ?> 
+                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($mottakerBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                        <?php } else { ?>
+                                            <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                        <?php } ?>
                                     <?php } else { ?>
                                         <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                     <?php } ?>
@@ -421,11 +448,17 @@ if(isset($_POST['sendMelding'])) {
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                             <?php 
                             for($i = 0; $i < count($resMld); $i++) {
-                                $senderInfoQ = "select brukernavn, fnavn, enavn, hvor from bruker, brukerbilde, bilder where bruker.idbruker = " . $resMld[$i]['sender'] . 
-                                                " and bruker.idbruker = brukerbilde.bruker and brukerbilde.bilde = bilder.idbilder";
+                                $senderInfoQ = "select brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld[$i]['sender'];
                                 $senderInfoSTMT = $db->prepare($senderInfoQ);
                                 $senderInfoSTMT->execute();
                                 $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                // Henter bildet til brukeren
+                                $senderBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld[$i]['sender'] . " and brukerbilde.bilde = bilder.idbilder";
+                                $senderBildeSTMT = $db->prepare($senderBildeQ);
+                                $senderBildeSTMT->execute();
+                                $senderBilde = $senderBildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                $funnetSenderBilde = $senderBildeSTMT->rowCount();
                                 
                                 if(preg_match("/\S/", $resInfo['enavn']) == 1) {
                                     $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
@@ -433,8 +466,14 @@ if(isset($_POST['sendMelding'])) {
                                     $navn = $resInfo['brukernavn'];
                                 } ?>
                                 <section class="meldinger_innboks_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
-                                    <?php if($resInfo['hvor'] != "") { ?>
-                                        <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php if($funnetSenderBilde > 0) {
+                                        $testPaa = $senderBilde['hvor'];
+                                        // Tester på om filen faktisk finnes
+                                        if(file_exists("$lagringsplass/$testPaa")) { ?> 
+                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                        <?php } else { ?>
+                                            <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                        <?php } ?>
                                     <?php } else { ?>
                                         <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                     <?php } ?>
