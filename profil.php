@@ -48,15 +48,15 @@ if (isset($_POST['endreBilde'])) {
         if(file_exists("$lagringsplass/$navnjpg")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpg");
-            $bildenavnGammelt = $navn . "jpg";
+            $bildenavnGammelt = $navn . ".jpg";
         } elseif(file_exists("$lagringsplass/$navnjpeg")) { // ... .jpeg
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpeg");
-            $bildenavnGammelt = $navn . "jpeg";
+            $bildenavnGammelt = $navn . ".jpeg";
         } elseif (file_exists("$lagringsplass/$navnpng")) { // ... .png
             // Dropp i så fall
             unlink("$lagringsplass/$navnpng");
-            $bildenavnGammelt = $navn . "png";
+            $bildenavnGammelt = $navn . ".png";
         }
         // Last opp
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
