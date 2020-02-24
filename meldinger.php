@@ -470,7 +470,7 @@ if(isset($_POST['sendMelding'])) {
                                         $testPaa = $senderBilde['hvor'];
                                         // Tester på om filen faktisk finnes
                                         if(file_exists("$lagringsplass/$testPaa")) { ?> 
-                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($resInfo['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
                                         <?php } else { ?>
                                             <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                         <?php } ?>
