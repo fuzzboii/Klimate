@@ -342,6 +342,34 @@ $tabindex = 8;
                                     <p>Skrevet av</p> <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
                                 <?php }?>
                             </section>
+
+                            <!-- Kommentar seksjon -->
+                            <section id="artikkel_kommentarOversikt">
+                                <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
+                                <?php
+                                    $hentAntallKommentarer = "select count(artikkel) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
+                                    $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
+                                    $hentAntallKommentarerSTMT->execute();
+                                    $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentarer</p>        
+                            </section>
+
+                            <?php
+                                date_default_timezone_set('Europe/Oslo');
+                            ?>
+                            <section id="artikkel_kommentarSeksjon">
+                            <?php
+                            echo "<form>
+                                <input type='hidden' name='bruker' value='Anonymous'>
+                                <input type='hidden' name='date' value='".date('Y-m-d H:i:s')."'>
+                                <textarea id='artikkel_kommentarKommentering' name='message'> </textarea><br>
+                                <button id='artikkel_submitKommentarKnapp' type='submit' name='submit'>Publiser kommentar</button>
+                            </form>";
+                            ?>
+                            </section>
+                            
+                            <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 
                             if(isset($_SESSION['idbruker'])) {
@@ -364,7 +392,6 @@ $tabindex = 8;
                                     </section>
                                 <?php } ?>
                             <?php } ?>
-                            
                         </main>
                     <?php } ?>
                 <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      

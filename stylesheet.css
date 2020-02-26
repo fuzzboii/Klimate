@@ -2015,6 +2015,44 @@ table {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for KOMMENTARER */
+#artikkel_kommentarKommentering {
+  width: 100%;
+  height: 5em;
+  background-color: #fff;
+  resize: none;
+  padding: 0;
+  margin: 3px -1px;
+}
+
+#artikkel_submitKommentarKnapp {
+  width: 10em;
+  height: 2.2em;
+  background-color: #282828;
+  border: none;
+  color: #fff;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 400px;
+  cursor: pointer;
+  margin-bottom: 2em;
+}
+
+#artikkel_kommentarOversikt {
+  margin-top: 1em;
+}
+
+.artikkel_antallKommentarerIkon {
+  height: 1em;
+  padding-right: 0.5em;
+  float: left;
+}
+
+#artikkel_antallKommentarer {
+  font-family: Helvetica, Arial, sans-serif;
+  border-bottom: 2px solid rgb(26, 26, 26);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
 
