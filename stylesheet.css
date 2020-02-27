@@ -545,13 +545,14 @@ footer a {
 #artikkel_bekreftSlettKnapp, #artikkel_slettKnapp  {
   color: white;
   background-color: red;
-  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  padding-left: 0.5em; padding-right: 0.5em;
+  padding-bottom: 1em; padding-top: 1em; /* hvor mye luft rundt teksten det skal være */
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-  width: 14em;
+  width: 8em;
 }
 
 #artikkel_slettKnapp {

@@ -347,7 +347,7 @@ $tabindex = 8;
                             <section id="artikkel_kommentarOversikt">
                                 <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
                                 <?php
-                                    $hentAntallKommentarer = "select count(artikkel) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
+                                    $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
                                     $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
                                     $hentAntallKommentarerSTMT->execute();
                                     $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
@@ -379,7 +379,7 @@ $tabindex = 8;
                                 $artikkelEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
 
                                 if ($artikkelEier != false || $_SESSION['brukertype'] == 1) { ?>
-                                    <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett denne artikkelen">
+                                    <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett artikkelen">
                                     <section id="artikkel_bekreftSlett" style="display: none;">
                                         <section id="artikkel_bekreftSlettInnhold">
                                             <h2>Sletting</h2>
