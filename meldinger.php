@@ -115,6 +115,11 @@ if(isset($_POST['sendMelding'])) {
     }
 }
 
+// Del for å legge en melding i søplekurven
+if(isset($_POST['slettMelding'])) {
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -366,7 +371,7 @@ if(isset($_POST['sendMelding'])) {
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
                     <?php
                     if($antMld > 0) { ?>
-                        <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
+                        <form method="POST" id="meldinger_form_utboks" action="meldinger.php">
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                             <?php 
                             for($i = 0; $i < count($resMld); $i++) {
@@ -444,7 +449,7 @@ if(isset($_POST['sendMelding'])) {
 
                     <?php
                     if($antMld > 0) { ?>
-                        <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
+                        <form method="POST" id="meldinger_form_innboks" action="meldinger.php">
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                             <?php 
                             for($i = 0; $i < count($resMld); $i++) {

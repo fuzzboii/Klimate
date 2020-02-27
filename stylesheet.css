@@ -1815,7 +1815,7 @@ table {
 /* Style for MELDINGER */
 
 #meldinger_main {
-  max-width: 31em;
+  max-width: 18em;
   margin-left: auto; margin-right: auto;
   border-top: 1px solid black;
   padding-top: 0.5em;
@@ -1823,7 +1823,7 @@ table {
 }
 
 #meldinger_header {
-  max-width: 31em;
+  max-width: 19em;
   display: grid;
   grid-template-columns: 1fr 3fr 2fr;
   padding-top: 6em;
@@ -1844,7 +1844,7 @@ table {
 
 #meldinger_header img {
   width: 2em;
-  margin-left: 3em;
+  margin-left: 1em;
 }
 
 #meldinger_sender_bilde {
@@ -1932,7 +1932,7 @@ table {
   grid-column: 2/span 1;
   grid-row: 1/span 1;
   margin: 0;
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 
 #meldinger_samtale_tid {
@@ -1965,6 +1965,11 @@ table {
   background-position: 0.1em 0.5em;
   background-repeat: no-repeat;
   background-size: 2.6em;
+}
+
+#meldinger_form_samtale {
+  text-align: center;
+  width: 18em;
 }
 
 
@@ -2074,6 +2079,23 @@ table {
   /* artikkel overskrift */
   .artikkel_overskrift {
     font-size: 1.5em;
+  }
+
+  /* Del for meldinger */
+  #meldinger_main {
+    max-width: 21em;
+  }
+
+  #meldinger_header {
+    max-width: 22em;
+  }
+
+  #meldinger_form_samtale {
+    width: 21em;
+  }
+
+  .meldinger_innboks_samtale {
+    grid-template-columns: 1fr 2fr 1fr;
   }
 
 }
@@ -2197,6 +2219,46 @@ table {
     grid-template-columns: 1fr 1fr;
   }
 
+  /* Del for meldinger */
+  #meldinger_main {
+    max-width: 41em;
+  }
+
+  #meldinger_header {
+    grid-template-columns: 1.5fr 18.5fr 2fr;
+    max-width: 40em;
+  }
+
+  #meldinger_header img {
+    margin-left: 0;
+  }
+
+  #meldinger_form_samtale {
+    width: 41em;
+  }
+
+  #meldinger_samtale_svar {
+    width: 90%;
+  }
+
+  #meldinger_samtale_toppDel {
+    grid-template-columns: 1.2fr 5fr 2.5fr;
+  }
+
+  #meldinger_samtale_tid {
+    grid-column: 3/span 1;
+    margin-top: 0.5em;
+  }
+
+  .meldinger_innboks_samtale {
+    padding-top: 0.4em; padding-bottom: 0.4em;
+    grid-template-columns: 0.5fr 8fr 1.5fr;
+  }
+
+  .meldinger_innboks_bilde {
+    width: 5em;
+    height: 5em;
+  }
 
 }
 
@@ -2555,7 +2617,37 @@ table {
 
   .profil_persInf {
     font-size: 1em;
-   }
+  }
+
+  /* Del for meldinger */
+  #meldinger_main {
+    max-width: 51em;
+  }
+
+  #meldinger_header {
+    grid-template-columns: 1.5fr 20fr 2fr;
+    max-width: 50em;
+  }
+
+  #meldinger_samtale_toppDel {
+    grid-template-columns: 1.2fr 7fr 2.5fr;
+  }
+
+  #meldinger_form_samtale {
+    width: 51em;
+  }
+
+  #meldinger_samtale_svar {
+    width: 90%;
+  }
+
+  .meldinger_innboks_samtale {
+    grid-template-columns: 0.5fr 8fr 1fr;
+  }
+
+  .meldinger_innboks_navn, .meldinger_innboks_tittel {
+    margin-left: 0.2em;
+  }
 
 }
 
