@@ -1826,11 +1826,25 @@ table {
 #meldinger_header {
   max-width: 19em;
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr;
   padding-top: 6em;
   padding-bottom: 1em;
   font-family: Inter, Helvetica, Arial, sans-serif;
   margin-left: auto; margin-right: auto;
+}
+
+#meldinger_header img {
+  grid-column: 1;
+  grid-row: 1/span 2;
+}
+
+#meldinger_header h1 {
+  grid-column: 2;
+  grid-row: 1/span 2;
+}
+
+#meldinger_header_papirkurv {
+  grid-column: 3/3;
 }
 
 #meldinger_header h1 {
@@ -1984,6 +1998,7 @@ table {
   max-width: 20em;
   margin-left: auto; margin-right: auto;
 }
+
 #meldinger_samtale_tekst {
   padding-bottom: 0.5em;
   border-bottom: 1px solid black;
@@ -2126,7 +2141,20 @@ table {
   }
 
   #meldinger_header {
+    grid-template-columns: 1fr 2fr 1fr 1fr;
     max-width: 22em;
+  }
+
+  #meldinger_header img {
+    grid-row: 1;
+  }
+  
+  #meldinger_header h1 {
+    grid-row: 1;
+  }
+  
+  #meldinger_header_papirkurv {
+    grid-column: 4;
   }
 
   #meldinger_form_samtale {
@@ -2326,6 +2354,18 @@ table {
   .meldinger_innboks_bilde {
     width: 5em;
     height: 5em;
+  }
+
+  #meldinger_main_ny {
+    max-width: 41em;
+  }
+  
+  #meldinger_ny_bruker, #meldinger_ny_tittel {
+    width: 30em;
+  }
+
+  #meldinger_ny_tekst {
+    width: 32em; 
   }
 
 }
@@ -2728,7 +2768,7 @@ table {
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;
   }
-  #meldinger_nyKnapp:hover {
+  #meldinger_nyKnapp:hover, #meldinger_ny_knapp:hover {
     cursor: pointer;
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;
