@@ -634,9 +634,13 @@ if(isset($_POST['gjenopprettMelding'])) {
                                     $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
                                 } else {
                                     $navn = $resInfo['brukernavn'];
-                                } ?>
-                                <section class="meldinger_innboks_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
-                                    <?php if($funnetSenderBilde > 0) {
+                                }
+                                if($resMld[$i]['lest'] == 1) { ?>
+                                    <section class="meldinger_innboks_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                <?php } else { ?>
+                                    <section class="meldinger_innboks_samtale_ulest" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                <?php } 
+                                    if($funnetSenderBilde > 0) {
                                         $testPaa = $senderBilde['hvor'];
                                         // Tester på om filen faktisk finnes
                                         if(file_exists("$lagringsplass/$testPaa")) { ?> 

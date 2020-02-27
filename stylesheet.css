@@ -1870,7 +1870,7 @@ table {
   object-fit: cover;
 }
 
-.meldinger_innboks_samtale {
+.meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
   background-color: rgb(200,218,211);
   box-shadow: 0 0 0.1em 0.05em black;
   margin-left: 0.5em; margin-right: 0.5em;
@@ -1878,6 +1878,10 @@ table {
   border-radius: 1em 1em 1em 1em;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
+}
+
+.meldinger_innboks_samtale_ulest {
+  background-color: rgb(172, 255, 223);
 }
 
 .meldinger_innboks_soppel, .meldinger_innboks_restore {
@@ -2185,7 +2189,7 @@ table {
     width: 21em;
   }
 
-  .meldinger_innboks_samtale {
+  .meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
     grid-template-columns: 1fr 2fr 1.4fr;
   }
 
@@ -2374,7 +2378,7 @@ table {
     margin-top: 0.5em;
   }
 
-  .meldinger_innboks_samtale {
+  .meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
     padding-top: 0.4em; padding-bottom: 0.4em;
     grid-template-columns: 0.5fr 8fr 2.2fr;
   }
@@ -2782,7 +2786,7 @@ table {
     width: 90%;
   }
 
-  .meldinger_innboks_samtale {
+  .meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
     grid-template-columns: 0.5fr 8fr 2fr;
   }
 
@@ -2791,7 +2795,7 @@ table {
   }
 
   /* Hover for meldinger */
-  .meldinger_innboks_samtale:hover {
+  .meldinger_innboks_samtale:hover, .meldinger_innboks_samtale_ulest:hover {
     cursor: pointer;
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;
