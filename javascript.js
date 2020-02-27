@@ -598,7 +598,17 @@ function visSlett(sletteid) {
 
 function aapneSamtale(valgtSamtale) {
   document.getElementById("meldinger_innboks_valgt").value = valgtSamtale;
-  document.getElementById("meldinger_form_samtale").submit();
+  document.getElementById("meldinger_form_innboks").submit();
+}
+
+function slettSamtale(valgtSamtale) {
+  document.getElementById("meldinger_innboks_soppel_valgt").value = valgtSamtale;
+  document.getElementById("meldinger_innboks_soppel").submit();
+}
+
+function gjenopprettSamtale(valgtSamtale) {
+  document.getElementById("meldinger_innboks_restore_valgt").value = valgtSamtale;
+  document.getElementById("meldinger_innboks_restore").submit();
 }
 
 function aapneUtboks() {

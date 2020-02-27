@@ -75,10 +75,20 @@ if(isset($_POST['mottatt'])) {
     $resMld = $sendteMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
     $antMld = $sendteMeldingerSTMT->rowCount();
 
+} else if(isset($_POST['papirkurv'])) {
+    // Er vi her henter vi ting som brukes i innboksen
+    $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
+                            from melding where mottaker = " . $_SESSION['idbruker'] . " and (papirkurv is not null or papirkurv = 1)" . 
+                                " order by tid DESC";
+    $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
+    $mottattMeldingerSTMT->execute();
+    $resMld = $mottattMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
+
+    $antMld = $mottattMeldingerSTMT->rowCount();
 } else {
     // Er vi her henter vi ting som brukes i innboksen
     $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
-                            from melding where mottaker = " . $_SESSION['idbruker'] . 
+                            from melding where mottaker = " . $_SESSION['idbruker'] . " and (papirkurv is null or papirkurv = 0)" . 
                                 " order by tid DESC";
     $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
     $mottattMeldingerSTMT->execute();
@@ -113,6 +123,46 @@ if(isset($_POST['sendMelding'])) {
         // Error 1, melding ikke sendt
         header("location: meldinger.php?error=1");
     }
+}
+
+// Del for å legge en melding i søplekurven
+if(isset($_POST['slettMelding'])) {
+    // Bare tillate at innlogget bruker kan slette sine egne meldinger
+    $sjekkPaaQ = "select idmelding from melding where idmelding = " . $_POST['slettMelding'] . " and mottaker = " . $_SESSION['idbruker'];
+    $sjekkPaaSTMT = $db->prepare($sjekkPaaQ);
+    $sjekkPaaSTMT->execute();
+    $funnetMelding = $sjekkPaaSTMT->rowCount();
+
+    if($funnetMelding > 0) {
+        // Oppdaterer meldingen, setter også lest til 1
+        $slettMeldingQ = "update melding set papirkurv = 1, lest = 1 where idmelding = " . $_POST['slettMelding'];
+        $slettMeldingSTMT = $db->prepare($slettMeldingQ);
+        $slettMeldingSTMT->execute();
+
+        $endretMelding = $slettMeldingSTMT->rowCount();
+        if($endretMelding > 0) { header("Location: meldinger.php?meldingslettet"); /* Melding slettet, OK */ } 
+        else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
+    } else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
+}
+
+// Del for å gjenopprette en slettet melding
+if(isset($_POST['gjenopprettMelding'])) {
+    // Bare tillate at innlogget bruker kan gjenopprette sine egne meldinger
+    $sjekkPaaQ = "select idmelding from melding where idmelding = " . $_POST['gjenopprettMelding'] . " and mottaker = " . $_SESSION['idbruker'];
+    $sjekkPaaSTMT = $db->prepare($sjekkPaaQ);
+    $sjekkPaaSTMT->execute();
+    $funnetMelding = $sjekkPaaSTMT->rowCount();
+
+    if($funnetMelding > 0) {
+        // Oppdaterer meldingen
+        $gjenopprettMeldingQ = "update melding set papirkurv = 0 where idmelding = " . $_POST['gjenopprettMelding'];
+        $gjenopprettMeldingSTMT = $db->prepare($gjenopprettMeldingQ);
+        $gjenopprettMeldingSTMT->execute();
+
+        $endretMelding = $gjenopprettMeldingSTMT->rowCount();
+        if($endretMelding > 0) { header("Location: meldinger.php"); /* Melding gjenopprettet, OK */ } 
+        else { header("Location: meldinger.php?error=3"); /* Error 2, melding ikke gjenopprettet */ }
+    } else { header("Location: meldinger.php?error=3"); /* Error 2, melding ikke gjenopprettet */ }
 }
 
 ?>
@@ -281,6 +331,9 @@ if(isset($_POST['sendMelding'])) {
                     <form method="POST" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
                     </form>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -332,6 +385,9 @@ if(isset($_POST['sendMelding'])) {
                     <form method="POST" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
                     </form>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -357,16 +413,19 @@ if(isset($_POST['sendMelding'])) {
 
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
                 <!-- Kan ikke legge denne direkte i body -->
-                <header id="meldinger_header" onclick="lukkHamburgerMeny()">
+                <header id="meldinger_header_utboks" onclick="lukkHamburgerMeny()">
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Utboks</h1>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
                     <?php
                     if($antMld > 0) { ?>
-                        <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
+                        <form method="POST" id="meldinger_form_utboks" action="meldinger.php">
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                             <?php 
                             for($i = 0; $i < count($resMld); $i++) {
@@ -417,10 +476,10 @@ if(isset($_POST['sendMelding'])) {
                 </main>
 
 
-            <?php } else { 
+            <?php } else if(isset($_POST['papirkurv'])) {
                 /*--------------------------------*/
                 /*--------------------------------*/
-                /*----Del for å vise innboksen----*/
+                /*----Del for å vise papirkurv----*/
                 /*--------------------------------*/
                 /*--------------------------------*/ ?>
 
@@ -428,23 +487,19 @@ if(isset($_POST['sendMelding'])) {
                 <!-- Kan ikke legge denne direkte i body -->
                 <header id="meldinger_header" onclick="lukkHamburgerMeny()">
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
-                    <h1>Innboks</h1>
+                    <h1>Papirkurv</h1>
                     <form method="POST" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
                     </form>
+                    <a href="meldinger.php" class="lenke_knapp">Innboks</a>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
-                    <?php if(isset($_GET['meldingsendt'])) { ?>
-                        <p id="mldOK">Melding sendt</p>
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                        <p id="mldFEIL">Kunne ikke sende melding</p>
-                    <?php } ?>
 
                     <?php
                     if($antMld > 0) { ?>
-                        <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
+                        <form method="POST" id="meldinger_form_innboks" action="meldinger.php">
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                             <?php 
                             for($i = 0; $i < count($resMld); $i++) {
@@ -482,7 +537,102 @@ if(isset($_POST['sendMelding'])) {
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
+                                    <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" title="Gjenopprett denne meldingen" class="meldinger_innboks_restore" onclick="gjenopprettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
                             <?php } ?>
+                        </form>
+                        <form method="POST" id="meldinger_innboks_restore">
+                            <input type="hidden" id="meldinger_innboks_restore_valgt" name="gjenopprettMelding" value="">
+                        </form>
+
+                    <?php } else { ?>
+                        <p>Innboksen din er tom</p>
+                    <?php } ?>
+
+                    <form method="POST" id="meldinger_form_ny" action="meldinger.php">
+                        <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
+                    </form>
+
+                </main>
+            <?php } else { 
+                /*--------------------------------*/
+                /*--------------------------------*/
+                /*----Del for å vise innboksen----*/
+                /*--------------------------------*/
+                /*--------------------------------*/ ?>
+
+                <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+                <!-- Kan ikke legge denne direkte i body -->
+                <header id="meldinger_header" onclick="lukkHamburgerMeny()">
+                    <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
+                    <h1>Innboks</h1>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                    </form>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                    </form>
+                </header>
+
+                <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+                <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
+                    <?php if(isset($_GET['meldingsendt'])) { ?>
+                        <p id="mldOK">Melding sendt</p>
+
+                    <?php } else if(isset($_GET['meldingslettet'])) { ?>
+                        <p id="mldOK">Melding sendt til papirkurv</p>
+
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                        <p id="mldFEIL">Kunne ikke sende melding</p>
+                        
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
+                        <p id="mldFEIL">Kunne ikke slette meldingen</p>
+                    <?php } ?>
+
+                    <?php
+                    if($antMld > 0) { ?>
+                        <form method="POST" id="meldinger_form_innboks" action="meldinger.php">
+                            <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
+                            <?php 
+                            for($i = 0; $i < count($resMld); $i++) {
+                                $senderInfoQ = "select brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld[$i]['sender'];
+                                $senderInfoSTMT = $db->prepare($senderInfoQ);
+                                $senderInfoSTMT->execute();
+                                $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                // Henter bildet til brukeren
+                                $senderBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld[$i]['sender'] . " and brukerbilde.bilde = bilder.idbilder";
+                                $senderBildeSTMT = $db->prepare($senderBildeQ);
+                                $senderBildeSTMT->execute();
+                                $senderBilde = $senderBildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                $funnetSenderBilde = $senderBildeSTMT->rowCount();
+                                
+                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                    $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                } else {
+                                    $navn = $resInfo['brukernavn'];
+                                } ?>
+                                <section class="meldinger_innboks_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <?php if($funnetSenderBilde > 0) {
+                                        $testPaa = $senderBilde['hvor'];
+                                        // Tester på om filen faktisk finnes
+                                        if(file_exists("$lagringsplass/$testPaa")) { ?> 
+                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                        <?php } else { ?>
+                                            <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                        <?php } ?>
+                                    <?php } else { ?>
+                                        <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                    <?php } ?>
+                                    <p class="meldinger_innboks_navn"><?php echo($navn) ?></p>
+                                    <p class="meldinger_innboks_tid"><?php echo(" kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
+                            
+                                    <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
+                                </section>
+                                    <img src="bilder/soppelIkon.png" alt="Søppelikon" title="Slett denne meldingen" class="meldinger_innboks_soppel" onclick="slettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                            <?php } ?>
+                        </form>
+                        <form method="POST" id="meldinger_innboks_soppel">
+                            <input type="hidden" id="meldinger_innboks_soppel_valgt" name="slettMelding" value="">
                         </form>
 
                     <?php } else { ?>
