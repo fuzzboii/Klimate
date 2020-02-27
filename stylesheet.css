@@ -2795,12 +2795,7 @@ table {
   }
 
   /* Hover for meldinger */
-  .meldinger_innboks_samtale:hover, .meldinger_innboks_samtale_ulest:hover {
-    cursor: pointer;
-    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
-    transition: background-color 0.2s;
-  }
-  #meldinger_nyKnapp:hover, #meldinger_ny_knapp:hover {
+  .meldinger_innboks_samtale:hover, .meldinger_innboks_samtale_ulest:hover, #meldinger_nyKnapp:hover, #meldinger_ny_knapp:hover, #meldinger_samtale_knapp:hover {
     cursor: pointer;
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;

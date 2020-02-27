@@ -330,10 +330,10 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1><?php if(isset($navn)) { ?>Melding fra <?php echo($navn); } ?></h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks">
                     </form>
                     <form method="POST" id="meldinger_header_papirkurv" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet" value="Papirkurv">
                     </form>
                 </header>
 
@@ -355,12 +355,12 @@ if(isset($_POST['gjenopprettMelding'])) {
                             <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
                             <p id="meldinger_samtale_tid"><?php echo(date_format(date_create($resMld['tid']), "j F Y H:i")) ?></p>
                             <?php if($resMld['papirkurv'] == 0) { ?>
-                                <img src="bilder/soppelIkon.png" alt="Papirkurvikon" id="meldinger_samtale_soppel" onclick="slettSamtale(<?php echo($resMld['idmelding']) ?>)">
+                                <img src="bilder/soppelIkon.png" alt="Papirkurvikon" id="meldinger_samtale_soppel" title="Slett denne meldingen" onclick="slettSamtale(<?php echo($resMld['idmelding']) ?>)">
                                 <form method="POST" id="meldinger_innboks_soppel">
                                     <input type="hidden" id="meldinger_innboks_soppel_valgt" name="slettMelding" value="">
                                 </form>
                             <?php } else { ?>
-                                <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" id="meldinger_samtale_restore" onclick="gjenopprettSamtale(<?php echo($resMld['idmelding']) ?>)">
+                                <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" id="meldinger_samtale_restore" title="Gjenopprett denne meldingen" onclick="gjenopprettSamtale(<?php echo($resMld['idmelding']) ?>)">
                                 <form method="POST" id="meldinger_innboks_restore">
                                     <input type="hidden" id="meldinger_innboks_restore_valgt" name="gjenopprettMelding" value="">
                                 </form>
@@ -372,13 +372,13 @@ if(isset($_POST['gjenopprettMelding'])) {
                         <form method="POST" id="meldinger_form_samtale" action="meldinger.php">
                             <input type="hidden" name="idbruker" value="<?php echo($resInfo['idbruker']) ?>">
                             <input type="hidden" name="tittel" value="Re: <?php echo(substr($resMld['tittel'], 0, 40)) ?>"> 
-                            <textarea id="meldinger_samtale_svar" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv her..." required></textarea>
+                            <textarea id="meldinger_samtale_svar" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv her..." title="Oppgi innholdet til svaret" required></textarea>
                             <input id="meldinger_samtale_knapp" type="submit" name="sendMelding" value="">
                         </form>
                     <?php } else { ?>
                         <p>Kunne ikke vise denne meldingen</p>
                     <?php } ?>
-                    <button onclick="location.href='meldinger.php'" id="meldinger_samtale_lenke" class="lenke_knapp">Tilbake til innboks</button>
+                    <button onclick="location.href='meldinger.php'" id="meldinger_samtale_lenke" class="lenke_knapp" title="Meldingene du har mottatt">Tilbake til innboks</button>
                </main>
             
 
@@ -395,10 +395,10 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Ny melding</h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks">
                     </form>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet" value="Papirkurv">
                     </form>
                 </header>
 
@@ -406,7 +406,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <main id="meldinger_main_ny" onclick="lukkHamburgerMeny()"> 
 
                     <form method="POST" action="meldinger.php">
-                        <input name="brukernavn"  id="meldinger_ny_bruker" type="text" list="brukere" placeholder="Skriv inn brukernavn" autofocus required>
+                        <input name="brukernavn"  id="meldinger_ny_bruker" type="text" list="brukere" placeholder="Skriv inn brukernavn" title="Brukernavnet du ønsker å sende melding til" autofocus required>
                         <datalist id="brukere">
                             <?php 
                             // Henter brukernavn fra database
@@ -419,12 +419,12 @@ if(isset($_POST['gjenopprettMelding'])) {
                             <?php } ?>
                         </datalist>
 
-                        <input type="text" id="meldinger_ny_tittel" name="tittel" maxlength="45" placeholder="Skriv inn tittel" required>
-                        <textarea id="meldinger_ny_tekst" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv inn innhold" required></textarea>
-                        <input id="meldinger_ny_knapp" type="submit" name="sendMelding" value="Send melding">
+                        <input type="text" id="meldinger_ny_tittel" name="tittel" maxlength="45" placeholder="Skriv inn tittel" title="Tittelen på meldingen" required>
+                        <textarea id="meldinger_ny_tekst" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv inn innhold" title="Innholdet i meldingen" required></textarea>
+                        <input id="meldinger_ny_knapp" type="submit" name="sendMelding" value="Send melding" title="Send denne meldingen">
                     </form>
 
-                    <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
+                    <button onclick="location.href='meldinger.php'" class="lenke_knapp" title="Meldingene du har mottatt">Tilbake til innboks</button>
                 </main>
             
 
@@ -441,7 +441,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Utboks</h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet" value="Papirkurv">
                     </form>
                 </header>
 
@@ -494,9 +494,9 @@ if(isset($_POST['gjenopprettMelding'])) {
                         <p>Utboksen din er tom</p>
                     <?php } ?>
                     <form method="POST" id="meldinger_form_ny" action="meldinger.php">
-                        <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
+                        <input type="submit" id="meldinger_nyKnapp" name="ny" title="Skriv en ny melding" value="Ny melding">
                     </form>
-                    <button onclick="location.href='meldinger.php'" class="lenke_knapp">Tilbake til innboks</button>
+                    <button onclick="location.href='meldinger.php'" class="lenke_knapp" title="Meldingene du har mottatt">Tilbake til innboks</button>
                 </main>
 
 
@@ -513,9 +513,8 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Papirkurv</h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks">
                     </form>
-                    <a href="meldinger.php" class="lenke_knapp">Innboks</a>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -544,7 +543,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                 } else {
                                     $navn = $resInfo['brukernavn'];
                                 } ?>
-                                <section class="meldinger_innboks_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                <section class="meldinger_innboks_samtale" title="Vis denne meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
                                     <?php if($funnetSenderBilde > 0) {
                                         $testPaa = $senderBilde['hvor'];
                                         // Tester på om filen faktisk finnes
@@ -569,12 +568,13 @@ if(isset($_POST['gjenopprettMelding'])) {
                         </form>
 
                     <?php } else { ?>
-                        <p>Innboksen din er tom</p>
+                        <p>Papirkurven din er tom</p>
                     <?php } ?>
 
                     <form method="POST" id="meldinger_form_ny" action="meldinger.php">
-                        <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
+                        <input type="submit" id="meldinger_nyKnapp" name="ny" title="Skriv en ny melding" value="Ny melding">
                     </form>
+                    <button onclick="location.href='meldinger.php'" class="lenke_knapp" title="Meldingene du har mottatt">Tilbake til innboks</button>
 
                 </main>
             <?php } else { 
@@ -590,10 +590,10 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Innboks</h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks">
                     </form>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet"  value="Papirkurv">
                     </form>
                 </header>
 
@@ -636,9 +636,9 @@ if(isset($_POST['gjenopprettMelding'])) {
                                     $navn = $resInfo['brukernavn'];
                                 }
                                 if($resMld[$i]['lest'] == 1) { ?>
-                                    <section class="meldinger_innboks_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <section class="meldinger_innboks_samtale" title="Vis denne meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
                                 <?php } else { ?>
-                                    <section class="meldinger_innboks_samtale_ulest" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <section class="meldinger_innboks_samtale_ulest" title="Vis denne uleste meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
                                 <?php } 
                                     if($funnetSenderBilde > 0) {
                                         $testPaa = $senderBilde['hvor'];
@@ -668,7 +668,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <?php } ?>
 
                     <form method="POST" id="meldinger_form_ny" action="meldinger.php">
-                        <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
+                        <input type="submit" id="meldinger_nyKnapp" name="ny" title="Skriv en ny melding"  value="Ny melding">
                     </form>
 
                 </main>
