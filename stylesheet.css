@@ -2184,7 +2184,7 @@ table {
   }
 
   .meldinger_innboks_samtale {
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1.4fr;
   }
 
 }
@@ -2374,7 +2374,7 @@ table {
 
   .meldinger_innboks_samtale {
     padding-top: 0.4em; padding-bottom: 0.4em;
-    grid-template-columns: 0.5fr 8fr 1.5fr;
+    grid-template-columns: 0.5fr 8fr 2.2fr;
   }
 
   .meldinger_innboks_bilde {
@@ -2781,7 +2781,7 @@ table {
   }
 
   .meldinger_innboks_samtale {
-    grid-template-columns: 0.5fr 8fr 1fr;
+    grid-template-columns: 0.5fr 8fr 2fr;
   }
 
   .meldinger_innboks_navn, .meldinger_innboks_tittel {

@@ -78,13 +78,14 @@ if(isset($_POST['mottatt'])) {
 } else if(isset($_POST['papirkurv'])) {
     // Er vi her henter vi ting som brukes i innboksen
     $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
-                            from melding where mottaker = " . $_SESSION['idbruker'] . " and (papirkurv is not null or papirkurv = 1)" . 
+                            from melding where mottaker = " . $_SESSION['idbruker'] . " and (papirkurv = 1)" . 
                                 " order by tid DESC";
     $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
     $mottattMeldingerSTMT->execute();
     $resMld = $mottattMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
 
     $antMld = $mottattMeldingerSTMT->rowCount();
+
 } else {
     // Er vi her henter vi ting som brukes i innboksen
     $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
@@ -352,7 +353,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                 <img id="meldinger_sender_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                             <?php } ?>
                             <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
-                            <p id="meldinger_samtale_tid"><?php echo(date("F d, Y H:i", strtotime($resMld['tid']))); ?></p>
+                            <p id="meldinger_samtale_tid"><?php echo(date_format(date_create($resMld['tid']), "j F Y H:i")) ?></p>
                             <?php if($resMld['papirkurv'] == 0) { ?>
                                 <img src="bilder/soppelIkon.png" alt="Papirkurvikon" id="meldinger_samtale_soppel" onclick="slettSamtale(<?php echo($resMld['idmelding']) ?>)">
                                 <form method="POST" id="meldinger_innboks_soppel">
@@ -470,7 +471,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                         <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                     <?php } ?>
                                     <p class="meldinger_innboks_navn">Til: <?php echo($navn) ?></p>
-                                    <p class="meldinger_innboks_tid"><?php echo(" kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
+                                    <p class="meldinger_innboks_tid"><?php echo(date_format(date_create($resMld[$i]['tid']), "j M H:i")) ?></p>
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
@@ -544,7 +545,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                         <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                     <?php } ?>
                                     <p class="meldinger_innboks_navn"><?php echo($navn) ?></p>
-                                    <p class="meldinger_innboks_tid"><?php echo(" kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
+                                    <p class="meldinger_innboks_tid"><?php echo(date_format(date_create($resMld[$i]['tid']), "j M H:i")) ?></p>
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
@@ -635,7 +636,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                         <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                     <?php } ?>
                                     <p class="meldinger_innboks_navn"><?php echo($navn) ?></p>
-                                    <p class="meldinger_innboks_tid"><?php echo(" kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
+                                    <p class="meldinger_innboks_tid"><?php echo(date_format(date_create($resMld[$i]['tid']), "j M H:i")) ?></p>
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
