@@ -331,7 +331,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <form method="POST" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
                     </form>
-                    <form method="POST" action="meldinger.php">
+                    <form method="POST" id="meldinger_header_papirkurv" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
                     </form>
                 </header>
