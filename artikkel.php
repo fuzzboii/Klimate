@@ -343,11 +343,34 @@ $tabindex = 8;
                                 <?php }?>
                             </section>
 
-                            <!-- Kommentar seksjon -->
-                            <section id="artikkel_kommentarOversikt">
+                        
+
+
+
+                        <?php
+
+                        /*------------------------------------*/
+                        /*------------------------------------*/
+                        /*--Del for å kommentere en artikkel--*/
+                        /*------------------------------------*/
+                        /*------------------------------------*/                        
+
+                        // Del for å legge til en ny kommentar
+                        if(isset($_POST['sendKommentar'])) {
+                            // Legger til en ny kommentar
+                            $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, brukernavn) 
+                                                values('" . $_POST['ingress'] . "', '" . $_POST['tekst'] . "', 
+                                                    NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
+                            $nyKommentarSTMT = $db->prepare($nyKommentarQ);
+                            $nyKommentarSTMT->execute();
+                            $sendt = $nyKommentarSTMT->rowCount();
+                        }
+                        ?> 
+                            <!-- Kommentering av artikler -->                          
+                            <section id="artikkel_kommentarOversikt"> 
                                 <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
                                 <?php
-                                    $hentAntallKommentarer = "select count(artikkel) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
+                                    $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
                                     $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
                                     $hentAntallKommentarerSTMT->execute();
                                     $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
@@ -355,20 +378,30 @@ $tabindex = 8;
                                     <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentarer</p>        
                             </section>
 
-                            <?php
-                                date_default_timezone_set('Europe/Oslo');
-                            ?>
                             <section id="artikkel_kommentarSeksjon">
-                            <?php
-                            echo "<form>
-                                <input type='hidden' name='bruker' value='Anonymous'>
-                                <input type='hidden' name='date' value='".date('Y-m-d H:i:s')."'>
-                                <textarea id='artikkel_kommentarKommentering' name='message'> </textarea><br>
-                                <button id='artikkel_submitKommentarKnapp' type='submit' name='submit'>Publiser kommentar</button>
-                            </form>";
-                            ?>
-                            </section>
-                            
+                                <!-- input kommentering felt -->
+                                <form method="POST" id="kommentar_form" action="artikkel.php">
+                                    <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required></textarea>
+                                    <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
+                                </form>
+                                
+                                <!-- Henter kommentarer -->
+                                <?php
+                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn from kommentar, bruker
+                                                where kommentar.bruker = bruker.idbruker";
+                                    $hentKommentarSTMT = $db->prepare($hentKommentar);
+                                    $hentKommentarSTMT->execute();
+                                    $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                    
+                                    for($i = 0; $i < count($kommentarer); $i++) {
+                                        echo "<section id='artikkel_kommentarBoks'>";
+                                        echo $kommentarer[$i]['brukernavn']."<br>";
+                                        echo $kommentarer[$i]['tid']."<br>";
+                                        echo $kommentarer[$i]['tekst']."<br>";
+                                        echo "</section>";
+                                    }?>    
+                            </section> 
+                        
                             <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 
@@ -379,7 +412,7 @@ $tabindex = 8;
                                 $artikkelEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
 
                                 if ($artikkelEier != false || $_SESSION['brukertype'] == 1) { ?>
-                                    <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett denne artikkelen">
+                                    <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett artikkelen">
                                     <section id="artikkel_bekreftSlett" style="display: none;">
                                         <section id="artikkel_bekreftSlettInnhold">
                                             <h2>Sletting</h2>

@@ -545,13 +545,14 @@ footer a {
 #artikkel_bekreftSlettKnapp, #artikkel_slettKnapp  {
   color: white;
   background-color: red;
-  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  padding-left: 0.5em; padding-right: 0.5em;
+  padding-bottom: 1em; padding-top: 1em; /* hvor mye luft rundt teksten det skal være */
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-  width: 14em;
+  width: 8em;
 }
 
 #artikkel_slettKnapp {
@@ -2052,7 +2053,7 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for KOMMENTARER */
-#artikkel_kommentarKommentering {
+#artikkel_nyKommentar {
   width: 100%;
   height: 5em;
   background-color: #fff;
@@ -2061,7 +2062,7 @@ table {
   margin: 3px -1px;
 }
 
-#artikkel_submitKommentarKnapp {
+#artikkel_nyKommentar_knapp {
   width: 10em;
   height: 2.2em;
   background-color: #282828;
@@ -2086,6 +2087,13 @@ table {
 #artikkel_antallKommentarer {
   font-family: Helvetica, Arial, sans-serif;
   border-bottom: 2px solid rgb(26, 26, 26);
+}
+
+#artikkel_kommentarBoks {
+  padding: 1em;
+  margin-bottom: 4px;
+  background-color: #fff;
+  border-radius: 4px;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
