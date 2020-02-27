@@ -545,13 +545,14 @@ footer a {
 #artikkel_bekreftSlettKnapp, #artikkel_slettKnapp  {
   color: white;
   background-color: red;
-  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  padding-left: 0.5em; padding-right: 0.5em;
+  padding-bottom: 1em; padding-top: 1em; /* hvor mye luft rundt teksten det skal være */
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-  width: 14em;
+  width: 8em;
 }
 
 #artikkel_slettKnapp {
@@ -1815,21 +1816,36 @@ table {
 /* Style for MELDINGER */
 
 #meldinger_main {
-  max-width: 31em;
+  max-width: 18em;
   margin-left: auto; margin-right: auto;
   border-top: 1px solid black;
   padding-top: 0.5em;
   padding-left: 0.4em; padding-right: 0.4em;
+  background-color: rgba(175, 175, 175, 0.1);
 }
 
 #meldinger_header {
-  max-width: 31em;
+  max-width: 19em;
   display: grid;
-  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-columns: 1fr 3fr 1fr;
   padding-top: 6em;
   padding-bottom: 1em;
   font-family: Inter, Helvetica, Arial, sans-serif;
   margin-left: auto; margin-right: auto;
+}
+
+#meldinger_header img {
+  grid-column: 1;
+  grid-row: 1/span 2;
+}
+
+#meldinger_header h1 {
+  grid-column: 2;
+  grid-row: 1/span 2;
+}
+
+#meldinger_header_papirkurv {
+  grid-column: 3/3;
 }
 
 #meldinger_header h1 {
@@ -1844,7 +1860,7 @@ table {
 
 #meldinger_header img {
   width: 2em;
-  margin-left: 3em;
+  margin-left: 1em;
 }
 
 #meldinger_sender_bilde {
@@ -1854,7 +1870,7 @@ table {
   object-fit: cover;
 }
 
-.meldinger_innboks_samtale {
+.meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
   background-color: rgb(200,218,211);
   box-shadow: 0 0 0.1em 0.05em black;
   margin-left: 0.5em; margin-right: 0.5em;
@@ -1862,6 +1878,14 @@ table {
   border-radius: 1em 1em 1em 1em;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
+}
+
+.meldinger_innboks_samtale_ulest {
+  background-color: rgb(172, 255, 223);
+}
+
+.meldinger_innboks_soppel, .meldinger_innboks_restore {
+  display: none;
 }
 
 .meldinger_innboks_tittel { 
@@ -1923,7 +1947,7 @@ table {
 /* Del for visning av spesifik melding */
 #meldinger_samtale_toppDel {
   display: grid;
-  grid-template-columns: 1fr 2.5fr;
+  grid-template-columns: 1fr 1.7fr 0.8fr;
   border-bottom: 1px solid black;
   padding-bottom: 0.5em;
 }
@@ -1932,7 +1956,7 @@ table {
   grid-column: 2/span 1;
   grid-row: 1/span 1;
   margin: 0;
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 
 #meldinger_samtale_tid {
@@ -1967,12 +1991,20 @@ table {
   background-size: 2.6em;
 }
 
+#meldinger_form_samtale {
+  text-align: center;
+  width: 18em;
+}
+
 
 /* Del for nye meldinger */
 #meldinger_main_ny {
-  max-width: 31em;
+  border-top: 1px solid black;
+  max-width: 20em;
   margin-left: auto; margin-right: auto;
+  background-color: rgba(175, 175, 175, 0.1);
 }
+
 #meldinger_samtale_tekst {
   padding-bottom: 0.5em;
   border-bottom: 1px solid black;
@@ -2014,6 +2046,99 @@ table {
   text-align: center;
 }
 
+/* Del for utboks */
+#meldinger_header_utboks {
+  max-width: 19em;
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr;
+  padding-top: 6em;
+  padding-bottom: 1em;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  margin-left: auto; margin-right: auto;
+}
+
+#meldinger_header_utboks h1 {
+  font-size: 1.5em;
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
+  display: inline-block;
+  margin: 0;
+  margin-right: auto;
+  margin-bottom: 0.5em;
+  padding-right: 0.4em;
+}
+
+#meldinger_header_utboks img {
+  width: 2em;
+  margin-left: 1em;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for KOMMENTARER */
+#artikkel_nyKommentar {
+  width: 100%;
+  height: 5em;
+  background-color: #fff;
+  resize: none;
+  padding: 0;
+  margin: 3px -1px;
+}
+
+/* Knappen for å publisere kommentar */
+#artikkel_nyKommentar_knapp {
+  width: 10em;
+  height: 2.2em;
+  background-color: #282828;
+  border: none;
+  color: #fff;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 400px;
+  cursor: pointer;
+  margin-bottom: 2em;
+}
+
+/* Antall kommentarer linjen/området */
+#artikkel_kommentarOversikt {
+  margin-top: 1em;
+}
+
+.artikkel_antallKommentarerIkon {
+  height: 1em;
+  padding-right: 0.5em;
+  float: left;
+}
+
+#artikkel_antallKommentarer {
+  font-family: Helvetica, Arial, sans-serif;
+  border-bottom: 2px solid rgb(26, 26, 26);
+}
+
+/* Feltene for selve kommentarene */
+#artikkel_kommentarBoks {
+  padding: 1em;
+  margin-bottom: 4px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+/* Selve paragrafene i kommentar boksene */
+#artikkel_kommentarBoks p {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  overflow-wrap: break-word;
+}
+
+.kommentarTid {
+  padding-bottom: 1em;
+}
+
+.kommentarBrukernavn {
+  font-weight: bold;
+}
+
+.kommentarTid {
+  font-size: 0.7em;
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Media queries */
 
@@ -2036,6 +2161,36 @@ table {
   /* artikkel overskrift */
   .artikkel_overskrift {
     font-size: 1.5em;
+  }
+
+  /* Del for meldinger */
+  #meldinger_main {
+    max-width: 21em;
+  }
+
+  #meldinger_header {
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    max-width: 22em;
+  }
+
+  #meldinger_header img {
+    grid-row: 1;
+  }
+  
+  #meldinger_header h1 {
+    grid-row: 1;
+  }
+  
+  #meldinger_header_papirkurv {
+    grid-column: 4;
+  }
+
+  #meldinger_form_samtale {
+    width: 21em;
+  }
+
+  .meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
+    grid-template-columns: 1fr 2fr 1.4fr;
   }
 
 }
@@ -2159,6 +2314,91 @@ table {
     grid-template-columns: 1fr 1fr;
   }
 
+  /* Del for meldinger */
+  #meldinger_main {
+    max-width: 41em;
+  }
+
+  #meldinger_header {
+    grid-template-columns: 1.5fr 18.5fr 1fr 1fr;
+    max-width: 40em;
+  }
+
+  #meldinger_header_utboks {
+    grid-template-columns: 1.3fr 2fr 11.4fr 3fr;
+    max-width: 42em;
+  }
+
+  #meldinger_header_utboks form {
+    grid-column: 4;
+  }
+
+  #meldinger_header img {
+    margin-left: 0;
+  }
+
+  #meldinger_form_innboks {
+    display: grid;
+    grid-template-columns: 10fr 1fr;
+  }
+
+  #meldinger_form_samtale {
+    width: 38em;
+  }
+
+  .meldinger_innboks_soppel, .meldinger_innboks_restore {
+    display: block;
+    margin-top: 1em;
+  }
+  .meldinger_innboks_soppel:hover, #meldinger_samtale_soppel:hover {
+    background-color: cyan; /* Cyan inverted er rødt */
+    filter: invert(100%);
+    transition: background-color 0.3s;
+    border-radius: 0.4em;
+    cursor: pointer;
+  }
+  .meldinger_innboks_restore:hover, #meldinger_samtale_restore:hover {
+    background-color: magenta; /* Magentra inverted er grønt */
+    filter: invert(100%);
+    transition: background-color 0.3s;
+    border-radius: 0.4em;
+    cursor: pointer;
+  }
+
+  #meldinger_samtale_svar {
+    width: 90%;
+  }
+
+  #meldinger_samtale_toppDel {
+    grid-template-columns: 1.2fr 6fr 3.25fr 1fr;
+  }
+
+  #meldinger_samtale_tid {
+    grid-column: 3/span 1;
+    margin-top: 0.5em;
+  }
+
+  .meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
+    padding-top: 0.4em; padding-bottom: 0.4em;
+    grid-template-columns: 0.5fr 8fr 2.2fr;
+  }
+
+  .meldinger_innboks_bilde {
+    width: 5em;
+    height: 5em;
+  }
+
+  #meldinger_main_ny {
+    max-width: 41em;
+  }
+  
+  #meldinger_ny_bruker, #meldinger_ny_tittel {
+    width: 30em;
+  }
+
+  #meldinger_ny_tekst {
+    width: 32em; 
+  }
 
 }
 
@@ -2517,7 +2757,49 @@ table {
 
   .profil_persInf {
     font-size: 1em;
-   }
+  }
+
+  /* Del for meldinger */
+  #meldinger_main {
+    max-width: 51em;
+  }
+
+  #meldinger_header {
+    grid-template-columns: 1.5fr 20fr 1fr 1fr;
+    max-width: 50em;
+  }
+
+  #meldinger_header_utboks {
+    grid-template-columns: 1.5fr 2fr 15.4fr 3fr;
+    max-width: 52em;
+  }
+
+  #meldinger_samtale_toppDel {
+    grid-template-columns: 1.2fr 7.5fr 3.5fr 1fr;;
+  }
+
+  #meldinger_form_samtale {
+    width: 51em;
+  }
+
+  #meldinger_samtale_svar {
+    width: 90%;
+  }
+
+  .meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
+    grid-template-columns: 0.5fr 8fr 2fr;
+  }
+
+  .meldinger_innboks_navn, .meldinger_innboks_tittel {
+    margin-left: 0.2em;
+  }
+
+  /* Hover for meldinger */
+  .meldinger_innboks_samtale:hover, .meldinger_innboks_samtale_ulest:hover, #meldinger_nyKnapp:hover, #meldinger_ny_knapp:hover, #meldinger_samtale_knapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
 
 }
 

@@ -342,6 +342,67 @@ $tabindex = 8;
                                     <p>Skrevet av</p> <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
                                 <?php }?>
                             </section>
+
+                        
+
+
+
+                        <?php
+
+                        /*------------------------------------*/
+                        /*------------------------------------*/
+                        /*--Del for å kommentere en artikkel--*/
+                        /*------------------------------------*/
+                        /*------------------------------------*/                        
+
+                        // Del for å legge til en ny kommentar
+                        if(isset($_POST['sendKommentar'])) {
+                            // Legger til en ny kommentar
+                            $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, brukernavn) 
+                                                values('" . $_POST['ingress'] . "', '" . $_POST['tekst'] . "', 
+                                                    NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
+                            $nyKommentarSTMT = $db->prepare($nyKommentarQ);
+                            $nyKommentarSTMT->execute();
+                            $sendt = $nyKommentarSTMT->rowCount();
+                        }
+                        ?> 
+                            <!-- Antall kommentarer av artikler -->                          
+                            <section id="artikkel_kommentarOversikt"> 
+                                <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
+                                <?php
+                                    $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
+                                    $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
+                                    $hentAntallKommentarerSTMT->execute();
+                                    $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentarer</p>        
+                            </section>
+
+                            <section id="artikkel_kommentarSeksjon">
+                                <!-- input kommentering felt -->
+                                <form method="POST" id="kommentar_form" action="artikkel.php">
+                                    <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required></textarea>
+                                    <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
+                                </form>
+                                
+                                <!-- Henter kommentarer -->
+                                <?php
+                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn from kommentar, bruker
+                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
+                                    $hentKommentarSTMT = $db->prepare($hentKommentar);
+                                    $hentKommentarSTMT->execute();
+                                    $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                    ?>
+                                    <?php for($i = 0; $i < count($kommentarer); $i++) {?>
+                                        <section id="artikkel_kommentarBoks">
+                                            <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
+                                            <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
+                                            <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
+                                        </section>
+                                    <?php } ?>    
+                            </section> 
+                        
+                            <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 
                             if(isset($_SESSION['idbruker'])) {
@@ -351,7 +412,7 @@ $tabindex = 8;
                                 $artikkelEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
 
                                 if ($artikkelEier != false || $_SESSION['brukertype'] == 1) { ?>
-                                    <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett denne artikkelen">
+                                    <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett artikkelen">
                                     <section id="artikkel_bekreftSlett" style="display: none;">
                                         <section id="artikkel_bekreftSlettInnhold">
                                             <h2>Sletting</h2>
@@ -364,7 +425,6 @@ $tabindex = 8;
                                     </section>
                                 <?php } ?>
                             <?php } ?>
-                            
                         </main>
                     <?php } ?>
                 <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      
