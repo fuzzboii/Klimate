@@ -125,7 +125,7 @@ if(isset($_POST['slettMelding'])) {
 
     if($funnetMelding > 0) {
         // Oppdaterer meldingen, setter også lest til 1
-        $slettMeldingQ = "update melding set papirkurv = 1 and lest = 1 where idmelding = " . $_POST['slettMelding'];
+        $slettMeldingQ = "update melding set papirkurv = 1, lest = 1 where idmelding = " . $_POST['slettMelding'];
         $slettMeldingSTMT = $db->prepare($slettMeldingQ);
         $slettMeldingSTMT->execute();
 
@@ -301,6 +301,9 @@ if(isset($_POST['slettMelding'])) {
                     <form method="POST" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
                     </form>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -352,6 +355,9 @@ if(isset($_POST['slettMelding'])) {
                     <form method="POST" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
                     </form>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -380,6 +386,9 @@ if(isset($_POST['slettMelding'])) {
                 <header id="meldinger_header_utboks" onclick="lukkHamburgerMeny()">
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Utboks</h1>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
+                    </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -451,6 +460,9 @@ if(isset($_POST['slettMelding'])) {
                     <h1>Innboks</h1>
                     <form method="POST" action="meldinger.php">
                         <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                    </form>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" value="Papirkurv">
                     </form>
                 </header>
 

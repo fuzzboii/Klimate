@@ -1825,7 +1825,7 @@ table {
 #meldinger_header {
   max-width: 19em;
   display: grid;
-  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-columns: 1fr 3fr 1fr 1fr;
   padding-top: 6em;
   padding-bottom: 1em;
   font-family: Inter, Helvetica, Arial, sans-serif;
@@ -1979,7 +1979,8 @@ table {
 
 /* Del for nye meldinger */
 #meldinger_main_ny {
-  max-width: 31em;
+  border-top: 1px solid black;
+  max-width: 20em;
   margin-left: auto; margin-right: auto;
 }
 #meldinger_samtale_tekst {
@@ -2255,13 +2256,17 @@ table {
   }
 
   #meldinger_header {
-    grid-template-columns: 1.5fr 18.5fr 2fr;
+    grid-template-columns: 1.5fr 18.5fr 1fr 1fr;
     max-width: 40em;
   }
 
   #meldinger_header_utboks {
-    grid-template-columns: 1.3fr 2fr 11.4fr;
+    grid-template-columns: 1.3fr 2fr 11.4fr 3fr;
     max-width: 42em;
+  }
+
+  #meldinger_header_utboks form {
+    grid-column: 4;
   }
 
   #meldinger_header img {
@@ -2673,12 +2678,12 @@ table {
   }
 
   #meldinger_header {
-    grid-template-columns: 1.5fr 20fr 2fr;
+    grid-template-columns: 1.5fr 20fr 1fr 1fr;
     max-width: 50em;
   }
 
   #meldinger_header_utboks {
-    grid-template-columns: 1.5fr 2fr 15.4fr;
+    grid-template-columns: 1.5fr 2fr 15.4fr 3fr;
     max-width: 52em;
   }
 
