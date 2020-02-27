@@ -78,7 +78,7 @@ if(isset($_POST['mottatt'])) {
 } else {
     // Er vi her henter vi ting som brukes i innboksen
     $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
-                            from melding where mottaker = " . $_SESSION['idbruker'] . 
+                            from melding where mottaker = " . $_SESSION['idbruker'] . " and (papirkurv is null or papirkurv = 0)" . 
                                 " order by tid DESC";
     $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
     $mottattMeldingerSTMT->execute();
@@ -117,7 +117,22 @@ if(isset($_POST['sendMelding'])) {
 
 // Del for å legge en melding i søplekurven
 if(isset($_POST['slettMelding'])) {
+    // Bare tillate at innlogget bruker kan slette sine egne meldinger
+    $sjekkPaaQ = "select idmelding from melding where idmelding = " . $_POST['slettMelding'] . " and mottaker = " . $_SESSION['idbruker'];
+    $sjekkPaaSTMT = $db->prepare($sjekkPaaQ);
+    $sjekkPaaSTMT->execute();
+    $funnetMelding = $sjekkPaaSTMT->rowCount();
 
+    if($funnetMelding > 0) {
+        // Oppdaterer meldingen, setter også lest til 1
+        $slettMeldingQ = "update melding set papirkurv = 1 and lest = 1 where idmelding = " . $_POST['slettMelding'];
+        $slettMeldingSTMT = $db->prepare($slettMeldingQ);
+        $slettMeldingSTMT->execute();
+
+        $endretMelding = $slettMeldingSTMT->rowCount();
+        if($endretMelding > 0) { header("Location: meldinger.php?meldingslettet"); /* Melding slettet, OK */ } 
+        else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
+    } else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
 }
 
 ?>
@@ -443,8 +458,15 @@ if(isset($_POST['slettMelding'])) {
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
                     <?php if(isset($_GET['meldingsendt'])) { ?>
                         <p id="mldOK">Melding sendt</p>
+
+                    <?php } else if(isset($_GET['meldingslettet'])) { ?>
+                        <p id="mldOK">Melding sendt til papirkurv</p>
+
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
                         <p id="mldFEIL">Kunne ikke sende melding</p>
+                        
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
+                        <p id="mldFEIL">Kunne ikke slette meldingen</p>
                     <?php } ?>
 
                     <?php
@@ -487,8 +509,11 @@ if(isset($_POST['slettMelding'])) {
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
-                                <img src="bilder/soppelIkon.png" alt="Søppelikon" title="Slett denne meldingen" class="meldinger_innboks_soppel">
+                                    <img src="bilder/soppelIkon.png" alt="Søppelikon" title="Slett denne meldingen" class="meldinger_innboks_soppel" onclick="slettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
                             <?php } ?>
+                        </form>
+                        <form method="POST" id="meldinger_innboks_soppel">
+                            <input type="hidden" id="meldinger_innboks_soppel_valgt" name="slettMelding" value="">
                         </form>
 
                     <?php } else { ?>

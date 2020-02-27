@@ -601,6 +601,11 @@ function aapneSamtale(valgtSamtale) {
   document.getElementById("meldinger_form_innboks").submit();
 }
 
+function slettSamtale(valgtSamtale) {
+  document.getElementById("meldinger_innboks_soppel_valgt").value = valgtSamtale;
+  document.getElementById("meldinger_innboks_soppel").submit();
+}
+
 function aapneUtboks() {
   document.getElementById("meldinger_form_utboks").submit();
 }
