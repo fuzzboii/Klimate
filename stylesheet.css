@@ -1821,6 +1821,7 @@ table {
   border-top: 1px solid black;
   padding-top: 0.5em;
   padding-left: 0.4em; padding-right: 0.4em;
+  background-color: rgba(175, 175, 175, 0.1);
 }
 
 #meldinger_header {
@@ -1997,6 +1998,7 @@ table {
   border-top: 1px solid black;
   max-width: 20em;
   margin-left: auto; margin-right: auto;
+  background-color: rgba(175, 175, 175, 0.1);
 }
 
 #meldinger_samtale_tekst {
