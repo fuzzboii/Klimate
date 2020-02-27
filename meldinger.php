@@ -406,7 +406,19 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <main id="meldinger_main_ny" onclick="lukkHamburgerMeny()"> 
 
                     <form method="POST" action="meldinger.php">
-                        <input type="text" id="meldinger_ny_bruker" name="brukernavn" placeholder="Skriv inn brukernavn" autofocus required>
+                        <input name="brukernavn"  id="meldinger_ny_bruker" type="text" list="brukere" placeholder="Skriv inn brukernavn" autofocus required>
+                        <datalist id="brukere">
+                            <?php 
+                            // Henter brukernavn fra database
+                            $hentNavnQ = "select brukernavn from bruker order by brukernavn DESC";
+                            $hentNavnSTMT = $db->prepare($hentNavnQ);
+                            $hentNavnSTMT->execute();
+                            $liste = $hentNavnSTMT->fetchAll(PDO::FETCH_ASSOC);
+                            foreach ($liste as $brukernavn) { ?>
+                                <option value="<?php echo($brukernavn['brukernavn'])?>"><?php echo($brukernavn['brukernavn'])?></option>
+                            <?php } ?>
+                        </datalist>
+
                         <input type="text" id="meldinger_ny_tittel" name="tittel" maxlength="45" placeholder="Skriv inn tittel" required>
                         <textarea id="meldinger_ny_tekst" type="textbox" maxlength="1024" name="tekst" placeholder="Skriv inn innhold" required></textarea>
                         <input id="meldinger_ny_knapp" type="submit" name="sendMelding" value="Send melding">
