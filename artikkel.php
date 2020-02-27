@@ -388,7 +388,7 @@ $tabindex = 8;
                                 <!-- Henter kommentarer -->
                                 <?php
                                     $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn from kommentar, bruker
-                                                where kommentar.bruker = bruker.idbruker";
+                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
                                     $hentKommentarSTMT = $db->prepare($hentKommentar);
                                     $hentKommentarSTMT->execute();
                                     $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
