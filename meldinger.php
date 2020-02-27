@@ -362,7 +362,7 @@ if(isset($_POST['slettMelding'])) {
 
                 <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
                 <!-- Kan ikke legge denne direkte i body -->
-                <header id="meldinger_header" onclick="lukkHamburgerMeny()">
+                <header id="meldinger_header_utboks" onclick="lukkHamburgerMeny()">
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Utboks</h1>
                 </header>
@@ -487,6 +487,7 @@ if(isset($_POST['slettMelding'])) {
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
+                                <img src="bilder/soppelIkon.png" alt="Søppelikon" title="Slett denne meldingen" class="meldinger_innboks_soppel">
                             <?php } ?>
                         </form>
 
