@@ -366,7 +366,7 @@ $tabindex = 8;
                             $sendt = $nyKommentarSTMT->rowCount();
                         }
                         ?> 
-                            <!-- Kommentering av artikler -->                          
+                            <!-- Antall kommentarer av artikler -->                          
                             <section id="artikkel_kommentarOversikt"> 
                                 <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
                                 <?php

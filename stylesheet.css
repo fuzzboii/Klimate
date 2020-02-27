@@ -2103,6 +2103,7 @@ table {
 #artikkel_kommentarBoks p {
   margin: 0;
   font-family: Helvetica, Arial, sans-serif;
+  overflow-wrap: break-word;
 }
 
 .kommentarTid {
