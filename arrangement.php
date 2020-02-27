@@ -105,13 +105,16 @@ if (isset($_POST['publiserArrangement'])) {
     } else { header('Location: arrangement.php?nyarrangement=error1'); } // Tittel tomt / for langt
 }
 
-if(isset($_POST['paameld'])) {
-    if($_POST['paameld'] == "Paameld") {
-        $paameldingQ = "insert into påmelding(event_id, bruker_id) values (" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ")";
+if(isset($_POST['skal'])) {
+    if($_POST['skal'] == "Skal") {
+        $paameldingQ = "insert into påmelding(event_id, bruker_id, interessert) values(5, 1, 'Skal');";
         $paameldingSTMT = $db->prepare($paameldingQ);
         $paameldingSTMT->execute();
 
-    } else if($_POST['paameld'] == "Paameldt") {
+    } 
+}
+if(isset($_POST['paameld'])) {
+     if($_POST['paameld'] == "Paameldt") {
         $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
         $avmeldingSTMT = $db->prepare($avmeldingQ);
         $avmeldingSTMT->execute();
@@ -380,16 +383,20 @@ $tabindex = 8;
                             <?php } ?>
                             <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <?php if(isset($_SESSION['idbruker'])) {
-                                    $hentPaameldteQ = "select bruker_id from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
+                                    $hentPaameldteQ = "select bruker_id, interessert from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
                                     $hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
                                     $hentPaameldteSTMT->execute();
-                                    $paameldt = $hentPaameldteSTMT->rowCount();
+                                    $paameldt = $hentPaameldteSTMT->fetch(PDO::FETCH_ASSOC);
+                                    
 
-                                    if($paameldt > 0) { ?>
-                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Påmeldt</button>
+                                    if($paameldt['interessert'] == "Skal") { ?>
+                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Skal komme</button>
                                     <?php } else { ?>
-                                        <button id="arrangement_paameld" name="paameld" value="Paameld">Påmeld</button>
-                                <?php } } ?>
+                                        <button id="arrangement_paameld" name="skal" value="Skal" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeldSkal('Paameld')">Skal</button>
+                                        <button id="arrangement_paameld" name="paameld" value="Paameld" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kanskje</button>       
+                                <?php 
+                                 } 
+                                 } ?>
                             </form>
                             
                             <section class="argInf_dato">

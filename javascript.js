@@ -573,7 +573,7 @@ function visAvmeld(valg) {
   if(valg == "Avmeld") {
     document.getElementById("arrangement_paameldt").innerHTML = "Avmeld";
   } else if(valg == "Paameld") {
-    document.getElementById("arrangement_paameldt").innerHTML = "Påmeldt";
+    document.getElementById("arrangement_paameldt").innerHTML = "Skal komme";
   }
 }
 
