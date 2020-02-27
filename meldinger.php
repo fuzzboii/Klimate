@@ -446,6 +446,83 @@ if(isset($_POST['slettMelding'])) {
                 </main>
 
 
+            <?php } else if(isset($_POST['papirkurv'])) {
+                /*--------------------------------*/
+                /*--------------------------------*/
+                /*----Del for å vise papirkurv----*/
+                /*--------------------------------*/
+                /*--------------------------------*/ ?>
+
+                <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+                <!-- Kan ikke legge denne direkte i body -->
+                <header id="meldinger_header" onclick="lukkHamburgerMeny()">
+                    <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
+                    <h1>Papirkurv</h1>
+                    <form method="POST" action="meldinger.php">
+                        <input type="submit" class="lenke_knapp" name="utboks" value="Utboks">
+                    </form>
+                    <a href="meldinger.php" class="lenke_knapp">Innboks</a>
+                </header>
+
+                <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+                <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
+
+                    <?php
+                    if($antMld > 0) { ?>
+                        <form method="POST" id="meldinger_form_innboks" action="meldinger.php">
+                            <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
+                            <?php 
+                            for($i = 0; $i < count($resMld); $i++) {
+                                $senderInfoQ = "select brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld[$i]['sender'];
+                                $senderInfoSTMT = $db->prepare($senderInfoQ);
+                                $senderInfoSTMT->execute();
+                                $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                // Henter bildet til brukeren
+                                $senderBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld[$i]['sender'] . " and brukerbilde.bilde = bilder.idbilder";
+                                $senderBildeSTMT = $db->prepare($senderBildeQ);
+                                $senderBildeSTMT->execute();
+                                $senderBilde = $senderBildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                $funnetSenderBilde = $senderBildeSTMT->rowCount();
+                                
+                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                    $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                } else {
+                                    $navn = $resInfo['brukernavn'];
+                                } ?>
+                                <section class="meldinger_innboks_samtale" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <?php if($funnetSenderBilde > 0) {
+                                        $testPaa = $senderBilde['hvor'];
+                                        // Tester på om filen faktisk finnes
+                                        if(file_exists("$lagringsplass/$testPaa")) { ?> 
+                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                        <?php } else { ?>
+                                            <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                        <?php } ?>
+                                    <?php } else { ?>
+                                        <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                    <?php } ?>
+                                    <p class="meldinger_innboks_navn"><?php echo($navn) ?></p>
+                                    <p class="meldinger_innboks_tid"><?php echo(" kl: "); echo(substr($resMld[$i]['tid'], 11, 5)) ?></p>
+                            
+                                    <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
+                                </section>
+                                    <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" title="Gjenopprett denne meldingen" class="meldinger_innboks_restore" onclick="slettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                            <?php } ?>
+                        </form>
+                        <form method="POST" id="meldinger_innboks_restore">
+                            <input type="hidden" id="meldinger_innboks_restore_valgt" name="gjenopprettMelding" value="">
+                        </form>
+
+                    <?php } else { ?>
+                        <p>Innboksen din er tom</p>
+                    <?php } ?>
+
+                    <form method="POST" id="meldinger_form_ny" action="meldinger.php">
+                        <input type="submit" id="meldinger_nyKnapp" name="ny" value="Ny melding">
+                    </form>
+
+                </main>
             <?php } else { 
                 /*--------------------------------*/
                 /*--------------------------------*/

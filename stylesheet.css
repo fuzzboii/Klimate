@@ -1864,7 +1864,7 @@ table {
   grid-template-columns: 1fr 2fr 1fr;
 }
 
-.meldinger_innboks_soppel {
+.meldinger_innboks_soppel, .meldinger_innboks_restore {
   display: none;
 }
 
@@ -2278,12 +2278,19 @@ table {
     grid-template-columns: 10fr 1fr;
   }
 
-  .meldinger_innboks_soppel {
+  .meldinger_innboks_soppel, .meldinger_innboks_restore {
     display: block;
     margin-top: 1em;
   }
   .meldinger_innboks_soppel:hover {
     background-color: cyan; /* Cyan inverted er rødt */
+    filter: invert(100%);
+    transition: background-color 0.3s;
+    border-radius: 0.4em;
+    cursor: pointer;
+  }
+  .meldinger_innboks_restore:hover {
+    background-color: magenta; /* Magentra inverted er grønt */
     filter: invert(100%);
     transition: background-color 0.3s;
     border-radius: 0.4em;

@@ -606,6 +606,11 @@ function slettSamtale(valgtSamtale) {
   document.getElementById("meldinger_innboks_soppel").submit();
 }
 
+function gjenopprettSamtale(valgtSamtale) {
+  document.getElementById("meldinger_innboks_restore_valgt").value = valgtSamtale;
+  document.getElementById("meldinger_innboks_restore").submit();
+}
+
 function aapneUtboks() {
   document.getElementById("meldinger_form_utboks").submit();
 }
