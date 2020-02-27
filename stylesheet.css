@@ -2314,6 +2314,10 @@ table {
     grid-template-columns: 10fr 1fr;
   }
 
+  #meldinger_form_samtale {
+    width: 38em;
+  }
+
   .meldinger_innboks_soppel, .meldinger_innboks_restore {
     display: block;
     margin-top: 1em;
