@@ -17,7 +17,7 @@ header("Cache-Control: no cache");
 
 if(isset($_POST['mottatt'])) {
     // Er vi her henter vi ting som brukes i visning av valgt melding
-    $samtaleMeldingerQ = "select idmelding, tittel, tekst, tid, lest, sender
+    $samtaleMeldingerQ = "select idmelding, tittel, tekst, tid, lest, sender, papirkurv
                             from melding where idmelding = " . $_POST['mottatt'] . " and mottaker = " . $_SESSION['idbruker'];
     $samtaleMeldingerSTMT = $db->prepare($samtaleMeldingerQ);
     $samtaleMeldingerSTMT->execute();
@@ -353,6 +353,17 @@ if(isset($_POST['gjenopprettMelding'])) {
                             <?php } ?>
                             <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
                             <p id="meldinger_samtale_tid"><?php echo(date("F d, Y H:i", strtotime($resMld['tid']))); ?></p>
+                            <?php if($resMld['papirkurv'] == 0) { ?>
+                                <img src="bilder/soppelIkon.png" alt="Papirkurvikon" id="meldinger_samtale_soppel" onclick="slettSamtale(<?php echo($resMld['idmelding']) ?>)">
+                                <form method="POST" id="meldinger_innboks_soppel">
+                                    <input type="hidden" id="meldinger_innboks_soppel_valgt" name="slettMelding" value="">
+                                </form>
+                            <?php } else { ?>
+                                <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" id="meldinger_samtale_restore" onclick="gjenopprettSamtale(<?php echo($resMld['idmelding']) ?>)">
+                                <form method="POST" id="meldinger_innboks_restore">
+                                    <input type="hidden" id="meldinger_innboks_restore_valgt" name="gjenopprettMelding" value="">
+                                </form>
+                            <?php } ?>
                         </section>
                         <p id="meldinger_samtale_tittel"><?php echo($resMld['tittel']) ?></p>
                         <p id="meldinger_samtale_tekst"><?php echo($resMld['tekst']) ?></p>
