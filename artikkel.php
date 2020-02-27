@@ -368,7 +368,7 @@ $tabindex = 8;
                         ?> 
                             <!-- Antall kommentarer av artikler -->                          
                             <section id="artikkel_kommentarOversikt"> 
-                                <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon2.png">
+                                <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
                                 <?php
                                     $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
                                     $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
