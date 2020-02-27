@@ -366,7 +366,7 @@ $tabindex = 8;
                             $sendt = $nyKommentarSTMT->rowCount();
                         }
                         ?> 
-                            <!-- Kommentering av artikler -->                          
+                            <!-- Antall kommentarer av artikler -->                          
                             <section id="artikkel_kommentarOversikt"> 
                                 <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
                                 <?php
@@ -392,14 +392,14 @@ $tabindex = 8;
                                     $hentKommentarSTMT = $db->prepare($hentKommentar);
                                     $hentKommentarSTMT->execute();
                                     $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
-                                    
-                                    for($i = 0; $i < count($kommentarer); $i++) {
-                                        echo "<section id='artikkel_kommentarBoks'>";
-                                        echo $kommentarer[$i]['brukernavn']."<br>";
-                                        echo $kommentarer[$i]['tid']."<br>";
-                                        echo $kommentarer[$i]['tekst']."<br>";
-                                        echo "</section>";
-                                    }?>    
+                                    ?>
+                                    <?php for($i = 0; $i < count($kommentarer); $i++) {?>
+                                        <section id="artikkel_kommentarBoks">
+                                            <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
+                                            <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
+                                            <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
+                                        </section>
+                                    <?php } ?>    
                             </section> 
                         
                             <!-- Slett og tilbake knapper -->

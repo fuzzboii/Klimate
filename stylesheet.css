@@ -2077,6 +2077,7 @@ table {
   margin: 3px -1px;
 }
 
+/* Knappen for å publisere kommentar */
 #artikkel_nyKommentar_knapp {
   width: 10em;
   height: 2.2em;
@@ -2089,6 +2090,7 @@ table {
   margin-bottom: 2em;
 }
 
+/* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {
   margin-top: 1em;
 }
@@ -2104,11 +2106,31 @@ table {
   border-bottom: 2px solid rgb(26, 26, 26);
 }
 
+/* Feltene for selve kommentarene */
 #artikkel_kommentarBoks {
   padding: 1em;
   margin-bottom: 4px;
   background-color: #fff;
   border-radius: 4px;
+}
+
+/* Selve paragrafene i kommentar boksene */
+#artikkel_kommentarBoks p {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  overflow-wrap: break-word;
+}
+
+.kommentarTid {
+  padding-bottom: 1em;
+}
+
+.kommentarBrukernavn {
+  font-weight: bold;
+}
+
+.kommentarTid {
+  font-size: 0.7em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
