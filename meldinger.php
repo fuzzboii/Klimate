@@ -75,6 +75,16 @@ if(isset($_POST['mottatt'])) {
     $resMld = $sendteMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
     $antMld = $sendteMeldingerSTMT->rowCount();
 
+} else if(isset($_POST['papirkurv'])) {
+    // Er vi her henter vi ting som brukes i innboksen
+    $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
+                            from melding where mottaker = " . $_SESSION['idbruker'] . " and (papirkurv is not null or papirkurv = 1)" . 
+                                " order by tid DESC";
+    $mottattMeldingerSTMT = $db->prepare($mottattMeldingerQ);
+    $mottattMeldingerSTMT->execute();
+    $resMld = $mottattMeldingerSTMT->fetchAll(PDO::FETCH_ASSOC); 
+
+    $antMld = $mottattMeldingerSTMT->rowCount();
 } else {
     // Er vi her henter vi ting som brukes i innboksen
     $mottattMeldingerQ = "select idmelding, tittel, tid, lest, sender
@@ -133,6 +143,26 @@ if(isset($_POST['slettMelding'])) {
         if($endretMelding > 0) { header("Location: meldinger.php?meldingslettet"); /* Melding slettet, OK */ } 
         else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
     } else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
+}
+
+// Del for å gjenopprette en slettet melding
+if(isset($_POST['gjenopprettMelding'])) {
+    // Bare tillate at innlogget bruker kan gjenopprette sine egne meldinger
+    $sjekkPaaQ = "select idmelding from melding where idmelding = " . $_POST['gjenopprettMelding'] . " and mottaker = " . $_SESSION['idbruker'];
+    $sjekkPaaSTMT = $db->prepare($sjekkPaaQ);
+    $sjekkPaaSTMT->execute();
+    $funnetMelding = $sjekkPaaSTMT->rowCount();
+
+    if($funnetMelding > 0) {
+        // Oppdaterer meldingen
+        $gjenopprettMeldingQ = "update melding set papirkurv = 0 where idmelding = " . $_POST['gjenopprettMelding'];
+        $gjenopprettMeldingSTMT = $db->prepare($gjenopprettMeldingQ);
+        $gjenopprettMeldingSTMT->execute();
+
+        $endretMelding = $gjenopprettMeldingSTMT->rowCount();
+        if($endretMelding > 0) { header("Location: meldinger.php"); /* Melding gjenopprettet, OK */ } 
+        else { header("Location: meldinger.php?error=3"); /* Error 2, melding ikke gjenopprettet */ }
+    } else { header("Location: meldinger.php?error=3"); /* Error 2, melding ikke gjenopprettet */ }
 }
 
 ?>
@@ -507,7 +537,7 @@ if(isset($_POST['slettMelding'])) {
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
-                                    <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" title="Gjenopprett denne meldingen" class="meldinger_innboks_restore" onclick="slettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" title="Gjenopprett denne meldingen" class="meldinger_innboks_restore" onclick="gjenopprettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
                             <?php } ?>
                         </form>
                         <form method="POST" id="meldinger_innboks_restore">
