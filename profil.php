@@ -213,6 +213,15 @@ $stmtPersonaliaProfil = $db->prepare($hentPersonaliaProfil);
 $stmtPersonaliaProfil->execute();
 $personaliaProfil = $stmtPersonaliaProfil->fetch(PDO::FETCH_ASSOC);
 
+//----------------------------------//
+// Henting av brukerens preferanser //
+//----------------------------------//
+$hentPreferanser = "Select * from preferanse where bruker = " . $_GET['bruker'];
+$stmtPreferanser = $db->prepare($hentPreferanser);
+$stmtPreferanser->execute();
+$preferanser = $stmtPreferanser->fetch(PDO::FETCH_ASSOC);
+var_dump($preferanser);
+
 //-----------------------//
 // Henting av interesser //
 //-----------------------//
@@ -610,16 +619,16 @@ $tabindex = 10;
                         <!-- --------------- -->
                         <h2>Oversikt</h2>
                         <section class="profil_persInf">
-                            <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"])) { ?>
+                            <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"]) || $preferanser['visfnavn'] == "0") { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
-                            <p class="personalia">Etternavn:</p> <?php if(!isset($personaliaProfil["enavn"])) { ?>
+                            <p class="personalia">Etternavn:</p> <?php if(!isset($personaliaProfil["enavn"]) || $preferanser['visenavn'] == "0") { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["enavn"]) ?> </p> <?php } ?>
-                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($personaliaProfil["epost"])) { ?>
+                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($personaliaProfil["epost"]) || $preferanser['visepost'] == "0") { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["epost"]) ?> </p> <?php } ?>
-                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($personaliaProfil["telefonnummer"])) { ?>
+                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($personaliaProfil["telefonnummer"]) || $preferanser['vistelefonnummer'] == "0") { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["telefonnummer"]) ?> </p> <?php } ?>
                         </section>
