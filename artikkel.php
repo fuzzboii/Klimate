@@ -342,11 +342,6 @@ $tabindex = 8;
                                     <p>Skrevet av</p> <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
                                 <?php }?>
                             </section>
-
-                        
-
-
-
                         <?php
 
                         /*------------------------------------*/
@@ -387,21 +382,26 @@ $tabindex = 8;
                                 
                                 <!-- Henter kommentarer -->
                                 <?php
-                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn from kommentar, bruker
+                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
                                                 where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
                                     $hentKommentarSTMT = $db->prepare($hentKommentar);
                                     $hentKommentarSTMT->execute();
                                     $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
+                                    
                                     <?php for($i = 0; $i < count($kommentarer); $i++) {?>
                                         <section id="artikkel_kommentarBoks">
+                                            <?php
+                                            $hentBrukerbildeKommentar = "select bruker, hvor from brukerbilde, bilder where bilde=idbilder and bruker= " . $kommentarer[$i]["bruker"];
+                                            ?>
+                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerPB["hvor"])?>">
                                             <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                             <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
                                             <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
                                         </section>
                                     <?php } ?>    
                             </section> 
-                        
+
                             <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 
