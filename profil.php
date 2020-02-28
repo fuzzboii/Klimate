@@ -461,17 +461,35 @@ $tabindex = 10;
                         <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
                     </form>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
-                    <!-- <h3>Vis eller skjul personalia</h3> -->
-                    <!-- <section class="profil_persInf">     -->
-                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
-                        <!-- Ikke egen profil -->
-                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
-                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            <!-- <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p> -->
-                            <!-- <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p> -->
-                            <!-- <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p> -->
-                            <!-- <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p> -->
-                        <!-- </section> -->
+                    <!-- Del for visning av personalia -->
+                    <h2>Vis eller skjul personalia</h2>
+                        <section class="profil_persInf">
+                            <!-- Linje for fornavn -->
+                            <p class="personalia">Fornavn</p>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            <!-- Linje for etternavn -->
+                            <p class="personalia">Etternavn</p>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            <!-- Linje for epostadresse -->
+                            <p class="personalia">E-Post Adresse</p>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            <!-- Linje for telefonnummer -->
+                            <p class="personalia">Telefonnummer</p>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                        </section>
+                    </section>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
@@ -592,12 +610,6 @@ $tabindex = 10;
                         <!-- --------------- -->
                         <h2>Oversikt</h2>
                         <section class="profil_persInf">
-                        
-                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
-                        <!-- Ikke egen profil -->
-                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
-                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            
                             <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
@@ -639,7 +651,7 @@ $tabindex = 10;
                                 <!-- break; hvis vi har vist mange nok -->
                                 <?php if($teller > $max) { ?>
                                     <!-- POST en variabel som brukes til å angi max -->
-                                    <form name="visMer" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                    <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                         <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
                                     </form>
                                     <!-- break 2; bryter ut av begge løkkene -->
