@@ -626,6 +626,10 @@ $tabindex = 10;
                     <!-- Ytre løkke -->
                     <section class="interesserTags">
                     <?php if ($tellingInteresse != null) {
+                        // Test på om bruker vil vise mer //
+                        if(isset($_POST["visMer"])) {
+                            $max = 9999;
+                        } else $max = 11;
                         // Teller for å ikke vise for mange interesser umiddelbart
                         $teller = 0;
                         foreach ($interesseProfil as $rad) {    
@@ -633,8 +637,11 @@ $tabindex = 10;
                                 <!-- Oppdater teller -->
                                 <?php $teller++; ?>
                                 <!-- break; hvis vi har vist mange nok -->
-                                <?php if($teller > 11) { ?>
-                                    <p class="proInt"> ... </p>
+                                <?php if($teller > $max) { ?>
+                                    <!-- POST en variabel som brukes til å angi max -->
+                                    <form name="visMer" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                        <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
+                                    </form>
                                     <!-- break 2; bryter ut av begge løkkene -->
                                     <?php break 2;
                                 } ?>
