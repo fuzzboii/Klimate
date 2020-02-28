@@ -330,10 +330,10 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1><?php if(isset($navn)) { ?>Melding fra <?php echo($navn); } ?></h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks">
+                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks" tabindex = "8">
                     </form>
                     <form method="POST" id="meldinger_header_papirkurv" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet" value="Papirkurv">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet" value="Papirkurv" tabindex = "9">
                     </form>
                 </header>
 
@@ -355,12 +355,12 @@ if(isset($_POST['gjenopprettMelding'])) {
                             <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
                             <p id="meldinger_samtale_tid"><?php echo(date_format(date_create($resMld['tid']), "j F Y H:i")) ?></p>
                             <?php if($resMld['papirkurv'] == 0) { ?>
-                                <img src="bilder/soppelIkon.png" alt="Papirkurvikon" id="meldinger_samtale_soppel" title="Slett denne meldingen" onclick="slettSamtale(<?php echo($resMld['idmelding']) ?>)">
+                                <img src="bilder/soppelIkon.png" alt="Papirkurvikon" id="meldinger_samtale_soppel" title="Slett denne meldingen" onclick="slettSamtale(<?php echo($resMld['idmelding']) ?>)" tabindex = "10">
                                 <form method="POST" id="meldinger_innboks_soppel">
                                     <input type="hidden" id="meldinger_innboks_soppel_valgt" name="slettMelding" value="">
                                 </form>
                             <?php } else { ?>
-                                <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" id="meldinger_samtale_restore" title="Gjenopprett denne meldingen" onclick="gjenopprettSamtale(<?php echo($resMld['idmelding']) ?>)">
+                                <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" id="meldinger_samtale_restore" title="Gjenopprett denne meldingen" onclick="gjenopprettSamtale(<?php echo($resMld['idmelding']) ?>)" tabindex = "10">
                                 <form method="POST" id="meldinger_innboks_restore">
                                     <input type="hidden" id="meldinger_innboks_restore_valgt" name="gjenopprettMelding" value="">
                                 </form>
