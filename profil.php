@@ -456,7 +456,7 @@ $tabindex = 10;
                 <h1>Rediger informasjon</h1>
                     <h2>Endre profilbilde</h2>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                        <h4>Velg et bilde</h4>
+                        <h3>Velg et bilde</h3>
                         <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
                         <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
                     </form>
@@ -626,12 +626,22 @@ $tabindex = 10;
                     <!-- Ytre løkke -->
                     <section class="interesserTags">
                     <?php if ($tellingInteresse != null) {
+                        // Teller for å ikke vise for mange interesser umiddelbart
+                        $teller = 0;
                         foreach ($interesseProfil as $rad) {    
-                            foreach ($rad as $kolonne) { ?> 
+                            foreach ($rad as $kolonne) { ?>
+                                <!-- Oppdater teller -->
+                                <?php $teller++; ?>
+                                <!-- break; hvis vi har vist mange nok -->
+                                <?php if($teller > 11) { ?>
+                                    <p class="proInt"> ... </p>
+                                    <!-- break 2; bryter ut av begge løkkene -->
+                                    <?php break 2;
+                                } ?>
                                 <!-- Test om bruker er i slettemodus -->
                                 <?php if (isset($_POST['slettemodus'])) { ?> 
                                     <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                <!-- Ellers normal visning -->
                                 <?php } else { ?> 
                                     <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
                                 <?php } // Slutt, else løkke    
