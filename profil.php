@@ -598,16 +598,16 @@ $tabindex = 10;
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                         <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
                             
-                            <p><strong>Fornavn:</strong></p> <?php if(!isset($personaliaProfil["fnavn"])) { ?>
+                            <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
-                            <p><strong>Etternavn:</strong></p> <?php if(!isset($personaliaProfil["enavn"])) { ?>
+                            <p class="personalia">Etternavn:</p> <?php if(!isset($personaliaProfil["enavn"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["enavn"]) ?> </p> <?php } ?>
-                            <p><strong>E-Post Adresse:</strong></p> <?php if(!isset($personaliaProfil["epost"])) { ?>
+                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($personaliaProfil["epost"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["epost"]) ?> </p> <?php } ?>
-                            <p><strong>Telefonnummer:</strong></p> <?php if(!isset($personaliaProfil["telefonnummer"])) { ?>
+                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($personaliaProfil["telefonnummer"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["telefonnummer"]) ?> </p> <?php } ?>
                         </section>
