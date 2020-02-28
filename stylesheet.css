@@ -2843,13 +2843,13 @@ table {
   }
 
   #artikkel_main {
-    max-width: 100em;
+    width: 99em;
     margin-left: auto; 
     margin-right: auto;
   }
 
   #artikkel_mainNy, #arrangement_mainNy {
-    max-width: 100em;
+    width: 100em;
     margin-left: auto; 
     margin-right: auto;
   }
