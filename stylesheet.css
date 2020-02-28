@@ -2036,7 +2036,7 @@ input:checked + .slider:before {
   margin-top: 2.5em;
 }
 
-#meldinger_samtale_soppel {
+#meldinger_samtale_soppel, #meldinger_samtale_restore {
   margin-left: auto;
 }
 
@@ -2207,14 +2207,21 @@ input:checked + .slider:before {
 
 .kommentarTid {
   padding-bottom: 1em;
+  padding-left: 4em;
+  font-size: 0.7em;
 }
 
 .kommentarBrukernavn {
   font-weight: bold;
+  padding-left: 2.8em;
 }
+/* Kommentarenes profilbilder */
+.kommentar_profilBilde {
+  float: left;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%; 
 
-.kommentarTid {
-  font-size: 0.7em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/

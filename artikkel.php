@@ -342,11 +342,6 @@ $tabindex = 8;
                                     <p>Skrevet av</p> <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
                                 <?php }?>
                             </section>
-
-                        
-
-
-
                         <?php
 
                         /*------------------------------------*/
@@ -387,21 +382,29 @@ $tabindex = 8;
                                 
                                 <!-- Henter kommentarer -->
                                 <?php
-                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn from kommentar, bruker
+                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
                                                 where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
                                     $hentKommentarSTMT = $db->prepare($hentKommentar);
                                     $hentKommentarSTMT->execute();
                                     $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
+                                    
                                     <?php for($i = 0; $i < count($kommentarer); $i++) {?>
                                         <section id="artikkel_kommentarBoks">
+                                            <?php
+                                            $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
+                                            $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
+                                            $brukerbildeSTMT -> execute();
+                                            $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                            ?>
+                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
                                             <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                             <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
                                             <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
                                         </section>
                                     <?php } ?>    
                             </section> 
-                        
+
                             <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 
@@ -526,13 +529,22 @@ $tabindex = 8;
                                 <!-- brukerens profilbilde -->
                                 <!-- blir hentet fram avhengig av hvilken bruker som har skrevet artikkelen -->
                                 <?php
-                                $hentPb="select bruker, hvor from brukerbilde, bilder where bilde=idbilder and bruker= " . $resArt[$j]["bruker"] ;
+                                $hentPb="select hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $resArt[$j]['bruker'];
                                 $stmtHentPb = $db->prepare($hentPb);
                                 $stmtHentPb->execute();
                                 $brukerPB = $stmtHentPb->fetch(PDO::FETCH_ASSOC);
-                                ?>
-                                <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB["hvor"])?>">
-                                <?php 
+                                
+                                if($brukerPB) {
+                                    $testPaa = $brukerPB['hvor'];
+                                    // Tester på om filen faktisk finnes
+                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>
+                                        <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
+                                    <?php } else { ?>
+                                        <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                <?php }
                                 // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
                                 if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
                                     <p class="navn_artikkel"><?php echo($resArt[$j]['brukernavn'])?></p>
