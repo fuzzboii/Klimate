@@ -2337,6 +2337,7 @@ table {
   .meldinger_innboks_soppel, .meldinger_innboks_restore {
     display: block;
     margin-top: 1em;
+    margin-left: auto; margin-right: auto;
   }
   .meldinger_innboks_soppel:hover, #meldinger_samtale_soppel:hover {
     background-color: cyan; /* Cyan inverted er rødt */
