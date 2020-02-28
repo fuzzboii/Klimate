@@ -352,13 +352,16 @@ $tabindex = 8;
 
                         // Del for å legge til en ny kommentar
                         if(isset($_POST['sendKommentar'])) {
+                       
                             // Legger til en ny kommentar
-                            $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, brukernavn) 
-                                                values('" . $_POST['ingress'] . "', '" . $_POST['tekst'] . "', 
-                                                    NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
+                            $nyKommentarQ = "insert into kommentar(tekst, tid, bruker, artikkel)
+                                                values('" . $_POST['tekst'] . "', 
+                                                    NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
                             $nyKommentarSTMT = $db->prepare($nyKommentarQ);
                             $nyKommentarSTMT->execute();
                             $sendt = $nyKommentarSTMT->rowCount();
+                            
+
                         }
                         ?> 
                             <!-- Antall kommentarer av artikler -->                          
@@ -375,7 +378,7 @@ $tabindex = 8;
 
                             <section id="artikkel_kommentarSeksjon">
                                 <!-- input kommentering felt -->
-                                <form method="POST" id="kommentar_form" action="artikkel.php">
+                                <form method="POST" id="kommentar_form" action="artikkel.php?artikkel=<?php echo($_GET['artikkel']) ?>">
                                     <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required></textarea>
                                     <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
                                 </form>
