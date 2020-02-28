@@ -102,7 +102,7 @@ if (isset($_POST['submit'])) {
             // Fjerner session variable for brukerinput om ingen feil oppstår
             unset($_SESSION['input_brukernavn']);
 
-            //header("Location: backend.php");
+            header("Location: backend.php");
         } else {    
             // Øker teller for feilet innlogging med 1
             $_SESSION['feilteller']++;
