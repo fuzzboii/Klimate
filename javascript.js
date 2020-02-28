@@ -617,13 +617,29 @@ function aapneUtboks() {
 
 
 
-// Funksjon for å trykke på en melding i meldinger
+// Funksjon for å trykke på en melding eller ikon for papirkurv / gjenoppretting
 function meldingTabbing() {
   var melding = document.getElementsByClassName("meldinger_innboks_samtale");
-  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet proInt
+  var ikon = document.getElementsByClassName("meldinger_innboks_restore");
+  if(ikon.length == 0) {
+    var ikon = document.getElementsByClassName("meldinger_innboks_soppel");
+  }
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet meldinger_innboks_samtale
   for (var i = 0; i < melding.length; i++) {
     // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
     melding[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+  for (var i = 0; i < ikon.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    ikon[i].addEventListener("keyup", function(event) {
       // Henter dette elementet
       var gaaTil = this;
       // 13 er Enter tasten
