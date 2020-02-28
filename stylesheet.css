@@ -1810,6 +1810,16 @@ table {
   margin-top: 1.5em;
 }
 
+/* Beskrivende tekst til personalia */
+.personalia {
+  font-weight: bold;
+}
+
+/* Placeholder-tekst for manglende personalia */
+.ikkeOppgitt {
+  font-style: italic;
+}
+
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -1966,7 +1976,7 @@ table {
   margin-top: 2.5em;
 }
 
-#meldinger_samtale_soppel {
+#meldinger_samtale_soppel, #meldinger_samtale_restore {
   margin-left: auto;
 }
 
@@ -2347,6 +2357,7 @@ table {
   .meldinger_innboks_soppel, .meldinger_innboks_restore {
     display: block;
     margin-top: 1em;
+    margin-left: auto; margin-right: auto;
   }
   .meldinger_innboks_soppel:hover, #meldinger_samtale_soppel:hover {
     background-color: cyan; /* Cyan inverted er rødt */
@@ -2853,13 +2864,13 @@ table {
   }
 
   #artikkel_main {
-    max-width: 100em;
+    width: 99em;
     margin-left: auto; 
     margin-right: auto;
   }
 
   #artikkel_mainNy, #arrangement_mainNy {
-    max-width: 100em;
+    width: 100em;
     margin-left: auto; 
     margin-right: auto;
   }

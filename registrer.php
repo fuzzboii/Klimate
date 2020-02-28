@@ -80,6 +80,23 @@ if (isset($_POST['subRegistrering'])) {
                                 unset($_SESSION['input_brukernavn']);
                                 unset($_SESSION['input_epost']);
 
+                                // Sjekker på om bruker har registrert preferanser
+                                $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
+                                $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
+                                $sjekkPrefSTMT->execute();
+                                $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                // Bruker har ikke preferanser, oppretter de
+                                // Variabelen $personvern kommer fra innstillinger
+                                if(!$resPref) {
+                                    $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
+                                                        $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
+                                                            $_SESSION['idbruker'] . ")";
+
+                                    $opprettPrefSTMT = $db->prepare($opprettPrefQ);
+                                    $opprettPrefSTMT->execute();
+                                }
+
                                 header("location: logginn.php?vellykket=1");
                             }
                         } else {
