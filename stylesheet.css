@@ -1947,7 +1947,7 @@ table {
 /* Del for visning av spesifik melding */
 #meldinger_samtale_toppDel {
   display: grid;
-  grid-template-columns: 4em 1.7fr 0.8fr;
+  grid-template-columns: 4.2em 1.7fr 0.8fr;
   border-bottom: 1px solid black;
   padding-bottom: 0.5em;
 }
@@ -2358,7 +2358,7 @@ table {
   }
 
   #meldinger_samtale_toppDel {
-    grid-template-columns: 4em 6fr 3.5fr 1fr;
+    grid-template-columns: 4.2em 6fr 3.5fr 1fr;
   }
 
   #meldinger_samtale_tid {
@@ -2754,7 +2754,7 @@ table {
   }
 
   #meldinger_samtale_toppDel {
-    grid-template-columns: 4em 7.5fr 3.5fr 1.2fr;
+    grid-template-columns: 4.2em 7.5fr 3.5fr 1.2fr;
   }
 
   #meldinger_samtale_svar {
