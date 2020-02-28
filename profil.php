@@ -456,7 +456,7 @@ $tabindex = 10;
                 <h1>Rediger informasjon</h1>
                     <h2>Endre profilbilde</h2>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                        <h4>Velg et bilde</h4>
+                        <h3>Velg et bilde</h3>
                         <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
                         <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
                     </form>
@@ -598,16 +598,16 @@ $tabindex = 10;
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                         <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
                             
-                            <p><strong>Fornavn:</strong></p> <?php if(!isset($personaliaProfil["fnavn"])) { ?>
+                            <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
-                            <p><strong>Etternavn:</strong></p> <?php if(!isset($personaliaProfil["enavn"])) { ?>
+                            <p class="personalia">Etternavn:</p> <?php if(!isset($personaliaProfil["enavn"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["enavn"]) ?> </p> <?php } ?>
-                            <p><strong>E-Post Adresse:</strong></p> <?php if(!isset($personaliaProfil["epost"])) { ?>
+                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($personaliaProfil["epost"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["epost"]) ?> </p> <?php } ?>
-                            <p><strong>Telefonnummer:</strong></p> <?php if(!isset($personaliaProfil["telefonnummer"])) { ?>
+                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($personaliaProfil["telefonnummer"])) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["telefonnummer"]) ?> </p> <?php } ?>
                         </section>
@@ -626,12 +626,29 @@ $tabindex = 10;
                     <!-- Ytre løkke -->
                     <section class="interesserTags">
                     <?php if ($tellingInteresse != null) {
+                        // Test på om bruker vil vise mer //
+                        if(isset($_POST["visMer"])) {
+                            $max = 9999;
+                        } else $max = 11;
+                        // Teller for å ikke vise for mange interesser umiddelbart
+                        $teller = 0;
                         foreach ($interesseProfil as $rad) {    
-                            foreach ($rad as $kolonne) { ?> 
+                            foreach ($rad as $kolonne) { ?>
+                                <!-- Oppdater teller -->
+                                <?php $teller++; ?>
+                                <!-- break; hvis vi har vist mange nok -->
+                                <?php if($teller > $max) { ?>
+                                    <!-- POST en variabel som brukes til å angi max -->
+                                    <form name="visMer" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                        <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
+                                    </form>
+                                    <!-- break 2; bryter ut av begge løkkene -->
+                                    <?php break 2;
+                                } ?>
                                 <!-- Test om bruker er i slettemodus -->
                                 <?php if (isset($_POST['slettemodus'])) { ?> 
                                     <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                <!-- Ellers normal visning -->
                                 <?php } else { ?> 
                                     <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
                                 <?php } // Slutt, else løkke    
