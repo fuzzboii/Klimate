@@ -195,7 +195,7 @@ if(isset($_POST['gjenopprettMelding'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body class="innhold">
+    <body class="innhold" onload="meldingTabbing()">
             <!-- Begynnelse på øvre navigasjonsmeny -->
             <nav class="navTop"> 
                 <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->

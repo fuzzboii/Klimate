@@ -616,5 +616,25 @@ function aapneUtboks() {
 }
 
 
+
+// Funksjon for å trykke på en melding i meldinger
+function meldingTabbing() {
+  var melding = document.getElementsByClassName("meldinger_innboks_samtale");
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet proInt
+  for (var i = 0; i < melding.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    melding[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+}
+
+
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
 /* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */
