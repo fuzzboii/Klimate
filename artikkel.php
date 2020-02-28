@@ -526,13 +526,22 @@ $tabindex = 8;
                                 <!-- brukerens profilbilde -->
                                 <!-- blir hentet fram avhengig av hvilken bruker som har skrevet artikkelen -->
                                 <?php
-                                $hentPb="select bruker, hvor from brukerbilde, bilder where bilde=idbilder and bruker= " . $resArt[$j]["bruker"] ;
+                                $hentPb="select hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $resArt[$j]['bruker'];
                                 $stmtHentPb = $db->prepare($hentPb);
                                 $stmtHentPb->execute();
                                 $brukerPB = $stmtHentPb->fetch(PDO::FETCH_ASSOC);
-                                ?>
-                                <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB["hvor"])?>">
-                                <?php 
+                                
+                                if($brukerPB) {
+                                    $testPaa = $brukerPB['hvor'];
+                                    // Tester på om filen faktisk finnes
+                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>
+                                        <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
+                                    <?php } else { ?>
+                                        <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                <?php }
                                 // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
                                 if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
                                     <p class="navn_artikkel"><?php echo($resArt[$j]['brukernavn'])?></p>
