@@ -56,8 +56,6 @@ if (isset($_POST['publiserArtikkel'])) {
                     // Selve prosessen som flytter bildet til bestemt lagringsplass
                     if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
                         $harbilde = true;
-                    } else {
-                        // Feilmelding her
                     }
                 }
                 if ($harbilde == true) {
@@ -72,6 +70,23 @@ if (isset($_POST['publiserArtikkel'])) {
                     $nyKoblingQ = "insert into artikkelbilde(idartikkel, idbilde) values('" . $artikkelid . "', '" . $bildeid . "')";
                     $nyKoblingSTMT = $db->prepare($nyKoblingQ);
                     $nyKoblingSTMT->execute();
+
+                    // Del for å laste opp thumbnail
+                    $valgtbilde = getimagesize($lagringsplass . "/" . $bildenavn);
+                    $bildenavnMini = "thumb_" . $navn . $filtype;
+                    
+                    if(strtolower($valgtbilde['mime']) == "image/png") {
+                        $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
+                        $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                        imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                        imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
+
+                    } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
+                        $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
+                        $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                        imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                        imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
+                    }
                 }
 
                 header('Location: artikkel.php?artikkel=' . $artikkelid);
@@ -97,6 +112,14 @@ if (isset($_POST['slettDenne'])) {
         if(file_exists("$lagringsplass/$testPaa")) {
             // Sletter bildet
             unlink("$lagringsplass/$testPaa");
+        }
+
+        $navnMini = "thumb_" . $testPaa;
+        // Test på om miniatyrbildet finnes
+        if(file_exists("$lagringsplass/$navnMini")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMini");
+
         }
 
         // Begynner med å slette referansen til bildet artikkelen har
@@ -521,9 +544,14 @@ $tabindex = 8;
                                     <?php } else {
                                         // Tester på om filen faktisk finnes
                                         $testPaa = $resBilde['hvor'];
-                                        if(file_exists("$lagringsplass/$testPaa")) {  ?>  
-                                            <!-- Artikkeltbilde som resultat av spørring -->
-                                            <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                        if(file_exists("$lagringsplass/$testPaa")) { 
+                                            // Artikkeltbilde som resultat av spørring
+                                            if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                                <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                                <img class="BildeBoks_artikkel" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                            <?php } else { ?>
+                                                <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                            <?php } ?>
                                         <?php } else { ?>
                                             <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                     <?php }
