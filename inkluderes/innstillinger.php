@@ -50,6 +50,11 @@ $salt = "IT2_2020";
 // Lagringsplass for bilder opplastet av brukere
 $lagringsplass = "bilder/opplastet";
 
+// Listen som brukes som standard personvern, brukes ved innlogging og registrering
+// Rekkefølgen: visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer
+$personvern = array(0, 0, 0, 1, 1, 0);
+
+
 // Del for å logge ut en bruker etter inaktivitet over lengre tid
 if (isset($_SESSION['siste_aktivitet']) && (time() - $_SESSION['siste_aktivitet'] > 7200)) {
     // Siste brukerhandling var mer enn 2 timer siden, logger ut bruker
