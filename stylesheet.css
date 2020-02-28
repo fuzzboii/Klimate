@@ -2938,6 +2938,31 @@ table {
     content: " (" attr(href) ") ";
   }
 
+  /* Del for meldinger */
+  #meldinger_header form {
+    display: none;
+  }
+
+  #meldinger_form_ny {
+    display: none;
+  }
+
+  #meldinger_form_samtale {
+    display: none;
+  }
+
+  #meldinger_samtale_soppel {
+    display: none;
+  }
+
+  #meldinger_main .lenke_knapp {
+    display: none;
+  }
+
+  #meldinger_header_utboks form input {
+    display: none;
+  }
+
 }
 
 
