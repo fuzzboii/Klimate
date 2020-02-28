@@ -441,13 +441,16 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Utboks</h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet" value="Papirkurv">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet" value="Papirkurv" tabindex = "8">
                     </form>
                 </header>
 
                 <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
                     <?php
+                    $tabMld = 9;
+                    $tabGjen = 10;
+
                     if($antMld > 0) { ?>
                         <form method="POST" id="meldinger_form_utboks" action="meldinger.php">
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
@@ -470,7 +473,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                 } else {
                                     $navn = $resInfo['brukernavn'];
                                 } ?>
-                                <section class="meldinger_innboks_samtale">
+                                <section class="meldinger_innboks_samtale" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
                                     <?php if($funnetMottakerBilde > 0) {
                                         $testPaa = $mottakerBilde['hvor'];
                                         // Tester på om filen faktisk finnes
@@ -513,7 +516,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Papirkurv</h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks">
+                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks" tabindex = "8">
                     </form>
                 </header>
 
@@ -521,6 +524,9 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
 
                     <?php
+                    $tabMld = 9;
+                    $tabGjen = 10;
+
                     if($antMld > 0) { ?>
                         <form method="POST" id="meldinger_form_innboks" action="meldinger.php">
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
@@ -543,7 +549,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                 } else {
                                     $navn = $resInfo['brukernavn'];
                                 } ?>
-                                <section class="meldinger_innboks_samtale" title="Vis denne meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                <section class="meldinger_innboks_samtale" title="Vis denne meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
                                     <?php if($funnetSenderBilde > 0) {
                                         $testPaa = $senderBilde['hvor'];
                                         // Tester på om filen faktisk finnes
@@ -560,7 +566,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
-                                    <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" title="Gjenopprett denne meldingen" class="meldinger_innboks_restore" onclick="gjenopprettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" title="Gjenopprett denne meldingen" class="meldinger_innboks_restore" onclick="gjenopprettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)" tabindex = "<?php echo($tabGjen); $tabGjen++; $tabGjen++; ?>">
                             <?php } ?>
                         </form>
                         <form method="POST" id="meldinger_innboks_restore">
@@ -590,10 +596,10 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <img src="bilder/meldingIkon.png" alt="Ikon for meldinger">
                     <h1>Innboks</h1>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks">
+                        <input type="submit" class="lenke_knapp" name="utboks" title="Meldingene du har sendt" value="Utboks" tabindex = "8">
                     </form>
                     <form method="POST" action="meldinger.php">
-                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet"  value="Papirkurv">
+                        <input type="submit" class="lenke_knapp" name="papirkurv" title="Meldingene du har slettet"  value="Papirkurv" tabindex = "9">
                     </form>
                 </header>
 
@@ -613,6 +619,10 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <?php } ?>
 
                     <?php
+
+                    $tabMld = 10;
+                    $tabSoppel = 11;
+
                     if($antMld > 0) { ?>
                         <form method="POST" id="meldinger_form_innboks" action="meldinger.php">
                             <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
@@ -636,9 +646,9 @@ if(isset($_POST['gjenopprettMelding'])) {
                                     $navn = $resInfo['brukernavn'];
                                 }
                                 if($resMld[$i]['lest'] == 1) { ?>
-                                    <section class="meldinger_innboks_samtale" title="Vis denne meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <section class="meldinger_innboks_samtale" title="Vis denne meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
                                 <?php } else { ?>
-                                    <section class="meldinger_innboks_samtale_ulest" title="Vis denne uleste meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <section class="meldinger_innboks_samtale_ulest" title="Vis denne uleste meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
                                 <?php } 
                                     if($funnetSenderBilde > 0) {
                                         $testPaa = $senderBilde['hvor'];
@@ -656,7 +666,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                             
                                     <p class="meldinger_innboks_tittel"><?php echo($resMld[$i]['tittel']) ?></p>
                                 </section>
-                                    <img src="bilder/soppelIkon.png" alt="Søppelikon" title="Slett denne meldingen" class="meldinger_innboks_soppel" onclick="slettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)">
+                                    <img src="bilder/soppelIkon.png" alt="Søppelikon" title="Slett denne meldingen" class="meldinger_innboks_soppel" onclick="slettSamtale(<?php echo($resMld[$i]['idmelding']) ?>)" tabindex = "<?php echo($tabSoppel); $tabSoppel++; $tabSoppel++; ?>">
                             <?php } ?>
                         </form>
                         <form method="POST" id="meldinger_innboks_soppel">
