@@ -2147,23 +2147,20 @@ table {
 
 .kommentarTid {
   padding-bottom: 1em;
+  padding-left: 4em;
+  font-size: 0.7em;
 }
 
 .kommentarBrukernavn {
   font-weight: bold;
+  padding-left: 2.8em;
 }
-
-.kommentarTid {
-  font-size: 0.7em;
-}
-
+/* Kommentarenes profilbilder */
 .kommentar_profilBilde {
   float: left;
-  height: 1em;
-  width: 1em;
-  padding-right: 0.3em;
-  padding-top: 0.1em;
-  margin-left: 0.1em; 
+  height: 2em;
+  width: 2em;
+  border-radius: 50%; 
 
 }
 
