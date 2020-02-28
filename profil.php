@@ -453,8 +453,8 @@ $tabindex = 10;
                 </header>
                 
                 <main class="profil_main">
-                <h2>Rediger informasjon</h2>
-                    <h3>Endre profilbilde</h3>
+                <h1>Rediger informasjon</h1>
+                    <h2>Endre profilbilde</h2>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                         <h4>Velg et bilde</h4>
                         <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
@@ -475,14 +475,14 @@ $tabindex = 10;
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
-                        <h3>Endre beskrivelse</h3>
+                        <h2>Endre beskrivelse</h2>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                             <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
                             <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"/>
                         </form>
                     <?php } ?>
                     <!-- Viser interesser -->
-                    <h3 class="OverskriftInter">Interesser</h3>
+                    <h2 class="OverskriftInter">Interesser</h2>
                     <!-- Nøstet foreach -->
                     <!-- Ytre løkke -->
                     <section class="interesserSection">
@@ -590,8 +590,7 @@ $tabindex = 10;
                         <!-- --------------- -->
                         <!-- BRUKERINFO ---- -->
                         <!-- --------------- -->
-                        <h2>Om</h2>
-                        <h3>Oversikt</h3>
+                        <h2>Oversikt</h2>
                         <section class="profil_persInf">
                         
                         <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
@@ -608,7 +607,7 @@ $tabindex = 10;
                     
                     <!-- BESKRIVELSE -->
                     <section class="brukerBeskrivelse">
-                    <h3>Beskrivelse</h3>
+                    <h2>Beskrivelse</h2>
                         <?php ?>
                             <p><?php if(preg_match("/\S/", $beskrivelseProfil['beskrivelse']) == 1) {echo($beskrivelseProfil['beskrivelse']);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
                         <?php  ?>
