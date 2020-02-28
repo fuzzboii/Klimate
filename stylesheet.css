@@ -2048,13 +2048,13 @@ table {
 
 /* Del for utboks */
 #meldinger_header_utboks {
-  max-width: 19em;
+  max-width: 85%;
   display: grid;
-  grid-template-columns: 1fr 2fr 3fr;
+  grid-template-columns: 3em 4fr 1fr;
   padding-top: 6em;
   padding-bottom: 1em;
   font-family: Inter, Helvetica, Arial, sans-serif;
-  margin-left: auto; margin-right: auto;
+  margin-left: 7.5%; margin-right: 7.5%;
 }
 
 #meldinger_header_utboks h1 {
@@ -2070,6 +2070,10 @@ table {
 #meldinger_header_utboks img {
   width: 2em;
   margin-left: 1em;
+}
+
+#meldinger_header_utboks form {
+  margin-left: auto;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -2317,8 +2321,8 @@ table {
   }
 
   #meldinger_header_utboks {
-    grid-template-columns: 1.3fr 2fr 11.4fr 3fr;
-    max-width: 42em;
+    grid-template-columns: 3em 2fr 10fr 3fr;
+    max-width: 85%;
   }
 
   #meldinger_header_utboks form {
@@ -2759,8 +2763,9 @@ table {
   }
 
   #meldinger_header_utboks {
-    grid-template-columns: 1.5fr 2fr 15.4fr 3fr;
-    max-width: 52em;
+    grid-template-columns: 3em 2fr 15.4fr 3fr;
+    width: 68em;
+    margin-left: auto; margin-right: auto;
   }
 
   #meldinger_samtale_toppDel {
