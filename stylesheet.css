@@ -2000,9 +2000,14 @@ table {
 /* Del for nye meldinger */
 #meldinger_main_ny {
   border-top: 1px solid black;
-  max-width: 20em;
-  margin-left: auto; margin-right: auto;
+  max-width: 90%;
+  margin-left: 5%; margin-right: 5%;
   background-color: rgba(175, 175, 175, 0.1);
+}
+
+#meldinger_main_ny form {
+  display: grid;
+  justify-content: center;
 }
 
 #meldinger_samtale_tekst {
@@ -2011,7 +2016,6 @@ table {
 }  
 
 #meldinger_ny_bruker, #meldinger_ny_tittel {
-  width: 20em;
   padding: 0.8em; /* legger luft rundt*/
   margin-top: 0.8em;
   margin-bottom: 0.4em;
@@ -2040,10 +2044,6 @@ table {
   font-size: 1.0em; /* Font-størrelse */
   margin-bottom: 0.5em; margin-top: 0.5em;
   margin-left: auto; margin-right: auto;
-}
-
-#meldinger_main_ny form {
-  text-align: center;
 }
 
 /* Del for utboks */
@@ -2378,18 +2378,6 @@ table {
   .meldinger_innboks_bilde {
     width: 5em;
     height: 5em;
-  }
-
-  #meldinger_main_ny {
-    max-width: 41em;
-  }
-  
-  #meldinger_ny_bruker, #meldinger_ny_tittel {
-    width: 30em;
-  }
-
-  #meldinger_ny_tekst {
-    width: 32em; 
   }
 
 }
@@ -2752,7 +2740,7 @@ table {
   }
 
   /* Del for meldinger */
-  #meldinger_main {
+  #meldinger_main, #meldinger_main_ny {
     width: 71em;
     margin-left: auto; margin-right: auto;
   }
