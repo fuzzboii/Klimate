@@ -87,6 +87,23 @@ if (isset($_POST['publiserArrangement'])) {
                                 $nyKoblingQ = "insert into eventbilde(event, bilde) values('" . $idevent . "', '" . $bildeid . "')";
                                 $nyKoblingSTMT = $db->prepare($nyKoblingQ);
                                 $nyKoblingSTMT->execute();
+
+                                // Del for å laste opp thumbnail
+                                $valgtbilde = getimagesize($lagringsplass . "/" . $bildenavn);
+                                $bildenavnMini = "thumb_" . $navn . $filtype;
+                                
+                                if(strtolower($valgtbilde['mime']) == "image/png") {
+                                    $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
+                                    $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                                    imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                                    imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
+
+                                } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
+                                    $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
+                                    $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                                    imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                                    imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
+                                }
                             }
                             
                             // Sletter innholdet så dette ikke eksisterer utenfor denne siden
@@ -133,6 +150,14 @@ if (isset($_POST['slettDenne'])) {
         if(file_exists("$lagringsplass/$testPaa")) {
             // Sletter bildet
             unlink("$lagringsplass/$testPaa");
+        }
+
+        $navnMini = "thumb_" . $testPaa;
+        // Test på om miniatyrbildet finnes
+        if(file_exists("$lagringsplass/$navnMini")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMini");
+
         }
 
         // Begynner med å slette referansen til bildet arrangementet har
@@ -353,7 +378,7 @@ $tabindex = 8;
                 <?php } else { 
                     // Del for å vise et spesifikt arrangement
                     // Henter bilde fra database utifra eventid
-                    $hentBilde = "select hvor from event, eventbilde, bilder where idevent = " . $_GET['arrangement'] . " and idevent = event and bilde = idbilder";
+                    $hentBilde = "select hvor from eventbilde, bilder where eventbilde.event = " . $_GET['arrangement'] . " and eventbilde.bilde = bilder.idbilder";
                     $stmtBilde = $db->prepare($hentBilde);
                     $stmtBilde->execute();
                     $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
