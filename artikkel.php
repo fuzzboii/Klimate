@@ -541,9 +541,14 @@ $tabindex = 8;
                                     <?php } else {
                                         // Tester på om filen faktisk finnes
                                         $testPaa = $resBilde['hvor'];
-                                        if(file_exists("$lagringsplass/$testPaa")) {  ?>  
-                                            <!-- Artikkeltbilde som resultat av spørring -->
-                                            <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                        if(file_exists("$lagringsplass/$testPaa")) { 
+                                            // Artikkeltbilde som resultat av spørring
+                                            if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                                <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                                <img class="BildeBoks_artikkel" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                            <?php } else { ?>
+                                                <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                            <?php } ?>
                                         <?php } else { ?>
                                             <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                     <?php }
