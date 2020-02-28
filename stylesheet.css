@@ -1816,8 +1816,8 @@ table {
 /* Style for MELDINGER */
 
 #meldinger_main {
-  max-width: 18em;
-  margin-left: auto; margin-right: auto;
+  max-width: 90%;
+  margin-left: 5%; margin-right: 5%;
   border-top: 1px solid black;
   padding-top: 0.5em;
   padding-left: 0.4em; padding-right: 0.4em;
@@ -1825,13 +1825,13 @@ table {
 }
 
 #meldinger_header {
-  max-width: 19em;
+  max-width: 85%;
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 3em 3fr 1fr;
   padding-top: 6em;
   padding-bottom: 1em;
   font-family: Inter, Helvetica, Arial, sans-serif;
-  margin-left: auto; margin-right: auto;
+  margin-left: 7.5%; margin-right: 7.5%;
 }
 
 #meldinger_header img {
@@ -1860,7 +1860,7 @@ table {
 
 #meldinger_header img {
   width: 2em;
-  margin-left: 1em;
+  margin-left: auto; margin-right: auto;
 }
 
 #meldinger_sender_bilde {
@@ -1877,7 +1877,7 @@ table {
   margin-bottom: 0.8em;
   border-radius: 1em 1em 1em 1em;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 4.5em 2fr 1fr;
 }
 
 .meldinger_innboks_samtale_ulest {
@@ -1894,7 +1894,7 @@ table {
 }
 
 .meldinger_innboks_tid {
-  float: right;
+  margin-left: auto; margin-right: 0.5em;
 }
 
 .meldinger_innboks_bilde {
@@ -2164,13 +2164,9 @@ table {
   }
 
   /* Del for meldinger */
-  #meldinger_main {
-    max-width: 21em;
-  }
 
   #meldinger_header {
-    grid-template-columns: 1fr 2fr 1fr 1fr;
-    max-width: 22em;
+    grid-template-columns: 3em 6fr 1fr 1fr;
   }
 
   #meldinger_header img {
@@ -2190,7 +2186,7 @@ table {
   }
 
   .meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
-    grid-template-columns: 1fr 2fr 1.4fr;
+    grid-template-columns: 4.5em 2fr 1.4fr;
   }
 
 }
@@ -2315,13 +2311,9 @@ table {
   }
 
   /* Del for meldinger */
-  #meldinger_main {
-    max-width: 41em;
-  }
 
   #meldinger_header {
-    grid-template-columns: 1.5fr 18.5fr 1fr 1fr;
-    max-width: 40em;
+    grid-template-columns: 3em 18.5fr 1fr 1fr;
   }
 
   #meldinger_header_utboks {
@@ -2331,10 +2323,6 @@ table {
 
   #meldinger_header_utboks form {
     grid-column: 4;
-  }
-
-  #meldinger_header img {
-    margin-left: 0;
   }
 
   #meldinger_form_innboks {
@@ -2380,7 +2368,7 @@ table {
 
   .meldinger_innboks_samtale, .meldinger_innboks_samtale_ulest {
     padding-top: 0.4em; padding-bottom: 0.4em;
-    grid-template-columns: 0.5fr 8fr 2.2fr;
+    grid-template-columns: 5.5em 8fr 2.4fr;
   }
 
   .meldinger_innboks_bilde {
@@ -2761,12 +2749,13 @@ table {
 
   /* Del for meldinger */
   #meldinger_main {
-    max-width: 51em;
+    width: 71em;
+    margin-left: auto; margin-right: auto;
   }
 
   #meldinger_header {
-    grid-template-columns: 1.5fr 20fr 1fr 1fr;
-    max-width: 50em;
+    width: 68em;
+    margin-left: auto; margin-right: auto;
   }
 
   #meldinger_header_utboks {
