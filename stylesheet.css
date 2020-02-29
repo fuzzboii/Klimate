@@ -1844,8 +1844,8 @@ table {
   display: grid;
   width: 60px;
   height: 34px;
-  margin-bottom: 1em;
   left: 14em;
+  bottom: 1.5em;
 }
 
 /* Skjuler standard check-box */
