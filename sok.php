@@ -194,7 +194,8 @@ $tabindex = 7;
                 /* Del for søk på brukernavn og epost */
                 /* ---------------------------------- */
                 
-                $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'";
+                $sokPaaBr = "select idbruker, brukernavn from bruker, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'
+                                and visepost = '1' and bruker.idbruker = preferanse.bruker";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'];
 
 
@@ -214,7 +215,8 @@ $tabindex = 7;
                 /* Del for søk på kun epost */
                 /* ------------------------ */
 
-                $sokPaaBr = "select idbruker, brukernavn from bruker where epost = '" . $_GET['epost'] . "' order by brukernavn ASC";
+                $sokPaaBr = "select idbruker, brukernavn from bruker, preferanse where epost = '" . $_GET['epost'] . "' 
+                                and visepost = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['epost'];
                     
                 
@@ -224,7 +226,8 @@ $tabindex = 7;
                 /* Del for søk på brukernavn, epost og interesse */
                 /* --------------------------------------------- */
 
-                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
+                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'] . ", " . $_GET['interesse'];
                     
                 
@@ -234,7 +237,8 @@ $tabindex = 7;
                 /* Del for søk på kun brukernavn og interesse */
                 /* ------------------------------------------ */
 
-                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
+                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['interesse']; 
 
                 
@@ -244,7 +248,8 @@ $tabindex = 7;
                 /* Del for søk på kun epost og interesse */
                 /* ------------------------------------- */
 
-                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
+                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['epost'] . ", " . $_GET['interesse']; 
 
                 
@@ -254,7 +259,8 @@ $tabindex = 7;
                 /* Del for søk på kun interesse */
                 /* ---------------------------- */
 
-                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse
+                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['interesse']; 
 
                 
@@ -670,7 +676,7 @@ $tabindex = 7;
                                 } else {
                                     $testPaa = "";
                                 }
-                                
+
                                 // Tester på om filen faktisk finnes
                                 if($testPaa != "" && file_exists("$lagringsplass/$testPaa")) {  
                                     //Arrangementbilde som resultat av spørring
