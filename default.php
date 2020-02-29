@@ -214,8 +214,8 @@ if (isset($_POST['loggUt'])) {
                             // Henter artikler fra database //
                             //------------------------------//
 
-                            // Henter artikler fra database, sorterer på høyeste artikkelID og viser denne (Siden vi ikke har dato)
-                            $hentNyesteQ = "select idartikkel, artnavn from artikkel order by idartikkel DESC limit 1";
+                            // Henter artikler fra database, sorterer på tid og viser denne
+                            $hentNyesteQ = "select idartikkel, artnavn, tid from artikkel order by tid DESC limit 1";
                             $hentNyesteSTMT = $db->prepare($hentNyesteQ);
                             $hentNyesteSTMT->execute();
                             $nyesteArtikkel = $hentNyesteSTMT->fetch(PDO::FETCH_ASSOC); 
