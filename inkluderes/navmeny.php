@@ -1,3 +1,15 @@
+<?php
+
+// Henter brukertype-navn (Så man kan endre navnet til brukertype 1 og fremdeles få riktig "Innlogget som" melding)
+// Dette må selvfølgelig settes innenfor en isset-test da noen sider ikke krever at man er innlogget
+if(isset($_SESSION['idbruker'])) {
+    $hentBrukertypenavnQ = "select brukertypenavn from brukertype where idbrukertype = " . $_SESSION['brukertype'];
+    $hentBrukertypenavnSTMT = $db -> prepare($hentBrukertypenavnQ);
+    $hentBrukertypenavnSTMT -> execute();
+    $brukertypenavn = $hentBrukertypenavnSTMT->fetch(PDO::FETCH_ASSOC);
+}
+
+?>
 <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop"> 
             <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
@@ -123,10 +135,10 @@
 
                     <!-- Redaktør meny "Oransje" -->
                     <?php if ($_SESSION['brukertype'] == 2) { ?>
-                        <p style="color: green"> Innlogget som Redaktør </p>
+                        <p style="color: green">Innlogget som <?php echo($brukertypenavn['brukertypenavn']) ?></p>
                     <!-- Administrator meny "Rød" -->
                     <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                        <p style="color: red"> Innlogget som Administrator </p>
+                        <p style="color: red">Innlogget som <?php echo($brukertypenavn['brukertypenavn']) ?></p>
                     <?php } ?>
 
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
@@ -143,3 +155,7 @@
                 <?php } ?>
             </section>
         </section>
+<?php
+// Denne siden er utviklet av Robin Kleppang, siste gang endret 29.02.2020
+// Denne siden er kontrollert av Robin Kleppang, siste gang 29.02.2020
+?>
