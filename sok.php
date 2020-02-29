@@ -665,12 +665,13 @@ $tabindex = 7;
                                 $stmtArrBilde->execute();
                                 $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
                                 
-                                // Tester på om filen faktisk finnes
                                 if(isset($resBilde['hvor'])) {
                                     $testPaa = $resBilde['hvor'];
                                 } else {
                                     $testPaa = "";
                                 }
+                                
+                                // Tester på om filen faktisk finnes
                                 if($testPaa != "" && file_exists("$lagringsplass/$testPaa")) {  
                                     //Arrangementbilde som resultat av spørring
                                     if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
