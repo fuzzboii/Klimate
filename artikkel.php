@@ -532,7 +532,7 @@ $tabindex = 8;
                     // -------------------- Artikler som vises på artikkel.php forside----------------
                 
                     // Del for å vise alle artikler 
-                    $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn, enavn, fnavn, bruker
+                    $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, tid, brukernavn, enavn, fnavn, bruker
                                     FROM artikkel, bruker
                                     WHERE bruker=idbruker order by idartikkel desc";
                 
@@ -606,8 +606,12 @@ $tabindex = 8;
                                 if($brukerPB) {
                                     $testPaa = $brukerPB['hvor'];
                                     // Tester på om filen faktisk finnes
-                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>
-                                        <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
+                                    if(file_exists("$lagringsplass/$testPaa")) {
+                                        if(file_exists($lagringsplass . "/thumb_" . $testPaa)) {  ?>
+                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/thumb_<?php echo($brukerPB['hvor'])?>">
+                                        <?php } else { ?>
+                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
+                                        <?php } ?>
                                     <?php } else { ?>
                                         <img class="navn_artikkel_bilde" src="bilder/profil.png">
                                     <?php } ?>
