@@ -40,7 +40,7 @@ if (isset($_POST['publiserArtikkel'])) {
                 $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
                 
                 // Spørringen som oppretter artikkelen
-                $nyArtikkelQ = "insert into artikkel(artnavn, artingress, arttekst, bruker) values('" . $tittel . "', '" . $ingress . "', '" . $innhold . "', '" . $_SESSION['idbruker'] . "')";
+                $nyArtikkelQ = "insert into artikkel(artnavn, artingress, arttekst, bruker, tid) values('" . $tittel . "', '" . $ingress . "', '" . $innhold . "', '" . $_SESSION['idbruker'] . "', NOW())";
                 $nyArtikkelSTMT = $db->prepare($nyArtikkelQ);
                 $nyArtikkelSTMT->execute();
                 $artikkelid = $db->lastInsertId();
@@ -374,12 +374,49 @@ $tabindex = 8;
                                 <p><?php echo($artikkel['arttekst'])?></p>
                             </section>
                             <section class="ForfatterInfo">
-                                <?php if(preg_match("/\S/", $artikkel['enavn']) == 0){?>
-                                    <p>Skrevet av</p>
-                                    <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['brukernavn'])?></a>
-                                <?php } else {?> 
-                                    <p>Skrevet av</p> <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($artikkel['fnavn'] . " " . $artikkel['enavn'])?></a>
-                                <?php }?>
+                                
+                                <?php // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $artikkel['bruker'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
+
+                                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
+                                }
+
+                                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
+                                }
+                                
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $artikkel['fnavn']) == 1) {
+                                        $navn = $artikkel['fnavn'];  
+                                    } else {
+                                        $navn = $artikkel['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $artikkel['enavn']) == 1) {
+                                        $navn = $artikkel['enavn'];  
+                                    } else {
+                                        $navn = $artikkel['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $artikkel['enavn']) == 1) {
+                                        $navn = $artikkel['fnavn'] . " " . $artikkel['enavn'];  
+                                    } else {
+                                        $navn = $artikkel['brukernavn'];
+                                    }
+                                } else {
+                                    $navn = $artikkel['brukernavn'];
+                                } ?>
+
+                                <p id="ForfatterSkrevetAv">Skrevet av </p>
+                                <a id="ForfatterTilBruker" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($navn)?></a>
+                                <p class="artikkelTid"><?php echo(date_format(date_create($artikkel['tid']), "j F Y H:i")) ?></p>
                             </section>
                         <?php
 
@@ -496,7 +533,7 @@ $tabindex = 8;
                     // -------------------- Artikler som vises på artikkel.php forside----------------
                 
                     // Del for å vise alle artikler 
-                    $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, brukernavn, enavn, fnavn, bruker
+                    $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, tid, brukernavn, enavn, fnavn, bruker
                                     FROM artikkel, bruker
                                     WHERE bruker=idbruker order by idartikkel desc";
                 
@@ -570,20 +607,61 @@ $tabindex = 8;
                                 if($brukerPB) {
                                     $testPaa = $brukerPB['hvor'];
                                     // Tester på om filen faktisk finnes
-                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>
-                                        <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
+                                    if(file_exists("$lagringsplass/$testPaa")) {
+                                        if(file_exists($lagringsplass . "/thumb_" . $testPaa)) {  ?>
+                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/thumb_<?php echo($brukerPB['hvor'])?>">
+                                        <?php } else { ?>
+                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
+                                        <?php } ?>
                                     <?php } else { ?>
                                         <img class="navn_artikkel_bilde" src="bilder/profil.png">
                                     <?php } ?>
                                 <?php } else { ?>
                                     <img class="navn_artikkel_bilde" src="bilder/profil.png">
                                 <?php }
-                                // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
-                                    <p class="navn_artikkel"><?php echo($resArt[$j]['brukernavn'])?></p>
-                                <?php } else { ?>
-                                    <p class="navn_artikkel"><?php echo($resArt[$j]['fnavn']) ?> <?php echo($resArt[$j]['enavn']) ?></p>
-                                <?php } ?>
+                                
+                                
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArt[$j]['bruker'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
+
+                                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
+                                }
+
+                                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
+                                }
+                                
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {
+                                        $navn = $resArt[$j]['fnavn'];  
+                                    } else {
+                                        $navn = $resArt[$j]['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resArt[$j]['enavn']) == 1) {
+                                        $navn = $resArt[$j]['enavn'];  
+                                    } else {
+                                        $navn = $resArt[$j]['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resArt[$j]['enavn']) == 1) {
+                                        $navn = $resArt[$j]['fnavn'] . " " . $resArt[$j]['enavn'];  
+                                    } else {
+                                        $navn = $resArt[$j]['brukernavn'];
+                                    }
+                                } else {
+                                    $navn = $resArt[$j]['brukernavn'];
+                                } ?>
+                                <p class="navn_artikkel"><?php echo($navn)?></p>
+                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$j]['tid']), "j F Y H:i")) ?></p>
+                                <img class="tid_artikkel_bilde" src="bilder/datoIkon.png">
                                 <h2><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p><?php echo($resArt[$j]['artingress'])?></p>
                             </section>

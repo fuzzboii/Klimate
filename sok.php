@@ -194,7 +194,8 @@ $tabindex = 7;
                 /* Del for søk på brukernavn og epost */
                 /* ---------------------------------- */
                 
-                $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'";
+                $sokPaaBr = "select idbruker, brukernavn from bruker, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'
+                                and visepost = '1' and bruker.idbruker = preferanse.bruker";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'];
 
 
@@ -214,7 +215,8 @@ $tabindex = 7;
                 /* Del for søk på kun epost */
                 /* ------------------------ */
 
-                $sokPaaBr = "select idbruker, brukernavn from bruker where epost = '" . $_GET['epost'] . "' order by brukernavn ASC";
+                $sokPaaBr = "select idbruker, brukernavn from bruker, preferanse where epost = '" . $_GET['epost'] . "' 
+                                and visepost = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['epost'];
                     
                 
@@ -224,7 +226,8 @@ $tabindex = 7;
                 /* Del for søk på brukernavn, epost og interesse */
                 /* --------------------------------------------- */
 
-                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
+                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'] . ", " . $_GET['interesse'];
                     
                 
@@ -234,7 +237,8 @@ $tabindex = 7;
                 /* Del for søk på kun brukernavn og interesse */
                 /* ------------------------------------------ */
 
-                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
+                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['interesse']; 
 
                 
@@ -244,7 +248,8 @@ $tabindex = 7;
                 /* Del for søk på kun epost og interesse */
                 /* ------------------------------------- */
 
-                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
+                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['epost'] . ", " . $_GET['interesse']; 
 
                 
@@ -254,7 +259,8 @@ $tabindex = 7;
                 /* Del for søk på kun interesse */
                 /* ---------------------------- */
 
-                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse where interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse";
+                $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse
+                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['interesse']; 
 
                 
@@ -389,7 +395,7 @@ $tabindex = 7;
                 /* Del for søk på kun tittel */
                 /* ------------------------- */
 
-                $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
 
@@ -399,7 +405,7 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel og forfatter */
                 /* ------------------------------------------------- */
 
-                $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'] . ", " . $_GET['artForfatter'];
 
 
@@ -409,7 +415,7 @@ $tabindex = 7;
                 /* Del for søk på tittel */
                 /* --------------------- */
 
-                $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
 
@@ -419,7 +425,7 @@ $tabindex = 7;
                 /* Del for søk på forfatter */
                 /* ------------------------ */
 
-                $sokPaaArt = "select idartikkel, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artForfatter'];
 
                 
@@ -462,12 +468,47 @@ $tabindex = 7;
                                 <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
                                 <?php 
-                                // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                if (preg_match("/\S/", $resArt[$j]['enavn']) == 0) { ?>
-                                    <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['brukernavn'])?></p>
-                                <?php } else { ?>
-                                    <p class="infoResArt_sok">Skrevet av <?php echo($resArt[$j]['enavn']); if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {echo(", "); echo($resArt[$j]['fnavn']); } ?></p>
-                                <?php } ?>
+                                
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArt[$j]['bruker'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
+
+                                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
+                                }
+
+                                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
+                                }
+                                
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {
+                                        $navn = $resArt[$j]['fnavn'];  
+                                    } else {
+                                        $navn = $resArt[$j]['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resArt[$j]['enavn']) == 1) {
+                                        $navn = $resArt[$j]['enavn'];  
+                                    } else {
+                                        $navn = $resArt[$j]['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resArt[$j]['enavn']) == 1) {
+                                        $navn = $resArt[$j]['fnavn'] . " " . $resArt[$j]['enavn'];  
+                                    } else {
+                                        $navn = $resArt[$j]['brukernavn'];
+                                    }
+                                } else {
+                                    $navn = $resArt[$j]['brukernavn'];
+                                } ?>
+
+                                <p class="infoResArt_sok">Skrevet av <?php echo($navn)?></p>
                             </figure>
                         </section>
                         <?php 
@@ -530,7 +571,7 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel, dato og fylke */
                 /* --------------------------------------------------- */
 
-                $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'] . ", " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
@@ -539,7 +580,7 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel og dato */
                 /* -------------------------------------------- */
 
-                $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] == "")) {
@@ -548,7 +589,7 @@ $tabindex = 7;
                 /* Del for søk på tittel */
                 /* --------------------- */
 
-                $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] != "")) {
@@ -557,7 +598,7 @@ $tabindex = 7;
                 /* Del for søk på dato og fylke */
                 /* -----------------------------*/
 
-                $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'] . ", " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
@@ -566,7 +607,7 @@ $tabindex = 7;
                 /* Del for søk på fylke */
                 /* ---------------------*/
 
-                $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
                 $infoOmSok = "Du har søkt etter: " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
@@ -575,7 +616,7 @@ $tabindex = 7;
                 /* Del for søk på dato */
                 /* --------------------*/
 
-                $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
@@ -584,7 +625,7 @@ $tabindex = 7;
                 /* Del for søk på tittel og fylke */
                 /* -------------------------------*/
 
-                $sokPaaArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['fylke'];
 
             }
@@ -630,24 +671,70 @@ $tabindex = 7;
                                 $stmtArrBilde->execute();
                                 $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
                                 
-                                if (!$resBilde) { ?>
-                                    <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
-                                    <img class="BildeBoksArr_sok" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                if(isset($resBilde['hvor'])) {
+                                    $testPaa = $resBilde['hvor'];
+                                } else {
+                                    $testPaa = "";
+                                }
+
+                                // Tester på om filen faktisk finnes
+                                if($testPaa != "" && file_exists("$lagringsplass/$testPaa")) {  
+                                    //Arrangementbilde som resultat av spørring
+                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                        <img class="BildeBoksArr_sok" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <?php } else { ?>
+                                        <img class="BildeBoksArr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <?php } ?>
                                 <?php } else { ?>
-                                    <!-- Arrangementbilde som resultat av spørring -->
-                                    <img class="BildeBoksArr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe -->
+                                    <img class="BildeBoksArr_sok" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                 <?php } ?>
 
                                 <h2 class="infoResArr_sok"><?php echo($resArr[$j]['eventnavn'])?></h2>
                                 <p class="infoResArr_sok"><?php echo($resArr[$j]['tidspunkt'])?></p>
                                 <p class="infoResArr_sok"><?php echo($resArr[$j]['veibeskrivelse'] . ", " . $resArr[$j]['fylkenavn'])?></p>
                                 <?php 
-                                // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                                if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>
-                                    <p class="infoResArr_sok">Arrangert av <?php echo($resArr[$j]['brukernavn'])?></p>
-                                <?php } else { ?>
-                                    <p class="infoResArr_sok">Arrangert av <?php echo($resArr[$j]['enavn']); if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {echo(", "); echo($resArr[$j]['fnavn']); } ?></p>
-                                <?php } ?>
+                                
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArr[$j]['idbruker'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
+
+                                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
+                                }
+
+                                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
+                                }
+                                
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {
+                                        $navn = $resArr[$j]['fnavn'];  
+                                    } else {
+                                        $navn = $resArr[$j]['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                        $navn = $resArr[$j]['enavn'];  
+                                    } else {
+                                        $navn = $resArr[$j]['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                        $navn = $resArr[$j]['fnavn'] . " " . $resArr[$j]['enavn'];  
+                                    } else {
+                                        $navn = $resArr[$j]['brukernavn'];
+                                    }
+                                } else {
+                                    $navn = $resArr[$j]['brukernavn'];
+                                } ?>
+                                
+                                <p class="infoResArr_sok">Arrangert av <?php echo($navn)?></p>
                             </figure>
                         </section>
                         <?php 
