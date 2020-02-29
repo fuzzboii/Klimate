@@ -90,6 +90,34 @@ if (isset($_POST['endreBilde'])) {
     }
 }
 
+//----------------------//
+// Oppdater preferanser //
+//----------------------//
+if ($egen) {
+    if(isset($_POST['oppdaterPreferanser'])) {
+        // Opprett variabler for preferanser
+        if(isset($_POST['fnavnToggle'])) {
+            $visfnavnNy = "1";
+        } else $visfnavnNy = "0";
+        if(isset($_POST['enavnToggle'])) {
+            $visenavnNy = "1";
+        } else $visenavnNy = "0";
+        if(isset($_POST['epostToggle'])) {
+            $visepostNy = "1";
+        } else $visepostNy = "0";
+        if(isset($_POST['tlfToggle'])) {
+            $vistelefonnummerNy = "1";
+        } else $vistelefonnummerNy = "0";
+        $brukerNy = $_SESSION['idbruker'];
+
+        // Forsøk oppdatering
+        try {
+            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, visepost=?, vistelefonnummer=? where bruker=?";
+            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
+        } finally{}
+    }
+}
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
@@ -224,7 +252,6 @@ if($preferanser['visfnavn'] == "1") $visfnavn = true;
 if($preferanser['visenavn'] == "1") $visenavn = true;
 if($preferanser['visepost'] == "1") $visepost = true;
 if($preferanser['vistelefonnummer'] == "1") $vistelefonnummer = true;
-var_dump($preferanser);
 
 //-----------------------//
 // Henting av interesser //
@@ -476,13 +503,15 @@ $tabindex = 10;
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for visning av personalia -->
                     <h2>Vis eller skjul personalia</h2>
-                        <section class="profil_persInf">
+                    <section class="profil_persInf">
+                        <!-- Et skjema for å oppdatere preferanser -->
+                        <form name="preferanserForm" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                             <!-- Linje for fornavn -->
                             <p class="personalia">Fornavn</p>
                                 <label class="switch">
                                     <?php if(isset($visfnavn)) { ?>
-                                    <input type="checkbox" checked>
-                                    <?php } else { ?> <input type="checkbox">
+                                    <input type="checkbox" name="fnavnToggle" value="visFnavn" checked>
+                                    <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn">
                                     <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
@@ -490,8 +519,8 @@ $tabindex = 10;
                             <p class="personalia">Etternavn</p>
                                 <label class="switch">
                                 <?php if(isset($visenavn)) { ?>
-                                    <input type="checkbox" checked>
-                                    <?php } else { ?> <input type="checkbox">
+                                    <input type="checkbox" name="enavnToggle" value="visEnavn" checked>
+                                    <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn">
                                     <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
@@ -499,8 +528,8 @@ $tabindex = 10;
                             <p class="personalia">E-Post Adresse</p>
                                 <label class="switch">
                                 <?php if(isset($visepost)) { ?>
-                                    <input type="checkbox" checked>
-                                    <?php } else { ?> <input type="checkbox">
+                                    <input type="checkbox" name="epostToggle" value="visEpost" checked>
+                                    <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost">
                                     <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
@@ -508,12 +537,13 @@ $tabindex = 10;
                             <p class="personalia">Telefonnummer</p>
                                 <label class="switch">
                                 <?php if(isset($vistelefonnummer)) { ?>
-                                    <input type="checkbox" checked>
-                                    <?php } else { ?> <input type="checkbox">
+                                    <input type="checkbox" name="tlfToggle" value="visTlf" checked>
+                                    <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf">
                                     <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
-                        </section>
+                                <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser"> 
+                        </form>
                     </section>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
