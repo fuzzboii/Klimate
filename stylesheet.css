@@ -545,8 +545,11 @@ footer a {
   padding-bottom: 1em;
   margin-bottom: 1em;
 }
-.ForfatterInfo p{
+.ForfatterInfo #ForfatterSkrevetAv{
   font-weight: bold;
+}
+
+#ForfatterSkrevetAv, #ForfatterTilBruker {
   display: inline;
 }
 
@@ -2754,7 +2757,7 @@ input:checked + .slider:before {
     }
   
   /* Hover for atikkel forfatter */
-  .artikkelForfatter:hover{
+  #ForfatterTilBruker:hover{
       cursor: pointer;
       color: rgb(112, 112, 112);
     

@@ -414,8 +414,9 @@ $tabindex = 8;
                                     $navn = $artikkel['brukernavn'];
                                 } ?>
 
-                                <p>Skrevet av</p>
-                                <a class="artikkelForfatter" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($navn)?></a>
+                                <p id="ForfatterSkrevetAv">Skrevet av </p>
+                                <a id="ForfatterTilBruker" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($navn)?></a>
+                                <p class="artikkelTid"><?php echo(date_format(date_create($artikkel['tid']), "j F Y H:i")) ?></p>
                             </section>
                         <?php
 
