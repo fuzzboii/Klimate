@@ -32,35 +32,68 @@ if (isset($_POST['endreBilde'])) {
     if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
         // Kombinerer bruker med idbruker
         $navn = "bruker" . $_SESSION['idbruker'];
+        $navnMini = "thumb_" . $navn;
         // Henter filtypen
         $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
         // Kombinerer navnet med filtypen
         $bildenavn = $navn . $filtype;
-        // Opprettet filnavnet for bildet som skal slettes, setter denne til tom streng hvis ikke bruker har profilbilde fra før
-        $bildenavnGammelt = "";
+        
         // Selve prosessen som flytter bildet til bestemt lagringsplass
         // Test om det finnes en fil med samme navn
         // Opprett navn med de 3 ulike filtypene
         $navnjpg = $navn . ".jpg";
         $navnjpeg = $navn . ".jpeg";
         $navnpng = $navn . ".png";
-        // Test på .jpg
+        // Test på om bildet finnes
         if(file_exists("$lagringsplass/$navnjpg")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpg");
-            $bildenavnGammelt = $navn . ".jpg";
-        } elseif(file_exists("$lagringsplass/$navnjpeg")) { // ... .jpeg
+
+        } elseif(file_exists("$lagringsplass/$navnjpeg")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpeg");
-            $bildenavnGammelt = $navn . ".jpeg";
-        } elseif (file_exists("$lagringsplass/$navnpng")) { // ... .png
+
+        } elseif (file_exists("$lagringsplass/$navnpng")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnpng");
-            $bildenavnGammelt = $navn . ".png";
         }
-        // Last opp
+        // Flytt bildet fra temp til opplastet
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
 
+        
+        $navnMinijpg = "thumb_" . $navnjpg;
+        $navnMinijpeg = "thumb_" . $navnjpeg;
+        $navnMinipng = "thumb_" . $navnpng;
+        // Test på om miniatyrbildet finnes
+        if(file_exists("$lagringsplass/$navnMinijpg")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinijpg");
+
+        } elseif(file_exists("$lagringsplass/$navnMinijpeg")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinijpeg");
+
+        } elseif (file_exists("$lagringsplass/$navnMinipng")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinipng");
+        }
+
+        // Del for å laste opp thumbnail
+        $valgtbilde = getimagesize($lagringsplass . "/" . $bildenavn);
+        $bildenavnMini = "thumb_" . $navn . $filtype;
+        
+        if(strtolower($valgtbilde['mime']) == "image/png") {
+            $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
+            $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+            imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+            imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
+
+        } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
+            $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
+            $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+            imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+            imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
+        }
         
         // Test om brukeren har et bilde fra før
         $hentBilde = "select idbilder, hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
@@ -453,10 +486,10 @@ $tabindex = 10;
                 </header>
                 
                 <main class="profil_main">
-                <h2>Rediger informasjon</h2>
-                    <h3>Endre profilbilde</h3>
+                <h1>Rediger informasjon</h1>
+                    <h2>Endre profilbilde</h2>
                     <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                        <h4>Velg et bilde</h4>
+                        <h3>Velg et bilde</h3>
                         <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
                         <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
                     </form>
@@ -475,14 +508,14 @@ $tabindex = 10;
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
-                        <h3>Endre beskrivelse</h3>
+                        <h2>Endre beskrivelse</h2>
                         <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                             <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
                             <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"/>
                         </form>
                     <?php } ?>
                     <!-- Viser interesser -->
-                    <h3 class="OverskriftInter">Interesser</h3>
+                    <h2 class="OverskriftInter">Interesser</h2>
                     <!-- Nøstet foreach -->
                     <!-- Ytre løkke -->
                     <section class="interesserSection">
@@ -590,8 +623,7 @@ $tabindex = 10;
                         <!-- --------------- -->
                         <!-- BRUKERINFO ---- -->
                         <!-- --------------- -->
-                        <h2>Om</h2>
-                        <h3>Oversikt</h3>
+                        <h2>Oversikt</h2>
                         <section class="profil_persInf">
                         
                         <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
@@ -599,16 +631,24 @@ $tabindex = 10;
                         <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
                         <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
                             
-                            <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                            <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                            <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                            <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                            <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"])) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
+                            <p class="personalia">Etternavn:</p> <?php if(!isset($personaliaProfil["enavn"])) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } else { ?> <p> <?php echo($personaliaProfil["enavn"]) ?> </p> <?php } ?>
+                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($personaliaProfil["epost"])) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } else { ?> <p> <?php echo($personaliaProfil["epost"]) ?> </p> <?php } ?>
+                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($personaliaProfil["telefonnummer"])) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } else { ?> <p> <?php echo($personaliaProfil["telefonnummer"]) ?> </p> <?php } ?>
                         </section>
                     </section>    
                     
                     <!-- BESKRIVELSE -->
                     <section class="brukerBeskrivelse">
-                    <h3>Beskrivelse</h3>
+                    <h2>Beskrivelse</h2>
                         <?php ?>
                             <p><?php if(preg_match("/\S/", $beskrivelseProfil['beskrivelse']) == 1) {echo($beskrivelseProfil['beskrivelse']);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
                         <?php  ?>
@@ -619,12 +659,29 @@ $tabindex = 10;
                     <!-- Ytre løkke -->
                     <section class="interesserTags">
                     <?php if ($tellingInteresse != null) {
+                        // Test på om bruker vil vise mer //
+                        if(isset($_POST["visMer"])) {
+                            $max = 9999;
+                        } else $max = 11;
+                        // Teller for å ikke vise for mange interesser umiddelbart
+                        $teller = 0;
                         foreach ($interesseProfil as $rad) {    
-                            foreach ($rad as $kolonne) { ?> 
+                            foreach ($rad as $kolonne) { ?>
+                                <!-- Oppdater teller -->
+                                <?php $teller++; ?>
+                                <!-- break; hvis vi har vist mange nok -->
+                                <?php if($teller > $max) { ?>
+                                    <!-- POST en variabel som brukes til å angi max -->
+                                    <form name="visMer" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                        <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
+                                    </form>
+                                    <!-- break 2; bryter ut av begge løkkene -->
+                                    <?php break 2;
+                                } ?>
                                 <!-- Test om bruker er i slettemodus -->
                                 <?php if (isset($_POST['slettemodus'])) { ?> 
                                     <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                <!-- Ellers normal visning -->
                                 <?php } else { ?> 
                                     <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
                                 <?php } // Slutt, else løkke    
