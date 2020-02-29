@@ -220,6 +220,10 @@ $hentPreferanser = "Select * from preferanse where bruker = " . $_GET['bruker'];
 $stmtPreferanser = $db->prepare($hentPreferanser);
 $stmtPreferanser->execute();
 $preferanser = $stmtPreferanser->fetch(PDO::FETCH_ASSOC);
+if($preferanser['visfnavn'] == "1") $visfnavn = true;
+if($preferanser['visenavn'] == "1") $visenavn = true;
+if($preferanser['visepost'] == "1") $visepost = true;
+if($preferanser['vistelefonnummer'] == "1") $vistelefonnummer = true;
 var_dump($preferanser);
 
 //-----------------------//
@@ -476,25 +480,37 @@ $tabindex = 10;
                             <!-- Linje for fornavn -->
                             <p class="personalia">Fornavn</p>
                                 <label class="switch">
-                                    <input type="checkbox">
+                                    <?php if(isset($visfnavn)) { ?>
+                                    <input type="checkbox" checked>
+                                    <?php } else { ?> <input type="checkbox">
+                                    <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
                             <!-- Linje for etternavn -->
                             <p class="personalia">Etternavn</p>
                                 <label class="switch">
-                                    <input type="checkbox">
+                                <?php if(isset($visenavn)) { ?>
+                                    <input type="checkbox" checked>
+                                    <?php } else { ?> <input type="checkbox">
+                                    <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
                             <!-- Linje for epostadresse -->
                             <p class="personalia">E-Post Adresse</p>
                                 <label class="switch">
-                                    <input type="checkbox">
+                                <?php if(isset($visepost)) { ?>
+                                    <input type="checkbox" checked>
+                                    <?php } else { ?> <input type="checkbox">
+                                    <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
                             <!-- Linje for telefonnummer -->
                             <p class="personalia">Telefonnummer</p>
                                 <label class="switch">
-                                    <input type="checkbox">
+                                <?php if(isset($vistelefonnummer)) { ?>
+                                    <input type="checkbox" checked>
+                                    <?php } else { ?> <input type="checkbox">
+                                    <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
                         </section>
