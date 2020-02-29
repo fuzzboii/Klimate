@@ -250,12 +250,18 @@ footer a {
   float: right;
 
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   border-radius: 0 0.4em 0.4em 0; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+  
+  color: white;
+  text-shadow:
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
 }
 
 /* FOKUS TING */
