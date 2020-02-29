@@ -141,6 +141,22 @@ if (isset($_POST['slettDenne'])) {
         }
     }
 }
+                       
+
+// Del for å legge til en ny kommentar
+if(isset($_POST['sendKommentar'])) {
+
+    // Legger til en ny kommentar
+    $nyKommentarQ = "insert into kommentar(tekst, tid, bruker, artikkel)
+                        values('" . $_POST['tekst'] . "', 
+                            NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
+    $nyKommentarSTMT = $db->prepare($nyKommentarQ);
+    $nyKommentarSTMT->execute();
+    $sendt = $nyKommentarSTMT->rowCount();
+
+    header("Location: artikkel.php?artikkel=" . $_GET['artikkel']);
+
+}
 
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 8;
@@ -371,21 +387,7 @@ $tabindex = 8;
                         /*------------------------------------*/
                         /*--Del for å kommentere en artikkel--*/
                         /*------------------------------------*/
-                        /*------------------------------------*/                        
-
-                        // Del for å legge til en ny kommentar
-                        if(isset($_POST['sendKommentar'])) {
-                       
-                            // Legger til en ny kommentar
-                            $nyKommentarQ = "insert into kommentar(tekst, tid, bruker, artikkel)
-                                                values('" . $_POST['tekst'] . "', 
-                                                    NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
-                            $nyKommentarSTMT = $db->prepare($nyKommentarQ);
-                            $nyKommentarSTMT->execute();
-                            $sendt = $nyKommentarSTMT->rowCount();
-                            
-
-                        }
+                        /*------------------------------------*/ 
                         ?> 
                             <!-- Antall kommentarer av artikler -->                          
                             <section id="artikkel_kommentarOversikt"> 
