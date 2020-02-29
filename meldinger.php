@@ -41,13 +41,16 @@ if(isset($_POST['mottatt'])) {
         $personvernSTMT->execute();
         $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
 
+        // Tar utgangspunkt i at det ikke kan vises
         $kanViseFornavn = false;
         $kanViseEtternavn = false;
 
+        // Sjekker om svar fra DB ikke er false og bruker har valgt å vise fornavn
         if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
             $kanViseFornavn = true;
         }
 
+        // Sjekker om svar fra DB ikke er false og bruker har valgt å vise etternavn
         if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
             $kanViseEtternavn = true;
         }
@@ -95,9 +98,6 @@ if(isset($_POST['mottatt'])) {
         // Fant ikke meldingen i databasen, setter variabel som testes på senere til false
         $fantSamtale = false;
     }
-
-} else if(isset($_POST['ny'])) {
-    // Er vi her henter vi ting som brukes i ny melding
 
 } else if(isset($_POST['utboks'])) {
     // Er vi her henter vi ting som brukes i innboksen
@@ -196,8 +196,8 @@ if(isset($_POST['gjenopprettMelding'])) {
 
         $endretMelding = $gjenopprettMeldingSTMT->rowCount();
         if($endretMelding > 0) { header("Location: meldinger.php"); /* Melding gjenopprettet, OK */ } 
-        else { header("Location: meldinger.php?error=3"); /* Error 2, melding ikke gjenopprettet */ }
-    } else { header("Location: meldinger.php?error=3"); /* Error 2, melding ikke gjenopprettet */ }
+        else { header("Location: meldinger.php?error=3"); /* Error 3, melding ikke gjenopprettet */ }
+    } else { header("Location: meldinger.php?error=3"); /* Error 3, melding ikke gjenopprettet */ }
 }
 
 ?>
@@ -728,7 +728,7 @@ if(isset($_POST['gjenopprettMelding'])) {
         <?php include("inkluderes/footer.php") ?>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang og Glenn Petter Pettersen, siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 07.02.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 29.02.2020 -->
+    <!-- Denne siden er kontrollert av Robin Kleppang, siste gang 29.02.2020 -->
 
 </html>
