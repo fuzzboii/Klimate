@@ -779,9 +779,11 @@ td, th  {
   z-index: 1; /* Sitter over det andre innholdet */
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  margin-top: 5em; margin-bottom: 7em;
-  margin-left: 1em; margin-right: 1em;
-  box-shadow: 0 0 0 50em rgba(0, 0, 0, 0.658);
+  margin-top: 15%; margin-bottom: 40%;
+  margin-left: 5%; margin-right: 5%;
+  transition: margin 0.3s;
+  box-shadow: 0 0 0 20em rgba(0, 0, 0, 0.658);
+  min-height: 20em;
 }
 
 #konto_bekreftAvrInnhold {
@@ -2511,6 +2513,14 @@ input:checked + .slider:before {
     height: 5em;
   }
 
+  /* Del for Konto */
+  #konto_bekreftAvr {
+    margin-top: 5em; margin-bottom: 15em;
+    margin-left: 10em; margin-right: 10em;
+    transition: margin 0.3s;
+    box-shadow: 0 0 0 40em rgba(0, 0, 0, 0.658);
+  }
+
 }
 
 /* Laptop / Liten skjerm, 720p */
@@ -2555,6 +2565,15 @@ input:checked + .slider:before {
   .RegInnFelt_knappRegistrer:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+
+  /* Del for Konto */
+  #konto_bekreftAvr {
+    margin-top: 7em; margin-bottom: 15em;
+    margin-left: auto; margin-right: auto;
+    max-width: 50em;
+    transition: margin 0.3s;
+    box-shadow: 0 0 0 100em rgba(0, 0, 0, 0.658);
   }
   
   /* Hover innstillinger for rediger konto knapp */
