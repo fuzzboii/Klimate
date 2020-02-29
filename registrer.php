@@ -148,39 +148,7 @@ if (isset($_POST['subRegistrering'])) {
 
     <body>
         <article class="innhold">
-            <!-- Begynnelse på øvre navigasjonsmeny -->
-            <nav class="navTop">
-                <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="5">
-                    <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
-                </a>
-                <!-- Legger til en knapp for å gå fra registrering til innlogging -->
-                <button class="singelKnapp" onClick="location.href='logginn.php'" tabindex="4">LOGG INN</button>
-                
-                <form id="sokForm_navmeny" action="sok.php">
-                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
-                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
-                </form>
-                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
-                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
-                </a>
-                <!-- Logoen øverst i venstre hjørne -->
-                <a href="default.php" tabindex="1">
-                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
-                </a>
-            <!-- Slutt på navigasjonsmeny-->
-            </nav>
-
-            <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
-            <section id="navMeny" class="hamburgerMeny">
-                <!-- innholdet i hamburger-menyen -->
-                <!-- -1 tabIndex som standard da menyen er lukket -->
-                <section class="hamburgerInnhold">
-                    <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
-                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
-                </section>
-            </section>
+            <?php include("inkluderes/navmeny.php") ?>
 
             <main id="toppMain" onclick="lukkHamburgerMeny()">
                 <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
