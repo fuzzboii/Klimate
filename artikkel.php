@@ -659,6 +659,8 @@ $tabindex = 8;
                                     $navn = $resArt[$j]['brukernavn'];
                                 } ?>
                                 <p class="navn_artikkel"><?php echo($navn)?></p>
+                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$j]['tid']), "j F Y H:i")) ?></p>
+                                <img class="tid_artikkel_bilde" src="bilder/datoIkon.png">
                                 <h2><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p><?php echo($resArt[$j]['artingress'])?></p>
                             </section>

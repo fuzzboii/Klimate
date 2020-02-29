@@ -501,7 +501,19 @@ footer a {
   padding-right: 0.3em;
   padding-top: 0.1em;
   margin-left: 0.1em; 
+}
 
+.tid_artikkel_bilde {
+  height: 1em;
+  width: 1em;
+  padding-right: 0.3em;
+  padding-top: 0.1em;
+  margin-left: 0.1em; 
+  float: right;
+}
+
+.tid_artikkel {
+  float: right;
 }
 
 .BildeBoks_artikkel {
