@@ -1545,7 +1545,14 @@ table {
 }
 
 /* overskrifter */
+.argInf_interesserte h2  {
+  margin-bottom: 0.5em;
+  
+}
+#arrangement_brukere {
+  margin-top: 0.5em; margin-bottom: 0.5em;
 
+}
 
 #argInf_meta h2 {
   font-family: Helvetica, Arial, sans-serif;

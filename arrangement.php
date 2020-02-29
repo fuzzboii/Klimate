@@ -425,6 +425,18 @@ $tabindex = 8;
                             <?php } else { ?>
                                 <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
+                            
+                            <?php 
+                            $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] ;
+                            $interesserteSTMT = $db->prepare($interesserte);
+                            $interesserteSTMT->execute();
+                            $antallInteresserte = $interesserteSTMT->rowCount();
+                            ?>
+                            <section class="argInf_interesserte">
+                                <img class="arrangementInnhold_rFloatBilde" src="bilder/interesserteIkon.png">
+                                <h2>Interesserte brukere</h2>
+                                <p id="arrangement_brukere"><?php echo($antallInteresserte) ?> brukere</p>
+                            </section>
                             <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <?php if(isset($_SESSION['idbruker'])) {
                                     $hentPaameldteQ = "select bruker_id, interessert from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
