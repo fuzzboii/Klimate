@@ -665,12 +665,22 @@ $tabindex = 7;
                                 $stmtArrBilde->execute();
                                 $resBilde = $stmtArrBilde->fetch(PDO::FETCH_ASSOC);
                                 
-                                if (!$resBilde) { ?>
-                                    <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe enda -->
-                                    <img class="BildeBoksArr_sok" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                // Tester på om filen faktisk finnes
+                                if(isset($resBilde['hvor'])) {
+                                    $testPaa = $resBilde['hvor'];
+                                } else {
+                                    $testPaa = "";
+                                }
+                                if($testPaa != "" && file_exists("$lagringsplass/$testPaa")) {  
+                                    //Arrangementbilde som resultat av spørring
+                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                        <img class="BildeBoksArr_sok" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <?php } else { ?>
+                                        <img class="BildeBoksArr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <?php } ?>
                                 <?php } else { ?>
-                                    <!-- Arrangementbilde som resultat av spørring -->
-                                    <img class="BildeBoksArr_sok" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Profilbilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    <!-- Standard arrangementbilde om arrangør ikke har lastet opp noe -->
+                                    <img class="BildeBoksArr_sok" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                 <?php } ?>
 
                                 <h2 class="infoResArr_sok"><?php echo($resArr[$j]['eventnavn'])?></h2>
