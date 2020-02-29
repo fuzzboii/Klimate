@@ -801,7 +801,6 @@ td, th  {
   margin-left: auto; margin-right: auto;
   
   background-color: red; /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
   padding: 0.8em; /* hvor mye luft rundt teksten det skal være */
   margin-top: 0.6em;
   margin-bottom: 0.8em;
@@ -811,6 +810,13 @@ td, th  {
   width: 70%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+  
+  color: white;
+  text-shadow:
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
 }
 
 table {
