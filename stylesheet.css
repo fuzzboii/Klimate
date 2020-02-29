@@ -1262,12 +1262,31 @@ table {
   padding: 0.5em;
   font-size: 0.9em; /* Font-størrelse */
 }
+.påmeldteBrukere {
+  border: 0.1em solid black;
+  border-radius: 1em 1em 1em 1em;
+  background-color: aquamarine;
+  width: 17em;
+}
+
+.påmeldteBrukere h2 {
+  font-size: 0.9em;
+
+}
+#profilPåmeldt {
+  height: 4.5em;
+  width: 4.5em;
+  float: left;
+}
 
 .arrangementInnhold_rFloatBilde {
   height: 1em;
   float: left;
 }
 
+#arrangementPåmeldte {
+  float: right;
+}
 .arrangement_header {
   padding-top: 4em;
   padding-bottom: 1em;
