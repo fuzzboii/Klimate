@@ -572,8 +572,14 @@ function visPassord(hentet) {
 function visAvmeld(valg) {
   if(valg == "Avmeld") {
     document.getElementById("arrangement_paameldt").innerHTML = "Avmeld";
-  } else if(valg == "Paameld") {
-    document.getElementById("arrangement_paameldt").innerHTML = "Skal komme";
+  } else if(valg == "Skal") {
+    document.getElementById("arrangement_paameldt").innerHTML = "Skal";
+  }
+  else if(valg == "Kanskje") {
+    document.getElementById("arrangement_paameldt").innerHTML = "Kanskje";
+  } 
+  else if(valg == "KanIkke") {
+    document.getElementById("arrangement_paameldt").innerHTML = "Kan ikke";
   }
 }
 

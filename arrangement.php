@@ -107,12 +107,31 @@ if (isset($_POST['publiserArrangement'])) {
 
 if(isset($_POST['skal'])) {
     if($_POST['skal'] == "Skal") {
-        $paameldingQ = "insert into påmelding(event_id, bruker_id, interessert) values(5, 1, 'Skal');";
-        $paameldingSTMT = $db->prepare($paameldingQ);
-        $paameldingSTMT->execute();
+        $paameldingSkal = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Skal')" ;
+        $paameldingSkalSTMT = $db->prepare($paameldingSkal);
+        $paameldingSkalSTMT->execute();
 
     } 
 }
+
+if(isset($_POST['kanskje'])) {
+    if($_POST['kanskje'] == "Kanskje") {
+        $paameldingKanskje = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Kanskje')" ;
+        $paameldingKanskjeSTMT = $db->prepare($paameldingKanskje);
+        $paameldingKanskjeSTMT->execute();
+
+    } 
+}
+
+if(isset($_POST['kanIkke'])) {
+    if($_POST['kanIkke'] == "KanIkke") {
+        $paameldingKanIkke = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Kan ikke')" ;
+        $paameldingKanIkkeSTMT = $db->prepare($paameldingKanIkke);
+        $paameldingKanIkkeSTMT->execute();
+
+    } 
+}
+
 if(isset($_POST['paameld'])) {
      if($_POST['paameld'] == "Paameldt") {
         $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
@@ -390,10 +409,18 @@ $tabindex = 8;
                                     
 
                                     if($paameldt['interessert'] == "Skal") { ?>
-                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Skal komme</button>
+                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
+                                    
+                                    <?php } else if ($paameldt['interessert'] == "Kanskje") { ?>
+                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
+                                    
+                                    <?php } else if ($paameldt['interessert'] == "Kan ikke") { ?>
+                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>
+                                    
                                     <?php } else { ?>
                                         <button id="arrangement_paameld" name="skal" value="Skal" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeldSkal('Paameld')">Skal</button>
-                                        <button id="arrangement_paameld" name="paameld" value="Paameld" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kanskje</button>       
+                                        <button id="arrangement_paameld" name="kanskje" value="Kanskje" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kanskje</button>
+                                        <button id="arrangement_paameld" name="kanIkke" value="KanIkke" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kan ikke</button>       
                                 <?php 
                                  } 
                                  } ?>
