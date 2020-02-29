@@ -265,6 +265,24 @@ $tabindex = 8;
                     <section id="arrangement_bunnSection">
                         <button onclick="location.href='arrangement.php'" class="lenke_knapp">Tilbake til arrangementer</button>  
                     </section>
+                    <!-- -------------------------------- -->
+                    <!-- Del for å vise  påmeldte brukere -->
+                    <!-- -------------------------------- -->
+                <?php } else if(isset($_POST['paameldteBrukere'])) {?>
+           
+                    <header class="arrangement_header" onclick="lukkHamburgerMeny()">
+                            <h1>Påmeldte brukere</h1>
+                    </header>
+                    
+                    <main id="arrangement_main" onclick="lukkHamburgerMeny()">
+                        <section class="påmeldteBrukere">
+                        <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                        <h2>Brukernavn</h2>
+                        <h2>Type interesse</h2>
+                    </section>
+                    <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    </main>
+          
                 <?php } else { 
                     // Del for å vise et spesifikt arrangement
                     // Henter bilde fra database utifra eventid
@@ -300,11 +318,17 @@ $tabindex = 8;
                             $interesserteSTMT->execute();
                             $antallInteresserte = $interesserteSTMT->rowCount();
                             ?>
+
+
                             <section class="argInf_interesserte">
                                 <img class="arrangementInnhold_rFloatBilde" src="bilder/interesserteIkon.png">
-                                <h2>Interesserte brukere</h2>
-                                <p id="arrangement_brukere"><?php echo($antallInteresserte) ?> brukere</p>
+                                <h2>Antall interesserte: <?php echo($antallInteresserte) ?> brukere </h2>
+                                
+                            <form method="POST" id="arrangement_form_påmeldte" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                <input type="submit" id="arrangementPåmeldteKnapp" name="paameldteBrukere"  value="Se påmeldte brukere">
+                            </form>
                             </section>
+
                             <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <?php if(isset($_SESSION['idbruker'])) {
                                     $hentPaameldteQ = "select bruker_id, interessert from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
@@ -313,13 +337,13 @@ $tabindex = 8;
                                     $paameldt = $hentPaameldteSTMT->fetch(PDO::FETCH_ASSOC);
                                     
 
-                                    if($paameldt['interessert'] == "Skal") { ?>
+                                    if(isset($paameldt['interessert']) == "Skal") { ?>
                                         <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
                                     
-                                    <?php } else if ($paameldt['interessert'] == "Kanskje") { ?>
+                                    <?php } else if (isset($paameldt['interessert']) == "Kanskje") { ?>
                                         <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
                                     
-                                    <?php } else if ($paameldt['interessert'] == "Kan ikke") { ?>
+                                    <?php } else if (isset($paameldt['interessert']) == "Kan ikke") { ?>
                                         <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>
                                     
                                     <?php } else { ?>
@@ -445,8 +469,7 @@ $tabindex = 8;
                             <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
                         </form> 
                     </article>
-                    
-            <?php } else {
+           <?php } else {
 
                 // Del for å vise alle arrangement 
                 $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
@@ -550,7 +573,9 @@ $tabindex = 8;
                         <button type="button" id="arrangement_nesteKnapp" onclick="visNesteSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Neste</button>
                     <?php } ?>
                 </section>
-            <?php } ?>
+
+            <?php }?>
+
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
