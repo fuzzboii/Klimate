@@ -725,7 +725,6 @@ footer a {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
 }
 
 /* Brukeropplysninger */
@@ -779,14 +778,14 @@ td, th  {
   background-color: white;
   z-index: 1; /* Sitter over det andre innholdet */
   position: fixed;
-  top: 0; 
-  margin-top: 6em;
-  max-width: 245px;
-  box-shadow: 0 0 0.2em 0.01em black;
+  top: 0; left: 0; right: 0; bottom: 0;
+  margin-top: 5em; margin-bottom: 7em;
+  margin-left: 1em; margin-right: 1em;
+  box-shadow: 0 0 0 50em rgba(0, 0, 0, 0.658);
 }
 
 #konto_bekreftAvrInnhold {
-  margin-left: 0.4em; margin-right: 0.4em;
+  margin-left: 20%; margin-right: 20%;
   margin-bottom: 0.5em;
   text-align: center;
 }
@@ -823,7 +822,7 @@ td, th  {
   
   background-color: red; /* bakgrunnsfarge for registrerknapp */
   padding: 0.8em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 0.6em;
+  margin-top: 1.6em;
   margin-bottom: 0.8em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
