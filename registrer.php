@@ -201,14 +201,7 @@ if (isset($_POST['subRegistrering'])) {
                 <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
                 
             </main>
-
-            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
-            
-            <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
-            <footer>
-                <p class=footer_beskrivelse>&copy; Klimate <?php echo date("Y");?> | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
-            </footer>
+            <?php include("inkluderes/footer.php") ?>
         </article>
     </body>
 
