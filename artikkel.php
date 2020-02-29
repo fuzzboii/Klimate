@@ -40,7 +40,7 @@ if (isset($_POST['publiserArtikkel'])) {
                 $innhold = filter_var($_POST['innhold'], FILTER_SANITIZE_STRING);
                 
                 // Spørringen som oppretter artikkelen
-                $nyArtikkelQ = "insert into artikkel(artnavn, artingress, arttekst, bruker) values('" . $tittel . "', '" . $ingress . "', '" . $innhold . "', '" . $_SESSION['idbruker'] . "')";
+                $nyArtikkelQ = "insert into artikkel(artnavn, artingress, arttekst, bruker, tid) values('" . $tittel . "', '" . $ingress . "', '" . $innhold . "', '" . $_SESSION['idbruker'] . "', NOW())";
                 $nyArtikkelSTMT = $db->prepare($nyArtikkelQ);
                 $nyArtikkelSTMT->execute();
                 $artikkelid = $db->lastInsertId();
