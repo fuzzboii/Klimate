@@ -248,7 +248,7 @@ if (isset($_POST['loggUt'])) {
                             $mestKommenterte = $mestKommenterteSTMT->fetch(PDO::FETCH_ASSOC);
                         
                         echo($mestKommenterte['artnavn'])?></p>
-                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['mestKommenterte'])?>">Trykk her for å lese videre</a>
+                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
                     <article id="artikkel4">
                         <h2>Tilfeldig utvalgt</h2>
