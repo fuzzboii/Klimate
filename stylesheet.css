@@ -1639,6 +1639,7 @@ table {
  overflow: auto;
  margin-bottom: 2em;
 }
+
 .brukerBeskrivelse p{
   overflow-wrap: break-word;
 }
@@ -1686,7 +1687,6 @@ table {
 }
 
 .interesserTags {
-  
   padding-bottom: 0.5em;
 }
 
@@ -1764,7 +1764,6 @@ table {
 /* Input av interesse */
 .profil_input {
   margin-top: 0em;
-  
   margin-bottom: 0.5em;
   font-size: medium;
   padding: 0.4em;
@@ -1775,7 +1774,6 @@ table {
 
 .profil_inputTekst {
   margin-top: 0em;
-  
   margin-bottom: 0.5em;
   font-size: medium;
   padding: 0.4em;
@@ -1837,7 +1835,69 @@ table {
   font-style: italic;
 }
 
+/* Styling for toggle-knapper */
+/* https://www.w3schools.com/howto/howto_css_switch.asp */
+/* Bruker piksler her, fordi det oppstod en del trøbbel med resizing av de ulike elementene med em */
+/* Beholderen */
+.switch {
+  position: relative;
+  display: grid;
+  width: 60px;
+  height: 34px;
+  margin-bottom: 1em;
+  left: 14em;
+}
 
+/* Skjuler standard check-box */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slideren */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .25s;
+}
+
+input:checked + .slider {
+  background-color: rgb(126, 155, 153);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px rgb(126, 155, 153);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* avrunding av slideren */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for MELDINGER */

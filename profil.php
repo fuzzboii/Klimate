@@ -123,6 +123,34 @@ if (isset($_POST['endreBilde'])) {
     }
 }
 
+//----------------------//
+// Oppdater preferanser //
+//----------------------//
+if ($egen) {
+    if(isset($_POST['oppdaterPreferanser'])) {
+        // Opprett variabler for preferanser
+        if(isset($_POST['fnavnToggle'])) {
+            $visfnavnNy = "1";
+        } else $visfnavnNy = "0";
+        if(isset($_POST['enavnToggle'])) {
+            $visenavnNy = "1";
+        } else $visenavnNy = "0";
+        if(isset($_POST['epostToggle'])) {
+            $visepostNy = "1";
+        } else $visepostNy = "0";
+        if(isset($_POST['tlfToggle'])) {
+            $vistelefonnummerNy = "1";
+        } else $vistelefonnummerNy = "0";
+        $brukerNy = $_SESSION['idbruker'];
+
+        // Forsøk oppdatering
+        try {
+            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, visepost=?, vistelefonnummer=? where bruker=?";
+            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
+        } finally{}
+    }
+}
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
@@ -245,6 +273,18 @@ $hentPersonaliaProfil = "Select fnavn, enavn, epost, telefonnummer from bruker w
 $stmtPersonaliaProfil = $db->prepare($hentPersonaliaProfil);
 $stmtPersonaliaProfil->execute();
 $personaliaProfil = $stmtPersonaliaProfil->fetch(PDO::FETCH_ASSOC);
+
+//----------------------------------//
+// Henting av brukerens preferanser //
+//----------------------------------//
+$hentPreferanser = "Select * from preferanse where bruker = " . $_GET['bruker'];
+$stmtPreferanser = $db->prepare($hentPreferanser);
+$stmtPreferanser->execute();
+$preferanser = $stmtPreferanser->fetch(PDO::FETCH_ASSOC);
+if($preferanser['visfnavn'] == "1") $visfnavn = true;
+if($preferanser['visenavn'] == "1") $visenavn = true;
+if($preferanser['visepost'] == "1") $visepost = true;
+if($preferanser['vistelefonnummer'] == "1") $vistelefonnummer = true;
 
 //-----------------------//
 // Henting av interesser //
@@ -494,17 +534,50 @@ $tabindex = 10;
                         <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
                     </form>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
-                    <!-- <h3>Vis eller skjul personalia</h3> -->
-                    <!-- <section class="profil_persInf">     -->
-                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
-                        <!-- Ikke egen profil -->
-                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
-                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            <!-- <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p> -->
-                            <!-- <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p> -->
-                            <!-- <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p> -->
-                            <!-- <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p> -->
-                        <!-- </section> -->
+                    <!-- Del for visning av personalia -->
+                    <h2>Vis eller skjul personalia</h2>
+                    <section class="profil_persInf">
+                        <!-- Et skjema for å oppdatere preferanser -->
+                        <form name="preferanserForm" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <!-- Linje for fornavn -->
+                            <p class="personalia">Fornavn</p>
+                                <label class="switch">
+                                    <?php if(isset($visfnavn)) { ?>
+                                    <input type="checkbox" name="fnavnToggle" value="visFnavn" checked>
+                                    <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn">
+                                    <?php } ?>
+                                    <span class="slider round"></span>
+                                </label>
+                            <!-- Linje for etternavn -->
+                            <p class="personalia">Etternavn</p>
+                                <label class="switch">
+                                <?php if(isset($visenavn)) { ?>
+                                    <input type="checkbox" name="enavnToggle" value="visEnavn" checked>
+                                    <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn">
+                                    <?php } ?>
+                                    <span class="slider round"></span>
+                                </label>
+                            <!-- Linje for epostadresse -->
+                            <p class="personalia">E-Post Adresse</p>
+                                <label class="switch">
+                                <?php if(isset($visepost)) { ?>
+                                    <input type="checkbox" name="epostToggle" value="visEpost" checked>
+                                    <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost">
+                                    <?php } ?>
+                                    <span class="slider round"></span>
+                                </label>
+                            <!-- Linje for telefonnummer -->
+                            <p class="personalia">Telefonnummer</p>
+                                <label class="switch">
+                                <?php if(isset($vistelefonnummer)) { ?>
+                                    <input type="checkbox" name="tlfToggle" value="visTlf" checked>
+                                    <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf">
+                                    <?php } ?>
+                                    <span class="slider round"></span>
+                                </label>
+                                <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser"> 
+                        </form>
+                    </section>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>
@@ -625,22 +698,16 @@ $tabindex = 10;
                         <!-- --------------- -->
                         <h2>Oversikt</h2>
                         <section class="profil_persInf">
-                        
-                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
-                        <!-- Ikke egen profil -->
-                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
-                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            
-                            <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"])) { ?>
+                            <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"]) || $preferanser['visfnavn'] == "0") { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
-                            <p class="personalia">Etternavn:</p> <?php if(!isset($personaliaProfil["enavn"])) { ?>
+                            <p class="personalia">Etternavn:</p> <?php if(!isset($personaliaProfil["enavn"]) || $preferanser['visenavn'] == "0") { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["enavn"]) ?> </p> <?php } ?>
-                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($personaliaProfil["epost"])) { ?>
+                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($personaliaProfil["epost"]) || $preferanser['visepost'] == "0") { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["epost"]) ?> </p> <?php } ?>
-                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($personaliaProfil["telefonnummer"])) { ?>
+                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($personaliaProfil["telefonnummer"]) || $preferanser['vistelefonnummer'] == "0") { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["telefonnummer"]) ?> </p> <?php } ?>
                         </section>
@@ -672,7 +739,7 @@ $tabindex = 10;
                                 <!-- break; hvis vi har vist mange nok -->
                                 <?php if($teller > $max) { ?>
                                     <!-- POST en variabel som brukes til å angi max -->
-                                    <form name="visMer" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                    <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                         <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
                                     </form>
                                     <!-- break 2; bryter ut av begge løkkene -->
