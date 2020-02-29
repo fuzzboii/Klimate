@@ -137,14 +137,7 @@ if (isset($_POST['glemtPassord'])) {
                 <button onClick="location.href='logginn.php'" class="lenke_knapp">Tilbake til logg inn</button>
 
             </main>
-
-            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
-
-            <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
-            <footer>
-                <p class=footer_beskrivelse>&copy; Klimate <?php echo date("Y");?> | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
-            </footer>
+            <?php include("inkluderes/footer.php") ?>
         </article>
     </body>
 
