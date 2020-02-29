@@ -80,7 +80,6 @@ if(isset($_SESSION['idbruker'])) {
                             <?php }
                         } ?>
                     </a>
-
                 <?php } else { ?>
                     <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
                         <?php if ($_SESSION['brukertype'] == 2) {
@@ -97,14 +96,13 @@ if(isset($_SESSION['idbruker'])) {
                         <?php } ?>
                     </a>
 
-                <?php } ?>
-
-                <!-- Legger til en knapp for å logge ut når man er innlogget -->
+                <?php }
+                // Legger til en knapp for å logge ut når man er innlogget ?>
                 <form method="POST" action="default.php">
                     <button name="loggUt" id="registrerKnapp" tabindex="4">LOGG UT</button>
                 </form>
-            <?php } else { ?>
-                <!-- Vises når bruker ikke er innlogget -->
+            <?php } else {
+                // Vises når bruker ikke er innlogget ?>
                 <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="5">REGISTRER</button>
                 <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="4">LOGG INN</button>
             <?php } ?>
@@ -120,8 +118,7 @@ if(isset($_SESSION['idbruker'])) {
             <a href="default.php" tabindex="1">
                 <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
             </a>
-        
-            <!-- Slutt på navigasjonsmeny-->
+        <!-- Slutt på navigasjonsmeny-->
         </nav>
 
         <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
