@@ -250,12 +250,18 @@ footer a {
   float: right;
 
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   border-radius: 0 0.4em 0.4em 0; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+  
+  color: white;
+  text-shadow:
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
 }
 
 /* FOKUS TING */
@@ -795,7 +801,6 @@ td, th  {
   margin-left: auto; margin-right: auto;
   
   background-color: red; /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
   padding: 0.8em; /* hvor mye luft rundt teksten det skal være */
   margin-top: 0.6em;
   margin-bottom: 0.8em;
@@ -805,6 +810,13 @@ td, th  {
   width: 70%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+  
+  color: white;
+  text-shadow:
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
 }
 
 table {
@@ -970,6 +982,8 @@ table {
   background-color: rgb(200,218,211); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
   overflow: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
   transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
+  /* ------------------------------------------------------------------------------------- */
+  box-shadow: 0.0em 0.9em 0.7em -0.1em rgb(193, 196, 199); /* Skygge på rullegardinen */
 }
 
 /* Innholdet i menyen */
@@ -1228,29 +1242,25 @@ table {
 #arrangement_paameldt {
   background-color: rgba(36, 209, 100, 0.637); /* bakgrunnsfarge på knapp */
   color: rgb(0, 0, 0); /* tekstfarge */
-  margin: 0; margin-bottom: 1em; margin-top: 0.3em;
+  margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.5em;
   font-weight: normal; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 7em; /* Angir bredde på knappen */
   border-radius: 0.2em; /* Runder ut knappen */
   padding: 0.5em;
-  font-size: 1.0em; /* Font-størrelse */
-  float: right;
+  font-size: 0.9em; /* Font-størrelse */
 }
 
 #arrangement_paameld {
   background-color: rgb(207, 207, 207); /* bakgrunnsfarge på knapp */
   color: rgb(0, 0, 0); /* tekstfarge */
-  margin: 0; margin-bottom: 1em; margin-top: 0.3em;
+  margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.5em;
   font-weight: normal; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 7em; /* Angir bredde på knappen */
   border-radius: 0.2em; /* Runder ut knappen */
   padding: 0.5em;
-  font-size: 1.0em; /* Font-størrelse */
-  float: right;
+  font-size: 0.9em; /* Font-størrelse */
 }
 
 .arrangementInnhold_rFloatBilde {
@@ -1535,7 +1545,14 @@ table {
 }
 
 /* overskrifter */
+.argInf_interesserte h2  {
+  margin-bottom: 0.5em;
+  
+}
+#arrangement_brukere {
+  margin-top: 0.5em; margin-bottom: 0.5em;
 
+}
 
 #argInf_meta h2 {
   font-family: Helvetica, Arial, sans-serif;

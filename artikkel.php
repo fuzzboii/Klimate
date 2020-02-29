@@ -56,8 +56,6 @@ if (isset($_POST['publiserArtikkel'])) {
                     // Selve prosessen som flytter bildet til bestemt lagringsplass
                     if (move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn")) {
                         $harbilde = true;
-                    } else {
-                        // Feilmelding her
                     }
                 }
                 if ($harbilde == true) {
@@ -72,6 +70,23 @@ if (isset($_POST['publiserArtikkel'])) {
                     $nyKoblingQ = "insert into artikkelbilde(idartikkel, idbilde) values('" . $artikkelid . "', '" . $bildeid . "')";
                     $nyKoblingSTMT = $db->prepare($nyKoblingQ);
                     $nyKoblingSTMT->execute();
+
+                    // Del for å laste opp thumbnail
+                    $valgtbilde = getimagesize($lagringsplass . "/" . $bildenavn);
+                    $bildenavnMini = "thumb_" . $navn . $filtype;
+                    
+                    if(strtolower($valgtbilde['mime']) == "image/png") {
+                        $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
+                        $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                        imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                        imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
+
+                    } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
+                        $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
+                        $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                        imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                        imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
+                    }
                 }
 
                 header('Location: artikkel.php?artikkel=' . $artikkelid);
@@ -99,6 +114,14 @@ if (isset($_POST['slettDenne'])) {
             unlink("$lagringsplass/$testPaa");
         }
 
+        $navnMini = "thumb_" . $testPaa;
+        // Test på om miniatyrbildet finnes
+        if(file_exists("$lagringsplass/$navnMini")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMini");
+
+        }
+
         // Begynner med å slette referansen til bildet artikkelen har
         $slettBildeQ = "delete from artikkelbilde where idartikkel = " . $_POST['slettDenne'];
         $slettBildeSTMT = $db->prepare($slettBildeQ);
@@ -117,6 +140,22 @@ if (isset($_POST['slettDenne'])) {
             header('location: artikkel.php?slettingfeil');
         }
     }
+}
+                       
+
+// Del for å legge til en ny kommentar
+if(isset($_POST['sendKommentar'])) {
+
+    // Legger til en ny kommentar
+    $nyKommentarQ = "insert into kommentar(tekst, tid, bruker, artikkel)
+                        values('" . $_POST['tekst'] . "', 
+                            NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
+    $nyKommentarSTMT = $db->prepare($nyKommentarQ);
+    $nyKommentarSTMT->execute();
+    $sendt = $nyKommentarSTMT->rowCount();
+
+    header("Location: artikkel.php?artikkel=" . $_GET['artikkel']);
+
 }
 
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
@@ -348,18 +387,7 @@ $tabindex = 8;
                         /*------------------------------------*/
                         /*--Del for å kommentere en artikkel--*/
                         /*------------------------------------*/
-                        /*------------------------------------*/                        
-
-                        // Del for å legge til en ny kommentar
-                        if(isset($_POST['sendKommentar'])) {
-                            // Legger til en ny kommentar
-                            $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, brukernavn) 
-                                                values('" . $_POST['ingress'] . "', '" . $_POST['tekst'] . "', 
-                                                    NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
-                            $nyKommentarSTMT = $db->prepare($nyKommentarQ);
-                            $nyKommentarSTMT->execute();
-                            $sendt = $nyKommentarSTMT->rowCount();
-                        }
+                        /*------------------------------------*/ 
                         ?> 
                             <!-- Antall kommentarer av artikler -->                          
                             <section id="artikkel_kommentarOversikt"> 
@@ -375,7 +403,7 @@ $tabindex = 8;
 
                             <section id="artikkel_kommentarSeksjon">
                                 <!-- input kommentering felt -->
-                                <form method="POST" id="kommentar_form" action="artikkel.php">
+                                <form method="POST" id="kommentar_form" action="artikkel.php?artikkel=<?php echo($_GET['artikkel']) ?>">
                                     <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required></textarea>
                                     <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
                                 </form>
@@ -518,9 +546,14 @@ $tabindex = 8;
                                     <?php } else {
                                         // Tester på om filen faktisk finnes
                                         $testPaa = $resBilde['hvor'];
-                                        if(file_exists("$lagringsplass/$testPaa")) {  ?>  
-                                            <!-- Artikkeltbilde som resultat av spørring -->
-                                            <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                        if(file_exists("$lagringsplass/$testPaa")) { 
+                                            // Artikkeltbilde som resultat av spørring
+                                            if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                                <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                                <img class="BildeBoks_artikkel" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                            <?php } else { ?>
+                                                <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                            <?php } ?>
                                         <?php } else { ?>
                                             <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                     <?php }

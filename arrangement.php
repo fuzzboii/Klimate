@@ -87,6 +87,23 @@ if (isset($_POST['publiserArrangement'])) {
                                 $nyKoblingQ = "insert into eventbilde(event, bilde) values('" . $idevent . "', '" . $bildeid . "')";
                                 $nyKoblingSTMT = $db->prepare($nyKoblingQ);
                                 $nyKoblingSTMT->execute();
+
+                                // Del for å laste opp thumbnail
+                                $valgtbilde = getimagesize($lagringsplass . "/" . $bildenavn);
+                                $bildenavnMini = "thumb_" . $navn . $filtype;
+                                
+                                if(strtolower($valgtbilde['mime']) == "image/png") {
+                                    $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
+                                    $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                                    imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                                    imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
+
+                                } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
+                                    $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
+                                    $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                                    imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                                    imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
+                                }
                             }
                             
                             // Sletter innholdet så dette ikke eksisterer utenfor denne siden
@@ -105,13 +122,35 @@ if (isset($_POST['publiserArrangement'])) {
     } else { header('Location: arrangement.php?nyarrangement=error1'); } // Tittel tomt / for langt
 }
 
-if(isset($_POST['paameld'])) {
-    if($_POST['paameld'] == "Paameld") {
-        $paameldingQ = "insert into påmelding(event_id, bruker_id) values (" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ")";
-        $paameldingSTMT = $db->prepare($paameldingQ);
-        $paameldingSTMT->execute();
+if(isset($_POST['skal'])) {
+    if($_POST['skal'] == "Skal") {
+        $paameldingSkal = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Skal')" ;
+        $paameldingSkalSTMT = $db->prepare($paameldingSkal);
+        $paameldingSkalSTMT->execute();
 
-    } else if($_POST['paameld'] == "Paameldt") {
+    } 
+}
+
+if(isset($_POST['kanskje'])) {
+    if($_POST['kanskje'] == "Kanskje") {
+        $paameldingKanskje = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Kanskje')" ;
+        $paameldingKanskjeSTMT = $db->prepare($paameldingKanskje);
+        $paameldingKanskjeSTMT->execute();
+
+    } 
+}
+
+if(isset($_POST['kanIkke'])) {
+    if($_POST['kanIkke'] == "KanIkke") {
+        $paameldingKanIkke = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Kan ikke')" ;
+        $paameldingKanIkkeSTMT = $db->prepare($paameldingKanIkke);
+        $paameldingKanIkkeSTMT->execute();
+
+    } 
+}
+
+if(isset($_POST['paameld'])) {
+     if($_POST['paameld'] == "Paameldt") {
         $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
         $avmeldingSTMT = $db->prepare($avmeldingQ);
         $avmeldingSTMT->execute();
@@ -133,6 +172,14 @@ if (isset($_POST['slettDenne'])) {
         if(file_exists("$lagringsplass/$testPaa")) {
             // Sletter bildet
             unlink("$lagringsplass/$testPaa");
+        }
+
+        $navnMini = "thumb_" . $testPaa;
+        // Test på om miniatyrbildet finnes
+        if(file_exists("$lagringsplass/$navnMini")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMini");
+
         }
 
         // Begynner med å slette referansen til bildet arrangementet har
@@ -353,7 +400,7 @@ $tabindex = 8;
                 <?php } else { 
                     // Del for å vise et spesifikt arrangement
                     // Henter bilde fra database utifra eventid
-                    $hentBilde = "select hvor from event, eventbilde, bilder where idevent = " . $_GET['arrangement'] . " and idevent = event and bilde = idbilder";
+                    $hentBilde = "select hvor from eventbilde, bilder where eventbilde.event = " . $_GET['arrangement'] . " and eventbilde.bilde = bilder.idbilder";
                     $stmtBilde = $db->prepare($hentBilde);
                     $stmtBilde->execute();
                     $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -378,18 +425,42 @@ $tabindex = 8;
                             <?php } else { ?>
                                 <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                             <?php } ?>
+                            
+                            <?php 
+                            $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] ;
+                            $interesserteSTMT = $db->prepare($interesserte);
+                            $interesserteSTMT->execute();
+                            $antallInteresserte = $interesserteSTMT->rowCount();
+                            ?>
+                            <section class="argInf_interesserte">
+                                <img class="arrangementInnhold_rFloatBilde" src="bilder/interesserteIkon.png">
+                                <h2>Interesserte brukere</h2>
+                                <p id="arrangement_brukere"><?php echo($antallInteresserte) ?> brukere</p>
+                            </section>
                             <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <?php if(isset($_SESSION['idbruker'])) {
-                                    $hentPaameldteQ = "select bruker_id from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
+                                    $hentPaameldteQ = "select bruker_id, interessert from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
                                     $hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
                                     $hentPaameldteSTMT->execute();
-                                    $paameldt = $hentPaameldteSTMT->rowCount();
+                                    $paameldt = $hentPaameldteSTMT->fetch(PDO::FETCH_ASSOC);
+                                    
 
-                                    if($paameldt > 0) { ?>
-                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Påmeldt</button>
+                                    if($paameldt['interessert'] == "Skal") { ?>
+                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
+                                    
+                                    <?php } else if ($paameldt['interessert'] == "Kanskje") { ?>
+                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
+                                    
+                                    <?php } else if ($paameldt['interessert'] == "Kan ikke") { ?>
+                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>
+                                    
                                     <?php } else { ?>
-                                        <button id="arrangement_paameld" name="paameld" value="Paameld">Påmeld</button>
-                                <?php } } ?>
+                                        <button id="arrangement_paameld" name="skal" value="Skal" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeldSkal('Paameld')">Skal</button>
+                                        <button id="arrangement_paameld" name="kanskje" value="Kanskje" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kanskje</button>
+                                        <button id="arrangement_paameld" name="kanIkke" value="KanIkke" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kan ikke</button>       
+                                <?php 
+                                 } 
+                                 } ?>
                             </form>
                             
                             <section class="argInf_dato">
@@ -559,9 +630,14 @@ $tabindex = 8;
                                 <?php } else {
                                     // Tester på om filen faktisk finnes
                                     $testPaa = $resBilde['hvor'];
-                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>  
-                                        <!-- Arrangementbilde som resultat av spørring -->
-                                        <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    if(file_exists("$lagringsplass/$testPaa")) {  
+                                        //Arrangementbilde som resultat av spørring
+                                        if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                            <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                            <img class="arrangement_BildeBoks" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                        <?php } else { ?>
+                                            <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                        <?php } ?>
                                     <?php } else { ?>
                                         <img class="arrangement_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                     <?php }

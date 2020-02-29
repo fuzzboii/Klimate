@@ -214,13 +214,13 @@ if (isset($_POST['loggUt'])) {
                             // Henter artikler fra database //
                             //------------------------------//
 
-                            // Henter artikler fra database, sorterer på høyeste artikkelID og viser denne (Siden vi ikke har dato)
-                            $hentNyesteQ = "select idartikkel, artingress from artikkel order by idartikkel DESC limit 1";
+                            // Henter artikler fra database, sorterer på tid og viser denne
+                            $hentNyesteQ = "select idartikkel, artnavn, tid from artikkel order by tid DESC limit 1";
                             $hentNyesteSTMT = $db->prepare($hentNyesteQ);
                             $hentNyesteSTMT->execute();
                             $nyesteArtikkel = $hentNyesteSTMT->fetch(PDO::FETCH_ASSOC); 
                         
-                        echo($nyesteArtikkel['artingress'])?></p>
+                        echo($nyesteArtikkel['artnavn'])?></p>
                         
                         <a href="artikkel.php?artikkel=<?php echo($nyesteArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
@@ -233,8 +233,22 @@ if (isset($_POST['loggUt'])) {
                     <article id="artikkel3">
                         <h2>Mest kommentert</h2>
                         <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                        <p>Svenske Greta Thunberg (16) nominert til Nobels fredspris</p>
-                        <a href="#">Trykk her for å lese videre</a>
+                        <p><?php 
+                            //--------------------------------------//
+                            // Henter mest kommenterte fra database //
+                            //--------------------------------------//
+
+                            // Henter artikler fra database, sorterer på høyeste antall og viser denne
+                            $mestKommenterteQ = "select count(idkommentar) as antall, idartikkel, artnavn from kommentar, artikkel
+                                                where kommentar.artikkel = artikkel.idartikkel
+                                                group by idartikkel
+                                                order by antall DESC limit 1";
+                            $mestKommenterteSTMT = $db->prepare($mestKommenterteQ);
+                            $mestKommenterteSTMT->execute();
+                            $mestKommenterte = $mestKommenterteSTMT->fetch(PDO::FETCH_ASSOC);
+                        
+                        echo($mestKommenterte['artnavn'])?></p>
+                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
                     <article id="artikkel4">
                         <h2>Tilfeldig utvalgt</h2>
@@ -244,12 +258,12 @@ if (isset($_POST['loggUt'])) {
                             //------------------------------//
 
                             // Denne sorterer tilfeldig og begrenser resultatet til en artikkel
-                            $hentTilfeldig = "select idartikkel, artingress from artikkel order by RAND() limit 1";
+                            $hentTilfeldig = "select idartikkel, artnavn from artikkel order by RAND() limit 1";
                             $stmtTilfeldig = $db->prepare($hentTilfeldig);
                             $stmtTilfeldig->execute();
                             $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC); 
                         
-                        echo($tilfeldigArtikkel['artingress'])?></p>
+                        echo($tilfeldigArtikkel['artnavn'])?></p>
                         
                         <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>

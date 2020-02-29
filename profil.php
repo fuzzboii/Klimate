@@ -32,35 +32,68 @@ if (isset($_POST['endreBilde'])) {
     if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
         // Kombinerer bruker med idbruker
         $navn = "bruker" . $_SESSION['idbruker'];
+        $navnMini = "thumb_" . $navn;
         // Henter filtypen
         $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
         // Kombinerer navnet med filtypen
         $bildenavn = $navn . $filtype;
-        // Opprettet filnavnet for bildet som skal slettes, setter denne til tom streng hvis ikke bruker har profilbilde fra før
-        $bildenavnGammelt = "";
+        
         // Selve prosessen som flytter bildet til bestemt lagringsplass
         // Test om det finnes en fil med samme navn
         // Opprett navn med de 3 ulike filtypene
         $navnjpg = $navn . ".jpg";
         $navnjpeg = $navn . ".jpeg";
         $navnpng = $navn . ".png";
-        // Test på .jpg
+        // Test på om bildet finnes
         if(file_exists("$lagringsplass/$navnjpg")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpg");
-            $bildenavnGammelt = $navn . ".jpg";
-        } elseif(file_exists("$lagringsplass/$navnjpeg")) { // ... .jpeg
+
+        } elseif(file_exists("$lagringsplass/$navnjpeg")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpeg");
-            $bildenavnGammelt = $navn . ".jpeg";
-        } elseif (file_exists("$lagringsplass/$navnpng")) { // ... .png
+
+        } elseif (file_exists("$lagringsplass/$navnpng")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnpng");
-            $bildenavnGammelt = $navn . ".png";
         }
-        // Last opp
+        // Flytt bildet fra temp til opplastet
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
 
+        
+        $navnMinijpg = "thumb_" . $navnjpg;
+        $navnMinijpeg = "thumb_" . $navnjpeg;
+        $navnMinipng = "thumb_" . $navnpng;
+        // Test på om miniatyrbildet finnes
+        if(file_exists("$lagringsplass/$navnMinijpg")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinijpg");
+
+        } elseif(file_exists("$lagringsplass/$navnMinijpeg")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinijpeg");
+
+        } elseif (file_exists("$lagringsplass/$navnMinipng")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinipng");
+        }
+
+        // Del for å laste opp thumbnail
+        $valgtbilde = getimagesize($lagringsplass . "/" . $bildenavn);
+        $bildenavnMini = "thumb_" . $navn . $filtype;
+        
+        if(strtolower($valgtbilde['mime']) == "image/png") {
+            $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
+            $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+            imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+            imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
+
+        } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
+            $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
+            $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+            imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+            imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
+        }
         
         // Test om brukeren har et bilde fra før
         $hentBilde = "select idbilder, hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";

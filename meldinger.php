@@ -344,8 +344,14 @@ if(isset($_POST['gjenopprettMelding'])) {
                             <?php if ($funnetSenderBilde != 0) {
                                 $testPaa = $senderBilde['hvor'];
                                 // Tester på om filen faktisk finnes
-                                if(file_exists("$lagringsplass/$testPaa")) { ?> 
-                                    <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                if(file_exists("$lagringsplass/$testPaa")) {
+                                    // Profilbilde som resultat av spørring
+                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
+                                        // Hvis vi finner et miniatyrbilde bruker vi det ?>
+                                        <img id="meldinger_sender_bilde" src="bilder/opplastet/thumb_<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } else { ?>
+                                        <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } ?>
                                 <?php } else { ?>
                                     <img id="meldinger_sender_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                 <?php } ?>
@@ -477,8 +483,14 @@ if(isset($_POST['gjenopprettMelding'])) {
                                     <?php if($funnetMottakerBilde > 0) {
                                         $testPaa = $mottakerBilde['hvor'];
                                         // Tester på om filen faktisk finnes
-                                        if(file_exists("$lagringsplass/$testPaa")) { ?> 
-                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($mottakerBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                        if(file_exists("$lagringsplass/$testPaa")) {
+                                            // Profilbilde som resultat av spørring
+                                            if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
+                                                // Hvis vi finner et miniatyrbilde bruker vi det ?>
+                                                <img class="meldinger_innboks_bilde" src="bilder/opplastet/thumb_<?php echo($mottakerBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                            <?php } else { ?>
+                                                <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($mottakerBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                            <?php } ?>
                                         <?php } else { ?>
                                             <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                         <?php } ?>
@@ -553,8 +565,14 @@ if(isset($_POST['gjenopprettMelding'])) {
                                     <?php if($funnetSenderBilde > 0) {
                                         $testPaa = $senderBilde['hvor'];
                                         // Tester på om filen faktisk finnes
-                                        if(file_exists("$lagringsplass/$testPaa")) { ?> 
-                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                        if(file_exists("$lagringsplass/$testPaa")) {
+                                            // Profilbilde som resultat av spørring
+                                            if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
+                                                // Hvis vi finner et miniatyrbilde bruker vi det ?>
+                                                <img class="meldinger_innboks_bilde" src="bilder/opplastet/thumb_<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                            <?php } else { ?>
+                                                <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                            <?php } ?>
                                         <?php } else { ?>
                                             <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                         <?php } ?>
@@ -653,8 +671,14 @@ if(isset($_POST['gjenopprettMelding'])) {
                                     if($funnetSenderBilde > 0) {
                                         $testPaa = $senderBilde['hvor'];
                                         // Tester på om filen faktisk finnes
-                                        if(file_exists("$lagringsplass/$testPaa")) { ?> 
-                                            <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                        if(file_exists("$lagringsplass/$testPaa")) {
+                                            // Profilbilde som resultat av spørring
+                                            if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
+                                                // Hvis vi finner et miniatyrbilde bruker vi det ?>
+                                                <img class="meldinger_innboks_bilde" src="bilder/opplastet/thumb_<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                            <?php } else { ?>
+                                                <img class="meldinger_innboks_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                            <?php } ?>
                                         <?php } else { ?>
                                             <img class="meldinger_innboks_bilde" src="bilder/profil.png" alt="Standard profilbilde">
                                         <?php } ?>
