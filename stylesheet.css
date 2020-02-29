@@ -721,6 +721,12 @@ footer a {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for KONTO, REDIGER */
+#konto_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
 
 /* Brukeropplysninger */
 #konto_main {
@@ -1639,7 +1645,7 @@ table {
 .bildeKontroll {
   margin-left: auto;
   margin-right: auto;
-  width: 10em;;
+  width: 10em;
   
 }
 .profil_header {
