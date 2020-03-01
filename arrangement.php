@@ -320,7 +320,8 @@ $tabindex = 8;
                     }?>
          
                     <header class="arrangement_header" onclick="lukkHamburgerMeny()">
-                            <h1>Inviter brukere</h1>    
+                            <h1>Inviter brukere</h1>
+                            <p></p>  
                     </header>
 
                     <section class="påmeldt_header">

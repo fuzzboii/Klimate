@@ -1313,7 +1313,7 @@ margin-right: auto;
   background-color: rgba(166, 173, 169, 0.637);
   height: 3em;
   display: grid;
-  grid-template-columns: 3em 6em 6em;
+  grid-template-columns: 3em 7em 6em;
   margin: 0.5em;
 }
 
@@ -1334,6 +1334,17 @@ margin-right: auto;
   
  
   
+}
+.InvBruker {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  border: none;
+  margin-top: 0.7em;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 4em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 #profilPåmeldt {
   height: 2.3em;
@@ -2838,6 +2849,10 @@ input:checked + .slider:before {
     background-color: rgb(145, 0, 0); /* Fargeendring/hover ved å holde over knappen */
   }
   
+  .InvBruker:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+  }
   /* Hover innstillinger for slett arrangement knapp */
   #konto_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover {
     cursor: pointer;
