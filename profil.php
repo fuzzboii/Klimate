@@ -144,11 +144,17 @@ if ($egen) {
         $brukerNy = $_SESSION['idbruker'];
 
         // Forsøk oppdatering
-        try {
-            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, visepost=?, vistelefonnummer=? where bruker=?";
+        $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, visepost=?, vistelefonnummer=? where bruker=?";
+        $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+        $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
+
+        // Test om oppdateringen virket
+        $test = $stmtOppdaterPreferanse->fetch(PDO::FETCH_ASSOC);
+        if(!$test) {
+            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) values(?, ?, ?, ?, ?)";
             $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
             $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
-        } finally{}
+        }
     }
 }
 
@@ -281,16 +287,18 @@ $hentPreferanser = "Select * from preferanse where bruker = " . $_GET['bruker'];
 $stmtPreferanser = $db->prepare($hentPreferanser);
 $stmtPreferanser->execute();
 $preferanser = $stmtPreferanser->fetch(PDO::FETCH_ASSOC);
-if($preferanser['visfnavn'] == "1") $visfnavn = true;
-if($preferanser['visenavn'] == "1") $visenavn = true;
-if($preferanser['visepost'] == "1") $visepost = true;
-if($preferanser['vistelefonnummer'] == "1") $vistelefonnummer = true;
+
+if($preferanser) {
+    if($preferanser['visfnavn'] == "1") $visFnavn = true;
+    if($preferanser['visenavn'] == "1") $visEnavn = true;
+    if($preferanser['visepost'] == "1") $visEpost = true;
+    if($preferanser['vistelefonnummer'] == "1") $visTlf = true;
+}
 
 //-----------------------//
 // Henting av interesser //
 //-----------------------//
-$hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = "
-                        . $_GET['bruker'] . " and brukerinteresse.interesse=interesse.idinteresse;";
+$hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = " . $_GET['bruker'] . " and brukerinteresse.interesse=interesse.idinteresse";
 $stmtInteresseProfil = $db->prepare($hentInteresseProfil);
 $stmtInteresseProfil->execute();
 $tellingInteresse = $stmtInteresseProfil->rowcount();
@@ -412,7 +420,7 @@ $tabindex = 10;
                             <!-- Linje for fornavn -->
                             <p class="personalia">Fornavn</p>
                                 <label class="switch">
-                                    <?php if(isset($visfnavn)) { ?>
+                                    <?php if(isset($visFnavn)) { ?>
                                     <input type="checkbox" name="fnavnToggle" value="visFnavn" checked>
                                     <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn">
                                     <?php } ?>
@@ -421,7 +429,7 @@ $tabindex = 10;
                             <!-- Linje for etternavn -->
                             <p class="personalia">Etternavn</p>
                                 <label class="switch">
-                                <?php if(isset($visenavn)) { ?>
+                                <?php if(isset($visEnavn)) { ?>
                                     <input type="checkbox" name="enavnToggle" value="visEnavn" checked>
                                     <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn">
                                     <?php } ?>
@@ -430,7 +438,7 @@ $tabindex = 10;
                             <!-- Linje for epostadresse -->
                             <p class="personalia">E-Post Adresse</p>
                                 <label class="switch">
-                                <?php if(isset($visepost)) { ?>
+                                <?php if(isset($visEpost)) { ?>
                                     <input type="checkbox" name="epostToggle" value="visEpost" checked>
                                     <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost">
                                     <?php } ?>
@@ -439,7 +447,7 @@ $tabindex = 10;
                             <!-- Linje for telefonnummer -->
                             <p class="personalia">Telefonnummer</p>
                                 <label class="switch">
-                                <?php if(isset($vistelefonnummer)) { ?>
+                                <?php if(isset($visTlf)) { ?>
                                     <input type="checkbox" name="tlfToggle" value="visTlf" checked>
                                     <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf">
                                     <?php } ?>
@@ -564,22 +572,22 @@ $tabindex = 10;
                         
                         
                         
-                        <!-- --------------- -->
-                        <!-- BRUKERINFO ---- -->
-                        <!-- --------------- -->
+                        <!---------------->
+                        <!-- BRUKERINFO -->
+                        <!---------------->
                         <h2>Oversikt</h2>
                         <section class="profil_persInf">
-                            <p class="personalia">Fornavn:</p> <?php if(!isset($personaliaProfil["fnavn"]) || $preferanser['visfnavn'] == "0") { ?>
+                            <p class="personalia">Fornavn:</p> <?php if(!isset($visFnavn)) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
-                            <p class="personalia">Etternavn:</p> <?php if(!isset($personaliaProfil["enavn"]) || $preferanser['visenavn'] == "0") { ?>
+                            <p class="personalia">Etternavn:</p> <?php if(!isset($visEnavn)) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["enavn"]) ?> </p> <?php } ?>
-                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($personaliaProfil["epost"]) || $preferanser['visepost'] == "0") { ?>
+                            <p class="personalia">E-Post Adresse:</p> <?php if(!isset($visEpost)) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["epost"]) ?> </p> <?php } ?>
-                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($personaliaProfil["telefonnummer"]) || $preferanser['vistelefonnummer'] == "0") { ?>
-                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                            <p class="personalia">Telefonnummer:</p> <?php if(!isset($visTlf)) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p> 
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["telefonnummer"]) ?> </p> <?php } ?>
                         </section>
                     </section>    
