@@ -282,7 +282,13 @@ $tabindex = 8;
 
                                 <p id="ForfatterSkrevetAv">Skrevet av </p>
                                 <a id="ForfatterTilBruker" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($navn)?></a>
-                                <p class="artikkelTid"><?php echo(date_format(date_create($artikkel['tid']), "j F Y H:i")) ?></p>
+                                
+                                <?php setlocale(LC_ALL, "no, NO"); 
+                                $dato=($artikkel['tid']);
+                                ?>
+
+                                
+                                <p class="artikkelTid"><?php echo strftime("%A, %e %B %Y", date_create($dato)->getTimestamp()) ?></p>
                             </section>
                         <?php
 
