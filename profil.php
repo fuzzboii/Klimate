@@ -389,7 +389,7 @@ $tabindex = 10;
             <!-- ---------------------------------------------------- -->
             <!-- Tester på om rediger brukerinnstilinger er påklikket -->
             <!-- ---------------------------------------------------- -->
-            <?php if(isset($_GET['innstillinger'])) { ?>
+            <?php if(isset($_GET['innstillinger']) && $egen) { ?>
                 <header class="profil_header" onclick="lukkHamburgerMeny()">
                     
                 </header>
@@ -404,6 +404,7 @@ $tabindex = 10;
                     </form>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for visning av personalia -->
+                    <?php if($egen) { ?>
                     <h2>Vis eller skjul personalia</h2>
                     <section class="profil_persInf">
                         <!-- Et skjema for å oppdatere preferanser -->
@@ -447,6 +448,7 @@ $tabindex = 10;
                                 <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser"> 
                         </form>
                     </section>
+                    <?php } ?>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                 <?php if($egen) { ?>

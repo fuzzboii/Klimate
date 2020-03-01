@@ -721,6 +721,11 @@ footer a {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for KONTO, REDIGER */
+#konto_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
 /* Brukeropplysninger */
 #konto_main {
@@ -773,14 +778,16 @@ td, th  {
   background-color: white;
   z-index: 1; /* Sitter over det andre innholdet */
   position: fixed;
-  top: 0; 
-  margin-top: 6em;
-  max-width: 245px;
-  box-shadow: 0 0 0.2em 0.01em black;
+  top: 0; left: 0; right: 0; bottom: 0;
+  margin-top: 15%; margin-bottom: 40%;
+  margin-left: 5%; margin-right: 5%;
+  transition: margin 0.3s;
+  box-shadow: 0 0 0 20em rgba(0, 0, 0, 0.658);
+  min-height: 20em;
 }
 
 #konto_bekreftAvrInnhold {
-  margin-left: 0.4em; margin-right: 0.4em;
+  margin-left: 20%; margin-right: 20%;
   margin-bottom: 0.5em;
   text-align: center;
 }
@@ -817,7 +824,7 @@ td, th  {
   
   background-color: red; /* bakgrunnsfarge for registrerknapp */
   padding: 0.8em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 0.6em;
+  margin-top: 1.6em;
   margin-bottom: 0.8em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
@@ -1681,7 +1688,7 @@ margin-right: auto;
 .bildeKontroll {
   margin-left: auto;
   margin-right: auto;
-  width: 10em;;
+  width: 10em;
   
 }
 .profil_header {
@@ -2548,6 +2555,14 @@ input:checked + .slider:before {
     height: 5em;
   }
 
+  /* Del for Konto */
+  #konto_bekreftAvr {
+    margin-top: 5em; margin-bottom: 15em;
+    margin-left: 10em; margin-right: 10em;
+    transition: margin 0.3s;
+    box-shadow: 0 0 0 40em rgba(0, 0, 0, 0.658);
+  }
+
 }
 
 /* Laptop / Liten skjerm, 720p */
@@ -2592,6 +2607,15 @@ input:checked + .slider:before {
   .RegInnFelt_knappRegistrer:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+
+  /* Del for Konto */
+  #konto_bekreftAvr {
+    margin-top: 7em; margin-bottom: 15em;
+    margin-left: auto; margin-right: auto;
+    max-width: 50em;
+    transition: margin 0.3s;
+    box-shadow: 0 0 0 100em rgba(0, 0, 0, 0.658);
   }
   
   /* Hover innstillinger for rediger konto knapp */

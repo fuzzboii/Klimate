@@ -266,183 +266,181 @@ if (isset($_POST['subEndring'])) {
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-    <body>
-        <article class="innhold">
-            <?php include("inkluderes/navmeny.php") ?>
+    <body id="konto_body">
+        <?php include("inkluderes/navmeny.php") ?>
 
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header class="konto_header" onclick="lukkHamburgerMeny()">
-                <h1>Konto</h1>
-            </header>
+        <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+        <!-- Kan ikke legge denne direkte i body -->
+        <header class="konto_header" onclick="lukkHamburgerMeny()">
+            <h1>Konto</h1>
+        </header>
 
-            <!-- Meldinger til bruker -->
-            <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
-                <p id="mldOK">Konto oppdatert</p>  
+        <!-- Meldinger til bruker -->
+        <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
+            <p id="mldOK">Konto oppdatert</p>  
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                <p id="mldFEIL">Du må oppgi et passord ved avregistrering.</p>
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+            <p id="mldFEIL">Du må oppgi et passord ved avregistrering.</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                <p id="mldFEIL">Kunne ikke oppdatere konto, vennligst prøv igjen senere</p>  
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+            <p id="mldFEIL">Kunne ikke oppdatere konto, vennligst prøv igjen senere</p>  
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                <p id="mldFEIL">Feil passord skrevet ved avregistrering</p>
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+            <p id="mldFEIL">Feil passord skrevet ved avregistrering</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                <p id="mldFEIL">Du kan ikke avregistrere en administrator</p>  
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+            <p id="mldFEIL">Du kan ikke avregistrere en administrator</p>  
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                <p id="mldFEIL">Passordene er ikke like</p>
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+            <p id="mldFEIL">Passordene er ikke like</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 6){ ?>
-                <p id="mldFEIL">Skriv inn et passord</p>
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 6){ ?>
+            <p id="mldFEIL">Skriv inn et passord</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
-                <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
+            <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 8){ ?>
-                <p id="mldFEIL">Brukernavnet er opptatt</p>    
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 8){ ?>
+            <p id="mldFEIL">Brukernavnet er opptatt</p>    
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 9){ ?>
-                <p id="mldFEIL">Epost er ikke gyldig</p>    
+        <?php } else if(isset($_GET['error']) && $_GET['error'] == 9){ ?>
+            <p id="mldFEIL">Epost er ikke gyldig</p>    
 
-            <?php } ?>
+        <?php } ?>
 
-            <?php if(isset($_POST['rediger'])) { ?>
-                <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
-                    <section class="brukerinformasjon_rediger"> 
-                        <!-- Underoverskrift -->
-                        <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
+        <?php if(isset($_POST['rediger'])) { ?>
+            <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
+                <section class="brukerinformasjon_rediger"> 
+                    <!-- Underoverskrift -->
+                    <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
 
-                        
-                        <form id="konto_rediger_formSlett" method="POST" action="konto.php" name="slettInfo">
+                    
+                    <form id="konto_rediger_formSlett" method="POST" action="konto.php" name="slettInfo">
 
-                        </form>
-                        
-                        <!-- Felt for brukeropplysning endringer -->
-                        <form id="konto_rediger_form" method="POST" action="konto.php" class="konto_rediger_Form">
-                            <!-- Brukernavn -->
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_bruker_overskrift">Endre brukernavn</h3>
-                                <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Nytt brukernavn" autofocus>
-                            </section>
-                            <!-- Epost -->
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_bruker_overskrift">Endre epost</h3>
-                                <input type="email" class="KontoredigeringFelt" name="nyepost" value="<?php echo($input_epost) ?>" placeholder="Ny epost">
-                            </section>    
-                            <!-- Fornavn -->
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_bruker_overskrift">Endre fornavn</h3>
-                                <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn">
-                            </section>
-                            <!-- Etternavn -->
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_bruker_overskrift">Endre etternavn</h3>
-                                <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn">
-                            </section>
-                            <!-- Telefonnummer -->
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_bruker_overskrift">Endre telefonnummer</h3>
-                                <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php echo($input_telefonnummer) ?>" placeholder="Nytt telefonnummer">
-                            </section>
-                            
-                        </form>
-
-                        <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
-                        <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
-                        <section id="konto_rediger_pw" class="innholdRullegardin">
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_bruker_overskrift">Gammelt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" form="konto_rediger_form" autofocus>
-                            </section>
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_bruker_overskrift">Nytt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord" form="konto_rediger_form">
-                            </section>
-                            <section class="konto_rediger_inputBoks">
-                                <h3 class="endre_bruker_overskrift">Bekreft nytt passord</h3>
-                                <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form">
-                            </section>
-                            <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
+                    </form>
+                    
+                    <!-- Felt for brukeropplysning endringer -->
+                    <form id="konto_rediger_form" method="POST" action="konto.php" class="konto_rediger_Form">
+                        <!-- Brukernavn -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Endre brukernavn</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Nytt brukernavn" autofocus>
                         </section>
-
-                        <!-- Knapp for å lagre endringer -->
-                        <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer" form="konto_rediger_form">
-
-                        <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                            <p id="mldFEIL">Passordene er ikke like</p>
+                        <!-- Epost -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Endre epost</h3>
+                            <input type="email" class="KontoredigeringFelt" name="nyepost" value="<?php echo($input_epost) ?>" placeholder="Ny epost">
+                        </section>    
+                        <!-- Fornavn -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Endre fornavn</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn">
+                        </section>
+                        <!-- Etternavn -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Endre etternavn</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn">
+                        </section>
+                        <!-- Telefonnummer -->
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Endre telefonnummer</h3>
+                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php echo($input_telefonnummer) ?>" placeholder="Nytt telefonnummer">
+                        </section>
                         
-                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                            <p id="mldFEIL">Skriv inn et passord</p>
-                        
-                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                            <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                    </form>
 
-                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                            <p id="mldFEIL">Brukernavnet er opptatt</p>    
-
-                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                            <p id="mldFEIL">Epost er ikke gyldig</p>    
-                        <?php } ?>
-                        <!-- Sender brukeren tilbake til forsiden -->
-                        <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
+                    <!-- Passord: gammelt, nytt, bekreft (Rullegardin) -->
+                    <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
+                    <section id="konto_rediger_pw" class="innholdRullegardin">
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Gammelt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" form="konto_rediger_form" autofocus>
+                        </section>
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Nytt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord" form="konto_rediger_form">
+                        </section>
+                        <section class="konto_rediger_inputBoks">
+                            <h3 class="endre_bruker_overskrift">Bekreft nytt passord</h3>
+                            <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form">
+                        </section>
+                        <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
                     </section>
-                </main>
-            <?php } else { ?>
-                <!-- Konto brukeropplysninger -->
-                <main id="konto_main" onclick="lukkHamburgerMeny()">
-                    <section class="brukerinformasjon">
-                        <table class="brukerinformasjon_tabell">
-                            <!-- Brukernavn output -->
-                            <tr>
-                                <th>Brukernavn:</th>
-                                    <td><?php echo($_SESSION['brukernavn']) ?></td>
-                            <!-- Epost output -->
-                            <tr>
-                                <th>Epost:</th>
-                                    <td><?php echo($_SESSION['epost']) ?></td>
-                            </tr>  
-                            <!-- Fornavn output -->
-                            <tr>
-                                <th>Fornavn:</th>
-                                    <td><?php echo($_SESSION['fornavn']) ?></td>
-                            </tr>
-                            <!-- Etternavn output -->
-                            <tr>
-                                <th>Etternavn:</th>
-                                    <td><?php echo($_SESSION['etternavn']) ?></td>
-                            </tr>
-                            <!-- Telefonnummer output -->
-                            <tr>
-                                <th>Telefonnummer:</th>
-                                    <td><?php echo($_SESSION['telefonnummer']) ?></td>
-                            </tr>
-                        
-                        </table>
-                        <form method="POST" action="konto.php">
-                            <input type="submit" name="rediger" class="rediger_konto_knapp" value="Rediger konto">
-                        </form>
-                        
-                        <button onclick="bekreftMelding('konto_bekreftAvr')" class="konto_avregistrer" id="konto_avregistrerKnapp">Avregistrering</button>
 
-                        <section id="konto_bekreftAvr" style="display: none;">
-                            <section id="konto_bekreftAvrInnhold">
-                                <h2>Avregistrering</h2>
-                                <p>Er du sikker på av du vil avregistrere?</p>
-                                <form method="POST" action="konto.php">
-                                    <input type="password" id="konto_avregistrerpassord" name="passord" placeholder="Oppgi passord" title="Oppgi passordet ditt for å bekrefte avregistrering" required>
-                                    <button id="konto_avregistrerKnapp" name="avregistrerMeg">Avregistrer</button>
-                                </form>
-                                <button id="konto_avbrytKnapp" onclick="bekreftMelding('konto_bekreftAvr')">Avbryt</button>
-                            </section>
+                    <!-- Knapp for å lagre endringer -->
+                    <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer" form="konto_rediger_form">
+
+                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                        <p id="mldFEIL">Passordene er ikke like</p>
+                    
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                        <p id="mldFEIL">Skriv inn et passord</p>
+                    
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
+                        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                        <p id="mldFEIL">Brukernavnet er opptatt</p>    
+
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                        <p id="mldFEIL">Epost er ikke gyldig</p>    
+                    <?php } ?>
+                    <!-- Sender brukeren tilbake til forsiden -->
+                    <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
+                </section>
+            </main>
+        <?php } else { ?>
+            <!-- Konto brukeropplysninger -->
+            <main id="konto_main" onclick="lukkHamburgerMeny()">
+                <section class="brukerinformasjon">
+                    <table class="brukerinformasjon_tabell">
+                        <!-- Brukernavn output -->
+                        <tr>
+                            <th>Brukernavn:</th>
+                                <td><?php echo($_SESSION['brukernavn']) ?></td>
+                        <!-- Epost output -->
+                        <tr>
+                            <th>Epost:</th>
+                                <td><?php echo($_SESSION['epost']) ?></td>
+                        </tr>  
+                        <!-- Fornavn output -->
+                        <tr>
+                            <th>Fornavn:</th>
+                                <td><?php echo($_SESSION['fornavn']) ?></td>
+                        </tr>
+                        <!-- Etternavn output -->
+                        <tr>
+                            <th>Etternavn:</th>
+                                <td><?php echo($_SESSION['etternavn']) ?></td>
+                        </tr>
+                        <!-- Telefonnummer output -->
+                        <tr>
+                            <th>Telefonnummer:</th>
+                                <td><?php echo($_SESSION['telefonnummer']) ?></td>
+                        </tr>
+                    
+                    </table>
+                    <form method="POST" action="konto.php">
+                        <input type="submit" name="rediger" class="rediger_konto_knapp" value="Rediger konto">
+                    </form>
+                    
+                    <button onclick="bekreftMelding('konto_bekreftAvr')" class="konto_avregistrer" id="konto_avregistrerKnapp">Avregistrering</button>
+
+                    <section id="konto_bekreftAvr" style="display: none;">
+                        <section id="konto_bekreftAvrInnhold">
+                            <h2>Avregistrering</h2>
+                            <p>Er du sikker på av du vil avregistrere?</p>
+                            <form method="POST" action="konto.php">
+                                <input type="password" id="konto_avregistrerpassord" name="passord" placeholder="Oppgi passord" title="Oppgi passordet ditt for å bekrefte avregistrering" required>
+                                <button id="konto_avregistrerKnapp" name="avregistrerMeg">Avregistrer</button>
+                            </form>
+                            <button id="konto_avbrytKnapp" onclick="bekreftMelding('konto_bekreftAvr')">Avbryt</button>
                         </section>
-                    </section> 
-                </main>
-            <?php } ?>
-            <?php include("inkluderes/footer.php") ?>
-        </article>
+                    </section>
+                </section> 
+            </main>
+        <?php } ?>
+        <?php include("inkluderes/footer.php") ?>
     </body>
 
     
