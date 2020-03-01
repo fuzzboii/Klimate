@@ -566,7 +566,7 @@ function visPassord(hentet) {
 /*-------------------------------------------------------------------------------------------------------*/
 
 
-/* Ved påmeldt arrangement, vis avmeld ved mouseover */
+/* Del for arrangement*/
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 function visAvmeld(valg) {
@@ -656,7 +656,6 @@ function meldingTabbing() {
     });
   }
 }
-
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
 /* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */

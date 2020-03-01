@@ -300,7 +300,47 @@ $tabindex = 8;
                     <?php }?>
                     <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
                     </main>
-          
+                
+                    <!-- Del for å invitere brukere -->
+                <?php } else if(isset($_GET['inviter'])) { 
+                    $hentBrukere = "select idbruker, brukernavn from bruker";
+                    $hentBrukereSTMT = $db->prepare($hentBrukere);
+                    $hentBrukereSTMT->execute();
+                    $MuligBrukere = $hentBrukereSTMT->fetchAll(PDO::FETCH_ASSOC);
+
+
+                    if(isset($_POST['inviterBruker'])) {
+                        $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
+                        values('Invitasjon til " . $arrangement['eventnavn'] . "', 'http://localhost/klimate/arrangement.php?arrangement=" . $_GET['arrangement'] ."', 
+                            NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['inviterBruker'] . ")";
+                        $nyMeldingSTMT = $db->prepare($nyMeldingQ);
+                        $nyMeldingSTMT->execute();
+                    }
+                    ?>
+         
+                    <header class="arrangement_header" onclick="lukkHamburgerMeny()">
+                            <h1>Inviter brukere</h1>    
+                    </header>
+
+                    <section class="påmeldt_header">
+                        <p class="påmeldtOverskrift"><?php echo($arrangement['eventnavn'])?></p>
+                    </section>
+                    <main id="arrangement_mainPåmeldt" onclick="lukkHamburgerMeny()">
+
+                    <?php foreach($MuligBrukere as $bruker) {?>
+                        <section class="påmeldteBrukere">
+                            <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                            <p class="p_bruker"><?php echo($bruker['brukernavn']) ?></p>
+                            
+                            <form method="POST" action="">
+                                <input type="hidden" name="inviterBruker" value="<?php echo($bruker['idbruker']) ?>"></input>
+                                <input class="InvBruker" type="submit" name="inviterSubmit" value="Inviter"></input>
+                            </form>
+                        </section>
+                    <?php }?>
+                    <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    </main>
+
                 <?php } else { 
                     // Del for å vise et spesifikt arrangement
                     // Henter bilde fra database utifra eventid
@@ -344,6 +384,9 @@ $tabindex = 8;
                                 
                             <form method="POST" id="arrangement_form_påmeldte" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <input type="submit" id="arrangementPåmeldteKnapp" name="paameldteBrukere"  value="Se påmeldte brukere">
+                            </form>
+                            <form method="POST" id="inviter_form_ny" action="arrangement.php?inviter=<?php echo($_GET['arrangement'])?>&arrangement=<?php echo($_GET['arrangement'])?>">
+                                <input type="submit" id="inviterKnapp" name="inviter" value="Inviter">
                             </form>
                             </section>
 
