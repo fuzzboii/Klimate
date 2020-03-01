@@ -292,7 +292,9 @@ $tabindex = 8;
                         /*------------------------------------*/
                         /*------------------------------------*/ 
                         ?> 
-                            <!-- Antall kommentarer av artikler -->                          
+                            <!-- Sjekker på brukernavnet for å se om bruker er innlogget og viser input kommentar feltet, hvis ikke ikke vis -->
+                            <!-- Antall kommentarer av artikler --> 
+                            <?php if (isset($_SESSION["idbruker"])) { ?>                         
                             <section id="artikkel_kommentarOversikt"> 
                                 <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
                                 <?php
@@ -335,6 +337,35 @@ $tabindex = 8;
                                         </section>
                                     <?php } ?>    
                             </section> 
+                            
+                            <?php } else { ?>
+                            <section id="artikkel_kommentarSeksjon">
+                                <!-- Henter kommentarer -->
+                                <?php
+                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
+                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
+                                    $hentKommentarSTMT = $db->prepare($hentKommentar);
+                                    $hentKommentarSTMT->execute();
+                                    $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                    ?>
+                                    
+                                    <?php for($i = 0; $i < count($kommentarer); $i++) {?>
+                                        <section id="artikkel_kommentarBoks">
+                                            <?php
+                                            $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
+                                            $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
+                                            $brukerbildeSTMT -> execute();
+                                            $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                            ?>
+                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
+                                            <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
+                                            <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
+                                            <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
+                                        </section>
+                                    <?php } ?>    
+                            </section> 
+                            <?php } ?>
+
 
                             <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
