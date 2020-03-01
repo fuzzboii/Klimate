@@ -266,20 +266,38 @@ $tabindex = 8;
                         <button onclick="location.href='arrangement.php'" class="lenke_knapp">Tilbake til arrangementer</button>  
                     </section>
                     <!-- -------------------------------- -->
-                    <!-- Del for å vise  påmeldte brukere -->
+                    <!-- Del for å vise påmeldte brukere -->
                     <!-- -------------------------------- -->
-                <?php } else if(isset($_POST['paameldteBrukere'])) {?>
-           
+                <?php } else if(isset($_POST['paameldteBrukere'])) {
+
+                    $hentPåmeldte = "select event_id, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
+                    $hentPåmeldteSTMT = $db->prepare($hentPåmeldte);
+                    $hentPåmeldteSTMT->execute();
+                    $påmeldtBrukere = $hentPåmeldteSTMT->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+            
+                    
                     <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                             <h1>Påmeldte brukere</h1>
                     </header>
-                    
-                    <main id="arrangement_main" onclick="lukkHamburgerMeny()">
-                        <section class="påmeldteBrukere">
-                        <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
-                        <h2>Brukernavn</h2>
-                        <h2>Type interesse</h2>
+
+                    <section class="påmeldt_header">
+                        <p class="påmeldtOverskrift"><?php echo($arrangement['eventnavn'])?></p>
                     </section>
+                    <main id="arrangement_mainPåmeldt" onclick="lukkHamburgerMeny()">
+
+                    <?php for($i = 0; $i < count($påmeldtBrukere); $i++) {?>
+                        <section class="påmeldteBrukere">
+                            <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                            <p class="p_bruker"><?php echo($påmeldtBrukere[$i]['brukernavn']) ?></p>
+
+                            <?php if($påmeldtBrukere[$i]['interessert'] == "Kanskje") {?>
+                                <p class="påmeldtType" style="background-color: rgba(239, 243, 10, 0.637);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
+                            <?php } else { ?>
+                                <p class="påmeldtType"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
+                            <?php }?>
+                        </section>
+                    <?php }?>
                     <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
                     </main>
           
@@ -336,18 +354,18 @@ $tabindex = 8;
                                     $hentPaameldteSTMT->execute();
                                     $paameldt = $hentPaameldteSTMT->fetch(PDO::FETCH_ASSOC);
                                     
-
-                                    if(isset($paameldt['interessert']) == "Skal") { ?>
-                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
-                                    
-                                    <?php } else if (isset($paameldt['interessert']) == "Kanskje") { ?>
-                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
-                                    
-                                    <?php } else if (isset($paameldt['interessert']) == "Kan ikke") { ?>
-                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>
-                                    
-                                    <?php } else { ?>
-                                        <button id="arrangement_paameld" name="skal" value="Skal" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeldSkal('Paameld')">Skal</button>
+                                    if(isset($paameldt['interessert'])) {
+                                        if($paameldt['interessert'] == "Skal") { ?>
+                                            <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
+                                        
+                                        <?php } else if ($paameldt['interessert'] == "Kanskje") { ?>
+                                            <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
+                                        
+                                        <?php } else if ($paameldt['interessert'] == "Kan ikke") { ?>
+                                            <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>                                         
+                                    <?php }
+                                    } else { ?>
+                                        <button id="arrangement_paameld" name="skal" value="Skal" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Skal</button>
                                         <button id="arrangement_paameld" name="kanskje" value="Kanskje" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kanskje</button>
                                         <button id="arrangement_paameld" name="kanIkke" value="KanIkke" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kan ikke</button>       
                                 <?php 

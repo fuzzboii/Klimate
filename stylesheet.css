@@ -1253,6 +1253,30 @@ table {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
+.påmeldt_header {
+background-color: rgb(200,218,211);
+border-radius: 1em 1em 0em 0em ;
+height: 2em;
+text-align: center;
+width: 90%;
+margin-left: auto; 
+margin-right: auto;
+}
+
+.påmeldtOverskrift {
+  font-size: 1em;
+  margin-top: 0.5em;
+  }
+#arrangement_mainPåmeldt {
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 0.2em;
+   /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 0em 0em 1.5em 1.5em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  width: 90%
+}
 
 #arrangement_paameldt {
   background-color: rgba(36, 209, 100, 0.637); /* bakgrunnsfarge på knapp */
@@ -1278,20 +1302,38 @@ table {
   font-size: 0.9em; /* Font-størrelse */
 }
 .påmeldteBrukere {
-  border: 0.1em solid black;
+  
   border-radius: 1em 1em 1em 1em;
-  background-color: aquamarine;
-  width: 17em;
+  background-color: rgba(166, 173, 169, 0.637);
+  height: 3em;
+  display: grid;
+  grid-template-columns: 3em 6em 6em;
+  margin: 0.5em;
 }
 
-.påmeldteBrukere h2 {
-  font-size: 0.9em;
+.p_bruker {
+  margin-top: 0.9em;
+  margin-left: 0.3em;
+  
 
+}
+
+.påmeldtType {
+  font-size: 0.9em;
+  background-color: rgba(36, 209, 100, 0.637);
+  border-radius: 0.5em 0.5em 0.5em 0.5em;
+  padding: 0.2em;
+  margin-top: 0.9em;
+  text-align: center;
+  
+ 
+  
 }
 #profilPåmeldt {
-  height: 4.5em;
-  width: 4.5em;
-  float: left;
+  height: 2.3em;
+  width: 2.4em;
+  margin-left: auto; margin-right: auto;
+  margin-top: 0.3em;
 }
 
 .arrangementInnhold_rFloatBilde {
