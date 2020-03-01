@@ -300,8 +300,10 @@ $tabindex = 8;
                     <?php }?>
                     <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
                     </main>
-                
+
+                    <!-- -------------------------- -->
                     <!-- Del for å invitere brukere -->
+                    <!-- -------------------------- -->
                 <?php } else if(isset($_GET['inviter'])) { 
                     $hentBrukere = "select idbruker, brukernavn from bruker";
                     $hentBrukereSTMT = $db->prepare($hentBrukere);
@@ -315,8 +317,7 @@ $tabindex = 8;
                             NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['inviterBruker'] . ")";
                         $nyMeldingSTMT = $db->prepare($nyMeldingQ);
                         $nyMeldingSTMT->execute();
-                    }
-                    ?>
+                    }?>
          
                     <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                             <h1>Inviter brukere</h1>    
