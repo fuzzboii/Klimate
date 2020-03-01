@@ -389,7 +389,7 @@ $tabindex = 10;
             <!-- ---------------------------------------------------- -->
             <!-- Tester på om rediger brukerinnstilinger er påklikket -->
             <!-- ---------------------------------------------------- -->
-            <?php if(isset($_GET['innstillinger'])) { ?>
+            <?php if(isset($_GET['innstillinger']) && $egen) { ?>
                 <header class="profil_header" onclick="lukkHamburgerMeny()">
                     
                 </header>
