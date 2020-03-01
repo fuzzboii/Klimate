@@ -340,6 +340,9 @@ $tabindex = 8;
                             
                             <?php } else { ?>
                             <section id="artikkel_kommentarSeksjon">
+                                <!-- Knapp for å sende brukeren til logg inn -->
+                                <button onClick="location.href='logginn.php'" name="submit" class="artikkel_tilLogginn_knapp">Logg inn for å kommentere</button>
+                                
                                 <!-- Henter kommentarer -->
                                 <?php
                                     $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
