@@ -577,20 +577,33 @@ $tabindex = 10;
                         <!---------------->
                         <h2>Oversikt</h2>
                         <section class="profil_persInf">
+                            <!-- Fornavn -->
                             <!-- Test først på om det finnes en preferanse -->
-                            <!-- Hvis ikke skjules info -->
-                            <p class="personalia">Fornavn:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["fnavn"])) || !isset($visFnavn)) { ?>
+                            <!-- Hvis ikke oppgis mangelen -->
+                            <p class="personalia">Fornavn:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["fnavn"]))) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
-                                <!-- Ellers vises den -->
+                                <!-- Test så på om info er skjult -->
+                                <?php } elseif(!isset($visFnavn)) { ?>
+                                    <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
+                                <!-- Ellers vises den som vanlig -->
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
-                            <p class="personalia">Etternavn:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["enavn"]))  || !isset($visEnavn)) { ?>
+                                
+                                <p class="personalia">Etternavn:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["enavn"]))) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } elseif(!isset($visEnavn)) { ?>
+                                    <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["enavn"]) ?> </p> <?php } ?>
-                            <p class="personalia">E-Post Adresse:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["epost"]))  || !isset($visEpost)) { ?>
+
+                                <p class="personalia">E-Post Adresse:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["epost"]))) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } elseif(!isset($visEpost)) { ?>
+                                    <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["epost"]) ?> </p> <?php } ?>
-                            <p class="personalia">Telefonnummer:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["telefonnummer"]))  || !isset($visTlf)) { ?>
-                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p> 
+
+                                <p class="personalia">Telefonnummer:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["telefonnummer"]))) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } elseif(!isset($visTlf)) { ?>
+                                    <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
                                 <?php } else { ?> <p> <?php echo($personaliaProfil["telefonnummer"]) ?> </p> <?php } ?>
                         </section>
                     </section>    
