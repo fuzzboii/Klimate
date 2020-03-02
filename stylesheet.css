@@ -2296,6 +2296,20 @@ input:checked + .slider:before {
   margin-bottom: 2em;
 }
 
+#artikkel_slettKommentarKnapp {
+  display: block;
+  background-color: transparent; /* Gjør knappen gjennomsiktig */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  text-align: center;
+  font-size: 0.9em;
+  float: right;
+  cursor: pointer;
+  
+}
+
+
+
+
 /* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {
   margin-top: 1em;

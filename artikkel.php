@@ -158,6 +158,22 @@ if(isset($_POST['sendKommentar'])) {
 
 }
 
+// Del for å slette en kommentar
+if(isset($_POST['slettKommentar'])) {
+    // Bare tillate at innlogget bruker kan slette sine egne kommentarer
+    $sjekkPaaQ = "select idkommentar from kommentar where idkommentar = " . $_POST['slettKommentar'] . " and bruker = " . $_SESSION['idbruker'];
+    $sjekkPaaSTMT = $db->prepare($sjekkPaaQ);
+    $sjekkPaaSTMT->execute();
+    $funnetKommentar = $sjekkPaaSTMT->rowCount();
+
+    if($funnetKommentar > 0) {
+        // Begynner med å slette kommentaren
+        $slettKommentarQ = "delete from kommentar where idkommentar = " . $_POST['slettKommentar'];
+        $slettKommentarSTMT = $db->prepare($slettBildeQ);
+        $slettKommentarSTMT->execute();
+    }
+}
+
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 8;
 
@@ -330,6 +346,7 @@ $tabindex = 8;
                                     
                                     <?php for($i = 0; $i < count($kommentarer); $i++) {?>
                                         <section id="artikkel_kommentarBoks">
+                                            <!-- Henter profilbilde, brukernavn, tid, og tekst for kommentaren-->
                                             <?php
                                             $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
                                             $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
@@ -340,8 +357,23 @@ $tabindex = 8;
                                             <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                             <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
                                             <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
+                                            
+                                            <!-- Henter slette knapp for kommentarer basert på bruker -->
+                                            <?php
+                                            $hentEierQ = "select bruker from kommentar where bruker = " . $_SESSION['idbruker'] . " and artikkel = " . $_GET['artikkel'];
+                                            $hentEierSTMT = $db->prepare($hentEierQ);
+                                            $hentEierSTMT->execute();
+                                            $kommentarEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
+
+                                            if ($kommentarEier == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
+                                                <button id="artikkel_slettKommentarKnapp" name="slettKommentar" value="<?php echo($_GET['idkommentar']) ?>">Slett kommentar</button>
+                                                
+                                            <?php } ?>
+                                        
                                         </section>
                                     <?php } ?>    
+                            
+                            
                             </section> 
                             
                             <?php } else { ?>
