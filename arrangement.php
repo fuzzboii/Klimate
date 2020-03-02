@@ -127,7 +127,6 @@ if(isset($_POST['skal'])) {
         $paameldingSkal = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Skal')" ;
         $paameldingSkalSTMT = $db->prepare($paameldingSkal);
         $paameldingSkalSTMT->execute();
-
     } 
 }
 
@@ -278,7 +277,7 @@ $tabindex = 8;
             
                     
                     <header class="arrangement_header" onclick="lukkHamburgerMeny()">
-                            <h1>Påmeldte brukere</h1>
+        
                     </header>
 
                     <section class="påmeldt_header">
@@ -293,6 +292,8 @@ $tabindex = 8;
 
                             <?php if($påmeldtBrukere[$i]['interessert'] == "Kanskje") {?>
                                 <p class="påmeldtType" style="background-color: rgba(239, 243, 10, 0.637);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
+                            <?php } else if ($påmeldtBrukere[$i]['interessert'] == "Invitert") { ?>
+                                <p class="påmeldtType" style="background-color: rgba(24, 157, 209, 0.637);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
                             <?php } else { ?>
                                 <p class="påmeldtType"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
                             <?php }?>
@@ -310,14 +311,24 @@ $tabindex = 8;
                     $hentBrukereSTMT->execute();
                     $MuligBrukere = $hentBrukereSTMT->fetchAll(PDO::FETCH_ASSOC);
 
-
-                    if(isset($_POST['inviterBruker'])) {
+                    if(isset($_POST['inviterBruker'])) {    
                         $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
                         values('Invitasjon til " . $arrangement['eventnavn'] . "', 'http://localhost/klimate/arrangement.php?arrangement=" . $_GET['arrangement'] ."', 
                             NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['inviterBruker'] . ")";
                         $nyMeldingSTMT = $db->prepare($nyMeldingQ);
                         $nyMeldingSTMT->execute();
-                    }?>
+                        
+                        
+                        $slettInv = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id =" . $_POST['inviterBruker'];
+                        $slettInvSTMT = $db->prepare($slettInv);
+                        $slettInvSTMT->execute();
+                        
+                        $invitert = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . "," . $_POST['inviterBruker'] . ", 'Invitert')" ;
+                        $invitertSTMT = $db->prepare($invitert);
+                        $invitertSTMT->execute();
+                        
+                    }
+                    ?>
          
                     <header class="arrangement_header" onclick="lukkHamburgerMeny()">
                             <h1>Inviter brukere</h1>
@@ -329,15 +340,28 @@ $tabindex = 8;
                     </section>
                     <main id="arrangement_mainPåmeldt" onclick="lukkHamburgerMeny()">
 
-                    <?php foreach($MuligBrukere as $bruker) {?>
+                    <?php foreach($MuligBrukere as $bruker) {
+                        $hentInv = "select event_id, bruker_id, interessert from påmelding where interessert='Invitert' and event_id = " . $_GET['arrangement'] . " and bruker_id =" . $bruker['idbruker'];
+                        $invitertSTMT = $db->prepare($hentInv);
+                        $invitertSTMT->execute();
+                        $invitertBruker = $invitertSTMT->fetch(PDO::FETCH_ASSOC);
+                        $antallInv = $invitertSTMT->rowCount();
+                        
+                        ?>
                         <section class="påmeldteBrukere">
                             <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
                             <p class="p_bruker"><?php echo($bruker['brukernavn']) ?></p>
                             
+                            <?php
+                            if($antallInv != 0) { ?>
+                            <p class="SendtBruker">Sendt!</p>
+
+                            <?php } else {?>
                             <form method="POST" action="">
                                 <input type="hidden" name="inviterBruker" value="<?php echo($bruker['idbruker']) ?>"></input>
                                 <input class="InvBruker" type="submit" name="inviterSubmit" value="Inviter"></input>
                             </form>
+                            <?php }?>
                         </section>
                     <?php }?>
                     <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
@@ -378,19 +402,10 @@ $tabindex = 8;
                             $interesserteSTMT->execute();
                             $antallInteresserte = $interesserteSTMT->rowCount();
                             ?>
-
-
-                            <section class="argInf_interesserte">
-                                <img class="arrangementInnhold_rFloatBilde" src="bilder/interesserteIkon.png">
-                                <h2>Antall interesserte: <?php echo($antallInteresserte) ?> brukere </h2>
-                                
-                            <form method="POST" id="arrangement_form_påmeldte" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
-                                <input type="submit" id="arrangementPåmeldteKnapp" name="paameldteBrukere"  value="Se påmeldte brukere">
-                            </form>
+                            <!-- inviterknappen -->
                             <form method="POST" id="inviter_form_ny" action="arrangement.php?inviter=<?php echo($_GET['arrangement'])?>&arrangement=<?php echo($_GET['arrangement'])?>">
-                                <input type="submit" id="inviterKnapp" name="inviter" value="Inviter">
+                                <input type="submit" class="inviterK" name="inviter" value="Inviter">
                             </form>
-                            </section>
 
                             <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <?php if(isset($_SESSION['idbruker'])) {
@@ -408,13 +423,17 @@ $tabindex = 8;
                                         
                                         <?php } else if ($paameldt['interessert'] == "Kan ikke") { ?>
                                             <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>                                         
-                                    <?php }
+                                        
+                                        <?php } else { ?>
+                                            <button class="arrangement_paameld" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Paameld')" onmouseout="visAvmeld('Invitert')">Påmeld</button>
+                                            
+    
+                                    <?php } 
                                     } else { ?>
-                                        <button id="arrangement_paameld" name="skal" value="Skal" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Skal</button>
-                                        <button id="arrangement_paameld" name="kanskje" value="Kanskje" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kanskje</button>
-                                        <button id="arrangement_paameld" name="kanIkke" value="KanIkke" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Kan ikke</button>       
-                                <?php 
-                                 } 
+                                        <button class="arrangement_paameld" name="skal" value="Skal" >Skal</button>
+                                        <button class="arrangement_paameld" name="kanskje" value="Kanskje" >Kanskje</button>
+                                        <button class="arrangement_paameld" name="kanIkke" value="KanIkke" >Kan ikke</button>       
+                                <?php } 
                                  } ?>
                             </form>
                             
@@ -434,7 +453,17 @@ $tabindex = 8;
                                 <p class="arrangement_adresse"><a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
                                 <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
                             </section>
+                            <section class="argInf_interesserte">
+                                <img class="arrangementInnhold_rFloatBilde" src="bilder/interesserteIkon.png">
+                                <h2>Antall interesserte: <?php echo($antallInteresserte) ?></h2>
+                                
+                            <form method="POST" id="arrangement_form_påmeldte" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                <input type="submit" class="arrangement_paameld" name="paameldteBrukere"  value="Se påmeldte brukere">
+                            </form>
+                            
+                            </section>
                         </section>
+                        
                         <section id="argInf_om">
                             <h1><?php echo($arrangement['eventnavn'])?></h1>
                             <h2>Beskrivelse</h2>
