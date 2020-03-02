@@ -1285,7 +1285,7 @@ margin-right: auto;
 }
 
 #arrangement_paameldt {
-  background-color: rgba(36, 209, 100, 0.637); /* bakgrunnsfarge på knapp */
+  background-color: rgba(18, 240, 100, 0.637); /* bakgrunnsfarge på knapp */
   color: rgb(0, 0, 0); /* tekstfarge */
   margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.5em;
   font-weight: normal; /* Fet tekst */
@@ -1295,8 +1295,19 @@ margin-right: auto;
   padding: 0.5em;
   font-size: 0.9em; /* Font-størrelse */
 }
+.inviterK {
+  background-color: rgb(23, 151, 23);
+  color: rgb(255, 255, 255); /* tekstfarge */
+  margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.5em;
+  font-weight: normal; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  border-radius: 0.2em; /* Runder ut knappen */
+  padding: 0.3em;
+  font-size: 0.9em; /* Font-størrelse */
+}
 
-#arrangement_paameld {
+.arrangement_paameld {
   background-color: rgb(207, 207, 207); /* bakgrunnsfarge på knapp */
   color: rgb(0, 0, 0); /* tekstfarge */
   margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.5em;
@@ -2296,6 +2307,20 @@ input:checked + .slider:before {
   margin-bottom: 2em;
 }
 
+#artikkel_slettKommentarKnapp {
+  display: block;
+  background-color: transparent; /* Gjør knappen gjennomsiktig */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  text-align: center;
+  font-size: 0.9em;
+  float: right;
+  cursor: pointer;
+  
+}
+
+
+
+
 /* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {
   margin-top: 1em;
@@ -2849,6 +2874,12 @@ input:checked + .slider:before {
     background-color: rgb(145, 0, 0); /* Fargeendring/hover ved å holde over knappen */
   }
   
+  .inviterK:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+   
+    color: rgb(0, 0, 0); /* tekstfarge */
+  }
   .InvBruker:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
@@ -2892,7 +2923,7 @@ input:checked + .slider:before {
   }
 
   /* Påmelding knapp hover innstillinger for arrangement innhold */
-  #arrangement_paameld:hover {
+  .arrangement_paameld:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
@@ -2917,6 +2948,7 @@ input:checked + .slider:before {
     color: #F8F7FD;
     transition: background-color 0.2s;
   }
+
 
   .slett:hover {
     cursor: pointer;

@@ -580,6 +580,12 @@ function visAvmeld(valg) {
   } 
   else if(valg == "KanIkke") {
     document.getElementById("arrangement_paameldt").innerHTML = "Kan ikke";
+  } 
+  else if(valg == "Paameld") {
+    document.getElementById("arrangement_paameld").innerHTML = "Påmeld";
+  }
+  else if(valg == "Invitert") {
+    document.getElementById("arrangement_paameld").innerHTML = "Invitert";
   }
 }
 
