@@ -288,11 +288,13 @@ $stmtPreferanser = $db->prepare($hentPreferanser);
 $stmtPreferanser->execute();
 $preferanser = $stmtPreferanser->fetch(PDO::FETCH_ASSOC);
 
-if($preferanser) {
+if($preferanser != false) {
     if($preferanser['visfnavn'] == "1") $visFnavn = true;
     if($preferanser['visenavn'] == "1") $visEnavn = true;
     if($preferanser['visepost'] == "1") $visEpost = true;
     if($preferanser['vistelefonnummer'] == "1") $visTlf = true;
+    if($preferanser['visinteresser'] == "1") $visInteresse = true;
+    if($preferanser['visbeskrivelse'] == "1") $visBeskrivelse = true;
 }
 
 //-----------------------//
@@ -421,8 +423,8 @@ $tabindex = 10;
                             <p class="personalia">Fornavn</p>
                                 <label class="switch">
                                     <?php if(isset($visFnavn)) { ?>
-                                    <input type="checkbox" name="fnavnToggle" value="visFnavn" checked>
-                                    <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn">
+                                    <input type="checkbox" name="fnavnToggle" value="visFnavn" checked />
+                                    <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn" />
                                     <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
@@ -430,8 +432,8 @@ $tabindex = 10;
                             <p class="personalia">Etternavn</p>
                                 <label class="switch">
                                 <?php if(isset($visEnavn)) { ?>
-                                    <input type="checkbox" name="enavnToggle" value="visEnavn" checked>
-                                    <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn">
+                                    <input type="checkbox" name="enavnToggle" value="visEnavn" checked />
+                                    <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn" />
                                     <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
@@ -439,8 +441,8 @@ $tabindex = 10;
                             <p class="personalia">E-Post Adresse</p>
                                 <label class="switch">
                                 <?php if(isset($visEpost)) { ?>
-                                    <input type="checkbox" name="epostToggle" value="visEpost" checked>
-                                    <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost">
+                                    <input type="checkbox" name="epostToggle" value="visEpost" checked />
+                                    <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost" />
                                     <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
@@ -448,12 +450,12 @@ $tabindex = 10;
                             <p class="personalia">Telefonnummer</p>
                                 <label class="switch">
                                 <?php if(isset($visTlf)) { ?>
-                                    <input type="checkbox" name="tlfToggle" value="visTlf" checked>
-                                    <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf">
+                                    <input type="checkbox" name="tlfToggle" value="visTlf" checked />
+                                    <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf" />
                                     <?php } ?>
                                     <span class="slider round"></span>
                                 </label>
-                                <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser"> 
+                                <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser" /> 
                         </form>
                     </section>
                     <?php } ?>
@@ -478,7 +480,7 @@ $tabindex = 10;
                                         <!-- Test om bruker er i slettemodus -->
                                         <?php if (isset($_POST['slettemodus'])) { ?> 
                                             <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                            <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
+                                            <!-- Ellers normal visning -->
                                         <?php } else { ?> 
                                             <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>><?php echo($kolonne); ?></p>
                                         <?php } // Slutt, else løkke    
