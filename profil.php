@@ -298,7 +298,7 @@ if($preferanser) {
 //-----------------------//
 // Henting av interesser //
 //-----------------------//
-$hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = " . $_GET['bruker'] . " and brukerinteresse.interesse=interesse.idinteresse";
+$hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = " . $_GET['bruker'] . " and brukerinteresse.interesse=interesse.idinteresse order by interessenavn";
 $stmtInteresseProfil = $db->prepare($hentInteresseProfil);
 $stmtInteresseProfil->execute();
 $tellingInteresse = $stmtInteresseProfil->rowcount();
@@ -314,7 +314,7 @@ if ($tellingInteresse > 0) {
 //----------------------------------------------//
 // Hent alle interesser fra db, til en <select> //
 //----------------------------------------------//
-$hentInteresse = "select idinteresse, interessenavn from interesse";
+$hentInteresse = "select idinteresse, interessenavn from interesse order by interessenavn";
 $stmtHentInteresse = $db->prepare($hentInteresse);
 $stmtHentInteresse->execute();
 $interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
@@ -583,6 +583,8 @@ $tabindex = 10;
                             <p class="personalia">Fornavn:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["fnavn"]))) { ?>
                                 <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
                                 <!-- Test så på om info er skjult -->
+                                <!-- Dette resulterer også i at brukere må velge å vise info til andre -->
+                                <!-- Dette virker hensiktsmessig ihht. personvern -->
                                 <?php } elseif(!isset($visFnavn)) { ?>
                                     <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
                                 <!-- Ellers vises den som vanlig -->
@@ -623,6 +625,8 @@ $tabindex = 10;
                     <?php if ($tellingInteresse != null) {
                         // Test på om bruker vil vise mer //
                         if(isset($_POST["visMer"])) {
+                            // Sett i så fall $ //
+                            // IT'S OVER 9000! // 
                             $max = 9999;
                         } else $max = 11;
                         // Teller for å ikke vise for mange interesser umiddelbart
