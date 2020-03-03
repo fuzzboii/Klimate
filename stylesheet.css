@@ -303,6 +303,36 @@ footer a {
   margin-top: 1em;
   float: right;
 }
+
+/*---------------------------------------------------------------------------*/
+#admin_header {
+  padding-top: 6em;
+  padding-bottom: 1em;
+  text-align: center;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+#admin_overskrift {
+  font-size: 1.5em;
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+#admin_underskrift {
+  font-size: 1.2em;
+  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+.adminMain {
+  padding-top: 6em; /* Plassering av logoen på default */
+}
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
 #default_beskrivelse {
