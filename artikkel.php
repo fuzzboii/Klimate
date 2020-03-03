@@ -161,12 +161,13 @@ if(isset($_POST['sendKommentar'])) {
 // Del for å slette en kommentar
 if(isset($_POST['slettKommentar'])) {
     // Bare tillate at innlogget bruker kan slette sine egne kommentarer
-    $sjekkPaaQ = "select idkommentar from kommentar where idkommentar = " . $_POST['idkommentar'] . " and bruker = " . $_SESSION['idbruker'];
+    $sjekkPaaQ = "select idkommentar from kommentar, bruker where idkommentar = " . $_POST['idkommentar'] . " and bruker = " . $_SESSION['idbruker'];
     $sjekkPaaSTMT = $db->prepare($sjekkPaaQ);
     $sjekkPaaSTMT->execute();
     $funnetKommentar = $sjekkPaaSTMT->rowCount();
 
-    if($funnetKommentar > 0) {
+    // Hvis kommentaren som er funnet er større enn 0, eller innlogget brukertype er 1 (Admin) -> slett
+    if($funnetKommentar > 0 or $_SESSION['brukertype'] == 1) {
         // Begynner med å slette kommentaren
         $slettKommentarQ = "delete from kommentar where idkommentar = " . $_POST['idkommentar'];
         $slettKommentarSTMT = $db->prepare($slettKommentarQ);
