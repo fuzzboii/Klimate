@@ -1337,15 +1337,16 @@ margin-right: auto;
   font-size: 0.9em; /* Font-størrelse */
 }
 .inviterK {
-  background-color: rgb(23, 151, 23);
-  color: rgb(255, 255, 255); /* tekstfarge */
-  margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.5em;
-  font-weight: normal; /* Fet tekst */
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  margin: 0; margin-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  border-radius: 0.2em; /* Runder ut knappen */
-  padding: 0.3em;
-  font-size: 0.9em; /* Font-størrelse */
+  width: 7em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 .arrangement_paameld {
@@ -1423,6 +1424,11 @@ margin-right: auto;
   width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+}
+
+.arg_tilbInv_knapp {
+  display: grid;
+  grid-template-columns: auto auto;
 }
 
 .arrangementInnhold_rFloatBilde {
@@ -2938,8 +2944,6 @@ input:checked + .slider:before {
   .inviterK:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
-   
-    color: rgb(0, 0, 0); /* tekstfarge */
   }
   .InvBruker:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
@@ -3005,13 +3009,17 @@ input:checked + .slider:before {
     cursor: pointer;
 
   }
+  .arg_tilbInv_knapp {
+    display: grid;
+    grid-template-columns: 8em auto;
+  }
 
   .påmeldteBrukere {
     width:18em;
-    float: left;
-    
   }
   .p_section {
+    display: grid;
+    grid-template-columns: 19em 19em 19em auto;
   }
 
   .PIbruker_section {
@@ -3019,10 +3027,7 @@ input:checked + .slider:before {
     width: 100%;
     margin: 1em;
   }
-  .PIbruker_tilbKnapp {
-    
-
-  }
+ 
   /* Styling for profil */
   .interesserTags p:hover {
     cursor: pointer;
