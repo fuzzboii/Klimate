@@ -2378,15 +2378,16 @@ input:checked + .slider:before {
   display: block;
   background-color: transparent; /* Gjør knappen gjennomsiktig */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  text-align: right;
-  float: right;
   cursor: pointer;
   color: rgb(255, 73, 73);
 }
 
 #artikkel_kommentarBoks form {
-  display: grid;
   margin-top: 0.2em;
+  display: grid;
+  grid-template-columns: 7em;
+  justify-content: right;
+  text-align: center;
 }
 
 /* Antall kommentarer linjen/området */
