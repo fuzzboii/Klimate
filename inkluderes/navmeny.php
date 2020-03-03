@@ -139,7 +139,7 @@ if(isset($_SESSION['idbruker'])) {
                     <?php } ?>
                     
                     <?php if ($_SESSION['brukertype'] == 1) { ?>
-                    <a class = "menytab" tabIndex = "-1" href="administrator.php">Admin innstillinger</a><br>
+                    <a class = "menytab" tabIndex = "-1" href="administrator.php">Administrator innstillinger</a><br>
                     <?php } ?>
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
