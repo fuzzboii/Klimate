@@ -326,7 +326,7 @@ $tabindex = 8;
                                     $hentAntallKommentarerSTMT->execute();
                                     $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
                                 ?>
-                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentarer</p>        
+                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>        
                             </section>
 
                             <section id="artikkel_kommentarSeksjon">
@@ -599,7 +599,7 @@ $tabindex = 8;
                                     $navn = $resArt[$j]['brukernavn'];
                                 } ?>
                                 <p class="navn_artikkel"><?php echo($navn)?></p>
-                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$i]['tid']), "j M H:i")) ?></p>
+                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$j]['tid']), "j M H:i")) ?></p>
                                 <img class="tid_artikkel_bilde" src="bilder/datoIkon.png">
                                 <h2><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p><?php echo($resArt[$j]['artingress'])?></p>
