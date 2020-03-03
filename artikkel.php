@@ -346,6 +346,7 @@ $tabindex = 8;
                                     
                                     <?php for($i = 0; $i < count($kommentarer); $i++) {?>
                                         <section id="artikkel_kommentarBoks">
+                                            
                                             <!-- Henter profilbilde, brukernavn, tid, og tekst for kommentaren-->
                                             <?php
                                             $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
@@ -360,13 +361,15 @@ $tabindex = 8;
                                             
                                             <!-- Henter slette knapp for kommentarer basert på bruker -->
                                             <?php
-                                            $hentEierQ = "select bruker from kommentar where bruker = " . $_SESSION['idbruker'] . " and artikkel = " . $_GET['artikkel'];
-                                            $hentEierSTMT = $db->prepare($hentEierQ);
-                                            $hentEierSTMT->execute();
-                                            $kommentarEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
+                                            $kommentarsinKommentarQ = "select bruker from kommentar where bruker = " . $_SESSION['idbruker'] . " and artikkel = " . $_GET['artikkel'];
+                                            $kommentarsinKommentarSTMT = $db->prepare($kommentarsinKommentarQ);
+                                            $kommentarsinKommentarSTMT->execute();
+                                            $kommentarsinKommentar = $kommentarsinKommentarSTMT->fetch(PDO::FETCH_ASSOC);
 
-                                            if ($kommentarEier == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
-                                                <button id="artikkel_slettKommentarKnapp" name="slettKommentar" value="<?php echo($_GET['idkommentar']) ?>">Slett kommentar</button>
+                                            if (isset($kommentarsinKommentar['bruker']) && $kommentarsinKommentar['bruker'] == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
+                                                <form method="POST" id="artikkel_kommentar_slett" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
+                                                    <input type="submit" id="artikkel_slettKommentar_valgt" name="slettKommentar" value="">
+                                                </form>
                                                 
                                             <?php } ?>
                                         
