@@ -299,14 +299,16 @@ $tabindex = 8;
                             <?php }?>
                         </section>
                     <?php }?>
-                    <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    <section class="PIbruker_section">
+                        <button id="PIbruker_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    </section>
                     </main>
 
                     <!-- -------------------------- -->
                     <!-- Del for å invitere brukere -->
                     <!-- -------------------------- -->
                 <?php } else if(isset($_GET['inviter'])) { 
-                    $hentBrukere = "select idbruker, brukernavn from bruker";
+                    $hentBrukere = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ")";
                     $hentBrukereSTMT = $db->prepare($hentBrukere);
                     $hentBrukereSTMT->execute();
                     $MuligBrukere = $hentBrukereSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -354,7 +356,7 @@ $tabindex = 8;
                             
                             <?php
                             if($antallInv != 0) { ?>
-                            <p class="SendtBruker">Sendt!</p>
+                            <p class="sendtBruker">Sendt!</p>
 
                             <?php } else {?>
                             <form method="POST" action="">
@@ -364,7 +366,9 @@ $tabindex = 8;
                             <?php }?>
                         </section>
                     <?php }?>
-                    <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    <section class="PIbruker_section">
+                        <button id="PIbruker_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    </section>
                     </main>
 
                 <?php } else { 

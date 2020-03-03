@@ -1319,7 +1319,6 @@ margin-right: auto;
   font-size: 0.9em; /* Font-størrelse */
 }
 .påmeldteBrukere {
-  
   border-radius: 1em 1em 1em 1em;
   background-color: rgba(166, 173, 169, 0.637);
   height: 3em;
@@ -1334,6 +1333,17 @@ margin-right: auto;
   
 
 }
+.sendtBruker{
+  font-size: 0.9em;
+  color: white;
+  background-color: rgba(36, 160, 209, 0.637);
+  border-radius: 0.5em 0.5em 0.5em 0.5em;
+  padding: 0.2em;
+  margin-top: 0.9em;
+  width: 4em;
+  text-align: center;
+
+}
 
 .påmeldtType {
   font-size: 0.9em;
@@ -1342,9 +1352,6 @@ margin-right: auto;
   padding: 0.2em;
   margin-top: 0.9em;
   text-align: center;
-  
- 
-  
 }
 .InvBruker {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
@@ -1354,7 +1361,7 @@ margin-right: auto;
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 4em; /* Angir bredde på knappen */
-  border-radius: 0.4em; /* Runder ut knappen */
+  border-radius: 0.5em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
 #profilPåmeldt {
@@ -1362,6 +1369,19 @@ margin-right: auto;
   width: 2.4em;
   margin-left: auto; margin-right: auto;
   margin-top: 0.3em;
+}
+
+#PIbruker_tilbKnapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  margin: 0; margin-bottom: 1em;margin-top: 1em;margin-left: 0.5em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 7em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 .arrangementInnhold_rFloatBilde {
@@ -2598,7 +2618,7 @@ input:checked + .slider:before {
 
 }
 
-/* Laptop / Liten skjerm, 720p */
+/* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
 
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
@@ -2925,7 +2945,18 @@ input:checked + .slider:before {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
+  #PIbruker_tilbKnapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer;
+  }
 
+  .påmeldteBrukere {
+    width:18em;
+    float: left;
+  }
+  .PIbruker_section {
+    
+  }
   /* Styling for profil */
   .interesserTags p:hover {
     cursor: pointer;
