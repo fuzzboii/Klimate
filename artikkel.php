@@ -161,15 +161,15 @@ if(isset($_POST['sendKommentar'])) {
 // Del for å slette en kommentar
 if(isset($_POST['slettKommentar'])) {
     // Bare tillate at innlogget bruker kan slette sine egne kommentarer
-    $sjekkPaaQ = "select idkommentar from kommentar where idkommentar = " . $_POST['slettKommentar'] . " and bruker = " . $_SESSION['idbruker'];
+    $sjekkPaaQ = "select idkommentar from kommentar where idkommentar = " . $_POST['idkommentar'] . " and bruker = " . $_SESSION['idbruker'];
     $sjekkPaaSTMT = $db->prepare($sjekkPaaQ);
     $sjekkPaaSTMT->execute();
     $funnetKommentar = $sjekkPaaSTMT->rowCount();
 
     if($funnetKommentar > 0) {
         // Begynner med å slette kommentaren
-        $slettKommentarQ = "delete from kommentar where idkommentar = " . $_POST['slettKommentar'];
-        $slettKommentarSTMT = $db->prepare($slettBildeQ);
+        $slettKommentarQ = "delete from kommentar where idkommentar = " . $_POST['idkommentar'];
+        $slettKommentarSTMT = $db->prepare($slettKommentarQ);
         $slettKommentarSTMT->execute();
     }
 }
@@ -361,14 +361,11 @@ $tabindex = 8;
                                             
                                             <!-- Henter slette knapp for kommentarer basert på bruker -->
                                             <?php
-                                            $kommentarsinKommentarQ = "select bruker from kommentar where bruker = " . $_SESSION['idbruker'] . " and artikkel = " . $_GET['artikkel'];
-                                            $kommentarsinKommentarSTMT = $db->prepare($kommentarsinKommentarQ);
-                                            $kommentarsinKommentarSTMT->execute();
-                                            $kommentarsinKommentar = $kommentarsinKommentarSTMT->fetch(PDO::FETCH_ASSOC);
 
-                                            if (isset($kommentarsinKommentar['bruker']) && $kommentarsinKommentar['bruker'] == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
+                                            if ($kommentarer[$i]['bruker'] == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
                                                 <form method="POST" id="artikkel_kommentar_slett" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
-                                                    <input type="submit" id="artikkel_slettKommentar_valgt" name="slettKommentar" value="">
+                                                    <input type="submit" id="artikkel_slettKommentar_knapp" name="slettKommentar" value="slettKommentar">
+                                                    <input type="hidden" id="artikkel_slettKommentar_valgt" name="idkommentar" value="<?php echo($kommentarer[$i]["idkommentar"])?>">
                                                 </form>
                                                 
                                             <?php } ?>
