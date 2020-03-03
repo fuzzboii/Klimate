@@ -2390,6 +2390,14 @@ input:checked + .slider:before {
   text-align: center;
 }
 
+#lesKommentarer {
+  display: none;
+}
+
+#leskommentarer {
+  font-size: 1em;
+}
+
 /* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {
   margin-top: 1em;
