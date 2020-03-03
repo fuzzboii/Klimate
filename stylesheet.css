@@ -333,6 +333,17 @@ footer a {
 .adminMain {
   padding-top: 6em; /* Plassering av logoen på default */
 }
+
+/* Style av select */
+#brukertypeValg {
+  width: 16em;
+  background-color: rgb(242, 246, 245);
+  font-size: 1em;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
 #default_beskrivelse {

@@ -36,6 +36,7 @@ if (isset($_POST['subRegistrering'])) {
 
                     $br = $_POST['brukernavn'];
                     $pw = $_POST['passord'];
+                    $btype = $_POST['brukertype'];
 
                     // Validering av passordstyrke, server validering
                     $storebokstaver = preg_match('@[A-Z]@', $pw);
@@ -67,7 +68,7 @@ if (isset($_POST['subRegistrering'])) {
                             $kombinert = $salt . $pw;
                             // Krypterer saltet passord
                             $spw = sha1($kombinert);
-                            $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', 3)";
+                            $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', $btype)";
 
 
                             // Prepared statement for å beskytte mot SQL injection
@@ -176,7 +177,14 @@ if (isset($_POST['subRegistrering'])) {
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
                         <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                     </section>
-                    <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+                    <section>
+                        <select id="brukertypeValg" name="brukertype">
+                            <option value="3">Ordinær bruker</option>
+                            <option value="2">Redaktør</option>
+                            <option value="1">Administrator</option>
+                        </select>
+                    </section>
+                    <input style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
                     <!-- Håndtering av feilmeldinger -->
                     <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
