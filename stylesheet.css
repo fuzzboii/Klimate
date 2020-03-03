@@ -2307,19 +2307,20 @@ input:checked + .slider:before {
   margin-bottom: 2em;
 }
 
-#artikkel_slettKommentarKnapp {
+#artikkel_slettKommentar_knapp {
   display: block;
   background-color: transparent; /* Gjør knappen gjennomsiktig */
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  text-align: center;
-  font-size: 0.9em;
+  text-align: right;
   float: right;
   cursor: pointer;
-  
+  color: rgb(255, 73, 73);
 }
 
-
-
+#artikkel_kommentarBoks form {
+  display: grid;
+  margin-top: 0.2em;
+}
 
 /* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {
@@ -2340,9 +2341,11 @@ input:checked + .slider:before {
 /* Feltene for selve kommentarene */
 #artikkel_kommentarBoks {
   padding: 1em;
+  padding-bottom: 0.5em;
   margin-bottom: 4px;
   background-color: #fff;
   border-radius: 4px;
+  border-bottom: 2px solid lightgrey;
 }
 
 /* Selve paragrafene i kommentar boksene */
@@ -2367,7 +2370,7 @@ input:checked + .slider:before {
   float: left;
   height: 2em;
   width: 2em;
-  border-radius: 50%; 
+  border-radius: 50%;
 
 }
 

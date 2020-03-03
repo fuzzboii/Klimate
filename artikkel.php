@@ -305,7 +305,7 @@ $tabindex = 8;
                                 ?>
 
                                 
-                                <p class="artikkelTid"><?php echo strftime("%A, %e %B %Y", date_create($dato)->getTimestamp()) ?></p>
+                                <p class="artikkelTid"><?php echo(date_format(date_create($dato), "j M H:i")) ?></p>
                             </section>
                         <?php
 
@@ -347,7 +347,7 @@ $tabindex = 8;
                                     
                                     <?php for($i = 0; $i < count($kommentarer); $i++) {?>
                                         <section id="artikkel_kommentarBoks">
-                                            
+                                                                                        
                                             <!-- Henter profilbilde, brukernavn, tid, og tekst for kommentaren-->
                                             <?php
                                             $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
@@ -355,22 +355,22 @@ $tabindex = 8;
                                             $brukerbildeSTMT -> execute();
                                             $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
                                             ?>
-                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
+                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">                                            
                                             <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                             <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
-                                            <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
+                                            <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p> 
                                             
                                             <!-- Henter slette knapp for kommentarer basert på bruker -->
                                             <?php
 
                                             if ($kommentarer[$i]['bruker'] == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
                                                 <form method="POST" id="artikkel_kommentar_slett" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
-                                                    <input type="submit" id="artikkel_slettKommentar_knapp" name="slettKommentar" value="slettKommentar">
+                                                    <input type="submit" id="artikkel_slettKommentar_knapp" name="slettKommentar" value="Slett kommentar">
                                                     <input type="hidden" id="artikkel_slettKommentar_valgt" name="idkommentar" value="<?php echo($kommentarer[$i]["idkommentar"])?>">
                                                 </form>
                                                 
                                             <?php } ?>
-                                        
+                                                                                   
                                         </section>
                                     <?php } ?>    
                             
@@ -599,7 +599,7 @@ $tabindex = 8;
                                     $navn = $resArt[$j]['brukernavn'];
                                 } ?>
                                 <p class="navn_artikkel"><?php echo($navn)?></p>
-                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$j]['tid']), "j F Y H:i")) ?></p>
+                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$i]['tid']), "j M H:i")) ?></p>
                                 <img class="tid_artikkel_bilde" src="bilder/datoIkon.png">
                                 <h2><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p><?php echo($resArt[$j]['artingress'])?></p>
