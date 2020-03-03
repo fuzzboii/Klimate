@@ -2948,14 +2948,25 @@ input:checked + .slider:before {
   #PIbruker_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
+
   }
 
   .påmeldteBrukere {
     width:18em;
     float: left;
-  }
-  .PIbruker_section {
     
+  }
+  .p_section {
+  }
+
+  .PIbruker_section {
+    border-bottom: 1px solid black;
+    width: 100%;
+    margin: 1em;
+  }
+  .PIbruker_tilbKnapp {
+    
+
   }
   /* Styling for profil */
   .interesserTags p:hover {

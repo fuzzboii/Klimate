@@ -285,6 +285,7 @@ $tabindex = 8;
                     </section>
                     <main id="arrangement_mainPåmeldt" onclick="lukkHamburgerMeny()">
 
+                    <section class="p_section">
                     <?php for($i = 0; $i < count($påmeldtBrukere); $i++) {?>
                         <section class="påmeldteBrukere">
                             <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
@@ -298,10 +299,12 @@ $tabindex = 8;
                                 <p class="påmeldtType"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
                             <?php }?>
                         </section>
+                   
                     <?php }?>
-                    <section class="PIbruker_section">
-                        <button id="PIbruker_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
                     </section>
+
+                    <button id="PIbruker_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    
                     </main>
 
                     <!-- -------------------------- -->
