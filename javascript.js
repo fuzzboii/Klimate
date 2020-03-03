@@ -676,7 +676,7 @@ function VisSkjulKommentarer(divId) {
   }
   else {
     document.getElementById(divId).style.display = 'none';
-    document.getElementById("leskommentarer").innerHTML = 'Les kommentarer';
+    document.getElementById("leskommentarer").innerHTML = 'Vis kommentarer';
     
   }
 }

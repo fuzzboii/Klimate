@@ -329,7 +329,7 @@ $tabindex = 8;
                                     <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>        
                             </section>
                             
-                            <div id="skjulkommentarer" style="display: none;">
+                            <section id="skjulkommentarer" style="display: none;">
                             
                             <section id="artikkel_kommentarSeksjon">
                                 <!-- input kommentering felt -->
@@ -410,8 +410,8 @@ $tabindex = 8;
                             </section> 
                             <?php } ?>
 
-                            </div>
-                            <p><a id="leskommentarer" onclick="javascript:VisSkjulKommentarer('skjulkommentarer')">Les kommentarer</a></p>
+                            </section>
+                            <p><a id="leskommentarer" onclick="javascript:VisSkjulKommentarer('skjulkommentarer')">Vis kommentarer</a></p>
                             <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 

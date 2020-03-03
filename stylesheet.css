@@ -2395,7 +2395,10 @@ input:checked + .slider:before {
 }
 
 #leskommentarer {
+  display: block;
   font-size: 1em;
+  cursor: pointer;
+  text-align: center;
 }
 
 /* Antall kommentarer linjen/området */
