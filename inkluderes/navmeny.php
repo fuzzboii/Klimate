@@ -137,7 +137,10 @@ if(isset($_SESSION['idbruker'])) {
                     <?php } else if ($_SESSION['brukertype'] == 1) { ?>
                         <p style="color: red">Innlogget som <?php echo($brukertypenavn['brukertypenavn']) ?></p>
                     <?php } ?>
-
+                    
+                    <?php if ($_SESSION['brukertype'] == 1) { ?>
+                    <a class = "menytab" tabIndex = "-1" href="administrator.php">Administrator innstillinger</a><br>
+                    <?php } ?>
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                     <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) {?> (<?php echo($antUlest['antall'])?>)<?php } ?></a>
