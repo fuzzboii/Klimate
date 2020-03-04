@@ -463,7 +463,25 @@ $tabindex = 10;
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
-                                    <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser" /> 
+                                <!-- Linje for beskrivelse -->
+                                <p class="personalia">Beskrivelse</p>
+                                    <label class="switch">
+                                    <?php if(isset($visBeskrivelse)) { ?>
+                                        <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" checked />
+                                        <?php } else { ?> <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for interesser -->
+                                <p class="personalia">Interesser</p>
+                                    <label class="switch">
+                                    <?php if(isset($visInteresser)) { ?>
+                                        <input type="checkbox" name="interesserToggle" value="visInteresser" checked />
+                                        <?php } else { ?> <input type="checkbox" name="interesserToggle" value="visInteresser" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser" />
                             </form>
                         </section>
                     <?php } ?>
@@ -645,7 +663,7 @@ $tabindex = 10;
                         <!-- Nøstet foreach -->
                         <!-- Ytre løkke -->
                         <section class="interesserTags">
-                        <?php if ($tellingInteresse != null) {
+                        <?php if ($tellingInteresse != null && isset($visInteresser)) {
                             // Test på om bruker vil vise mer //
                             if(isset($_POST["visMer"])) {
                                 // Sett i så fall $ //
@@ -676,7 +694,9 @@ $tabindex = 10;
                                     <?php } // Slutt, else løkke    
                                 } // Slutt, indre løkke
                             } // Slutt, ytre løkke
-                        } ?> <!-- Slutt, IF-test --> 
+                            // slutt, if-test. elseif-test
+                        } elseif(!isset($visInteresser)) { ?> <p class="ikkeOppgitt"> <?php echo("Skjult") ?> </p>
+                        <?php } ?> <!-- slutt, elseif -->
                         </section>
                     </section>
                     <section class="knapp_grid">
