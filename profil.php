@@ -141,19 +141,26 @@ if ($egen) {
         if(isset($_POST['tlfToggle'])) {
             $vistelefonnummerNy = "1";
         } else $vistelefonnummerNy = "0";
+        if(isset($_POST['beskrivelseToggle'])) {
+            $visBeskrivelseNy = "1";
+        } else $visBeskrivelseNy = "0";
+        if(isset($_POST['interesserToggle'])) {
+            $visInteresserNy = "1";
+        } else $visInteresserNy = "0";
         $brukerNy = $_SESSION['idbruker'];
 
         // Forsøk oppdatering
-        $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, visepost=?, vistelefonnummer=? where bruker=?";
-        $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-        $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
-
-        // Test om oppdateringen virket
-        $test = $stmtOppdaterPreferanse->fetch(PDO::FETCH_ASSOC);
-        if(!$test) {
-            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) values(?, ?, ?, ?, ?)";
+        try {
+            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, 
+                                visepost=?, visinteresser=?, visbeskrivelse=?, vistelefonnummer=? 
+                                where bruker=?";
             $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
+        } finally {
+            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) 
+                                   values(?, ?, ?, ?, ?, ?, ?)";
+            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
         }
     }
 }
@@ -293,8 +300,8 @@ if($preferanser != false) {
     if($preferanser['visenavn'] == "1") $visEnavn = true;
     if($preferanser['visepost'] == "1") $visEpost = true;
     if($preferanser['vistelefonnummer'] == "1") $visTlf = true;
-    if($preferanser['visinteresser'] == "1") $visInteresse = true;
     if($preferanser['visbeskrivelse'] == "1") $visBeskrivelse = true;
+    if($preferanser['visinteresser'] == "1") $visInteresser = true;
 }
 
 //-----------------------//
@@ -452,10 +459,28 @@ $tabindex = 10;
                                 <?php if(isset($visTlf)) { ?>
                                     <input type="checkbox" name="tlfToggle" value="visTlf" checked />
                                     <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf" />
-                                    <?php } ?>
-                                    <span class="slider round"></span>
+                                <?php } ?>
+                                <span class="slider round"></span>
                                 </label>
-                                <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser" /> 
+                            <!-- Linje for beskrivelse -->
+                            <p class="personalia">Beskrivelse</p>
+                                <label class="switch">
+                                <?php if(isset($visBeskrivelse)) { ?>
+                                    <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" checked />
+                                    <?php } else { ?> <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" />
+                                <?php } ?>
+                                <span class="slider round"></span>
+                                </label>
+                            <!-- Linje for interesser -->
+                            <p class="personalia">Interesser</p>
+                            <label class="switch">
+                                <?php if(isset($visInteresser)) { ?>
+                                    <input type="checkbox" name="interesserToggle" value="visInteresser" checked />
+                                    <?php } else { ?> <input type="checkbox" name="interesserToggle" value="visInteresser" />
+                                <?php } ?>
+                                <span class="slider round"></span>
+                                </label>
+                            <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser" />
                         </form>
                     </section>
                     <?php } ?>
@@ -615,16 +640,18 @@ $tabindex = 10;
                     <!-- BESKRIVELSE -->
                     <section class="brukerBeskrivelse">
                     <h2>Beskrivelse</h2>
-                        <?php ?>
-                            <p><?php if(preg_match("/\S/", $beskrivelseProfil['beskrivelse']) == 1) {echo($beskrivelseProfil['beskrivelse']);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
-                        <?php  ?>
+                    <?php if(!preg_match("/\S/", ($beskrivelseProfil["beskrivelse"]))) { ?>
+                        <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                        <?php } elseif(!isset($visBeskrivelse)) { ?>
+                            <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
+                        <?php } else { ?> <p> <?php echo($beskrivelseProfil["beskrivelse"]) ?> </p> <?php } ?>
                     </section>
                     <!-- INTERESSER -->
                     <h2>Interesser</h2>
                     <!-- Nøstet foreach -->
                     <!-- Ytre løkke -->
                     <section class="interesserTags">
-                    <?php if ($tellingInteresse != null) {
+                    <?php if ($tellingInteresse != null && isset($visInteresser)) {
                         // Test på om bruker vil vise mer //
                         if(isset($_POST["visMer"])) {
                             // Sett i så fall $ //
@@ -655,7 +682,7 @@ $tabindex = 10;
                                 <?php } // Slutt, else løkke    
                             } // Slutt, indre løkke
                         } // Slutt, ytre løkke
-                    } ?> <!-- Slutt, IF-test --> 
+                    } elseif(!isset($visInteresser)) { ?> <p class="ikkeOppgitt">Skjult</p>  <?php } ?>
                     </section>
                     <?php if($egen) {?>
                         <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
