@@ -104,7 +104,7 @@ if (isset($_POST['subEndring'])) {
             } else {
                 $epostValidert = filter_var($_POST["nyepost"], FILTER_VALIDATE_EMAIL);
             }
-            if ($epostValidert == true) {
+            if ($epostValidert != false) {
                 // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
                 if ($_POST['nyttbrukernavn'] == "") {
                     // Bruker har valgt å ikke oppdatere brukernavn
