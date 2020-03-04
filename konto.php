@@ -289,10 +289,6 @@ if(isset($_POST['slettInfo'])) {
         }
     }
 }
-
-var_dump($_POST);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="no">
