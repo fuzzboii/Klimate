@@ -8,7 +8,7 @@ include("inkluderes/innstillinger.php");
 
 
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis ikke
-if (!$_SESSION['idbruker']) {
+if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
 }
 
@@ -44,12 +44,12 @@ if (isset($_POST['avregistrerMeg'])) {
                     header('Location: default.php?avregistrert=true');
                 }
             } else {
-                // Feil passord skrevet
-                header("Location: konto.php?error=3");
+                // Feil passord oppgitt
+                header("Location: konto.php?error=2");
             }
         } else {
             // Brukertype er administrator
-            header("Location: konto.php?error=4");
+            header("Location: konto.php?error=3");
         }
     } else {
         // Ikke noe passord skrevet
@@ -104,6 +104,7 @@ if (isset($_POST['subEndring'])) {
             } else {
                 $epostValidert = filter_var($_POST["nyepost"], FILTER_VALIDATE_EMAIL);
             }
+
             if ($epostValidert != false) {
                 // Da vet vi at bruker vil oppdatere en av verdiene over, sjekker individuelt
                 if ($_POST['nyttbrukernavn'] == "") {
@@ -135,11 +136,15 @@ if (isset($_POST['subEndring'])) {
                 }
             
                 // Sjekker på om bruker har skrevet et telefonnummer, maks 12 tegn (0047) 
-                if (!preg_match('/^[0-9]{0,12}$/', $_POST['nytttelefonnummer'])) {
-                    // Bruker har valgt å ikke oppdatere telefonnummer, eller et ugyldig telefonnummer er skrevet
-                    $nyttTelefonnummer = $_SESSION['telefonnummer'];
+                if ($_POST['nytttelefonnummer'] != "") {
+                    if(!preg_match('/^[0-9]{0,12}$/', $_POST['nytttelefonnummer'])) {
+                        header("Location: konto.php?rediger&error=9");
+                    } else {
+                        $nyttTelefonnummer = $_POST['nytttelefonnummer'];
+                    }
                 } else {
-                    $nyttTelefonnummer = $_POST['nytttelefonnummer'];
+                    // Bruker har valgt å ikke oppdatere telefonnummer
+                    $nyttTelefonnummer = $_SESSION['telefonnummer'];
                 }
                 // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
                 $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "', telefonnummer = '" . $nyttTelefonnummer . "'  where idbruker='". $_SESSION['idbruker'] . "'";
@@ -166,7 +171,8 @@ if (isset($_POST['subEndring'])) {
                     unset($_SESSION['input_telefonnummer']);
                 }
             } else {
-                header("Location: konto.php?error=9");
+                // Error 8, Epost er ikke gyldig
+                header("Location: konto.php?rediger&error=8");
             }
         } 
 
@@ -198,10 +204,10 @@ if (isset($_POST['subEndring'])) {
                     // $spesielleB = preg_match('@[^\w]@', $pw);
                     if ($_POST['nyttpassord'] == "") {
                         // Ikke noe passord skrevet
-                        header("Location: konto.php?error=6");
+                        header("Location: konto.php?rediger&error=5");
                     } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
                         // Ikke tilstrekkelig passord skrevet
-                        header("Location: konto.php?error=7");
+                        header("Location: konto.php?rediger&error=6");
                     } else {
                         // Passord er OK, vi fortsetter
                         $kombinert = $salt . $_POST['nyttpassord'];
@@ -221,24 +227,70 @@ if (isset($_POST['subEndring'])) {
                     }
                 }
             } else {
-                // Passordene er ikke like
-                header("Location: konto.php?error=5");
+                // Error 4, Passordene er ikke like
+                header("Location: konto.php?rediger&error=4");
             }
         }
 
         // Hvis vi har oppdatert brukerinfo eller passord, returner bruker til kontosiden, her ser vi oppdatert info direkte
         if ($oppdatertBr == true || $oppdatertPw == true) {
             header("location: konto.php?vellykket=1");
-        } 
+        }
     } 
     catch (PDOException $ex) {
         if ($ex->getCode() == 23000) {
             // 23000, Duplikat brukernavn (Siden brukernavn er UNIQUE)
-            header("location: konto.php?error=8");
+            header("location: konto.php?rediger&error=7");
         }
-    } 
-    
+    }    
 }
+
+if(isset($_POST['slettInfo'])) {
+    if (isset($_POST['fnavn']) || isset($_POST['enavn']) || isset($_POST['telefonnummer'])) {
+        $slettetFnavn = 0;
+        $slettetEnavn = 0;
+        $slettetTlfnr = 0;
+        
+        if (isset($_POST['fnavn'])) {
+            $slettfNavnQ = "update bruker set fnavn = null where idbruker = " . $_SESSION['idbruker'];
+            $slettfNavnSTMT = $db->prepare($slettfNavnQ);
+            $slettfNavnSTMT->execute();
+
+            $slettetFnavn =  $slettfNavnSTMT->rowCount();
+    
+            $_SESSION['fornavn'] = "";
+    
+        } if (isset($_POST['enavn'])) {
+            $sletteNavnQ = "update bruker set enavn = null where idbruker = " . $_SESSION['idbruker'];
+            $sletteNavnSTMT = $db->prepare($sletteNavnQ);
+            $sletteNavnSTMT->execute();
+
+            $slettetEnavn =  $sletteNavnSTMT->rowCount();
+    
+            $_SESSION['etternavn'] = "";
+    
+        } if (isset($_POST['telefonnummer'])) {
+    
+            $slettTlfQ = "update bruker set telefonnummer = null where idbruker = " . $_SESSION['idbruker'];
+            $sletteTlfSTMT = $db->prepare($slettTlfQ);
+            $sletteTlfSTMT->execute();
+
+            $slettetTlfnr =  $sletteTlfSTMT->rowCount();
+    
+            $_SESSION['telefonnummer'] = "";
+    
+        }
+        
+        if($slettetFnavn > 0 || $slettetEnavn > 0 || $slettetTlfnr > 0) {
+            header("location: konto.php?vellykket=1");
+        } else {
+            // Error 10, kunne ikke slette data
+            header("location: konto.php?rediger&error=10");
+        }
+    }
+}
+
+var_dump($_POST);
 
 
 ?>
@@ -275,76 +327,70 @@ if (isset($_POST['subEndring'])) {
             <h1>Konto</h1>
         </header>
 
-        <!-- Meldinger til bruker -->
-        <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
-            <p id="mldOK">Konto oppdatert</p>  
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-            <p id="mldFEIL">Du må oppgi et passord ved avregistrering.</p>
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-            <p id="mldFEIL">Kunne ikke oppdatere konto, vennligst prøv igjen senere</p>  
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-            <p id="mldFEIL">Feil passord skrevet ved avregistrering</p>
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-            <p id="mldFEIL">Du kan ikke avregistrere en administrator</p>  
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-            <p id="mldFEIL">Passordene er ikke like</p>
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 6){ ?>
-            <p id="mldFEIL">Skriv inn et passord</p>
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
-            <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 8){ ?>
-            <p id="mldFEIL">Brukernavnet er opptatt</p>    
-
-        <?php } else if(isset($_GET['error']) && $_GET['error'] == 9){ ?>
-            <p id="mldFEIL">Epost er ikke gyldig</p>    
-
-        <?php } ?>
-
-        <?php if(isset($_POST['rediger'])) { ?>
+        <?php if(isset($_GET['rediger'])) { ?>
             <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
+                <?php if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                    <p id="mldFEIL">Passordene er ikke like</p>
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                    <p id="mldFEIL">Skriv inn et passord</p>
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
+                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 7){ ?>
+                    <p id="mldFEIL">Brukernavnet er opptatt</p>    
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 8){ ?>
+                    <p id="mldFEIL">Epost er ikke gyldig</p>    
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 9){ ?>
+                    <p id="mldFEIL">Telefonnummer må inneholde kun tall. Oppgi landkode som 0047.</p>    
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 10){ ?>
+                    <p id="mldFEIL">Kunne ikke slette data, vennligst prøv på nytt</p>    
+
+                <?php } ?>
                 <section class="brukerinformasjon_rediger"> 
                     <!-- Underoverskrift -->
                     <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
 
-                    
-                    <form id="konto_rediger_formSlett" method="POST" action="konto.php" name="slettInfo">
-
+                    <form id="konto_rediger_formSlett" method="POST" action="konto.php" style="display: none;">
+                        <input type="hidden" name="slettInfo">
                     </form>
                     
                     <!-- Felt for brukeropplysning endringer -->
                     <form id="konto_rediger_form" method="POST" action="konto.php" class="konto_rediger_Form">
                         <!-- Brukernavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Endre brukernavn</h3>
+                            <p class="endre_bruker_overskrift">Endre brukernavn</p>
                             <input type="text" class="KontoredigeringFelt" name="nyttbrukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Nytt brukernavn" autofocus>
                         </section>
                         <!-- Epost -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Endre epost</h3>
+                            <p class="endre_bruker_overskrift">Endre epost</p>
                             <input type="email" class="KontoredigeringFelt" name="nyepost" value="<?php echo($input_epost) ?>" placeholder="Ny epost">
                         </section>    
                         <!-- Fornavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Endre fornavn</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn">
+                            <p class="endre_bruker_overskrift">Endre fornavn
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="fnavn" value="(Slett)">
+                            </p>
+                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn" pattern="[A-Za-z]{1,}" title="Oppgi et gyldig navn">
                         </section>
                         <!-- Etternavn -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Endre etternavn</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn">
+                            <p class="endre_bruker_overskrift">Endre etternavn
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="enavn" value="(Slett)">
+                            </p>
+                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn" pattern="[A-Za-z]{1,}" title="Oppgi et gyldig navn">
                         </section>
                         <!-- Telefonnummer -->
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Endre telefonnummer</h3>
-                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php echo($input_telefonnummer) ?>" placeholder="Nytt telefonnummer">
+                            <p class="endre_bruker_overskrift">Endre telefonnummer
+                                <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="telefonnummer" value="(Slett)">
+                            </p>
+                            <input type="text" class="KontoredigeringFelt" name="nytttelefonnummer" value="<?php echo($input_telefonnummer) ?>" placeholder="Nytt telefonnummer" pattern="[0-9]{8,12}"  title="Oppgi telefonnummer i formatet: 12345678. Oppgi landkode som 0047">
                         </section>
                         
                     </form>
@@ -353,38 +399,22 @@ if (isset($_POST['subEndring'])) {
                     <button type="button" id="kontoRullegardin" class="kontoRullegardin">Endre passord</button>
                     <section id="konto_rediger_pw" class="innholdRullegardin">
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Gammelt passord</h3>
-                            <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" form="konto_rediger_form" autofocus>
+                            <p class="endre_bruker_overskrift">Gammelt passord</p>
+                            <input type="password" class="KontoredigeringFeltPW" name="gammeltpassord" value="" placeholder="Gammelt passord" form="konto_rediger_form">
                         </section>
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Nytt passord</h3>
-                            <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord" form="konto_rediger_form">
+                            <p class="endre_bruker_overskrift">Nytt passord</p>
+                            <input type="password" class="KontoredigeringFeltPW" name="nyttpassord" value="" placeholder="Nytt passord" form="konto_rediger_form" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                         </section>
                         <section class="konto_rediger_inputBoks">
-                            <h3 class="endre_bruker_overskrift">Bekreft nytt passord</h3>
-                            <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form">
+                            <p class="endre_bruker_overskrift">Bekreft nytt passord</p>
+                            <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                         </section>
                         <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
                     </section>
 
                     <!-- Knapp for å lagre endringer -->
                     <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer" form="konto_rediger_form">
-
-                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                        <p id="mldFEIL">Passordene er ikke like</p>
-                    
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                        <p id="mldFEIL">Skriv inn et passord</p>
-                    
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                        <p id="mldFEIL">Brukernavnet er opptatt</p>    
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                        <p id="mldFEIL">Epost er ikke gyldig</p>    
-                    <?php } ?>
                     <!-- Sender brukeren tilbake til forsiden -->
                     <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
                 </section>
@@ -392,6 +422,20 @@ if (isset($_POST['subEndring'])) {
         <?php } else { ?>
             <!-- Konto brukeropplysninger -->
             <main id="konto_main" onclick="lukkHamburgerMeny()">
+                <!-- Meldinger til bruker -->
+                <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
+                    <p id="mldOK">Konto oppdatert</p>  
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                    <p id="mldFEIL">Du må oppgi et passord ved avregistrering.</p>
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                    <p id="mldFEIL">Feil passord oppgitt</p> 
+
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                    <p id="mldFEIL">Du kan ikke avregistrere en administrator</p> 
+
+                <?php } ?>
                 <section class="brukerinformasjon">
                     <table class="brukerinformasjon_tabell">
                         <!-- Brukernavn output -->
@@ -401,28 +445,26 @@ if (isset($_POST['subEndring'])) {
                         <!-- Epost output -->
                         <tr>
                             <th>Epost:</th>
-                                <td><?php echo($_SESSION['epost']) ?></td>
+                                <?php if(preg_match("/\S/", $_SESSION['epost']) == 1) {echo("<td>" . $_SESSION['epost']);} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
                         </tr>  
                         <!-- Fornavn output -->
                         <tr>
                             <th>Fornavn:</th>
-                                <td><?php echo($_SESSION['fornavn']) ?></td>
+                                <?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) {echo("<td>" . $_SESSION['fornavn']);} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
                         </tr>
                         <!-- Etternavn output -->
                         <tr>
                             <th>Etternavn:</th>
-                                <td><?php echo($_SESSION['etternavn']) ?></td>
+                                <?php if(preg_match("/\S/", $_SESSION['etternavn']) == 1) {echo("<td>" . $_SESSION['etternavn']);} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
                         </tr>
                         <!-- Telefonnummer output -->
                         <tr>
                             <th>Telefonnummer:</th>
-                                <td><?php echo($_SESSION['telefonnummer']) ?></td>
+                                <?php if(preg_match("/\S/", $_SESSION['telefonnummer']) == 1) {echo("<td>" . $_SESSION['telefonnummer']);} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
                         </tr>
                     
                     </table>
-                    <form method="POST" action="konto.php">
-                        <input type="submit" name="rediger" class="rediger_konto_knapp" value="Rediger konto">
-                    </form>
+                    <button onClick="location.href='konto.php?rediger'" class="rediger_konto_knapp">Rediger konto</button>
                     
                     <button onclick="bekreftMelding('konto_bekreftAvr')" class="konto_avregistrer" id="konto_avregistrerKnapp">Avregistrering</button>
 
