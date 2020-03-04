@@ -696,13 +696,13 @@ function visKommentar() {
       var knappLes = this;
 
       // Tester på style som er nå, hvis ingressen vises, skjul ingress og vis tekst
-      if (innholdIngress.style.display == "block") {
-        innholdTekst.style.display = "block";
+      if (innholdIngress.style.display == "inline-block") {
+        innholdTekst.style.display = "inline-block";
         innholdIngress.style.display = "none";
         knappLes.innerHTML = "Les mindre";
       } else {
         innholdTekst.style.display = "none";
-        innholdIngress.style.display = "block";
+        innholdIngress.style.display = "inline-block";
         knappLes.innerHTML = "Les mer";
       }
     });
