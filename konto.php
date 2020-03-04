@@ -493,6 +493,7 @@ if(isset($_POST['slettInfo'])) {
                     
                     <button onclick="bekreftMelding('konto_bekreftAvr')" class="konto_avregistrer" id="konto_avregistrerKnapp">Avregistrering</button>
 
+                    
                     <section id="konto_bekreftAvr" style="display: none;">
                         <section id="konto_bekreftAvrInnhold">
                             <h2>Avregistrering</h2>
