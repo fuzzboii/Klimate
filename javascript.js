@@ -684,24 +684,28 @@ function VisSkjulKommentarer(divId) {
 
 function visKommentar() {
   
-  var knappTekst = document.getElementsByClassName("kommentar_lesknapp");
-  var knappIngress = document.getElementsByClassName("kommentarIngress");
-  var knappTekst = document.getElementsByClassName("kommentarTekst");
+  var knappLes = document.getElementsByClassName("kommentar_lesknapp");
 
   // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet kommentar_lesknapp
-  for (var i = 0; i < knappTekst.length; i++) {
-    // Siden en kommentar har en tekst, har den også to elementer for ingress og tekst
-    var innholdIngress = knappIngress[i];
-    var innholdTekst = knappTekst[i];
+  for (var i = 0; i < knappLes.length; i++) {
+    
+    knappLes[i].addEventListener("click", function() {
+      // Siden en kommentar har en tekst, har den også to elementer for ingress og tekst
+      var innholdTekst = this.previousElementSibling;
+      var innholdIngress = innholdTekst.previousElementSibling;
+      var knappLes = this;
 
-    // Tester på style som er nå, hvis ingressen vises, skjul ingress og vis tekst
-    if (innholdIngress.style.display == "block") {
-      innholdTekst.style.display = "block";
-      innholdIngress.style.display = "none";
-    } else {
-      innholdTekst.style.display = "none";
-      innholdIngress.style.display = "block";
-    }
+      // Tester på style som er nå, hvis ingressen vises, skjul ingress og vis tekst
+      if (innholdIngress.style.display == "block") {
+        innholdTekst.style.display = "block";
+        innholdIngress.style.display = "none";
+        knappLes.innerHTML = "Les mindre";
+      } else {
+        innholdTekst.style.display = "none";
+        innholdIngress.style.display = "block";
+        knappLes.innerHTML = "Les mer";
+      }
+    });
   }
 }
 
