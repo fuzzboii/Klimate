@@ -24,10 +24,17 @@ if (isset($_POST['submit'])) {
     $soknaden = $_POST['soknaden'];
 
     $mailTo = "soknad@klimate.no";
-    $headers = "Søknad fra ".$brukernavn;
-    $txt = "Søknad om å bli redaktør fra brukeren".$brukernavn.".\n"."Navn:".$fnavn." ".$enavn.".\n"."Epost: ".$epost."\n\n"."Søknad: "."\n".$soknaden;
-    mail($mailTo, "Søknad om å bli redaktør fra ".$brukernavn, $txt, $headers);
-    header("Location: backend.php?soknadsendt");
+    $headers = "From: ". $_POST['epost'];
+    $txt = "Søknad om å bli redaktør fra brukeren ".$brukernavn.".\n"."Navn: ".$fnavn." ".$enavn.".\n"."Epost: ".$epost."\n\n"."Søknad: "."\n".$soknaden;
+    
+    // Hvis eposten ble godkjent til å sendes, send bruker til backend med melding
+	// Dette betyr ikke nødvendigvis at mail faktisk når mottaker
+    if(mail($mailTo, "Søknad om å bli redaktør fra ".$brukernavn, $txt, $headers)) {
+		header("Location: backend.php?soknadsendt");
+	} else {
+        // Error 1, kunne ikke sendes
+		header("Location: soknad.php?error=1");
+    }
 }
 
 
@@ -58,6 +65,11 @@ if (isset($_POST['submit'])) {
         <header id="soknad_header" onclick="lukkHamburgerMeny()">
             <!-- Logoen midten øverst på siden, med tittel -->
             <h1>Søknad om å bli redaktør</h1>
+            <?php
+            // Feilmeldinger
+            if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                <p id="mldFEIL">Feil oppsto ved sending av søknad</p>
+            <?php } ?>
         </header>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
