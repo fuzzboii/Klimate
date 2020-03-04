@@ -6,30 +6,81 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
-
-
 // Brukere skal kunne sende søknad
 if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
 } else if ($_SESSION['brukertype'] != '3') {
     header("Location: default.php?error=4");
 }
-// Skal få sendt til epost. 
-// Må legge til siste del for at eposten skal sendes.
+
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+$input_soknad = "";
+if (isset($_SESSION['input_soknad'])) {
+    // Legger innhold i variable som leses senere på siden
+    $input_soknad = $_SESSION['input_soknad'];
+    // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+    unset($_SESSION['input_soknad']);
+}
+
+// Funksjonalitet for å sende en epost
 if (isset($_POST['submit'])) {
-    $brukernavn = $_POST['brukernavn'];
-    $epost = $_POST['epost'];
-    $fnavn = $_POST['fnavn'];
-    $enavn = $_POST['enavn'];
-    $soknaden = $_POST['soknaden'];
+    // Session variabel for å ta vare på søknaden ved evt feil
+    $input_soknad = $_POST['soknaden'];
+
+    if($_POST['epost'] != "") {
+        $epostValidert = filter_var($_POST["nyepost"], FILTER_VALIDATE_EMAIL);
+        if($epostValidert == false) {
+            // Error 2, epost ikke gyldig
+            header("Location: soknad.php?error=2");
+        } else {
+            $epost = $epostValidert;
+        }
+    }
+
+    if(preg_match("/\S/", $_POST['fnavn']) == 1) {
+        $fnavn = $_POST['fnavn'];
+    } else {
+        // Error 3, fornavn ikke gyldig
+        header("Location: soknad.php?error=3");
+    }
+
+    if(preg_match("/\S/", $_POST['enavn']) == 1) {
+        $enavn = $_POST['enavn'];
+    } else {
+        // Error 4, etternavn ikke gyldig
+        header("Location: soknad.php?error=4");
+    }
+
+    if(preg_match("/\S/", $_POST['soknaden']) == 1) {
+        $soknaden = $_POST['soknaden'];
+    } else {
+        // Error 5, søknaden ikke gyldig
+        header("Location: soknad.php?error=5");
+    }
+
+    if(preg_match("/\S/", $_POST['brukernavn']) == 1) {
+        $brukernavn = $_POST['brukernavn'];
+    } else {
+        // Error 6, brukernavn ikke gyldig
+        header("Location: soknad.php?error=6");
+    }
+
+    // Tester på om telefonnummer i formatet 
+    if(preg_match('/^[0-9]{0,12}$/', $_POST['telefon'])) {
+        $tlfnr = $_POST['telefon'];
+    } else {
+        // Error 7, telefonnummer ikke gyldig
+        header("Location: soknad.php?error=7");
+    }
 
     $mailTo = "soknad@klimate.no";
     $headers = "From: ". $_POST['epost'];
-    $txt = "Søknad om å bli redaktør fra brukeren ".$brukernavn.".\n"."Navn: ".$fnavn." ".$enavn.".\n"."Epost: ".$epost."\n\n"."Søknad: "."\n".$soknaden;
+    $txt = "Søknad om å bli redaktør fra brukeren ".$brukernavn.".\nNavn: ".$fnavn." ".$enavn.".\nEpost: ".$epost."\nTelefonnummer: ".$tlfnr."\n\n"."Søknad: "."\n".$soknaden;
     
     // Hvis eposten ble godkjent til å sendes, send bruker til backend med melding
 	// Dette betyr ikke nødvendigvis at mail faktisk når mottaker
     if(mail($mailTo, "Søknad om å bli redaktør fra ".$brukernavn, $txt, $headers)) {
+        unset($_SESSION['input_soknad']);
 		header("Location: backend.php?soknadsendt");
 	} else {
         // Error 1, kunne ikke sendes
@@ -69,6 +120,25 @@ if (isset($_POST['submit'])) {
             // Feilmeldinger
             if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
                 <p id="mldFEIL">Feil oppsto ved sending av søknad</p>
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
+                <p id="mldFEIL">Oppgi en gyldig epost</p>
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
+                <p id="mldFEIL">Oppgi et gyldig fornavn</p>
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
+                <p id="mldFEIL">Oppgi et gyldig etternavn</p>
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
+                <p id="mldFEIL">Oppgi en gyldig søknad</p>
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
+                <p id="mldFEIL">Oppgi et gyldig brukernavn</p>
+
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
+                <p id="mldFEIL">Oppgi et gyldig telefonnummer</p>
+
             <?php } ?>
         </header>
 
@@ -85,7 +155,7 @@ if (isset($_POST['submit'])) {
                     <!-- Input av brukernavn, som beholder siste innskrevne -->
                     <section class="inputBoksSoknad">
                         <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="<?php echo($_SESSION['epost']) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
+                        <input type="email" class="RegInnFelt" name="epost" value="<?php if(filter_var($_SESSION['epost'], FILTER_VALIDATE_EMAIL) != false) {echo($_SESSION['epost']);} ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
                     </section>
                     <!-- Input av brukernavn, som beholder siste innskrevne -->
                     <section class="inputBoksSoknad">
@@ -100,7 +170,7 @@ if (isset($_POST['submit'])) {
                     <!-- Input av brukernavn, som beholder siste innskrevne -->
                     <section class="inputBoksSoknad">
                         <img class="icon" src="bilder/telefonIkon.png" alt="telefonikon"> <!-- Ikonet for telefonnummer -->
-                        <input type="telefon" class="RegInnFelt" name="telefon" value="<?php echo($_SESSION['telefonnummer']) ?>" placeholder="Skriv inn telefonnummer" required title="Skriv inn ditt telefonnummer">
+                        <input type="telefon" class="RegInnFelt" name="telefon" value="<?php if(preg_match('/^[0-9]{0,12}$/', $_SESSION['telefonnummer'])) {echo($_SESSION['telefonnummer']);} ?>" placeholder="Skriv inn telefonnummer" required title="Skriv inn ditt telefonnummer">
                     </section>
                 </section>
                 <section class="soknad_form">
