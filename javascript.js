@@ -681,5 +681,22 @@ function VisSkjulKommentarer(divId) {
   }
 }
 
+
+function myFunction() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("myBtn");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Read more"; 
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Read less"; 
+    moreText.style.display = "inline";
+  }
+}
+
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
 /* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */

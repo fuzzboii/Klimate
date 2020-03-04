@@ -2417,6 +2417,7 @@ input:checked + .slider:before {
 }
 
 
+
 /* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {
   margin-top: 1em;

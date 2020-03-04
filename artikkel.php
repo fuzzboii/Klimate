@@ -369,8 +369,10 @@ $tabindex = 8;
                                                 <?php } ?>                                         
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                                 <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
-                                                <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p> 
-                                                
+
+                                                <p class="kommentarIngressTekst"><?php echo $kommentarer[$i]['ingress'] ?> <span id="dots">...</span><span id="more"><?php echo $kommentarer[$i]['tekst'] ?> </p></span>
+                                                <button onclick="myFunction()" id="myBtn">Read more</button>
+
                                                 <!-- Henter slette knapp for kommentarer basert på bruker -->
                                                 <?php
 
@@ -411,7 +413,9 @@ $tabindex = 8;
                                                 <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                                 <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
-                                                <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
+                                                
+                                                <p class="kommentarIngressTekst"><?php echo $kommentarer[$i]['ingress'] ?> <span id="dots">...</span><span id="more"><?php echo $kommentarer[$i]['tekst'] ?> </p></span>
+                                                <button onclick="myFunction()" id="myBtn">Read more</button>
                                             </section>
                                         <?php } ?>    
                                 </section> 
