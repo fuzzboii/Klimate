@@ -2391,16 +2391,32 @@ input:checked + .slider:before {
 }
 
 /* Skjuling/visning av kommentarer seksjonene */
-#lesKommentarer {
+.lesKommentarer {
   display: none;
 }
 
-#leskommentarer {
-  display: block;
-  font-size: 1em;
+.leskommentarer {
+  font-size: .70em;
   cursor: pointer;
+  text-transform: uppercase;
   text-align: center;
+  padding-top: .50em;
+  padding-bottom: .50em;
+  padding-left: 3em;
+  padding-right: 3em;
+  background-color: rgb(214, 214, 214);
+  border: none;
+  border-radius: 1em;
 }
+#visSkjulKnapp {
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  max-width: 250px;
+  margin: auto;
+  margin-bottom: 1em;
+}
+
 
 /* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {

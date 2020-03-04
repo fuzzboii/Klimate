@@ -375,8 +375,6 @@ $tabindex = 8;
                                                                                     
                                             </section>
                                         <?php } ?>    
-                                
-                                
                                 </section> 
                                 
                                 <?php } else { ?>
@@ -411,7 +409,9 @@ $tabindex = 8;
                                 <?php } ?>
 
                             </section>
-                            <p><a id="leskommentarer" onclick="javascript:VisSkjulKommentarer('skjulkommentarer')">Vis kommentarer</a></p>
+                            <section id="visSkjulKnapp">
+                                <button onclick="javascript:VisSkjulKommentarer('skjulkommentarer')" name="submit" class="leskommentarer">Vis kommentarer</button>
+                            </section>
                             <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 
