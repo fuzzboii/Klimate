@@ -314,7 +314,7 @@ if(isset($_POST['slettInfo'])) {
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-    <body id="konto_body" onload="kontoRullegardin()">
+    <body id="konto_body" onresize="fiksRullegardin()" onload="kontoRullegardin()">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
