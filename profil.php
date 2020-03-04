@@ -493,7 +493,6 @@ $tabindex = 10;
                             <h2>Endre beskrivelse</h2>
                             <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
-                                <h1></h1>
                                 <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"></input>
                             </form>
                         <?php } ?>
