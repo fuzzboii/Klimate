@@ -285,6 +285,7 @@ $tabindex = 8;
                     </section>
                     <main id="arrangement_mainPåmeldt" onclick="lukkHamburgerMeny()">
 
+                    <section class="p_section">
                     <?php for($i = 0; $i < count($påmeldtBrukere); $i++) {?>
                         <section class="påmeldteBrukere">
                             <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
@@ -298,15 +299,18 @@ $tabindex = 8;
                                 <p class="påmeldtType"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
                             <?php }?>
                         </section>
+                   
                     <?php }?>
-                    <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    </section>
+
+                    <button id="PIbruker_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
                     </main>
 
                     <!-- -------------------------- -->
                     <!-- Del for å invitere brukere -->
                     <!-- -------------------------- -->
                 <?php } else if(isset($_GET['inviter'])) { 
-                    $hentBrukere = "select idbruker, brukernavn from bruker";
+                    $hentBrukere = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ")";
                     $hentBrukereSTMT = $db->prepare($hentBrukere);
                     $hentBrukereSTMT->execute();
                     $MuligBrukere = $hentBrukereSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -340,31 +344,34 @@ $tabindex = 8;
                     </section>
                     <main id="arrangement_mainPåmeldt" onclick="lukkHamburgerMeny()">
 
-                    <?php foreach($MuligBrukere as $bruker) {
-                        $hentInv = "select event_id, bruker_id, interessert from påmelding where interessert='Invitert' and event_id = " . $_GET['arrangement'] . " and bruker_id =" . $bruker['idbruker'];
-                        $invitertSTMT = $db->prepare($hentInv);
-                        $invitertSTMT->execute();
-                        $invitertBruker = $invitertSTMT->fetch(PDO::FETCH_ASSOC);
-                        $antallInv = $invitertSTMT->rowCount();
-                        
-                        ?>
-                        <section class="påmeldteBrukere">
-                            <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
-                            <p class="p_bruker"><?php echo($bruker['brukernavn']) ?></p>
+                    <section class="p_section">
+                        <?php foreach($MuligBrukere as $bruker) {
+                            $hentInv = "select event_id, bruker_id, interessert from påmelding where interessert='Invitert' and event_id = " . $_GET['arrangement'] . " and bruker_id =" . $bruker['idbruker'];
+                            $invitertSTMT = $db->prepare($hentInv);
+                            $invitertSTMT->execute();
+                            $invitertBruker = $invitertSTMT->fetch(PDO::FETCH_ASSOC);
+                            $antallInv = $invitertSTMT->rowCount();
                             
-                            <?php
-                            if($antallInv != 0) { ?>
-                            <p class="SendtBruker">Sendt!</p>
+                            ?>
+                            <section class="påmeldteBrukere">
+                                <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                                <p class="p_bruker"><?php echo($bruker['brukernavn']) ?></p>
+                                
+                                <?php
+                                if($antallInv != 0) { ?>
+                                <p class="sendtBruker">Sendt!</p>
 
-                            <?php } else {?>
-                            <form method="POST" action="">
-                                <input type="hidden" name="inviterBruker" value="<?php echo($bruker['idbruker']) ?>"></input>
-                                <input class="InvBruker" type="submit" name="inviterSubmit" value="Inviter"></input>
-                            </form>
-                            <?php }?>
-                        </section>
-                    <?php }?>
-                    <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                                <?php } else {?>
+                                <form method="POST" action="">
+                                    <input type="hidden" name="inviterBruker" value="<?php echo($bruker['idbruker']) ?>"></input>
+                                    <input class="InvBruker" type="submit" name="inviterSubmit" value="Inviter"></input>
+                                </form>
+                                <?php }?>
+                            </section>
+                        <?php }?>
+                    </section>
+
+                    <button id="PIbruker_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
                     </main>
 
                 <?php } else { 
@@ -402,10 +409,6 @@ $tabindex = 8;
                             $interesserteSTMT->execute();
                             $antallInteresserte = $interesserteSTMT->rowCount();
                             ?>
-                            <!-- inviterknappen -->
-                            <form method="POST" id="inviter_form_ny" action="arrangement.php?inviter=<?php echo($_GET['arrangement'])?>&arrangement=<?php echo($_GET['arrangement'])?>">
-                                <input type="submit" class="inviterK" name="inviter" value="Inviter">
-                            </form>
 
                             <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                 <?php if(isset($_SESSION['idbruker'])) {
@@ -479,7 +482,14 @@ $tabindex = 8;
                             <h2>Kontakt</h2>
                             <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                         </section>
-                        <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
+
+                        <section class="arg_tilbInv_knapp">
+                            <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
+                            <!-- inviterknappen -->
+                            <form method="POST" id="inviter_form_ny" action="arrangement.php?inviter=<?php echo($_GET['arrangement'])?>&arrangement=<?php echo($_GET['arrangement'])?>">
+                                    <input type="submit" class="inviterK" name="inviter" value="Inviter">
+                            </form>
+                        </section>
                         <?php 
                         if(isset($_SESSION['idbruker'])) {
                             $hentEierQ = "select idbruker from event where idbruker = " . $_SESSION['idbruker'] . " and idevent = " . $_GET['arrangement'];

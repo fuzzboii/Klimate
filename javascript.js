@@ -663,5 +663,23 @@ function meldingTabbing() {
   }
 }
 
+/*-------------------*/
+/*-------------------*/
+/* Del for kommentarer */
+/*-------------------*/
+/*-------------------*/
+function VisSkjulKommentarer(divId) {
+  if(document.getElementById(divId).style.display == 'none') {
+  
+    document.getElementById(divId).style.display='block';
+    document.getElementById("leskommentarer").innerHTML = 'Skjul kommentarer';
+  }
+  else {
+    document.getElementById(divId).style.display = 'none';
+    document.getElementById("leskommentarer").innerHTML = 'Vis kommentarer';
+    
+  }
+}
+
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
 /* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */

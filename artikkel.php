@@ -161,15 +161,16 @@ if(isset($_POST['sendKommentar'])) {
 // Del for å slette en kommentar
 if(isset($_POST['slettKommentar'])) {
     // Bare tillate at innlogget bruker kan slette sine egne kommentarer
-    $sjekkPaaQ = "select idkommentar from kommentar where idkommentar = " . $_POST['slettKommentar'] . " and bruker = " . $_SESSION['idbruker'];
+    $sjekkPaaQ = "select idkommentar from kommentar, bruker where idkommentar = " . $_POST['idkommentar'] . " and bruker = " . $_SESSION['idbruker'];
     $sjekkPaaSTMT = $db->prepare($sjekkPaaQ);
     $sjekkPaaSTMT->execute();
     $funnetKommentar = $sjekkPaaSTMT->rowCount();
 
-    if($funnetKommentar > 0) {
+    // Hvis kommentaren som er funnet er større enn 0, eller innlogget brukertype er 1 (Admin) -> slett
+    if($funnetKommentar > 0 or $_SESSION['brukertype'] == 1) {
         // Begynner med å slette kommentaren
-        $slettKommentarQ = "delete from kommentar where idkommentar = " . $_POST['slettKommentar'];
-        $slettKommentarSTMT = $db->prepare($slettBildeQ);
+        $slettKommentarQ = "delete from kommentar where idkommentar = " . $_POST['idkommentar'];
+        $slettKommentarSTMT = $db->prepare($slettKommentarQ);
         $slettKommentarSTMT->execute();
     }
 }
@@ -304,7 +305,7 @@ $tabindex = 8;
                                 ?>
 
                                 
-                                <p class="artikkelTid"><?php echo strftime("%A, %e %B %Y", date_create($dato)->getTimestamp()) ?></p>
+                                <p class="artikkelTid"><?php echo(date_format(date_create($dato), "j M H:i")) ?></p>
                             </section>
                         <?php
 
@@ -325,89 +326,101 @@ $tabindex = 8;
                                     $hentAntallKommentarerSTMT->execute();
                                     $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
                                 ?>
-                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentarer</p>        
+                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>        
                             </section>
-
-                            <section id="artikkel_kommentarSeksjon">
-                                <!-- input kommentering felt -->
-                                <form method="POST" id="kommentar_form" action="artikkel.php?artikkel=<?php echo($_GET['artikkel']) ?>">
-                                    <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required></textarea>
-                                    <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
-                                </form>
-                                
-                                <!-- Henter kommentarer -->
-                                <?php
-                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
-                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
-                                    $hentKommentarSTMT = $db->prepare($hentKommentar);
-                                    $hentKommentarSTMT->execute();
-                                    $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
-                                    ?>
+                            
+                            <!-- Skjuler/viser kommentarer og kommenteringen -->
+                            <section id="skjulkommentarer" style="display: none;">
+                                <section id="artikkel_kommentarSeksjon">
+                                    <!-- input kommentering felt -->
+                                    <form method="POST" id="kommentar_form" action="artikkel.php?artikkel=<?php echo($_GET['artikkel']) ?>">
+                                        <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required></textarea>
+                                        <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
+                                    </form>
                                     
-                                    <?php for($i = 0; $i < count($kommentarer); $i++) {?>
-                                        <section id="artikkel_kommentarBoks">
-                                            <!-- Henter profilbilde, brukernavn, tid, og tekst for kommentaren-->
-                                            <?php
-                                            $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
-                                            $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
-                                            $brukerbildeSTMT -> execute();
-                                            $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
-                                            ?>
-                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
-                                            <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
-                                            <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
-                                            <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
-                                            
-                                            <!-- Henter slette knapp for kommentarer basert på bruker -->
-                                            <?php
-                                            $hentEierQ = "select bruker from kommentar where bruker = " . $_SESSION['idbruker'] . " and artikkel = " . $_GET['artikkel'];
-                                            $hentEierSTMT = $db->prepare($hentEierQ);
-                                            $hentEierSTMT->execute();
-                                            $kommentarEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
-
-                                            if ($kommentarEier == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
-                                                <button id="artikkel_slettKommentarKnapp" name="slettKommentar" value="<?php echo($_GET['idkommentar']) ?>">Slett kommentar</button>
-                                                
-                                            <?php } ?>
+                                    <!-- Henter kommentarer -->
+                                    <?php
+                                        $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
+                                                    where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
+                                        $hentKommentarSTMT = $db->prepare($hentKommentar);
+                                        $hentKommentarSTMT->execute();
+                                        $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                        ?>
                                         
-                                        </section>
-                                    <?php } ?>    
-                            
-                            
-                            </section> 
-                            
-                            <?php } else { ?>
-                            <section id="artikkel_kommentarSeksjon">
-                                <!-- Knapp for å sende brukeren til logg inn -->
-                                <button onClick="location.href='logginn.php'" name="submit" class="artikkel_tilLogginn_knapp">Logg inn for å kommentere</button>
+                                        <?php for($i = 0; $i < count($kommentarer); $i++) {?>
+                                            <section id="artikkel_kommentarBoks">
+                                                                                            
+                                                <!-- Henter profilbilde, brukernavn, tid, og tekst for kommentaren-->
+                                                <?php
+                                                $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
+                                                $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
+                                                $brukerbildeSTMT -> execute();
+                                                $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
+
+                                                $testPaa = $brukerbilde['hvor'];
+                                                if(file_exists("$lagringsplass/$testPaa")) {  
+                                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
+                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>">   
+                                                    <?php } else { ?>
+                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">  
+                                                    <?php }
+                                                } else { ?>
+                                                    <img class="kommentar_profilBilde" src="bilder/profil.png">
+                                                <?php } ?>                                         
+                                                <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
+                                                <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
+                                                <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p> 
+                                                
+                                                <!-- Henter slette knapp for kommentarer basert på bruker -->
+                                                <?php
+
+                                                if ($kommentarer[$i]['bruker'] == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
+                                                    <form method="POST" id="artikkel_kommentar_slett" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
+                                                        <input type="submit" id="artikkel_slettKommentar_knapp" name="slettKommentar" value="Slett kommentar">
+                                                        <input type="hidden" id="artikkel_slettKommentar_valgt" name="idkommentar" value="<?php echo($kommentarer[$i]["idkommentar"])?>">
+                                                    </form>
+                                                    
+                                                <?php } ?>
+                                                                                    
+                                            </section>
+                                        <?php } ?>    
+                                </section> 
                                 
-                                <!-- Henter kommentarer -->
-                                <?php
-                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
-                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
-                                    $hentKommentarSTMT = $db->prepare($hentKommentar);
-                                    $hentKommentarSTMT->execute();
-                                    $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
-                                    ?>
+                                <?php } else { ?>
+                                <section id="artikkel_kommentarSeksjon">
+                                    <!-- Knapp for å sende brukeren til logg inn -->
+                                    <button onClick="location.href='logginn.php'" name="submit" class="artikkel_tilLogginn_knapp">Logg inn for å kommentere</button>
                                     
-                                    <?php for($i = 0; $i < count($kommentarer); $i++) {?>
-                                        <section id="artikkel_kommentarBoks">
-                                            <?php
-                                            $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
-                                            $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
-                                            $brukerbildeSTMT -> execute();
-                                            $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
-                                            ?>
-                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
-                                            <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
-                                            <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
-                                            <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
-                                        </section>
-                                    <?php } ?>    
-                            </section> 
-                            <?php } ?>
+                                    <!-- Henter kommentarer -->
+                                    <?php
+                                        $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
+                                                    where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
+                                        $hentKommentarSTMT = $db->prepare($hentKommentar);
+                                        $hentKommentarSTMT->execute();
+                                        $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                        ?>
+                                        
+                                        <?php for($i = 0; $i < count($kommentarer); $i++) {?>
+                                            <section id="artikkel_kommentarBoks">
+                                                <?php
+                                                $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
+                                                $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
+                                                $brukerbildeSTMT -> execute();
+                                                $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                                ?>
+                                                <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
+                                                <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
+                                                <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
+                                                <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p>
+                                            </section>
+                                        <?php } ?>    
+                                </section> 
+                                <?php } ?>
 
-
+                            </section>
+                            <section id="visSkjulKnapp">
+                                <button onclick="javascript:VisSkjulKommentarer('skjulkommentarer')" name="submit" id="leskommentarer">Vis kommentarer</button>
+                            </section>
                             <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
                             <?php 
@@ -598,7 +611,7 @@ $tabindex = 8;
                                     $navn = $resArt[$j]['brukernavn'];
                                 } ?>
                                 <p class="navn_artikkel"><?php echo($navn)?></p>
-                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$j]['tid']), "j F Y H:i")) ?></p>
+                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$j]['tid']), "j M H:i")) ?></p>
                                 <img class="tid_artikkel_bilde" src="bilder/datoIkon.png">
                                 <h2><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p><?php echo($resArt[$j]['artingress'])?></p>
