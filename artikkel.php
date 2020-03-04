@@ -356,8 +356,17 @@ $tabindex = 8;
                                                 $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
                                                 $brukerbildeSTMT -> execute();
                                                 $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
-                                                ?>
-                                                <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">                                            
+
+                                                $testPaa = $brukerbilde['hvor'];
+                                                if(file_exists("$lagringsplass/$testPaa")) {  
+                                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
+                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>">   
+                                                    <?php } else { ?>
+                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">  
+                                                    <?php }
+                                                } else { ?>
+                                                    <img class="kommentar_profilBilde" src="bilder/profil.png">
+                                                <?php } ?>                                         
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                                 <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
                                                 <p class="kommentarTekst"><?php echo $kommentarer[$i]['tekst'] ?> </p> 
