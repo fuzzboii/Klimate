@@ -431,7 +431,36 @@ if(isset($_POST['slettInfo'])) {
                 <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
                     <p id="mldFEIL">Du kan ikke avregistrere en administrator</p> 
 
-                <?php } ?>
+                <?php }
+
+                // Henter personvern
+                $personvernQ = "select visfnavn, visenavn, visepost, vistelefonnummer from preferanse where bruker = " . $_SESSION['idbruker'];
+                $personvernSTMT = $db->prepare($personvernQ);
+                $personvernSTMT->execute();
+                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                $kanViseFornavn = false;
+                $kanViseEtternavn = false;
+                $kanViseEpost = false;
+                $kanViseTlf = false;
+
+                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                    $kanViseFornavn = true;
+                }
+
+                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                    $kanViseEtternavn = true;
+                }
+
+                if(isset($personvernArtikkel['visepost']) && $personvernArtikkel['visepost'] == "1") {
+                    $kanViseEpost = true;
+                }
+
+                if(isset($personvernArtikkel['vistelefonnummer']) && $personvernArtikkel['visepost'] == "1") {
+                    $kanViseTlf = true;
+                }
+                ?>
+
                 <section class="brukerinformasjon">
                     <table class="brukerinformasjon_tabell">
                         <!-- Brukernavn output -->
@@ -441,22 +470,22 @@ if(isset($_POST['slettInfo'])) {
                         <!-- Epost output -->
                         <tr>
                             <th>Epost:</th>
-                                <?php if(preg_match("/\S/", $_SESSION['epost']) == 1) {echo("<td>" . $_SESSION['epost']);} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
+                                <?php if(preg_match("/\S/", $_SESSION['epost']) == 1) {echo("<td>" . $_SESSION['epost']); if($kanViseEpost == false) {echo(" (Skjult offentlig)");}} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
                         </tr>  
                         <!-- Fornavn output -->
                         <tr>
                             <th>Fornavn:</th>
-                                <?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) {echo("<td>" . $_SESSION['fornavn']);} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
+                                <?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) {echo("<td>" . $_SESSION['fornavn']); if($kanViseFornavn == false) {echo(" (Skjult offentlig)");}} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
                         </tr>
                         <!-- Etternavn output -->
                         <tr>
                             <th>Etternavn:</th>
-                                <?php if(preg_match("/\S/", $_SESSION['etternavn']) == 1) {echo("<td>" . $_SESSION['etternavn']);} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
+                                <?php if(preg_match("/\S/", $_SESSION['etternavn']) == 1) {echo("<td>" . $_SESSION['etternavn']); if($kanViseEtternavn == false) {echo(" (Skjult offentlig)");}} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
                         </tr>
                         <!-- Telefonnummer output -->
                         <tr>
                             <th>Telefonnummer:</th>
-                                <?php if(preg_match("/\S/", $_SESSION['telefonnummer']) == 1) {echo("<td>" . $_SESSION['telefonnummer']);} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
+                                <?php if(preg_match("/\S/", $_SESSION['telefonnummer']) == 1) {echo("<td>" . $_SESSION['telefonnummer']); if($kanViseTlf == false) {echo(" (Skjult offentlig)");}} else {echo("<td style='font-style: italic;'>Ikke oppgitt");} ?></td>
                         </tr>
                     
                     </table>
