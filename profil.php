@@ -569,9 +569,9 @@ $tabindex = 10;
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } ?>
+                    </section>   
                         
-                        
-                        
+                    <section class="ovs_grid">
                         <!---------------->
                         <!-- BRUKERINFO -->
                         <!---------------->
@@ -617,47 +617,52 @@ $tabindex = 10;
                             <p><?php if(preg_match("/\S/", $beskrivelseProfil['beskrivelse']) == 1) {echo($beskrivelseProfil['beskrivelse']);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
                         <?php  ?>
                     </section>
-                    <!-- INTERESSER -->
-                    <h2>Interesser</h2>
-                    <!-- Nøstet foreach -->
-                    <!-- Ytre løkke -->
-                    <section class="interesserTags">
-                    <?php if ($tellingInteresse != null) {
-                        // Test på om bruker vil vise mer //
-                        if(isset($_POST["visMer"])) {
-                            // Sett i så fall $ //
-                            // IT'S OVER 9000! // 
-                            $max = 9999;
-                        } else $max = 11;
-                        // Teller for å ikke vise for mange interesser umiddelbart
-                        $teller = 0;
-                        foreach ($interesseProfil as $rad) {    
-                            foreach ($rad as $kolonne) { ?>
-                                <!-- Oppdater teller -->
-                                <?php $teller++; ?>
-                                <!-- break; hvis vi har vist mange nok -->
-                                <?php if($teller > $max) { ?>
-                                    <!-- POST en variabel som brukes til å angi max -->
-                                    <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                                        <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
-                                    </form>
-                                    <!-- break 2; bryter ut av begge løkkene -->
-                                    <?php break 2;
-                                } ?>
-                                <!-- Test om bruker er i slettemodus -->
-                                <?php if (isset($_POST['slettemodus'])) { ?> 
-                                    <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                <!-- Ellers normal visning -->
-                                <?php } else { ?> 
-                                    <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
-                                <?php } // Slutt, else løkke    
-                            } // Slutt, indre løkke
-                        } // Slutt, ytre løkke
-                    } ?> <!-- Slutt, IF-test --> 
+
+                    <section class="int_grid">
+                        <!-- INTERESSER -->
+                        <h2>Interesser</h2>
+                        <!-- Nøstet foreach -->
+                        <!-- Ytre løkke -->
+                        <section class="interesserTags">
+                        <?php if ($tellingInteresse != null) {
+                            // Test på om bruker vil vise mer //
+                            if(isset($_POST["visMer"])) {
+                                // Sett i så fall $ //
+                                // IT'S OVER 9000! // 
+                                $max = 9999;
+                            } else $max = 11;
+                            // Teller for å ikke vise for mange interesser umiddelbart
+                            $teller = 0;
+                            foreach ($interesseProfil as $rad) {    
+                                foreach ($rad as $kolonne) { ?>
+                                    <!-- Oppdater teller -->
+                                    <?php $teller++; ?>
+                                    <!-- break; hvis vi har vist mange nok -->
+                                    <?php if($teller > $max) { ?>
+                                        <!-- POST en variabel som brukes til å angi max -->
+                                        <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                            <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
+                                        </form>
+                                        <!-- break 2; bryter ut av begge løkkene -->
+                                        <?php break 2;
+                                    } ?>
+                                    <!-- Test om bruker er i slettemodus -->
+                                    <?php if (isset($_POST['slettemodus'])) { ?> 
+                                        <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
+                                    <!-- Ellers normal visning -->
+                                    <?php } else { ?> 
+                                        <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
+                                    <?php } // Slutt, else løkke    
+                                } // Slutt, indre løkke
+                            } // Slutt, ytre løkke
+                        } ?> <!-- Slutt, IF-test --> 
+                        </section>
                     </section>
+                    <section class="knapp_grid">
                     <?php if($egen) {?>
                         <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
                     <?php } ?>
+                    </section>
                 </main>
             <?php } ?> <!-- Test på om brukeren har klikket på rediger -->
             <?php include("inkluderes/footer.php") ?>

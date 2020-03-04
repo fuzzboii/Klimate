@@ -1352,7 +1352,7 @@ margin-right: auto;
 .arrangement_paameld {
   background-color: rgb(207, 207, 207); /* bakgrunnsfarge på knapp */
   color: rgb(0, 0, 0); /* tekstfarge */
-  margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.5em;
+  margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.0em;
   font-weight: normal; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
@@ -1360,6 +1360,18 @@ margin-right: auto;
   padding: 0.5em;
   font-size: 0.9em; /* Font-størrelse */
 }
+.arrangement_paameld2 {
+  background-color: rgb(19, 144, 228); /* bakgrunnsfarge på knapp */
+  color: rgb(255, 255, 255); /* tekstfarge */
+  margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-left: 0.6em;
+  font-weight: normal; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  border-radius: 0.2em; /* Runder ut knappen */
+  padding: 0.5em;
+  font-size: 0.9em; /* Font-størrelse */
+}
+
 .påmeldteBrukere {
   border-radius: 1em 1em 1em 1em;
   background-color: rgba(166, 173, 169, 0.637);
@@ -1830,7 +1842,7 @@ margin-right: auto;
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 9em;
+  margin-top: 9em; margin-left: auto; margin-right: auto;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   text-align: center;
@@ -2713,6 +2725,35 @@ input:checked + .slider:before {
 
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
+  .profil_pb {
+    grid-area: profilbilde;
+  }
+  .ovs_grid {
+    grid-area: oversikt;
+  
+  }
+  
+  .brukerBeskrivelse {
+    grid-area: beskrivelse;
+  }
+  
+  .int_grid {
+   grid-area: interesser;
+  }
+  
+  .knapp_grid {
+    grid-area: knapp;
+  }
+  
+  .profil_main {
+    display: grid;
+    grid-template-columns: 20em 30em auto;
+    grid-template-areas: 
+    "profilbilde profilbilde profilbilde"
+    "oversikt beskrivelse interesser"
+    "knapp knapp knapp";
+    grid-gap: 1em 1em;
+  }
 
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
   .navTop button:hover {
@@ -2941,6 +2982,9 @@ input:checked + .slider:before {
     margin-right: 10em;
     
   }
+  .arrangement_paameld2 {
+    margin-left: 58%;
+  }
 
   .side_artikkel {
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -2973,7 +3017,7 @@ input:checked + .slider:before {
     background-color: rgb(145, 0, 0); /* Fargeendring/hover ved å holde over knappen */
   }
   
-  .inviterK:hover {
+  .arrangement_paameld2:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
