@@ -408,125 +408,114 @@ $tabindex = 10;
             <!-- ---------------------------------------------------- -->
             <?php if(isset($_GET['innstillinger']) && $egen) { ?>
                 <header class="profil_header" onclick="lukkHamburgerMeny()">
-                    
                 </header>
                 
-                <main class="profil_main">
-                <h1>Rediger informasjon</h1>
-                    <h2>Endre profilbilde</h2>
-                    <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                        <h3>Velg et bilde</h3>
-                        <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
-                        <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
-                    </form>
-                    <!-- -------------------------------------------------------------------------------------------------------------- -->
-                    <!-- Del for visning av personalia -->
-                    <?php if($egen) { ?>
-                    <h2>Vis eller skjul personalia</h2>
-                    <section class="profil_persInf">
-                        <!-- Et skjema for å oppdatere preferanser -->
-                        <form name="preferanserForm" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
-                            <!-- Linje for fornavn -->
-                            <p class="personalia">Fornavn</p>
-                                <label class="switch">
-                                    <?php if(isset($visFnavn)) { ?>
-                                    <input type="checkbox" name="fnavnToggle" value="visFnavn" checked />
-                                    <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn" />
-                                    <?php } ?>
-                                    <span class="slider round"></span>
-                                </label>
-                            <!-- Linje for etternavn -->
-                            <p class="personalia">Etternavn</p>
-                                <label class="switch">
-                                <?php if(isset($visEnavn)) { ?>
-                                    <input type="checkbox" name="enavnToggle" value="visEnavn" checked />
-                                    <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn" />
-                                    <?php } ?>
-                                    <span class="slider round"></span>
-                                </label>
-                            <!-- Linje for epostadresse -->
-                            <p class="personalia">E-Post Adresse</p>
-                                <label class="switch">
-                                <?php if(isset($visEpost)) { ?>
-                                    <input type="checkbox" name="epostToggle" value="visEpost" checked />
-                                    <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost" />
-                                    <?php } ?>
-                                    <span class="slider round"></span>
-                                </label>
-                            <!-- Linje for telefonnummer -->
-                            <p class="personalia">Telefonnummer</p>
-                                <label class="switch">
-                                <?php if(isset($visTlf)) { ?>
-                                    <input type="checkbox" name="tlfToggle" value="visTlf" checked />
-                                    <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf" />
-                                <?php } ?>
-                                <span class="slider round"></span>
-                                </label>
-                            <!-- Linje for beskrivelse -->
-                            <p class="personalia">Beskrivelse</p>
-                                <label class="switch">
-                                <?php if(isset($visBeskrivelse)) { ?>
-                                    <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" checked />
-                                    <?php } else { ?> <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" />
-                                <?php } ?>
-                                <span class="slider round"></span>
-                                </label>
-                            <!-- Linje for interesser -->
-                            <p class="personalia">Interesser</p>
-                            <label class="switch">
-                                <?php if(isset($visInteresser)) { ?>
-                                    <input type="checkbox" name="interesserToggle" value="visInteresser" checked />
-                                    <?php } else { ?> <input type="checkbox" name="interesserToggle" value="visInteresser" />
-                                <?php } ?>
-                                <span class="slider round"></span>
-                                </label>
-                            <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser" />
+                <main class="profil_main2">
+                    <section class="bilde_grid">
+                        <h2>Endre profilbilde</h2>
+                        <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                            <h3>Velg et bilde</h3>
+                            <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
+                            <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
                         </form>
                     </section>
+                    <!-- -------------------------------------------------------------------------------------------------------------- -->
+                    <!-- Del for visning av personalia -->
+                    <section class="skjul_grid">
+                        <?php if($egen) { ?>
+                        <h2>Vis eller skjul personalia</h2>
+                        <section class="profil_persInf">
+                            <!-- Et skjema for å oppdatere preferanser -->
+                            <form name="preferanserForm" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                                <!-- Linje for fornavn -->
+                                <p class="personalia">Fornavn</p>
+                                    <label class="switch">
+                                        <?php if(isset($visFnavn)) { ?>
+                                        <input type="checkbox" name="fnavnToggle" value="visFnavn" checked />
+                                        <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for etternavn -->
+                                <p class="personalia">Etternavn</p>
+                                    <label class="switch">
+                                    <?php if(isset($visEnavn)) { ?>
+                                        <input type="checkbox" name="enavnToggle" value="visEnavn" checked />
+                                        <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for epostadresse -->
+                                <p class="personalia">E-Post Adresse</p>
+                                    <label class="switch">
+                                    <?php if(isset($visEpost)) { ?>
+                                        <input type="checkbox" name="epostToggle" value="visEpost" checked />
+                                        <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for telefonnummer -->
+                                <p class="personalia">Telefonnummer</p>
+                                    <label class="switch">
+                                    <?php if(isset($visTlf)) { ?>
+                                        <input type="checkbox" name="tlfToggle" value="visTlf" checked />
+                                        <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser" /> 
+                            </form>
+                        </section>
                     <?php } ?>
+                    </section>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
-                <?php if($egen) { ?>
-                        <h2>Endre beskrivelse</h2>
-                        <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
-                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
-                            <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"/>
-                        </form>
-                    <?php } ?>
-                    <!-- Viser interesser -->
-                    <h2 class="OverskriftInter">Interesser</h2>
-                    <!-- Nøstet foreach -->
-                    <!-- Ytre løkke -->
-                    <section class="interesserSection">
-                        <section class="interesserTags">
-                            <?php if ($tellingInteresse != null) {
-                                foreach ($interesseProfil as $rad) {    
-                                    foreach ($rad as $kolonne) { ?> 
-                                        <!-- Test om bruker er i slettemodus -->
-                                        <?php if (isset($_POST['slettemodus'])) { ?> 
-                                            <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                            <!-- Ellers normal visning -->
-                                        <?php } else { ?> 
-                                            <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>><?php echo($kolonne); ?></p>
-                                        <?php } // Slutt, else løkke    
-                                    } // Slutt, indre løkke
-                                } // Slutt, ytre løkke
-                            } ?> <!-- Slutt, IF-test -->
-                        </section>
-                        <!-- Del for å legge til interesser -->
-                        <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
-
-                        <!-- Slettemodus -->
-                        <?php if ($egen) { ?>
-                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
-                            <?php if(!isset($_POST['slettemodus'])) { ?>
-                                <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
-                            <?php } else { ?> 
-                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt" tabindex="100"> 
-                            <?php } ?>
-                        </form>
+                    <section class="bsk_grid">
+                        <?php if($egen) { ?>
+                            <h2>Endre beskrivelse</h2>
+                            <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                                <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
+                                <h1></h1>
+                                <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"></input>
+                            </form>
                         <?php } ?>
-                        
+                    </section>
+
+                    <section class="int2_grid">
+                        <!-- Viser interesser -->
+                        <h2 class="OverskriftInter">Interesser</h2>
+                        <!-- Nøstet foreach -->
+                        <!-- Ytre løkke -->
+                        <section class="interesserSection">
+                            <section class="interesserTags">
+                                <?php if ($tellingInteresse != null) {
+                                    foreach ($interesseProfil as $rad) {    
+                                        foreach ($rad as $kolonne) { ?> 
+                                            <!-- Test om bruker er i slettemodus -->
+                                            <?php if (isset($_POST['slettemodus'])) { ?> 
+                                                <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
+                                                <!-- Ellers normal visning -->
+                                            <?php } else { ?> 
+                                                <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>><?php echo($kolonne); ?></p>
+                                            <?php } // Slutt, else løkke    
+                                        } // Slutt, indre løkke
+                                    } // Slutt, ytre løkke
+                                } ?> <!-- Slutt, IF-test -->
+                            </section>
+                            <!-- Del for å legge til interesser -->
+                            <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+
+                            <!-- Slettemodus -->
+                            <?php if ($egen) { ?>
+                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                                <?php if(!isset($_POST['slettemodus'])) { ?>
+                                    <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
+                                <?php } else { ?> 
+                                    <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt" tabindex="100"> 
+                                <?php } ?>
+                            </form>
+                            <?php } ?>
+                    
                         <?php if($egen) { ?>
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">
@@ -544,13 +533,16 @@ $tabindex = 10;
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
+                        </section>
                         <?php } ?> <!-- Slutt, IF-test -->                
                     </section> 
                     
-                    <!-- tilbake knapp -->
-                    <?php if($egen) {?>
-                            <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex="105">Tilbake</button>
-                    <?php }?>
+                    <section class="knapp2_grid">
+                        <!-- tilbake knapp -->
+                        <?php if($egen) {?>
+                                <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex="105">Tilbake</button>
+                        <?php }?>
+                    </section>
 
                 </main>
             <?php } else { ?>
@@ -596,9 +588,9 @@ $tabindex = 10;
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } ?>
+                    </section>   
                         
-                        
-                        
+                    <section class="ovs_grid">
                         <!---------------->
                         <!-- BRUKERINFO -->
                         <!---------------->
@@ -646,47 +638,52 @@ $tabindex = 10;
                             <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
                         <?php } else { ?> <p> <?php echo($beskrivelseProfil["beskrivelse"]) ?> </p> <?php } ?>
                     </section>
-                    <!-- INTERESSER -->
-                    <h2>Interesser</h2>
-                    <!-- Nøstet foreach -->
-                    <!-- Ytre løkke -->
-                    <section class="interesserTags">
-                    <?php if ($tellingInteresse != null && isset($visInteresser)) {
-                        // Test på om bruker vil vise mer //
-                        if(isset($_POST["visMer"])) {
-                            // Sett i så fall $ //
-                            // IT'S OVER 9000! // 
-                            $max = 9999;
-                        } else $max = 11;
-                        // Teller for å ikke vise for mange interesser umiddelbart
-                        $teller = 0;
-                        foreach ($interesseProfil as $rad) {    
-                            foreach ($rad as $kolonne) { ?>
-                                <!-- Oppdater teller -->
-                                <?php $teller++; ?>
-                                <!-- break; hvis vi har vist mange nok -->
-                                <?php if($teller > $max) { ?>
-                                    <!-- POST en variabel som brukes til å angi max -->
-                                    <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                                        <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
-                                    </form>
-                                    <!-- break 2; bryter ut av begge løkkene -->
-                                    <?php break 2;
-                                } ?>
-                                <!-- Test om bruker er i slettemodus -->
-                                <?php if (isset($_POST['slettemodus'])) { ?> 
-                                    <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                <!-- Ellers normal visning -->
-                                <?php } else { ?> 
-                                    <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
-                                <?php } // Slutt, else løkke    
-                            } // Slutt, indre løkke
-                        } // Slutt, ytre løkke
-                    } elseif(!isset($visInteresser)) { ?> <p class="ikkeOppgitt">Skjult</p>  <?php } ?>
+
+                    <section class="int_grid">
+                        <!-- INTERESSER -->
+                        <h2>Interesser</h2>
+                        <!-- Nøstet foreach -->
+                        <!-- Ytre løkke -->
+                        <section class="interesserTags">
+                        <?php if ($tellingInteresse != null) {
+                            // Test på om bruker vil vise mer //
+                            if(isset($_POST["visMer"])) {
+                                // Sett i så fall $ //
+                                // IT'S OVER 9000! // 
+                                $max = 9999;
+                            } else $max = 11;
+                            // Teller for å ikke vise for mange interesser umiddelbart
+                            $teller = 0;
+                            foreach ($interesseProfil as $rad) {    
+                                foreach ($rad as $kolonne) { ?>
+                                    <!-- Oppdater teller -->
+                                    <?php $teller++; ?>
+                                    <!-- break; hvis vi har vist mange nok -->
+                                    <?php if($teller > $max) { ?>
+                                        <!-- POST en variabel som brukes til å angi max -->
+                                        <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                            <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
+                                        </form>
+                                        <!-- break 2; bryter ut av begge løkkene -->
+                                        <?php break 2;
+                                    } ?>
+                                    <!-- Test om bruker er i slettemodus -->
+                                    <?php if (isset($_POST['slettemodus'])) { ?> 
+                                        <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
+                                    <!-- Ellers normal visning -->
+                                    <?php } else { ?> 
+                                        <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
+                                    <?php } // Slutt, else løkke    
+                                } // Slutt, indre løkke
+                            } // Slutt, ytre løkke
+                        } ?> <!-- Slutt, IF-test --> 
+                        </section>
                     </section>
+                    <section class="knapp_grid">
                     <?php if($egen) {?>
                         <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
                     <?php } ?>
+                    </section>
                 </main>
             <?php } ?> <!-- Test på om brukeren har klikket på rediger -->
             <?php include("inkluderes/footer.php") ?>
