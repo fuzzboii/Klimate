@@ -2395,7 +2395,7 @@ input:checked + .slider:before {
   display: none;
 }
 
-.leskommentarer {
+#leskommentarer {
   font-size: .70em;
   cursor: pointer;
   text-transform: uppercase;

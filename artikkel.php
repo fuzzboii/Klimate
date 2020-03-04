@@ -410,7 +410,7 @@ $tabindex = 8;
 
                             </section>
                             <section id="visSkjulKnapp">
-                                <button onclick="javascript:VisSkjulKommentarer('skjulkommentarer')" name="submit" class="leskommentarer">Vis kommentarer</button>
+                                <button onclick="javascript:VisSkjulKommentarer('skjulkommentarer')" name="submit" id="leskommentarer">Vis kommentarer</button>
                             </section>
                             <!-- Slett og tilbake knapper -->
                             <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
