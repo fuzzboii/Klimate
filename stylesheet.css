@@ -2378,7 +2378,7 @@ input:checked + .slider:before {
   background-color: transparent; /* Gjør knappen gjennomsiktig */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   cursor: pointer;
-  color: rgb(255, 73, 73);
+  color: rgb(255, 0, 0);
 }
 
 #artikkel_kommentarBoks form {
@@ -3146,6 +3146,19 @@ input:checked + .slider:before {
     transition: background-color 0.2s;
   }
 
+  /* Hover for Artikkel kommentarer */
+  #artikkel_nyKommentar_knapp:hover, #leskommentarer:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s; 
+  }
+
+  #artikkel_slettKommentar_knapp:hover {
+    color: white;
+    background: red;
+    border: 1px solid red;
+    border-radius: 1em;
+    padding: 0;
+  }
 }
 
 /* Medium skjerm, 1080p */
