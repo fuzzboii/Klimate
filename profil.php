@@ -143,17 +143,22 @@ if ($egen) {
         } else $vistelefonnummerNy = "0";
         $brukerNy = $_SESSION['idbruker'];
 
-        // Forsøk oppdatering
-        $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, visepost=?, vistelefonnummer=? where bruker=?";
-        $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-        $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
+        // Midlertidige verdier //
+        $visinteresserNy = "1";
+        $visBeskrivelseNy = "1";
 
-        // Test om oppdateringen virket
-        $test = $stmtOppdaterPreferanse->fetch(PDO::FETCH_ASSOC);
-        if(!$test) {
-            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) values(?, ?, ?, ?, ?)";
+        // Forsøk oppdatering
+        try {
+            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, 
+                                visepost=?, visinteresser=?, visbeskrivelse=?, vistelefonnummer=? 
+                                where bruker=?";
             $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visinteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
+        } finally {
+            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) 
+                                   values(?, ?, ?, ?, ?, ?, ?)";
+            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visinteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
         }
     }
 }
