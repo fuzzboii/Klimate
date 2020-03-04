@@ -782,7 +782,7 @@ footer a {
 /* Setter design for brukerinformasjonen som vises i konto */
 .brukerinformasjon {
   margin: auto;
-  max-width: 250px;   
+  max-width: 300px;   
   padding-top: 2em;
 }
 
