@@ -682,19 +682,26 @@ function VisSkjulKommentarer(divId) {
 }
 
 
-function myFunction() {
-  var dots = document.getElementById("dots");
-  var moreText = document.getElementById("more");
-  var btnText = document.getElementById("myBtn");
+function visKommentar() {
+  
+  var knappTekst = document.getElementsByClassName("kommentar_lesknapp");
+  var knappIngress = document.getElementsByClassName("kommentarIngress");
+  var knappTekst = document.getElementsByClassName("kommentarTekst");
 
-  if (dots.style.display === "none") {
-    dots.style.display = "inline";
-    btnText.innerHTML = "Read more"; 
-    moreText.style.display = "none";
-  } else {
-    dots.style.display = "none";
-    btnText.innerHTML = "Read less"; 
-    moreText.style.display = "inline";
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet kommentar_lesknapp
+  for (var i = 0; i < knappTekst.length; i++) {
+    // Siden en kommentar har en tekst, har den også to elementer for ingress og tekst
+    var innholdIngress = knappIngress[i];
+    var innholdTekst = knappTekst[i];
+
+    // Tester på style som er nå, hvis ingressen vises, skjul ingress og vis tekst
+    if (innholdIngress.style.display == "block") {
+      innholdTekst.style.display = "block";
+      innholdIngress.style.display = "none";
+    } else {
+      innholdTekst.style.display = "none";
+      innholdIngress.style.display = "block";
+    }
   }
 }
 

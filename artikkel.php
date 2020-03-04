@@ -370,8 +370,9 @@ $tabindex = 8;
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                                 <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
 
-                                                <p class="kommentarIngressTekst"><?php echo $kommentarer[$i]['ingress'] ?> <span id="dots">...</span><span id="more"><?php echo $kommentarer[$i]['tekst'] ?> </p></span>
-                                                <button onclick="myFunction()" id="myBtn">Read more</button>
+                                                <p class="kommentarIngress" style="display: block"><?php echo $kommentarer[$i]['ingress'] ?>...</p>
+                                                <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
+                                                <button onclick="visKommentar()" class="kommentar_lesknapp">Les mer</button>
 
                                                 <!-- Henter slette knapp for kommentarer basert på bruker -->
                                                 <?php
