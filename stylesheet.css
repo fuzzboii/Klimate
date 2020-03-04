@@ -2457,7 +2457,12 @@ input:checked + .slider:before {
   margin-bottom: 1em;
 }
 
-
+.kommentar_lesknapp {
+  display: inline;
+  cursor: pointer;
+  color: rgb(36, 209, 99);
+  font-size: 0.8em;
+}
 
 /* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {

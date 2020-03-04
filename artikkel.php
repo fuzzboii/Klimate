@@ -370,9 +370,9 @@ $tabindex = 8;
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                                 <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
 
-                                                <p class="kommentarIngress" style="display: block"><?php echo $kommentarer[$i]['ingress'] ?>...</p>
+                                                <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>...</p>
                                                 <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
-                                                <button class="kommentar_lesknapp">Les mer</button>
+                                                <p class="kommentar_lesknapp">Les mer</p>
 
                                                 <!-- Henter slette knapp for kommentarer basert på bruker -->
                                                 <?php
@@ -415,9 +415,9 @@ $tabindex = 8;
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                                 <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
                                                 
-                                                <p class="kommentarIngress" style="display: block"><?php echo $kommentarer[$i]['ingress'] ?>...</p>
+                                                <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>...</p>
                                                 <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
-                                                <button class="kommentar_lesknapp">Read more</button>
+                                                <p class="kommentar_lesknapp">Les mer</p>
                                             </section>
                                         <?php } ?>    
                                 </section> 
