@@ -159,7 +159,7 @@ if ($egen) {
                                    values(?, ?, ?, ?, ?, ?, ?)";
             $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
             $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
-        }
+        }   
 }
 
  //-----------------------------//
@@ -483,11 +483,8 @@ $tabindex = 10;
                             </form>
                         </section>
                     <?php } ?>
-                    <!-- Oppdater-knapp -->
-                    <?php if($egen) { ?>
-                        <button class="rediger_profil_knapp" onclick="lastOppProfil()">Oppdater</button>
-                    <?php } ?>
-                    </section>
+                </section>
+                
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                     <section class="bsk_grid">
@@ -498,6 +495,11 @@ $tabindex = 10;
                             </section>
                         <?php } ?>
                     </section>
+
+                    <!-- Oppdater-knapp -->
+                    <?php if($egen) { ?>
+                        <button class="rediger_profil_knapp" onclick="lastOppProfil()">Oppdater</button>
+                    <?php } ?>
 
                     <section class="int2_grid">
                         <!-- Viser interesser -->
@@ -533,7 +535,8 @@ $tabindex = 10;
                                 <?php } ?>
                             </form>
                             <?php } ?>
-                    
+                    </section>
+                    <section class=int_input_grid>
                         <?php if($egen) { ?>
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">

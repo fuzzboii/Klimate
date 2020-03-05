@@ -2860,30 +2860,40 @@ input:checked + .slider:before {
   }
   .skjul_grid {
     grid-area: skjulinfo;
+    margin-left: 2em;
+    margin-right: 2em;
     
   }
   
   .bsk_grid {
+    margin-top: 3em;
     grid-area: beskriv;
   }
   
   .int2_grid {
    grid-area: interesseTag;
   }
+
+  .int_input_grid {
+    grid-area: interesseInput;
+  }
   
   .knapp2_grid {
     grid-area: tilbake;
   }
 
+  .rediger_profil_knapp {
+    grid-area: oppdater;
+  }
+
   .profil_main2 {
     display: grid;
-    grid-template-columns: auto auto ;
+    grid-template-columns: 2fr 1fr 1fr;
     grid-template-rows: 11.25em auto auto auto;
     grid-template-areas: 
-    "endrebilde skjulinfo "
-    "beskriv skjulinfo"
-    "interesseTag interesseTag "
-    "tilbake tilbake";
+    "endrebilde skjulinfo interesseTag"
+    "beskriv skjulinfo interesseInput"
+    "oppdater tilbake interesseInput";
   }
 
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
