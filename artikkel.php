@@ -571,10 +571,10 @@ $tabindex = 8;
                                             <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
                                         <?php } ?>
                                     <?php } else { ?>
-                                        <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                        <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
                                     <?php } ?>
                                 <?php } else { ?>
-                                    <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                    <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
                                 <?php }
                                 
                                 
