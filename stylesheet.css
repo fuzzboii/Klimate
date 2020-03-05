@@ -1316,7 +1316,7 @@ table {
    /* Mellomrom mellom den yttre boksen og main */
   border-radius: 0em 0em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-  width: 90%
+  width: 90%;
 }
 
 #arrangement_paameldt {
@@ -1350,6 +1350,8 @@ table {
   display: grid;
   grid-template-columns: 3em 7em 6em;
   margin: 0.5em;
+  width: 16.3em;
+  margin-left: auto; margin-right: auto;
 }
 
 .p_bruker {
@@ -1376,6 +1378,8 @@ table {
   border-radius: 0.5em 0.5em 0.5em 0.5em;
   padding: 0.2em;
   margin-top: 0.9em;
+  margin-left: auto; margin-right: 0.2em;
+  width: 3.5em;
   text-align: center;
 }
 .InvBruker {
@@ -1771,6 +1775,9 @@ table {
   padding: 0.8em; /* Hvor mye luft det skal være rundt */
   font-size: 0.9em;
   display: block;
+}
+.argInf_interesserte {
+  
 }
 
 /* overskrifter */
@@ -2881,7 +2888,7 @@ input:checked + .slider:before {
     grid-template-areas: 
     "endrebilde skjulinfo "
     "beskriv skjulinfo"
-    "interesseTag interesseTag "
+    "interesseTag skjulinfo "
     "tilbake tilbake";
   }
 
@@ -3228,12 +3235,10 @@ input:checked + .slider:before {
     grid-template-columns: 8em auto;
   }
 
-  .påmeldteBrukere {
-    width:18em;
-  }
+  
   .p_section {
     display: grid;
-    grid-template-columns: 19em 19em 19em auto;
+    grid-template-columns: auto auto auto auto;
   }
 
   .PIbruker_section {
