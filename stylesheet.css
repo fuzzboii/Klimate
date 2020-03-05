@@ -1295,7 +1295,7 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 .påmeldt_header {
-  background-color: rgb(200,218,211);
+  background-color: rgba(81, 182, 223, 0.637);  
   border-radius: 1em 1em 0em 0em ;
   height: 2em;
   text-align: center;
@@ -1307,6 +1307,7 @@ table {
 .påmeldtOverskrift {
   font-size: 1em;
   margin-top: 0.5em;
+  
   }
 #arrangement_mainPåmeldt {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
@@ -1348,7 +1349,7 @@ table {
   background-color: rgba(166, 173, 169, 0.637);
   height: 3em;
   display: grid;
-  grid-template-columns: 3em 7em 6em;
+  grid-template-columns: 3em 9em 4em;
   margin: 0.5em;
   width: 16.3em;
   margin-left: auto; margin-right: auto;
