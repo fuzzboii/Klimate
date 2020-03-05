@@ -2075,7 +2075,7 @@ table {
   margin-left: 0em; margin-bottom: 0.2em;
 }
 .profil_beskrivelse textarea{
-  width: 100%;
+  width: 97%;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   padding-bottom: 3em;
@@ -2910,7 +2910,7 @@ input:checked + .slider:before {
    background-color: #E6E6E6;
    padding-left: 1em;
    padding-right: 1em;
-   border-radius: 2em;
+   border-radius: 1em;
   }
 
   .int_input_grid {
@@ -3486,6 +3486,11 @@ input:checked + .slider:before {
     margin-right: auto;
   }
 
+  .p_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+
 }
 
 /* Stor skjerm, 1440p */
@@ -3508,6 +3513,12 @@ input:checked + .slider:before {
     padding-left: 20em;
     padding-right: 20em;
   }
+
+  .p_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }  
+  
 }
 
 
