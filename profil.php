@@ -131,6 +131,7 @@ if (isset($_POST['endreBilde'])) {
 // Oppdater preferanser //
 //----------------------//
 if ($egen) {
+    if(isset($_POST['oppdaterPreferanser'])) {
         if(isset($_POST['fnavnToggle'])) {
             $visfnavnNy = "1";
         } else $visfnavnNy = "0";
@@ -164,6 +165,7 @@ if ($egen) {
             $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
             $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
         }   
+    }
 }
 
  //-----------------------------//
@@ -430,7 +432,8 @@ $tabindex = 10;
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
                             <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
-                                <!-- Linje for fornavn -->
+                                <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
+                            <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
                                     <label class="switch">
                                         <?php if(isset($visFnavn)) { ?>
