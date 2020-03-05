@@ -36,7 +36,11 @@ if (isset($_POST['subRegistrering'])) {
 
                     $br = $_POST['brukernavn'];
                     $pw = $_POST['passord'];
-                    $btype = $_POST['brukertype'];
+                    if($_POST['brukertype'] != "4") {
+                        $btype = $_POST['brukertype'];
+                    } else {
+                        $btype = "3";
+                    }
 
                     // Validering av passordstyrke, server validering
                     $storebokstaver = preg_match('@[A-Z]@', $pw);
@@ -60,7 +64,7 @@ if (isset($_POST['subRegistrering'])) {
                         $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
 
                         // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
-                        if ($testbnavn['brukernavn'] != $lbr) {
+                        if (!isset($testbnavn['brukernavn']) || $testbnavn['brukernavn'] != $lbr) {
                             // OK, vi forsøker å registrere bruker
                             $epost = $_POST['epost'];
 

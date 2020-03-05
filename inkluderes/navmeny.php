@@ -129,18 +129,12 @@ if(isset($_SESSION['idbruker'])) {
             <section class="hamburgerInnhold">
                 <?php if (isset($_SESSION['idbruker'])) { ?>
                     <!-- Hva som vises om bruker er innlogget -->
-
-                    <!-- Redaktør meny "Oransje" -->
-                    <?php if ($_SESSION['brukertype'] == 2) { ?>
-                        <p style="color: green">Innlogget som <?php echo($brukertypenavn['brukertypenavn']) ?></p>
-                    <!-- Administrator meny "Rød" -->
-                    <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                        <p style="color: red">Innlogget som <?php echo($brukertypenavn['brukertypenavn']) ?></p>
-                    <?php } ?>
+                    <!-- Administrator meny -->
                     
                     <?php if ($_SESSION['brukertype'] == 1) { ?>
-                    <a class = "menytab" tabIndex = "-1" href="administrator.php">Administrator innstillinger</a><br>
+                    <a class = "menytab" tabIndex = "-1" href="administrator.php" style="margin-bottom: 0.2em; font-weight: bold;">Administrator innstillinger</a>
                     <?php } ?>
+                    <!-- For alle brukere -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                     <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) {?> (<?php echo($antUlest['antall'])?>)<?php } ?></a>

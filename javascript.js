@@ -42,6 +42,22 @@ function lukkHamburgerMeny() {
 
 
 
+/* Funksjon for å teste på touch */
+/*-------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
+function kanTouchBrukes() {
+  var msTouchOK = window.navigator.msMaxTouchPoints;
+  var generalTouchOK = "ontouchstart" in document.createElement("div");
+  if (msTouchOK || generalTouchOK) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
+
 
 /* Del for å vise "Tilbake til topp" knapp */
 /*-------------------------------------------------------------------------------------------------------*/
@@ -696,13 +712,13 @@ function visKommentar() {
       var knappLes = this;
 
       // Tester på style som er nå, hvis ingressen vises, skjul ingress og vis tekst
-      if (innholdIngress.style.display == "block") {
-        innholdTekst.style.display = "block";
+      if (innholdIngress.style.display == "inline-block") {
+        innholdTekst.style.display = "inline-block";
         innholdIngress.style.display = "none";
         knappLes.innerHTML = "Les mindre";
       } else {
         innholdTekst.style.display = "none";
-        innholdIngress.style.display = "block";
+        innholdIngress.style.display = "inline-block";
         knappLes.innerHTML = "Les mer";
       }
     });

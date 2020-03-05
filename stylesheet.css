@@ -2457,7 +2457,12 @@ input:checked + .slider:before {
   margin-bottom: 1em;
 }
 
-
+.kommentar_lesknapp {
+  display: inline;
+  cursor: pointer;
+  color: rgb(36, 209, 99);
+  font-size: 0.8em;
+}
 
 /* Antall kommentarer linjen/området */
 #artikkel_kommentarOversikt {
@@ -2774,12 +2779,11 @@ input:checked + .slider:before {
   
   .profil_main {
     display: grid;
-    grid-template-columns: 20em 30em 20em;
+    grid-template-columns: auto auto auto;
     grid-template-rows: auto auto auto 7em;
     grid-template-areas: 
     "profilbilde profilbilde profilbilde"
-    "oversikt beskrivelse beskrivelse"
-    "interesser interesser interesser"
+    "oversikt beskrivelse interesser"
     "knapp knapp knapp";
   }
 
