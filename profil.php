@@ -568,7 +568,7 @@ $tabindex = 10;
                     <section class="knapp2_grid">
                         <!-- tilbake-knapp -->
                         <?php if($egen) {?>
-                                <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex="105">Tilbake</button>
+                                <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" id="profilTilbakeKnapp" tabindex="105">Tilbake</button>
                         <?php }?>
                     </section>
 

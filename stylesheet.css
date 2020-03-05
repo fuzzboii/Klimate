@@ -2075,13 +2075,31 @@ table {
   margin-left: 0em; margin-bottom: 0.2em;
 }
 .profil_beskrivelse textarea{
-  width: 80%;
+  width: 100%;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   padding-bottom: 3em;
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
     
+}
+
+/* Tilbake-knappen */
+#profilTilbakeKnapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
+  color: white; /* tekstfarge */
+  padding: 1em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 7em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
+#profilTilbakeKnapp:hover {
+  background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+  cursor: pointer;
 }
 
 /* Tekstområdet 'om' */
@@ -2119,8 +2137,8 @@ table {
 .switch {
   position: relative;
   display: grid;
-  width: 60px;
-  height: 34px;
+  width: 40px;
+  height: 25px;
   left: 14em;
   bottom: 1.5em;
 }
@@ -2147,10 +2165,10 @@ table {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2.5px;
   background-color: white;
   transition: .25s;
 }
@@ -2164,7 +2182,7 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(26px);
+  transform: translateX(16px);
 }
 
 /* avrunding av slideren */
@@ -2904,13 +2922,15 @@ input:checked + .slider:before {
   }
 
   .profil_main2 {
+    margin-top: -2em;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     grid-template-rows: 11.25em auto auto auto;
     grid-template-areas: 
     "endrebilde skjulinfo interesseTag"
     "beskriv skjulinfo interesseInput"
-    "oppdater tilbake interesseInput";
+    "oppdater oppdater interesseInput"
+    "tilbake tilbake tilbake";
   }
 
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
