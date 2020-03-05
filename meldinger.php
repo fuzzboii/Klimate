@@ -263,15 +263,15 @@ if(isset($_POST['gjenopprettMelding'])) {
                                 // Profilbilde som resultat av spørring
                                 if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
                                     // Hvis vi finner et miniatyrbilde bruker vi det ?>
-                                    <img id="meldinger_sender_bilde" src="bilder/opplastet/thumb_<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <img id="meldinger_sender_bilde" onClick="location.href='profil.php?bruker=<?php echo($resInfo['idbruker']) ?>'" src="bilder/opplastet/thumb_<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
                                 <?php } else { ?>
-                                    <img id="meldinger_sender_bilde" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <img id="meldinger_sender_bilde" onClick="location.href='profil.php?bruker=<?php echo($resInfo['idbruker']) ?>'" src="bilder/opplastet/<?php echo($senderBilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
                                 <?php } ?>
                             <?php } else { ?>
-                                <img id="meldinger_sender_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                <img id="meldinger_sender_bilde" onClick="location.href='profil.php?bruker=<?php echo($resInfo['idbruker']) ?>'" src="bilder/profil.png" alt="Standard profilbilde">
                             <?php } ?>
                         <?php } else { ?>
-                            <img id="meldinger_sender_bilde" src="bilder/profil.png" alt="Standard profilbilde">
+                            <img id="meldinger_sender_bilde" onClick="location.href='profil.php?bruker=<?php echo($resInfo['idbruker']) ?>'" src="bilder/profil.png" alt="Standard profilbilde">
                         <?php } ?>
                         <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
                         <p id="meldinger_samtale_tid"><?php echo(date_format(date_create($resMld['tid']), "j F Y H:i")) ?></p>

@@ -3182,7 +3182,7 @@ input:checked + .slider:before {
     cursor: pointer;
     box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126);
     transition: box-shadow 0.3s;
-    }
+  }
   
   /* Hover for atikkel forfatter */
   #ForfatterTilBruker:hover{
@@ -3334,6 +3334,12 @@ input:checked + .slider:before {
     cursor: pointer;
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;
+  }
+
+  #meldinger_sender_bilde:hover {
+    cursor: pointer;
+    box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
+    transition: box-shadow 0.3s;
   }
 
   /* Hover for Artikkel kommentarer */
