@@ -56,6 +56,9 @@ footer a {
 /* Style for LOGIN/REGISTRER */
 .innloggForm {
   max-width: 250px; margin: auto; /* Sentrerer innloggingsformen og angir en bredde */
+  background-color: white;
+  padding: 1em;
+  border-radius: 1em;
 }
 .inputBoks {
   display: flex; /* Legger ikonene og inputfeltene ved siden av hverandre*/
