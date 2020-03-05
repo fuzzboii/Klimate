@@ -3,7 +3,7 @@ session_start();
 
 //-------------------------------//
 // Innstillinger, faste variable //
-//-------------------------------//
+//------------------------------- //
 include("inkluderes/innstillinger.php");
 
 //------------------------------//
@@ -141,19 +141,26 @@ if ($egen) {
         if(isset($_POST['tlfToggle'])) {
             $vistelefonnummerNy = "1";
         } else $vistelefonnummerNy = "0";
+        if(isset($_POST['beskrivelseToggle'])) {
+            $visBeskrivelseNy = "1";
+        } else $visBeskrivelseNy = "0";
+        if(isset($_POST['interesserToggle'])) {
+            $visInteresserNy = "1";
+        } else $visInteresserNy = "0";
         $brukerNy = $_SESSION['idbruker'];
 
         // Forsøk oppdatering
-        $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, visepost=?, vistelefonnummer=? where bruker=?";
-        $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-        $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
-
-        // Test om oppdateringen virket
-        $test = $stmtOppdaterPreferanse->fetch(PDO::FETCH_ASSOC);
-        if(!$test) {
-            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) values(?, ?, ?, ?, ?)";
+        try {
+            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, 
+                                visepost=?, visinteresser=?, visbeskrivelse=?, vistelefonnummer=? 
+                                where bruker=?";
             $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $vistelefonnummerNy, $brukerNy]);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
+        } finally {
+            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) 
+                                   values(?, ?, ?, ?, ?, ?, ?)";
+            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
         }
     }
 }
@@ -293,8 +300,8 @@ if($preferanser != false) {
     if($preferanser['visenavn'] == "1") $visEnavn = true;
     if($preferanser['visepost'] == "1") $visEpost = true;
     if($preferanser['vistelefonnummer'] == "1") $visTlf = true;
-    if($preferanser['visinteresser'] == "1") $visInteresse = true;
     if($preferanser['visbeskrivelse'] == "1") $visBeskrivelse = true;
+    if($preferanser['visinteresser'] == "1") $visInteresser = true;
 }
 
 //-----------------------//
@@ -642,9 +649,11 @@ $tabindex = 10;
                     <!-- BESKRIVELSE -->
                     <section class="brukerBeskrivelse">
                     <h2>Beskrivelse</h2>
-                        <?php ?>
-                            <p><?php if(preg_match("/\S/", $beskrivelseProfil['beskrivelse']) == 1) {echo($beskrivelseProfil['beskrivelse']);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
-                        <?php  ?>
+                    <?php if(!preg_match("/\S/", ($beskrivelseProfil["beskrivelse"]))) { ?>
+                        <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                        <?php } elseif(!isset($visBeskrivelse)) { ?>
+                            <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
+                        <?php } else { ?> <p> <?php echo($beskrivelseProfil["beskrivelse"]) ?> </p> <?php } ?>
                     </section>
 
                     <section class="int_grid">
