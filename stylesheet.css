@@ -2637,6 +2637,11 @@ input:checked + .slider:before {
     grid-template-columns: 1fr 1fr;
   }
 
+  .p_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
   #soknad_main {
     column-count: 2;
   }
