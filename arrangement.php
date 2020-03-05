@@ -396,7 +396,7 @@ $tabindex = 8;
                                 $antallInteresserte = $interesserteSTMT->rowCount();
                                 ?>
 
-                                <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                <form method="POST" id="arrangement_paamelding" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                     <?php if(isset($_SESSION['idbruker'])) {
                                         $hentPaameldteQ = "select bruker_id, interessert from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
                                         $hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
@@ -419,11 +419,12 @@ $tabindex = 8;
         
                                         <?php } 
                                         } else { ?>
-                                            <button class="arrangement_paameld" name="skal" value="Skal" >Skal</button>
-                                            <button class="arrangement_paameld" name="kanskje" value="Kanskje" >Kanskje</button>
-                                            <button class="arrangement_paameld" name="kanIkke" value="KanIkke" >Kan ikke</button>       
-                                    <?php } 
-                                    } ?>
+                                            <button class="arrangement_paameld" form="arrangement_paamelding" name="skal" value="Skal" >Skal</button>
+                                            <button class="arrangement_paameld" form="arrangement_paamelding" name="kanskje" value="Kanskje" >Kanskje</button>
+                                            <button class="arrangement_paameld" form="arrangement_paamelding" name="kanIkke" value="KanIkke" >Kan ikke</button>     
+                                    <?php } ?>
+                                        <input type="button" id="arrangement_inviterKnapp" onclick="bekreftMelding('arrangement_bekreftInviter')" value="Inviter">  
+                                    <?php } ?>
                                 </form>
                                 
                                 <section class="argInf_dato">
@@ -477,7 +478,6 @@ $tabindex = 8;
 
                         <section class="arg_tilbInv_knapp">
                             <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
-                            <input type="button" id="arrangement_inviterKnapp" onclick="bekreftMelding('arrangement_bekreftInviter')" value="Inviter">
                         </section>
                         <?php 
                         if(isset($_SESSION['idbruker'])) {
