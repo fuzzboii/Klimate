@@ -108,7 +108,7 @@ if(isset($_SESSION['idbruker'])) {
             <?php } ?>
 
             <form id="sokForm_navmeny" action="sok.php">
-                <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
+                <img src="bilder/sokWhiteIkon.png" alt="Ikon for søk i navigasjonsmeny" id="sokBtn_navmeny">
                 <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
             </form>
             <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">

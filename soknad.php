@@ -58,12 +58,8 @@ if (isset($_POST['submit'])) {
         header("Location: soknad.php?error=5");
     }
 
-    if(preg_match("/\S/", $_POST['brukernavn']) == 1) {
-        $brukernavn = $_POST['brukernavn'];
-    } else {
-        // Error 6, brukernavn ikke gyldig
-        header("Location: soknad.php?error=6");
-    }
+    // Lar ikke bruker få endre brukernavnet som det sendes fra
+    $brukernavn = $_SESSION['brukernavn'];
 
     // Tester på om telefonnummer i formatet 
     if(preg_match('/^[0-9]{0,12}$/', $_POST['telefon'])) {
@@ -73,7 +69,8 @@ if (isset($_POST['submit'])) {
         header("Location: soknad.php?error=7");
     }
     date_default_timezone_set("Europe/Oslo");
-    ini_set("SMTP", "s120.hbv.no");
+    // $host hentes fra innstillinger.php
+    ini_set("SMTP", $host);
     $mailTo = "soknad@klimate.no";
     $headers = "From: ". $_POST['epost'] . "\r\n";
     $headers .= "MIME-Version: 1.0" . "\r\n";
@@ -162,7 +159,7 @@ if (isset($_POST['submit'])) {
                     <!-- Input av brukernavn, som beholder siste innskrevne -->    
                     <section class="inputBoksSoknad" style="margin-top: 1em;">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($_SESSION['brukernavn']) ?>" readonly>
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($_SESSION['brukernavn']) ?>" readonly required>
                     </section>
                     <!-- Input av brukernavn, som beholder siste innskrevne -->
                     <section class="inputBoksSoknad">
@@ -188,7 +185,7 @@ if (isset($_POST['submit'])) {
                 <section class="soknad_form">
                     <!-- Tekstfelt for søknad. -->
                     <section>
-                        <textarea class="textarea_Soknad" name="soknaden" placeholder="Vennligst fyll ut din søknad..." rows="13    " cols="60" autofocus   ></textarea>     
+                        <textarea class="textarea_Soknad" name="soknaden" placeholder="Vennligst fyll ut din søknad..." title="Fyll ut en søknad om hvorfor du burde være en redaktør" rows="13" cols="60" autofocus required></textarea>     
                     </section>
                     <section>
                         <button type="submit" name="submit" class="soknad_knapp" style="margin-top: 2em;">Send søknad</button>
