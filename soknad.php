@@ -108,14 +108,23 @@ if (isset($_POST['submit'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body class="innhold">
+    <body class="innhold" onload="erTouch()">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
         <!-- Kan ikke legge denne direkte i body -->
         <header id="soknad_header" onclick="lukkHamburgerMeny()">
             <!-- Logoen midten øverst på siden, med tittel -->
-            <h1>Søknad om å bli redaktør</h1>
+            <h1 id="overskrift">Søknad om å bli redaktør</h1>
+            <script language="JavaScript">
+                function erTouch() {
+                    if (kanTouchBrukes()) {
+                        document.getElementById('overskrift').innerHTML = "Touch er støttet";
+                    } else {
+                        document.getElementById('overskrift').innerHTML = "Touch ikke støttet";
+                    }
+                }
+            </script>
             <?php
             // Feilmeldinger
             if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
