@@ -6,6 +6,8 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
+echo('http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?arrangement=" . $_GET['arrangement']);
+
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_tittel = "";
 $input_innhold = "";
