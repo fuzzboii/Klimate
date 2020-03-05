@@ -6,6 +6,10 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i profil uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
+
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_tittel = "";
 $input_ingress = "";
@@ -172,8 +176,12 @@ if(isset($_POST['sendKommentar'])) {
         header("location: artikkel.php?artikkel=" . $_GET['artikkel'] . "&error=1");
     } else {
         // Legger til en ny kommentar
-        $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, bruker, artikkel) values('" . $ingress . "', '" . $tekst . "', NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
+        $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, bruker, artikkel) values(:ingress, :tekst, NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
         $nyKommentarSTMT = $db->prepare($nyKommentarQ);
+        
+        $nyKommentarSTMT->bindParam(':ingress', $ingress);
+        $nyKommentarSTMT->bindParam(':tekst', $tekst);
+    
         $nyKommentarSTMT->execute();
         $sendt = $nyKommentarSTMT->rowCount();
 

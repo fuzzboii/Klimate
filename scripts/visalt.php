@@ -48,6 +48,11 @@ $hentArrSTMT = $db->prepare($hentArrQ);
 $hentArrSTMT->execute();
 $arrangement = $hentArrSTMT->fetchAll(PDO::FETCH_ASSOC);
 
+$hentKommQ = "select * from kommentar";
+$hentKommSTMT = $db->prepare($hentKommQ);
+$hentKommSTMT->execute();
+$kommentarer = $hentKommSTMT->fetchAll(PDO::FETCH_ASSOC);
+
 echo("Alle brukere");
 foreach ($resultat as $res) {
     echo "<br>";
@@ -126,29 +131,22 @@ foreach ($arrangement as $res) {
 }
 
 
-                        
-<?php foreach($MuligBrukere as $bruker) {
-    $hentInv = "select event_id, bruker_id, interessert from påmelding where interessert='Invitert' and event_id = " . $_GET['arrangement'] . " and bruker_id =" . $bruker['idbruker'];
-    $invitertSTMT = $db->prepare($hentInv);
-    $invitertSTMT->execute();
-    $invitertBruker = $invitertSTMT->fetch(PDO::FETCH_ASSOC);
-    $antallInv = $invitertSTMT->rowCount();
-    
-    ?>
-    <section class="påmeldteBrukere">
-        <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
-        <p class="p_bruker"><?php echo($bruker['brukernavn']) ?></p>
-        
-        <?php
-        if($antallInv != 0) { ?>
-        <p class="sendtBruker">Sendt!</p>
 
-        <?php } else {?>
-        <form method="POST" action="">
-            <input type="hidden" name="inviterBruker" value="<?php echo($bruker['idbruker']) ?>"></input>
-            <input class="InvBruker" type="submit" name="inviterSubmit" value="Inviter"></input>
-        </form>
-        <?php }?>
-    </section>
-<?php }?>
+echo "<br>";
+echo "<br>";
+echo("Alle kommentarer");
+
+foreach ($kommentarer as $res) {
+    echo "<br>";
+    echo "<br>";
+    var_dump($res);
+    echo "<br>";
+    echo($res['idkommentar']);
+    echo($res['ingress']);
+    echo($res['tekst']);
+    echo($res['tid']);
+    echo($res['artikkel']);
+    echo($res['bruker']);
+    echo "<br>";
+}
 ?>

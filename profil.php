@@ -175,8 +175,11 @@ if ($egen) {
  // men heller for mye integritet enn for lite
  if ($egen) {
     if (isset($_POST['beskrivelse'])) {
-        $oppdaterBeskrivelse = "update bruker set beskrivelse = '" . $_POST['beskrivelse'] . "' where idbruker = " . $_SESSION['idbruker'];
+        $oppdaterBeskrivelse = "update bruker set beskrivelse = :beskrivelse where idbruker = " . $_SESSION['idbruker'];
         $stmtOppdaterBeskrivelse = $db->prepare($oppdaterBeskrivelse);
+        
+        $stmtOppdaterBeskrivelse->bindParam(':beskrivelse', $_POST['beskrivelse']);
+
         $stmtOppdaterBeskrivelse->execute();
     }
  }
