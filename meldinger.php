@@ -276,12 +276,12 @@ if(isset($_POST['gjenopprettMelding'])) {
                         <p id="meldinger_samtale_navn"><?php echo($navn) ?></p>
                         <p id="meldinger_samtale_tid"><?php echo(date_format(date_create($resMld['tid']), "j F Y H:i")) ?></p>
                         <?php if($resMld['papirkurv'] == 0) { ?>
-                            <img src="bilder/soppelIkon.png" alt="Papirkurvikon" class="meldinger_innboks_soppel" id="meldinger_samtale_soppel" title="Slett denne meldingen" onclick="slettSamtale(<?php echo($resMld['idmelding']) ?>)" tabindex = "10">
+                            <img src="bilder/soppelIkon.png" alt="Papirkurvikon" class="meldinger_valgt_soppel" id="meldinger_samtale_soppel" title="Slett denne meldingen" onclick="slettSamtale(<?php echo($resMld['idmelding']) ?>)" tabindex = "10">
                             <form method="POST" id="meldinger_innboks_soppel">
                                 <input type="hidden" id="meldinger_innboks_soppel_valgt" name="slettMelding" value="">
                             </form>
                         <?php } else { ?>
-                            <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" class="meldinger_innboks_restore" id="meldinger_samtale_restore" title="Gjenopprett denne meldingen" onclick="gjenopprettSamtale(<?php echo($resMld['idmelding']) ?>)" tabindex = "10">
+                            <img src="bilder/restoreIkon.png" alt="Gjenopprettikon" class="meldinger_valgt_restore" id="meldinger_samtale_restore" title="Gjenopprett denne meldingen" onclick="gjenopprettSamtale(<?php echo($resMld['idmelding']) ?>)" tabindex = "10">
                             <form method="POST" id="meldinger_innboks_restore">
                                 <input type="hidden" id="meldinger_innboks_restore_valgt" name="gjenopprettMelding" value="">
                             </form>
