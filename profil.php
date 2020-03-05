@@ -492,7 +492,7 @@ $tabindex = 10;
                         <?php if($egen) { ?>
                             <h2>Endre beskrivelse</h2>
                             <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
-                                <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
+                                <textarea name="beskrivelse" maxlength="1024" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
                                 <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"></input>
                             </form>
                         <?php } ?>
