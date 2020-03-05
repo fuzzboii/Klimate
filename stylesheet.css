@@ -1400,10 +1400,12 @@ table {
   font-size: 1.0em; /* Font-størrelse */
 }
 #profilPåmeldt {
-  height: 2.3em;
+  height: 2.4em;
   width: 2.4em;
   margin-left: auto; margin-right: auto;
   margin-top: 0.3em;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 #PIbruker_tilbKnapp {
@@ -3164,6 +3166,12 @@ input:checked + .slider:before {
   #arrangement_inviterKnapp:hover, #arrangement_inviterKnappVindu:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
+  }
+
+  .påmeldteBrukere:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0.05em 0.05em rgb(99,112,126);
+    transition: box-shadow 0.1s;
   }
 
   .InvBruker:hover {

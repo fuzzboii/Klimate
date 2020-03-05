@@ -6,7 +6,9 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
-//echo('http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?arrangement=" . $_GET['arrangement']);
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_tittel = "";
@@ -337,7 +339,7 @@ $tabindex = 8;
                     <!-- -------------------------------- -->
                 <?php } else if(isset($_POST['paameldteBrukere'])) {
 
-                    $hentPåmeldte = "select event_id, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
+                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
                     $hentPåmeldteSTMT = $db->prepare($hentPåmeldte);
                     $hentPåmeldteSTMT->execute();
                     $påmeldtBrukere = $hentPåmeldteSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -355,8 +357,32 @@ $tabindex = 8;
 
                     <section class="p_section">
                     <?php for($i = 0; $i < count($påmeldtBrukere); $i++) {?>
-                        <section class="påmeldteBrukere">
-                            <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                        <section class="påmeldteBrukere" onClick="location.href='profil.php?bruker=<?php echo($påmeldtBrukere[$i]['idbruker']) ?>'">
+                            <?php
+                            $hentBildeQ = "select hvor from brukerbilde, bilder where bilder.idbilder = brukerbilde.bilde and brukerbilde.bruker = " . $påmeldtBrukere[$i]['idbruker'];
+                            $hentBildeSTMT = $db->prepare($hentBildeQ);
+                            $hentBildeSTMT->execute();
+                            $brukerbilde = $hentBildeSTMT->fetch(PDO::FETCH_ASSOC);
+                            $antallBilderFunnet = $hentBildeSTMT->rowCount();
+
+
+                            if ($antallBilderFunnet != 0) {
+                                $testPaa = $brukerbilde['hvor'];
+                                // Tester på om filen faktisk finnes
+                                if(file_exists("$lagringsplass/$testPaa")) {
+                                    // Profilbilde som resultat av spørring
+                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
+                                        // Hvis vi finner et miniatyrbilde bruker vi det ?>
+                                        <img id="profilPåmeldt" src="bilder/opplastet/thumb_<?php echo($brukerbilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } else { ?>
+                                        <img id="profilPåmeldt" src="bilder/opplastet/<?php echo($brukerbilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <img id="profilPåmeldt" src="bilder/profil.png" alt="Standard profilbilde">
+                                <?php } ?>
+                            <?php } else { ?>
+                                <img id="profilPåmeldt" src="bilder/profil.png" alt="Standard profilbilde">
+                            <?php } ?>
                             <p class="p_bruker"><?php echo($påmeldtBrukere[$i]['brukernavn']) ?></p>
 
                             <?php if($påmeldtBrukere[$i]['interessert'] == "Kanskje") {?>
