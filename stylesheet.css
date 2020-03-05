@@ -1052,7 +1052,7 @@ table {
 .hamburgerMeny a {
   padding: 0.20em; /* Mellomrom mellom lenkene i hamburgermenyen */
   text-decoration: none; /* Fjerner understreker fra linkene */
-  font-size: 1.3em; /* Font-størrelse */
+  font-size: 17px; /* Font-størrelse */
   font-family: Helvetica, Arial, sans-serif; /* Font familie */
   color: #000000; /* Fargen på lenkene i hamburgermenyen */
   display: block; /* Sørger for at lenkene kommer under hverandre */
@@ -1295,9 +1295,10 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 .påmeldt_header {
-  background-color: rgb(200,218,211);
+  background-color: rgb(126, 155, 153);
   border-radius: 1em 1em 0em 0em ;
   height: 2em;
+  color: white;
   text-align: center;
   width: 90%;
   margin-left: auto; 
@@ -1307,6 +1308,7 @@ table {
 .påmeldtOverskrift {
   font-size: 1em;
   margin-top: 0.5em;
+  
   }
 #arrangement_mainPåmeldt {
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
@@ -1316,7 +1318,7 @@ table {
    /* Mellomrom mellom den yttre boksen og main */
   border-radius: 0em 0em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-  width: 90%
+  width: 90%;
 }
 
 #arrangement_paameldt {
@@ -1331,7 +1333,7 @@ table {
   font-size: 0.9em; /* Font-størrelse */
 }
 
-.arrangement_paameld {
+.arrangement_paameld, #arrangement_paameld, #arrangement_avslaa  {
   background-color: rgb(207, 207, 207); /* bakgrunnsfarge på knapp */
   color: rgb(0, 0, 0); /* tekstfarge */
   margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.0em;
@@ -1345,11 +1347,13 @@ table {
 
 .påmeldteBrukere {
   border-radius: 1em 1em 1em 1em;
-  background-color: rgba(166, 173, 169, 0.637);
+  background-color: rgb(200,218,211);
   height: 3em;
   display: grid;
-  grid-template-columns: 3em 7em 6em;
+  grid-template-columns: 3em 9em 4em;
   margin: 0.5em;
+  width: 16.3em;
+  margin-left: auto; margin-right: auto;
 }
 
 .p_bruker {
@@ -1371,12 +1375,18 @@ table {
 }
 
 .påmeldtType {
-  font-size: 0.9em;
+  font-size: 0.7em;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: rgba(36, 209, 100, 0.637);
   border-radius: 0.5em 0.5em 0.5em 0.5em;
-  padding: 0.2em;
+  font-weight: bold;
   margin-top: 0.9em;
+  margin-left: auto; margin-right: 0.2em;
+  width: 4.5em;
+  padding: 0.5em;
   text-align: center;
+  color: white;
+  text-transform: uppercase;
 }
 .InvBruker {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
@@ -1390,10 +1400,12 @@ table {
   font-size: 1.0em; /* Font-størrelse */
 }
 #profilPåmeldt {
-  height: 2.3em;
+  height: 2.4em;
   width: 2.4em;
   margin-left: auto; margin-right: auto;
   margin-top: 0.3em;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 #PIbruker_tilbKnapp {
@@ -2630,6 +2642,11 @@ input:checked + .slider:before {
     grid-template-columns: 1fr 1fr;
   }
 
+  .p_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
   #soknad_main {
     column-count: 2;
   }
@@ -3162,6 +3179,12 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
+  .påmeldteBrukere:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0.05em 0.05em rgb(99,112,126);
+    transition: box-shadow 0.1s;
+  }
+
   .InvBruker:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
@@ -3186,7 +3209,7 @@ input:checked + .slider:before {
     cursor: pointer;
     box-shadow: 0 0.2em 0.6em 0.1em rgb(99,112,126);
     transition: box-shadow 0.3s;
-    }
+  }
   
   /* Hover for atikkel forfatter */
   #ForfatterTilBruker:hover{
@@ -3207,13 +3230,13 @@ input:checked + .slider:before {
     cursor: pointer;
   }    
   /* Avmelding knapp hover innstillinger for arrangement innhold */
-  #arrangement_paameldt:hover {
+  #arrangement_paameldt:hover, #arrangement_avslaa:hover {
     background-color: rgba(221, 24, 24, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
 
   /* Påmelding knapp hover innstillinger for arrangement innhold */
-  .arrangement_paameld:hover {
+  .arrangement_paameld:hover, #arrangement_paameld:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
@@ -3239,12 +3262,10 @@ input:checked + .slider:before {
     grid-template-columns: 8em auto;
   }
 
-  .påmeldteBrukere {
-    width:18em;
-  }
+  
   .p_section {
     display: grid;
-    grid-template-columns: 19em 19em 19em auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
   .PIbruker_section {
@@ -3340,6 +3361,12 @@ input:checked + .slider:before {
     cursor: pointer;
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;
+  }
+
+  #meldinger_sender_bilde:hover {
+    cursor: pointer;
+    box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
+    transition: box-shadow 0.3s;
   }
 
   /* Hover for Artikkel kommentarer */

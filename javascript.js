@@ -398,11 +398,15 @@ function hentSide(side, tilbake, neste/*, res*/) {
       document.getElementById(tilbake).style.display = "inline-block";
     } else {
       // Hvis vi er på side 1, gjem tilbake knapp
-      document.getElementById(tilbake).style.display = "none";
+      if (!typeof tilbake == 'null') {
+        document.getElementById(tilbake).style.display = "none";
+      }
     }
     if (sideDel.length <= (forelopigSide + 1)) {
       // Om vi er på siste side, gjem neste knapp
-      document.getElementById(neste).style.display = "none";
+      if (!typeof neste == 'null') {
+        document.getElementById(neste).style.display = "none";
+      }
     }
   }
 }

@@ -139,8 +139,10 @@ if(isset($_SESSION['idbruker'])) {
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                     <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) {?> (<?php echo($antUlest['antall'])?>)<?php } ?></a>
                     <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
+                    <a class = "menytab" tabIndex = "-1" href="profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>">Profil</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
+                    
                 <?php } else { ?>
                     <!-- Hvis bruker ikke er innlogget -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>

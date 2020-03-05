@@ -6,6 +6,10 @@ session_start();
 //------------------------------- //
 include("inkluderes/innstillinger.php");
 
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i profil uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
+
 //------------------------------//
 // Test om man ser egen profil  //
 //------------------------------//
