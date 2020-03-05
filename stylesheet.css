@@ -236,32 +236,24 @@ footer a {
 }
 #sokInp_navmeny {
   display: none;
+  border: none;
   margin-top: 1em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
   margin-left: 0.7em; /* Mellomrom mellom profilbilde og LOGG UT knappen */
   float: right;
   width: 10em; /* Angir bredde for inputfelt */
   padding: 0.8em; /* legger luft rundt*/
-  border-radius: 0.4em 0 0 0.4em; /* Runder ut hjørnene */
+  border-radius: 2em 0 0 2em; /* Runder ut hjørnene */
 }
 #sokBtn_navmeny {
   display: none;
   margin-top: 0.8em; margin-right: 0.4em;
   padding-top: 0.6em; padding-bottom: 0.6em;
+  padding-left: 0.5em; padding-right: 0.5em;
   float: right;
 
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
-  font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
-  border: none; /* Fjerner ytrelinjen rundt knappen */
-  border-radius: 0 0.4em 0.4em 0; /* Runder ut knappen */
-  font-size: 1.0em; /* Font-størrelse */
-  
-  color: white;
-  text-shadow:
-   -1px -1px 0 #000,  
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000;
+  border-radius: 0 2em 2em 0; /* Runder ut knappen */
+  height: 1.15em; width: 1.15em;
 }
 
 /* FOKUS TING */
@@ -1300,13 +1292,13 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 .påmeldt_header {
-background-color: rgb(200,218,211);
-border-radius: 1em 1em 0em 0em ;
-height: 2em;
-text-align: center;
-width: 90%;
-margin-left: auto; 
-margin-right: auto;
+  background-color: rgb(200,218,211);
+  border-radius: 1em 1em 0em 0em ;
+  height: 2em;
+  text-align: center;
+  width: 90%;
+  margin-left: auto; 
+  margin-right: auto;
 }
 
 .påmeldtOverskrift {
@@ -1334,18 +1326,6 @@ margin-right: auto;
   border-radius: 0.2em; /* Runder ut knappen */
   padding: 0.5em;
   font-size: 0.9em; /* Font-størrelse */
-}
-.inviterK {
-  background-color: rgb(19, 144, 228); /* bakgrunnsfarge på knapp */
-  color: white; /* tekstfarge */
-  padding: 1em; /* hvor mye luft rundt teksten det skal være */
-  margin: 0; margin-bottom: 1em;
-  font-weight: bold; /* Fet tekst */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
-  border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 7em; /* Angir bredde på knappen */
-  border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 1.0em; /* Font-størrelse */
 }
 
 .arrangement_paameld {
@@ -1660,6 +1640,67 @@ margin-right: auto;
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.8em; /* Font-størrelse */
   margin-top: 1em;
+}
+
+#arrangement_bekreftInviter {
+  position: absolute;
+  width: 100%; height: 100%;
+  top: 0; left: 0;
+  z-index: 1; /* Sitter over det andre innholdet */
+  background-color: rgba(0, 0, 0, 0.582);
+}
+
+#arrangement_bekreftInviterInnhold {
+  text-align: center;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border: 2px solid rgb(0, 110, 255);
+  background-color: white;
+  z-index: 2; /* Sitter over det andre innholdet */
+  margin-top: 15%; margin-bottom: 40%;
+  margin-left: 5%; margin-right: 5%;
+  transition: margin 0.3s;
+  min-height: 20em;
+}
+
+#arrangement_bekreftInviterInnhold h2 {
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  margin-top: 0.2em;
+}
+
+#arrangement_inviter_bruker {
+  padding: 0.8em; /* legger luft rundt*/
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
+}
+
+#arrangement_inviterKnapp{
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 1em; margin-left: auto; margin-right: auto;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  text-align: center;
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 12em;
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.83em; /* Font-størrelse */
+  display: block;
+}
+
+#arrangement_inviterAvbrytKnapp {
+  background-color: red; /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 5em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.8em; /* Font-størrelse */
 }
 
 /* Del for visning av nytt arrangement */
@@ -2186,6 +2227,12 @@ input:checked + .slider:before {
   display: none;
 }
 
+.meldinger_valgt_soppel, .meldinger_valgt_restore {
+  width: 3em; height: 3em;
+  margin-top: 0.5em;
+  margin-left: auto; margin-right: auto;
+}
+
 .meldinger_innboks_tittel { 
   margin: 0; margin-right: 0.2em; margin-bottom: 0.8em;
   grid-column: 2/span 2;
@@ -2683,6 +2730,12 @@ input:checked + .slider:before {
     grid-template-columns: 1fr 1fr;
   }
 
+  #arrangement_bekreftInviterInnhold {
+    margin-top: 5em; margin-bottom: 15em;
+    margin-left: 10em; margin-right: 10em;
+    transition: margin 0.3s;
+  }
+
   /* Del for meldinger */
 
   #meldinger_header {
@@ -2704,18 +2757,19 @@ input:checked + .slider:before {
   }
 
   .meldinger_innboks_soppel, .meldinger_innboks_restore {
+    width: 3em; height: 3em;
     display: block;
-    margin-top: 1em;
+    margin-top: 1.5em;
     margin-left: auto; margin-right: auto;
   }
-  .meldinger_innboks_soppel:hover, #meldinger_samtale_soppel:hover {
+  .meldinger_innboks_soppel:hover, #meldinger_samtale_soppel:hover, .meldinger_valgt_soppel:hover {
     background-color: cyan; /* Cyan inverted er rødt */
     filter: invert(100%);
     transition: background-color 0.3s;
     border-radius: 0.4em;
     cursor: pointer;
   }
-  .meldinger_innboks_restore:hover, #meldinger_samtale_restore:hover {
+  .meldinger_innboks_restore:hover, #meldinger_samtale_restore:hover, .meldinger_valgt_restore:hover {
     background-color: magenta; /* Magentra inverted er grønt */
     filter: invert(100%);
     transition: background-color 0.3s;
@@ -3084,10 +3138,19 @@ input:checked + .slider:before {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
+
   .InvBruker:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
+
+  #arrangement_bekreftInviterInnhold {
+    margin-top: 7em; margin-bottom: 15em;
+    margin-left: auto; margin-right: auto;
+    max-width: 50em;
+    transition: margin 0.3s;
+  }
+
   /* Hover innstillinger for slett arrangement knapp */
   #konto_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover {
     cursor: pointer;

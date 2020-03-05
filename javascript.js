@@ -154,6 +154,9 @@ function bekreftMelding(element) {
   } else {
     knapp.style.display = 'none';
   }
+  
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/

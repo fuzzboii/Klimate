@@ -13,6 +13,8 @@ class mysqlPDO extends PDO {
     }
 }
 
+$host = "localhost";
+
 // Konstruktør for skolens server
 /*
 class mysqlPDO extends PDO {
@@ -26,6 +28,8 @@ class mysqlPDO extends PDO {
         parent::__construct($dsn,$usr,$pwd);
     }
 }
+
+$host = "s120.hbv.no";
 */
 
 // Konstruktør for Klimate.no
