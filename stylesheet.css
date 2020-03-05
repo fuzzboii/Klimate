@@ -2059,6 +2059,7 @@ table {
 
 .profil_beskrivelse textarea, .profil_beskrivelse input {
   display: block;
+  resize: none;
   margin-left: 0em; margin-bottom: 0.2em;
 }
 .profil_beskrivelse textarea{

@@ -728,5 +728,10 @@ function visKommentar() {
   }
 }
 
+// Funksjon for å laste opp oppdateringer til profil (beskrivelse og preferanser)
+function lastOppProfil() {
+  document.getElementById("profilForm").submit();
+}
+
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
 /* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */
