@@ -1331,7 +1331,7 @@ table {
   font-size: 0.9em; /* Font-størrelse */
 }
 
-.arrangement_paameld {
+.arrangement_paameld, #arrangement_paameld, #arrangement_avslaa  {
   background-color: rgb(207, 207, 207); /* bakgrunnsfarge på knapp */
   color: rgb(0, 0, 0); /* tekstfarge */
   margin: 0; margin-bottom: 1em; margin-top: 0.5em; margin-right: 0.0em;
@@ -3203,13 +3203,13 @@ input:checked + .slider:before {
     cursor: pointer;
   }    
   /* Avmelding knapp hover innstillinger for arrangement innhold */
-  #arrangement_paameldt:hover {
+  #arrangement_paameldt:hover, #arrangement_avslaa:hover {
     background-color: rgba(221, 24, 24, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }
 
   /* Påmelding knapp hover innstillinger for arrangement innhold */
-  .arrangement_paameld:hover {
+  .arrangement_paameld:hover, #arrangement_paameld:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     cursor: pointer;
   }

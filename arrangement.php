@@ -202,12 +202,26 @@ if(isset($_POST['kanIkke'])) {
     } 
 }
 
-if(isset($_POST['paameld'])) {
-     if($_POST['paameld'] == "Paameldt") {
-        $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
-        $avmeldingSTMT = $db->prepare($avmeldingQ);
-        $avmeldingSTMT->execute();
-        
+
+if(isset($_POST['avmeld'])) {
+    if($_POST['avmeld'] == "Paameldt") {
+       $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+       $avmeldingSTMT = $db->prepare($avmeldingQ);
+       $avmeldingSTMT->execute();
+       
+   }
+}
+
+if(isset($_POST['invitasjon'])) {
+    if($_POST['invitasjon'] == "Godkjenn") {
+        $avslaaQ = "update påmelding set interessert = 'Skal' where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+        $avslaaSTMT = $db->prepare($avslaaQ);
+        $avslaaSTMT->execute();
+
+    } else if($_POST['invitasjon'] == "Avslå") {
+        $avslaaQ = "update påmelding set interessert = 'Kan ikke' where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+        $avslaaSTMT = $db->prepare($avslaaQ);
+        $avslaaSTMT->execute();
     }
 }
 
@@ -396,6 +410,9 @@ $tabindex = 8;
                                 $antallInteresserte = $interesserteSTMT->rowCount();
                                 ?>
 
+                                <form method="POST" id="arrangement_invitert" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                </form>
+
                                 <form method="POST" id="arrangement_paamelding" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                     <?php if(isset($_SESSION['idbruker'])) {
                                         $hentPaameldteQ = "select bruker_id, interessert from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
@@ -405,19 +422,24 @@ $tabindex = 8;
                                         
                                         if(isset($paameldt['interessert'])) {
                                             if($paameldt['interessert'] == "Skal") { ?>
-                                                <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
+                                                <button id="arrangement_paameldt" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
                                             
                                             <?php } else if ($paameldt['interessert'] == "Kanskje") { ?>
-                                                <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
+                                                <button id="arrangement_paameldt" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
                                             
                                             <?php } else if ($paameldt['interessert'] == "Kan ikke") { ?>
-                                                <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>                                         
+                                                <button id="arrangement_paameldt" style="background-color: red; color: white;" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>                                         
                                             
+                                            <?php } else if ($paameldt['interessert'] == "Invitert") { ?>
+                                                <button id="arrangement_paameld" form="arrangement_invitert" name="invitasjon" value="Godkjenn">Godkjenn</button>
+                                                <button id="arrangement_avslaa" form="arrangement_invitert" name="invitasjon" value="Avslå">Avslå</button>
+                         
                                             <?php } else { ?>
-                                                <button class="arrangement_paameld" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Paameld')" onmouseout="visAvmeld('Invitert')">Påmeld</button>
-                                                
-        
-                                        <?php } 
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="skal" value="Skal" >Skal</button>
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="kanskje" value="Kanskje" >Kanskje</button>
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="kanIkke" value="KanIkke" >Kan ikke</button> 
+                         
+                                            <?php } 
                                         } else { ?>
                                             <button class="arrangement_paameld" form="arrangement_paamelding" name="skal" value="Skal" >Skal</button>
                                             <button class="arrangement_paameld" form="arrangement_paamelding" name="kanskje" value="Kanskje" >Kanskje</button>
