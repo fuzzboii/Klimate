@@ -146,16 +146,27 @@ if (isset($_POST['slettDenne'])) {
 // Del for å legge til en ny kommentar
 if(isset($_POST['sendKommentar'])) {
 
+    $tekst = "";
+
+    if (strlen($_POST['tekst']) >= 255) {
+        $tekst = substr($_POST['tekst'], 0, 1000); 
+    } else if(strlen($_POST['tekst']) >= 1000) {
+        header("location: artikkel.php?artikkel=" . $_GET['artikkel'] . "&error=1");
+    }
+
     // Legger til en ny kommentar
-    $nyKommentarQ = "insert into kommentar(tekst, tid, bruker, artikkel)
-                        values('" . $_POST['tekst'] . "', 
+    $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, bruker, artikkel) 
+                        values('" . $_POST['tekst'] . "','" . $tekst . "', 
                             NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
     $nyKommentarSTMT = $db->prepare($nyKommentarQ);
     $nyKommentarSTMT->execute();
     $sendt = $nyKommentarSTMT->rowCount();
 
-    header("Location: artikkel.php?artikkel=" . $_GET['artikkel']);
-
+    var_dump($nyKommentarQ);
+    var_dump($nyKommentarSTMT);
+    //header("Location: artikkel.php?artikkel=" . $_GET['artikkel']);
+    
+    
 }
 
 // Del for å slette en kommentar
@@ -571,10 +582,10 @@ $tabindex = 8;
                                             <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
                                         <?php } ?>
                                     <?php } else { ?>
-                                        <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                        <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
                                     <?php } ?>
                                 <?php } else { ?>
-                                    <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                    <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
                                 <?php }
                                 
                                 
