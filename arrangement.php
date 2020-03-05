@@ -139,7 +139,7 @@ if(isset($_POST['inviterTil'])) {
         $hentIdSTMT->execute();
         $bruker = $hentIdSTMT->fetch(PDO::FETCH_ASSOC); 
 
-        $tekst = "Hei " . $_POST['brukernavn'] . ", du har blitt invitert til " . $eventinfo['eventnavn'] . " <br><br>Følg linken her: http://" . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?arrangement=" . $_GET['arrangement'];
+        $tekst = "Hei " . $_POST['brukernavn'] . ", du har blitt invitert til " . $eventinfo['eventnavn'] . " <br><br>Følg linken her: <a href= " . $_SERVER['PHP_SELF'] . "?arrangement=" . $_GET['arrangement'] . ">Trykk meg</a>";
 
         if(isset($bruker['idbruker'])) {
             // Inviterer bruker
