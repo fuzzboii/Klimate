@@ -1052,7 +1052,7 @@ table {
 .hamburgerMeny a {
   padding: 0.20em; /* Mellomrom mellom lenkene i hamburgermenyen */
   text-decoration: none; /* Fjerner understreker fra linkene */
-  font-size: 1.3em; /* Font-størrelse */
+  font-size: 17px; /* Font-størrelse */
   font-family: Helvetica, Arial, sans-serif; /* Font familie */
   color: #000000; /* Fargen på lenkene i hamburgermenyen */
   display: block; /* Sørger for at lenkene kommer under hverandre */
