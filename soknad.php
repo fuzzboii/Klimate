@@ -72,14 +72,17 @@ if (isset($_POST['submit'])) {
         // Error 7, telefonnummer ikke gyldig
         header("Location: soknad.php?error=7");
     }
-
+    date_default_timezone_set("Europe/Oslo");
+    ini_set("SMTP", "s120.hbv.no");
     $mailTo = "soknad@klimate.no";
-    $headers = "From: ". $_POST['epost'];
+    $headers = "From: ". $_POST['epost'] . "\r\n";
+    $headers .= "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/plain;charset=UTF-8" . "\r\n";
     $txt = "Søknad om å bli redaktør fra brukeren ".$brukernavn.".\nNavn: ".$fnavn." ".$enavn.".\nEpost: ".$epost."\nTelefonnummer: ".$tlfnr."\n\n"."Søknad: "."\n".$soknaden;
     
     // Hvis eposten ble godkjent til å sendes, send bruker til backend med melding
 	// Dette betyr ikke nødvendigvis at mail faktisk når mottaker
-    if(mail($mailTo, "Søknad om å bli redaktør fra ".$brukernavn, $txt, $headers)) {
+    if(mail($mailTo, "=?utf-8?B?" . base64_encode("Søknad om å bli redaktør fra brukeren " . $brukernavn) . "?=", $txt, $headers)) {
         unset($_SESSION['input_soknad']);
 		header("Location: backend.php?soknadsendt");
 	} else {
