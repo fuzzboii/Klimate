@@ -1295,9 +1295,10 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 .påmeldt_header {
-  background-color: rgba(81, 182, 223, 0.637);  
+  background-color: rgba(93, 180, 214, 0.637);
   border-radius: 1em 1em 0em 0em ;
   height: 2em;
+  color: white;
   text-align: center;
   width: 90%;
   margin-left: auto; 
@@ -1374,14 +1375,18 @@ table {
 }
 
 .påmeldtType {
-  font-size: 0.9em;
+  font-size: 0.7em;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: rgba(36, 209, 100, 0.637);
   border-radius: 0.5em 0.5em 0.5em 0.5em;
-  padding: 0.2em;
+  font-weight: bold;
   margin-top: 0.9em;
   margin-left: auto; margin-right: 0.2em;
-  width: 3.5em;
+  width: 4.5em;
+  padding: 0.5em;
   text-align: center;
+  color: white;
+  text-transform: uppercase;
 }
 .InvBruker {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */

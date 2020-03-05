@@ -346,9 +346,9 @@ $tabindex = 8;
                             <p class="p_bruker"><?php echo($påmeldtBrukere[$i]['brukernavn']) ?></p>
 
                             <?php if($påmeldtBrukere[$i]['interessert'] == "Kanskje") {?>
-                                <p class="påmeldtType" style="background-color: rgba(239, 243, 10, 0.637);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
+                                <p class="påmeldtType" style="background-color: rgb(255, 191, 0);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
                             <?php } else if ($påmeldtBrukere[$i]['interessert'] == "Invitert") { ?>
-                                <p class="påmeldtType" style="background-color: rgba(24, 157, 209, 0.637);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
+                                <p class="påmeldtType" style="background-color: rgba(0, 128, 255);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
                             <?php } else { ?>
                                 <p class="påmeldtType"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
                             <?php }?>
