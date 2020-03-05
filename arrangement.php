@@ -144,7 +144,7 @@ if(isset($_POST['inviterTil'])) {
         if(isset($bruker['idbruker'])) {
             // Inviterer bruker
             $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
-                            values('Invitasjon til arrangement', '" . $tekst  . "'," . 
+                            values('Invitasjon til " . $eventinfo['eventnavn'] . "', '" . $tekst  . "'," . 
                                 "NOW(), 0, " . $_SESSION['idbruker'] . ", " . $bruker['idbruker'] . ")";
             $nyMeldingSTMT = $db->prepare($nyMeldingQ);
             $nyMeldingSTMT->execute(); 
