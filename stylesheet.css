@@ -1295,7 +1295,7 @@ table {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 .påmeldt_header {
-  background-color: rgba(93, 180, 214, 0.637);
+  background-color: rgb(126, 155, 153);
   border-radius: 1em 1em 0em 0em ;
   height: 2em;
   color: white;
@@ -1347,7 +1347,7 @@ table {
 
 .påmeldteBrukere {
   border-radius: 1em 1em 1em 1em;
-  background-color: rgba(166, 173, 169, 0.637);
+  background-color: rgb(200,218,211);
   height: 3em;
   display: grid;
   grid-template-columns: 3em 9em 4em;
@@ -1781,9 +1781,6 @@ table {
   padding: 0.8em; /* Hvor mye luft det skal være rundt */
   font-size: 0.9em;
   display: block;
-}
-.argInf_interesserte {
-  
 }
 
 /* overskrifter */
