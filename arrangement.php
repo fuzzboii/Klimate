@@ -516,7 +516,7 @@ $tabindex = 8;
                                                 <option value="<?php echo($brukernavn['brukernavn'])?>"><?php echo($brukernavn['brukernavn'])?></option>
                                             <?php } ?>
                                         </datalist>
-                                        <button id="arrangement_inviterKnapp" name="inviterTil" value="<?php echo($_GET['arrangement']) ?>">Inviter</button>
+                                        <button id="arrangement_inviterKnappVindu" name="inviterTil" value="<?php echo($_GET['arrangement']) ?>">Inviter</button>
                                     </form>
                                     <button id="arrangement_inviterAvbrytKnapp" onclick="bekreftMelding('arrangement_bekreftInviter')">Avbryt</button>
                                 </section>
