@@ -6,7 +6,9 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
-//echo('http://'.$_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?arrangement=" . $_GET['arrangement']);
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_tittel = "";
@@ -144,7 +146,7 @@ if(isset($_POST['inviterTil'])) {
         if(isset($bruker['idbruker'])) {
             // Inviterer bruker
             $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
-                            values('Invitasjon til arrangement', '" . $tekst  . "'," . 
+                            values('Invitasjon til " . $eventinfo['eventnavn'] . "', '" . $tekst  . "'," . 
                                 "NOW(), 0, " . $_SESSION['idbruker'] . ", " . $bruker['idbruker'] . ")";
             $nyMeldingSTMT = $db->prepare($nyMeldingQ);
             $nyMeldingSTMT->execute(); 
@@ -202,12 +204,26 @@ if(isset($_POST['kanIkke'])) {
     } 
 }
 
-if(isset($_POST['paameld'])) {
-     if($_POST['paameld'] == "Paameldt") {
-        $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
-        $avmeldingSTMT = $db->prepare($avmeldingQ);
-        $avmeldingSTMT->execute();
-        
+
+if(isset($_POST['avmeld'])) {
+    if($_POST['avmeld'] == "Paameldt") {
+       $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+       $avmeldingSTMT = $db->prepare($avmeldingQ);
+       $avmeldingSTMT->execute();
+       
+   }
+}
+
+if(isset($_POST['invitasjon'])) {
+    if($_POST['invitasjon'] == "Godkjenn") {
+        $avslaaQ = "update påmelding set interessert = 'Skal' where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+        $avslaaSTMT = $db->prepare($avslaaQ);
+        $avslaaSTMT->execute();
+
+    } else if($_POST['invitasjon'] == "Avslå") {
+        $avslaaQ = "update påmelding set interessert = 'Kan ikke' where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+        $avslaaSTMT = $db->prepare($avslaaQ);
+        $avslaaSTMT->execute();
     }
 }
 
@@ -323,7 +339,7 @@ $tabindex = 8;
                     <!-- -------------------------------- -->
                 <?php } else if(isset($_POST['paameldteBrukere'])) {
 
-                    $hentPåmeldte = "select event_id, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
+                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
                     $hentPåmeldteSTMT = $db->prepare($hentPåmeldte);
                     $hentPåmeldteSTMT->execute();
                     $påmeldtBrukere = $hentPåmeldteSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -341,8 +357,32 @@ $tabindex = 8;
 
                     <section class="p_section">
                     <?php for($i = 0; $i < count($påmeldtBrukere); $i++) {?>
-                        <section class="påmeldteBrukere">
-                            <img id="profilPåmeldt" src="bilder/profil.png" alt="Profilbilde" class="profil_bilde">
+                        <section class="påmeldteBrukere" onClick="location.href='profil.php?bruker=<?php echo($påmeldtBrukere[$i]['idbruker']) ?>'">
+                            <?php
+                            $hentBildeQ = "select hvor from brukerbilde, bilder where bilder.idbilder = brukerbilde.bilde and brukerbilde.bruker = " . $påmeldtBrukere[$i]['idbruker'];
+                            $hentBildeSTMT = $db->prepare($hentBildeQ);
+                            $hentBildeSTMT->execute();
+                            $brukerbilde = $hentBildeSTMT->fetch(PDO::FETCH_ASSOC);
+                            $antallBilderFunnet = $hentBildeSTMT->rowCount();
+
+
+                            if ($antallBilderFunnet != 0) {
+                                $testPaa = $brukerbilde['hvor'];
+                                // Tester på om filen faktisk finnes
+                                if(file_exists("$lagringsplass/$testPaa")) {
+                                    // Profilbilde som resultat av spørring
+                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
+                                        // Hvis vi finner et miniatyrbilde bruker vi det ?>
+                                        <img id="profilPåmeldt" src="bilder/opplastet/thumb_<?php echo($brukerbilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } else { ?>
+                                        <img id="profilPåmeldt" src="bilder/opplastet/<?php echo($brukerbilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <img id="profilPåmeldt" src="bilder/profil.png" alt="Standard profilbilde">
+                                <?php } ?>
+                            <?php } else { ?>
+                                <img id="profilPåmeldt" src="bilder/profil.png" alt="Standard profilbilde">
+                            <?php } ?>
                             <p class="p_bruker"><?php echo($påmeldtBrukere[$i]['brukernavn']) ?></p>
 
                             <?php if($påmeldtBrukere[$i]['interessert'] == "Kanskje") {?>
@@ -396,6 +436,9 @@ $tabindex = 8;
                                 $antallInteresserte = $interesserteSTMT->rowCount();
                                 ?>
 
+                                <form method="POST" id="arrangement_invitert" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                </form>
+
                                 <form method="POST" id="arrangement_paamelding" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
                                     <?php if(isset($_SESSION['idbruker'])) {
                                         $hentPaameldteQ = "select bruker_id, interessert from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
@@ -405,19 +448,24 @@ $tabindex = 8;
                                         
                                         if(isset($paameldt['interessert'])) {
                                             if($paameldt['interessert'] == "Skal") { ?>
-                                                <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
+                                                <button id="arrangement_paameldt" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
                                             
                                             <?php } else if ($paameldt['interessert'] == "Kanskje") { ?>
-                                                <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
+                                                <button id="arrangement_paameldt" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
                                             
                                             <?php } else if ($paameldt['interessert'] == "Kan ikke") { ?>
-                                                <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>                                         
+                                                <button id="arrangement_paameldt" style="background-color: red; color: white;" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>                                         
                                             
+                                            <?php } else if ($paameldt['interessert'] == "Invitert") { ?>
+                                                <button id="arrangement_paameld" form="arrangement_invitert" name="invitasjon" value="Godkjenn">Godkjenn</button>
+                                                <button id="arrangement_avslaa" form="arrangement_invitert" name="invitasjon" value="Avslå">Avslå</button>
+                         
                                             <?php } else { ?>
-                                                <button class="arrangement_paameld" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Paameld')" onmouseout="visAvmeld('Invitert')">Påmeld</button>
-                                                
-        
-                                        <?php } 
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="skal" value="Skal" >Skal</button>
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="kanskje" value="Kanskje" >Kanskje</button>
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="kanIkke" value="KanIkke" >Kan ikke</button> 
+                         
+                                            <?php } 
                                         } else { ?>
                                             <button class="arrangement_paameld" form="arrangement_paamelding" name="skal" value="Skal" >Skal</button>
                                             <button class="arrangement_paameld" form="arrangement_paamelding" name="kanskje" value="Kanskje" >Kanskje</button>

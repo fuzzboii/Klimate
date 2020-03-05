@@ -398,11 +398,15 @@ function hentSide(side, tilbake, neste/*, res*/) {
       document.getElementById(tilbake).style.display = "inline-block";
     } else {
       // Hvis vi er på side 1, gjem tilbake knapp
-      document.getElementById(tilbake).style.display = "none";
+      if (!typeof tilbake == 'null') {
+        document.getElementById(tilbake).style.display = "none";
+      }
     }
     if (sideDel.length <= (forelopigSide + 1)) {
       // Om vi er på siste side, gjem neste knapp
-      document.getElementById(neste).style.display = "none";
+      if (!typeof neste == 'null') {
+        document.getElementById(neste).style.display = "none";
+      }
     }
   }
 }
@@ -726,6 +730,11 @@ function visKommentar() {
       }
     });
   }
+}
+
+// Funksjon for å laste opp oppdateringer til profil (beskrivelse og preferanser)
+function lastOppProfil() {
+  document.getElementById("profilForm").submit();
 }
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
