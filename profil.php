@@ -545,8 +545,6 @@ $tabindex = 10;
                                 <?php } ?>
                             </form>
                             <?php } ?>
-                    </section>
-                    <section class=int_input_grid>
                         <?php if($egen) { ?>
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">

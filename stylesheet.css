@@ -2094,7 +2094,7 @@ table {
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
-  font-size: 1.0em; /* Font-størrelse */
+  font-size: 0.83em; /* Font-størrelse */
 }
 
 #profilTilbakeKnapp:hover {
@@ -2907,6 +2907,10 @@ input:checked + .slider:before {
   
   .int2_grid {
    grid-area: interesseTag;
+   background-color: #E6E6E6;
+   padding-left: 1em;
+   padding-right: 1em;
+   border-radius: 2em;
   }
 
   .int_input_grid {
@@ -2915,9 +2919,11 @@ input:checked + .slider:before {
   
   .knapp2_grid {
     grid-area: tilbake;
+    margin-top: 2em;
   }
 
   .rediger_profil_knapp {
+    margin-left: 0em;
     grid-area: oppdater;
   }
 
@@ -2928,8 +2934,8 @@ input:checked + .slider:before {
     grid-template-rows: 11.25em auto auto auto;
     grid-template-areas: 
     "endrebilde skjulinfo interesseTag"
-    "beskriv skjulinfo interesseInput"
-    "oppdater oppdater interesseInput"
+    "beskriv skjulinfo interesseTag"
+    "oppdater oppdater interesseTag"
     "tilbake tilbake tilbake";
   }
 
