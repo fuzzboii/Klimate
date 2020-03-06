@@ -92,6 +92,11 @@ if (isset($_POST['publiserArtikkel'])) {
                         imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
                     }
                 }
+                
+                // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+                unset($_SESSION['input_tittel']);
+                unset($_SESSION['input_ingress']);
+                unset($_SESSION['input_innhold']);
 
                 header('Location: artikkel.php?artikkel=' . $artikkelid);
 
