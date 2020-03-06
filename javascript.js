@@ -42,6 +42,22 @@ function lukkHamburgerMeny() {
 
 
 
+/* Funksjon for å teste på touch */
+/*-------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
+function kanTouchBrukes() {
+  var msTouchOK = window.navigator.msMaxTouchPoints;
+  var generalTouchOK = "ontouchstart" in document.createElement("div");
+  if (msTouchOK || generalTouchOK) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
+
 
 /* Del for å vise "Tilbake til topp" knapp */
 /*-------------------------------------------------------------------------------------------------------*/
@@ -138,6 +154,9 @@ function bekreftMelding(element) {
   } else {
     knapp.style.display = 'none';
   }
+  
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -339,7 +358,8 @@ function sokRullegardin() {
 var forelopigSide = 0; // Starter med å sette side vi er på
 
 // Funksjonene tar imot navn på elementene så vi kan bruke samme kode til forskjellige sider
-function hentSide(side, tilbake, neste) {
+function hentSide(side, tilbake, neste/*, res*/) {
+  var vindu = window.innerWidth;
   // henter alle elementer med navn mottatt i variabel side
   var sideDel = document.getElementsByClassName(side);
 
@@ -347,6 +367,27 @@ function hentSide(side, tilbake, neste) {
   if (typeof sideDel[forelopigSide] != 'undefined') {
     // Hvis ikke viser vi første side av søket
     sideDel[forelopigSide].style.display = "grid";
+
+
+    // var resultater = document.getElementsByClassName(res);
+    /*
+    if (vindu < 720) {
+      for(var i = 0; i < resultater.length; i++) {
+        resultater[i].style.display = "none";
+      }
+      resultater[0].style.display = "block";
+
+      resultater[start].on("swipeleft",function(){
+        resultater[start].style.display = "none";
+        start++;
+        resultater[start].style.display = "block";
+      });
+    } else {
+      for(var i = 0; i < resultater.length; i++) {
+        resultater[i].style.display = "block";
+      }
+    }
+    */
     
     if (sideDel.length > 1) {
       // Er det mer enn 1 side, vis neste knapp
@@ -401,6 +442,11 @@ function visForrigeSide(side, tilbake, neste) {
   // Hent den nye siden
   hentSide(side, tilbake, neste);
 }
+
+/*
+var start = 0;
+function visNesteSideTouch()
+*/
 
 // Funksjon for å trykke på et resulat med enter for søk
 function sokTabbing() {
@@ -539,14 +585,26 @@ function visPassord(hentet) {
 /*-------------------------------------------------------------------------------------------------------*/
 
 
-/* Ved påmeldt arrangement, vis avmeld ved mouseover */
+/* Del for arrangement*/
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 function visAvmeld(valg) {
   if(valg == "Avmeld") {
     document.getElementById("arrangement_paameldt").innerHTML = "Avmeld";
-  } else if(valg == "Paameld") {
-    document.getElementById("arrangement_paameldt").innerHTML = "Påmeldt";
+  } else if(valg == "Skal") {
+    document.getElementById("arrangement_paameldt").innerHTML = "Skal";
+  }
+  else if(valg == "Kanskje") {
+    document.getElementById("arrangement_paameldt").innerHTML = "Kanskje";
+  } 
+  else if(valg == "KanIkke") {
+    document.getElementById("arrangement_paameldt").innerHTML = "Kan ikke";
+  } 
+  else if(valg == "Paameld") {
+    document.getElementById("arrangement_paameld").innerHTML = "Påmeld";
+  }
+  else if(valg == "Invitert") {
+    document.getElementById("arrangement_paameld").innerHTML = "Invitert";
   }
 }
 
@@ -561,5 +619,119 @@ function visSlett(sletteid) {
   }
 }
 
-/* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
-/* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */
+
+
+/*-------------------*/
+/*-------------------*/
+/* Del for meldinger */
+/*-------------------*/
+/*-------------------*/
+
+function aapneSamtale(valgtSamtale) {
+  document.getElementById("meldinger_innboks_valgt").value = valgtSamtale;
+  document.getElementById("meldinger_form_innboks").submit();
+}
+
+function slettSamtale(valgtSamtale) {
+  document.getElementById("meldinger_innboks_soppel_valgt").value = valgtSamtale;
+  document.getElementById("meldinger_innboks_soppel").submit();
+}
+
+function gjenopprettSamtale(valgtSamtale) {
+  document.getElementById("meldinger_innboks_restore_valgt").value = valgtSamtale;
+  document.getElementById("meldinger_innboks_restore").submit();
+}
+
+function aapneUtboks() {
+  document.getElementById("meldinger_form_utboks").submit();
+}
+
+
+
+// Funksjon for å trykke på en melding eller ikon for papirkurv / gjenoppretting
+function meldingTabbing() {
+  var melding = document.getElementsByClassName("meldinger_innboks_samtale");
+  var ikon = document.getElementsByClassName("meldinger_innboks_restore");
+  if(ikon.length == 0) {
+    var ikon = document.getElementsByClassName("meldinger_innboks_soppel");
+  }
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet meldinger_innboks_samtale
+  for (var i = 0; i < melding.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    melding[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+  for (var i = 0; i < ikon.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    ikon[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+}
+
+/*-------------------*/
+/*-------------------*/
+/* Del for kommentarer */
+/*-------------------*/
+/*-------------------*/
+function VisSkjulKommentarer(divId) {
+  if(document.getElementById(divId).style.display == 'none') {
+  
+    document.getElementById(divId).style.display='block';
+    document.getElementById("leskommentarer").innerHTML = 'Skjul kommentarer';
+  }
+  else {
+    document.getElementById(divId).style.display = 'none';
+    document.getElementById("leskommentarer").innerHTML = 'Vis kommentarer';
+    
+  }
+}
+
+
+function visKommentar() {
+  
+  var knappLes = document.getElementsByClassName("kommentar_lesknapp");
+
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet kommentar_lesknapp
+  for (var i = 0; i < knappLes.length; i++) {
+    
+    knappLes[i].addEventListener("click", function() {
+      // Siden en kommentar har en tekst, har den også to elementer for ingress og tekst
+      var innholdTekst = this.previousElementSibling;
+      var innholdIngress = innholdTekst.previousElementSibling;
+      var knappLes = this;
+
+      // Tester på style som er nå, hvis ingressen vises, skjul ingress og vis tekst
+      if (innholdIngress.style.display == "inline-block") {
+        innholdTekst.style.display = "inline-block";
+        innholdIngress.style.display = "none";
+        knappLes.innerHTML = "Les mindre";
+      } else {
+        innholdTekst.style.display = "none";
+        innholdIngress.style.display = "inline-block";
+        knappLes.innerHTML = "Les mer";
+      }
+    });
+  }
+}
+
+// Funksjon for å laste opp oppdateringer til profil (beskrivelse og preferanser)
+function lastOppProfil() {
+  document.getElementById("profilForm").submit();
+}
+
+/* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
+/* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */

@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-//------------------------------//
+//-------------------------------//
 // Innstillinger, faste variable //
-//------------------------------//
-include("innstillinger.php");
+//-------------------------------//
+include("inkluderes/innstillinger.php");
 
 
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
@@ -58,24 +58,51 @@ if (isset($_POST['submit'])) {
         $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
-            if ($resultat['brukertype'] != 4) {
-                $_SESSION['idbruker'] = $resultat['idbruker'];
-                $_SESSION['brukernavn'] = $resultat['brukernavn'];
-                $_SESSION['fornavn'] = $resultat['fnavn'];
-                $_SESSION['etternavn'] = $resultat['enavn'];
-                $_SESSION['epost'] = $resultat['epost'];
-                $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
-                $_SESSION['brukertype'] = $resultat['brukertype'];
+            if ($resultat['brukertype'] == 4) {
+                $oppdaterBrukertypeQ = "update bruker set brukertype = 3 where idbruker = " . $resultat['idbruker'];
+                $oppdaterBrukertypeSTMT = $db->prepare($oppdaterBrukertypeQ);
+                $oppdaterBrukertypeSTMT->execute();
                 
-                $_SESSION['feilteller'] = 0;
+                $antallEndret = $oppdaterBrukertypeSTMT->rowCount();
 
-                // Fjerner session variable for brukerinput om ingen feil oppstår
-                unset($_SESSION['input_brukernavn']);
+                if ($antallEndret == 0) {
+                    header("Location: logginn.php?error=1");
+                } else {
+                    $resultat['brukertype'] = 3;
+                }
+            } 
 
-                header("Location: backend.php");
-            } else {
-                header("Location: default.php?error=5");
+            $_SESSION['idbruker'] = $resultat['idbruker'];
+            $_SESSION['brukernavn'] = $resultat['brukernavn'];
+            $_SESSION['fornavn'] = $resultat['fnavn'];
+            $_SESSION['etternavn'] = $resultat['enavn'];
+            $_SESSION['epost'] = $resultat['epost'];
+            $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
+            $_SESSION['brukertype'] = $resultat['brukertype'];
+            
+            $_SESSION['feilteller'] = 0;
+
+            // Sjekker på om bruker har registrert preferanser
+            $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
+            $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
+            $sjekkPrefSTMT->execute();
+            $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
+
+            // Bruker har ikke preferanser, oppretter de
+            // Variabelen $personvern kommer fra innstillinger
+            if(!$resPref) {
+                $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
+                                    $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
+                                        $_SESSION['idbruker'] . ")";
+
+                $opprettPrefSTMT = $db->prepare($opprettPrefQ);
+                $opprettPrefSTMT->execute();
             }
+
+            // Fjerner session variable for brukerinput om ingen feil oppstår
+            unset($_SESSION['input_brukernavn']);
+
+            header("Location: backend.php");
         } else {    
             // Øker teller for feilet innlogging med 1
             $_SESSION['feilteller']++;
@@ -91,7 +118,6 @@ if (isset($_POST['submit'])) {
  
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 
@@ -112,42 +138,7 @@ if (isset($_POST['submit'])) {
 
     <body>
         <article class="innhold">
-            <!-- Begynnelse på øvre navigasjonsmeny -->
-            <nav class="navTop">
-                <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-                <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="5">
-                    <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
-                </a>
-                <!-- Legger til en knapp for å gå fra innlogging til registrering -->
-                <button class="singelKnapp" onClick="location.href='registrer.php'" tabindex="4">REGISTRER</button>
-                
-                <form id="sokForm_navmeny" action="sok.php">
-                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
-                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
-                </form>
-                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
-                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
-                </a>
-                <!-- Logoen øverst i venstre hjørne -->
-                <a href="default.php" tabindex="1">
-                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
-                </a>
-                
-            <!-- Slutt på navigasjonsmeny-->
-            </nav>
-            <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
-            <section id="navMeny" class="hamburgerMeny">
-
-                <!-- innholdet i hamburger-menyen -->
-                <!-- -1 tabIndex som standard, man tabber ikke inn i menyen når den er lukket -->
-                <section class="hamburgerInnhold">
-                    <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
-                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
-                </section>
-            </section>
+            <?php include("inkluderes/navmeny.php") ?>
             
             <main id="toppMain" onclick="lukkHamburgerMeny()">
                 <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
@@ -167,6 +158,9 @@ if (isset($_POST['submit'])) {
                     
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
                         <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
+                        
+                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                        <p id="mldFEIL">Kunne ikke registrere bruker, vennligst kontakt administrator om dette problemet fortsetter</p>
                     
                     <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                         <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
@@ -183,18 +177,11 @@ if (isset($_POST['submit'])) {
                 <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
 
             </main>
-            
-            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
-
-            <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
-            <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a></p>
-            </footer>
+            <?php include("inkluderes/footer.php") ?>
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Robin Kleppang siste gang 07.02.2020 -->
+    <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 21.02.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad siste gang 06.03.2020 -->
 
 </html>

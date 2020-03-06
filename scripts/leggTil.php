@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-//------------------------------//
+//-------------------------------//
 // Innstillinger, faste variable //
-//------------------------------//
-include("innstillinger.php");
+//-------------------------------//
+include("../inkluderes/innstillinger.php");
 
 // Oppdaterer KlimateBruker til Redaktør
 $nyttArrangementQ = "update bruker set brukertype = 2 where idbruker = 83";

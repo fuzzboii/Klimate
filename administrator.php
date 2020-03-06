@@ -7,12 +7,13 @@ session_start();
 include("inkluderes/innstillinger.php");
 
 
-// Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
-if (isset($_SESSION['idbruker'])) {
-    header("Location: default.php?error=2");
-}
 
-// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
+// Forsikrer seg om kun tilgang for administrator
+if (!isset($_SESSION['idbruker'])) {
+    header("Location: default.php?error=1");
+} else if ($_SESSION['brukertype'] != '1') {
+    header("Location: default.php?error=4");
+}
 $input_brukernavn = "";
 $input_epost = "";
 if (isset($_SESSION['input_brukernavn'])) {
@@ -35,6 +36,11 @@ if (isset($_POST['subRegistrering'])) {
 
                     $br = $_POST['brukernavn'];
                     $pw = $_POST['passord'];
+                    if($_POST['brukertype'] != "4") {
+                        $btype = $_POST['brukertype'];
+                    } else {
+                        $btype = "3";
+                    }
 
                     // Validering av passordstyrke, server validering
                     $storebokstaver = preg_match('@[A-Z]@', $pw);
@@ -45,10 +51,10 @@ if (isset($_POST['subRegistrering'])) {
 
                     if ($pw == "") {
                         // Ikke noe passord skrevet
-                        header("Location: registrer.php?error=3");
+                        header("Location: administrator.php?error=3");
                     } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
                         // Ikke tilstrekkelig passord skrevet
-                        header("Location: registrer.php?error=4");
+                        header("Location: administrator.php?error=4");
                     } else {
                         // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
                         $lbr = strtolower($_POST['brukernavn']);
@@ -58,7 +64,7 @@ if (isset($_POST['subRegistrering'])) {
                         $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
 
                         // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
-                        if ($testbnavn['brukernavn'] != $lbr) {
+                        if (!isset($testbnavn['brukernavn']) || $testbnavn['brukernavn'] != $lbr) {
                             // OK, vi forsøker å registrere bruker
                             $epost = $_POST['epost'];
 
@@ -66,7 +72,7 @@ if (isset($_POST['subRegistrering'])) {
                             $kombinert = $salt . $pw;
                             // Krypterer saltet passord
                             $spw = sha1($kombinert);
-                            $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', 3)";
+                            $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', $btype)";
 
 
                             // Prepared statement for å beskytte mot SQL injection
@@ -97,34 +103,34 @@ if (isset($_POST['subRegistrering'])) {
                                     $opprettPrefSTMT->execute();
                                 }
 
-                                header("location: logginn.php?vellykket=1");
+                                header("location: administrator.php?vellykket=1");
                             }
                         } else {
                             // Brukernavnet er tatt
-                            header("location: registrer.php?error=1");
+                            header("location: administrator.php?error=1");
                         }
                     }
                 }
                 catch (PDOException $ex) {
                     if ($ex->getCode() == 23000) {
                         // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
-                        header("location: registrer.php?error=1");
+                        header("location: administrator.php?error=1");
                     } else if ($ex->getCode() == '42S22') {
                         // 42S22, Kolonne eksisterer ikke
-                        header("location: registrer.php?error=5");
+                        header("location: administrator.php?error=5");
                     }
                 } 
             } else {
                 // Feilmelding 7, bruker har oppgitt en ugyldig epost
-                header("location: registrer.php?error=7");
+                header("location: administrator.php?error=7");
             }
         } else {
             // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
-            header("location: registrer.php?error=6");
+            header("location: administrator.php?error=6");
         }
     } else {
         // Feilmelding 2 = passord ikke like
-        header("location: registrer.php?error=2");
+        header("location: administrator.php?error=2");
     }
 }
 ?>
@@ -137,7 +143,7 @@ if (isset($_POST['subRegistrering'])) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Registrering</title>
+        <title>Administrator innstillinger</title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -146,13 +152,19 @@ if (isset($_POST['subRegistrering'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
-        <article class="innhold">
-            <?php include("inkluderes/navmeny.php") ?>
+    <body class="innhold">
+        <?php include("inkluderes/navmeny.php") ?>
 
-            <main id="toppMain" onclick="lukkHamburgerMeny()">
-                <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
-                <form method="POST" action="registrer.php" class="innloggForm">
+        <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+        <!-- Kan ikke legge denne direkte i body -->
+        <header class="adminMain" onclick="lukkHamburgerMeny()">
+            <!-- Overskrift på siden -->
+            <h1 id="admin_overskrift">Administrator innstillinger</h1>
+            <h2 id="admin_underskrift">Opprett en bruker</h2>
+        </header>
+            <main onclick="lukkHamburgerMeny()">
+                <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord -->
+                <form method="POST" action="administrator.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
                         <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
@@ -169,7 +181,14 @@ if (isset($_POST['subRegistrering'])) {
                         <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
                         <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                     </section>
-                    <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+                    <section>
+                        <select id="brukertypeValg" name="brukertype">
+                            <option value="3">Ordinær bruker</option>
+                            <option value="2">Redaktør</option>
+                            <option value="1">Administrator</option>
+                        </select>
+                    </section>
+                    <input style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
                     <!-- Håndtering av feilmeldinger -->
                     <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
@@ -192,20 +211,26 @@ if (isset($_POST['subRegistrering'])) {
 
                     <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
                         <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
-                    <?php } ?>    
 
-                    <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
+                    <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1) { ?>
+                        <p id="mldOK">Brukeren er opprettet</p>
+                    <?php } ?>
+                    
+
+
+                    <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
                 </form>
 
                 <!-- Sender brukeren tilbake til forsiden -->
                 <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
                 
             </main>
-            <?php include("inkluderes/footer.php") ?>
-        </article>
+        
+        <?php include("inkluderes/footer.php") ?>
+    
+
     </body>
-
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 16.02.2020 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 06.03.2020 -->
-
 </html>
+
+    <!-- Denne siden er utviklet av Glenn Petter Pettersen, siste gang endret 06.03.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->

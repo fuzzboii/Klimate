@@ -1,10 +1,14 @@
 <?php
 session_start();
 
-//------------------------------//
+//-------------------------------//
 // Innstillinger, faste variable //
-//------------------------------//
-include("innstillinger.php");
+//------------------------------- //
+include("inkluderes/innstillinger.php");
+
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i profil uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
 
 //------------------------------//
 // Test om man ser egen profil  //
@@ -14,7 +18,15 @@ if (isset($_SESSION['idbruker']) && $_SESSION['idbruker'] == $_GET['bruker']) {
     $egen = true;
 } else {
     $egen = false;
-};
+}
+
+if (!isset($_GET['bruker'])) {
+    if (!isset($_SESSION['idbruker'])) {
+        header("location: sok.php?melding=1");
+    } else {
+        header("location: profil.php?bruker=" . $_SESSION['idbruker']);
+    }
+}
 
 // -------------------- //
 // Oppdater profilbilde //
@@ -24,61 +36,81 @@ if (isset($_POST['endreBilde'])) {
     if (is_uploaded_file($_FILES['bilde']['tmp_name'])) {
         // Kombinerer bruker med idbruker
         $navn = "bruker" . $_SESSION['idbruker'];
+        $navnMini = "thumb_" . $navn;
         // Henter filtypen
         $filtype = "." . substr($_FILES['bilde']['type'], 6, 4);
         // Kombinerer navnet med filtypen
         $bildenavn = $navn . $filtype;
-        // Opprettet filnavnet for bildet som skal slettes, setter denne til tom streng hvis ikke bruker har profilbilde fra før
-        $bildenavnGammelt = "";
+        
         // Selve prosessen som flytter bildet til bestemt lagringsplass
         // Test om det finnes en fil med samme navn
         // Opprett navn med de 3 ulike filtypene
         $navnjpg = $navn . ".jpg";
         $navnjpeg = $navn . ".jpeg";
         $navnpng = $navn . ".png";
-        // Test på .jpg
+        // Test på om bildet finnes
         if(file_exists("$lagringsplass/$navnjpg")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpg");
-            $bildenavnGammelt = $navn . "jpg";
-        } elseif(file_exists("$lagringsplass/$navnjpeg")) { // ... .jpeg
+
+        } elseif(file_exists("$lagringsplass/$navnjpeg")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnjpeg");
-            $bildenavnGammelt = $navn . "jpeg";
-        } elseif (file_exists("$lagringsplass/$navnpng")) { // ... .png
+
+        } elseif (file_exists("$lagringsplass/$navnpng")) {
             // Dropp i så fall
             unlink("$lagringsplass/$navnpng");
-            $bildenavnGammelt = $navn . "png";
         }
-        // Last opp
+        // Flytt bildet fra temp til opplastet
         move_uploaded_file($_FILES['bilde']['tmp_name'], "$lagringsplass/$bildenavn");
 
         
+        $navnMinijpg = "thumb_" . $navnjpg;
+        $navnMinijpeg = "thumb_" . $navnjpeg;
+        $navnMinipng = "thumb_" . $navnpng;
+        // Test på om miniatyrbildet finnes
+        if(file_exists("$lagringsplass/$navnMinijpg")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinijpg");
+
+        } elseif(file_exists("$lagringsplass/$navnMinijpeg")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinijpeg");
+
+        } elseif (file_exists("$lagringsplass/$navnMinipng")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMinipng");
+        }
+
+        // Del for å laste opp thumbnail
+        $valgtbilde = getimagesize($lagringsplass . "/" . $bildenavn);
+        $bildenavnMini = "thumb_" . $navn . $filtype;
+        
+        if(strtolower($valgtbilde['mime']) == "image/png") {
+            $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
+            $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+            imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+            imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
+
+        } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
+            $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
+            $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+            imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+            imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
+        }
+        
         // Test om brukeren har et bilde fra før
-        $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
+        $hentBilde = "select idbilder, hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
         $stmtBilde = $db->prepare($hentBilde);
         $stmtBilde->execute();
         $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
         $antallBilderFunnet = $stmtBilde->rowCount();
         // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
         if ($antallBilderFunnet != 0) {
-            // Hvis brukeren har et bilde fra før:
-            if($bildenavnGammelt != "") {
-                // Slett det gamle bildet fra databasen først
-                $slettBilde = "delete from bilder where hvor='" . $bildenavnGammelt . "'";
-                $stmtSlettBilde = $db->prepare($slettBilde);
-                $stmtSlettBilde->execute();
-            }
             // Legger til bildet i databasen
-            $nyttBildeQ = "insert into bilder(hvor) values('" . $bildenavn . "')";
+            $nyttBildeQ = "update bilder set hvor = '" . $bildenavn . "' where idbilder = " . $bilde['idbilder'];
             $nyttBildeSTMT = $db->prepare($nyttBildeQ);
             $nyttBildeSTMT->execute();
-            // Returnerer siste bildeid. Last insert id svarer til bildet vi håndterer
-            $bildeid = $db->lastInsertId();
-            // Brukerbilde må oppdateres, på raden til brukeren
-            $nyKoblingQ = "update brukerbilde set bilde='" . $bildeid . "' where bruker='" . $_SESSION['idbruker'] . "'";
-            $nyKoblingSTMT = $db->prepare($nyKoblingQ);
-            $nyKoblingSTMT->execute();  
         } else {
             // Hvis brukeren ikke har et tilknyttet bilde:
             // Legger til bildet i databasen
@@ -95,6 +127,46 @@ if (isset($_POST['endreBilde'])) {
     }
 }
 
+//----------------------//
+// Oppdater preferanser //
+//----------------------//
+if ($egen) {
+    if(isset($_POST['oppdaterPreferanser'])) {
+        if(isset($_POST['fnavnToggle'])) {
+            $visfnavnNy = "1";
+        } else $visfnavnNy = "0";
+        if(isset($_POST['enavnToggle'])) {
+            $visenavnNy = "1";
+        } else $visenavnNy = "0";
+        if(isset($_POST['epostToggle'])) {
+            $visepostNy = "1";
+        } else $visepostNy = "0";
+        if(isset($_POST['tlfToggle'])) {
+            $vistelefonnummerNy = "1";
+        } else $vistelefonnummerNy = "0";
+        if(isset($_POST['beskrivelseToggle'])) {
+            $visBeskrivelseNy = "1";
+        } else $visBeskrivelseNy = "0";
+        if(isset($_POST['interesserToggle'])) {
+            $visInteresserNy = "1";
+        } else $visInteresserNy = "0";
+        $brukerNy = $_SESSION['idbruker'];
+
+        // Forsøk oppdatering
+        try {
+            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, 
+                                visepost=?, visinteresser=?, visbeskrivelse=?, vistelefonnummer=? 
+                                where bruker=?";
+            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
+        } finally {
+            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) 
+                                   values(?, ?, ?, ?, ?, ?, ?)";
+            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
+        }   
+    }
+}
 
  //-----------------------------//
  // Oppdaterer egen beskrivelse //
@@ -103,8 +175,11 @@ if (isset($_POST['endreBilde'])) {
  // men heller for mye integritet enn for lite
  if ($egen) {
     if (isset($_POST['beskrivelse'])) {
-        $oppdaterBeskrivelse = "update bruker set beskrivelse = '" . $_POST['beskrivelse'] . "' where idbruker = " . $_SESSION['idbruker'];
+        $oppdaterBeskrivelse = "update bruker set beskrivelse = :beskrivelse where idbruker = " . $_SESSION['idbruker'];
         $stmtOppdaterBeskrivelse = $db->prepare($oppdaterBeskrivelse);
+        
+        $stmtOppdaterBeskrivelse->bindParam(':beskrivelse', $_POST['beskrivelse']);
+
         $stmtOppdaterBeskrivelse->execute();
     }
  }
@@ -126,6 +201,7 @@ if ($egen) {
 //-----------------------------------------------//
 if ($egen) {
     if (isset($_POST['interesseEgendefinert'])) {
+        if(preg_match("/\S/", $_POST['interesseEgendefinert'])) {
         // Kontroller at interessen også er unik sammenlignet i lower case
         // Hent alle navnene fra interesse
         $sammenligning = "select lower(interessenavn) as interessenavn from interesse";
@@ -133,13 +209,13 @@ if ($egen) {
         $stmtSammenligning->execute();
         $interesseSammenlign = $stmtSammenligning->fetchAll(PDO::FETCH_ASSOC);
 
-        // Lower case egendefinert interesse til sammenligning
-        $egendefinertLower = strtolower($_POST['interesseEgendefinert']);
+        // Lower case egendefinert interesse til sammenligning, trim whitespaces
+        $egendefinertLower = trim(strtolower($_POST['interesseEgendefinert']));
 
         // Sammenlign hvert navn
         foreach($interesseSammenlign as $e) {
             foreach($e as $navn) {
-                if($egendefinertLower == $navn) {
+                if($egendefinertLower == trim($navn)) {
                     // Opprett en variabel som tilsiser en match
                     $funnet = true;
                 }
@@ -168,9 +244,10 @@ if ($egen) {
             $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse) values(?, ?)";
             $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
             $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
-        } else {
+        }
+     } else {
             // Ellers viser vi en feilmelding
-            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger=' . $_SESSION['idbruker'] . '&error=1');
+            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger&error=1');
         }
     }
 }
@@ -218,11 +295,27 @@ $stmtPersonaliaProfil = $db->prepare($hentPersonaliaProfil);
 $stmtPersonaliaProfil->execute();
 $personaliaProfil = $stmtPersonaliaProfil->fetch(PDO::FETCH_ASSOC);
 
+//----------------------------------//
+// Henting av brukerens preferanser //
+//----------------------------------//
+$hentPreferanser = "Select * from preferanse where bruker = " . $_GET['bruker'];
+$stmtPreferanser = $db->prepare($hentPreferanser);
+$stmtPreferanser->execute();
+$preferanser = $stmtPreferanser->fetch(PDO::FETCH_ASSOC);
+
+if($preferanser != false) {
+    if($preferanser['visfnavn'] == "1") $visFnavn = true;
+    if($preferanser['visenavn'] == "1") $visEnavn = true;
+    if($preferanser['visepost'] == "1") $visEpost = true;
+    if($preferanser['vistelefonnummer'] == "1") $visTlf = true;
+    if($preferanser['visbeskrivelse'] == "1") $visBeskrivelse = true;
+    if($preferanser['visinteresser'] == "1") $visInteresser = true;
+}
+
 //-----------------------//
 // Henting av interesser //
 //-----------------------//
-$hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = "
-                        . $_GET['bruker'] . " and brukerinteresse.interesse=interesse.idinteresse;";
+$hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = " . $_GET['bruker'] . " and brukerinteresse.interesse=interesse.idinteresse order by interessenavn";
 $stmtInteresseProfil = $db->prepare($hentInteresseProfil);
 $stmtInteresseProfil->execute();
 $tellingInteresse = $stmtInteresseProfil->rowcount();
@@ -238,7 +331,7 @@ if ($tellingInteresse > 0) {
 //----------------------------------------------//
 // Hent alle interesser fra db, til en <select> //
 //----------------------------------------------//
-$hentInteresse = "select idinteresse, interessenavn from interesse";
+$hentInteresse = "select idinteresse, interessenavn from interesse order by interessenavn";
 $stmtHentInteresse = $db->prepare($hentInteresse);
 $stmtHentInteresse->execute();
 $interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
@@ -287,7 +380,6 @@ if ($tellingArrangement > 0) {
 $tabindex = 10;
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 
@@ -298,13 +390,11 @@ $tabindex = 10;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
         <title>
-            <?php if ($egen && !isset($_GET['innstillinger'])) {
-                    echo($_SESSION['brukernavn']);
-                  } else if(isset($_GET['innstillinger'])) { ?>
+            <?php if(isset($_GET['innstillinger'])) { ?>
                 Rediger profil
-            <?php } else { ?>
-                Profil
-            <?php } ?>
+            <?php } else { 
+                echo("Profil | " . $brukernavnProfil['brukernavn']);
+            } ?>
         </title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
@@ -316,139 +406,7 @@ $tabindex = 10;
 
     <body onload="profilTabbing()"> 
         <article class="innhold">
-            <!-- Begynnelse på øvre navigasjonsmeny -->
-            <nav class="navTop"> 
-                <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-                <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-                <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="6">
-                    <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
-                </a>
-                <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
-                <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-                <?php if (isset($_SESSION['idbruker'])) {
-                    // Vises når bruker er innlogget
-
-                    /* -------------------------------*/
-                    /* Del for visning av profilbilde */
-                    /* -------------------------------*/
-
-                    // Henter bilde fra database utifra brukerid
-                    
-                    $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
-                    $stmtBilde = $db->prepare($hentBilde);
-                    $stmtBilde->execute();
-                    $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
-                    $antallBilderFunnet = $stmtBilde->rowCount();
-                    // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
-                    if ($antallBilderFunnet != 0) { ?>
-                        <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
-                            <?php
-                            $testPaa = $bilde['hvor'];
-                            // Tester på om filen faktisk finnes
-                            if(file_exists("$lagringsplass/$testPaa")) {   
-                                if ($_SESSION['brukertype'] == 2) { ?>
-                                    <!-- Setter redaktør border "Oransje" -->
-                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 2px solid green;">
-                                
-                                <?php 
-                                }
-                                if ($_SESSION['brukertype'] == 1) { ?>
-                                    <!-- Setter administrator border "Rød" -->
-                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 2px solid red;"> 
-                                <?php 
-                                }
-                                if ($_SESSION['brukertype'] == 3) { ?> 
-                                    <!-- Setter vanlig profil bilde -->
-                                    <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
-                                <?php 
-                                }
-                            } else { 
-                                // Om filen ikke ble funnet, vis standard profilbilde
-                                if ($_SESSION['brukertype'] == 2) { ?>
-                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
-                                <!-- Setter administrator border "Rød" -->
-                                <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
-                                <!-- Setter vanlig profil bilde -->
-                                <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
-                                    <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
-                                <?php
-                                }
-                            } ?>
-                        </a>
-
-                    <?php } else { ?>
-                        <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
-                            <!-- Setter redaktør border "Oransje" -->
-                            <?php if ($_SESSION['brukertype'] == 2) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
-                            <!-- Setter administrator border "Rød" -->
-                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
-                            <!-- Setter vanlig profil bilde -->
-                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
-                            <?php } ?>
-                        </a>
-
-                    <?php } ?>
-                    <!-- Legger til en knapp for å logge ut når man er innlogget -->
-                    <form method="POST" action="default.php">
-                        <button name="loggUt" id="registrerKnapp" tabindex="4">LOGG UT</button>
-                    </form>
-                <?php } else { ?>
-                    <!-- Vises når bruker ikke er innlogget -->
-                    <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="5">REGISTRER</button>
-                    <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="4">LOGG INN</button>
-                <?php } ?>
-
-                <form id="sokForm_navmeny" action="sok.php">
-                    <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
-                    <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
-                </form>
-                <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
-                    <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
-                </a>
-                <!-- Logoen øverst i venstre hjørne -->
-                <a href="default.php" tabindex="1">
-                    <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
-                </a>  
-            <!-- Slutt på navigasjonsmeny-->
-            </nav>
-
-            <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
-            <section id="navMeny" class="hamburgerMeny">
-            
-                <!-- innholdet i hamburger-menyen -->
-                <!-- -1 tabIndex som standard da menyen er lukket -->
-                <section class="hamburgerInnhold">
-                    <?php if (isset($_SESSION['idbruker'])) { ?>
-                        <!-- Hva som vises om bruker er innlogget -->
-                        
-                        <!-- Redaktør meny "Oransje" -->
-                        <?php if ($_SESSION['brukertype'] == 2) { ?>
-                            <p style="color: green"> Innlogget som Redaktør </p>
-                        <!-- Administrator meny "Rød" -->
-                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                            <p style="color: red"> Innlogget som Administrator </p>
-                        <?php } ?>
-
-                        <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
-                        <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                        <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                        <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
-                        <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
-                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
-                    <?php } else { ?>
-                        <!-- Hvis bruker ikke er innlogget -->
-                        <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
-                        <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                        <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                        <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
-                    <?php } ?>
-                </section>
-            </section>
+            <?php include("inkluderes/navmeny.php") ?>
 
             <!-----------------------
             Del for brukerinformasjon
@@ -456,76 +414,139 @@ $tabindex = 10;
             <!-- ---------------------------------------------------- -->
             <!-- Tester på om rediger brukerinnstilinger er påklikket -->
             <!-- ---------------------------------------------------- -->
-            <?php if(isset($_GET['innstillinger'])) { ?>
+            <?php if(isset($_GET['innstillinger']) && $egen) { ?>
                 <header class="profil_header" onclick="lukkHamburgerMeny()">
-                    
                 </header>
                 
-                <main class="profil_main">
-                <h2>Rediger informasjon</h2>
-                    <h3>Endre profilbilde</h3>
-                    <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&instillinger=<?php echo $_SESSION['idbruker'] ?>">
-                        <h4>Velg et bilde</h4>
-                        <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
-                        <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
-                    </form>
+                <main class="profil_main2">
+                    <section class="bilde_grid">
+                        <h2>Endre profilbilde</h2>
+                        <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                            <h3>Velg et bilde</h3>
+                            <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
+                            <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
+                        </form>
+                    </section>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
-                    <!-- <h3>Vis eller skjul personalia</h3> -->
-                    <!-- <section class="profil_persInf">     -->
-                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
-                        <!-- Ikke egen profil -->
-                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
-                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            <!-- <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p> -->
-                            <!-- <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p> -->
-                            <!-- <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p> -->
-                            <!-- <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p> -->
-                        <!-- </section> -->
+                    <!-- Del for visning av personalia -->
+                    <section class="skjul_grid">
+                        <?php if($egen) { ?>
+                        <h2>Personalia</h2>
+                        <section class="profil_persInf">
+                            <!-- Et skjema for å oppdatere preferanser -->
+                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                                <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
+                            <!-- Linje for fornavn -->
+                                <p class="personalia">Fornavn</p>
+                                    <label class="switch">
+                                        <?php if(isset($visFnavn)) { ?>
+                                        <input type="checkbox" name="fnavnToggle" value="visFnavn" checked />
+                                        <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for etternavn -->
+                                <p class="personalia">Etternavn</p>
+                                    <label class="switch">
+                                    <?php if(isset($visEnavn)) { ?>
+                                        <input type="checkbox" name="enavnToggle" value="visEnavn" checked />
+                                        <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for epostadresse -->
+                                <p class="personalia">E-Post Adresse</p>
+                                    <label class="switch">
+                                    <?php if(isset($visEpost)) { ?>
+                                        <input type="checkbox" name="epostToggle" value="visEpost" checked />
+                                        <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for telefonnummer -->
+                                <p class="personalia">Telefonnummer</p>
+                                    <label class="switch">
+                                    <?php if(isset($visTlf)) { ?>
+                                        <input type="checkbox" name="tlfToggle" value="visTlf" checked />
+                                        <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for beskrivelse -->
+                                <p class="personalia">Beskrivelse</p>
+                                    <label class="switch">
+                                    <?php if(isset($visBeskrivelse)) { ?>
+                                        <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" checked />
+                                        <?php } else { ?> <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                                <!-- Linje for interesser -->
+                                <p class="personalia">Interesser</p>
+                                    <label class="switch">
+                                    <?php if(isset($visInteresser)) { ?>
+                                        <input type="checkbox" name="interesserToggle" value="visInteresser" checked />
+                                        <?php } else { ?> <input type="checkbox" name="interesserToggle" value="visInteresser" />
+                                        <?php } ?>
+                                        <span class="slider round"></span>
+                                    </label>
+                            </form>
+                        </section>
+                    <?php } ?>
+                </section>
+                
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
-                <?php if($egen) { ?>
-                        <h3>Endre beskrivelse</h3>
-                        <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
-                            <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"/>
-                        </form>
-                    <?php } ?>
-                    <!-- Viser interesser -->
-                    <h3 class="OverskriftInter">Interesser</h3>
-                    <!-- Nøstet foreach -->
-                    <!-- Ytre løkke -->
-                    <section class="interesserSection">
-                        <section class="interesserTags">
-                            <?php if ($tellingInteresse != null) {
-                                foreach ($interesseProfil as $rad) {    
-                                    foreach ($rad as $kolonne) { ?> 
-                                        <!-- Test om bruker er i slettemodus -->
-                                        <?php if (isset($_POST['slettemodus'])) { ?> 
-                                            <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                            <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
-                                        <?php } else { ?> 
-                                            <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>><?php echo($kolonne); ?></p>
-                                        <?php } // Slutt, else løkke    
-                                    } // Slutt, indre løkke
-                                } // Slutt, ytre løkke
-                            } ?> <!-- Slutt, IF-test -->
-                        </section>
-                        <!-- Del for å legge til interesser -->
-                        <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
-
-                        <!-- Slettemodus -->
-                        <?php if ($egen) { ?>
-                        <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
-                            <?php if(!isset($_POST['slettemodus'])) { ?>
-                                <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
-                            <?php } else { ?> 
-                                <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt" tabindex="100"> 
-                            <?php } ?>
-                        </form>
-                        <?php } ?>
-                        
+                    <section class="bsk_grid">
                         <?php if($egen) { ?>
-                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <h2>Endre beskrivelse</h2>
+                            <section class="profil_beskrivelse" >
+                                <textarea form="profilForm" name="beskrivelse" maxlength="1024" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
+                            </section>
+                        <?php } ?>
+                    </section>
+
+                    <!-- Oppdater-knapp -->
+                    <?php if($egen) { ?>
+                        <button class="oppdater_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
+                    <?php } ?>
+
+                    <section class="int2_grid">
+                        <!-- Viser interesser -->
+                        <h2 class="OverskriftInter">Interesser</h2>
+                        <!-- Nøstet foreach -->
+                        <!-- Ytre løkke -->
+                        <section class="interesserSection">
+                            <section class="interesserTags">
+                                <?php if ($tellingInteresse != null) {
+                                    foreach ($interesseProfil as $rad) {    
+                                        foreach ($rad as $kolonne) { ?> 
+                                            <!-- Test om bruker er i slettemodus -->
+                                            <?php if (isset($_POST['slettemodus'])) { ?> 
+                                                <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
+                                                <!-- Ellers normal visning -->
+                                            <?php } else { ?> 
+                                                <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>><?php echo($kolonne); ?></p>
+                                            <?php } // Slutt, else løkke    
+                                        } // Slutt, indre løkke
+                                    } // Slutt, ytre løkke
+                                } ?> <!-- Slutt, IF-test -->
+                            </section>
+                            <!-- Del for å legge til interesser -->
+                            <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
+
+                            <!-- Slettemodus -->
+                            <?php if ($egen) { ?>
+                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                                <?php if(!isset($_POST['slettemodus'])) { ?>
+                                    <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
+                                <?php } else { ?> 
+                                    <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt" tabindex="100"> 
+                                <?php } ?>
+                            </form>
+                            <?php } ?>
+                        <?php if($egen) { ?>
+                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">
                                     <?php $index=1 ?>
                                     <?php foreach($interesse as $rad) { ?>
@@ -537,17 +558,20 @@ $tabindex = 10;
                             </form>
 
                             <!-- Egendefinert interesse -->
-                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>">
+                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
+                        </section>
                         <?php } ?> <!-- Slutt, IF-test -->                
                     </section> 
                     
-                    <!-- tilbake knapp -->
-                    <?php if($egen) {?>
-                            <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex="105">Tilbake</button>
-                    <?php }?>
+                    <section class="knapp2_grid">
+                        <!-- tilbake-knapp -->
+                        <?php if($egen) {?>
+                                <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" id="profilTilbakeKnapp" tabindex="105">Tilbake</button>
+                        <?php }?>
+                    </section>
 
                 </main>
             <?php } else { ?>
@@ -566,7 +590,7 @@ $tabindex = 10;
                         <!-- Bilde av brukeren -->
                         <!-- FLYTT SØK-DELEN AV DENNE BITEN OPP TIL FØR HTML-ERKLÆRING? -->
                         <?php
-                        $hentProfilbilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_GET['bruker'] . " and idbruker = bruker and bilde = idbilder";
+                        $hentProfilbilde = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_GET['bruker'] . " and brukerbilde.bilde = bilder.idbilder";
                         $stmtProfilbilde = $db->prepare($hentProfilbilde);
                         $stmtProfilbilde->execute();
                         $profilbilde = $stmtProfilbilde->fetch(PDO::FETCH_ASSOC);
@@ -593,74 +617,111 @@ $tabindex = 10;
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } ?>
+                    </section>   
                         
-                        
-                        
-                        <!-- --------------- -->
-                        <!-- BRUKERINFO ---- -->
-                        <!-- --------------- -->
-                        <h2>Om</h2>
-                        <h3>Oversikt</h3>
+                    <section class="ovs_grid">
+                        <!---------------->
+                        <!-- BRUKERINFO -->
+                        <!---------------->
+                        <h2>Oversikt</h2>
                         <section class="profil_persInf">
-                        
-                        <!-- Test på $egen, Edit: if-testen med $egen og foreach-løkken ble fjernet --> 
-                        <!-- Ikke egen profil -->
-                        <!-- Funksjonaliteter for egen profil må nesten kreve en ny tabell for privacy settings? -->
-                        <!-- Ser ingen gode løsninger for ellers å kunne skjule informasjon uten å endre på de relevante feltene (NO NO)-->
-                            
-                            <p><strong>Fornavn:</strong></p> <p><?php echo($personaliaProfil["fnavn"])?></p>
-                            <p><strong>Etternavn:</strong> </p> <p><?php echo($personaliaProfil["enavn"])?></p>
-                            <p><strong>E-post Adresse:</strong></p> <p> <?php echo($personaliaProfil["epost"])?></p>
-                            <p><strong>Telefonnummer:</strong></p> <p> <?php echo($personaliaProfil["telefonnummer"])?></p>
+                            <!-- Fornavn -->
+                            <!-- Test først på om det finnes en preferanse -->
+                            <!-- Hvis ikke oppgis mangelen -->
+                            <p class="personalia">Fornavn:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["fnavn"]))) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <!-- Test så på om info er skjult -->
+                                <!-- Dette resulterer også i at brukere må velge å vise info til andre -->
+                                <!-- Dette virker hensiktsmessig ihht. personvern -->
+                                <?php } elseif(!isset($visFnavn)) { ?>
+                                    <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
+                                <!-- Ellers vises den som vanlig -->
+                                <?php } else { ?> <p> <?php echo($personaliaProfil["fnavn"]) ?> </p> <?php } ?>
+                                
+                                <p class="personalia">Etternavn:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["enavn"]))) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } elseif(!isset($visEnavn)) { ?>
+                                    <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
+                                <?php } else { ?> <p> <?php echo($personaliaProfil["enavn"]) ?> </p> <?php } ?>
+
+                                <p class="personalia">E-Post Adresse:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["epost"]))) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } elseif(!isset($visEpost)) { ?>
+                                    <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
+                                <?php } else { ?> <p> <?php echo($personaliaProfil["epost"]) ?> </p> <?php } ?>
+
+                                <p class="personalia">Telefonnummer:</p> <?php if(!preg_match("/\S/", ($personaliaProfil["telefonnummer"]))) { ?>
+                                <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                                <?php } elseif(!isset($visTlf)) { ?>
+                                    <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
+                                <?php } else { ?> <p> <?php echo($personaliaProfil["telefonnummer"]) ?> </p> <?php } ?>
                         </section>
                     </section>    
                     
                     <!-- BESKRIVELSE -->
                     <section class="brukerBeskrivelse">
-                    <h3>Beskrivelse</h3>
-                        <?php ?>
-                            <p><?php if(preg_match("/\S/", $beskrivelseProfil['beskrivelse']) == 1) {echo($beskrivelseProfil['beskrivelse']);} else {echo("Bruker har ikke oppgitt en beskrivelse");} ?></p>
-                        <?php  ?>
+                    <h2>Beskrivelse</h2>
+                    <?php if(!preg_match("/\S/", ($beskrivelseProfil["beskrivelse"]))) { ?>
+                        <p class="ikkeOppgitt"> <?php echo("Ikke oppgitt"); ?> </p>
+                        <?php } elseif(!isset($visBeskrivelse)) { ?>
+                            <p class="ikkeOppgitt"> <?php echo("Skjult"); ?> </p>
+                        <?php } else { ?> <p> <?php echo($beskrivelseProfil["beskrivelse"]) ?> </p> <?php } ?>
                     </section>
-                    <!-- INTERESSER -->
-                    <h2>Interesser</h2>
-                    <!-- Nøstet foreach -->
-                    <!-- Ytre løkke -->
-                    <section class="interesserTags">
-                    <?php if ($tellingInteresse != null) {
-                        foreach ($interesseProfil as $rad) {    
-                            foreach ($rad as $kolonne) { ?> 
-                                <!-- Test om bruker er i slettemodus -->
-                                <?php if (isset($_POST['slettemodus'])) { ?> 
-                                    <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                <!-- Ellers normal visning (som tydeligvis kjører åkke som) -->
-                                <?php } else { ?> 
-                                    <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
-                                <?php } // Slutt, else løkke    
-                            } // Slutt, indre løkke
-                        } // Slutt, ytre løkke
-                    } ?> <!-- Slutt, IF-test --> 
+
+                    <section class="int_grid">
+                        <!-- INTERESSER -->
+                        <h2>Interesser</h2>
+                        <!-- Nøstet foreach -->
+                        <!-- Ytre løkke -->
+                        <section class="interesserTags">
+                        <?php if ($tellingInteresse != null && isset($visInteresser)) {
+                            // Test på om bruker vil vise mer //
+                            if(isset($_POST["visMer"])) {
+                                // Sett i så fall $ //
+                                // IT'S OVER 9000! // 
+                                $max = 9999;
+                            } else $max = 11;
+                            // Teller for å ikke vise for mange interesser umiddelbart
+                            $teller = 0;
+                            foreach ($interesseProfil as $rad) {    
+                                foreach ($rad as $kolonne) { ?>
+                                    <!-- Oppdater teller -->
+                                    <?php $teller++; ?>
+                                    <!-- break; hvis vi har vist mange nok -->
+                                    <?php if($teller > $max) { ?>
+                                        <!-- POST en variabel som brukes til å angi max -->
+                                        <form method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                            <input class="proInt" name="visMer" type="submit" value="..." tabindex = <?php echo($tabindex); $tabindex++;?> > </p>
+                                        </form>
+                                        <!-- break 2; bryter ut av begge løkkene -->
+                                        <?php break 2;
+                                    } ?>
+                                    <!-- Test om bruker er i slettemodus -->
+                                    <?php if (isset($_POST['slettemodus'])) { ?> 
+                                        <input class="slett" form="slettemodus" name="interesseTilSletting" type="submit" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
+                                    <!-- Ellers normal visning -->
+                                    <?php } else { ?> 
+                                        <p class="proInt" onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>> <?php echo($kolonne); ?> </p>
+                                    <?php } // Slutt, else løkke    
+                                } // Slutt, indre løkke
+                            } // Slutt, ytre løkke
+                            // slutt, if-test. elseif-test
+                        } elseif(!isset($visInteresser)) { ?> <p class="ikkeOppgitt"> <?php echo("Skjult") ?> </p>
+                        <?php } ?> <!-- slutt, elseif -->
+                        </section>
                     </section>
+                    <section class="knapp_grid">
                     <?php if($egen) {?>
-                        <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
+                        <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
                     <?php } ?>
-            </main>
-
-             <?php } ?> <!-- Test på om brukeren har klikket på rediger -->
-            <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-            <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
-
-            <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
-            <footer>
-                <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
-                    <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                    <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
-                </p>
-            </footer>
+                    </section>
+                </main>
+            <?php } ?> <!-- Test på om brukeren har klikket på rediger -->
+            <?php include("inkluderes/footer.php") ?>
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 07.02.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 06.03.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
 
 </html>

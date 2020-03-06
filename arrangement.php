@@ -1,10 +1,15 @@
 <?php
 session_start();
 
-//------------------------------//
+//-------------------------------//
 // Innstillinger, faste variable //
-//------------------------------//
-include("innstillinger.php");
+//-------------------------------//
+include("inkluderes/innstillinger.php");
+
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
+
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_tittel = "";
@@ -35,7 +40,7 @@ if (isset($_POST['publiserArrangement'])) {
     $_SESSION['input_fylke'] = $_POST['fylke'];
 
     if (strlen($_POST['tittel']) <= 45 && strlen($_POST['tittel']) > 0) {
-        if (strlen($_POST['innhold'] <= 1000) && strlen($_POST['innhold']) > 0) {
+        if (strlen($_POST['innhold']) <= 1000 && strlen($_POST['innhold']) > 0) {
             if ($_POST['tidspunkt'] != "") {
                 if (strtotime($_POST['tidspunkt']) > strtotime(date("Y-m-d H:i:s"))) {
                     if(strlen($_POST['adresse']) <= 250 && strlen($_POST['adresse']) > 0) {
@@ -87,6 +92,23 @@ if (isset($_POST['publiserArrangement'])) {
                                 $nyKoblingQ = "insert into eventbilde(event, bilde) values('" . $idevent . "', '" . $bildeid . "')";
                                 $nyKoblingSTMT = $db->prepare($nyKoblingQ);
                                 $nyKoblingSTMT->execute();
+
+                                // Del for å laste opp thumbnail
+                                $valgtbilde = getimagesize($lagringsplass . "/" . $bildenavn);
+                                $bildenavnMini = "thumb_" . $navn . $filtype;
+                                
+                                if(strtolower($valgtbilde['mime']) == "image/png") {
+                                    $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
+                                    $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                                    imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                                    imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
+
+                                } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
+                                    $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
+                                    $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+                                    imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
+                                    imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
+                                }
                             }
                             
                             // Sletter innholdet så dette ikke eksisterer utenfor denne siden
@@ -105,17 +127,103 @@ if (isset($_POST['publiserArrangement'])) {
     } else { header('Location: arrangement.php?nyarrangement=error1'); } // Tittel tomt / for langt
 }
 
-if(isset($_POST['paameld'])) {
-    if($_POST['paameld'] == "Paameld") {
-        $paameldingQ = "insert into påmelding(event_id, bruker_id) values (" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ")";
-        $paameldingSTMT = $db->prepare($paameldingQ);
-        $paameldingSTMT->execute();
+if(isset($_POST['inviterTil'])) {
+    if($_POST['inviterTil'] == $_GET['arrangement']) {
+        // Henter eventinfo
+        $hentInfoQ = "select eventnavn from event where idevent = " . $_GET['arrangement'];
+        $hentInfoSTMT = $db->prepare($hentInfoQ);
+        $hentInfoSTMT->execute();
+        $eventinfo = $hentInfoSTMT->fetch(PDO::FETCH_ASSOC); 
 
-    } else if($_POST['paameld'] == "Paameldt") {
-        $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
-        $avmeldingSTMT = $db->prepare($avmeldingQ);
-        $avmeldingSTMT->execute();
+        // Henter idbruker
+        $hentIdQ= "select idbruker from bruker where brukernavn = '" . $_POST['brukernavn'] . "'";
+        $hentIdSTMT = $db->prepare($hentIdQ);
+        $hentIdSTMT->execute();
+        $bruker = $hentIdSTMT->fetch(PDO::FETCH_ASSOC); 
+
+        $tekst = "Hei " . $_POST['brukernavn'] . ", du har blitt invitert til " . $eventinfo['eventnavn'] . " <br><br>Følg linken her: <a href= " . $_SERVER['PHP_SELF'] . "?arrangement=" . $_GET['arrangement'] . ">Trykk meg</a>";
+
+        if(isset($bruker['idbruker'])) {
+            // Inviterer bruker
+            $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
+                            values('Invitasjon til " . $eventinfo['eventnavn'] . "', '" . $tekst  . "'," . 
+                                "NOW(), 0, " . $_SESSION['idbruker'] . ", " . $bruker['idbruker'] . ")";
+            $nyMeldingSTMT = $db->prepare($nyMeldingQ);
+            $nyMeldingSTMT->execute(); 
+            $sendt = $nyMeldingSTMT->rowCount();
+    
+            if($sendt > 0) {
+                // Inviterer bruker
+                $leggTilInvQ = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $bruker['idbruker'] . ", 'Invitert')";
+                $leggTilInvSTMT = $db->prepare($leggTilInvQ);
+                $leggTilInvSTMT->execute(); 
+                $invitert = $leggTilInvSTMT->rowCount();
+
+                if($invitert > 0) {
+                    header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&invitert");
+                } else {
+                    // Error 1
+                    header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
+                }
+            } else {
+                // Error 1
+                header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
+            }
+        } else {
+            // Error 1
+            header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
+        }
+
         
+    }
+}
+
+if(isset($_POST['skal'])) {
+    if($_POST['skal'] == "Skal") {
+        $paameldingSkal = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Skal')" ;
+        $paameldingSkalSTMT = $db->prepare($paameldingSkal);
+        $paameldingSkalSTMT->execute();
+    } 
+}
+
+if(isset($_POST['kanskje'])) {
+    if($_POST['kanskje'] == "Kanskje") {
+        $paameldingKanskje = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Kanskje')" ;
+        $paameldingKanskjeSTMT = $db->prepare($paameldingKanskje);
+        $paameldingKanskjeSTMT->execute();
+
+    } 
+}
+
+if(isset($_POST['kanIkke'])) {
+    if($_POST['kanIkke'] == "KanIkke") {
+        $paameldingKanIkke = "insert into påmelding(event_id, bruker_id, interessert) values(" . $_GET['arrangement'] . ", " . $_SESSION['idbruker'] . ", 'Kan ikke')" ;
+        $paameldingKanIkkeSTMT = $db->prepare($paameldingKanIkke);
+        $paameldingKanIkkeSTMT->execute();
+
+    } 
+}
+
+
+if(isset($_POST['avmeld'])) {
+    if($_POST['avmeld'] == "Paameldt") {
+       $avmeldingQ = "delete from påmelding where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+       $avmeldingSTMT = $db->prepare($avmeldingQ);
+       $avmeldingSTMT->execute();
+       
+   }
+}
+
+if(isset($_POST['invitasjon'])) {
+    if($_POST['invitasjon'] == "Godkjenn") {
+        $avslaaQ = "update påmelding set interessert = 'Skal' where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+        $avslaaSTMT = $db->prepare($avslaaQ);
+        $avslaaSTMT->execute();
+
+    } else if($_POST['invitasjon'] == "Avslå") {
+        $avslaaQ = "update påmelding set interessert = 'Kan ikke' where event_id = " . $_GET['arrangement'] . " and bruker_id = " . $_SESSION['idbruker'];
+        $avslaaSTMT = $db->prepare($avslaaQ);
+        $avslaaSTMT->execute();
     }
 }
 
@@ -133,6 +241,14 @@ if (isset($_POST['slettDenne'])) {
         if(file_exists("$lagringsplass/$testPaa")) {
             // Sletter bildet
             unlink("$lagringsplass/$testPaa");
+        }
+
+        $navnMini = "thumb_" . $testPaa;
+        // Test på om miniatyrbildet finnes
+        if(file_exists("$lagringsplass/$navnMini")) {
+            // Dropp i så fall
+            unlink("$lagringsplass/$navnMini");
+
         }
 
         // Begynner med å slette referansen til bildet arrangementet har
@@ -165,7 +281,6 @@ if (isset($_POST['slettDenne'])) {
 $tabindex = 8;
 
 ?>
-
 <!DOCTYPE html>
 <html lang="no">
 
@@ -198,146 +313,13 @@ $tabindex = 8;
     </head>
 
     <body id="arrangement_body" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp'), arrTabbing()" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
-        <!-- Begynnelse på øvre navigasjonsmeny -->
-        <nav class="navTop"> 
-            <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
-            <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
-            <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="6">
-                <img src="bilder/hamburgerIkon.svg" alt="Hamburger-menyen" class="hamburgerKnapp">
-            </a>
-            <!-- Legger til knapper for å registrere ny bruker eller innlogging -->
-            <!-- Om bruker er innlogget, vis kun en 'Logg ut' knapp -->
-            <?php if (isset($_SESSION['idbruker'])) {
-                // Vises når bruker er innlogget
-
-                /* -------------------------------*/
-                /* Del for visning av profilbilde */
-                /* -------------------------------*/
-
-                // Henter bilde fra database utifra brukerid
-
-                $hentBilde = "select hvor from bruker, brukerbilde, bilder where idbruker = " . $_SESSION['idbruker'] . " and idbruker = bruker and bilde = idbilder";
-                $stmtBilde = $db->prepare($hentBilde);
-                $stmtBilde->execute();
-                $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
-                $antallBilderFunnet = $stmtBilde->rowCount();
-                
-                // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen
-                if ($antallBilderFunnet != 0) { ?>
-                    <!-- Hvis vi finner et bilde til bruker viser vi det -->
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
-                        <?php
-                        $testPaa = $bilde['hvor'];
-                        // Tester på om filen faktisk finnes
-                        if(file_exists("$lagringsplass/$testPaa")) {   
-                            if ($_SESSION['brukertype'] == 2) { ?>
-                                <!-- Setter redaktør border "Oransje" -->
-                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 2px solid green;">
-                            
-                            <?php 
-                            }
-                            if ($_SESSION['brukertype'] == 1) { ?>
-                                <!-- Setter administrator border "Rød" -->
-                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny" style="border: 2px solid red;"> 
-                            <?php 
-                            }
-                            if ($_SESSION['brukertype'] == 3) { ?> 
-                                <!-- Setter vanlig profil bilde -->
-                                <img src="bilder/opplastet/<?php echo($bilde['hvor'])?>" alt="Profilbilde"  class="profil_navmeny"> 
-                            <?php 
-                            }
-                        } else { 
-                            // Om filen ikke ble funnet, vis standard profilbilde
-                            if ($_SESSION['brukertype'] == 2) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
-                            <!-- Setter administrator border "Rød" -->
-                            <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
-                            <!-- Setter vanlig profil bilde -->
-                            <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
-                                <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
-                            <?php
-                            }
-                        } ?>
-                    </a>
-
-                <?php } else { ?>
-                    <a class="bildeKontroll" href="javascript:void(0)" onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>'" tabindex="5">
-                        <!-- Setter redaktør border "Oransje" -->
-                        <?php if ($_SESSION['brukertype'] == 2) { ?>
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid green;">
-                        <!-- Setter administrator border "Rød" -->
-                        <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny" style="border: 2px solid red;"> 
-                        <!-- Setter vanlig profil bilde -->
-                        <?php } else if ($_SESSION['brukertype'] != 1 || 2) { ?>
-                            <img src="bilder/profil.png" alt="Profilbilde" class="profil_navmeny"> 
-                        <?php } ?>
-                    </a>
-
-                <?php } ?>
-
-                <!-- Legger til en knapp for å logge ut når man er innlogget -->
-                <form method="POST" action="default.php">
-                    <button name="loggUt" id="registrerKnapp" tabindex="4">LOGG UT</button>
-                </form>
-            <?php } else { ?>
-                <!-- Vises når bruker ikke er innlogget -->
-                <button id="registrerKnapp" onClick="location.href='registrer.php'" tabindex="5">REGISTRER</button>
-                <button id="logginnKnapp" onClick="location.href='logginn.php'" tabindex="4">LOGG INN</button>
-            <?php } ?>
-            <form id="sokForm_navmeny" action="sok.php">
-                <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
-                <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
-            </form>
-            <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
-                <img src="bilder/sokIkon.png" alt="Søkeikon" class="sok_navmeny" tabindex="2">
-            </a>
-            <!-- Logoen øverst i venstre hjørne -->
-            <a href="default.php" tabindex="1">
-                <img class="Logo_navmeny" src="bilder/klimateNoText.png" alt="Klimate logo">
-            </a>   
-        <!-- Slutt på navigasjonsmeny-->
-        </nav>
-
-        <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
-        <section id="navMeny" class="hamburgerMeny">
-        
-            <!-- innholdet i hamburger-menyen -->
-            <!-- -1 tabIndex som standard da menyen er lukket -->
-            <section class="hamburgerInnhold">
-                <?php if (isset($_SESSION['idbruker'])) { ?>
-                    <!-- Hva som vises om bruker er innlogget -->
-
-                    <!-- Redaktør meny "Oransje" -->
-                    <?php if ($_SESSION['brukertype'] == 2) { ?>
-                        <p style="color: green"> Innlogget som Redaktør </p>
-                    <!-- Administrator meny "Rød" -->
-                    <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                        <p style="color: red"> Innlogget som Administrator </p>
-                    <?php } ?>
-
-                    <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
-                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                    <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
-                    <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
-                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
-                <?php } else { ?>
-                    <!-- Hvis bruker ikke er innlogget -->
-                    <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
-                    <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="#">Diskusjoner</a>
-                    <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
-                <?php } ?>
-            </section>
-        </section>
+        <?php include("inkluderes/navmeny.php") ?>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
        
             <?php if(isset($_GET['arrangement'])){
                 // Henter arrangementet bruker ønsker å se
-                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
                 $stmt = $db->prepare($hent);
                 $stmt->execute();
                 $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -352,10 +334,76 @@ $tabindex = 8;
                     <section id="arrangement_bunnSection">
                         <button onclick="location.href='arrangement.php'" class="lenke_knapp">Tilbake til arrangementer</button>  
                     </section>
+                    <!-- -------------------------------- -->
+                    <!-- Del for å vise påmeldte brukere -->
+                    <!-- -------------------------------- -->
+                <?php } else if(isset($_POST['paameldteBrukere'])) {
+
+                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
+                    $hentPåmeldteSTMT = $db->prepare($hentPåmeldte);
+                    $hentPåmeldteSTMT->execute();
+                    $påmeldtBrukere = $hentPåmeldteSTMT->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+            
+                    
+                    <header class="arrangement_header" onclick="lukkHamburgerMeny()">
+        
+                    </header>
+
+                    <section class="påmeldt_header">
+                        <p class="påmeldtOverskrift"><?php echo($arrangement['eventnavn'])?></p>
+                    </section>
+                    <main id="arrangement_mainPåmeldt" onclick="lukkHamburgerMeny()">
+
+                    <section class="p_section">
+                    <?php for($i = 0; $i < count($påmeldtBrukere); $i++) {?>
+                        <section class="påmeldteBrukere" onClick="location.href='profil.php?bruker=<?php echo($påmeldtBrukere[$i]['idbruker']) ?>'">
+                            <?php
+                            $hentBildeQ = "select hvor from brukerbilde, bilder where bilder.idbilder = brukerbilde.bilde and brukerbilde.bruker = " . $påmeldtBrukere[$i]['idbruker'];
+                            $hentBildeSTMT = $db->prepare($hentBildeQ);
+                            $hentBildeSTMT->execute();
+                            $brukerbilde = $hentBildeSTMT->fetch(PDO::FETCH_ASSOC);
+                            $antallBilderFunnet = $hentBildeSTMT->rowCount();
+
+
+                            if ($antallBilderFunnet != 0) {
+                                $testPaa = $brukerbilde['hvor'];
+                                // Tester på om filen faktisk finnes
+                                if(file_exists("$lagringsplass/$testPaa")) {
+                                    // Profilbilde som resultat av spørring
+                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
+                                        // Hvis vi finner et miniatyrbilde bruker vi det ?>
+                                        <img id="profilPåmeldt" src="bilder/opplastet/thumb_<?php echo($brukerbilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } else { ?>
+                                        <img id="profilPåmeldt" src="bilder/opplastet/<?php echo($brukerbilde['hvor']) ?>" alt="Profilbilde til <?php echo($navn) ?>">
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <img id="profilPåmeldt" src="bilder/profil.png" alt="Standard profilbilde">
+                                <?php } ?>
+                            <?php } else { ?>
+                                <img id="profilPåmeldt" src="bilder/profil.png" alt="Standard profilbilde">
+                            <?php } ?>
+                            <p class="p_bruker"><?php echo($påmeldtBrukere[$i]['brukernavn']) ?></p>
+
+                            <?php if($påmeldtBrukere[$i]['interessert'] == "Kanskje") {?>
+                                <p class="påmeldtType" style="background-color: rgb(255, 191, 0);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
+                            <?php } else if ($påmeldtBrukere[$i]['interessert'] == "Invitert") { ?>
+                                <p class="påmeldtType" style="background-color: rgba(0, 128, 255);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
+                            <?php } else { ?>
+                                <p class="påmeldtType"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
+                            <?php }?>
+                        </section>
+                   
+                    <?php }?>
+                    </section>
+
+                    <button id="PIbruker_tilbKnapp" onClick="location.href='arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>'">Tilbake</button>
+                    </main>
+
                 <?php } else { 
                     // Del for å vise et spesifikt arrangement
                     // Henter bilde fra database utifra eventid
-                    $hentBilde = "select hvor from event, eventbilde, bilder where idevent = " . $_GET['arrangement'] . " and idevent = event and bilde = idbilder";
+                    $hentBilde = "select hvor from eventbilde, bilder where eventbilde.event = " . $_GET['arrangement'] . " and eventbilde.bilde = bilder.idbilder";
                     $stmtBilde = $db->prepare($hentBilde);
                     $stmtBilde->execute();
                     $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
@@ -368,65 +416,162 @@ $tabindex = 8;
                         <!-- -----------------påklikket arrangement---------------------  -->
                         <section id="arrangement_omEvent">
                             <section id="argInf_meta">
-                            <?php if ($antallBilderFunnet != 0) {
-                                // Tester på om filen faktisk finnes
-                                $testPaa = $bilde['hvor'];
-                                if(file_exists("$lagringsplass/$testPaa")) {  ?>  
-                                    <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
-                                    <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                                <?php if ($antallBilderFunnet != 0) {
+                                    // Tester på om filen faktisk finnes
+                                    $testPaa = $bilde['hvor'];
+                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                        <!-- Hvis vi finner et bilde til arrangementet viser vi det -->
+                                        <img id="arrangement_fullSizeBilde" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av arrangementet">
+                                    <?php } else { ?>
+                                        <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <?php } ?>
                                 <?php } else { ?>
                                     <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                                <?php } ?>
-                            <?php } else { ?>
-                                <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                            <?php } ?>
-                            <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
-                                <?php if(isset($_SESSION['idbruker'])) {
-                                    $hentPaameldteQ = "select bruker_id from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
-                                    $hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
-                                    $hentPaameldteSTMT->execute();
-                                    $paameldt = $hentPaameldteSTMT->rowCount();
+                                <?php }
 
-                                    if($paameldt > 0) { ?>
-                                        <button id="arrangement_paameldt" name="paameld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Paameld')">Påmeldt</button>
-                                    <?php } else { ?>
-                                        <button id="arrangement_paameld" name="paameld" value="Paameld">Påmeld</button>
-                                <?php } } ?>
-                            </form>
-                            
-                            <section class="argInf_dato">
-                                <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png">
-                                <h2>Dato</h2>
-                                <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
-                            </section>
-                            
-                            <section class="argInf_sted">
-                                <img class="arrangementInnhold_rFloatBilde" src="bilder/stedIkon.png">
-                                <h2>Sted</h2>
-                                <?php 
-                                    $dato = date_create($arrangement['tidspunkt']);
+                                $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] ;
+                                $interesserteSTMT = $db->prepare($interesserte);
+                                $interesserteSTMT->execute();
+                                $antallInteresserte = $interesserteSTMT->rowCount();
+                                
+                                
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn, visepost from preferanse where bruker = " . $arrangement['idbruker'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                // Tar utgangspunkt i at det ikke kan vises
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
+
+                                // Sjekker om svar fra DB ikke er false og bruker har valgt å vise fornavn
+                                if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
+                                }
+
+                                // Sjekker om svar fra DB ikke er false og bruker har valgt å vise etternavn
+                                if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
+                                }
+                                
+                                // Sjekker om svar fra DB ikke er false og bruker har valgt å vise epost
+                                if(isset($personvernSender['visepost']) && $personvernSender['visepost'] == "1") {
+                                    $kanViseEpost = true;
+                                }
+                                
+                                // Tester på om vi kan vise fulle navnet, bare fornavn, bare etternavn eller kun brukernavn
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $arrangement['fnavn']) == 1) {
+                                        $navn = $arrangement['fnavn'];  
+                                    } else {
+                                        $navn = $arrangement['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $arrangement['enavn']) == 1) {
+                                        $navn = $arrangement['enavn'];  
+                                    } else {
+                                        $navn = $arrangement['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $arrangement['enavn']) == 1) {
+                                        $navn = $arrangement['fnavn'] . " " . $arrangement['enavn'];  
+                                    } else {
+                                        $navn = $arrangement['brukernavn'];
+                                    }
+                                } else {
+                                    $navn = $arrangement['brukernavn'];
+                                }
+                                
                                 ?>
-                                <!-- Lenke som leder til Google Maps med adresse -->
-                                <p class="arrangement_adresse"><a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
-                                <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
+
+                                <form method="POST" id="arrangement_invitert" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                </form>
+
+                                <form method="POST" id="arrangement_paamelding" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                    <?php if(isset($_SESSION['idbruker'])) {
+                                        $hentPaameldteQ = "select bruker_id, interessert from påmelding where påmelding.bruker_id = " . $_SESSION['idbruker'] . " and event_id = " . $_GET['arrangement'];
+                                        $hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
+                                        $hentPaameldteSTMT->execute();
+                                        $paameldt = $hentPaameldteSTMT->fetch(PDO::FETCH_ASSOC);
+                                        
+                                        if(isset($paameldt['interessert'])) {
+                                            if($paameldt['interessert'] == "Skal") { ?>
+                                                <button id="arrangement_paameldt" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Skal')">Skal</button>
+                                            
+                                            <?php } else if ($paameldt['interessert'] == "Kanskje") { ?>
+                                                <button id="arrangement_paameldt" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('Kanskje')">Kanskje</button>
+                                            
+                                            <?php } else if ($paameldt['interessert'] == "Kan ikke") { ?>
+                                                <button id="arrangement_paameldt" style="background-color: red; color: white;" name="avmeld" value="Paameldt" onmouseenter="visAvmeld('Avmeld')" onmouseout="visAvmeld('KanIkke')">Kan ikke</button>                                         
+                                            
+                                            <?php } else if ($paameldt['interessert'] == "Invitert") { ?>
+                                                <button id="arrangement_paameld" form="arrangement_invitert" name="invitasjon" value="Godkjenn">Godkjenn</button>
+                                                <button id="arrangement_avslaa" form="arrangement_invitert" name="invitasjon" value="Avslå">Avslå</button>
+                         
+                                            <?php } else { ?>
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="skal" value="Skal" >Skal</button>
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="kanskje" value="Kanskje" >Kanskje</button>
+                                                <button class="arrangement_paameld" form="arrangement_paamelding" name="kanIkke" value="KanIkke" >Kan ikke</button> 
+                         
+                                            <?php } 
+                                        } else { ?>
+                                            <button class="arrangement_paameld" form="arrangement_paamelding" name="skal" value="Skal" >Skal</button>
+                                            <button class="arrangement_paameld" form="arrangement_paamelding" name="kanskje" value="Kanskje" >Kanskje</button>
+                                            <button class="arrangement_paameld" form="arrangement_paamelding" name="kanIkke" value="KanIkke" >Kan ikke</button>     
+                                    <?php } ?>
+                                        <input type="button" id="arrangement_inviterKnapp" onclick="bekreftMelding('arrangement_bekreftInviter')" value="Inviter">  
+                                    <?php } ?>
+                                </form>
+                                
+                                <section class="argInf_dato">
+                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png">
+                                    <h2>Dato</h2>
+                                    <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
+                                </section>
+                                
+                                <section class="argInf_sted">
+                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/stedIkon.png">
+                                    <h2>Sted</h2>
+                                    <?php 
+                                        $dato = date_create($arrangement['tidspunkt']);
+                                    ?>
+                                    <!-- Lenke som leder til Google Maps med adresse -->
+                                    <p class="arrangement_adresse"><a href="http://maps.google.com/maps?q=<?php echo($arrangement['veibeskrivelse'] . ", " . $arrangement['fylkenavn']);?>"><?php echo($arrangement['veibeskrivelse']) ?></a></p>
+                                    <p class="arrangement_adresse"><?php echo($arrangement['fylkenavn']) ?> fylke</p>
+                                </section>
+                                <section class="argInf_interesserte">
+                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/interesserteIkon.png">
+                                    <h2>Antall interesserte: <?php echo($antallInteresserte) ?></h2>
+                                    
+                                <form method="POST" id="arrangement_form_påmeldte" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                    <input type="submit" class="arrangement_paameld" name="paameldteBrukere"  value="Se påmeldte brukere">
+                                </form>
+
+                                <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                                    <p id="mldFEIL">Kunne ikke sende melding</p>
+                                <?php } else if(isset($_GET['invitert'])) { ?>
+                                    <p id="mldOK">Invitasjon sendt</p>
+                                <?php }  ?>
+                            
                             </section>
                         </section>
+                        
                         <section id="argInf_om">
                             <h1><?php echo($arrangement['eventnavn'])?></h1>
                             <h2>Beskrivelse</h2>
                             <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
                             <h2>Arrangør</h2>
-                            <?php 
-                            // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                            if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
-                                <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
-                            <?php } else { ?>
-                                <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
+                            <p id="arrangement_navn"><?php echo($navn); ?></p>
+                            <?php if(isset($kanViseEpost) && $kanViseEpost == true) { ?>
+                                <h2>Kontakt</h2>
+                                <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>   
                             <?php } ?>
-                            <h2>Kontakt</h2>
-                            <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                         </section>
-                        <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
+
+                        <section class="arg_tilbInv_knapp">
+                            <button id="arrangementValgt_tilbKnapp" onClick="location.href='arrangement.php'">Tilbake</button>
+                        </section>
                         <?php 
                         if(isset($_SESSION['idbruker'])) {
                             $hentEierQ = "select idbruker from event where idbruker = " . $_SESSION['idbruker'] . " and idevent = " . $_GET['arrangement'];
@@ -447,6 +592,28 @@ $tabindex = 8;
                                     </section>
                                 </section>
                             <?php } ?>
+                            
+                            <section id="arrangement_bekreftInviter" style="display: none;">
+                                <section id="arrangement_bekreftInviterInnhold">
+                                    <h2>Invitering</h2>
+                                    <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
+                                        <input name="brukernavn" id="arrangement_inviter_bruker" type="text" list="brukere" placeholder="Skriv inn brukernavn" title="Brukeren du ønsker å invitere" autofocus required>
+                                        <datalist id="brukere">
+                                            <?php 
+                                            // Henter brukernavn fra database
+                                            $hentNavnQ = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ")";
+                                            $hentNavnSTMT = $db->prepare($hentNavnQ);
+                                            $hentNavnSTMT->execute();
+                                            $liste = $hentNavnSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach ($liste as $brukernavn) { ?>
+                                                <option value="<?php echo($brukernavn['brukernavn'])?>"><?php echo($brukernavn['brukernavn'])?></option>
+                                            <?php } ?>
+                                        </datalist>
+                                        <button id="arrangement_inviterKnappVindu" name="inviterTil" value="<?php echo($_GET['arrangement']) ?>">Inviter</button>
+                                    </form>
+                                    <button id="arrangement_inviterAvbrytKnapp" onclick="bekreftMelding('arrangement_bekreftInviter')">Avbryt</button>
+                                </section>
+                            </section>
                         <?php } ?>
                     </section>
                     <?php } ?>
@@ -504,14 +671,14 @@ $tabindex = 8;
                                 <p id="mldFEIL">Fylke ikke oppgitt</p>    
                             <?php } ?>
 
+                            <a href="arrangement.php" id="arrangement_lenke_knapp">Tilbake til arrangementer</a> 
                             <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
-                        </form>
+                        </form> 
                     </article>
-                    
-            <?php } else {
+           <?php } else {
 
                 // Del for å vise alle arrangement 
-                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
+                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
             
                 $stmtArr = $db->prepare($hentAlleArr);
                 $stmtArr->execute();
@@ -541,6 +708,49 @@ $tabindex = 8;
                     
                 <?php if ($resAntall > 0 ) { ?>
                     <?php for ($j = 0; $j < count($resArr); $j++) {
+                        // Henter personvern
+                        $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArr[$j]['idbruker'];
+                        $personvernSTMT = $db->prepare($personvernQ);
+                        $personvernSTMT->execute();
+                        $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+        
+                        // Tar utgangspunkt i at det ikke kan vises
+                        $kanViseFornavn = false;
+                        $kanViseEtternavn = false;
+        
+                        // Sjekker om svar fra DB ikke er false og bruker har valgt å vise fornavn
+                        if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
+                            $kanViseFornavn = true;
+                        }
+        
+                        // Sjekker om svar fra DB ikke er false og bruker har valgt å vise etternavn
+                        if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
+                            $kanViseEtternavn = true;
+                        }
+                        
+                        // Tester på om vi kan vise fulle navnet, bare fornavn, bare etternavn eller kun brukernavn
+                        if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                            if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {
+                                $navn = $resArr[$j]['fnavn'];  
+                            } else {
+                                $navn = $resArr[$j]['brukernavn'];
+                            }
+                        } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                            if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                $navn = $resArr[$j]['enavn'];  
+                            } else {
+                                $navn = $resArr[$j]['brukernavn'];
+                            }
+                        } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                            if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                $navn = $resArr[$j]['fnavn'] . " " . $resArr[$j]['enavn'];  
+                            } else {
+                                $navn = $resArr[$j]['brukernavn'];
+                            }
+                        } else {
+                            $navn = $resArr[$j]['brukernavn'];
+                        }
+
                         // Hvis rest av $j delt på 8 er 0, start section (Ny side)
                         if ($j % 8 == 0) { ?>
                             <section class="arrangement_hovedsection">
@@ -560,9 +770,14 @@ $tabindex = 8;
                                 <?php } else {
                                     // Tester på om filen faktisk finnes
                                     $testPaa = $resBilde['hvor'];
-                                    if(file_exists("$lagringsplass/$testPaa")) {  ?>  
-                                        <!-- Arrangementbilde som resultat av spørring -->
-                                        <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                    if(file_exists("$lagringsplass/$testPaa")) {  
+                                        //Arrangementbilde som resultat av spørring
+                                        if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                            <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                            <img class="arrangement_BildeBoks" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                        <?php } else { ?>
+                                            <img class="arrangement_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArr[$j]['eventnavn'])?>">
+                                        <?php } ?>
                                     <?php } else { ?>
                                         <img class="arrangement_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                     <?php }
@@ -579,13 +794,7 @@ $tabindex = 8;
                             <p class="arrangement_fylke"><?php echo($resArr[$j]['fylkenavn'])?></p>
                             <img class="arrangement_rFloatBilde" src="bilder/stedIkon.png">
                             <img class="arrangement_navn" src="bilder/brukerIkonS.png">
-                            <?php 
-                            // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                            if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>
-                                <p class="arrangement_navn"><?php echo($resArr[$j]['brukernavn'])?></p>
-                            <?php } else { ?>
-                                <p class="arrangement_navn"><?php echo($resArr[$j]['enavn']) ?></p>
-                            <?php } ?>
+                            <p class="arrangement_navn"><?php echo($navn); ?></p>
                             <h2><?php echo($resArr[$j]['eventnavn'])?></h2>
                         </section>
                         
@@ -607,22 +816,14 @@ $tabindex = 8;
                         <button type="button" id="arrangement_nesteKnapp" onclick="visNesteSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">Neste</button>
                     <?php } ?>
                 </section>
-            <?php } ?>
-        </main>
-        
-        <!-- Knapp som vises når du har scrollet i vinduet, tar deg tilbake til toppen -->
-        <button onclick="tilbakeTilTopp()" id="toppKnapp" title="Toppen"><img src="bilder/pilopp.png" alt="Tilbake til toppen"></button>
 
-        <!-- Footer, epost er for øyeblikket på en catch-all, videresendes til RK -->
-        <footer>
-            <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
-                <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
-                <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
-            </p>
-        </footer>
+            <?php }?>
+
+        </main>
+        <?php include("inkluderes/footer.php") ?>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Ajdin Bajrovic, siste gang 07.02.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic siste gang endret 06.03.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
 
 </html>

@@ -8,11 +8,13 @@ class mysqlPDO extends PDO {
         $hst = 'localhost';
         $sch = 'Klimate';
         $usr = 'klimate';
-        $pwd = 'kskic9866YDtre';
+        $pwd = 'fjernet';
         $dns = $drv . ':host=' . $hst . ';dbname=' . $sch;
         parent::__construct($dns,$usr,$pwd);
     }
 }
+
+$host = "localhost";
 */
 
 // Konstruktør for skolens server
@@ -28,6 +30,8 @@ class mysqlPDO extends PDO {
     }
 }
 
+$host = "s120.hbv.no";
+
 // Konstruktør for Klimate.no
 /*
 class mysqlPDO extends PDO {
@@ -35,7 +39,7 @@ class mysqlPDO extends PDO {
         $drv = 'mysql';
         $hst = 'localhost';
         $usr = 'klimate_no';
-        $pwd = 'bpg5sJNWjhL74Ye85tjr23pB';
+        $pwd = 'fjernet';
         $sch = 'klimate_no';
         $dsn = $drv . ':host=' . $hst . ';dbname=' . $sch;
         parent::__construct($dsn,$usr,$pwd);
@@ -50,12 +54,18 @@ $salt = "IT2_2020";
 // Lagringsplass for bilder opplastet av brukere
 $lagringsplass = "bilder/opplastet";
 
+// Listen som brukes som standard personvern, brukes ved innlogging og registrering
+// Rekkefølgen: visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer
+$personvern = array(0, 0, 0, 1, 1, 0);
+
+
 // Del for å logge ut en bruker etter inaktivitet over lengre tid
 if (isset($_SESSION['siste_aktivitet']) && (time() - $_SESSION['siste_aktivitet'] > 7200)) {
     // Siste brukerhandling var mer enn 2 timer siden, logger ut bruker
     session_destroy();   // Sletter session, bruker er nå utlogget.
     // PHP_SELF inneholder relativ plassering av siden scriptet kjører, 'default.php' hvis på default, '/gr8/default.php' ved felles kjøring osv.
-    header('Location: ' . $_SERVER['PHP_SELF']); // Laster inn samme side på nytt nå som session er tømt
+    // Laster inn samme side på nytt nå som session er tømt (Siden bruker kanskje er på en side som kan vises av både innloggede og utloggede brukere)
+    header('Location: ' . $_SERVER['PHP_SELF']); 
 }
 $_SESSION['siste_aktivitet'] = time(); // Oppdater session timeout
 
@@ -86,6 +96,9 @@ if(!isset($_GET['systemerror'])) {
     }
 }
 
-// Denne siden er utviklet av Robin Kleppang, siste gang endret 07.02.2020
-// Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020
+
+
+
+// Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020
+// Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020
 ?>

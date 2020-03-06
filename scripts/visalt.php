@@ -1,13 +1,7 @@
 <?php
-session_start();
-// Ved adminside IF ($_SESSION['bruker'] and $_SESSION['brukertype'] == 1) {}
-// Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
-if (isset($_SESSION['brukernavn'])) {
-    header("Location: default.php?error=2");
-}
 
 try {
-    include("klimate_pdo_prod.php");
+    include("../inkluderes/innstillinger.php");
     $db = new mysqlPDO();
 } 
 catch (Exception $ex) {
@@ -30,13 +24,36 @@ catch (Exception $ex) {
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $sql = "select * from bruker";
-
 $stmt = $db->prepare($sql);
-    
 $stmt->execute();
-
 $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$hentBilde = "select * from bilder";
+$stmtBilde = $db->prepare($hentBilde);
+$stmtBilde->execute();
+$bilde = $stmtBilde->fetchAll(PDO::FETCH_ASSOC);
+
+$hentBildeA = "select * from artikkelbilde";
+$stmtBildeA = $db->prepare($hentBildeA);
+$stmtBildeA->execute();
+$bildeA = $stmtBildeA->fetchAll(PDO::FETCH_ASSOC);
+
+$hentPaameldteQ = "select * from påmelding";
+$hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
+$hentPaameldteSTMT->execute();
+$paameldte = $hentPaameldteSTMT->fetchAll(PDO::FETCH_ASSOC);
+
+$hentArrQ = "select * from event";
+$hentArrSTMT = $db->prepare($hentArrQ);
+$hentArrSTMT->execute();
+$arrangement = $hentArrSTMT->fetchAll(PDO::FETCH_ASSOC);
+
+$hentKommQ = "select * from kommentar";
+$hentKommSTMT = $db->prepare($hentKommQ);
+$hentKommSTMT->execute();
+$kommentarer = $hentKommSTMT->fetchAll(PDO::FETCH_ASSOC);
+
+echo("Alle brukere");
 foreach ($resultat as $res) {
     echo "<br>";
     echo "<br>";
@@ -54,5 +71,82 @@ foreach ($resultat as $res) {
     echo($res['epost']);
     echo "<br>";
 }
+echo "<br>";
+echo "<br>";
+echo("Alle bilder");
 
+foreach ($bilde as $res) {
+    echo "<br>";
+    echo "<br>";
+    echo($res['idbilder']);
+    echo "<br>";
+    echo($res['hvor']);
+    echo "<br>";
+    echo($res['bilde']);
+    echo "<br>";
+    echo "<br>";
+}
+echo "<br>";
+echo "<br>";
+echo("Alle artikkelbilder");
+
+foreach ($bildeA as $res) {
+    echo "<br>";
+    echo "<br>";
+    var_dump($res);
+    echo "<br>";
+    echo($res['idartikkel'] . " med id ");
+    echo($res['idbilde']);
+    echo "<br>";
+}
+
+echo "<br>";
+echo "<br>";
+echo("Alle påmeldte brukere");
+
+foreach ($paameldte as $res) {
+    echo "<br>";
+    echo "<br>";
+    var_dump($res);
+    echo "<br>";
+    echo($res['event_id'] . " med id ");
+    echo($res['bruker_id']);
+    echo($res['interessert']);
+    echo "<br>";
+}
+
+echo "<br>";
+echo "<br>";
+echo("Alle arrangement");
+
+foreach ($arrangement as $res) {
+    echo "<br>";
+    echo "<br>";
+    var_dump($res);
+    echo "<br>";
+    echo($res['idevent']);
+    echo($res['eventnavn']);
+    echo($res['eventtekst']);
+    echo "<br>";
+}
+
+
+
+echo "<br>";
+echo "<br>";
+echo("Alle kommentarer");
+
+foreach ($kommentarer as $res) {
+    echo "<br>";
+    echo "<br>";
+    var_dump($res);
+    echo "<br>";
+    echo($res['idkommentar']);
+    echo($res['ingress']);
+    echo($res['tekst']);
+    echo($res['tid']);
+    echo($res['artikkel']);
+    echo($res['bruker']);
+    echo "<br>";
+}
 ?>
