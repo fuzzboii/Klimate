@@ -289,7 +289,7 @@ $tabindex = 7;
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
 
-            } else if ((($_GET['artTittel'] == "") && $_GET['artForfatter'] != "") && ($sokPaaKunTtl == false)) {
+            } else if ((($_GET['artTittel'] == "") && isset($_GET['artForfatter']) && $_GET['artForfatter'] != "") && ($sokPaaKunTtl == false)) {
 
                 /* -------------------------*/
                 /* Del for søk på forfatter */
