@@ -3234,12 +3234,7 @@ input:checked + .slider:before {
     margin-left: 10em;
     margin-right: 10em;
   }
-
-  #arrangement_main {
-    margin-left: 10em;
-    margin-right: 10em;
-    
-  }
+  
   .arrangement_paameld2 {
     margin-left: 58%;
   }
@@ -3249,16 +3244,7 @@ input:checked + .slider:before {
     
   }
 
-  #artikkel_main { 
-    margin-left: 10em; 
-    margin-right: 10em;
-  }
-
   /* Styling for ny artikkel og nytt arrangement */
-  #artikkel_mainNy, #arrangement_mainNy {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
 
   #arrangement_nesteKnapp:hover, #arrangement_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
