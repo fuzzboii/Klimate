@@ -1950,7 +1950,6 @@ table {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   text-align: center;
   border: none; /* Fjerner ytrelinjen rundt knappen */
-  width: 15em;
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.83em; /* Font-størrelse */
   display: block;
@@ -2919,7 +2918,6 @@ input:checked + .slider:before {
   .skjul_grid {
     grid-area: skjulinfo;
     margin-left: 2em;
-    margin-right: 2em;
     
   }
   
@@ -2943,7 +2941,7 @@ input:checked + .slider:before {
   }
 
   .rediger_profil_knapp {
-    margin-right: 4em;
+    margin-right: 1em;
     grid-area: oppdater;
   }
 
@@ -3360,7 +3358,7 @@ input:checked + .slider:before {
   }
 
   .rediger_profil_knapp {
-    width: 18em;
+    width: 20em;
   }
 
   .profil_persInf {
