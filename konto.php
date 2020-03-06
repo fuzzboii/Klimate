@@ -372,14 +372,14 @@ if(isset($_POST['slettInfo'])) {
                             <p class="endre_bruker_overskrift">Endre fornavn
                                 <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="fnavn" value="(Slett)">
                             </p>
-                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn" pattern="[A-Za-z]{1,}" title="Oppgi et gyldig navn">
+                            <input type="text" class="KontoredigeringFelt" name="nyttfornavn" value="<?php echo($input_fornavn) ?>" placeholder="Nytt fornavn" title="Oppgi et gyldig navn">
                         </section>
                         <!-- Etternavn -->
                         <section class="konto_rediger_inputBoks">
                             <p class="endre_bruker_overskrift">Endre etternavn
                                 <input type="submit" form="konto_rediger_formSlett" class="konto_rediger_slettKnapp" name="enavn" value="(Slett)">
                             </p>
-                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn" pattern="[A-Za-z]{1,}" title="Oppgi et gyldig navn">
+                            <input type="text" class="KontoredigeringFelt" name="nyttetternavn" value="<?php echo($input_etternavn) ?>" placeholder="Nytt etternavn" title="Oppgi et gyldig navn">
                         </section>
                         <!-- Telefonnummer -->
                         <section class="konto_rediger_inputBoks">
