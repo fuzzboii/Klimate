@@ -3644,8 +3644,9 @@ input:checked + .slider:before {
 
   /* Queries for profil */
   .profil_main, .profil_main2 {
-    margin-left: 10em; 
-    margin-right: 10em;
+    width: 99em;
+    margin-left: auto;
+    margin-right: auto;
   }
 
 }
