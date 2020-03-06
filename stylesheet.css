@@ -1067,7 +1067,17 @@ table {
   font-weight: normal;
   font-family: Helvetica, Arial, sans-serif; /* Font familie */
 }
-
+#hamburger_antUlest {
+  margin-left: 0.3em;
+  padding-top: 0.1em; padding-bottom: 0.1em;
+  padding-left: 0.6em; padding-right: 0.6em;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
+  font-weight: bold;
+  display: inline;
+  background-color: rgb(255, 100, 100);
+  color: white;
+  border-radius: 1em 1em 1em 1em;
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for SØK */
