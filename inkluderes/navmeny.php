@@ -138,7 +138,7 @@ if(isset($_SESSION['idbruker'])) {
                     <!-- For alle brukere -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) {?> (<?php echo($antUlest['antall'])?>)<?php } ?></a>
+                    <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<p id="hamburger_antUlest"><?php if($antUlest['antall'] > 0) { echo($antUlest['antall']); } ?></p></a>
                     <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                     <a class = "menytab" tabIndex = "-1" href="profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>">Profil</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
