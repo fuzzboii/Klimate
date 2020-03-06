@@ -2116,9 +2116,8 @@ table {
 
 .profil_main {
   display: grid;
-  width: 80%;
-  margin-left: 10%; 
-  margin-right: 10%;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
@@ -2129,9 +2128,8 @@ table {
 
 .profil_main2 {
   display: grid;
-  width: 80%;
-  margin-left: 10%; 
-  margin-right: 10%;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
@@ -2924,6 +2922,8 @@ input:checked + .slider:before {
     transition: margin 0.3s;
   }
 
+  
+
 }
 
 /* Laptop / Liten skjerm,, 720p */
@@ -2998,7 +2998,6 @@ input:checked + .slider:before {
   .profil_main2 {
     margin-left: 10em;
     margin-right: 10em;
-    margin-top: -2em;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-areas: 
     "endrebilde beskriv skjulinfo"
