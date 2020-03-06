@@ -3078,7 +3078,7 @@ input:checked + .slider:before {
   .profil_main2 {
     margin-left: 10em;
     margin-right: 10em;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: 
     "endrebilde beskriv skjulinfo"
     "oppdater oppdater oppdater"
@@ -3644,9 +3644,8 @@ input:checked + .slider:before {
 
   /* Queries for profil */
   .profil_main, .profil_main2 {
-    width: 97em;
-    margin-left: auto; 
-    margin-right: auto;
+    margin-left: 10em; 
+    margin-right: 10em;
   }
 
 }
