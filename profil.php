@@ -88,14 +88,14 @@ if (isset($_POST['endreBilde'])) {
         
         if(strtolower($valgtbilde['mime']) == "image/png") {
             $img = imagecreatefrompng($lagringsplass . "/" . $bildenavn);
-            $new = imagecreatetruecolor(80, 80);
-            imagecopyresampled($new, $img, 0, 0, 0, 0, 80, 80, $valgtbilde[0], $valgtbilde[1]);
+            $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+            imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
             imagepng($new, $lagringsplass . "/" . $bildenavnMini, 9);
 
         } else if(strtolower($valgtbilde['mime']) == "image/jpeg") {
             $img = imagecreatefromjpeg($lagringsplass . "/" . $bildenavn);
-            $new = imagecreatetruecolor(80, 80);
-            imagecopyresampled($new, $img, 0, 0, 0, 0, 80, 80, $valgtbilde[0], $valgtbilde[1]);
+            $new = imagecreatetruecolor($valgtbilde[0]/2, $valgtbilde[1]/2);
+            imagecopyresampled($new, $img, 0, 0, 0, 0, $valgtbilde[0]/2, $valgtbilde[1]/2, $valgtbilde[0], $valgtbilde[1]);
             imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
         }
         
