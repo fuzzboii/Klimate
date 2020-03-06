@@ -369,6 +369,7 @@ footer a {
 }
 
 #default_main {
+  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
@@ -709,6 +710,13 @@ footer a {
 /*-----------------------------------------------------------------------------*/
 /* Style for BACKEND/Innloggede brukere */
 
+#backend_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .profil_backend {
   width: 7em; /* Bestemmer størrelse på profilbilde */
   height: 7em; /* Bestemmer størrelse på profilbilde */
@@ -727,15 +735,7 @@ footer a {
   text-align: center;
 }
 
-#bgcont1, #bgcont2, #bgcont3 {
-  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
-  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-}
-
 #backend_main {
-  display: grid;
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -744,7 +744,18 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-#backend_main article h2 {
+#backend_section {
+  display: grid;
+}
+
+#backend_section article {
+  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
+  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
+  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+}
+
+#backend_section article h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   margin-top: 0;
   padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
@@ -759,7 +770,7 @@ footer a {
 }
 
 
-#backend_main article p, #backend_main article a {
+#backend_section article p, #backend_section article a {
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
@@ -2737,11 +2748,8 @@ input:checked + .slider:before {
     column-count: 2;
   }
 
-  #backend_main {
+  #backend_section {
     grid-template-columns: 1fr 1fr;
-  }
-  #bgcont3 {
-    break-before: column;
   }
 
   .hamburgerMeny {
@@ -3208,11 +3216,6 @@ input:checked + .slider:before {
     height: 12em;
   }
 
-  #backend_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
   #konto_main {
     margin-left: 10em;
     margin-right: 10em;
@@ -3487,7 +3490,7 @@ input:checked + .slider:before {
 /* Medium skjerm, 1080p */
 @media screen and (min-width: 1920px) {
   #default_section {
-    grid-template-columns: 1fr 1fr 1fr
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   #soknad_main {
@@ -3495,6 +3498,10 @@ input:checked + .slider:before {
   }
   
   #backend_main {
+    width: 115em;
+    margin-left: auto; margin-right: auto;
+  }
+  #backend_section {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
@@ -3607,12 +3614,12 @@ input:checked + .slider:before {
     width: 5em;
   }
 
-  #backend_main article h2 {
+  #backend_section article h2 {
     text-align: left;
     font-size: 1em;
   }
 
-  #backend_main article p {
+  #backend_section article p {
     font-size: 1em;
   }
 
