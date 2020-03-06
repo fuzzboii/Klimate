@@ -2115,6 +2115,7 @@ table {
 }
 
 .profil_main {
+  display: grid;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -2123,9 +2124,11 @@ table {
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  display: grid;
 }
 
 .profil_main2 {
+  display: grid;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -2947,7 +2950,6 @@ input:checked + .slider:before {
   }
   
   .profil_main {
-    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto auto;
     grid-template-areas: 
