@@ -734,4 +734,4 @@ function lastOppProfil() {
 }
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
-/* Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020 */
+/* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */
