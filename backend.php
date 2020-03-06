@@ -43,8 +43,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
     </head>
 
 
-    <body>
-        <article class="innhold">   
+    <body id="backend_body"> 
         <?php include("inkluderes/navmeny.php") ?>
             
             <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
@@ -75,25 +74,26 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
             </header>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">
-                <!-- Innholdet på siden -->
-                <!-- IDene brukes til å splitte opp kolonnene i queries -->
-                <article id="bgcont1">
-                    <h2>Siste arrangement</h2>
-                    <p><?php echo($sisteArrangement['eventnavn'])?></p>
-                    <a href="arrangement.php?arrangement=<?php echo($sisteArrangement['idevent']) ?>">Trykk her for å se dette arrangementet</a>
-                </article>
-                <article id="bgcont2">
-                    <h2>Diskusjoner</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Bruk av gressklipper, bensin eller elektrisk?</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
-                <article id="bgcont3">
-                    <h2>Artikler</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Hundretusener demonstrerer for klima over hele verden</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
+                <section id="backend_section">
+                    <!-- Innholdet på siden -->
+                    <article>
+                        <h2>Siste arrangement</h2>
+                        <p><?php echo($sisteArrangement['eventnavn'])?></p>
+                        <a href="arrangement.php?arrangement=<?php echo($sisteArrangement['idevent']) ?>">Trykk her for å se dette arrangementet</a>
+                    </article>
+                    <article>
+                        <h2>Siste kommentar</h2>
+                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
+                        <p>Bruk av gressklipper, bensin eller elektrisk?</p>
+                        <a href="#">Trykk her for å lese videre</a>
+                    </article>
+                    <article>
+                        <h2>Artikler</h2>
+                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
+                        <p>Hundretusener demonstrerer for klima over hele verden</p>
+                        <a href="#">Trykk her for å lese videre</a>
+                    </article>
+                </section>
             </main>
             <?php include("inkluderes/footer.php") ?>
         </article>   
