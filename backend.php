@@ -31,7 +31,7 @@ if(isset($forstkommende['idevent'])) {
     $visArr = false;
 }
 
-// Denne sorterer og henter ut det nyeste arrangementet
+// Denne sorterer og henter ut det siste kommentaren
 $hentKommenterQ = "select artikkel, ingress from kommentar 
                     where bruker = :idbruker order by tid DESC;";
 $hentKommenterSTMT = $db->prepare($hentKommenterQ);
