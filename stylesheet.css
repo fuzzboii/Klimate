@@ -2945,6 +2945,7 @@ input:checked + .slider:before {
   
   .brukerBeskrivelse {
     grid-area: beskrivelse;
+    word-break: break-word;
   }
   
   .int_grid {
@@ -3366,6 +3367,10 @@ input:checked + .slider:before {
   }
  
   /* Styling for profil */
+  .brukerBeskrivelse {
+    word-break: break-word;
+  }
+ 
   .interesserTags p:hover {
     cursor: pointer;
     border-color: rgba(36, 209, 100, 0.637);
