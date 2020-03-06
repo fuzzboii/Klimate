@@ -1961,9 +1961,7 @@ table {
 }
 
 .profil_persInf p{
-  margin: 0.8em 0em 0em 0em;
-
-  
+  margin: 0.8em 0em 0em 0em; 
 }
 
 .profilForm {
@@ -2930,7 +2928,75 @@ input:checked + .slider:before {
     transition: margin 0.3s;
   }
 
+
+  .profil_main {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+    "profilbilde profilbilde profilbilde"
+    "oversikt beskrivelse interesser"
+    "knapp knapp knapp";
+  }
+
+  .profil_main2 {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "endrebilde beskriv skjulinfo"
+    "oppdater oppdater oppdater"
+    "interesseTag interesseTag interesseTag"
+    "tilbake tilbake tilbake";
+  }
+
+  .profil_pb {
+    grid-area: profilbilde;
+  }
+  .ovs_grid {
+    grid-area: oversikt;
+  }
   
+  .brukerBeskrivelse {
+    grid-area: beskrivelse;
+  }
+  
+  .int_grid {
+   grid-area: interesser;
+  }
+  
+  .knapp_grid {
+    grid-area: knapp;
+  }
+
+  .bilde_grid {
+    grid-area: endrebilde;
+    
+  }
+  .skjul_grid {
+    grid-area: skjulinfo;
+    margin-left: 2em;
+  }
+  
+  .bsk_grid {
+    grid-area: beskriv;
+  }
+  
+  .int2_grid {
+   grid-area: interesseTag;
+  }
+
+  .int_input_grid {
+    grid-area: interesseInput;
+  }
+  
+  .knapp2_grid {
+    grid-area: tilbake;
+  }
+  .oppdater_profil_knapp {
+    grid-area: oppdater;
+  }
+
+  .rediger_profil_knapp {
+    grid-area: oppdater;
+  }
 
 }
 
@@ -2955,6 +3021,7 @@ input:checked + .slider:before {
   .knapp_grid {
     grid-area: knapp;
   }
+
   
   .profil_main {
     margin-left: 10em;
@@ -2974,7 +3041,6 @@ input:checked + .slider:before {
   .skjul_grid {
     grid-area: skjulinfo;
     margin-left: 2em;
-    
   }
   
   .bsk_grid {
@@ -3423,11 +3489,6 @@ input:checked + .slider:before {
 
   .rediger_profil_knapp {
     width: 20em;
-  }
-
-  .profil_persInf {
-    font-size: 1em;
-    word-break: break-word;
   }
 
   /* Del for meldinger */
