@@ -2181,6 +2181,7 @@ table {
   width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.83em; /* Font-størrelse */
+  margin-top: 1em;
 }
 
 #profilTilbakeKnapp:hover {
