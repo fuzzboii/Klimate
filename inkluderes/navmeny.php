@@ -133,7 +133,7 @@ if(isset($_SESSION['idbruker'])) {
                     <!-- Administrator meny -->
                     
                     <?php if ($_SESSION['brukertype'] == 1) { ?>
-                    <a class = "menytab" tabIndex = "-1" href="administrator.php" style="margin-bottom: 0.2em; font-weight: bold;">Administrator innstillinger</a>
+                    <a class = "menytab" tabIndex = "-1" href="administrator.php" style="margin-bottom: 0.2em; font-weight: bold;"><?php echo($brukertypenavn['brukertypenavn']) ?> innstillinger</a>
                     <?php } ?>
                     <!-- For alle brukere -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
