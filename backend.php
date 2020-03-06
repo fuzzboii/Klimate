@@ -25,6 +25,12 @@ $hentArrangementSTMT -> bindParam(":idbruker", $_SESSION['idbruker']);
 $hentArrangementSTMT->execute();
 $forstkommende = $hentArrangementSTMT->fetch(PDO::FETCH_ASSOC);
 
+if(isset($forstkommende['idevent'])) {
+    $visArr = true;
+} else {
+    $visArr = false;
+}
+
 // Denne sorterer og henter ut det nyeste arrangementet
 $hentKommenterQ = "select artikkel, ingress from kommentar 
                     where bruker = :idbruker order by tid DESC;";
@@ -33,6 +39,11 @@ $hentKommenterSTMT -> bindParam(":idbruker", $_SESSION['idbruker']);
 $hentKommenterSTMT->execute();
 $sisteKommentar = $hentKommenterSTMT->fetch(PDO::FETCH_ASSOC);
 
+if(isset($sisteKommentar['artikkel'])) {
+    $visKom = true;
+} else {
+    $visKom = false;
+}
 
 ?>
 <!DOCTYPE html>
@@ -88,16 +99,30 @@ $sisteKommentar = $hentKommenterSTMT->fetch(PDO::FETCH_ASSOC);
             <main id="backend_main" onclick="lukkHamburgerMeny()">
                 <section id="backend_section">
                     <!-- Innholdet på siden -->
-                    <article>
-                        <h2>Førstkommende påmeldt arrangement</h2>
-                        <p><?php echo($forstkommende['eventnavn'])?></p>
-                        <a href="arrangement.php?arrangement=<?php echo($forstkommende['idevent']) ?>">Trykk her for å lese videre</a>
-                    </article>
-                    <article>
-                        <h2>Din siste kommentar</h2>
-                        <p><?php echo($sisteKommentar['ingress'])?></p>
-                        <a href="artikkel.php?artikkel=<?php echo($sisteKommentar['artikkel']) ?>">Trykk her for å lese videre</a>
-                    </article>
+                    <?php if($visArr == true) { ?>
+                        <article>
+                            <h2>Førstkommende påmeldt arrangement</h2>
+                            <p><?php echo($forstkommende['eventnavn'])?></p>
+                            <a href="arrangement.php?arrangement=<?php echo($forstkommende['idevent']) ?>">Trykk her for å lese videre</a>
+                        </article>
+                    <?php } else { ?>
+                        <article>
+                            <h2>Førstkommende påmeldt arrangement</h2>
+                            <p >Du har ingen kommende arrangementer</p>
+                        </article>
+                    <?php } ?>
+                    <?php if($visKom == true) { ?>
+                        <article>
+                            <h2>Din siste kommentar</h2>
+                            <p><?php echo($sisteKommentar['ingress'])?></p>
+                            <a href="artikkel.php?artikkel=<?php echo($sisteKommentar['artikkel']) ?>">Trykk her for å lese videre</a>
+                        </article>
+                    <?php } else { ?>
+                        <article>
+                            <h2>Din siste kommentar</h2>
+                            <p>Du har ingen kommentarer</p>
+                        </article>
+                    <?php } ?>
                 </section>
             </main>
             <?php include("inkluderes/footer.php") ?>
