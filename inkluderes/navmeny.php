@@ -9,6 +9,15 @@ if(isset($_SESSION['idbruker'])) {
     $brukertypenavn = $hentBrukertypenavnSTMT->fetch(PDO::FETCH_ASSOC);
 }
 
+// Teller på antallet uleste meldinger, vises i navmeny og ved backend
+if(isset($_SESSION['idbruker'])) {
+    $ulesteMldQ = "select count(idmelding) as antall from melding 
+                    where mottaker = " . $_SESSION['idbruker'] . "  and (lest is null or lest = 0)";
+    $ulesteMldSTMT = $db->prepare($ulesteMldQ);
+    $ulesteMldSTMT->execute();
+    $antUlest = $ulesteMldSTMT->fetch(PDO::FETCH_ASSOC); 
+}
+
 ?>
 <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop"> 
