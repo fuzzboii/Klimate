@@ -1212,7 +1212,6 @@ table {
 /* Del for artikkel-søk */
 .artRes_sok {
   max-width: 300px;
-  margin-left: auto; margin-right: auto;
   border: 1px solid grey;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
