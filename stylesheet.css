@@ -568,7 +568,7 @@ footer a {
 }
 
 .BildeBoks_artikkel {
-  height: 8em;
+  height: 11em;
   object-fit: cover;
   box-shadow: 0 0 0.1em 0.01em black;
 }
@@ -3559,19 +3559,19 @@ input:checked + .slider:before {
     height: 13em;
   }
   #arrangement_main {
-    max-width: 100em;
+    max-width: 116em;
     margin-left: auto; 
     margin-right: auto;
   }
 
   #artikkel_main {
-    width: 100em;
+    width: 116em;
     margin-left: auto; 
     margin-right: auto;
   }
 
   #artikkel_mainNy, #arrangement_mainNy {
-    width: 100em;
+    width: 116em;
     margin-left: auto; 
     margin-right: auto;
   }
