@@ -135,7 +135,7 @@ if (isset($_POST['loggUt'])) {
         <?php include("inkluderes/footer.php") ?>
     </body>
 
-    <!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 07.02.2020 -->
+    <!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 06.03.2020 -->
     <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
 
 </html>

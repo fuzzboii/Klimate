@@ -232,5 +232,5 @@ if (isset($_POST['subRegistrering'])) {
     </body>
 </html>
 
-    <!-- Denne siden er utviklet av Glenn Petter Pettersen, siste gang endret 05.03.2020 -->
+    <!-- Denne siden er utviklet av Glenn Petter Pettersen, siste gang endret 06.03.2020 -->
     <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
