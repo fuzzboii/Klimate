@@ -508,7 +508,7 @@ $tabindex = 10;
 
                     <!-- Oppdater-knapp -->
                     <?php if($egen) { ?>
-                        <button class="rediger_profil_knapp" onclick="lastOppProfil()">Oppdater</button>
+                        <button class="rediger_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
                     <?php } ?>
 
                     <section class="int2_grid">
