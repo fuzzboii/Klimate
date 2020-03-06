@@ -108,7 +108,8 @@ if(isset($_SESSION['idbruker'])) {
             <?php } ?>
 
             <form id="sokForm_navmeny" action="sok.php">
-                <input id="sokBtn_navmeny" type="submit" value="Søk" tabindex="3">
+                <!-- <img src="bilder/sokWhiteIkon.png" alt="Ikon for søk i navigasjonsmeny" id="sokBtn_navmeny"> -->
+                <input id="sokBtn_navmeny" type="submit" value="" tabindex="3">
                 <input id="sokInp_navmeny" type="text" name="artTittel" placeholder="Søk på artikkel" tabindex="2">
             </form>
             <a href="javascript:void(0)" onClick="location.href='sok.php'" tabindex="-1">
@@ -129,24 +130,20 @@ if(isset($_SESSION['idbruker'])) {
             <section class="hamburgerInnhold">
                 <?php if (isset($_SESSION['idbruker'])) { ?>
                     <!-- Hva som vises om bruker er innlogget -->
-
-                    <!-- Redaktør meny "Oransje" -->
-                    <?php if ($_SESSION['brukertype'] == 2) { ?>
-                        <p style="color: green">Innlogget som <?php echo($brukertypenavn['brukertypenavn']) ?></p>
-                    <!-- Administrator meny "Rød" -->
-                    <?php } else if ($_SESSION['brukertype'] == 1) { ?>
-                        <p style="color: red">Innlogget som <?php echo($brukertypenavn['brukertypenavn']) ?></p>
-                    <?php } ?>
+                    <!-- Administrator meny -->
                     
                     <?php if ($_SESSION['brukertype'] == 1) { ?>
-                    <a class = "menytab" tabIndex = "-1" href="administrator.php">Administrator innstillinger</a><br>
+                    <a class = "menytab" tabIndex = "-1" href="administrator.php" style="margin-bottom: 0.2em; font-weight: bold;"><?php echo($brukertypenavn['brukertypenavn']) ?> innstillinger</a>
                     <?php } ?>
+                    <!-- For alle brukere -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                     <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) {?> (<?php echo($antUlest['antall'])?>)<?php } ?></a>
                     <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
+                    <a class = "menytab" tabIndex = "-1" href="profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>">Profil</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
+                    
                 <?php } else { ?>
                     <!-- Hvis bruker ikke er innlogget -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
@@ -156,6 +153,6 @@ if(isset($_SESSION['idbruker'])) {
             </section>
         </section>
 <?php
-// Denne siden er utviklet av Robin Kleppang, siste gang endret 29.02.2020
-// Denne siden er kontrollert av Robin Kleppang, siste gang 29.02.2020
+// Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020
+// Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020
 ?>

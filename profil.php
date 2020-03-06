@@ -3,8 +3,12 @@ session_start();
 
 //-------------------------------//
 // Innstillinger, faste variable //
-//-------------------------------//
+//------------------------------- //
 include("inkluderes/innstillinger.php");
+
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i profil uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
 
 //------------------------------//
 // Test om man ser egen profil  //
@@ -128,7 +132,6 @@ if (isset($_POST['endreBilde'])) {
 //----------------------//
 if ($egen) {
     if(isset($_POST['oppdaterPreferanser'])) {
-        // Opprett variabler for preferanser
         if(isset($_POST['fnavnToggle'])) {
             $visfnavnNy = "1";
         } else $visfnavnNy = "0";
@@ -161,7 +164,7 @@ if ($egen) {
                                    values(?, ?, ?, ?, ?, ?, ?)";
             $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
             $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
-        }
+        }   
     }
 }
 
@@ -172,8 +175,11 @@ if ($egen) {
  // men heller for mye integritet enn for lite
  if ($egen) {
     if (isset($_POST['beskrivelse'])) {
-        $oppdaterBeskrivelse = "update bruker set beskrivelse = '" . $_POST['beskrivelse'] . "' where idbruker = " . $_SESSION['idbruker'];
+        $oppdaterBeskrivelse = "update bruker set beskrivelse = :beskrivelse where idbruker = " . $_SESSION['idbruker'];
         $stmtOppdaterBeskrivelse = $db->prepare($oppdaterBeskrivelse);
+        
+        $stmtOppdaterBeskrivelse->bindParam(':beskrivelse', $_POST['beskrivelse']);
+
         $stmtOppdaterBeskrivelse->execute();
     }
  }
@@ -195,6 +201,7 @@ if ($egen) {
 //-----------------------------------------------//
 if ($egen) {
     if (isset($_POST['interesseEgendefinert'])) {
+        if(preg_match("/\S/", $_POST['interesseEgendefinert'])) {
         // Kontroller at interessen også er unik sammenlignet i lower case
         // Hent alle navnene fra interesse
         $sammenligning = "select lower(interessenavn) as interessenavn from interesse";
@@ -202,13 +209,13 @@ if ($egen) {
         $stmtSammenligning->execute();
         $interesseSammenlign = $stmtSammenligning->fetchAll(PDO::FETCH_ASSOC);
 
-        // Lower case egendefinert interesse til sammenligning
-        $egendefinertLower = strtolower($_POST['interesseEgendefinert']);
+        // Lower case egendefinert interesse til sammenligning, trim whitespaces
+        $egendefinertLower = trim(strtolower($_POST['interesseEgendefinert']));
 
         // Sammenlign hvert navn
         foreach($interesseSammenlign as $e) {
             foreach($e as $navn) {
-                if($egendefinertLower == $navn) {
+                if($egendefinertLower == trim($navn)) {
                     // Opprett en variabel som tilsiser en match
                     $funnet = true;
                 }
@@ -237,7 +244,8 @@ if ($egen) {
             $oppdaterBrukerinteresse = "insert into brukerinteresse(bruker, interesse) values(?, ?)";
             $stmtOppdaterBrukerinteresse = $db->prepare($oppdaterBrukerinteresse);
             $stmtOppdaterBrukerinteresse->execute([$brukerPlaceholder, $interessePlaceholder]);
-        } else {
+        }
+     } else {
             // Ellers viser vi en feilmelding
             header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger&error=1');
         }
@@ -426,8 +434,9 @@ $tabindex = 10;
                         <h2>Vis eller skjul personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
-                            <form name="preferanserForm" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
-                                <!-- Linje for fornavn -->
+                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                                <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
+                            <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
                                     <label class="switch">
                                         <?php if(isset($visFnavn)) { ?>
@@ -481,23 +490,26 @@ $tabindex = 10;
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
-                                <input class="profil_knapp" type="submit" value="Oppdater" name="oppdaterPreferanser" />
                             </form>
                         </section>
                     <?php } ?>
-                    </section>
+                </section>
+                
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for å oppdatere brukerbeskrivelse -->
                     <section class="bsk_grid">
                         <?php if($egen) { ?>
                             <h2>Endre beskrivelse</h2>
-                            <form class="profil_beskrivelse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
-                                <textarea name="beskrivelse" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
-                                <h1></h1>
-                                <input class="profil_knapp" type="submit" value="Oppdater" tabindex="9"></input>
-                            </form>
+                            <section class="profil_beskrivelse" >
+                                <textarea form="profilForm" name="beskrivelse" maxlength="1024" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
+                            </section>
                         <?php } ?>
                     </section>
+
+                    <!-- Oppdater-knapp -->
+                    <?php if($egen) { ?>
+                        <button class="rediger_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
+                    <?php } ?>
 
                     <section class="int2_grid">
                         <!-- Viser interesser -->
@@ -533,7 +545,6 @@ $tabindex = 10;
                                 <?php } ?>
                             </form>
                             <?php } ?>
-                    
                         <?php if($egen) { ?>
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">
@@ -556,9 +567,9 @@ $tabindex = 10;
                     </section> 
                     
                     <section class="knapp2_grid">
-                        <!-- tilbake knapp -->
+                        <!-- tilbake-knapp -->
                         <?php if($egen) {?>
-                                <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" class="rediger_profil_knapp" tabindex="105">Tilbake</button>
+                                <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" id="profilTilbakeKnapp" tabindex="105">Tilbake</button>
                         <?php }?>
                     </section>
 

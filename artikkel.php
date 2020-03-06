@@ -6,6 +6,10 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i profil uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
+
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_tittel = "";
 $input_ingress = "";
@@ -88,6 +92,11 @@ if (isset($_POST['publiserArtikkel'])) {
                         imagejpeg($new, $lagringsplass . "/" . $bildenavnMini);
                     }
                 }
+                
+                // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+                unset($_SESSION['input_tittel']);
+                unset($_SESSION['input_ingress']);
+                unset($_SESSION['input_innhold']);
 
                 header('Location: artikkel.php?artikkel=' . $artikkelid);
 
@@ -141,21 +150,52 @@ if (isset($_POST['slettDenne'])) {
         }
     }
 }
-                       
+
+$input_innhold = "";
+if (isset($_SESSION['input_innhold'])) {
+    // Legger innhold i variable som leses senere på siden
+    $input_innhold = $_SESSION['input_innhold'];
+    // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+    unset($_SESSION['input_innhold']);
+}
 
 // Del for å legge til en ny kommentar
 if(isset($_POST['sendKommentar'])) {
 
-    // Legger til en ny kommentar
-    $nyKommentarQ = "insert into kommentar(tekst, tid, bruker, artikkel)
-                        values('" . $_POST['tekst'] . "', 
-                            NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
-    $nyKommentarSTMT = $db->prepare($nyKommentarQ);
-    $nyKommentarSTMT->execute();
-    $sendt = $nyKommentarSTMT->rowCount();
+    $_SESSION['input_innhold'] = $_POST['tekst'];
 
-    header("Location: artikkel.php?artikkel=" . $_GET['artikkel']);
+    $ingress = "";
+    $tekst = "";
 
+    if (strlen($_POST['tekst']) >= 255) {
+        $ingress = substr($_POST['tekst'], 0, 255); 
+    } else {
+        $ingress = $_POST['tekst'];
+    }
+    
+    if(strlen($_POST['tekst']) > 255 && strlen($_POST['tekst']) <= 1000) {
+        $tekst = $_POST['tekst'];
+    }
+    
+    if(strlen($_POST['tekst']) >= 1000) {
+        header("location: artikkel.php?artikkel=" . $_GET['artikkel'] . "&error=1");
+    } else {
+        // Legger til en ny kommentar
+        $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, bruker, artikkel) values(:ingress, :tekst, NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
+        $nyKommentarSTMT = $db->prepare($nyKommentarQ);
+        
+        $nyKommentarSTMT->bindParam(':ingress', $ingress);
+        $nyKommentarSTMT->bindParam(':tekst', $tekst);
+    
+        $nyKommentarSTMT->execute();
+        $sendt = $nyKommentarSTMT->rowCount();
+
+        unset($_SESSION['input_innhold']);
+        
+        header("Location: artikkel.php?artikkel=" . $_GET['artikkel']);
+    }
+    
+    
 }
 
 // Del for å slette en kommentar
@@ -326,22 +366,25 @@ $tabindex = 8;
                                     $hentAntallKommentarerSTMT->execute();
                                     $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
                                 ?>
-                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>        
-                            </section>
+                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>     
+                                    <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                                        <p id="mldFEIL">Kunne ikke sende melding</p>
+                                    <?php } ?>   
+                            </section>      
                             
                             <!-- Skjuler/viser kommentarer og kommenteringen -->
                             <section id="skjulkommentarer" style="display: none;">
                                 <section id="artikkel_kommentarSeksjon">
                                     <!-- input kommentering felt -->
                                     <form method="POST" id="kommentar_form" action="artikkel.php?artikkel=<?php echo($_GET['artikkel']) ?>">
-                                        <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required></textarea>
+                                        <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required><?php echo($input_innhold) ?></textarea>
                                         <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
                                     </form>
                                     
                                     <!-- Henter kommentarer -->
                                     <?php
                                         $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
-                                                    where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
+                                                    where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'] . " order by tid DESC";
                                         $hentKommentarSTMT = $db->prepare($hentKommentar);
                                         $hentKommentarSTMT->execute();
                                         $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -370,9 +413,13 @@ $tabindex = 8;
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
                                                 <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
 
-                                                <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>...</p>
-                                                <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
-                                                <p class="kommentar_lesknapp">Les mer</p>
+                                                <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>
+                                                <?php if($kommentarer[$i]['tekst'] != "") { ?>...</p>
+                                                    <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
+                                                    <p class="kommentar_lesknapp">Les mer</p>
+                                                <?php } else { ?>
+                                                    </p>
+                                                <?php } ?>
 
                                                 <!-- Henter slette knapp for kommentarer basert på bruker -->
                                                 <?php
@@ -571,10 +618,10 @@ $tabindex = 8;
                                             <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
                                         <?php } ?>
                                     <?php } else { ?>
-                                        <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                        <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
                                     <?php } ?>
                                 <?php } else { ?>
-                                    <img class="navn_artikkel_bilde" src="bilder/profil.png">
+                                    <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
                                 <?php }
                                 
                                 

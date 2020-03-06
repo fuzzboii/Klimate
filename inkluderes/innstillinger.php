@@ -13,6 +13,8 @@ class mysqlPDO extends PDO {
     }
 }
 
+$host = "localhost";
+
 // Konstruktør for skolens server
 /*
 class mysqlPDO extends PDO {
@@ -26,6 +28,8 @@ class mysqlPDO extends PDO {
         parent::__construct($dsn,$usr,$pwd);
     }
 }
+
+$host = "s120.hbv.no";
 */
 
 // Konstruktør for Klimate.no
@@ -104,6 +108,6 @@ if(!isset($_GET['systemerror'])) {
 
 
 
-// Denne siden er utviklet av Robin Kleppang, siste gang endret 07.02.2020
-// Denne siden er kontrollert av Robin Kleppang, siste gang 07.02.2020
+// Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020
+// Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020
 ?>

@@ -38,6 +38,21 @@ $stmtBildeA = $db->prepare($hentBildeA);
 $stmtBildeA->execute();
 $bildeA = $stmtBildeA->fetchAll(PDO::FETCH_ASSOC);
 
+$hentPaameldteQ = "select * from påmelding";
+$hentPaameldteSTMT = $db->prepare($hentPaameldteQ);
+$hentPaameldteSTMT->execute();
+$paameldte = $hentPaameldteSTMT->fetchAll(PDO::FETCH_ASSOC);
+
+$hentArrQ = "select * from event";
+$hentArrSTMT = $db->prepare($hentArrQ);
+$hentArrSTMT->execute();
+$arrangement = $hentArrSTMT->fetchAll(PDO::FETCH_ASSOC);
+
+$hentKommQ = "select * from kommentar";
+$hentKommSTMT = $db->prepare($hentKommQ);
+$hentKommSTMT->execute();
+$kommentarer = $hentKommSTMT->fetchAll(PDO::FETCH_ASSOC);
+
 echo("Alle brukere");
 foreach ($resultat as $res) {
     echo "<br>";
@@ -82,6 +97,56 @@ foreach ($bildeA as $res) {
     echo "<br>";
     echo($res['idartikkel'] . " med id ");
     echo($res['idbilde']);
+    echo "<br>";
+}
+
+echo "<br>";
+echo "<br>";
+echo("Alle påmeldte brukere");
+
+foreach ($paameldte as $res) {
+    echo "<br>";
+    echo "<br>";
+    var_dump($res);
+    echo "<br>";
+    echo($res['event_id'] . " med id ");
+    echo($res['bruker_id']);
+    echo($res['interessert']);
+    echo "<br>";
+}
+
+echo "<br>";
+echo "<br>";
+echo("Alle arrangement");
+
+foreach ($arrangement as $res) {
+    echo "<br>";
+    echo "<br>";
+    var_dump($res);
+    echo "<br>";
+    echo($res['idevent']);
+    echo($res['eventnavn']);
+    echo($res['eventtekst']);
+    echo "<br>";
+}
+
+
+
+echo "<br>";
+echo "<br>";
+echo("Alle kommentarer");
+
+foreach ($kommentarer as $res) {
+    echo "<br>";
+    echo "<br>";
+    var_dump($res);
+    echo "<br>";
+    echo($res['idkommentar']);
+    echo($res['ingress']);
+    echo($res['tekst']);
+    echo($res['tid']);
+    echo($res['artikkel']);
+    echo($res['bruker']);
     echo "<br>";
 }
 ?>

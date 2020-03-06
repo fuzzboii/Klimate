@@ -42,6 +42,22 @@ function lukkHamburgerMeny() {
 
 
 
+/* Funksjon for å teste på touch */
+/*-------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
+function kanTouchBrukes() {
+  var msTouchOK = window.navigator.msMaxTouchPoints;
+  var generalTouchOK = "ontouchstart" in document.createElement("div");
+  if (msTouchOK || generalTouchOK) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/*-------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------*/
+
 
 /* Del for å vise "Tilbake til topp" knapp */
 /*-------------------------------------------------------------------------------------------------------*/
@@ -138,6 +154,9 @@ function bekreftMelding(element) {
   } else {
     knapp.style.display = 'none';
   }
+  
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -707,6 +726,11 @@ function visKommentar() {
       }
     });
   }
+}
+
+// Funksjon for å laste opp oppdateringer til profil (beskrivelse og preferanser)
+function lastOppProfil() {
+  document.getElementById("profilForm").submit();
 }
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 07.02.2020 */
