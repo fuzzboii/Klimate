@@ -2919,7 +2919,6 @@ input:checked + .slider:before {
   .skjul_grid {
     grid-area: skjulinfo;
     margin-left: 2em;
-    margin-right: 2em;
     
   }
   
@@ -2943,7 +2942,7 @@ input:checked + .slider:before {
   }
 
   .rediger_profil_knapp {
-    margin-right: 4em;
+    margin-right: 7em;
     grid-area: oppdater;
   }
 
