@@ -1034,6 +1034,13 @@ table {
   position: relative;
 }
 
+#glemtpassord_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for TILBAKE TIL TOPPEN */
 
@@ -3021,9 +3028,8 @@ input:checked + .slider:before {
 
   #arrangement_slettKnapp {
     margin-left: auto;
-
+  }
 }
-
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
   .knapp2_grid {
@@ -3113,7 +3119,7 @@ input:checked + .slider:before {
 
   /* Hover ved hamburger meny */
   .hamburgerInnhold a:hover {
-    background-color: #f1f1f169 /* Setter fargen når man holder over menyvalget */
+    background-color: #f1f1f169; /* Setter fargen når man holder over menyvalget */
   }
 
   .hamburgerMeny {
@@ -3500,18 +3506,10 @@ input:checked + .slider:before {
   #default_section {
     grid-template-columns: 1fr 1fr 1fr;
   }
-
-  #soknad_main {
-    column-count: 2;
-  }
   
   #backend_main {
     width: 115em;
     margin-left: auto; margin-right: auto;
-  }
-
-  #bgcont2 {
-    break-before: column;
   }
 
   #mldFEIL {
@@ -3587,10 +3585,6 @@ input:checked + .slider:before {
 
 /* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
-
-  #soknad_main {
-    column-count: 2;
-  }
 
   #artikkel_main {
     grid-template-columns: 1fr 1fr 1fr 1fr;

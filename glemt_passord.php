@@ -88,57 +88,55 @@ if (isset($_POST['glemtPassord'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
-        <article class="innhold">
-            <?php include("inkluderes/navmeny.php") ?>
+    <body id="glemtpassord_body">
+        <?php include("inkluderes/navmeny.php") ?>
 
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header onclick="lukkHamburgerMeny()">
-                <!-- Logoen midten øverst på siden, med tittel -->
-                <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
-            </header>
+        <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+        <!-- Kan ikke legge denne direkte i body -->
+        <header onclick="lukkHamburgerMeny()">
+            <!-- Logoen midten øverst på siden, med tittel -->
+            <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
+        </header>
 
-            <main onclick="lukkHamburgerMeny()">
-                <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-                <form method="POST" action="glemt_passord.php" class="innloggForm">
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn ditt brukernavn" required autofocus>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn nytt passord" required>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Gjenta passord" required>
-                    </section>
-                    <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord"> 
-                    <!-- Meldinger til bruker -->
-                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                        <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
-                    
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                        <p id="mldFEIL">Passordene er ikke like</p>
-                    
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                        <p id="mldFEIL">Skriv inn et passord</p>
-                    
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-                    
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-                        <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
-                    <?php } ?>  
-                </form>
+        <main onclick="lukkHamburgerMeny()">
+            <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
+            <form method="POST" action="glemt_passord.php" class="innloggForm">
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                    <input type="text" class="RegInnFelt" name="brukernavn" value="" placeholder="Skriv inn ditt brukernavn" required autofocus>
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <input type="password" class="RegInnFelt" name="passord" value="" placeholder="Skriv inn nytt passord" required>
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Gjenta passord" required>
+                </section>
+                <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord"> 
+                <!-- Meldinger til bruker -->
+                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                    <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
+                
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                    <p id="mldFEIL">Passordene er ikke like</p>
+                
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                    <p id="mldFEIL">Skriv inn et passord</p>
+                
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
+                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
+                    <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
+                <?php } ?>  
+            </form>
 
-                <!-- Sender brukeren tilbake til forsiden -->
-                <button onClick="location.href='logginn.php'" class="lenke_knapp">Tilbake til logg inn</button>
+            <!-- Sender brukeren tilbake til forsiden -->
+            <button onClick="location.href='logginn.php'" class="lenke_knapp">Tilbake til logg inn</button>
 
-            </main>
-            <?php include("inkluderes/footer.php") ?>
-        </article>
+        </main>
+        <?php include("inkluderes/footer.php") ?>
     </body>
 
     <!-- Denne siden er utviklet av Aron Snekkestad og Robin Kleppang, siste gang endret 06.03.2020 -->
