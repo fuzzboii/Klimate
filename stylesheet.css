@@ -3583,7 +3583,7 @@ input:checked + .slider:before {
 
   /* Queries for profil */
   .profil_main, .profil_main2 {
-    width: 100em;
+    width: 116em;
     margin-left: auto;
     margin-right: auto;
   }
