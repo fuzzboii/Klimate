@@ -1660,6 +1660,8 @@ table {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
   width: 14em;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -2870,6 +2872,10 @@ input:checked + .slider:before {
     margin-top: 5em; margin-bottom: 15em;
     margin-left: 10em; margin-right: 10em;
     transition: margin 0.3s;
+  }
+  #arrangement_slettKnapp {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   /* Del for meldinger */
