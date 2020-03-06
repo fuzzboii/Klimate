@@ -8,7 +8,7 @@ include("inkluderes/innstillinger.php");
 
 
 
-// Brukere skal kunne sende søknad
+// Forsikrer seg om kun tilgang for administrator
 if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
 } else if ($_SESSION['brukertype'] != '1') {
@@ -158,12 +158,12 @@ if (isset($_POST['subRegistrering'])) {
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
         <!-- Kan ikke legge denne direkte i body -->
         <header class="adminMain" onclick="lukkHamburgerMeny()">
-            <!-- Tittel på siden -->
+            <!-- Overskrift på siden -->
             <h1 id="admin_overskrift">Administrator innstillinger</h1>
             <h2 id="admin_underskrift">Opprett en bruker</h2>
         </header>
             <main onclick="lukkHamburgerMeny()">
-                <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
+                <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord -->
                 <form method="POST" action="administrator.php" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
@@ -231,3 +231,6 @@ if (isset($_POST['subRegistrering'])) {
 
     </body>
 </html>
+
+    <!-- Denne siden er utviklet av Glenn Petter Pettersen, siste gang endret 05.03.2020 -->
+    <!-- Denne siden er kontrollert av , siste gang 06.03.2020 -->
