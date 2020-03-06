@@ -344,21 +344,21 @@ $tabindex = 7;
                                     $hentArtBildeSTMT->execute();
                                     $resBilde = $hentArtBildeSTMT->fetch(PDO::FETCH_ASSOC);
                                     
-                                    if ($resBilde) { ?>
-                                        <section class="bildeBoksArt_sok">
-                                            <?php 
-                                            // Tester på om filen faktisk finnes
-                                            $testPaa = $resBilde['hvor'];
-                                            if(file_exists("$lagringsplass/$testPaa")) {  
+                                    if ($resBilde) {
+                                        // Tester på om filen faktisk finnes
+                                        $testPaa = $resBilde['hvor'];
+                                        if(file_exists("$lagringsplass/$testPaa")) { ?>
+                                            <section class="bildeBoksArt_sok">
+                                                <?php
                                                 //Arrangementbilde som resultat av spørring
                                                 if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?>
                                                     <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
                                                     <img class="artikkel_BildeBoks" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArt[$j]['artnavn'])?>">
                                                 <?php } else { ?>
                                                     <img class="artikkel_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArt[$j]['artnavn'])?>">
-                                                <?php }
-                                            } ?>
-                                        </section>
+                                                <?php } ?>
+                                            </section>
+                                        <?php } ?>
                                     <?php } ?>
 
                                 <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
