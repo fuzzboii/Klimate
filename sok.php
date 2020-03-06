@@ -335,6 +335,31 @@ $tabindex = 7;
                         <?php $antallSider++; } $avsluttTag++; ?>
                         <section class="artRes_sok" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
                             <figure class="infoBoksArt_sok">
+                                <section class="bildeBoksArt_sok">
+                                    <?php // Henter bilde til artikkelen
+                                    $hentArtBildeQ = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = :idartikkel and artikkelbilde.idbilde = bilder.idbilder";
+                                    $hentArtBildeSTMT = $db->prepare($hentArtBildeQ);
+
+                                    $hentArtBildeSTMT->bindParam(':idartikkel', $resArt[$j]['idartikkel']);
+                                    
+                                    $hentArtBildeSTMT->execute();
+                                    $resBilde = $hentArtBildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                    
+                                    if (isset($resBilde)) {
+                                        // Tester på om filen faktisk finnes
+                                        $testPaa = $resBilde['hvor'];
+                                        if(file_exists("$lagringsplass/$testPaa")) {  
+                                            //Arrangementbilde som resultat av spørring
+                                            if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                                <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                                <img class="artikkel_BildeBoks" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                            <?php } else { ?>
+                                                <img class="artikkel_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                        <?php }
+                                        }
+                                    } ?>
+                                </section>
+
                                 <h2 class="infoResArt_sok"><?php echo($resArt[$j]['artnavn'])?></h2>
                                 <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
                                 <?php 

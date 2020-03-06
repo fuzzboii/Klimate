@@ -1229,6 +1229,18 @@ table {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   word-wrap: break-word;
 }
+.infoResArt_sok h2 {
+  margin-top: 0.5em;
+}
+.bildeBoksArt_sok {
+  height: 11em;
+  width: 100%;
+  text-align: center;
+}
+.artikkel_BildeBoks {
+  height: 11em;
+  box-shadow: 0 0 0.1em 0.01em black;
+}
 
 /* Del for arrangement-søk */
 .arrRes_sok {
