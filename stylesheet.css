@@ -1944,7 +1944,25 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 1em; margin-left: auto; margin-right: auto;
+  margin-top: 1em; margin-left: auto;
+  margin-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  text-align: center;
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.83em; /* Font-størrelse */
+  display: block;
+  max-height: 4em;
+  min-height: 4em;
+ 
+}
+
+.oppdater_profil_knapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 1em; margin-left: auto;
   margin-bottom: 1em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
@@ -2939,6 +2957,10 @@ input:checked + .slider:before {
     grid-area: tilbake;
     margin-top: 2em;
   }
+  .oppdater_profil_knapp {
+    margin-right: 1em;
+    grid-area: oppdater;
+  }
 
   .rediger_profil_knapp {
     margin-right: 1em;
@@ -3085,7 +3107,7 @@ input:checked + .slider:before {
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.1s;
   }
-  #sok_nesteKnapp:focus, #sok_tilbKnapp:focus, #arrangement_nesteKnapp:focus, #arrangement_tilbKnapp:focus, #artikkel_nesteKnapp:focus, #artikkel_tilbKnapp:focus, .rediger_profil_knapp:focus {
+  #sok_nesteKnapp:focus, #sok_tilbKnapp:focus, #arrangement_nesteKnapp:focus, #arrangement_tilbKnapp:focus, #artikkel_nesteKnapp:focus, #artikkel_tilbKnapp:focus, .rediger_profil_knapp:focus, .oppdater_profil_knapp:focus {
     outline: 0;
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
@@ -3356,6 +3378,9 @@ input:checked + .slider:before {
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;
   }
+  .oppdater_profil_knapp {
+    width: 20em;
+  }
 
   .rediger_profil_knapp {
     width: 20em;
@@ -3579,7 +3604,7 @@ input:checked + .slider:before {
     content: " (" attr(onclick) ") ";
   }
 
-  .rediger_profil_knapp, .rediger_konto_knapp {
+  .rediger_profil_knapp, .oppdater_profil_knapp, .rediger_konto_knapp {
     display: none;
   }
 
