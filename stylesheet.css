@@ -1969,8 +1969,9 @@ table {
   margin: 0.8em 0em 0em 0em; 
 }
 
-.profilForm {
-  justify-content: left;
+#profilForm {
+  width: 20em;
+  margin-left: auto;
 }
 
 .profil_bilde {
@@ -2003,7 +2004,7 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 1em; 
+  margin-top: 1em; margin-left: auto;
   margin-bottom: 1em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
@@ -2016,6 +2017,7 @@ table {
   min-height: 4em;
  
 }
+
 /* .interesserTags {} */
 
 .interesserTags .proInt {
@@ -2996,7 +2998,6 @@ input:checked + .slider:before {
 
   .skjul_grid {
     /*grid-area: skjulinfo;*/
-    margin-left: 2em;
     grid-column: 3;
   }
 
@@ -3059,7 +3060,6 @@ input:checked + .slider:before {
   }*/
   .skjul_grid {
     /*grid-area: skjulinfo;*/
-    margin-left: 2em;
   }
 
   /*.bsk_grid {
