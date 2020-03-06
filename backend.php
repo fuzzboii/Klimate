@@ -16,11 +16,22 @@ if (!isset($_SESSION['idbruker'])) {
 // Henter arrangementer fra database //
 //-----------------------------------//
 
+// Denne sorterer og henter ut det førstkommende arrangementet
+$hentArrangementQ = "select idevent, eventnavn from event, påmelding
+                        where event.idevent = påmelding.event_id
+                            and påmelding.bruker_id = :idbruker order by tidspunkt ASC;";
+$hentArrangementSTMT = $db->prepare($hentArrangementQ);
+$hentArrangementSTMT -> bindParam(":idbruker", $_SESSION['idbruker']);
+$hentArrangementSTMT->execute();
+$forstkommende = $hentArrangementSTMT->fetch(PDO::FETCH_ASSOC);
+
 // Denne sorterer og henter ut det nyeste arrangementet
-$hentArrangement = "select * from event order by tidspunkt DESC limit 1";
-$stmtArrangement = $db->prepare($hentArrangement);
-$stmtArrangement->execute();
-$sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
+$hentKommenterQ = "select artikkel, ingress from kommentar 
+                    where bruker = :idbruker order by tid DESC;";
+$hentKommenterSTMT = $db->prepare($hentKommenterQ);
+$hentKommenterSTMT -> bindParam(":idbruker", $_SESSION['idbruker']);
+$hentKommenterSTMT->execute();
+$sisteKommentar = $hentKommenterSTMT->fetch(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -71,27 +82,21 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
                 <?php } ?>
                 <h1 class="velkomst">Velkommen <?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) { echo($_SESSION['fornavn']); } else { echo($_SESSION['brukernavn']); } ?></h1>
+                <?php if($antUlest['antall'] > 0) { ?><p><?php echo("Du har " . $antUlest['antall'] . " uleste meldinger!");?></p><?php } ?></a>
             </header>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">
                 <section id="backend_section">
                     <!-- Innholdet på siden -->
                     <article>
-                        <h2>Siste arrangement</h2>
-                        <p><?php echo($sisteArrangement['eventnavn'])?></p>
-                        <a href="arrangement.php?arrangement=<?php echo($sisteArrangement['idevent']) ?>">Trykk her for å se dette arrangementet</a>
+                        <h2>Førstkommende påmeldt arrangement</h2>
+                        <p><?php echo($forstkommende['eventnavn'])?></p>
+                        <a href="arrangement.php?arrangement=<?php echo($forstkommende['idevent']) ?>">Trykk her for å lese videre</a>
                     </article>
                     <article>
-                        <h2>Siste kommentar</h2>
-                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                        <p>Bruk av gressklipper, bensin eller elektrisk?</p>
-                        <a href="#">Trykk her for å lese videre</a>
-                    </article>
-                    <article>
-                        <h2>Artikler</h2>
-                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                        <p>Hundretusener demonstrerer for klima over hele verden</p>
-                        <a href="#">Trykk her for å lese videre</a>
+                        <h2>Din siste kommentar</h2>
+                        <p><?php echo($sisteKommentar['ingress'])?></p>
+                        <a href="artikkel.php?artikkel=<?php echo($sisteKommentar['artikkel']) ?>">Trykk her for å lese videre</a>
                     </article>
                 </section>
             </main>

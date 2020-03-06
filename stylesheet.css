@@ -770,13 +770,18 @@ footer a {
 }
 
 
-#backend_section article p, #backend_section article a {
+#backend_section article p, #backend_section article a{
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
-  padding-left: 1.5em; /* Padding for å få plass på hver side */
-  padding-right: 1.5em;
+  margin-left: 1.5em; /* Padding for å få plass på hver side */
+  margin-right: 1.5em;
+  word-break: break-all;
 
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+}
+
+#backend_section article a {
+  max-width: 1em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -3504,9 +3509,6 @@ input:checked + .slider:before {
   #backend_main {
     width: 115em;
     margin-left: auto; margin-right: auto;
-  }
-  #backend_section {
-    grid-template-columns: 1fr 1fr 1fr;
   }
 
   #bgcont2 {
