@@ -2117,8 +2117,8 @@ table {
 .profil_main {
   display: grid;
   width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 10%; 
+  margin-right: 10%;
   margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
@@ -2130,8 +2130,8 @@ table {
 .profil_main2 {
   display: grid;
   width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 10%; 
+  margin-right: 10%;
   margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
@@ -2997,7 +2997,6 @@ input:checked + .slider:before {
 
   .profil_main2 {
     margin-top: -2em;
-    display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-areas: 
     "endrebilde beskriv skjulinfo"
@@ -3568,6 +3567,13 @@ input:checked + .slider:before {
   .p_section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  /* Queries for profil */
+  .profil_main, .profil_main2 {
+    width: 97em;
+    margin-left: auto; 
+    margin-right: auto;
   }
 
 }
