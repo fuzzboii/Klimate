@@ -3489,6 +3489,10 @@ input:checked + .slider:before {
 
 /* Medium skjerm, 1080p */
 @media screen and (min-width: 1920px) {
+  #default_main {
+    width: 115em;
+    margin-left: auto; margin-right: auto;
+  }
   #default_section {
     grid-template-columns: 1fr 1fr 1fr;
   }
