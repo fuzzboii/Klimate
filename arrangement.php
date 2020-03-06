@@ -127,7 +127,6 @@ if (isset($_POST['publiserArrangement'])) {
 }
 
 if(isset($_POST['inviterTil'])) {
-    var_dump($_POST);
     if($_POST['inviterTil'] == $_GET['arrangement']) {
         // Henter eventinfo
         $hentInfoQ = "select eventnavn from event where idevent = " . $_GET['arrangement'];
