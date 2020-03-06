@@ -2126,6 +2126,7 @@ table {
 }
 
 .profil_main2 {
+  display: grid;
   margin-left: 1.5em;
   margin-right: 1.5em;
   margin-bottom: 1.5em;
@@ -2141,9 +2142,7 @@ table {
   margin-left: 0em; margin-bottom: 0.2em;
 }
 .profil_beskrivelse textarea{
-  width: 97%;
-  padding-top: 4em;
-  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  width: 98%;
   padding-bottom: 21em;
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
