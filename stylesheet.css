@@ -1223,6 +1223,7 @@ table {
   margin-left: auto; margin-right: auto;
   text-align: left;
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  word-wrap: break-word;
 }
 
 /* Del for arrangement-søk */
@@ -2584,7 +2585,7 @@ input:checked + .slider:before {
 #artikkel_kommentarBoks p {
   margin: 0;
   font-family: Helvetica, Arial, sans-serif;
-  overflow-wrap: break-word;
+  word-break: break-word; 
 }
 
 .kommentarTid {
