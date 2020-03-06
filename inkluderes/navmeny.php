@@ -153,6 +153,6 @@ if(isset($_SESSION['idbruker'])) {
             </section>
         </section>
 <?php
-// Denne siden er utviklet av Robin Kleppang, siste gang endret 29.02.2020
-// Denne siden er kontrollert av Robin Kleppang, siste gang 29.02.2020
+// Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020
+// Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020
 ?>
