@@ -1919,7 +1919,6 @@ table {
 }
 .profil_persInf {
  display: grid;
- grid-template-columns: 8.5em 10em;
  font-size: 0.83em;
  overflow: auto;
 }
@@ -1930,9 +1929,14 @@ table {
 }
 
 .profil_persInf p{
-  margin: 0.8em 0em 0em 0.5em;
-
+  margin: 0.8em 0em 0em 0em;
+  
 }
+
+.profilForm {
+  justify-content: left;
+}
+
 .profil_bilde {
   width: 10em;
   height: 10em;
@@ -1944,7 +1948,8 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 1em; margin-left: auto;
+  margin-top: 1em; 
+  margin-left: auto; margin-right: auto;
   margin-bottom: 1em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
@@ -2963,7 +2968,6 @@ input:checked + .slider:before {
   }
 
   .rediger_profil_knapp {
-    margin-right: 1em;
     grid-area: oppdater;
   }
 
@@ -3378,6 +3382,13 @@ input:checked + .slider:before {
     background-color: rgba(36, 209, 100, 0.637); /* Skygge */
     transition: background-color 0.2s;
   }
+
+  .oppdater_profil_knapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
+
   .oppdater_profil_knapp {
     width: 20em;
   }

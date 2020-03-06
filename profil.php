@@ -431,7 +431,7 @@ $tabindex = 10;
                     <!-- Del for visning av personalia -->
                     <section class="skjul_grid">
                         <?php if($egen) { ?>
-                        <h2>Vis eller skjul personalia</h2>
+                        <h2>Personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
                             <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
