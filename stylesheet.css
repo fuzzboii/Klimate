@@ -1929,7 +1929,8 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 4em; margin-left: auto; margin-right: auto;
+  margin-top: 1em; margin-left: auto; margin-right: auto;
+  margin-bottom: 1em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   text-align: center;
@@ -1938,6 +1939,8 @@ table {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.83em; /* Font-størrelse */
   display: block;
+  max-height: 4em;
+  min-height: 4em;
  
 }
 /* .interesserTags {} */
@@ -2083,7 +2086,7 @@ table {
   width: 97%;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
-  padding-bottom: 3em;
+  padding-bottom: 21em;
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
     
@@ -2906,15 +2909,12 @@ input:checked + .slider:before {
   }
   
   .bsk_grid {
-    margin-top: 3em;
     grid-area: beskriv;
   }
   
   .int2_grid {
    grid-area: interesseTag;
    background-color: #E6E6E6;
-   padding-left: 1em;
-   padding-right: 1em;
    border-radius: 1em;
   }
 
@@ -2928,19 +2928,18 @@ input:checked + .slider:before {
   }
 
   .rediger_profil_knapp {
-    margin-left: 0em;
+    margin-right: 4em;
     grid-area: oppdater;
   }
 
   .profil_main2 {
     margin-top: -2em;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    grid-template-rows: 11.25em auto auto auto;
+    grid-template-columns: 1fr 2fr 1fr;
     grid-template-areas: 
-    "endrebilde skjulinfo interesseTag"
-    "beskriv skjulinfo interesseTag"
-    "oppdater oppdater interesseTag"
+    "endrebilde beskriv skjulinfo"
+    "oppdater oppdater oppdater"
+    "interesseTag interesseTag interesseTag"
     "tilbake tilbake tilbake";
   }
 
