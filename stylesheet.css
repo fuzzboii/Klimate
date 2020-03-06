@@ -2003,7 +2003,7 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 1em; margin-left: auto;
+  margin-top: 1em; 
   margin-bottom: 1em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
@@ -2936,78 +2936,104 @@ input:checked + .slider:before {
 
   .profil_main {
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto;
+    /*grid-template-rows: auto auto;
     grid-template-areas: 
     "profilbilde profilbilde profilbilde"
     "oversikt beskrivelse interesser"
-    "knapp knapp knapp";
+    "knapp knapp knapp";*/
+  }
+
+  .profil_pb {
+    /* grid-area: profilbilde; */
+    grid-column: 1/span 3;
+
+  }
+  .ovs_grid {
+    /*grid-area: oversikt;*/
+    grid-column: 1;
+    grid-row: 2;
+  }
+  
+  .brukerBeskrivelse {
+    /*grid-area: beskrivelse;*/
+    grid-column: 2;
+    grid-row: 2;
+    word-break: break-word;
+  }
+  
+  .int_grid {
+   /*grid-area: interesser;*/
+   grid-column: 3;
+   grid-row: 2;
+  }
+  
+  .knapp_grid {
+    /*grid-area: knapp;*/
+    grid-column: 1/span 3;
+    grid-row: 3;
   }
 
   .profil_main2 {
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas: 
+    /*grid-template-areas: 
     "endrebilde beskriv skjulinfo"
     "oppdater oppdater oppdater"
     "interesseTag interesseTag interesseTag"
-    "tilbake tilbake tilbake";
-  }
-
-  .profil_pb {
-    grid-area: profilbilde;
-  }
-  .ovs_grid {
-    grid-area: oversikt;
-  }
-  
-  .brukerBeskrivelse {
-    grid-area: beskrivelse;
-  }
-  
-  .int_grid {
-   grid-area: interesser;
-  }
-  
-  .knapp_grid {
-    grid-area: knapp;
+    "tilbake tilbake tilbake";*/
   }
 
   .bilde_grid {
-    grid-area: endrebilde;
+    /*grid-area: endrebilde;*/
+    grid-column: 1;
     
-  }
-  .skjul_grid {
-    grid-area: skjulinfo;
-    margin-left: 2em;
   }
   
   .bsk_grid {
-    grid-area: beskriv;
-  }
-  
-  .int2_grid {
-   grid-area: interesseTag;
+    /*grid-area: beskriv;*/
+    grid-column: 2;
+    grid-row: 1;
   }
 
-  .int_input_grid {
-    grid-area: interesseInput;
+  .skjul_grid {
+    /*grid-area: skjulinfo;*/
+    margin-left: 2em;
+    grid-column: 3;
   }
-  
-  .knapp2_grid {
-    grid-area: tilbake;
-  }
+
   .oppdater_profil_knapp {
-    grid-area: oppdater;
+    /*grid-area: oppdater;*/
+    /* Ajdin grid-column var 1/span 3. Altså fra første kolonne med span over 3 kolonner på rad 2 */
+    grid-column: 3;
+    grid-row: 2;
   }
 
   .rediger_profil_knapp {
-    grid-area: oppdater;
+    /*grid-area: oppdater;*/
+    grid-column: 1/span 3;
+    grid-row: 2;
+  }
+  
+  .int2_grid {
+   /*grid-area: interesseTag;*/
+   grid-column: 1/span 3;
+   grid-row: 3;
+  }
+
+  .int_input_grid {
+    /*grid-area: interesseInput;*/
+  }
+  
+  .knapp2_grid {
+    /*grid-area: tilbake;*/
+    grid-column: 1/span 3;
+    grid-row: 4;
   }
 
 }
 
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
-  .profil_pb {
+  /*.profil_pb {
     grid-area: profilbilde;
   }
   .ovs_grid {
@@ -3016,7 +3042,6 @@ input:checked + .slider:before {
   
   .brukerBeskrivelse {
     grid-area: beskrivelse;
-    word-break: break-word;
   }
   
   .int_grid {
@@ -3025,66 +3050,44 @@ input:checked + .slider:before {
   
   .knapp_grid {
     grid-area: knapp;
-  }
+  }*/
 
-  
-  .profil_main {
-    margin-left: 10em;
-    margin-right: 10em;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto auto;
-    grid-template-areas: 
-    "profilbilde profilbilde profilbilde"
-    "oversikt beskrivelse interesser"
-    "knapp knapp knapp";
-  }
 
-  .bilde_grid {
+  /*.bilde_grid {
     grid-area: endrebilde;
     
-  }
+  }*/
   .skjul_grid {
-    grid-area: skjulinfo;
+    /*grid-area: skjulinfo;*/
     margin-left: 2em;
   }
-  
-  .bsk_grid {
+
+  /*.bsk_grid {
     grid-area: beskriv;
-  }
+  }*/
   
   .int2_grid {
-   grid-area: interesseTag;
+   /*grid-area: interesseTag;*/
    background-color: #E6E6E6;
    border-radius: 1em;
   }
 
-  .int_input_grid {
+  /*.int_input_grid {
     grid-area: interesseInput;
-  }
+  }*/
   
   .knapp2_grid {
-    grid-area: tilbake;
+    /*grid-area: tilbake;*/
     margin-top: 2em;
   }
   .oppdater_profil_knapp {
     margin-right: 1em;
-    grid-area: oppdater;
+    /*grid-area: oppdater;*/
   }
 
-  .rediger_profil_knapp {
+  /*.rediger_profil_knapp {
     grid-area: oppdater;
-  }
-
-  .profil_main2 {
-    margin-left: 10em;
-    margin-right: 10em;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas: 
-    "endrebilde beskriv skjulinfo"
-    "oppdater oppdater oppdater"
-    "interesseTag interesseTag interesseTag"
-    "tilbake tilbake tilbake";
-  }
+  }*/
 
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
   .navTop button:hover {
@@ -3644,7 +3647,7 @@ input:checked + .slider:before {
 
   /* Queries for profil */
   .profil_main, .profil_main2 {
-    width: 99em;
+    width: 115.9em;
     margin-left: auto;
     margin-right: auto;
   }
