@@ -2725,9 +2725,9 @@ input:checked + .slider:before {
 
   /* Grid for søk */
   .side_sok {
+    margin-left: auto; margin-right: auto;
+    max-width: 40em;
     grid-template-columns: 1fr 1fr;
-    padding-left: 8em;
-    padding-right: 8em;
   }
   .brukerRes_sok {
     width: 13em;
@@ -3121,9 +3121,8 @@ input:checked + .slider:before {
   }
   /* Grid for søk */
   .side_sok {
+    max-width: 65em;
     grid-template-columns: 1fr 1fr 1fr;
-    padding-left: 10em;
-    padding-right: 10em;
   }
   .brukerRes_sok {
     width: 16em;
@@ -3458,9 +3457,8 @@ input:checked + .slider:before {
   }
   /* Grid for søk */
   .side_sok {
+    max-width: 85em;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    padding-left: 15em;
-    padding-right: 15em;
   }
   .brukerRes_sok {
     width: 18em;
@@ -3526,9 +3524,8 @@ input:checked + .slider:before {
 
   /* Grid for søk */
   .side_sok {
+    max-width: 105em;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    padding-left: 20em;
-    padding-right: 20em;
   }
 
   .p_section {
