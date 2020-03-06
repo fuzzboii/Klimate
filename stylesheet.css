@@ -2115,10 +2115,8 @@ table {
 }
 
 .profil_main {
-  display: grid;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
@@ -2128,10 +2126,8 @@ table {
 }
 
 .profil_main2 {
-  display: grid;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
@@ -2950,6 +2946,8 @@ input:checked + .slider:before {
   }
   
   .profil_main {
+    margin-left: 10em;
+    margin-right: 10em;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto auto;
     grid-template-areas: 
@@ -2996,6 +2994,8 @@ input:checked + .slider:before {
   }
 
   .profil_main2 {
+    margin-left: 10em;
+    margin-right: 10em;
     margin-top: -2em;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
@@ -3485,15 +3485,8 @@ input:checked + .slider:before {
 
 /* Medium skjerm, 1080p */
 @media screen and (min-width: 1920px) {
-  #default_main {
-    max-width: 1920px;
-    margin-left: auto; margin-right: auto;
-  }
   #default_section {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  #default_section article {
-    min-width: 37.5em;
+    grid-template-columns: 1fr 1fr 1fr
   }
 
   #soknad_main {
