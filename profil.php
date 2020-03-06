@@ -165,6 +165,8 @@ if ($egen) {
             $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
             $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
         }   
+        
+        header('Location: profil.php?bruker=' . $_SESSION['idbruker']);
     }
 }
 
@@ -181,6 +183,8 @@ if ($egen) {
         $stmtOppdaterBeskrivelse->bindParam(':beskrivelse', $_POST['beskrivelse']);
 
         $stmtOppdaterBeskrivelse->execute();
+        
+        header('Location: profil.php?bruker=' . $_SESSION['idbruker']);
     }
  }
 
