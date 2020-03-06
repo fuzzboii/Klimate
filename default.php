@@ -34,48 +34,48 @@ if (isset($_POST['loggUt'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
-        <article class="innhold">
-            <?php include("inkluderes/navmeny.php") ?>
+    <body id="default_body">
+        <?php include("inkluderes/navmeny.php") ?>
 
-            <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
-            <!-- Kan ikke legge denne direkte i body -->
-            <header onclick="lukkHamburgerMeny()">
-                <!-- Logoen midten øverst på siden, med tittel -->
-                <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
-                <h1 style="display: none">Bilde av Klimate logoen.</h1>        
+        <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
+        <!-- Kan ikke legge denne direkte i body -->
+        <header onclick="lukkHamburgerMeny()">
+            <!-- Logoen midten øverst på siden, med tittel -->
+            <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
+            <h1 style="display: none">Bilde av Klimate logoen.</h1>        
 
-                <!-- Meldinger til bruker -->
-                <?php if(isset($_GET['utlogget']) && $_GET['utlogget'] == 1){ ?>
-                    <p id="mldOK">Du har logget ut</p>    
+            <!-- Meldinger til bruker -->
+            <?php if(isset($_GET['utlogget']) && $_GET['utlogget'] == 1){ ?>
+                <p id="mldOK">Du har logget ut</p>    
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                    <p id="mldFEIL">Du må logge inn før du kan se dette området</p>  
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                <p id="mldFEIL">Du må logge inn før du kan se dette området</p>  
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                    <p id="mldFEIL">Du må logge ut før du kan se dette området</p>   
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                <p id="mldFEIL">Du må logge ut før du kan se dette området</p>   
 
-                <?php } else if(isset($_GET['systemerror'])){ ?>
-                    <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
+            <?php } else if(isset($_GET['systemerror'])){ ?>
+                <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                    <p id="mldFEIL">Du kan ikke se dette området</p>  
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                <p id="mldFEIL">Du kan ikke se dette området</p>  
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                    <p id="mldFEIL">Denne brukeren er avregistrert</p>  
+            <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                <p id="mldFEIL">Denne brukeren er avregistrert</p>  
 
-                <?php } else if(isset($_GET['avregistrert']) && $_GET['avregistrert'] == "true"){ ?>
-                    <p id="mldFEIL">Du har blitt avregistrert</p>  
-                <?php } ?>
+            <?php } else if(isset($_GET['avregistrert']) && $_GET['avregistrert'] == "true"){ ?>
+                <p id="mldFEIL">Du har blitt avregistrert</p>  
+            <?php } ?>
 
-                <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
-            </header>
-            
-            <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
-            <main id="default_main" onclick="lukkHamburgerMeny()">   
+            <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
+        </header>
+        
+        <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
+        <main id="default_main" onclick="lukkHamburgerMeny()">   
+            <section id="default_section">
                 <?php if(!isset($_GET['systemerror'])){ ?>
                     <!-- IDene brukes til å splitte opp kolonnene i queries -->
-                    <article id="artikkel1">
+                    <article>
                         <h2>Nyeste</h2>
                         <p><?php 
                             //------------------------------//
@@ -92,13 +92,7 @@ if (isset($_POST['loggUt'])) {
                         
                         <a href="artikkel.php?artikkel=<?php echo($nyesteArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
-                    <article id="artikkel2">
-                        <h2>Mest populære</h2>
-                        <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                        <p>Slik ser monsterorkanen ut fra verdensrommet</p>
-                        <a href="#">Trykk her for å lese videre</a>
-                    </article>
-                    <article id="artikkel3">
+                    <article>
                         <h2>Mest kommentert</h2>
                         <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
                         <p><?php 
@@ -118,7 +112,7 @@ if (isset($_POST['loggUt'])) {
                         echo($mestKommenterte['artnavn'])?></p>
                         <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
-                    <article id="artikkel4">
+                    <article>
                         <h2>Tilfeldig utvalgt</h2>
                         <p><?php 
                             //------------------------------//
@@ -136,9 +130,9 @@ if (isset($_POST['loggUt'])) {
                         <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
                 <?php } ?>
-            </main>
-            <?php include("inkluderes/footer.php") ?>
-        </article>
+            </section>
+        </main>
+        <?php include("inkluderes/footer.php") ?>
     </body>
 
     <!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 07.02.2020 -->
