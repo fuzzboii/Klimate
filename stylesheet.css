@@ -845,6 +845,7 @@ td, th  {
 }
 
 #konto_bekreftAvrInnhold {
+  position: relative;
   text-align: center;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   border: 2px solid red;
@@ -854,6 +855,8 @@ td, th  {
   margin-left: 5%; margin-right: 5%;
   transition: margin 0.3s;
   min-height: 20em;
+  animation-name: anim_fratopp;
+  animation-duration: 0.4s
 }
 
 #konto_bekreftAvrInnhold h2 {
@@ -3681,6 +3684,14 @@ input:checked + .slider:before {
     display: none;
   }
 
+}
+
+/* Animasjoner */
+
+/* For å gå fra toppen av siden */
+@keyframes anim_fratopp {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
 }
 
 
