@@ -129,9 +129,8 @@ footer a {
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   border: 2px solid red;
   background-color: white;
-  z-index: 2; /* Sitter over det andre innholdet */
-  margin-top: 15%; margin-bottom: 50%;
-  margin-left: 20%; margin-right: 20%;
+  margin-top: 12em;
+  margin-left: 10%; margin-right: 10%;
   transition: margin 0.3s;
   min-height: 4em;
   animation-name: anim_fratopp;
@@ -139,7 +138,7 @@ footer a {
 }
 
 #mldFEIL_knapp {
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  background-color: rgb(121, 121, 121);
   color: white; /* tekstfarge */
   padding: 0.6em; /* hvor mye luft rundt teksten det skal være */
   margin-top: 0.6em;
@@ -150,6 +149,11 @@ footer a {
   width: 4em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
+}
+
+#mldFEIL {
+  font-size: 1em;
+  color: red;
 }
 
 #mldOK {
@@ -2811,7 +2815,6 @@ input:checked + .slider:before {
   #mldFEIL {
     font-size: 1.1em;
     color: red;
-    text-align: center;
   }
 
   #mldOK {
@@ -3132,6 +3135,12 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
+  /* Hover på lukk-knapp i feilmeldinger */
+  #mldFEIL_knapp:hover {
+    background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+    cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
+  }
+
   /* Hover innstillinger for lagre knapp i konto redigeringen */
   .KontoredigeringFelt_knappLagre:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
@@ -3228,7 +3237,6 @@ input:checked + .slider:before {
   #mldFEIL {
     font-size: 1.2em;
     color: red;
-    text-align: center;
   }
 
   #mldOK {
@@ -3549,7 +3557,6 @@ input:checked + .slider:before {
   #mldFEIL {
     font-size: 1.3em;
     color: red;
-    text-align: center;
   }
 
   #mldOK {
