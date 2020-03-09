@@ -159,6 +159,16 @@ function bekreftMelding(element) {
   document.documentElement.scrollTop = 0;
 }
 
+// Lukker vindu til bruker
+function lukkMelding(element) {
+  var knapp = document.getElementById(element);
+
+  knapp.style.display = 'none';
+  
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 
