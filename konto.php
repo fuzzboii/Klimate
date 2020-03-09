@@ -325,27 +325,34 @@ if(isset($_POST['slettInfo'])) {
 
         <?php if(isset($_GET['rediger'])) { ?>
             <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
-                <?php if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                    <p id="mldFEIL">Passordene er ikke like</p>
+                <?php if (isset($_GET['error']) && $_GET['error'] >= 4 && $_GET['error'] <= 10) { ?>
+                    <section id="mldFEIL_boks">
+                        <section id="mldFEIL_innhold">
+                            <?php if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                                <p id="mldFEIL">Passordene er ikke like</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                    <p id="mldFEIL">Skriv inn et passord</p>
+                            <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                                <p id="mldFEIL">Skriv inn et passord</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
-                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                            <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
+                                <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 7){ ?>
-                    <p id="mldFEIL">Brukernavnet er opptatt</p>    
+                            <?php } else if(isset($_GET['error']) && $_GET['error'] == 7){ ?>
+                                <p id="mldFEIL">Brukernavnet er opptatt</p>    
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 8){ ?>
-                    <p id="mldFEIL">Epost er ikke gyldig</p>    
+                            <?php } else if(isset($_GET['error']) && $_GET['error'] == 8){ ?>
+                                <p id="mldFEIL">Epost er ikke gyldig</p>    
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 9){ ?>
-                    <p id="mldFEIL">Telefonnummer må inneholde kun tall. Oppgi landkode som 0047.</p>    
+                            <?php } else if(isset($_GET['error']) && $_GET['error'] == 9){ ?>
+                                <p id="mldFEIL">Telefonnummer må inneholde kun tall. Oppgi landkode som 0047.</p>    
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 10){ ?>
-                    <p id="mldFEIL">Kunne ikke slette data, vennligst prøv på nytt</p>    
+                            <?php } else if(isset($_GET['error']) && $_GET['error'] == 10){ ?>
+                                <p id="mldFEIL">Kunne ikke slette data, vennligst prøv på nytt</p>    
 
+                            <?php } ?>
+                            <button onclick="bekreftMelding('mldFEIL_boks')">Lukk</button>
+                        </section>
+                    </section>
                 <?php } ?>
                 <section class="brukerinformasjon_rediger"> 
                     <!-- Underoverskrift -->
