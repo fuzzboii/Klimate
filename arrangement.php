@@ -312,8 +312,20 @@ $tabindex = 8;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="arrangement_body" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp'), arrTabbing()" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
+    <body id="arrangement_body" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp'), arrTabbing(), erTouch()" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
         <?php include("inkluderes/navmeny.php") ?>
+        <script language="JavaScript">
+            // Funksjon som sjekker om brukeren har en touch-støttet enhet
+            function erTouch() {
+                if (kanTouchBrukes()) {
+                    //document.getElementById('overskrift').innerHTML = "Touch er støttet";
+                    //var brukTouch = true;
+                } else {
+                    //document.getElementById('overskrift').innerHTML = "Touch ikke støttet";
+                    //var brukTouch = false;
+                }
+            }
+        </script>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
        
