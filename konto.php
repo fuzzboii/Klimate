@@ -314,7 +314,7 @@ if(isset($_POST['slettInfo'])) {
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-    <body id="konto_body" onload="kontoRullegardin()" <?php if(isset($_GET['rediger'])) { ?> onclick="lukkMelding('mldFEIL_boks')" onresize="fiksRullegardin()"<?php } ?>>
+    <body id="konto_body" onload="kontoRullegardin()" onclick="lukkMelding('mldFEIL_boks')" <?php if(isset($_GET['rediger'])) { ?> onresize="fiksRullegardin()"<?php } ?>>
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -429,16 +429,23 @@ if(isset($_POST['slettInfo'])) {
                 <!-- Meldinger til bruker -->
                 <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                     <p id="mldOK">Konto oppdatert</p>  
+                <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 3) { ?>
+                    <section id="mldFEIL_boks">
+                        <section id="mldFEIL_innhold">
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                    <p id="mldFEIL">Du må oppgi et passord ved avregistrering.</p>
+                            <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                                <p id="mldFEIL">Du må oppgi et passord ved avregistrering.</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                    <p id="mldFEIL">Feil passord oppgitt</p> 
+                            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                                <p id="mldFEIL">Feil passord oppgitt</p> 
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                    <p id="mldFEIL">Du kan ikke avregistrere en administrator</p> 
-
+                            <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
+                                <p id="mldFEIL">Du kan ikke avregistrere en administrator</p> 
+                            <?php } ?>
+                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                            <button id="mldFEIL_knapp">Lukk</button>
+                        </section>
+                    </section>
                 <?php }
 
                 // Henter personvern
