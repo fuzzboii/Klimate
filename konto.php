@@ -314,7 +314,7 @@ if(isset($_POST['slettInfo'])) {
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-    <body id="konto_body" onload="kontoRullegardin()" <?php if(isset($_GET['rediger'])) { ?> onresize="fiksRullegardin()"<?php } ?>>
+    <body id="konto_body" onload="kontoRullegardin()" <?php if(isset($_GET['rediger'])) { ?> onclick="bekreftMelding('mldFEIL_boks')" onresize="fiksRullegardin()"<?php } ?>>
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -350,7 +350,8 @@ if(isset($_POST['slettInfo'])) {
                                 <p id="mldFEIL">Kunne ikke slette data, vennligst prøv på nytt</p>    
 
                             <?php } ?>
-                            <button onclick="bekreftMelding('mldFEIL_boks')">Lukk</button>
+                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                            <button id="mldFEIL_knapp">Lukk</button>
                         </section>
                     </section>
                 <?php } ?>
