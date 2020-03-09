@@ -9,6 +9,15 @@ if(isset($_SESSION['idbruker'])) {
     $brukertypenavn = $hentBrukertypenavnSTMT->fetch(PDO::FETCH_ASSOC);
 }
 
+// Teller på antallet uleste meldinger, vises i navmeny og ved backend
+if(isset($_SESSION['idbruker'])) {
+    $ulesteMldQ = "select count(idmelding) as antall from melding 
+                    where mottaker = " . $_SESSION['idbruker'] . "  and (lest is null or lest = 0)";
+    $ulesteMldSTMT = $db->prepare($ulesteMldQ);
+    $ulesteMldSTMT->execute();
+    $antUlest = $ulesteMldSTMT->fetch(PDO::FETCH_ASSOC); 
+}
+
 ?>
 <!-- Begynnelse på øvre navigasjonsmeny -->
         <nav class="navTop"> 
@@ -138,7 +147,7 @@ if(isset($_SESSION['idbruker'])) {
                     <!-- For alle brukere -->
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
-                    <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) {?> (<?php echo($antUlest['antall'])?>)<?php } ?></a>
+                    <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) { ?><p id="hamburger_antUlest"><?php echo($antUlest['antall']);?></p><?php } ?></a>
                     <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                     <a class = "menytab" tabIndex = "-1" href="profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>">Profil</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
@@ -154,5 +163,5 @@ if(isset($_SESSION['idbruker'])) {
         </section>
 <?php
 // Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020
-// Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020
+// Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 06.03.2020
 ?>

@@ -16,12 +16,34 @@ if (!isset($_SESSION['idbruker'])) {
 // Henter arrangementer fra database //
 //-----------------------------------//
 
-// Denne sorterer og henter ut det nyeste arrangementet
-$hentArrangement = "select * from event order by tidspunkt DESC limit 1";
-$stmtArrangement = $db->prepare($hentArrangement);
-$stmtArrangement->execute();
-$sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
+// Denne sorterer og henter ut det førstkommende arrangementet
+$hentArrangementQ = "select idevent, eventnavn from event, påmelding
+                        where event.idevent = påmelding.event_id
+                            and påmelding.bruker_id = :idbruker order by tidspunkt ASC;";
+$hentArrangementSTMT = $db->prepare($hentArrangementQ);
+$hentArrangementSTMT -> bindParam(":idbruker", $_SESSION['idbruker']);
+$hentArrangementSTMT->execute();
+$forstkommende = $hentArrangementSTMT->fetch(PDO::FETCH_ASSOC);
 
+if(isset($forstkommende['idevent'])) {
+    $visArr = true;
+} else {
+    $visArr = false;
+}
+
+// Denne sorterer og henter ut det siste kommentaren
+$hentKommenterQ = "select artikkel, ingress from kommentar 
+                    where bruker = :idbruker order by tid DESC;";
+$hentKommenterSTMT = $db->prepare($hentKommenterQ);
+$hentKommenterSTMT -> bindParam(":idbruker", $_SESSION['idbruker']);
+$hentKommenterSTMT->execute();
+$sisteKommentar = $hentKommenterSTMT->fetch(PDO::FETCH_ASSOC);
+
+if(isset($sisteKommentar['artikkel'])) {
+    $visKom = true;
+} else {
+    $visKom = false;
+}
 
 ?>
 <!DOCTYPE html>
@@ -43,8 +65,7 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
     </head>
 
 
-    <body>
-        <article class="innhold">   
+    <body id="backend_body"> 
         <?php include("inkluderes/navmeny.php") ?>
             
             <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
@@ -72,34 +93,43 @@ $sisteArrangement = $stmtArrangement->fetch(PDO::FETCH_ASSOC);
                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
                 <?php } ?>
                 <h1 class="velkomst">Velkommen <?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) { echo($_SESSION['fornavn']); } else { echo($_SESSION['brukernavn']); } ?></h1>
+                <?php if($antUlest['antall'] > 0) { ?><p><?php echo("Du har " . $antUlest['antall'] . " uleste meldinger!");?></p><?php } ?></a>
             </header>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">
-                <!-- Innholdet på siden -->
-                <!-- IDene brukes til å splitte opp kolonnene i queries -->
-                <article id="bgcont1">
-                    <h2>Siste arrangement</h2>
-                    <p><?php echo($sisteArrangement['eventnavn'])?></p>
-                    <a href="arrangement.php?arrangement=<?php echo($sisteArrangement['idevent']) ?>">Trykk her for å se dette arrangementet</a>
-                </article>
-                <article id="bgcont2">
-                    <h2>Diskusjoner</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Bruk av gressklipper, bensin eller elektrisk?</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
-                <article id="bgcont3">
-                    <h2>Artikler</h2>
-                    <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                    <p>Hundretusener demonstrerer for klima over hele verden</p>
-                    <a href="#">Trykk her for å lese videre</a>
-                </article>
+                <section id="backend_section">
+                    <!-- Innholdet på siden -->
+                    <?php if($visArr == true) { ?>
+                        <article>
+                            <h2>Førstkommende påmeldt arrangement</h2>
+                            <p><?php echo($forstkommende['eventnavn'])?></p>
+                            <a href="arrangement.php?arrangement=<?php echo($forstkommende['idevent']) ?>">Trykk her for å lese videre</a>
+                        </article>
+                    <?php } else { ?>
+                        <article>
+                            <h2>Førstkommende påmeldt arrangement</h2>
+                            <p >Du har ingen kommende arrangementer</p>
+                        </article>
+                    <?php } ?>
+                    <?php if($visKom == true) { ?>
+                        <article>
+                            <h2>Din siste kommentar</h2>
+                            <p><?php echo($sisteKommentar['ingress'])?></p>
+                            <a href="artikkel.php?artikkel=<?php echo($sisteKommentar['artikkel']) ?>">Trykk her for å lese videre</a>
+                        </article>
+                    <?php } else { ?>
+                        <article>
+                            <h2>Din siste kommentar</h2>
+                            <p>Du har ingen kommentarer</p>
+                        </article>
+                    <?php } ?>
+                </section>
             </main>
             <?php include("inkluderes/footer.php") ?>
         </article>   
     </body>
 
-    <!-- Denne siden er utviklet av Glenn Petter Pettersen, Robin Kleppang & Aron Snekkestad, siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Robin Kleppang siste gang 07.02.2020 -->
+    <!-- Denne siden er utviklet av Glenn Petter Pettersen, Robin Kleppang & Aron Snekkestad, siste gang endret 04.03.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad siste gang 06.03.2020 -->
 
 </html>

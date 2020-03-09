@@ -10,6 +10,7 @@ include("inkluderes/innstillinger.php");
 // Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
 header("Cache-Control: no cache");
 
+
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
 $input_tittel = "";
 $input_innhold = "";
@@ -127,7 +128,6 @@ if (isset($_POST['publiserArrangement'])) {
 }
 
 if(isset($_POST['inviterTil'])) {
-    var_dump($_POST);
     if($_POST['inviterTil'] == $_GET['arrangement']) {
         // Henter eventinfo
         $hentInfoQ = "select eventnavn from event where idevent = " . $_GET['arrangement'];
@@ -319,7 +319,7 @@ $tabindex = 8;
        
             <?php if(isset($_GET['arrangement'])){
                 // Henter arrangementet bruker ønsker å se
-                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
                 $stmt = $db->prepare($hent);
                 $stmt->execute();
                 $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -427,13 +427,62 @@ $tabindex = 8;
                                     <?php } ?>
                                 <?php } else { ?>
                                     <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                                <?php } ?>
-                                
-                                <?php 
+                                <?php }
+
                                 $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] ;
                                 $interesserteSTMT = $db->prepare($interesserte);
                                 $interesserteSTMT->execute();
                                 $antallInteresserte = $interesserteSTMT->rowCount();
+                                
+                                
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn, visepost from preferanse where bruker = " . $arrangement['idbruker'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                // Tar utgangspunkt i at det ikke kan vises
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
+
+                                // Sjekker om svar fra DB ikke er false og bruker har valgt å vise fornavn
+                                if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
+                                }
+
+                                // Sjekker om svar fra DB ikke er false og bruker har valgt å vise etternavn
+                                if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
+                                }
+                                
+                                // Sjekker om svar fra DB ikke er false og bruker har valgt å vise epost
+                                if(isset($personvernSender['visepost']) && $personvernSender['visepost'] == "1") {
+                                    $kanViseEpost = true;
+                                }
+                                
+                                // Tester på om vi kan vise fulle navnet, bare fornavn, bare etternavn eller kun brukernavn
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $arrangement['fnavn']) == 1) {
+                                        $navn = $arrangement['fnavn'];  
+                                    } else {
+                                        $navn = $arrangement['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $arrangement['enavn']) == 1) {
+                                        $navn = $arrangement['enavn'];  
+                                    } else {
+                                        $navn = $arrangement['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $arrangement['enavn']) == 1) {
+                                        $navn = $arrangement['fnavn'] . " " . $arrangement['enavn'];  
+                                    } else {
+                                        $navn = $arrangement['brukernavn'];
+                                    }
+                                } else {
+                                    $navn = $arrangement['brukernavn'];
+                                }
+                                
                                 ?>
 
                                 <form method="POST" id="arrangement_invitert" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
@@ -513,15 +562,11 @@ $tabindex = 8;
                             <h2>Beskrivelse</h2>
                             <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
                             <h2>Arrangør</h2>
-                            <?php 
-                            // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                            if (preg_match("/\S/", $arrangement['enavn']) == 0) { ?>
-                                <p id="arrangement_navn"><?php echo($arrangement['brukernavn'])?></p>
-                            <?php } else { ?>
-                                <p id="arrangement_navn"><?php if(preg_match("/\S/", $arrangement['fnavn']) == 1) {echo($arrangement['fnavn'] . " "); echo($arrangement['enavn']);  } ?></p>
+                            <p id="arrangement_navn"><?php echo($navn); ?></p>
+                            <?php if(isset($kanViseEpost) && $kanViseEpost == true) { ?>
+                                <h2>Kontakt</h2>
+                                <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>   
                             <?php } ?>
-                            <h2>Kontakt</h2>
-                            <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>
                         </section>
 
                         <section class="arg_tilbInv_knapp">
@@ -633,7 +678,7 @@ $tabindex = 8;
            <?php } else {
 
                 // Del for å vise alle arrangement 
-                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
+                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
             
                 $stmtArr = $db->prepare($hentAlleArr);
                 $stmtArr->execute();
@@ -663,6 +708,49 @@ $tabindex = 8;
                     
                 <?php if ($resAntall > 0 ) { ?>
                     <?php for ($j = 0; $j < count($resArr); $j++) {
+                        // Henter personvern
+                        $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArr[$j]['idbruker'];
+                        $personvernSTMT = $db->prepare($personvernQ);
+                        $personvernSTMT->execute();
+                        $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+        
+                        // Tar utgangspunkt i at det ikke kan vises
+                        $kanViseFornavn = false;
+                        $kanViseEtternavn = false;
+        
+                        // Sjekker om svar fra DB ikke er false og bruker har valgt å vise fornavn
+                        if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
+                            $kanViseFornavn = true;
+                        }
+        
+                        // Sjekker om svar fra DB ikke er false og bruker har valgt å vise etternavn
+                        if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
+                            $kanViseEtternavn = true;
+                        }
+                        
+                        // Tester på om vi kan vise fulle navnet, bare fornavn, bare etternavn eller kun brukernavn
+                        if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                            if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {
+                                $navn = $resArr[$j]['fnavn'];  
+                            } else {
+                                $navn = $resArr[$j]['brukernavn'];
+                            }
+                        } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                            if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                $navn = $resArr[$j]['enavn'];  
+                            } else {
+                                $navn = $resArr[$j]['brukernavn'];
+                            }
+                        } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                            if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                $navn = $resArr[$j]['fnavn'] . " " . $resArr[$j]['enavn'];  
+                            } else {
+                                $navn = $resArr[$j]['brukernavn'];
+                            }
+                        } else {
+                            $navn = $resArr[$j]['brukernavn'];
+                        }
+
                         // Hvis rest av $j delt på 8 er 0, start section (Ny side)
                         if ($j % 8 == 0) { ?>
                             <section class="arrangement_hovedsection">
@@ -706,13 +794,7 @@ $tabindex = 8;
                             <p class="arrangement_fylke"><?php echo($resArr[$j]['fylkenavn'])?></p>
                             <img class="arrangement_rFloatBilde" src="bilder/stedIkon.png">
                             <img class="arrangement_navn" src="bilder/brukerIkonS.png">
-                            <?php 
-                            // Hvis bruker ikke har etternavn (Eller har oppgitt et mellomrom eller lignende som navn) hvis brukernavn
-                            if (preg_match("/\S/", $resArr[$j]['enavn']) == 0) { ?>
-                                <p class="arrangement_navn"><?php echo($resArr[$j]['brukernavn'])?></p>
-                            <?php } else { ?>
-                                <p class="arrangement_navn"><?php echo($resArr[$j]['enavn']) ?></p>
-                            <?php } ?>
+                            <p class="arrangement_navn"><?php echo($navn); ?></p>
                             <h2><?php echo($resArr[$j]['eventnavn'])?></h2>
                         </section>
                         
@@ -741,7 +823,7 @@ $tabindex = 8;
         <?php include("inkluderes/footer.php") ?>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Ajdin Bajrovic, siste gang 07.02.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic siste gang endret 06.03.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
 
 </html>

@@ -74,15 +74,6 @@ $_SESSION['siste_aktivitet'] = time(); // Oppdater session timeout
 if(!isset($_GET['systemerror'])) {
     try {
         $db = new mysqlPDO();
-
-        // Midlertidig del for å telle på uleste meldinger
-        if(isset($_SESSION['idbruker'])) {
-            $ulesteMldQ = "select count(idmelding) as antall from melding 
-                            where mottaker = " . $_SESSION['idbruker'] . "  and (lest is null or lest = 0)";
-            $ulesteMldSTMT = $db->prepare($ulesteMldQ);
-            $ulesteMldSTMT->execute();
-            $antUlest = $ulesteMldSTMT->fetch(PDO::FETCH_ASSOC); 
-        }
     } 
     catch (Exception $ex) {
         // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.

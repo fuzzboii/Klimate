@@ -151,18 +151,18 @@ if (isset($_POST['slettDenne'])) {
     }
 }
 
-$input_innhold = "";
-if (isset($_SESSION['input_innhold'])) {
+$input_kommentar = "";
+if (isset($_SESSION['input_kommentar'])) {
     // Legger innhold i variable som leses senere på siden
-    $input_innhold = $_SESSION['input_innhold'];
+    $input_kommentar = $_SESSION['input_kommentar'];
     // Sletter innholdet så dette ikke eksisterer utenfor denne siden
-    unset($_SESSION['input_innhold']);
+    unset($_SESSION['input_kommentar']);
 }
 
 // Del for å legge til en ny kommentar
 if(isset($_POST['sendKommentar'])) {
 
-    $_SESSION['input_innhold'] = $_POST['tekst'];
+    $_SESSION['input_kommentar'] = $_POST['tekst'];
 
     $ingress = "";
     $tekst = "";
@@ -190,7 +190,7 @@ if(isset($_POST['sendKommentar'])) {
         $nyKommentarSTMT->execute();
         $sendt = $nyKommentarSTMT->rowCount();
 
-        unset($_SESSION['input_innhold']);
+        unset($_SESSION['input_kommentar']);
         
         header("Location: artikkel.php?artikkel=" . $_GET['artikkel']);
     }
@@ -377,7 +377,7 @@ $tabindex = 8;
                                 <section id="artikkel_kommentarSeksjon">
                                     <!-- input kommentering felt -->
                                     <form method="POST" id="kommentar_form" action="artikkel.php?artikkel=<?php echo($_GET['artikkel']) ?>">
-                                        <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required><?php echo($input_innhold) ?></textarea>
+                                        <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required><?php echo($input_kommentar) ?></textarea>
                                         <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
                                     </form>
                                     
@@ -692,7 +692,7 @@ $tabindex = 8;
         <?php include("inkluderes/footer.php") ?>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Aron Snekkestad, Ajdin Bajrovic siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 07.02.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad siste gang endret 06.03.2020 -->
+    <!-- Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020 -->
 
 </html>

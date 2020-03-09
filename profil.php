@@ -435,7 +435,7 @@ $tabindex = 10;
                     <!-- Del for visning av personalia -->
                     <section class="skjul_grid">
                         <?php if($egen) { ?>
-                        <h2>Vis eller skjul personalia</h2>
+                        <h2>Personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
                             <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
@@ -512,7 +512,7 @@ $tabindex = 10;
 
                     <!-- Oppdater-knapp -->
                     <?php if($egen) { ?>
-                        <button class="rediger_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
+                        <button class="oppdater_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
                     <?php } ?>
 
                     <section class="int2_grid">
@@ -725,7 +725,7 @@ $tabindex = 10;
         </article>
     </body>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 07.02.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 07.02.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 06.03.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
 
 </html>

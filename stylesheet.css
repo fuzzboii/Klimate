@@ -345,6 +345,14 @@ footer a {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
+
+#default_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 #default_beskrivelse {
   text-align: center; /*Sentrerer beskrivelsen i default */
   margin-left: 1.5em;
@@ -359,16 +367,8 @@ footer a {
   margin-left: auto; /* Brukes for å plassere logoen sentrert */
   margin-right: auto;
 }
-#artikkel1, #artikkel2, #artikkel3, #artikkel4 {
-  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
-  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder tittel-containeren */
-  
-}
 
 #default_main {
-  display: grid;
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -377,7 +377,18 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-#default_main article h2 {
+#default_section {
+  display: grid;
+}
+
+#default_section article {
+  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
+  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
+  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder tittel-containeren */
+}
+
+#default_section article h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   margin-top: 0;
   padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
@@ -392,7 +403,7 @@ footer a {
 }
 
 
-#default_main article p, #default_main article a {
+#default_section article p, #default_section article a {
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
   padding-left: 1.5em; /* Padding for å få plass på hver side */
   padding-right: 1.5em;
@@ -557,7 +568,7 @@ footer a {
 }
 
 .BildeBoks_artikkel {
-  height: 8em;
+  height: 11em;
   object-fit: cover;
   box-shadow: 0 0 0.1em 0.01em black;
 }
@@ -699,6 +710,13 @@ footer a {
 /*-----------------------------------------------------------------------------*/
 /* Style for BACKEND/Innloggede brukere */
 
+#backend_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .profil_backend {
   width: 7em; /* Bestemmer størrelse på profilbilde */
   height: 7em; /* Bestemmer størrelse på profilbilde */
@@ -717,15 +735,7 @@ footer a {
   text-align: center;
 }
 
-#bgcont1, #bgcont2, #bgcont3 {
-  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
-  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-}
-
 #backend_main {
-  display: grid;
   margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -734,7 +744,18 @@ footer a {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-#backend_main article h2 {
+#backend_section {
+  display: grid;
+}
+
+#backend_section article {
+  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
+  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
+  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+}
+
+#backend_section article h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   margin-top: 0;
   padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
@@ -749,13 +770,18 @@ footer a {
 }
 
 
-#backend_main article p, #backend_main article a {
+#backend_section article p, #backend_section article a{
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
-  padding-left: 1.5em; /* Padding for å få plass på hver side */
-  padding-right: 1.5em;
+  margin-left: 1.5em; /* Padding for å få plass på hver side */
+  margin-right: 1.5em;
+  word-break: break-all;
 
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+}
+
+#backend_section article a {
+  max-width: 1em;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -819,6 +845,7 @@ td, th  {
 }
 
 #konto_bekreftAvrInnhold {
+  position: relative;
   text-align: center;
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   border: 2px solid red;
@@ -828,6 +855,8 @@ td, th  {
   margin-left: 5%; margin-right: 5%;
   transition: margin 0.3s;
   min-height: 20em;
+  animation-name: anim_fratopp;
+  animation-duration: 0.4s
 }
 
 #konto_bekreftAvrInnhold h2 {
@@ -1008,6 +1037,13 @@ table {
   position: relative;
 }
 
+#glemtpassord_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for TILBAKE TIL TOPPEN */
 
@@ -1067,7 +1103,17 @@ table {
   font-weight: normal;
   font-family: Helvetica, Arial, sans-serif; /* Font familie */
 }
-
+#hamburger_antUlest {
+  margin-left: 0.3em;
+  padding-left: 0.6em; padding-right: 0.6em;
+  font-size: 0.8em;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  display: inline;
+  background-color: rgb(255, 100, 100);
+  color: white;
+  border-radius: 1em 1em 1em 1em;
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for SØK */
@@ -1591,7 +1637,7 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge på knapp */
   color: white; /* tekstfarge */
   padding: 1em; /* hvor mye luft rundt teksten det skal være */
-  margin: 0; margin-bottom: 1em;
+  margin: 0;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
@@ -1615,7 +1661,6 @@ table {
 }
 
 #arrangement_slettKnapp {
-  margin-left: auto;
   color: white;
   background-color: red;
   padding: 1em; /* hvor mye luft rundt teksten det skal være */
@@ -1625,6 +1670,8 @@ table {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
   width: 14em;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -1858,6 +1905,12 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
+.int2_grid {
+  background-color: #E6E6E6;
+  border-radius: 1em;
+  border: solid 1em #E6E6E6;
+ }
+
 .profil_pb {
   background-color: rgb(200,218,211);
   padding-top: 1em;
@@ -1918,10 +1971,9 @@ table {
   margin-left: 0.3em; margin-right: 0.3em;
 }
 .profil_persInf {
- display: grid;
- grid-template-columns: 8.5em 10em;
+  margin-left: 0.5em;
  font-size: 0.83em;
- overflow: auto;
+ word-break: break-word; 
 }
 
 .brukerBeskrivelse p{
@@ -1930,9 +1982,13 @@ table {
 }
 
 .profil_persInf p{
-  margin: 0.8em 0em 0em 0.5em;
-
+  margin: 0.8em 0em 0em 0em; 
 }
+
+#profilForm {
+  width: 20em;
+}
+
 .profil_bilde {
   width: 10em;
   height: 10em;
@@ -1944,7 +2000,8 @@ table {
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 1em; margin-left: auto; margin-right: auto;
+  margin-top: 1em; 
+  margin-left: auto; margin-right: auto;
   margin-bottom: 1em;
   font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
@@ -1957,6 +2014,25 @@ table {
   min-height: 4em;
  
 }
+
+.oppdater_profil_knapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  text-align: center;
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 0.83em; /* Font-størrelse */
+  display: block;
+  max-height: 4em;
+  min-height: 4em;
+ 
+}
+
 /* .interesserTags {} */
 
 .interesserTags .proInt {
@@ -2070,20 +2146,21 @@ table {
 }
 
 .profil_main {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  display: grid;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
   border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+  display: grid;
 }
 
 .profil_main2 {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  display: grid;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   margin-bottom: 1.5em;
   padding-top: 4em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
@@ -2097,9 +2174,7 @@ table {
   margin-left: 0em; margin-bottom: 0.2em;
 }
 .profil_beskrivelse textarea{
-  width: 97%;
-  padding-top: 4em;
-  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  width: 98%;
   padding-bottom: 21em;
   border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
@@ -2117,6 +2192,7 @@ table {
   width: 7em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.83em; /* Font-størrelse */
+  margin-top: 1em;
 }
 
 #profilTilbakeKnapp:hover {
@@ -2678,7 +2754,7 @@ input:checked + .slider:before {
 
 /* Tab */
 @media screen and (min-width: 720px) {
-  #default_main {
+  #default_section {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -2691,11 +2767,8 @@ input:checked + .slider:before {
     column-count: 2;
   }
 
-  #backend_main {
+  #backend_section {
     grid-template-columns: 1fr 1fr;
-  }
-  #bgcont3 {
-    break-before: column;
   }
 
   .hamburgerMeny {
@@ -2703,6 +2776,7 @@ input:checked + .slider:before {
     left: 60%;
     max-height: 80%;
   }
+
   #mldFEIL {
     font-size: 1.1em;
     color: red;
@@ -2786,6 +2860,10 @@ input:checked + .slider:before {
   .brukerinformasjon_rediger .lenke_knapp {
     grid-column: 1/span 2;
   }
+  #profilForm {
+    margin-left: auto;
+  }
+  
 
   /* Grid for arrangement */
   .arrangement_hovedsection {
@@ -2804,6 +2882,10 @@ input:checked + .slider:before {
     margin-top: 5em; margin-bottom: 15em;
     margin-left: 10em; margin-right: 10em;
     transition: margin 0.3s;
+  }
+  #arrangement_slettKnapp {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   /* Del for meldinger */
@@ -2878,82 +2960,86 @@ input:checked + .slider:before {
     transition: margin 0.3s;
   }
 
-}
 
-/* Laptop / Liten skjerm,, 720p */
-@media only screen and (min-width: 1280px) {
+  .profil_main {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
   .profil_pb {
-    grid-area: profilbilde;
+    grid-column: 1/span 3;
+
   }
   .ovs_grid {
-    grid-area: oversikt;
+    grid-column: 1;
+    grid-row: 2;
   }
   
   .brukerBeskrivelse {
-    grid-area: beskrivelse;
+    grid-column: 2;
+    grid-row: 2;
+    word-break: break-word;
   }
   
   .int_grid {
-   grid-area: interesser;
+   grid-column: 3;
+   grid-row: 2;
   }
   
   .knapp_grid {
-    grid-area: knapp;
-  }
-  
-  .profil_main {
-    display: grid;
-    grid-template-columns: auto 30em auto;
-    grid-template-rows: auto auto auto;
-    grid-template-areas: 
-    "profilbilde profilbilde profilbilde"
-    "oversikt beskrivelse interesser"
-    "knapp knapp knapp";
-  }
-
-  .bilde_grid {
-    grid-area: endrebilde;
-    
-  }
-  .skjul_grid {
-    grid-area: skjulinfo;
-    margin-left: 2em;
-    
-  }
-  
-  .bsk_grid {
-    grid-area: beskriv;
-  }
-  
-  .int2_grid {
-   grid-area: interesseTag;
-   background-color: #E6E6E6;
-   border-radius: 1em;
-  }
-
-  .int_input_grid {
-    grid-area: interesseInput;
-  }
-  
-  .knapp2_grid {
-    grid-area: tilbake;
-    margin-top: 2em;
-  }
-
-  .rediger_profil_knapp {
-    margin-right: 1em;
-    grid-area: oppdater;
+    grid-column: 1/span 3;
+    grid-row: 3;
   }
 
   .profil_main2 {
-    margin-top: -2em;
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-template-areas: 
-    "endrebilde beskriv skjulinfo"
-    "oppdater oppdater oppdater"
-    "interesseTag interesseTag interesseTag"
-    "tilbake tilbake tilbake";
+    grid-template-columns: 1fr 4.8fr 1fr;
+  }
+
+  .bilde_grid {
+    grid-column: 1;
+    margin-right: 1.45em;
+  }
+  
+  .bsk_grid {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .skjul_grid {
+    grid-column: 3;
+  }
+
+  .oppdater_profil_knapp {
+    grid-column: 3;
+    grid-row: 2; 
+    margin-left: auto;
+  }
+
+  .rediger_profil_knapp {
+    grid-column: 1/span 3;
+    grid-row: 2;
+  }
+  
+  .int2_grid {
+   grid-column: 1/span 3;
+   grid-row: 3;
+  }
+
+  .knapp2_grid {
+    grid-column: 1/span 3;
+    grid-row: 4;
+  }
+
+  #arrangement_slettKnapp {
+    margin-left: auto;
+  }
+}
+/* Laptop / Liten skjerm,, 720p */
+@media only screen and (min-width: 1280px) {
+  .knapp2_grid {
+    margin-top: 2em;
+  }
+  .oppdater_profil_knapp {
+    margin-right: 1em;
   }
 
   /* Når musen er over Logginn/registrer/loggut, vis pointer-mus */
@@ -3036,7 +3122,7 @@ input:checked + .slider:before {
 
   /* Hover ved hamburger meny */
   .hamburgerInnhold a:hover {
-    background-color: #f1f1f169 /* Setter fargen når man holder over menyvalget */
+    background-color: #f1f1f169; /* Setter fargen når man holder over menyvalget */
   }
 
   .hamburgerMeny {
@@ -3085,7 +3171,7 @@ input:checked + .slider:before {
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
     transition: box-shadow 0.1s;
   }
-  #sok_nesteKnapp:focus, #sok_tilbKnapp:focus, #arrangement_nesteKnapp:focus, #arrangement_tilbKnapp:focus, #artikkel_nesteKnapp:focus, #artikkel_tilbKnapp:focus, .rediger_profil_knapp:focus {
+  #sok_nesteKnapp:focus, #sok_tilbKnapp:focus, #arrangement_nesteKnapp:focus, #arrangement_tilbKnapp:focus, #artikkel_nesteKnapp:focus, #artikkel_tilbKnapp:focus, .rediger_profil_knapp:focus, .oppdater_profil_knapp:focus {
     outline: 0;
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
     box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126); /* Skygge */
@@ -3156,15 +3242,6 @@ input:checked + .slider:before {
   .arrangement_BildeBoks {
     height: 12em;
   }
-  #default_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
-
-  #backend_main {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
 
   #konto_main {
     margin-left: 10em;
@@ -3175,12 +3252,7 @@ input:checked + .slider:before {
     margin-left: 10em;
     margin-right: 10em;
   }
-
-  #arrangement_main {
-    margin-left: 10em;
-    margin-right: 10em;
-    
-  }
+  
   .arrangement_paameld2 {
     margin-left: 58%;
   }
@@ -3190,16 +3262,7 @@ input:checked + .slider:before {
     
   }
 
-  #artikkel_main { 
-    margin-left: 10em; 
-    margin-right: 10em;
-  }
-
   /* Styling for ny artikkel og nytt arrangement */
-  #artikkel_mainNy, #arrangement_mainNy {
-    margin-left: 10em;
-    margin-right: 10em;
-  }
 
   #arrangement_nesteKnapp:hover, #arrangement_tilbKnapp:hover {
     background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
@@ -3317,6 +3380,10 @@ input:checked + .slider:before {
   }
  
   /* Styling for profil */
+  .brukerBeskrivelse {
+    word-break: break-word;
+  }
+ 
   .interesserTags p:hover {
     cursor: pointer;
     border-color: rgba(36, 209, 100, 0.637);
@@ -3357,12 +3424,18 @@ input:checked + .slider:before {
     transition: background-color 0.2s;
   }
 
-  .rediger_profil_knapp {
+  .oppdater_profil_knapp:hover {
+    cursor: pointer;
+    background-color: rgba(36, 209, 100, 0.637); /* Skygge */
+    transition: background-color 0.2s;
+  }
+
+  .oppdater_profil_knapp {
     width: 20em;
   }
 
-  .profil_persInf {
-    font-size: 1em;
+  .rediger_profil_knapp {
+    width: 20em;
   }
 
   /* Del for meldinger */
@@ -3424,24 +3497,22 @@ input:checked + .slider:before {
     border-radius: 1em;
     padding: 0;
   }
+
 }
 
 /* Medium skjerm, 1080p */
 @media screen and (min-width: 1920px) {
   #default_main {
-    grid-template-columns: 1fr 1fr 1fr
+    width: 115em;
+    margin-left: auto; margin-right: auto;
   }
-
-  #soknad_main {
-    column-count: 2;
+  #default_section {
+    grid-template-columns: 1fr 1fr 1fr;
   }
   
   #backend_main {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  #bgcont2 {
-    break-before: column;
+    width: 115em;
+    margin-left: auto; margin-right: auto;
   }
 
   #mldFEIL {
@@ -3484,19 +3555,19 @@ input:checked + .slider:before {
     height: 13em;
   }
   #arrangement_main {
-    max-width: 100em;
+    max-width: 116em;
     margin-left: auto; 
     margin-right: auto;
   }
 
   #artikkel_main {
-    width: 99em;
+    width: 116em;
     margin-left: auto; 
     margin-right: auto;
   }
 
   #artikkel_mainNy, #arrangement_mainNy {
-    width: 100em;
+    width: 116em;
     margin-left: auto; 
     margin-right: auto;
   }
@@ -3506,17 +3577,17 @@ input:checked + .slider:before {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 
+  /* Queries for profil */
+  .profil_main, .profil_main2 {
+    width: 116em;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
 }
 
 /* Stor skjerm, 1440p */
 @media screen and (min-width: 2560px) {
-  #default_main {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-
-  #soknad_main {
-    column-count: 2;
-  }
 
   #artikkel_main {
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -3545,21 +3616,21 @@ input:checked + .slider:before {
     width: 5em;
   }
 
-  #backend_main article h2 {
+  #backend_section article h2 {
     text-align: left;
     font-size: 1em;
   }
 
-  #backend_main article p {
+  #backend_section article p {
     font-size: 1em;
   }
 
-  #default_main article h2{
+  #default_section article h2{
     text-align: left;
     font-size: 1em;
   }
 
-  #default_main article p {
+  #default_section article p {
     font-size: 1em;
   }
 
@@ -3579,7 +3650,7 @@ input:checked + .slider:before {
     content: " (" attr(onclick) ") ";
   }
 
-  .rediger_profil_knapp, .rediger_konto_knapp {
+  .rediger_profil_knapp, .oppdater_profil_knapp, .rediger_konto_knapp {
     display: none;
   }
 
@@ -3615,8 +3686,16 @@ input:checked + .slider:before {
 
 }
 
+/* Animasjoner */
+
+/* For å gå fra toppen av siden */
+@keyframes anim_fratopp {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
 
 
 
-/* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 07.02.2020 */
-/* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 07.02.2020 */
+
+/* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 06.03.2020 */
+/* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 06.03.2020 */
