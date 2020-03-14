@@ -136,56 +136,54 @@ if (isset($_POST['submit'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body onclick="lukkMelding('mldFEIL_boks')">
-        <article class="innhold">
-            <?php include("inkluderes/navmeny.php") ?>
-            
-            <main id="toppMain" onclick="lukkHamburgerMeny()">
-                <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-                <form method="POST" action="logginn.php" class="innloggForm">
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required autofocus>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
-                    </section>
-                    <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
-                    <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 3) { ?>
-                        <section id="mldFEIL_boks">
-                            <section id="mldFEIL_innhold">
-                                <!-- Meldinger til bruker -->
-                                <?php if($_GET['error'] == 1){ ?>
-                                    <p id="mldFEIL">Sjekk brukernavn og passord</p>    
+    <body id="logginn_body" onclick="lukkMelding('mldFEIL_boks')">
+        <?php include("inkluderes/navmeny.php") ?>
+        
+        <main id="toppMain" onclick="lukkHamburgerMeny()">
+            <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
+            <form method="POST" action="logginn.php" class="innloggForm">
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                    <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required autofocus>
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
+                </section>
+                <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+                <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 3) { ?>
+                    <section id="mldFEIL_boks">
+                        <section id="mldFEIL_innhold">
+                            <!-- Meldinger til bruker -->
+                            <?php if($_GET['error'] == 1){ ?>
+                                <p id="mldFEIL">Sjekk brukernavn og passord</p>    
+                            
+                            <?php } else if($_GET['error'] == 2){ ?>
+                                <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
                                 
-                                <?php } else if($_GET['error'] == 2){ ?>
-                                    <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
-                                    
-                                <?php } else if($_GET['error'] == 3){ ?>
-                                    <p id="mldFEIL">Kunne ikke registrere bruker, vennligst kontakt administrator om dette problemet fortsetter</p>
-                                <?php } ?>
-                                <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                                <button id="mldFEIL_knapp">Lukk</button>
-                            </section>
+                            <?php } else if($_GET['error'] == 3){ ?>
+                                <p id="mldFEIL">Kunne ikke registrere bruker, vennligst kontakt administrator om dette problemet fortsetter</p>
+                            <?php } ?>
+                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                            <button id="mldFEIL_knapp">Lukk</button>
                         </section>
-                    <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
-                        <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
-                    
-                    <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 2){ ?>
-                        <p id="mldOK">Passord endret</p>
-                    <?php } ?>
+                    </section>
+                <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
+                    <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
+                
+                <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 2){ ?>
+                    <p id="mldOK">Passord endret</p>
+                <?php } ?>
 
-                    <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
-                </form>
+                <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
+            </form>
 
-                <!-- Sender brukeren tilbake til forsiden -->
-                <button onClick="location.href='glemt_passord.php'" class="lenke_knapp">Glemt passord?</button>
-                <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
+            <!-- Sender brukeren tilbake til forsiden -->
+            <button onClick="location.href='glemt_passord.php'" class="lenke_knapp">Glemt passord?</button>
+            <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
 
-            </main>
-            <?php include("inkluderes/footer.php") ?>
-        </article>
+        </main>
+        <?php include("inkluderes/footer.php") ?>
     </body>
 
     <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 21.02.2020 -->

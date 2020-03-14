@@ -561,7 +561,7 @@ $tabindex = 8;
                                 </form>
 
 
-                                <?php if (isset($_GET['error']) && $_GET['error'] = 1) { ?>
+                                <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
                                     <section id="mldFEIL_boks">
                                         <section id="mldFEIL_innhold">
                                             <?php if($_GET['error'] == 1) { ?>
