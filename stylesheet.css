@@ -368,14 +368,20 @@ footer a {
   flex-direction: column;
   align-items: stretch;
 }
+
 #admin_header {
-  padding-top: 6em;
-  padding-bottom: 1em;
+  margin-top: 5em;
+  margin-bottom: 1em;
   text-align: center;
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
-#admin_main {
+#admin_header h1, #admin_header img {
+  display: inline;
+}
+
+#admin_main h2 {
+  text-align: center;
 }
 
 #admin_overskrift {
@@ -396,12 +402,13 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
-#admin_menyikon {
-  height: 2em;
-}
-
 #admin_hovedmeny {
   min-width: 320px;
+}
+
+#admin_hovedmeny_ikon {
+  height: 1.5em;
+  margin-left: 0.4em;
 }
 
 #admin_hovedmeny button {

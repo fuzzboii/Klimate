@@ -755,8 +755,10 @@ function admHovedmeny() {
 
   if(meny.style.display == "none") {
     meny.style.display = "inline";
+    document.getElementById("admin_hovedmeny_ikon").src = "bilder/menyAIkon.png";
   } else {
     meny.style.display = "none";
+    document.getElementById("admin_hovedmeny_ikon").src = "bilder/menyIkon.png";
   }
 }
 
@@ -765,8 +767,10 @@ function admMeny() {
 
   if(meny.style.display == "none") {
     meny.style.display = "inline";
+    meny.previousElementSibling.style.backgroundImage = "url('bilder/pilOIkon.png')";
   } else {
     meny.style.display = "none";
+    meny.previousElementSibling.style.backgroundImage = "url('bilder/pilNIkon.png')";
   }
 }
 
@@ -775,8 +779,10 @@ function rapMeny() {
 
   if(meny.style.display == "none") {
     meny.style.display = "inline";
+    meny.previousElementSibling.style.backgroundImage = "url('bilder/pilOIkon.png')";
   } else {
     meny.style.display = "none";
+    meny.previousElementSibling.style.backgroundImage = "url('bilder/pilNIkon.png')";
   }
 }
 

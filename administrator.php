@@ -164,6 +164,7 @@ if (isset($_POST['subRegistrering'])) {
         <header id="admin_header" onclick="lukkHamburgerMeny()">
             <!-- Overskrift på siden -->
             <h1 id="admin_overskrift">Adminpanel</h1>
+            <img id="admin_hovedmeny_ikon" src="bilder/menyIkon.png" onclick="admHovedmeny()">
         </header>
         <main id="admin_main" onclick="lukkHamburgerMeny()">
 
@@ -173,7 +174,6 @@ if (isset($_POST['subRegistrering'])) {
             <form method="POST" id="rapport_form" action="rapport.php">
             </form>
 
-            <img src="bilder/menyIkon.png" onclick="admHovedmeny()" id="admin_menyikon">
             <section id="admin_hovedmeny" style="display: none;">
                 <button name="oversikt" form="admin_form">Oversikt</button>
                 <button id="admin_adm_ikon" onclick="admMeny()">Administrering</button>
@@ -202,11 +202,11 @@ if (isset($_POST['subRegistrering'])) {
             <?php } else if(isset($_POST['nybruker'])) { 
                 // Ny bruker (Evt endring?)
             ?>
-                <p>Ny bruker</p>
+                <h2>Ny bruker</h2>
             <?php } else { 
                 // Selve oversikten, default view
             ?>
-                <p>Oversikten</p>
+                <h2>Oversikten</h2>
             <?php } ?>
 
             <!-- Sender brukeren tilbake til forsiden -->
