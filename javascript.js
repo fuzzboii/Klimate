@@ -163,10 +163,13 @@ function bekreftMelding(element) {
 function lukkMelding(element) {
   var knapp = document.getElementById(element);
 
-  knapp.style.display = 'none';
-  
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
+  if (knapp != null) {
+
+    knapp.style.display = 'none';
+    
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -787,7 +790,6 @@ function rapMeny() {
 }
 
 function aapneAdmin(valgtDel) {
-  //document.getElementById("meldinger_innboks_valgt").value = valgtSamtale;
   document.getElementById(valgtDel).submit();
 }
 
