@@ -564,7 +564,7 @@ $tabindex = 8;
                                 <?php if (isset($_GET['error']) && $_GET['error'] = 1) { ?>
                                     <section id="mldFEIL_boks">
                                         <section id="mldFEIL_innhold">
-                                            <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                                            <?php if($_GET['error'] == 1) { ?>
                                                 <p id="mldFEIL">Kunne ikke sende melding</p>
                                             <?php } ?>
                                             <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->

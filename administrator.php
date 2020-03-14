@@ -195,25 +195,25 @@ if (isset($_POST['subRegistrering'])) {
                     <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 7) { ?>
                         <section id="mldFEIL_boks">
                             <section id="mldFEIL_innhold">
-                                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                                <?php if($_GET['error'] == 1){ ?>
                                     <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
 
-                                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
+                                <?php } else if($_GET['error'] == 2) { ?>
                                     <p id="mldFEIL">Passordene er ikke like</p>
 
-                                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
+                                <?php } else if($_GET['error'] == 3) { ?>
                                     <p id="mldFEIL">Skriv inn ett passord</p>
 
-                                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
+                                <?php } else if($_GET['error'] == 4) { ?>
                                     <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-                                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
+                                <?php } else if($_GET['error'] == 5) { ?>
                                     <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
 
-                                <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
+                                <?php } else if($_GET['error'] == 6) { ?>
                                     <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
 
-                                <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
+                                <?php } else if($_GET['error'] == 7) { ?>
                                     <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
                                 <?php } ?>
                                 <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
