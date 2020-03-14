@@ -233,18 +233,27 @@ if (isset($_POST['subRegistrering'])) {
             <?php } else { 
                 // Selve oversikten, default view ?>
                 <h2 id="admin_underskrift">Oversikten</h2>
-                <section id="admin_advarsler">
-                    <p id="admin_advarsler_tittel">Advarsler</p>
-                    <p id="admin_advarsler_antall">Ant</p>
-                </section>
-                <section id="admin_misbruk">
-                    <p id="admin_misbruk_tittel">Misbruk</p>
-                    <p id="admin_misbruk_antall">Ant</p>
-                </section>
-                <section id="admin_eksklusjoner">
-                    <p id="admin_eksklusjoner_tittel">Eksklusjoner</p>
-                    <p id="admin_eksklusjoner_antall">Ant</p>
-                </section>
+                <form method="POST" id="admin_form_advarsel" action="administrator.php">
+                    <input type="hidden"  name="administrering" value="Advarsler">
+                    <section onclick="aapneAdmin('admin_form_advarsel')" id="admin_advarsler">
+                        <p id="admin_advarsler_tittel">Advarsler</p>
+                        <p id="admin_advarsler_antall">Ant</p>
+                    </section>
+                </form>
+                <form method="POST" id="admin_form_misbruk" name="Misbruk" action="administrator.php">
+                    <input type="hidden"  name="administrering" value="Misbruk">
+                    <section onclick="aapneAdmin('admin_form_misbruk')" id="admin_misbruk">
+                        <p id="admin_misbruk_tittel">Misbruk</p>
+                        <p id="admin_misbruk_antall">Ant</p>
+                    </section>
+                </form>
+                <form method="POST" id="admin_form_eksklusjoner" name="Eksklusjoner" action="administrator.php">
+                    <input type="hidden"  name="administrering" value="Eksklusjoner">
+                    <section onclick="aapneAdmin('admin_form_eksklusjoner')" id="admin_eksklusjoner">
+                        <p id="admin_eksklusjoner_tittel">Eksklusjoner</p>
+                        <p id="admin_eksklusjoner_antall">Ant</p>
+                    </section>
+                </form>
                 <section id="admin_brukere">
                     <p id="admin_brukere_tittel">Antall brukere</p>
                     <?php 

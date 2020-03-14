@@ -786,6 +786,11 @@ function rapMeny() {
   }
 }
 
+function aapneAdmin(valgtDel) {
+  //document.getElementById("meldinger_innboks_valgt").value = valgtSamtale;
+  document.getElementById(valgtDel).submit();
+}
+
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
 /* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */
