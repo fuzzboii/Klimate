@@ -228,7 +228,7 @@ if (isset($_POST['subRegistrering'])) {
             <!-- Sender brukeren tilbake til forsiden -->
             <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
         </main>
-        <?php include("../inkluderes/footer.php") ?>
+        <?php include("inkluderes/footer.php") ?>
     </body>
 </html>
 
