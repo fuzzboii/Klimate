@@ -146,7 +146,7 @@ if (isset($_POST['subRegistrering'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="registrer_body">
+    <body id="registrer_body" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <main id="toppMain" onclick="lukkHamburgerMeny()">
@@ -169,29 +169,37 @@ if (isset($_POST['subRegistrering'])) {
                     <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                 </section>
                 <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+                
+                <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 7) { ?>
+                    <section id="mldFEIL_boks">
+                        <section id="mldFEIL_innhold">
+                            <!-- Håndtering av feilmeldinger -->
+                            <?php if($_GET['error'] == 1){ ?>
+                                <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
 
-                <!-- Håndtering av feilmeldinger -->
-                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                    <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
+                            <?php } else if($_GET['error'] == 2) { ?>
+                                <p id="mldFEIL">Passordene er ikke like</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-                    <p id="mldFEIL">Passordene er ikke like</p>
+                            <?php } else if($_GET['error'] == 3) { ?>
+                                <p id="mldFEIL">Skriv inn ett passord</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                    <p id="mldFEIL">Skriv inn ett passord</p>
+                            <?php } else if($_GET['error'] == 4) { ?>
+                                <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                            <?php } else if($_GET['error'] == 5) { ?>
+                                <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-                    <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
+                            <?php } else if($_GET['error'] == 6) { ?>
+                                <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
-                    <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
-                    <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
-                <?php } ?>    
+                            <?php } else if($_GET['error'] == 7) { ?>
+                                <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
+                            <?php } ?>    
+                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                            <button id="mldFEIL_knapp">Lukk</button>
+                        </section>
+                    </section>
+                <?php } ?>
 
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
             </form>
