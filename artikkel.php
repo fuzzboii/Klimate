@@ -100,9 +100,9 @@ if (isset($_POST['publiserArtikkel'])) {
 
                 header('Location: artikkel.php?artikkel=' . $artikkelid);
 
-            } else { header('Location: artikkel.php?nyartikkel=error3'); } // Innhold tomt / for langt
-        } else { header('Location: artikkel.php?nyartikkel=error2'); } // Ingress tomt / for langt
-    } else { header('Location: artikkel.php?nyartikkel=error1'); } // Tittel tomt / for langt
+            } else { header('Location: artikkel.php?nyartikkel&error=3'); } // Innhold tomt / for langt
+        } else { header('Location: artikkel.php?nyartikkel&error=2'); } // Ingress tomt / for langt
+    } else { header('Location: artikkel.php?nyartikkel&error=1'); } // Tittel tomt / for langt
 }
 
 
@@ -250,7 +250,7 @@ $tabindex = 8;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="artikkel_body" onload="visKommentar(), hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp'), artTabbing()" onresize="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">
+    <body id="artikkel_body" onclick="lukkMelding('mldFEIL_boks')" onload="visKommentar(), hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp'), artTabbing()" onresize="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -366,10 +366,18 @@ $tabindex = 8;
                                     $hentAntallKommentarerSTMT->execute();
                                     $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
                                 ?>
-                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>     
-                                    <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                                        <p id="mldFEIL">Kunne ikke sende melding</p>
-                                    <?php } ?>   
+                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>
+                                    <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                                        <section id="mldFEIL_boks">
+                                            <section id="mldFEIL_innhold">     
+                                                <?php if($_GET['error'] == 1) { ?>
+                                                    <p id="mldFEIL">Kunne ikke sende melding</p>
+                                                <?php } ?>   
+                                                <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                                                <button id="mldFEIL_knapp">Lukk</button>
+                                            </section>
+                                        </section>
+                                    <?php } ?>
                             </section>      
                             
                             <!-- Skjuler/viser kommentarer og kommenteringen -->
@@ -518,14 +526,22 @@ $tabindex = 8;
                             <h2>Bilde</h2>
                             <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
                             
-                            <?php if($_GET['nyartikkel'] == "error1"){ ?>
-                                <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
-                        
-                            <?php } else if($_GET['nyartikkel'] == "error2"){ ?>
-                                <p id="mldFEIL">Ingress for lang eller ikke oppgitt</p>
-                            
-                            <?php } else if($_GET['nyartikkel'] == "error3") { ?>
-                                <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
+                            <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 3) { ?>
+                                <section id="mldFEIL_boks">
+                                    <section id="mldFEIL_innhold">  
+                                        <?php if($_GET['error'] == 1){ ?>
+                                            <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
+                                    
+                                        <?php } else if($_GET['error'] == 2){ ?>
+                                            <p id="mldFEIL">Ingress for lang eller ikke oppgitt</p>
+                                        
+                                        <?php } else if($_GET['error'] == 3) { ?>
+                                            <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
+                                        <?php } ?>
+                                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                                        <button id="mldFEIL_knapp">Lukk</button>
+                                    </section>
+                                </section>
                             <?php } ?>
 
                             <a href="artikkel.php" id="artikkel_lenke_knapp">Tilbake til artikler</a> 
