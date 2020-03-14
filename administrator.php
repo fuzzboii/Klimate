@@ -192,7 +192,7 @@ if (isset($_POST['subRegistrering'])) {
 
                     <!-- Håndtering av feilmeldinger -->
 
-                    <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 5) { ?>
+                    <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 7) { ?>
                         <section id="mldFEIL_boks">
                             <section id="mldFEIL_innhold">
                                 <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
