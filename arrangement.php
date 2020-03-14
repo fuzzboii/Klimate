@@ -119,12 +119,12 @@ if (isset($_POST['publiserArrangement'])) {
                             unset($_SESSION['input_fylke']);
 
                             header('Location: arrangement.php?arrangement=' . $idevent);
-                        } else { header('Location: arrangement.php?nyarrangement=error6'); } // Fylke ikke oppgitt
-                    } else { header('Location: arrangement.php?nyarrangement=error5'); } // Adresse tomt / for langt
-                } else { header('Location: arrangement.php?nyarrangement=error4'); } // Dato tilbake i tid
-            } else { header('Location: arrangement.php?nyarrangement=error3'); } // Tidspunkt ikke oppgitt
-        } else { header('Location: arrangement.php?nyarrangement=error2'); } // Innholdt tomt / for langt
-    } else { header('Location: arrangement.php?nyarrangement=error1'); } // Tittel tomt / for langt
+                        } else { header('Location: arrangement.php?nyarrangement&error=6'); } // Fylke ikke oppgitt
+                    } else { header('Location: arrangement.php?nyarrangement&error=5'); } // Adresse tomt / for langt
+                } else { header('Location: arrangement.php?nyarrangement&error=4'); } // Dato tilbake i tid
+            } else { header('Location: arrangement.php?nyarrangement&error=3'); } // Tidspunkt ikke oppgitt
+        } else { header('Location: arrangement.php?nyarrangement&error=2'); } // Innholdt tomt / for langt
+    } else { header('Location: arrangement.php?nyarrangement&error=1'); } // Tittel tomt / for langt
 }
 
 if(isset($_POST['inviterTil'])) {
@@ -312,7 +312,7 @@ $tabindex = 8;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="arrangement_body" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp'), arrTabbing(), erTouch()" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
+    <body id="arrangement_body" onclick="lukkMelding('mldFEIL_boks')" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp'), arrTabbing(), erTouch()" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
         <?php include("inkluderes/navmeny.php") ?>
         <script language="JavaScript">
             // Funksjon som sjekker om brukeren har en touch-støttet enhet
@@ -560,8 +560,17 @@ $tabindex = 8;
                                     <input type="submit" class="arrangement_paameld" name="paameldteBrukere"  value="Se påmeldte brukere">
                                 </form>
 
-                                <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                                    <p id="mldFEIL">Kunne ikke sende melding</p>
+
+                                <?php if (isset($_GET['error']) && $_GET['error'] = 1) { ?>
+                                    <section id="mldFEIL_boks">
+                                        <section id="mldFEIL_innhold">
+                                            <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                                                <p id="mldFEIL">Kunne ikke sende melding</p>
+                                            <?php } ?>
+                                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                                            <button id="mldFEIL_knapp">Lukk</button>
+                                        </section>
+                                    </section>
                                 <?php } else if(isset($_GET['invitert'])) { ?>
                                     <p id="mldOK">Invitasjon sendt</p>
                                 <?php }  ?>
@@ -664,23 +673,31 @@ $tabindex = 8;
                             <h2>Bilde</h2>
                             <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
 
-                            <?php if($_GET['nyarrangement'] == "error1"){ ?>
-                                <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
-                        
-                            <?php } else if($_GET['nyarrangement'] == "error2"){ ?>
-                                <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
-                            
-                            <?php } else if($_GET['nyarrangement'] == "error3") { ?>
-                                <p id="mldFEIL">Oppgi en dato</p>
+                            <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 6) { ?>
+                                <section id="mldFEIL_boks">
+                                    <section id="mldFEIL_innhold">
+                                        <?php if($_GET['error'] == 1){ ?>
+                                            <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
+                                    
+                                        <?php } else if($_GET['error'] == 2){ ?>
+                                            <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
+                                        
+                                        <?php } else if($_GET['error'] == 3) { ?>
+                                            <p id="mldFEIL">Oppgi en dato</p>
 
-                            <?php } else if($_GET['nyarrangement'] == "error4"){ ?>
-                                <p id="mldFEIL">Datoen må være forover i tid</p>    
+                                        <?php } else if($_GET['error'] == 4){ ?>
+                                            <p id="mldFEIL">Datoen må være forover i tid</p>    
 
-                            <?php } else if($_GET['nyarrangement'] == "error5"){ ?>
-                                <p id="mldFEIL">Adresse for lang eller ikke oppgitt</p>   
+                                        <?php } else if($_GET['error'] == 5){ ?>
+                                            <p id="mldFEIL">Adresse for lang eller ikke oppgitt</p>   
 
-                            <?php } else if($_GET['nyarrangement'] == "error6"){ ?>
-                                <p id="mldFEIL">Fylke ikke oppgitt</p>    
+                                        <?php } else if($_GET['error'] == 6){ ?>
+                                            <p id="mldFEIL">Fylke ikke oppgitt</p>    
+                                        <?php } ?>
+                                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                                        <button id="mldFEIL_knapp">Lukk</button>
+                                    </section>
+                                </section>
                             <?php } ?>
 
                             <a href="arrangement.php" id="arrangement_lenke_knapp">Tilbake til arrangementer</a> 
