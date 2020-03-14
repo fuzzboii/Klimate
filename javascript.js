@@ -743,5 +743,33 @@ function lastOppProfil() {
   document.getElementById("profilForm").submit();
 }
 
+
+/*----------------------*/
+/*----------------------*/
+/* Del for adminpanelet */
+/*----------------------*/
+/*----------------------*/
+
+function admMeny() {
+  var meny = document.getElementById("admin_adm_delmeny");
+
+  if(meny.style.display == "none") {
+    meny.style.display = "inline";
+  } else {
+    meny.style.display = "none";
+  }
+}
+
+function rapMeny() {
+  var meny = document.getElementById("admin_rap_delmeny");
+
+  if(meny.style.display == "none") {
+    meny.style.display = "inline";
+  } else {
+    meny.style.display = "none";
+  }
+}
+
+
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
 /* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */

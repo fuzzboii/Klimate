@@ -36,7 +36,7 @@ include("inkluderes/innstillinger.php");
             <h1>Rapport</h1>
         </header>
         <main onclick="lukkHamburgerMeny()">
-
+            <?php echo($_POST['rapport']) ?>
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>

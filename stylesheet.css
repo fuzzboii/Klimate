@@ -361,7 +361,7 @@ footer a {
 }
 
 /*---------------------------------------------------------------------------*/
-/* Style for ADMIN */
+/* Style for ADMIN PANEL */
 #admin_body {
   min-height: 100%;
   display: flex;
@@ -373,6 +373,9 @@ footer a {
   padding-bottom: 1em;
   text-align: center;
   font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+#admin_main {
 }
 
 #admin_overskrift {
@@ -393,8 +396,34 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
-.adminMain {
-  padding-top: 6em; /* Plassering av logoen på default */
+#admin_hovedmeny {
+  min-width: 320px;
+}
+
+#admin_hovedmeny button {
+  display: block;
+  margin-bottom: 0.4em;
+  margin-left: auto; margin-right: auto;
+
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 12em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
+#admin_adm_ikon, #admin_rap_ikon {
+  background-image: url('bilder/pilNIkon.png');
+  background-position: 10em 0.45em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
+}
+
+#admin_adm_delmeny button, #admin_rap_delmeny button {
+  display: block;
+  width: 11em;
 }
 
 /* Style av select */

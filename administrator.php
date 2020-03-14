@@ -7,6 +7,10 @@ session_start();
 include("inkluderes/innstillinger.php");
 
 
+// Browser må validere cache med server før cached kopi kan benyttes
+// Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
+
 
 // Forsikrer seg om kun tilgang for administrator
 if (!isset($_SESSION['idbruker'])) {
@@ -143,7 +147,7 @@ if (isset($_POST['subRegistrering'])) {
         <!-- Legger til viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
-        <title>Administrator innstillinger</title>
+        <title>Adminpanel</title>
         <!-- Henter inn ekstern stylesheet -->
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <!-- Henter inn favicon, bildet som dukker opp i fanene i nettleseren -->
@@ -152,33 +156,106 @@ if (isset($_POST['subRegistrering'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="admin_body" onclick="lukkMelding('mldFEIL_boks')">
+    <body id="admin_body">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
         <!-- Kan ikke legge denne direkte i body -->
-        <header class="adminMain" onclick="lukkHamburgerMeny()">
+        <header id="admin_header" onclick="lukkHamburgerMeny()">
             <!-- Overskrift på siden -->
-            <h1 id="admin_overskrift">Administrator innstillinger</h1>
-            <h2 id="admin_underskrift">Opprett en bruker</h2>
+            <h1 id="admin_overskrift">Adminpanel</h1>
         </header>
-        <main onclick="lukkHamburgerMeny()">
-            <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord -->
+        <main id="admin_main" onclick="lukkHamburgerMeny()">
+
+            <form method="POST" id="admin_form">
+            </form>
+
+            <form method="POST" id="rapport_form" action="rapport.php">
+            </form>
+
+            <section id="admin_hovedmeny">
+                <button name="oversikt" form="admin_form">Oversikt</button>
+                <button id="admin_adm_ikon" onclick="admMeny()">Administrering</button>
+                <section id="admin_adm_delmeny" style="display: none;">
+                    <button name="administrering" form="admin_form" value="Alle brukere">Alle brukere</button>
+                    <button name="administrering" form="admin_form" value="Advarsler">Advarsler</button>
+                    <button name="administrering" form="admin_form" value="Eksklusjoner">Eksklusjoner</button>
+                    <button name="administrering" form="admin_form" value="Misbruk">Misbruk</button>
+                    <button name="administrering" form="admin_form" value="Administratorer">Administratorer</button>
+                </section>
+                <button id="admin_rap_ikon" onclick="rapMeny()">Rapport</button>
+                <section id="admin_rap_delmeny" style="display: none;">
+                    <button name="rapport" form="rapport_form" value="Alle brukere">Alle brukere</button>
+                    <button name="rapport" form="rapport_form" value="Spesifikk bruker">Spesifikk bruker</button>
+                    <button name="rapport" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
+                    <button name="rapport" form="rapport_form" value="Advarsler">Advarsler</button>
+                </section>
+            </section>
+
+            <?php 
+            if(isset($_POST['administrering'])) { 
+                // Administrering
+            ?>
+                <p>Admninistrering</p>
+                <?php echo($_POST['administrering']) ?>
+            <?php } else if(isset($_POST['nybruker'])) { 
+                // Ny bruker (Evt endring?)
+            ?>
+                <p>Ny bruker</p>
+            <?php } else { 
+                // Selve oversikten, default view
+            ?>
+                <p>Oversikten</p>
+            <?php } ?>
+
+            <!-- Sender brukeren tilbake til forsiden -->
+            <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
+        </main>
+        <?php include("inkluderes/footer.php") ?>
+    </body>
+
+<!-- Denne siden er utviklet av Glenn Petter Pettersen, siste gang endret 06.03.2020 -->
+<!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Funksjonalitet for å opprette en ny bruker, til senere bruk -->
+<!--  onclick="lukkMelding('mldFEIL_boks')"
+             Formen som bruker til registrering av bruker, mulighet for å vise passord
+            <h2 id="admin_underskrift">Opprett en bruker</h2>
             <form method="POST" action="administrator.php" class="innloggForm">
                 <section class="inputBoks">
-                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon">
                     <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
                 </section>
                 <section class="inputBoks">
-                    <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
+                    <img class="icon" src="bilder/emailIkon.png" alt="Epostikon">
                     <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
                 </section>
                 <section class="inputBoks">
-                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
                     <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                 </section>
                 <section class="inputBoks">
-                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
                     <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                 </section>
                 <section>
@@ -190,7 +267,7 @@ if (isset($_POST['subRegistrering'])) {
                 </section>
                 <input style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
-                <!-- Håndtering av feilmeldinger -->
+                Håndtering av feilmeldinger
 
                 <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 7) { ?>
                     <section id="mldFEIL_boks">
@@ -216,7 +293,7 @@ if (isset($_POST['subRegistrering'])) {
                             <?php } else if($_GET['error'] == 7) { ?>
                                 <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
                             <?php } ?>
-                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                             Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst
                             <button id="mldFEIL_knapp">Lukk</button>
                         </section>  
                     </section>
@@ -224,13 +301,5 @@ if (isset($_POST['subRegistrering'])) {
                     <p id="mldOK">Brukeren er opprettet</p>
                 <?php } ?>
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
-            </form>
-            <!-- Sender brukeren tilbake til forsiden -->
-            <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
-        </main>
-        <?php include("inkluderes/footer.php") ?>
-    </body>
-
-<!-- Denne siden er utviklet av Glenn Petter Pettersen, siste gang endret 06.03.2020 -->
-<!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
+            </form> -->
 </html>
