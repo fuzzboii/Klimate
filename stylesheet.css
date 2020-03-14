@@ -241,6 +241,15 @@ footer a {
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Style for RAPPORT */
+#rapport_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for NAVIGASJONSMENY */
 .navTop {
   background-color: rgb(200,218,211); /* Bakgrunnsfarge for navigasjonsbaren */
@@ -352,6 +361,13 @@ footer a {
 }
 
 /*---------------------------------------------------------------------------*/
+/* Style for ADMIN */
+#admin_body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
 #admin_header {
   padding-top: 6em;
   padding-bottom: 1em;
