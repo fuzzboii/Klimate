@@ -136,7 +136,7 @@ if (isset($_POST['submit'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
+    <body onclick="lukkMelding('mldFEIL_boks')">
         <article class="innhold">
             <?php include("inkluderes/navmeny.php") ?>
             
@@ -152,16 +152,23 @@ if (isset($_POST['submit'])) {
                         <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
                     </section>
                     <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
-                    <!-- Meldinger til bruker -->
-                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                        <p id="mldFEIL">Sjekk brukernavn og passord</p>    
-                    
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                        <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
-                        
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                        <p id="mldFEIL">Kunne ikke registrere bruker, vennligst kontakt administrator om dette problemet fortsetter</p>
-                    
+                    <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 3) { ?>
+                        <section id="mldFEIL_boks">
+                            <section id="mldFEIL_innhold">
+                                <!-- Meldinger til bruker -->
+                                <?php if($_GET['error'] == 1){ ?>
+                                    <p id="mldFEIL">Sjekk brukernavn og passord</p>    
+                                
+                                <?php } else if($_GET['error'] == 2){ ?>
+                                    <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
+                                    
+                                <?php } else if($_GET['error'] == 3){ ?>
+                                    <p id="mldFEIL">Kunne ikke registrere bruker, vennligst kontakt administrator om dette problemet fortsetter</p>
+                                <?php } ?>
+                                <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                                <button id="mldFEIL_knapp">Lukk</button>
+                            </section>
+                        </section>
                     <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                         <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
                     
