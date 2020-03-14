@@ -750,6 +750,16 @@ function lastOppProfil() {
 /*----------------------*/
 /*----------------------*/
 
+function admHovedmeny() {
+  var meny = document.getElementById("admin_hovedmeny");
+
+  if(meny.style.display == "none") {
+    meny.style.display = "inline";
+  } else {
+    meny.style.display = "none";
+  }
+}
+
 function admMeny() {
   var meny = document.getElementById("admin_adm_delmeny");
 

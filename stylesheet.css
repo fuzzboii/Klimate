@@ -396,6 +396,10 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
+#admin_menyikon {
+  height: 2em;
+}
+
 #admin_hovedmeny {
   min-width: 320px;
 }

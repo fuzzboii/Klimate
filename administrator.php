@@ -173,7 +173,8 @@ if (isset($_POST['subRegistrering'])) {
             <form method="POST" id="rapport_form" action="rapport.php">
             </form>
 
-            <section id="admin_hovedmeny">
+            <img src="bilder/menyIkon.png" onclick="admHovedmeny()" id="admin_menyikon">
+            <section id="admin_hovedmeny" style="display: none;">
                 <button name="oversikt" form="admin_form">Oversikt</button>
                 <button id="admin_adm_ikon" onclick="admMeny()">Administrering</button>
                 <section id="admin_adm_delmeny" style="display: none;">
@@ -190,13 +191,13 @@ if (isset($_POST['subRegistrering'])) {
                     <button name="rapport" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
                     <button name="rapport" form="rapport_form" value="Advarsler">Advarsler</button>
                 </section>
+                <button name="nybruker">Opprett ny bruker</button>
             </section>
 
             <?php 
             if(isset($_POST['administrering'])) { 
                 // Administrering
             ?>
-                <p>Admninistrering</p>
                 <?php echo($_POST['administrering']) ?>
             <?php } else if(isset($_POST['nybruker'])) { 
                 // Ny bruker (Evt endring?)
