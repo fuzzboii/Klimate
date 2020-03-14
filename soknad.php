@@ -108,7 +108,7 @@ if (isset($_POST['submit'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body class="innhold">
+    <body id="soknad_body">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
