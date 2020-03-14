@@ -88,7 +88,7 @@ if (isset($_POST['glemtPassord'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="glemtpassord_body">
+    <body id="glemtpassord_body" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -114,22 +114,31 @@ if (isset($_POST['glemtPassord'])) {
                     <input type="password" class="RegInnFelt" name="passord2" value="" placeholder="Gjenta passord" required>
                 </section>
                 <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord"> 
-                <!-- Meldinger til bruker -->
-                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                    <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                    <p id="mldFEIL">Passordene er ikke like</p>
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                    <p id="mldFEIL">Skriv inn et passord</p>
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-                
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-                    <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
-                <?php } ?>  
+
+                <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 5) { ?>
+                    <section id="mldFEIL_boks">
+                        <section id="mldFEIL_innhold">
+                            <!-- Meldinger til bruker -->
+                            <?php if($_GET['error'] == 1){ ?>
+                                <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
+                            
+                            <?php } else if($_GET['error'] == 2){ ?>
+                                <p id="mldFEIL">Passordene er ikke like</p>
+                            
+                            <?php } else if($_GET['error'] == 3){ ?>
+                                <p id="mldFEIL">Skriv inn et passord</p>
+                            
+                            <?php } else if($_GET['error'] == 4) { ?>
+                                <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                            
+                            <?php } else if($_GET['error'] == 5) { ?>
+                                <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
+                            <?php } ?>  
+                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                            <button id="mldFEIL_knapp">Lukk</button>
+                        </section>
+                    </section>
+                <?php } ?>
             </form>
 
             <!-- Sender brukeren tilbake til forsiden -->
