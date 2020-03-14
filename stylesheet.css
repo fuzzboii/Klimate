@@ -377,7 +377,8 @@ footer a {
 }
 
 #admin_header h1, #admin_header img {
-  display: inline;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 #admin_main h2 {
@@ -388,8 +389,7 @@ footer a {
   font-size: 1.5em;
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0;
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
@@ -407,7 +407,7 @@ footer a {
 }
 
 #admin_hovedmeny_ikon {
-  height: 1.5em;
+  height: 2.5em;
   margin-left: 0.4em;
 }
 

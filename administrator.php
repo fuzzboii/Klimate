@@ -164,7 +164,7 @@ if (isset($_POST['subRegistrering'])) {
         <header id="admin_header" onclick="lukkHamburgerMeny()">
             <!-- Overskrift på siden -->
             <h1 id="admin_overskrift">Adminpanel</h1>
-            <img id="admin_hovedmeny_ikon" src="bilder/menyIkon.png" onclick="admHovedmeny()">
+            <img id="admin_hovedmeny_ikon" src="bilder/pilnIkon.png" onclick="admHovedmeny()">
         </header>
         <main id="admin_main" onclick="lukkHamburgerMeny()">
 

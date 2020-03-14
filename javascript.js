@@ -755,10 +755,10 @@ function admHovedmeny() {
 
   if(meny.style.display == "none") {
     meny.style.display = "inline";
-    document.getElementById("admin_hovedmeny_ikon").src = "bilder/menyAIkon.png";
+    document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilOIkon.png";
   } else {
     meny.style.display = "none";
-    document.getElementById("admin_hovedmeny_ikon").src = "bilder/menyIkon.png";
+    document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilnIkon.png";
   }
 }
 
