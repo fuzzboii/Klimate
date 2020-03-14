@@ -229,7 +229,7 @@ if(isset($_POST['gjenopprettMelding'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body class="innhold" onload="meldingTabbing()">
+    <body class="innhold" onload="meldingTabbing()" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/navmeny.php") ?>
         <?php 
         if(isset($_POST['mottatt'])) { 
@@ -612,14 +612,20 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <?php } else if(isset($_GET['meldingslettet'])) { ?>
                     <p id="mldOK">Melding sendt til papirkurv</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                    <p id="mldFEIL">Kunne ikke sende melding</p>
-                    
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-                    <p id="mldFEIL">Kunne ikke slette meldingen</p>
-                <?php } ?>
-
-                <?php
+                <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 2) { ?>
+                    <section id="mldFEIL_boks">
+                        <section id="mldFEIL_innhold">
+                            <?php if($_GET['error'] == 1) { ?>
+                                <p id="mldFEIL">Kunne ikke sende melding</p>
+                                
+                            <?php } else if($_GET['error'] == 2) { ?>
+                                <p id="mldFEIL">Kunne ikke slette meldingen</p>
+                            <?php } ?>
+                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                            <button id="mldFEIL_knapp">Lukk</button>
+                        </section>
+                    </section>
+                <?php }
 
                 $tabMld = 10;
                 $tabSoppel = 11;
