@@ -449,6 +449,56 @@ footer a {
   padding-bottom: 0.2em;
 }
 
+/* Style spesifikt for OVERSIKT */
+#admin_advarsler, #admin_misbruk, #admin_eksklusjoner, #admin_brukere {
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  font-weight: bold;
+  display: grid;
+  margin-left: auto; margin-right: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1.8em 1fr;
+  border-radius: 0.3em;
+  max-width: 15em;
+  box-shadow: 0 0 0.15em 0.01em black;
+}
+
+#admin_advarsler {
+  background-color: lime;
+}
+
+#admin_misbruk {
+  margin-top: 1em;
+  background-color: yellow;
+}
+
+#admin_eksklusjoner {
+  margin-top: 1em;
+  background-color: red;
+  color: white;
+}
+
+#admin_brukere {
+  margin-top: 1em;
+  background-color: skyblue;
+  color: white;
+}
+
+#admin_advarsler_tittel, #admin_misbruk_tittel, #admin_eksklusjoner_tittel, #admin_brukere_tittel {
+  grid-column: 1/span 2;
+  grid-row: 1;
+  margin: 0;
+  margin-left: 0.2em;
+  margin-top: 0.2em;
+}
+
+#admin_advarsler_antall, #admin_misbruk_antall, #admin_eksklusjoner_antall, #admin_brukere_antall {
+  grid-column: 2;
+  grid-row: 2;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
 

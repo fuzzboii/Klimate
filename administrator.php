@@ -233,6 +233,28 @@ if (isset($_POST['subRegistrering'])) {
             <?php } else { 
                 // Selve oversikten, default view ?>
                 <h2 id="admin_underskrift">Oversikten</h2>
+                <section id="admin_advarsler">
+                    <p id="admin_advarsler_tittel">Advarsler</p>
+                    <p id="admin_advarsler_antall">Ant</p>
+                </section>
+                <section id="admin_misbruk">
+                    <p id="admin_misbruk_tittel">Misbruk</p>
+                    <p id="admin_misbruk_antall">Ant</p>
+                </section>
+                <section id="admin_eksklusjoner">
+                    <p id="admin_eksklusjoner_tittel">Eksklusjoner</p>
+                    <p id="admin_eksklusjoner_antall">Ant</p>
+                </section>
+                <section id="admin_brukere">
+                    <p id="admin_brukere_tittel">Antall brukere</p>
+                    <?php 
+                    $hentAntallQ = "select count(idbruker) as antall from bruker";
+                    $hentAntallSTMT = $db -> prepare($hentAntallQ);
+                    $hentAntallSTMT->execute();
+                    $antallbrukere = $hentAntallSTMT->fetch(PDO::FETCH_ASSOC); 
+                    ?>
+                    <p id="admin_brukere_antall"><?php echo($antallbrukere['antall'])?></p>
+                </section>
             <?php } ?>
 
             <!-- Håndtering av feilmeldinger -->
