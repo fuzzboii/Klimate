@@ -146,63 +146,61 @@ if (isset($_POST['subRegistrering'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
-        <article class="innhold">
-            <?php include("inkluderes/navmeny.php") ?>
+    <body id="registrer_body">
+        <?php include("inkluderes/navmeny.php") ?>
 
-            <main id="toppMain" onclick="lukkHamburgerMeny()">
-                <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
-                <form method="POST" action="registrer.php" class="innloggForm">
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
-                    </section>
-                    <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+        <main id="toppMain" onclick="lukkHamburgerMeny()">
+            <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
+            <form method="POST" action="registrer.php" class="innloggForm">
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                    <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
+                    <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
+                </section>
+                <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
-                    <!-- Håndtering av feilmeldinger -->
-                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                        <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
+                <!-- Håndtering av feilmeldinger -->
+                <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                    <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
 
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-                        <p id="mldFEIL">Passordene er ikke like</p>
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
+                    <p id="mldFEIL">Passordene er ikke like</p>
 
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                        <p id="mldFEIL">Skriv inn ett passord</p>
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
+                    <p id="mldFEIL">Skriv inn ett passord</p>
 
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
+                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-                        <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
+                    <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
 
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
-                        <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
+                    <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
 
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
-                        <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
-                    <?php } ?>    
+                <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
+                    <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
+                <?php } ?>    
 
-                    <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
-                </form>
+                <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
+            </form>
 
-                <!-- Sender brukeren tilbake til forsiden -->
-                <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
-                
-            </main>
-            <?php include("inkluderes/footer.php") ?>
-        </article>
+            <!-- Sender brukeren tilbake til forsiden -->
+            <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
+            
+        </main>
+        <?php include("inkluderes/footer.php") ?>
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 16.02.2020 -->
