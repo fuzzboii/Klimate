@@ -40,7 +40,7 @@ $tabindex = 7;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="sok_body" onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp'), sokTabbing()" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
+    <body id="sok_body" onclick="lukkMelding('mldFEIL_boks')" onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp'), sokTabbing()" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- Start på PHP IF-ELSE som utgjør siden -->
@@ -675,100 +675,113 @@ $tabindex = 7;
             <!-- Del for avansert søk -->
             <header class="sok_header" onclick="lukkHamburgerMeny()">
                 <h2>Avansert søk</h2>
-                <?php if(isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
-                    <p id="mldFEIL">Vennligst søk etter en bruker først</p>
+                <?php if (isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
+                    <section id="mldFEIL_boks">
+                        <section id="mldFEIL_innhold">
+                            <?php if(isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
+                                <p id="mldFEIL">Vennligst søk etter en bruker først</p>
+                            <?php } ?>
+                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                            <button id="mldFEIL_knapp">Lukk</button>
+                        </section>
+                    </section>
                 <?php } ?>
             </header>
             <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                 <section id="sok_seksjon"> 
                     <!-- Rullegardin for søk på bruker -->
                     <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Brukernavn:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn" autofocus>
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Epost:</p>
-                                    <input type="email" class="sokBrukerFelt" tabindex = "-1" name="epost" placeholder="Skriv inn epost">
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Interesse:</p>
-                                    <input name="interesse"  class="sokBrukerFelt" type="text" list="interesser" tabindex="-1">
-                                    <datalist id="interesser">
-                                        <?php 
-                                        // Henter interesser fra database
-                                        $hentInt = "select interessenavn from interesse order by interessenavn ASC";
-                                        $stmtInt = $db->prepare($hentInt);
-                                        $stmtInt->execute();
-                                        $interesse = $stmtInt->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($interesse as $innhold) { ?>
-                                            <option value="<?php echo($innhold['interessenavn'])?>"><?php echo($innhold['interessenavn'])?></option>
-                                        <?php } ?>
-                                    </datalist>
-                                </section>
-                                <input type="submit" value="Søk på bruker"  class="sokBrukerFelt" tabindex ="-1">
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Brukernavn:</p>
+                                <input type="text" class="sokBrukerFelt" tabindex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn" autofocus>
                             </section>
-                            <button type="button" id="brukerRullegardin" class="brukerRullegardin" tabindex ="8">Søk etter bruker</button>
-                        
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Epost:</p>
+                                <input type="email" class="sokBrukerFelt" tabindex = "-1" name="epost" placeholder="Skriv inn epost">
+                            </section>
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Interesse:</p>
+                                <input name="interesse"  class="sokBrukerFelt" type="text" list="interesser" tabindex="-1">
+                                <datalist id="interesser">
+                                    <?php 
+                                    // Henter interesser fra database
+                                    $hentInt = "select interessenavn from interesse order by interessenavn ASC";
+                                    $stmtInt = $db->prepare($hentInt);
+                                    $stmtInt->execute();
+                                    $interesse = $stmtInt->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($interesse as $innhold) { ?>
+                                        <option value="<?php echo($innhold['interessenavn'])?>"><?php echo($innhold['interessenavn'])?></option>
+                                    <?php } ?>
+                                </datalist>
+                            </section>
+                            <input type="submit" value="Søk på bruker"  class="sokBrukerFelt" tabindex ="-1">
+                        </section>
+                        <button type="button" id="brukerRullegardin" class="brukerRullegardin" tabindex ="8">Søk etter bruker</button>
                     </form>
                     <!-- Rullegardin for søk på artikkel -->
                     <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Tittel:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex = "-1" name="artTittel" placeholder="Tittelen på artikkelen">
-                                </section>
-                                <!--
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Dato fra:</p>
-                                    <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="artDato" title="Alle artikler publisert etter oppgitt dato">
-                                </section>
-                                -->
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Skrevet av:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex ="-1" name="artForfatter" placeholder="Forfatter av artikkelen">
-                                </section>
-                                <input type="submit" value="Søk på artikkel" class="sokBrukerFelt" tabindex ="-1">
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Tittel:</p>
+                                <input type="text" class="sokBrukerFelt" tabindex = "-1" name="artTittel" placeholder="Tittelen på artikkelen">
                             </section>
-                            <button type="button" id="artikkelRullegardin" class="artikkelRullegardin" tabindex ="9">Søk etter artikkel</button>
-                        
+                            <!--
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Dato fra:</p>
+                                <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="artDato" title="Alle artikler publisert etter oppgitt dato">
+                            </section>
+                            -->
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Skrevet av:</p>
+                                <input type="text" class="sokBrukerFelt" tabindex ="-1" name="artForfatter" placeholder="Forfatter av artikkelen">
+                            </section>
+                            <input type="submit" value="Søk på artikkel" class="sokBrukerFelt" tabindex ="-1">
+                        </section>
+                        <button type="button" id="artikkelRullegardin" class="artikkelRullegardin" tabindex ="9">Søk etter artikkel</button>
                     </form>
                     <!-- Rullegardin for søk på arrangement -->
                     <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Tittel:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex = "-1" name="arrTittel" placeholder="Tittelen på arrangementet">
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Dato før:</p>
-                                    <input type="date" class="sokBrukerFelt" tabindex = "-1" name="arrDato" title="Alle arrangementer før oppgitt dato">
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Fylke:</p>
-                                    <input name="fylke" class="sokBrukerFelt" type="text" list="fylker" tabindex="-1">
-                                    <datalist id="fylker">
-                                        <?php 
-                                        // Henter fylker fra database
-                                        $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
-                                        $stmtFylke = $db->prepare($hentFylke);
-                                        $stmtFylke->execute();
-                                        $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($fylke as $innhold) { ?>
-                                            <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
-                                    <?php } ?>
-                                    </datalist>
-                                </section>
-                                <input type="submit" value="Søk på arrangement" class="sokBrukerFelt" tabindex ="-1">
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Tittel:</p>
+                                <input type="text" class="sokBrukerFelt" tabindex = "-1" name="arrTittel" placeholder="Tittelen på arrangementet">
                             </section>
-                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex ="10">Søk etter arrangement</button>
-                       
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Dato før:</p>
+                                <input type="date" class="sokBrukerFelt" tabindex = "-1" name="arrDato" title="Alle arrangementer før oppgitt dato">
+                            </section>
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Fylke:</p>
+                                <input name="fylke" class="sokBrukerFelt" type="text" list="fylker" tabindex="-1">
+                                <datalist id="fylker">
+                                    <?php 
+                                    // Henter fylker fra database
+                                    $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
+                                    $stmtFylke = $db->prepare($hentFylke);
+                                    $stmtFylke->execute();
+                                    $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($fylke as $innhold) { ?>
+                                        <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
+                                <?php } ?>
+                                </datalist>
+                            </section>
+                            <input type="submit" value="Søk på arrangement" class="sokBrukerFelt" tabindex ="-1">
+                        </section>
+                        <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex ="10">Søk etter arrangement</button>
                     </form>
                 </section>
-            <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                <p id="mldFEIL">Vennligst oppgi noen verdier å søke på</p>
-            <?php }
+            <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                <section id="mldFEIL_boks">
+                    <section id="mldFEIL_innhold">
+                        <?php if($_GET['error'] == 1){ ?>
+                            <p id="mldFEIL">Vennligst oppgi noen verdier å søke på</p>
+                        <?php } ?>
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp">Lukk</button>
+                    </section>
+                </section>
+            <?php } 
         } ?>
         </main>
         <?php include("inkluderes/footer.php") ?>
