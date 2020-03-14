@@ -370,6 +370,7 @@ footer a {
 }
 
 #admin_header {
+  margin-left: 0.4em;
   margin-top: 5em;
   margin-bottom: 1em;
   text-align: center;
@@ -397,6 +398,7 @@ footer a {
   font-size: 1.2em;
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   text-align: center;
+  margin-top: 0.4em;
   margin-left: auto;
   margin-right: auto;
   font-family: Inter, Helvetica, Arial, sans-serif;
