@@ -191,21 +191,79 @@ if (isset($_POST['subRegistrering'])) {
                     <button name="rapport" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
                     <button name="rapport" form="rapport_form" value="Advarsler">Advarsler</button>
                 </section>
-                <button name="nybruker">Opprett ny bruker</button>
+                <button name="nybruker" form="admin_form">Opprett ny bruker</button>
             </section>
 
             <?php 
             if(isset($_POST['administrering'])) { 
-                // Administrering
-            ?>
+                // Administrering ?>
                 <?php echo($_POST['administrering']) ?>
             <?php } else if(isset($_POST['nybruker'])) { 
-                // Ny bruker (Evt endring?)
-            ?>
-                <h2>Ny bruker</h2>
+                // Ny bruker (Evt endring?) ?>
+                <h2 id="admin_underskrift">Opprett en bruker</h2>
+                <form method="POST" action="administrator.php" class="innloggForm">
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon">
+                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/emailIkon.png" alt="Epostikon">
+                        <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
+                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
+                    </section>
+                    <section class="inputBoks">
+                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
+                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
+                    </section>
+                    <section>
+                        <select id="brukertypeValg" name="brukertype">
+                            <option value="3">Ordinær bruker</option>
+                            <option value="2">Redaktør</option>
+                            <option value="1">Administrator</option>
+                        </select>
+                    </section>
+                    <input style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+
+                    <!-- Håndtering av feilmeldinger -->
+
+                    <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 7) { ?>
+                        <section id="mldFEIL_boks">
+                            <section id="mldFEIL_innhold">
+                                <?php if($_GET['error'] == 1){ ?>
+                                    <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
+
+                                <?php } else if($_GET['error'] == 2) { ?>
+                                    <p id="mldFEIL">Passordene er ikke like</p>
+
+                                <?php } else if($_GET['error'] == 3) { ?>
+                                    <p id="mldFEIL">Skriv inn ett passord</p>
+
+                                <?php } else if($_GET['error'] == 4) { ?>
+                                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+
+                                <?php } else if($_GET['error'] == 5) { ?>
+                                    <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
+
+                                <?php } else if($_GET['error'] == 6) { ?>
+                                    <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
+
+                                <?php } else if($_GET['error'] == 7) { ?>
+                                    <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
+                                <?php } ?>
+                                Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst
+                                <button id="mldFEIL_knapp">Lukk</button>
+                            </section>  
+                        </section>
+                    <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1) { ?>
+                        <p id="mldOK">Brukeren er opprettet</p>
+                    <?php } ?>
+                <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
+            </form>
             <?php } else { 
-                // Selve oversikten, default view
-            ?>
+                // Selve oversikten, default view ?>
                 <h2>Oversikten</h2>
             <?php } ?>
 
