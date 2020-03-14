@@ -108,7 +108,7 @@ if (isset($_POST['submit'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="soknad_body">
+    <body id="soknad_body" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -118,28 +118,36 @@ if (isset($_POST['submit'])) {
             <h1>Søknad om å bli redaktør</h1>
             <?php
             // Feilmeldinger
-            if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                <p id="mldFEIL">Feil oppsto ved sending av søknad</p>
+            if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 7) { ?>
+                <section id="mldFEIL_boks">
+                    <section id="mldFEIL_innhold">
+                        <?php if($_GET['error'] == 1) { ?>
+                            <p id="mldFEIL">Feil oppsto ved sending av søknad</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-                <p id="mldFEIL">Oppgi en gyldig epost</p>
+                        <?php } else if($_GET['error'] == 2) { ?>
+                            <p id="mldFEIL">Oppgi en gyldig epost</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                <p id="mldFEIL">Oppgi et gyldig fornavn</p>
+                        <?php } else if($_GET['error'] == 3) { ?>
+                            <p id="mldFEIL">Oppgi et gyldig fornavn</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                <p id="mldFEIL">Oppgi et gyldig etternavn</p>
+                        <?php } else if($_GET['error'] == 4) { ?>
+                            <p id="mldFEIL">Oppgi et gyldig etternavn</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-                <p id="mldFEIL">Oppgi en gyldig søknad</p>
+                        <?php } else if($_GET['error'] == 5) { ?>
+                            <p id="mldFEIL">Oppgi en gyldig søknad</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
-                <p id="mldFEIL">Oppgi et gyldig brukernavn</p>
+                        <?php } else if($_GET['error'] == 6) { ?>
+                            <p id="mldFEIL">Oppgi et gyldig brukernavn</p>
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
-                <p id="mldFEIL">Oppgi et gyldig telefonnummer</p>
+                        <?php } else if($_GET['error'] == 7) { ?>
+                            <p id="mldFEIL">Oppgi et gyldig telefonnummer</p>
 
-            <?php } ?>
+                        <?php } ?>
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp">Lukk</button>
+                    </section>
+                </section>
+            <?php } ?>  
         </header>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
