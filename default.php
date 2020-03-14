@@ -34,7 +34,7 @@ if (isset($_POST['loggUt'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="default_body">
+    <body id="default_body" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -48,23 +48,31 @@ if (isset($_POST['loggUt'])) {
             <?php if(isset($_GET['utlogget']) && $_GET['utlogget'] == 1){ ?>
                 <p id="mldOK">Du har logget ut</p>    
 
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                <p id="mldFEIL">Du må logge inn før du kan se dette området</p>  
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                <p id="mldFEIL">Du må logge ut før du kan se dette området</p>   
-
-            <?php } else if(isset($_GET['systemerror'])){ ?>
-                <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                <p id="mldFEIL">Du kan ikke se dette området</p>  
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                <p id="mldFEIL">Denne brukeren er avregistrert</p>  
-
             <?php } else if(isset($_GET['avregistrert']) && $_GET['avregistrert'] == "true"){ ?>
                 <p id="mldFEIL">Du har blitt avregistrert</p>  
+
+            <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 5) { ?>
+                <section id="mldFEIL_boks">
+                    <section id="mldFEIL_innhold">
+                        <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
+                            <p id="mldFEIL">Du må logge inn før du kan se dette området</p>  
+
+                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
+                            <p id="mldFEIL">Du må logge ut før du kan se dette området</p>   
+
+                        <?php } else if(isset($_GET['systemerror'])){ ?>
+                            <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
+
+                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
+                            <p id="mldFEIL">Du kan ikke se dette området</p>  
+
+                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
+                            <p id="mldFEIL">Denne brukeren er avregistrert</p>  
+                        <?php } ?>
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp">Lukk</button>
+                    </section>
+                </section>
             <?php } ?>
 
             <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
