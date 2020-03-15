@@ -425,6 +425,11 @@ footer a {
 }
 
 #admin_adm_ikon, #admin_rap_ikon {
+  display: none;
+}
+
+
+#admin_adm_knapp, #admin_rap_knapp {
   background-image: url('bilder/pilNIkon.png');
   background-position: 10em 0.45em;
   background-repeat: no-repeat;
@@ -484,7 +489,7 @@ footer a {
   grid-column: 1/span 2;
   grid-row: 1;
   margin: 0;
-  margin-left: 0.2em;
+  margin-left: 0.4em;
   margin-top: 0.2em;
 }
 
@@ -3186,12 +3191,12 @@ input:checked + .slider:before {
   }
 
   /*----------------------*/
-  /* Del for adminpanelet */
+  /* Del for ADMINPANEL   */
   /*----------------------*/
 
   #admin_main {
     display: grid;
-    grid-template-columns: 15em 1fr 1fr 2em;
+    grid-template-columns: 14.5em 1fr 1fr 2em;
     grid-template-rows: 2em 6em 6em;
   }
 
@@ -3207,6 +3212,11 @@ input:checked + .slider:before {
     display: inline-block;
     position: absolute;
     min-width: 15em;
+  }
+  
+  #admin_hovedmeny button {
+    background-color: rgba(0, 0, 0, 0);
+    text-align: left;
   }
   
   /* Style spesifikt for ADMINPANEL sin OVERSIKT */

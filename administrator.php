@@ -178,7 +178,7 @@ if (isset($_POST['subRegistrering'])) {
 
             <section id="admin_hovedmeny">
                 <button name="oversikt" form="admin_form">Oversikt</button>
-                <button id="admin_adm_ikon" onclick="admMeny()">Administrering</button>
+                <button id="admin_adm_knapp" onclick="admMeny()">Administrering</button>
                 <section id="admin_adm_delmeny" style="display: none;">
                     <button name="administrering" form="admin_form" value="Alle brukere">Alle brukere</button>
                     <button name="administrering" form="admin_form" value="Advarsler">Advarsler</button>
@@ -186,7 +186,8 @@ if (isset($_POST['subRegistrering'])) {
                     <button name="administrering" form="admin_form" value="Misbruk">Misbruk</button>
                     <button name="administrering" form="admin_form" value="Administratorer">Administratorer</button>
                 </section>
-                <button id="admin_rap_ikon" onclick="rapMeny()">Rapporter</button>
+                <img src="bilder/rapportIkon.png" id="admin_rap_ikon">
+                <button id="admin_rap_knapp" onclick="rapMeny()">Rapporter</button>
                 <section id="admin_rap_delmeny" style="display: none;">
                     <button name="rapport" form="rapport_form" value="Alle brukere">Alle brukere</button>
                     <button name="rapport" form="rapport_form" value="Spesifikk bruker">Spesifikk bruker</button>
