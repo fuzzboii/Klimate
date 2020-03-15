@@ -377,13 +377,9 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
-#admin_header h1, #admin_header img {
+#admin_overskrift, #admin_hovedmeny_ikon {
   display: inline-block;
   vertical-align: middle;
-}
-
-#admin_main h2 {
-  text-align: center;
 }
 
 #admin_overskrift {
@@ -398,14 +394,15 @@ footer a {
   font-size: 1.2em;
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   text-align: center;
-  margin-top: 0.4em;
+  margin-top: 0.8em;
   margin-left: auto;
   margin-right: auto;
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
 #admin_hovedmeny {
-  min-width: 320px;
+  display: none;
+  min-width: 15em;
 }
 
 #admin_hovedmeny_ikon {
@@ -449,7 +446,7 @@ footer a {
   padding-bottom: 0.2em;
 }
 
-/* Style spesifikt for OVERSIKT */
+/* Style spesifikt for ADMINPANEL sin OVERSIKT */
 #admin_advarsler, #admin_misbruk, #admin_eksklusjoner, #admin_brukere {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   font-weight: bold;
@@ -3187,6 +3184,69 @@ input:checked + .slider:before {
   #arrangement_slettKnapp {
     margin-left: auto;
   }
+
+  /*----------------------*/
+  /* Del for adminpanelet */
+  /*----------------------*/
+
+  #admin_main {
+    display: grid;
+    grid-template-columns: 15em 15em 15em;
+    grid-template-rows: 2em 6em 6em;
+  }
+
+  #admin_header {
+    margin-left: 0;
+  }
+
+  #admin_hovedmeny_ikon {
+    display: none;
+  }
+
+  #admin_hovedmeny {
+    display: inline-block;
+    position: absolute;
+    min-width: 15em;
+  }
+  
+  /* Style spesifikt for ADMINPANEL sin OVERSIKT */
+  #admin_underskrift {
+    margin: 0;
+    text-align: left;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  #admin_form_advarsel {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  #admin_misbruk, #admin_eksklusjoner {
+    margin-top: 0;
+  }
+
+  #admin_form_misbruk {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  #admin_form_eksklusjoner {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  #admin_brukere {
+    max-height: 4.1em;
+    min-width: 14em;
+    margin-top: 0;
+    grid-column: 3;
+    grid-row: 3;
+  }
+
+  #admin_advarsler, #admin_misbruk, #admin_eksklusjoner, #admin_brukere {
+    max-width: 14em;
+  }
 }
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
@@ -3656,6 +3716,25 @@ input:checked + .slider:before {
     border: 1px solid red;
     border-radius: 1em;
     padding: 0;
+  }
+
+  /*----------------------*/
+  /* Del for adminpanelet */
+  /*----------------------*/
+
+  #admin_main {
+    grid-template-columns: 15em 15em 15em 15em 15em;
+    grid-template-rows: 2em 6em 6em;
+  }
+
+  #admin_form_eksklusjoner {
+    grid-column: 4;
+    grid-row: 2;
+  }
+
+  #admin_brukere {
+    grid-column: 5;
+    grid-row: 2;
   }
 
 }

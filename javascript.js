@@ -756,10 +756,10 @@ function lastOppProfil() {
 function admHovedmeny() {
   var meny = document.getElementById("admin_hovedmeny");
 
-  if(meny.style.display == "none") {
+  if(meny.style.display == "none" || meny.style.display == "") {
     meny.style.display = "inline";
     document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilOIkon.png";
-  } else {
+  } else if(meny.style.display == "inline") {
     meny.style.display = "none";
     document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilnIkon.png";
   }

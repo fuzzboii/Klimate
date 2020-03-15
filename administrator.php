@@ -14,8 +14,10 @@ header("Cache-Control: no cache");
 
 // Forsikrer seg om kun tilgang for administrator
 if (!isset($_SESSION['idbruker'])) {
+    // En utlogget bruker har forsøkt å nå adminpanelet
     header("Location: default.php?error=1");
 } else if ($_SESSION['brukertype'] != '1') {
+    // En innlogget bruker som ikke er administrator har forsøkt å åpne adminpanelet, loggfører dette
     header("Location: default.php?error=4");
 }
 $input_brukernavn = "";
@@ -174,7 +176,7 @@ if (isset($_POST['subRegistrering'])) {
             <form method="POST" id="rapport_form" action="rapport.php">
             </form>
 
-            <section id="admin_hovedmeny" style="display: none;">
+            <section id="admin_hovedmeny">
                 <button name="oversikt" form="admin_form">Oversikt</button>
                 <button id="admin_adm_ikon" onclick="admMeny()">Administrering</button>
                 <section id="admin_adm_delmeny" style="display: none;">
@@ -184,7 +186,7 @@ if (isset($_POST['subRegistrering'])) {
                     <button name="administrering" form="admin_form" value="Misbruk">Misbruk</button>
                     <button name="administrering" form="admin_form" value="Administratorer">Administratorer</button>
                 </section>
-                <button id="admin_rap_ikon" onclick="rapMeny()">Rapport</button>
+                <button id="admin_rap_ikon" onclick="rapMeny()">Rapporter</button>
                 <section id="admin_rap_delmeny" style="display: none;">
                     <button name="rapport" form="rapport_form" value="Alle brukere">Alle brukere</button>
                     <button name="rapport" form="rapport_form" value="Spesifikk bruker">Spesifikk bruker</button>
