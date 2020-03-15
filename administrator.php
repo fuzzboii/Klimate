@@ -268,27 +268,25 @@ if (isset($_POST['subRegistrering'])) {
                     <p id="admin_brukere_antall"><?php echo($antallbrukere['antall'])?></p>
                 </section>
                 <button id="admin_regler_knapp" onclick="regMeny()">Reglement</button>
+                <?php 
+                $hentReglerQ = "select regeltekst, brukernavn from regel, bruker where regel.idbruker = bruker.idbruker";
+                $hentReglerSTMT = $db->prepare($hentReglerQ);
+                $hentReglerSTMT -> execute();
+                $regler = $hentReglerSTMT -> fetchAll(PDO::FETCH_ASSOC);
+                ?>
                 <table id="admin_regler_table">
                     <tr>
                         <th>Regel</th>
                         <th id="admin_regler_oppr">Opprettet av</th>
                     </tr>
-                    <tr>
-                        <td>Du skal ikke spise gris</td>
-                        <td>Smith</td>
-                    </tr>
-                    <tr>
-                        <td>Du skal ikke stjele</td>
-                        <td>Jackson</td>
-                    </tr>
-                    <tr>
-                        <td>Du skal ikke stjele, du skal ikke spise gris osv, vil bare ha en veldig lang regel</td>
-                        <td>John Jackson</td>
-                    </tr>
-                    <tr>
-                        <td>lmalmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaoo</td>
-                        <td>Jackson</td>
-                    </tr>
+                    <?php for($i = 0; $i < count($regler); $i++) {
+                        if(isset($regler[$i]['regeltekst'])) { ?>
+                            <tr>
+                                <td><?php echo($regler[$i]['regeltekst'])?></td>
+                                <td><?php echo($regler[$i]['brukernavn'])?></td>
+                            </tr>
+                        <?php }
+                    } ?>
                 </table>
                 <form method="POST" id="admin_form_nyregel" action="administrator.php">
                     <input type="submit" id="admin_regler_nyknapp" name="administrering" value="Ny regel">

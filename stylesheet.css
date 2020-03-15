@@ -545,9 +545,6 @@ footer a {
   vertical-align: top;
 }
 
-#admin_regler_table th {
-}
-
 #admin_regler_table td, #admin_regler_table th {
   border: 1px solid black;
   padding: 0.5em;
