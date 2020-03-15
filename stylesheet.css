@@ -522,6 +522,7 @@ footer a {
 }
 
 #admin_regler_table {
+  table-layout: fixed;
   display: none;
   margin-top: 2em;
   width: 75%;

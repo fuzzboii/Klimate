@@ -313,7 +313,7 @@ if(isset($_POST['slettregel'])) {
 
             <!-- Håndtering av feilmeldinger -->
 
-            <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 7) { ?>
+            <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 8) { ?>
                 <section id="mldFEIL_boks">
                     <section id="mldFEIL_innhold">
                         <?php if($_GET['error'] == 1){ ?>
