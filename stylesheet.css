@@ -3267,7 +3267,7 @@ input:checked + .slider:before {
   #admin_main {
     display: grid;
     grid-template-columns: 14.5em 1fr 1fr 2em;
-    grid-template-rows: 2em 6em 6em;
+    grid-template-rows: 2em 6em 6em 1fr;
   }
 
   #admin_header {
@@ -3333,6 +3333,18 @@ input:checked + .slider:before {
 
   #admin_advarsler, #admin_misbruk, #admin_eksklusjoner, #admin_brukere {
     max-width: 14em;
+  }
+
+  #admin_regler_knapp {
+    display: none;
+  }
+
+  #admin_regler_table {
+    width: 100%;
+    margin: 0;
+    display: block;
+    grid-column: 2/span 2;
+    grid-row: 4;
   }
 }
 /* Laptop / Liten skjerm,, 720p */
@@ -3811,7 +3823,7 @@ input:checked + .slider:before {
 
   #admin_main {
     grid-template-columns: 15em 1fr 15em 15em 1fr;
-    grid-template-rows: 2em 6em 6em;
+    grid-template-rows: 2em 6em 1fr;
   }
 
   #admin_underskrift {
@@ -3840,6 +3852,11 @@ input:checked + .slider:before {
     margin-left: 0.5em;
     grid-column: 5;
     grid-row: 2;
+  }
+
+  #admin_regler_table {
+    grid-column: 2/span 4;
+    grid-row: 3;
   }
 
 }
