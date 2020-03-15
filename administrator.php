@@ -273,7 +273,7 @@ if (isset($_POST['subRegistrering'])) {
                 </section>
                 <button id="admin_regler_knapp" onclick="regMeny()">Reglement</button>
                 <?php 
-                $hentReglerQ = "select regeltekst, brukernavn from regel, bruker where regel.idbruker = bruker.idbruker";
+                $hentReglerQ = "select idregel, regeltekst, brukernavn from regel, bruker where regel.idbruker = bruker.idbruker";
                 $hentReglerSTMT = $db->prepare($hentReglerQ);
                 $hentReglerSTMT -> execute();
                 $regler = $hentReglerSTMT -> fetchAll(PDO::FETCH_ASSOC);
@@ -282,12 +282,14 @@ if (isset($_POST['subRegistrering'])) {
                     <tr>
                         <th>Regel</th>
                         <th id="admin_regler_oppr">Opprettet av</th>
+                        <th id="admin_regler_slett"></th>
                     </tr>
                     <?php for($i = 0; $i < count($regler); $i++) {
                         if(isset($regler[$i]['regeltekst'])) { ?>
                             <tr>
                                 <td><?php echo($regler[$i]['regeltekst'])?></td>
                                 <td><?php echo($regler[$i]['brukernavn'])?></td>
+                                <td><button class="admin_regler_slett_knapp" name="slettregel" form="admin_form" value="<?php echo($regler[$i]['idregel'])?>">Slett</cutton></td>
                             </tr>
                         <?php }
                     } ?>

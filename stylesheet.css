@@ -537,7 +537,12 @@ footer a {
 }
 
 #admin_regler_oppr {
-  min-width: 7em;
+  min-width: 4em;
+}
+
+#admin_regler_slett {
+  min-width: 2em;
+  display: none;
 }
 
 #admin_regler_table td {
@@ -562,6 +567,19 @@ footer a {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 6em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
+.admin_regler_slett_knapp {
+  margin-left: auto; margin-right: auto;
+  background-color: rgb(177, 0, 0); /* bakgrunnsfarge for registrerknapp */
+  color: white;
+  padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 4em; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
@@ -3351,6 +3369,10 @@ input:checked + .slider:before {
     display: block;
     grid-column: 2/span 2;
     grid-row: 4;
+  }
+
+  #admin_regler_oppr {
+    min-width: 7em;
   }
 }
 /* Laptop / Liten skjerm,, 720p */
