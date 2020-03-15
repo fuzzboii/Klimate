@@ -455,7 +455,7 @@ footer a {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1.8em 1fr;
   border-radius: 0.3em;
-  max-width: 15em;
+  width: 15em;
   box-shadow: 0 0 0.15em 0.01em black;
 }
 
@@ -3191,7 +3191,7 @@ input:checked + .slider:before {
 
   #admin_main {
     display: grid;
-    grid-template-columns: 15em 15em 15em;
+    grid-template-columns: 15em 1fr 1fr 2em;
     grid-template-rows: 2em 6em 6em;
   }
 
@@ -3212,7 +3212,8 @@ input:checked + .slider:before {
   /* Style spesifikt for ADMINPANEL sin OVERSIKT */
   #admin_underskrift {
     margin: 0;
-    text-align: left;
+    text-align: right;
+    margin-right: 6.5em;
     grid-column: 2;
     grid-row: 1;
   }
@@ -3220,23 +3221,29 @@ input:checked + .slider:before {
   #admin_form_advarsel {
     grid-column: 2;
     grid-row: 2;
+    margin-left: auto;
   }
 
   #admin_misbruk, #admin_eksklusjoner {
     margin-top: 0;
   }
 
-  #admin_form_misbruk {
-    grid-column: 3;
-    grid-row: 2;
-  }
-
   #admin_form_eksklusjoner {
+    margin-left: auto;
     grid-column: 2;
     grid-row: 3;
   }
 
+  #admin_form_misbruk {
+    margin-right: auto;
+    margin-left: 2em;
+    grid-column: 3;
+    grid-row: 2;
+  }
+
   #admin_brukere {
+    margin: 0;
+    margin-left: 2em;
     max-height: 4.1em;
     min-width: 14em;
     margin-top: 0;
@@ -3723,16 +3730,34 @@ input:checked + .slider:before {
   /*----------------------*/
 
   #admin_main {
-    grid-template-columns: 15em 15em 15em 15em 15em;
+    grid-template-columns: 15em 1fr 15em 15em 1fr;
     grid-template-rows: 2em 6em 6em;
   }
 
+  #admin_underskrift {
+    text-align: right;
+    margin-right: 7em;
+  }
+
+  #admin_form_advarsel {
+    margin-left: auto;
+    margin-right: 0.5em;
+  }
+
+  #admin_form_misbruk {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
   #admin_form_eksklusjoner {
+    margin-left: 0;
     grid-column: 4;
     grid-row: 2;
   }
 
   #admin_brukere {
+    margin: 0;
+    margin-left: 0.5em;
     grid-column: 5;
     grid-row: 2;
   }
