@@ -3261,7 +3261,7 @@ input:checked + .slider:before {
 
   #admin_main {
     display: grid;
-    grid-template-columns: 14.5em 1fr 1fr 2em;
+    grid-template-columns: 14.5em 1fr 1fr 10em;
     grid-template-rows: 2em 6em 6em 1fr;
   }
 
@@ -3287,8 +3287,7 @@ input:checked + .slider:before {
   /* Style spesifikt for ADMINPANEL sin OVERSIKT */
   #admin_underskrift {
     margin: 0;
-    text-align: right;
-    margin-right: 6.5em;
+    text-align: left;
     grid-column: 2;
     grid-row: 1;
   }
@@ -3297,6 +3296,10 @@ input:checked + .slider:before {
     grid-column: 2;
     grid-row: 2;
     margin-left: auto;
+    margin-right: 5%;
+    max-width: 95%;
+    width: 95%;
+    min-width: 14em;
   }
 
   #admin_misbruk, #admin_eksklusjoner {
@@ -3305,20 +3308,24 @@ input:checked + .slider:before {
 
   #admin_form_eksklusjoner {
     margin-left: auto;
+    margin-right: 5%;
     grid-column: 2;
     grid-row: 3;
+    max-width: 95%;
+    width: 95%;
+    min-width: 14em;
   }
 
   #admin_form_misbruk {
     margin-right: auto;
-    margin-left: 2em;
     grid-column: 3;
     grid-row: 2;
+    max-width: 100%;
+    width: 100%;
   }
 
   #admin_brukere {
     margin: 0;
-    margin-left: 2em;
     max-height: 4.1em;
     min-width: 14em;
     margin-top: 0;
@@ -3327,7 +3334,7 @@ input:checked + .slider:before {
   }
 
   #admin_advarsler, #admin_misbruk, #admin_eksklusjoner, #admin_brukere {
-    max-width: 14em;
+    width: 100%;
   }
 
   #admin_regler_knapp {
@@ -3817,34 +3824,29 @@ input:checked + .slider:before {
   /*----------------------*/
 
   #admin_main {
-    grid-template-columns: 15em 1fr 15em 15em 1fr;
+    grid-template-columns: 15em 15em 15em 15em 15em 1fr;
     grid-template-rows: 2em 6em 1fr;
   }
 
   #admin_underskrift {
-    text-align: right;
-    margin-right: 7em;
+    text-align: left;
   }
 
   #admin_form_advarsel {
-    margin-left: auto;
-    margin-right: 0.5em;
-  }
-
-  #admin_form_misbruk {
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
   }
 
   #admin_form_eksklusjoner {
-    margin-left: 0;
     grid-column: 4;
     grid-row: 2;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
   }
 
   #admin_brukere {
-    margin: 0;
-    margin-left: 0.5em;
     grid-column: 5;
     grid-row: 2;
   }
