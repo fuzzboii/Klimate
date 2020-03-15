@@ -550,11 +550,6 @@ footer a {
   padding: 0.5em;
 }
 
-#admin_form_nyregel {
-  display: none;
-  width: 100%;
-}
-
 #admin_regler_nyknapp {
   display: block;
   margin-top: 1.5em;

@@ -195,6 +195,7 @@ if (isset($_POST['subRegistrering'])) {
                     <button name="rapport" form="rapport_form" value="Advarsler">Advarsler</button>
                 </section>
                 <button name="nybruker" form="admin_form">Opprett ny bruker</button>
+                <button name="nyregel" form="admin_form">Opprett ny regel</button>
             </section>
 
             <?php 
@@ -233,7 +234,10 @@ if (isset($_POST['subRegistrering'])) {
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
             </form>
             <button name="oversikt" form="admin_form">Til oversikten</button>
-            <?php } else { 
+            <?php } else if(isset($_POST['nyregel'])) {
+                // Ny regel ?>
+                <button name="oversikt" form="admin_form">Til oversikten</button>
+            <?php } else {
                 // Selve oversikten, default view ?>
                 <h2 id="admin_underskrift">Oversikten</h2>
                 <form method="POST" id="admin_form_advarsel" action="administrator.php">
@@ -288,9 +292,6 @@ if (isset($_POST['subRegistrering'])) {
                         <?php }
                     } ?>
                 </table>
-                <form method="POST" id="admin_form_nyregel" action="administrator.php">
-                    <input type="submit" id="admin_regler_nyknapp" name="administrering" value="Ny regel">
-                </form>
             <?php } ?>
 
             <!-- Håndtering av feilmeldinger -->
