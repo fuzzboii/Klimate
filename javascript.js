@@ -789,6 +789,20 @@ function rapMeny() {
   }
 }
 
+function regMeny() {
+  var table = document.getElementById("admin_regler_table");
+
+  if(table.style.display == "none" || table.style.display == "") {
+    table.style.display = "inline-block";
+    table.nextElementSibling.style.display = "inline-block";
+    table.previousElementSibling.style.backgroundImage = "url('bilder/pilOIkon.png')";
+  } else {
+    table.style.display = "none";
+    table.nextElementSibling.style.display = "none";
+    table.previousElementSibling.style.backgroundImage = "url('bilder/pilNIkon.png')";
+  }
+}
+
 function aapneAdmin(valgtDel) {
   document.getElementById(valgtDel).submit();
 }

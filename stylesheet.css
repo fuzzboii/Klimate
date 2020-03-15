@@ -501,6 +501,79 @@ footer a {
   text-align: center;
 }
 
+#admin_regler_knapp {
+  display: block;
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
+  margin-left: auto; margin-right: auto;
+
+  padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 10em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+
+  background-image: url('bilder/pilNIkon.png');
+  background-position: 7.8em 0.4em;
+  background-repeat: no-repeat;
+  background-size: 1.6em;
+}
+
+#admin_regler_table {
+  display: none;
+  margin-top: 2em;
+  width: 75%;
+  margin-left: 12.5%; margin-right: 12.5%;
+}
+
+#admin_regler_table tr:nth-child(odd) {
+  background-color: rgb(235, 235, 235);
+}
+
+#admin_regler_table tr:nth-child(even) {
+  background-color: rgb(245, 245, 245);
+}
+
+#admin_regler_oppr {
+  min-width: 7em;
+}
+
+#admin_regler_table td {
+  word-break: break-word;
+  vertical-align: top;
+}
+
+#admin_regler_table th {
+}
+
+#admin_regler_table td, #admin_regler_table th {
+  border: 1px solid black;
+  padding: 0.5em;
+}
+
+#admin_form_nyregel {
+  display: none;
+  width: 100%;
+}
+
+#admin_regler_nyknapp {
+  display: block;
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
+  margin-left: auto; margin-right: auto;
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white;
+  padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 6em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
 

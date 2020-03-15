@@ -243,14 +243,14 @@ if (isset($_POST['subRegistrering'])) {
                         <p id="admin_advarsler_antall">Ant</p>
                     </section>
                 </form>
-                <form method="POST" id="admin_form_misbruk" name="Misbruk" action="administrator.php">
+                <form method="POST" id="admin_form_misbruk" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Misbruk">
                     <section onclick="aapneAdmin('admin_form_misbruk')" id="admin_misbruk">
                         <p id="admin_misbruk_tittel">Misbruk</p>
                         <p id="admin_misbruk_antall">Ant</p>
                     </section>
                 </form>
-                <form method="POST" id="admin_form_eksklusjoner" name="Eksklusjoner" action="administrator.php">
+                <form method="POST" id="admin_form_eksklusjoner" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Eksklusjoner">
                     <section onclick="aapneAdmin('admin_form_eksklusjoner')" id="admin_eksklusjoner">
                         <p id="admin_eksklusjoner_tittel">Eksklusjoner</p>
@@ -267,6 +267,32 @@ if (isset($_POST['subRegistrering'])) {
                     ?>
                     <p id="admin_brukere_antall"><?php echo($antallbrukere['antall'])?></p>
                 </section>
+                <button id="admin_regler_knapp" onclick="regMeny()">Reglement</button>
+                <table id="admin_regler_table">
+                    <tr>
+                        <th>Regel</th>
+                        <th id="admin_regler_oppr">Opprettet av</th>
+                    </tr>
+                    <tr>
+                        <td>Du skal ikke spise gris</td>
+                        <td>Smith</td>
+                    </tr>
+                    <tr>
+                        <td>Du skal ikke stjele</td>
+                        <td>Jackson</td>
+                    </tr>
+                    <tr>
+                        <td>Du skal ikke stjele, du skal ikke spise gris osv, vil bare ha en veldig lang regel</td>
+                        <td>John Jackson</td>
+                    </tr>
+                    <tr>
+                        <td>lmalmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaolmaoo</td>
+                        <td>Jackson</td>
+                    </tr>
+                </table>
+                <form method="POST" id="admin_form_nyregel" action="administrator.php">
+                    <input type="submit" id="admin_regler_nyknapp" name="administrering" value="Ny regel">
+                </form>
             <?php } ?>
 
             <!-- Håndtering av feilmeldinger -->
