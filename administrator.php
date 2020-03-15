@@ -139,6 +139,21 @@ if (isset($_POST['subRegistrering'])) {
         header("location: administrator.php?error=2");
     }
 }
+
+if(isset($_POST['slettregel'])) {
+    $slettregelQ = "delete from regel where idregel = :regelen";
+    $slettregelSTMT = $db -> prepare($slettregelQ);
+    $slettregelSTMT->bindParam(':regelen', $_POST['slettregel']);
+    $slettregelSTMT->execute();
+
+    $slettet = $slettregelSTMT->rowCount();
+
+    if($slettet == 0) {
+        header("location: administrator.php?error=8");
+    } else {
+        header("location: administrator.php");
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -321,7 +336,11 @@ if (isset($_POST['subRegistrering'])) {
 
                         <?php } else if($_GET['error'] == 7) { ?>
                             <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
-                        <?php } ?>
+
+                        <?php } else if($_GET['error'] == 8) { ?>
+                            <p id="mldFEIL">Kunne ikke slette regel</p>
+
+                        <?php }?>
                         <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
                         <button id="mldFEIL_knapp">Lukk</button>
                     </section>  
