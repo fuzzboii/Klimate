@@ -263,21 +263,39 @@ if(isset($_POST['slettregel'])) {
                     <input type="hidden"  name="administrering" value="Advarsler">
                     <section onclick="aapneAdmin('admin_form_advarsel')" id="admin_advarsler">
                         <p id="admin_advarsler_tittel">Advarsler</p>
-                        <p id="admin_advarsler_antall">Ant</p>
+                        <?php 
+                        $hentAntallQ = "select count(idadvarsel) as antall from advarsel";
+                        $hentAntallSTMT = $db -> prepare($hentAntallQ);
+                        $hentAntallSTMT->execute();
+                        $antalladvarsler = $hentAntallSTMT->fetch(PDO::FETCH_ASSOC); 
+                        ?>
+                        <p id="admin_advarsler_antall"><?php echo($antalladvarsler['antall']) ?></p>
                     </section>
                 </form>
                 <form method="POST" id="admin_form_misbruk" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Misbruk">
                     <section onclick="aapneAdmin('admin_form_misbruk')" id="admin_misbruk">
                         <p id="admin_misbruk_tittel">Misbruk</p>
-                        <p id="admin_misbruk_antall">Ant</p>
+                        <?php 
+                        $hentAntallQ = "select count(idmisbruk) as antall from misbruk";
+                        $hentAntallSTMT = $db -> prepare($hentAntallQ);
+                        $hentAntallSTMT->execute();
+                        $antallmisbruk = $hentAntallSTMT->fetch(PDO::FETCH_ASSOC); 
+                        ?>
+                        <p id="admin_misbruk_antall"><?php echo($antallmisbruk['antall']) ?></p>
                     </section>
                 </form>
                 <form method="POST" id="admin_form_eksklusjoner" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Eksklusjoner">
                     <section onclick="aapneAdmin('admin_form_eksklusjoner')" id="admin_eksklusjoner">
                         <p id="admin_eksklusjoner_tittel">Eksklusjoner</p>
-                        <p id="admin_eksklusjoner_antall">Ant</p>
+                        <?php 
+                        $hentAntallQ = "select count(ideksklusjon) as antall from eksklusjon";
+                        $hentAntallSTMT = $db -> prepare($hentAntallQ);
+                        $hentAntallSTMT->execute();
+                        $antalleksklusjoner = $hentAntallSTMT->fetch(PDO::FETCH_ASSOC); 
+                        ?>
+                        <p id="admin_eksklusjoner_antall"><?php echo($antalleksklusjoner['antall']) ?></p>
                     </section>
                 </form>
                 <section id="admin_brukere">
