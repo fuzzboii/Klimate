@@ -441,7 +441,7 @@ footer a {
   width: 11em;
 }
 
-#admin_tiloversikt {
+#admin_tiloversikt, #admin_administrering_tiloversikt {
   display: block;
   margin-top: 1em; margin-bottom: 1em;
   margin-left: auto; margin-right: auto;
@@ -543,12 +543,21 @@ footer a {
   margin-left: 12.5%; margin-right: 12.5%;
 }
 
+#admin_regler_table thead tr th, #admin_allebrukere_table thead tr th {
+  background-color: rgb(63, 63, 63);
+  color: white;
+  border-top: 1px solid black;
+}
+
 #admin_regler_table tr:nth-child(odd), #admin_allebrukere_table tr:nth-child(odd) {
-  background-color: rgb(235, 235, 235);
+  border-left: 1px solid black; border-right: 1px solid black;
+  background-color: rgb(230, 230, 230);
 }
 
 #admin_regler_table tr:nth-child(even), #admin_allebrukere_table tr:nth-child(even) {
-  background-color: rgb(245, 245, 245);
+  border-left: 1px solid black; border-right: 1px solid black;
+  background-color: rgb(63, 63, 63);
+  color: white;
 }
 
 #admin_regler_oppr {
@@ -609,8 +618,8 @@ footer a {
 }
 
 #admin_allebrukere_table td, #admin_allebrukere_table th {
-  border: 1px solid black;
   padding: 0.5em;
+  word-break: break-all;
 }
 
 #admin_allebrukere_type {
@@ -3408,6 +3417,28 @@ input:checked + .slider:before {
   #admin_regler_oppr {
     min-width: 7em;
   }
+
+  
+  /* Style spesifikt for ADMINPANEL sin ALLE BRUKERE */
+  #admin_allebrukere_table {
+    width: 90%;
+    margin: 0;
+    grid-column: 2/span 2;
+    grid-row: 2/span 3;
+  }
+  
+  #admin_administrering_tiloversikt {
+    display: none;
+  }
+
+  #admin_allebrukere_bruker, .admin_allebrukere_allebruker {
+    width: 75%;
+  }
+
+  #admin_allebrukere_type, .admin_allebrukere_alletype {
+    width: 6em;
+  }
+
 }
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
@@ -3933,6 +3964,14 @@ input:checked + .slider:before {
     margin-right: 0;
     grid-column: 3/span 4;
     grid-row: 3;
+  }
+  
+  /* Style spesifikt for ADMINPANEL sin ALLE BRUKERE */
+  #admin_allebrukere_table {
+    width: 90%;
+    margin: 0;
+    grid-column: 3/span 4;
+    grid-row: 2/span 3;
   }
 
 }

@@ -227,29 +227,29 @@ if(isset($_POST['slettregel'])) {
                 </form>
 
                 <?php if($_POST['administrering'] == "Alle brukere") {
-                    $hentBrukereQ = "select idbruker, brukernavn, fnavn, enavn, epost, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
+                    $hentBrukereQ = "select idbruker, brukernavn, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
                     $hentBrukereSTMT = $db->prepare($hentBrukereQ);
                     $hentBrukereSTMT -> execute();
                     $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
                     ?>
                     <table id="admin_allebrukere_table">
-                        <tr>
-                            <th id="admin_allebrukere_bruker">BRUKERNAVN</th>
-                            <th id="admin_allebrukere_navn" style="display: none;">NAVN</th>
-                            <th id="admin_allebrukere_epost" style="display: none;">EPOST</th>
-                            <th id="admin_allebrukere_type">TYPE</th>
-                        </tr>
-                        <?php for($i = 0; $i < count($brukere); $i++) { ?>
-                            <tr title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                <td><?php echo($brukere[$i]['brukernavn'])?></td>
-                                <td class="admin_allebrukere_allenavn" style="display: none;"><?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
-                                <td class="admin_allebrukere_alleepost" style="display: none;"><?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
-                                <td><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
+                        <thead>
+                            <tr>
+                                <th id="admin_allebrukere_bruker">BRUKERNAVN</th>
+                                <th id="admin_allebrukere_type">TYPE</th>
                             </tr>
-                        <?php } ?>
+                        </thead>
+                        <tbody>
+                            <?php for($i = 0; $i < count($brukere); $i++) { ?>
+                                <tr title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
+                                    <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
                     </table>
                 <?php } ?>
-                <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
+                <button id="admin_administrering_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_POST['nybruker'])) { 
                 // Ny bruker (Evt endring?) ?>
                 <h2 id="admin_underskrift">Opprett en bruker</h2>
@@ -349,20 +349,24 @@ if(isset($_POST['slettregel'])) {
                 $regler = $hentReglerSTMT -> fetchAll(PDO::FETCH_ASSOC);
                 ?>
                 <table id="admin_regler_table">
-                    <tr>
-                        <th>Regel</th>
-                        <th id="admin_regler_oppr">Opprettet av</th>
-                        <th id="admin_regler_slett"></th>
-                    </tr>
-                    <?php for($i = 0; $i < count($regler); $i++) {
-                        if(isset($regler[$i]['regeltekst'])) { ?>
-                            <tr>
-                                <td><?php echo($regler[$i]['regeltekst'])?></td>
-                                <td><?php echo($regler[$i]['brukernavn'])?></td>
-                                <td><button class="admin_regler_slett_knapp" name="slettregel" form="admin_form" value="<?php echo($regler[$i]['idregel'])?>">Slett</button></td>
-                            </tr>
-                        <?php }
-                    } ?>
+                    <thead>
+                        <tr>
+                            <th>Regel</th>
+                            <th id="admin_regler_oppr">Opprettet av</th>
+                            <th id="admin_regler_slett"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for($i = 0; $i < count($regler); $i++) {
+                            if(isset($regler[$i]['regeltekst'])) { ?>
+                                <tr>
+                                    <td><?php echo($regler[$i]['regeltekst'])?></td>
+                                    <td><?php echo($regler[$i]['brukernavn'])?></td>
+                                    <td><button class="admin_regler_slett_knapp" name="slettregel" form="admin_form" value="<?php echo($regler[$i]['idregel'])?>">Slett</button></td>
+                                </tr>
+                            <?php }
+                        } ?>
+                    </tbody>
                 </table>
             <?php } ?>
 
