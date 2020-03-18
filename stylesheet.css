@@ -441,6 +441,20 @@ footer a {
   width: 11em;
 }
 
+#admin_tiloversikt {
+  display: block;
+  margin-top: 1em; margin-bottom: 1em;
+  margin-left: auto; margin-right: auto;
+
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 12em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
 /* Style av select */
 #brukertypeValg {
   width: 15.6em;
@@ -529,11 +543,11 @@ footer a {
   margin-left: 12.5%; margin-right: 12.5%;
 }
 
-#admin_regler_table tr:nth-child(odd) {
+#admin_regler_table tr:nth-child(odd), #admin_allebrukere_table tr:nth-child(odd) {
   background-color: rgb(235, 235, 235);
 }
 
-#admin_regler_table tr:nth-child(even) {
+#admin_regler_table tr:nth-child(even), #admin_allebrukere_table tr:nth-child(even) {
   background-color: rgb(245, 245, 245);
 }
 
@@ -584,6 +598,25 @@ footer a {
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
 }
+
+
+/* Style spesifikt for ADMINPANEL sin ALLE BRUKERE */
+#admin_allebrukere_table {
+  table-layout: fixed;
+  margin-top: 2em;
+  width: 75%;
+  margin-left: 12.5%; margin-right: 12.5%;
+}
+
+#admin_allebrukere_table td, #admin_allebrukere_table th {
+  border: 1px solid black;
+  padding: 0.5em;
+}
+
+#admin_allebrukere_type {
+  width: 6.5em;
+}
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
