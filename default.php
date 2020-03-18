@@ -51,7 +51,7 @@ if (isset($_POST['loggUt'])) {
             <?php } else if(isset($_GET['avregistrert']) && $_GET['avregistrert'] == "true"){ ?>
                 <p id="mldFEIL">Du har blitt avregistrert</p>  
 
-            <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 5) { ?>
+            <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 6) { ?>
                 <section id="mldFEIL_boks">
                     <section id="mldFEIL_innhold">
                         <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
@@ -68,6 +68,10 @@ if (isset($_POST['loggUt'])) {
 
                         <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
                             <p id="mldFEIL">Denne brukeren er avregistrert</p>  
+
+                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 6){ ?>
+                            <p id="mldFEIL">Du har forsøkt å nå et restriktert område, handlingen har blitt loggført</p> 
+                        
                         <?php } ?>
                         <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
                         <button id="mldFEIL_knapp">Lukk</button>

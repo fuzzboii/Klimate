@@ -18,7 +18,11 @@ if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=1");
 } else if ($_SESSION['brukertype'] != '1') {
     // En innlogget bruker som ikke er administrator har forsøkt å åpne adminpanelet, loggfører dette
-    header("Location: default.php?error=4");
+    $leggTilMisbrukQ = "insert into misbruk(tekst, bruker) values('Oppdaget misbruk, forsøkte nå adminpanel', :bruker)";
+    $leggTilMisbrukSTMT = $db -> prepare($leggTilMisbrukQ);
+    $leggTilMisbrukSTMT -> bindparam(":bruker", $_SESSION['idbruker']);
+    $leggTilMisbrukSTMT -> execute();
+    header("Location: default.php?error=6");
 }
 $input_brukernavn = "";
 $input_epost = "";
@@ -317,25 +321,25 @@ if(isset($_POST['slettregel'])) {
                 <section id="mldFEIL_boks">
                     <section id="mldFEIL_innhold">
                         <?php if($_GET['error'] == 1){ ?>
-                            <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
+                            <p id="mldFEIL">Ny bruker | Brukernavnet eksisterer fra før</p>    
 
                         <?php } else if($_GET['error'] == 2) { ?>
-                            <p id="mldFEIL">Passordene er ikke like</p>
+                            <p id="mldFEIL">Ny bruker | Passordene er ikke like</p>
 
                         <?php } else if($_GET['error'] == 3) { ?>
-                            <p id="mldFEIL">Skriv inn ett passord</p>
+                            <p id="mldFEIL">Ny bruker | Skriv inn ett passord</p>
 
                         <?php } else if($_GET['error'] == 4) { ?>
-                            <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
+                            <p id="mldFEIL">Ny bruker | Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
 
                         <?php } else if($_GET['error'] == 5) { ?>
-                            <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
+                            <p id="mldFEIL">Ny bruker | Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
 
                         <?php } else if($_GET['error'] == 6) { ?>
-                            <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
+                            <p id="mldFEIL">Ny bruker | Vennligst fyll ut alle feltene</p>
 
                         <?php } else if($_GET['error'] == 7) { ?>
-                            <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
+                            <p id="mldFEIL">Ny bruker | Epost oppgitt er ikke gyldig</p>
 
                         <?php } else if($_GET['error'] == 8) { ?>
                             <p id="mldFEIL">Kunne ikke slette regel</p>
