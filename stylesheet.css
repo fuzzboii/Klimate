@@ -554,6 +554,7 @@ footer a {
   table-layout: fixed;
   display: none;
   margin-top: 2em;
+  margin-bottom: 0.5em;
   width: 75%;
   margin-left: 12.5%; margin-right: 12.5%;
 }
@@ -637,6 +638,14 @@ footer a {
 
 #admin_allebrukere_type {
   width: 6.5em;
+}
+
+#admin_allebrukere_info {
+  display: none;
+}
+
+.admin_allebrukere_allenavn, .admin_allebrukere_alleepost {
+  display: none;
 }
 
 
@@ -3452,11 +3461,19 @@ input:checked + .slider:before {
   }
 
   #admin_allebrukere_bruker, .admin_allebrukere_allebruker {
-    width: 75%;
+    width: 30%;
   }
 
   #admin_allebrukere_type, .admin_allebrukere_alletype {
     width: 6em;
+  }
+
+  #admin_allebrukere_info {
+    display: block;
+  }
+  
+  .admin_allebrukere_allenavn, .admin_allebrukere_alleepost {
+    display: block;
   }
 
 }

@@ -813,22 +813,23 @@ function aapneBruker(valgtDel) {
 }
 
 function adminpanelSok() {
-  // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("admin_sok");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("admin_allebrukere_table");
-  tr = table.getElementsByTagName("tr");
+  // Oppretter variabler
+  var skrevet, filteret, tabellen, rad, data, i, innhold;
 
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
+  skrevet = document.getElementById("admin_sok");
+  filteret = skrevet.value.toUpperCase();
+  tabellen = document.getElementById("admin_allebrukere_table");
+  rad = tabellen.getElementsByTagName("tr");
+
+  // Går igjennom alle radene og gjemmer de som ikke passer med det bruker har skrevet
+  for (i = 0; i < rad.length; i++) {
+    data = rad[i].getElementsByTagName("td")[0];
+    if (data) {
+      innhold = data.textContent || data.innerText;
+      if (innhold.toUpperCase().indexOf(filteret) > -1) {
+        rad[i].style.display = "";
       } else {
-        tr[i].style.display = "none";
+        rad[i].style.display = "none";
       }
     }
   }
