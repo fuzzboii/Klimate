@@ -221,6 +221,10 @@ if(isset($_POST['slettregel'])) {
             if(isset($_POST['administrering'])) { 
                 // Administrering ?>
                 <h2 id="admin_underskrift"><?php echo($_POST['administrering']); ?></h2>
+            
+                <form method="POST" id="bruker_form" action="administrator.php">
+                    <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
+                </form>
 
                 <?php if($_POST['administrering'] == "Alle brukere") {
                     $hentBrukereQ = "select idbruker, brukernavn, fnavn, enavn, epost, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
@@ -236,7 +240,7 @@ if(isset($_POST['slettregel'])) {
                             <th id="admin_allebrukere_type">TYPE</th>
                         </tr>
                         <?php for($i = 0; $i < count($brukere); $i++) { ?>
-                            <tr>
+                            <tr title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
                                 <td><?php echo($brukere[$i]['brukernavn'])?></td>
                                 <td class="admin_allebrukere_allenavn" style="display: none;"><?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                 <td class="admin_allebrukere_alleepost" style="display: none;"><?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
@@ -280,9 +284,14 @@ if(isset($_POST['slettregel'])) {
             <?php } else if(isset($_POST['nyregel'])) {
                 // Ny regel ?>
                 <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
+            <?php } else if(isset($_POST['bruker'])) {
+                // Visning av bruker ?>
+                <h2 id="admin_underskrift">Vis bruker <?php echo($_POST['bruker']) ?></h2>
+                 
             <?php } else {
                 // Selve oversikten, default view ?>
                 <h2 id="admin_underskrift">Oversikten</h2>
+
                 <form method="POST" id="admin_form_advarsel" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Advarsler">
                     <section onclick="aapneAdmin('admin_form_advarsel')" id="admin_advarsler">
