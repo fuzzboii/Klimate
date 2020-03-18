@@ -6,6 +6,18 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
+// Forsikrer seg om kun tilgang for administrator
+if (!isset($_SESSION['idbruker'])) {
+    // En utlogget bruker har forsøkt å nå rapport-siden
+    header("Location: default.php?error=1");
+} else if ($_SESSION['brukertype'] != '1') {
+    // En innlogget bruker som ikke er administrator har forsøkt å åpne rapport-siden, loggfører dette
+    $leggTilMisbrukQ = "insert into misbruk(tekst, bruker) values('Oppdaget misbruk, forsøkte nå rapport-siden', :bruker)";
+    $leggTilMisbrukSTMT = $db -> prepare($leggTilMisbrukQ);
+    $leggTilMisbrukSTMT -> bindparam(":bruker", $_SESSION['idbruker']);
+    $leggTilMisbrukSTMT -> execute();
+    header("Location: default.php?error=6");
+}
 
 ?>
 <!DOCTYPE html>
