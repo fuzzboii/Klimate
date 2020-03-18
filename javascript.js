@@ -812,6 +812,28 @@ function aapneBruker(valgtDel) {
   document.getElementById("bruker_form").submit();
 }
 
+function adminpanelSok() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("admin_sok");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("admin_allebrukere_table");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
 /* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */

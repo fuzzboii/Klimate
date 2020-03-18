@@ -400,6 +400,21 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif;
 }
 
+#admin_sok {
+  margin-top: 2em;
+  display: block;
+  background-image: url('bilder/sokIkon.png');
+  background-position: 0.6em 0.8em; 
+  background-size: 1em;
+  background-repeat: no-repeat; 
+  font-size: 1em; 
+  padding: 0.8em 1.4em 0.6em 2.4em; 
+  border: 1px solid #ddd; 
+  margin-left: auto;
+  margin-right: 12.5%;
+  width: 10em;
+}
+
 #admin_hovedmeny {
   display: none;
   min-width: 15em;
@@ -566,7 +581,6 @@ footer a {
 
 #admin_regler_slett {
   min-width: 2em;
-  display: none;
 }
 
 #admin_regler_table td {
@@ -612,13 +626,12 @@ footer a {
 /* Style spesifikt for ADMINPANEL sin ALLE BRUKERE */
 #admin_allebrukere_table {
   table-layout: fixed;
-  margin-top: 2em;
   width: 75%;
   margin-left: 12.5%; margin-right: 12.5%;
 }
 
 #admin_allebrukere_table td, #admin_allebrukere_table th {
-  padding: 0.5em;
+  padding: 1em;
   word-break: break-all;
 }
 
@@ -3323,7 +3336,7 @@ input:checked + .slider:before {
   #admin_main {
     display: grid;
     grid-template-columns: 14.5em 1fr 1fr;
-    grid-template-rows: 2em 6em 6em 1fr;
+    grid-template-rows: 2.5em 6em 6em 1fr;
   }
 
   #admin_header {
@@ -3350,6 +3363,13 @@ input:checked + .slider:before {
     margin: 0;
     text-align: left;
     grid-column: 2;
+    grid-row: 1;
+  }
+
+  #admin_sok {
+    margin-top: 0;
+    margin-right: 20%;
+    grid-column: 3;
     grid-row: 1;
   }
 
@@ -3916,13 +3936,18 @@ input:checked + .slider:before {
 
   #admin_main {
     grid-template-columns: 15em 1fr 15em 15em 15em 15em 1fr;
-    grid-template-rows: 2em 6em 1fr;
+    grid-template-rows: 2.5em 6em 1fr;
   }
 
   #admin_underskrift {
     grid-column: 3;
     grid-row: 1;
     text-align: left;
+  }
+
+  #admin_sok {
+    grid-column: 5/span 2;
+    grid-row: 1;
   }
 
   #admin_form_advarsel {
@@ -3991,6 +4016,11 @@ input:checked + .slider:before {
     cursor: pointer;
     box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
     transition: box-shadow 0.3s;
+  }
+
+  .admin_allebrukere_rad:hover {
+    cursor: pointer;
+    font-weight: bolder;
   }
 
 }

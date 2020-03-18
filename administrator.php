@@ -226,6 +226,8 @@ if(isset($_POST['slettregel'])) {
                     <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
                 </form>
 
+                <input type="text" id="admin_sok" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
+
                 <?php if($_POST['administrering'] == "Alle brukere") {
                     $hentBrukereQ = "select idbruker, brukernavn, fnavn, enavn, epost, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
                     $hentBrukereSTMT = $db->prepare($hentBrukereQ);
@@ -241,7 +243,7 @@ if(isset($_POST['slettregel'])) {
                         </thead>
                         <tbody>
                             <?php for($i = 0; $i < count($brukere); $i++) { ?>
-                                <tr title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
                                     <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
                                     <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
                                 </tr>
