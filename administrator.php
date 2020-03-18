@@ -227,7 +227,7 @@ if(isset($_POST['slettregel'])) {
                 </form>
 
                 <?php if($_POST['administrering'] == "Alle brukere") {
-                    $hentBrukereQ = "select idbruker, brukernavn, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
+                    $hentBrukereQ = "select idbruker, brukernavn, fnavn, enavn, epost, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
                     $hentBrukereSTMT = $db->prepare($hentBrukereQ);
                     $hentBrukereSTMT -> execute();
                     $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
