@@ -374,43 +374,47 @@ if(isset($_POST['slettregel'])) {
                         </form>
                     </section>
                     <section id="admin_allemisbruk">
+                        <p id="admin_allemisbruk_tittel">Misbruk<p>
                         <table id="admin_misbruk_table">
-                            <thead>
-                                <tr>
-                                    <th id="admin_misbruk_grunnlag">REGISTRERT MISBRUK</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php for($i = 0; $i < count($misbruk); $i++) { ?>
-                                    <tr class="admin_misbruk_rad">
-                                        <td class="admin_misbruk_allegrunnlag"><?php echo($misbruk[$i]['tekst'])?></td>
+                            <?php if(count($misbruk) != 0) { ?>
+                                <thead>
+                                    <tr>
+                                        <th id="admin_misbruk_grunnlag">GRUNNLAG</th>
                                     </tr>
-                                <?php } ?>
-                                <?php if(count($misbruk) == 0) { ?>
-                                    <tr class="admin_misbruk_rad">
-                                        <td class="admin_misbruk_allegrunnlag" id="admin_misbruk_ikkeregistrert">Ikke noe misbruk registrert</td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
+                                </thead>
+                                <tbody>
+                                    <?php for($i = 0; $i < count($misbruk); $i++) { ?>
+                                        <tr class="admin_misbruk_rad">
+                                            <td class="admin_misbruk_allegrunnlag"><?php echo($misbruk[$i]['tekst'])?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            <?php } else { ?>
+                                <p id="admin_misbruk_ikkeregistrert">Ikke noe misbruk registrert</p>
+                            <?php } ?>
                         </table>
                     </section>
                     <section id="admin_alleadvarsler">
                         <p id="admin_alleadvarsler_tittel">Advarsler<p>
                         <table id="admin_alleadvarsler_table">
-                            <thead>
-                                <tr>
-                                    <th id="admin_alleadvarsler_grunnlag">GRUNNLAG</th>
-                                    <th id="admin_alleadvarsler_administrator">ADVART AV</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php for($i = 0; $i < count($advarsler); $i++) { ?>
-                                    <tr class="admin_alleadvarsler_rad">
-                                        <td class="admin_alleadvarsler_allegrunnlag"><?php echo($advarsler[$i]['advarseltekst'])?></td>
-                                        <td class="admin_alleadvarsler_allebrukernavn"><?php echo($advarsler[$i]['brukernavn'])?></td>
+                            <?php if(count($advarsler) != 0) { ?>
+                                <thead>
+                                    <tr>
+                                        <th id="admin_alleadvarsler_grunnlag">GRUNNLAG</th>
+                                        <th id="admin_alleadvarsler_administrator">ADVART AV</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
+                                </thead>
+                                <tbody>
+                                    <?php for($i = 0; $i < count($advarsler); $i++) { ?>
+                                        <tr class="admin_alleadvarsler_rad">
+                                            <td class="admin_alleadvarsler_allegrunnlag"><?php echo($advarsler[$i]['advarseltekst'])?></td>
+                                            <td class="admin_alleadvarsler_alleadmin"><?php echo($advarsler[$i]['brukernavn'])?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            <?php } else { ?>
+                                <p id="admin_alleadvarsler_ikkeregistrert">Ikke noen advarsler registrert</p>
+                            <?php } ?>
                         </table>
                     </section>
                 <?php } else { ?>
