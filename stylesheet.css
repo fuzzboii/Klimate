@@ -783,7 +783,8 @@ footer a {
 }
 
 #admin_misbruk_table {
-  width: 100%;
+  width: 90%;
+  margin-left: auto; margin-right: auto;
 }
 
 #admin_misbruk_grunnlag {
@@ -794,10 +795,52 @@ footer a {
 .admin_misbruk_allegrunnlag {
   border-top: 1px solid grey;
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
-  box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
   padding: 0.5em;
 }
 
+#admin_misbruk_ikkeregistrert {
+  font-style: italic;
+}
+
+
+#admin_alleadvarsler {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  margin-top: 1em;
+  border-radius: 0.5em 0.5em;
+  width: 90%;
+  
+  box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
+  background-color: white;
+
+  margin-bottom: 4em;
+}
+
+#admin_alleadvarsler_tittel {
+  width: 90%;
+  margin-left: auto; margin-right: auto;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+  padding: 0.5em;
+  text-align: center;
+  border-bottom: 1px solid grey;
+}
+
+#admin_alleadvarsler_table {
+  width: 95%;
+  margin-left: auto; margin-right: auto;
+}
+
+#admin_alleadvarsler_grunnlag, #admin_alleadvarsler_administrator {
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+}
+
+#admin_alleadvarsler_administrator {
+  width: 6em;
+}
+
+.admin_alleadvarsler_rad {
+  border-top: 1px solid grey;
+}
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/

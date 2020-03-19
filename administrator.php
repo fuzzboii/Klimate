@@ -322,6 +322,13 @@ if(isset($_POST['slettregel'])) {
                 $hentMisbrukSTMT -> execute();
                 $misbruk = $hentMisbrukSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
+                // Henter advarsler
+                $hentAdvarslerQ = "select advarseltekst, brukernavn from advarsel, bruker where bruker = :bruker and advarsel.administrator = bruker.idbruker";
+                $hentAdvarslerSTMT = $db -> prepare($hentAdvarslerQ);
+                $hentAdvarslerSTMT -> bindparam(":bruker", $_POST['bruker']);
+                $hentAdvarslerSTMT -> execute();
+                $advarsler = $hentAdvarslerSTMT -> fetchAll(PDO::FETCH_ASSOC);
+
                 if(isset($brukerinfo)) { ?>
                     <section id="admin_brukerinfo">
                         <figure>
@@ -377,6 +384,30 @@ if(isset($_POST['slettregel'])) {
                                 <?php for($i = 0; $i < count($misbruk); $i++) { ?>
                                     <tr class="admin_misbruk_rad">
                                         <td class="admin_misbruk_allegrunnlag"><?php echo($misbruk[$i]['tekst'])?></td>
+                                    </tr>
+                                <?php } ?>
+                                <?php if(count($misbruk) == 0) { ?>
+                                    <tr class="admin_misbruk_rad">
+                                        <td class="admin_misbruk_allegrunnlag" id="admin_misbruk_ikkeregistrert">Ikke noe misbruk registrert</td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section id="admin_alleadvarsler">
+                        <p id="admin_alleadvarsler_tittel">Advarsler<p>
+                        <table id="admin_alleadvarsler_table">
+                            <thead>
+                                <tr>
+                                    <th id="admin_alleadvarsler_grunnlag">GRUNNLAG</th>
+                                    <th id="admin_alleadvarsler_administrator">ADVART AV</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php for($i = 0; $i < count($advarsler); $i++) { ?>
+                                    <tr class="admin_alleadvarsler_rad">
+                                        <td class="admin_alleadvarsler_allegrunnlag"><?php echo($advarsler[$i]['advarseltekst'])?></td>
+                                        <td class="admin_alleadvarsler_allebrukernavn"><?php echo($advarsler[$i]['brukernavn'])?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
