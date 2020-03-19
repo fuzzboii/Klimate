@@ -89,58 +89,72 @@ if (isset($_POST['loggUt'])) {
                 <?php if(!isset($_GET['systemerror'])){ ?>
                     <!-- IDene brukes til å splitte opp kolonnene i queries -->
                     <article>
-                        <h2>Nyeste</h2>
-                        <p><?php 
-                            //------------------------------//
-                            // Henter artikler fra database //
-                            //------------------------------//
+                        <section id="default_overskriftSeksjon">
+                            <h2>Nyeste</h2>   
+                        </section>
+                        <section id="default_innholdSeksjon">
+                            <p><?php 
+                                //------------------------------//
+                                // Henter artikler fra database //
+                                //------------------------------//
 
-                            // Henter artikler fra database, sorterer på tid og viser denne
-                            $hentNyesteQ = "select idartikkel, artnavn, tid from artikkel order by tid DESC limit 1";
-                            $hentNyesteSTMT = $db->prepare($hentNyesteQ);
-                            $hentNyesteSTMT->execute();
-                            $nyesteArtikkel = $hentNyesteSTMT->fetch(PDO::FETCH_ASSOC); 
+                                // Henter artikler fra database, sorterer på tid og viser denne
+                                $hentNyesteQ = "select idartikkel, artnavn, tid from artikkel order by tid DESC limit 1";
+                                $hentNyesteSTMT = $db->prepare($hentNyesteQ);
+                                $hentNyesteSTMT->execute();
+                                $nyesteArtikkel = $hentNyesteSTMT->fetch(PDO::FETCH_ASSOC); 
+                            
+                            echo($nyesteArtikkel['artnavn'])?></p>
+                            
+                            <a href="artikkel.php?artikkel=<?php echo($nyesteArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
+                        </section>
                         
-                        echo($nyesteArtikkel['artnavn'])?></p>
-                        
-                        <a href="artikkel.php?artikkel=<?php echo($nyesteArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
                     </article>
                     <article>
-                        <h2>Mest kommentert</h2>
+                        <section id="default_overskriftSeksjon">
+                            <h2>Mest kommentert</h2>   
+                        </section>
                         <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                        <p><?php 
-                            //--------------------------------------//
-                            // Henter mest kommenterte fra database //
-                            //--------------------------------------//
+                        <section id="default_innholdSeksjon">
+                            <p><?php 
+                                //--------------------------------------//
+                                // Henter mest kommenterte fra database //
+                                //--------------------------------------//
 
-                            // Henter artikler fra database, sorterer på høyeste antall og viser denne
-                            $mestKommenterteQ = "select count(idkommentar) as antall, idartikkel, artnavn from kommentar, artikkel
-                                                where kommentar.artikkel = artikkel.idartikkel
-                                                group by idartikkel
-                                                order by antall DESC limit 1";
-                            $mestKommenterteSTMT = $db->prepare($mestKommenterteQ);
-                            $mestKommenterteSTMT->execute();
-                            $mestKommenterte = $mestKommenterteSTMT->fetch(PDO::FETCH_ASSOC);
-                        
-                        echo($mestKommenterte['artnavn'])?></p>
-                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['idartikkel'])?>">Trykk her for å lese videre</a>
+                                // Henter artikler fra database, sorterer på høyeste antall og viser denne
+                                $mestKommenterteQ = "select count(idkommentar) as antall, idartikkel, artnavn from kommentar, artikkel
+                                                    where kommentar.artikkel = artikkel.idartikkel
+                                                    group by idartikkel
+                                                    order by antall DESC limit 1";
+                                $mestKommenterteSTMT = $db->prepare($mestKommenterteQ);
+                                $mestKommenterteSTMT->execute();
+                                $mestKommenterte = $mestKommenterteSTMT->fetch(PDO::FETCH_ASSOC);
+                            
+                            echo($mestKommenterte['artnavn'])?></p>
+                            <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['idartikkel'])?>">Trykk her for å lese videre</a>
+                        </section>
                     </article>
                     <article>
-                        <h2>Tilfeldig utvalgt</h2>
-                        <p><?php 
-                            //------------------------------//
-                            // Henter artikler fra database //
-                            //------------------------------//
+                        <section id="default_overskriftSeksjon">
+                            <h2>Tilfeldig utvalgt</h2>  
+                        </section>
+                        
+                        <section id="default_innholdSeksjon">
+                            <p><?php 
+                                //------------------------------//
+                                // Henter artikler fra database //
+                                //------------------------------//
 
-                            // Denne sorterer tilfeldig og begrenser resultatet til en artikkel
-                            $hentTilfeldig = "select idartikkel, artnavn from artikkel order by RAND() limit 1";
-                            $stmtTilfeldig = $db->prepare($hentTilfeldig);
-                            $stmtTilfeldig->execute();
-                            $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC); 
-                        
-                        echo($tilfeldigArtikkel['artnavn'])?></p>
-                        
-                        <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
+                                // Denne sorterer tilfeldig og begrenser resultatet til en artikkel
+                                $hentTilfeldig = "select idartikkel, artnavn from artikkel order by RAND() limit 1";
+                                $stmtTilfeldig = $db->prepare($hentTilfeldig);
+                                $stmtTilfeldig->execute();
+                                $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC); 
+                            
+                            echo($tilfeldigArtikkel['artnavn'])?></p>
+                            
+                            <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
+                        </section>
                     </article>
                 <?php } ?>
             </section>

@@ -945,13 +945,16 @@ footer a {
   background-image: url(bilder/klimaBilde1.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center; 
+  background-position: center center;
 }
 
 #default_beskrivelse {
+  color: white;
+  font-family: sans-serif;
+  font-size: 1em;
   text-align: center; /*Sentrerer beskrivelsen i default */
-  margin-left: 1.5em;
-  margin-right: 1.5em;
+  padding-bottom: 2em;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, .5); 
 }
 
 .Logo_forside {
@@ -969,34 +972,34 @@ footer a {
 }
 
 #default_section article {
-  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
   margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder tittel-containeren */
 }
 
-#default_section article h2 {
+#default_overskriftSeksjon h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
-  margin-top: 0;
-  padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
-  padding-bottom: 0.8em;
-  background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
-  border-radius: 1em 1em 0 0; /* Avrunder tittel-containeren */
-  
+  padding-bottom: 0.5em;
+  background-color: transparent; /* Fargen på bakgrunnen i tittel-containerne */
   text-align: center; /* Sentrerer h2 */
-  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
+  font-size: 1em; color: rgb(255, 255, 255); /* Font-størrelse og farge */
   font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
   text-transform: uppercase; /* Transformerer teksten til UCASE */
+  border-bottom: 3px solid rgb(147,181,179);
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, .5);
 }
 
+#default_overskriftSeksjon {
+  display: grid;
+  justify-content: center;
+}
 
-#default_section article p, #default_section article a {
+#default_innholdSeksjon {
+  padding: 0.8em;
+  background-color: white;
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
-  padding-left: 1.5em; /* Padding for å få plass på hver side */
-  padding-right: 1.5em;
- 
   font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
   font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder tittel-containeren */
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, .5);
 }
 
 #toppMain {
