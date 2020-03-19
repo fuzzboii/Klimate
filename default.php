@@ -35,15 +35,16 @@ if (isset($_POST['loggUt'])) {
     </head>
 
     <body id="default_body" onclick="lukkMelding('mldFEIL_boks')">
-        <?php include("inkluderes/navmeny.php") ?>
+        <?php include("inkluderes/default_navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
         <!-- Kan ikke legge denne direkte i body -->
         <header onclick="lukkHamburgerMeny()">
+            
             <!-- Logoen midten øverst på siden, med tittel -->
             <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
-            <h1 style="display: none">Bilde av Klimate logoen.</h1>        
-
+            <h1 style="display: none">Bilde av Klimate logoen.</h1>    
+ 
             <!-- Meldinger til bruker -->
             <?php if(isset($_GET['utlogget']) && $_GET['utlogget'] == 1){ ?>
                 <p id="mldOK">Du har logget ut</p>    
@@ -144,7 +145,7 @@ if (isset($_POST['loggUt'])) {
                 <?php } ?>
             </section>
         </main>
-        <?php include("inkluderes/footer.php") ?>
+        <?php include("inkluderes/default_footer.php") ?>
     </body>
 
     <!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 06.03.2020 -->

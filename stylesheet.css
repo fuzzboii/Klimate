@@ -38,6 +38,14 @@ footer {
   padding-bottom: 0.05em;
   width: 100%;
 }
+
+#default_footer  {
+  background-color: transparent;
+  margin: 0;
+  padding-top: 0.05em;
+  padding-bottom: 0.05em;
+  width: 100%;
+}
 /* Kontakt oss */
 footer a {
   color: white;
@@ -258,19 +266,46 @@ footer a {
   z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
   width: 100%; /* Skal gå over hele siden */
 }
+
+.default_navTop {
+  background-color: none; /* Bakgrunnsfarge for navigasjonsbaren */
+  position: fixed; /* Holder navigasjonsbaren øverst i vinduet til enhver tid */
+  z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
+  width: 100%; /* Skal gå over hele siden */
+}
+
 .navTop #logginnKnapp {
   margin-top: 1em;
   margin-right: 0.2em; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
   float: right;
 }
+
+.default_navTop #logginnKnapp {
+  margin-top: 1em;
+  margin-right: 0.2em; /* Litt mellomrom mellom LOGG INN og REGISTRER knappen i default */
+  float: right;
+}
+
 .navTop #registrerKnapp {
   margin-top: 1em;
   float: right;
 }
+
+.default_navTop #registrerKnapp {
+  margin-top: 1em;
+  float: right;
+}
+
 .navTop .singelKnapp {
   margin-top: 1em;
   float: right;
 }
+
+.default_navTop .singelKnapp {
+  margin-top: 1em;
+  float: right;
+}
+
 .navTop .hamburgerKnapp {
   margin-left: 0.6em; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
   margin-right: 0.6em; /* Mellomrom mellom hamburgerknappen og kanten til høyre */
@@ -278,6 +313,15 @@ footer a {
   width: 2.8em; /* Bestemmer størrelsen på hamburgerknappen */
   float: right;
 }
+
+.default_navTop .hamburgerKnapp {
+  margin-left: 0.6em; /* Mellomrom mellom hamburgerknappen og knappen til venstre */
+  margin-right: 0.6em; /* Mellomrom mellom hamburgerknappen og kanten til høyre */
+  margin-top: 0.7em;
+  width: 2.8em; /* Bestemmer størrelsen på hamburgerknappen */
+  float: right;
+}
+
 .navTop button {
   background-color: transparent;
   border: none;
@@ -287,6 +331,17 @@ footer a {
   font-weight: bold; /* Fet tekst */
   height: 3.0em; width: 6.9em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
 }
+
+.default_navTop button {
+  background-color: transparent;
+  border: none;
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Font familie */
+  font-size: 0.8em; /* Font-størrelse */
+  font-weight: bold; /* Fet tekst */
+  height: 3.0em; width: 6.9em; /* Endrer størrelsen på alle knappene i navigasjonsbaren */
+}
+
 .sok_navmeny {
   display: none;
   margin-top: 1.2em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
@@ -315,7 +370,7 @@ footer a {
   background-position: 0.7em 0.63em;
   background-repeat: no-repeat;
   background-size: 1.6em;
-  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  background-color: rgb(147,181,179); /* bakgrunnsfarge for registrerknapp */
   border-radius: 0 2em 2em 0; /* Runder ut knappen */
   height: 1.15em; width: 1.15em;
 }
@@ -355,6 +410,17 @@ footer a {
   object-fit: cover;
   border-radius: 50%; /* For å runde av profilbildet */
 }
+
+.default_navTop .profil_navmeny {
+  margin-top: 0.5em; /* Plassering av profilbilde på navigasjonsmenyen når man er på backend */
+  margin-left: 0.2em; /* Mellomrom mellom profilbilde og LOGG UT knappen */
+  width: 3em; /* Bestemmer størrelsen på profilbildet */
+  height: 3em;
+  float: right;
+  object-fit: cover;
+  border-radius: 50%; /* For å runde av profilbildet */
+}
+
 #backendLoggUt {
   margin-top: 1em;
   float: right;
@@ -871,12 +937,15 @@ footer a {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
-
 #default_body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  background-image: url(bilder/klimaBilde1.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center; 
 }
 
 #default_beskrivelse {
@@ -894,14 +963,6 @@ footer a {
   margin-right: auto;
 }
 
-#default_main {
-  margin-bottom: 1.4em; /* Skaper mellomrom mellom den yttre boksen og main */
-  margin-left: 1.5em;
-  margin-right: 1.5em;
-  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
-  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
-}
 
 #default_section {
   display: grid;
@@ -1600,12 +1661,14 @@ table {
   height: 0%; width: 100%; /* Height 0% da den ikke skal vises før vi kjører JavaScript funksjonen for å åpne hamburgermenyen */
   position: fixed;
   z-index: 2; /* Skal være over alle andre elementer */
-  left: 0; top: 4.2em; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
-  background-color: rgb(200,218,211); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
+  left: 0; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
+  background-color: rgb(0, 255, 157); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
   overflow: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
   transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
+  animation-name: anim_frahside;
+  animation-duration: 0.4s;
+  max-height: 100%;
   /* ------------------------------------------------------------------------------------- */
-  box-shadow: 0.0em 0.9em 0.7em -0.1em rgb(193, 196, 199); /* Skygge på rullegardinen */
 }
 
 /* Innholdet i menyen */
@@ -1622,7 +1685,7 @@ table {
   font-family: Helvetica, Arial, sans-serif; /* Font familie */
   color: #000000; /* Fargen på lenkene i hamburgermenyen */
   display: block; /* Sørger for at lenkene kommer under hverandre */
-  transition: 0.3s; /* Effekt når man trykker på knappen */
+  border-bottom: 2px solid transparent;
 }
 
 .hamburgerInnhold p {
@@ -3300,7 +3363,6 @@ input:checked + .slider:before {
   .hamburgerMeny {
     width: 40%;
     left: 60%;
-    max-height: 80%;
   }
 
   #mldFEIL {
@@ -3711,6 +3773,12 @@ input:checked + .slider:before {
     color: rgba(44, 44, 44, 0.651);
     cursor: pointer;
   }
+
+  .default_navTop button:hover {
+    color: rgba(44, 44, 44, 0.651);
+    cursor: pointer;
+  }
+
   /* Når musen er over hamburgermenyen, vis pointer-mus */
   .hamburgerMeny button:hover {
     color: rgb(165,165,165);
@@ -3792,13 +3860,14 @@ input:checked + .slider:before {
 
   /* Hover ved hamburger meny */
   .hamburgerInnhold a:hover {
-    background-color: #f1f1f169; /* Setter fargen når man holder over menyvalget */
+    border-bottom: 2px solid black;
+    margin-left: 7em;
+    margin-right: 7em;
   }
 
   .hamburgerMeny {
     width: 25%;
     left: 75%;
-    max-height: 45%;
   }
   
   /* Hover-instillinger for søk*/
@@ -4373,6 +4442,10 @@ input:checked + .slider:before {
     display: none;
   }
 
+  .default_navTop {
+    display: none;
+  }
+
   .Logo_forside {
     width: 5em;
   }
@@ -4453,6 +4526,11 @@ input:checked + .slider:before {
 @keyframes anim_fratopp {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
+}
+
+@keyframes anim_frahside {
+  from {right: -300px; opacity: 0}
+  to {right: 0; opacity: 1}
 }
 
 
