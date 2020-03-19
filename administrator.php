@@ -315,6 +315,13 @@ if(isset($_POST['slettregel'])) {
                     $harTlf = true;
                 }
 
+                // Henter misbruk
+                $hentMisbrukQ = "select tekst from misbruk where bruker = :bruker";
+                $hentMisbrukSTMT = $db -> prepare($hentMisbrukQ);
+                $hentMisbrukSTMT -> bindparam(":bruker", $_POST['bruker']);
+                $hentMisbrukSTMT -> execute();
+                $misbruk = $hentMisbrukSTMT -> fetchAll(PDO::FETCH_ASSOC);
+
                 if(isset($brukerinfo)) { ?>
                     <section id="admin_brukerinfo">
                         <figure>
@@ -358,6 +365,22 @@ if(isset($_POST['slettregel'])) {
                             <input id="admin_handling_dato" type="date" name="datotil">
                             <input id="admin_handling_submit" type="submit" value="Advar bruker">
                         </form>
+                    </section>
+                    <section id="admin_allemisbruk">
+                        <table id="admin_misbruk_table">
+                            <thead>
+                                <tr>
+                                    <th id="admin_misbruk_grunnlag">REGISTRERT MISBRUK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php for($i = 0; $i < count($misbruk); $i++) { ?>
+                                    <tr class="admin_misbruk_rad">
+                                        <td class="admin_misbruk_allegrunnlag"><?php echo($misbruk[$i]['tekst'])?></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </section>
                 <?php } else { ?>
                     <h2 id="admin_underskrift">Kunne ikke vise brukeren</h2>

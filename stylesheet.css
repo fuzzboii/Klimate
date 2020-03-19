@@ -563,6 +563,7 @@ footer a {
   background-color: rgb(63, 63, 63);
   color: white;
   border-top: 1px solid black;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
 }
 
 #admin_regler_table tr:nth-child(odd), #admin_allebrukere_table tr:nth-child(odd) {
@@ -587,6 +588,7 @@ footer a {
 #admin_regler_table td {
   word-break: break-word;
   vertical-align: top;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
 }
 
 #admin_regler_table td, #admin_regler_table th {
@@ -634,10 +636,11 @@ footer a {
 #admin_allebrukere_table td, #admin_allebrukere_table th {
   padding: 1em;
   word-break: break-all;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
 }
 
 #admin_allebrukere_type {
-  width: 6.5em;
+  width: 6.8em;
 }
 
 #admin_allebrukere_info {
@@ -765,6 +768,34 @@ footer a {
   border: none;
   border-radius: 0.4em;
   font-size: 1.0em;
+}
+
+
+#admin_allemisbruk {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  margin-top: 1em;
+  border-radius: 0.5em 0.5em;
+  width: 90%;
+  
+  box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
+  background-color: white;
+}
+
+#admin_misbruk_table {
+  width: 100%;
+}
+
+#admin_misbruk_grunnlag {
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+  padding: 1em;
+}
+
+.admin_misbruk_allegrunnlag {
+  border-top: 1px solid grey;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+  box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
+  padding: 0.5em;
 }
 
 
@@ -3585,7 +3616,7 @@ input:checked + .slider:before {
   }
 
   #admin_allebrukere_type, .admin_allebrukere_alletype {
-    width: 6em;
+    width: 7em;
   }
 
   #admin_allebrukere_info {
