@@ -942,10 +942,8 @@ footer a {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background-image: url(bilder/klimaBilde1.jpg);
+  background: url('bilder/klimaBilde1.jpg') no-repeat center fixed;
   background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
 }
 
 #default_beskrivelse {
