@@ -106,7 +106,7 @@ if (isset($_POST['loggUt'])) {
                             
                             echo($nyesteArtikkel['artnavn'])?></p>
                             
-                            <a href="artikkel.php?artikkel=<?php echo($nyesteArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
+                            <a href="artikkel.php?artikkel=<?php echo($nyesteArtikkel['idartikkel'])?>">Les videre</a>
                         </section>
                         
                     </article>
@@ -131,7 +131,7 @@ if (isset($_POST['loggUt'])) {
                                 $mestKommenterte = $mestKommenterteSTMT->fetch(PDO::FETCH_ASSOC);
                             
                             echo($mestKommenterte['artnavn'])?></p>
-                            <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['idartikkel'])?>">Trykk her for å lese videre</a>
+                            <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['idartikkel'])?>">Les videre</a>
                         </section>
                     </article>
                     <article>
@@ -153,7 +153,7 @@ if (isset($_POST['loggUt'])) {
                             
                             echo($tilfeldigArtikkel['artnavn'])?></p>
                             
-                            <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Trykk her for å lese videre</a>
+                            <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Les videre</a>
                         </section>
                     </article>
                 <?php } ?>
