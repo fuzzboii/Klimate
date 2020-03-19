@@ -668,6 +668,12 @@ footer a {
   box-shadow: 0 0 0.2em 0.01em rgb(255, 255, 255);
 }
 
+#admin_brukernavn {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
 #admin_ikkeoppgitt {
   font-style: italic;
 }
@@ -676,6 +682,7 @@ footer a {
   border-bottom: 1px solid darkgray;
   width: 80%;
   margin-left: 10%; margin-right: 10%;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
 }
 
 #admin_handlinger {
@@ -686,12 +693,13 @@ footer a {
 }
 
 .admin_handlingvalg {
-  margin-top: 0.5em;
-  border: 1px solid black;
+  margin-top: 0.8em; margin-bottom: 0.4em;
+  box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
   display: inline-block;
   padding: 1em;
   border-radius: 0.5em;
   background-color: white;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
 }
 
 #admin_aktivhandling {
@@ -700,9 +708,63 @@ footer a {
 }
 
 #admin_handlinger form {
-  border: 1px solid black;
+  box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
   border-radius: 0.5em;
   padding: 0.5em;
+  background-color: white;
+}
+
+#admin_handling {
+  margin-top: 0.6em; margin-bottom: 0.2em;
+  display: block;
+  margin-left: auto; margin-right: auto;
+  width: 95%;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+}
+
+#admin_handling_tekst {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  width: 95%;
+
+  padding: 1em;
+  box-sizing: border-box;
+  border: 1px solid grey;
+}
+
+#admin_handling_lengde {
+  margin-top: 0.6em; margin-bottom: 0.2em;
+  display: none;
+  margin-left: auto; margin-right: auto;
+  width: 95%;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+}
+
+#admin_handling_dato {
+  margin-bottom: 1em;
+  display: none;
+  margin-left: 2.5%; margin-right: 47.5%;
+  width: 50%;
+
+  padding: 1em;
+  box-sizing: border-box;
+  border: 1px solid grey;
+}
+
+#admin_handling_submit {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  margin-top: 1em;
+  width: 95%;
+  
+  background-color: dodgerblue;
+  color: white;
+  padding: 1em;
+  font-weight: bold; 
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+  border: none;
+  border-radius: 0.4em;
+  font-size: 1.0em;
 }
 
 

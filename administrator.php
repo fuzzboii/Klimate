@@ -316,7 +316,6 @@ if(isset($_POST['slettregel'])) {
                 }
 
                 if(isset($brukerinfo)) { ?>
-                    <h2 id="admin_underskrift">Vis bruker <?php echo($_POST['bruker']) ?></h2>
                     <section id="admin_brukerinfo">
                         <figure>
                             <?php 
@@ -344,18 +343,20 @@ if(isset($_POST['slettregel'])) {
                                 <img id="admin_brukerbilde" src="bilder/profil.png" alt="Standard profilbilde">
                             <?php } ?>
                         </figure>
+                        <p id="admin_brukernavn"><?php echo($brukerinfo['brukernavn']) ?></p>
                         <?php if($harFornavn) {echo("<p>Navn: " . $brukerinfo['fnavn']);} if($harEtternavn) {echo(" " . $brukerinfo['enavn']);} if(!$harFornavn && !$harEtternavn) {echo("<p id='admin_ikkeoppgitt'>Navn: Ikke oppgitt");} ?></p>
                         <?php if($harFornavn) {echo("<p>Epost: " . $brukerinfo['epost']);} else {echo("<p id='admin_ikkeoppgitt'>Epost: Ikke oppgitt");} ?></p>
                         <?php if($harFornavn) {echo("<p>Telefon: " . $brukerinfo['telefonnummer']);} else {echo("<p id='admin_ikkeoppgitt'>Telefon: Ikke oppgitt");} ?></p>
                     </section>
                     <section id="admin_handlinger">
-                        <p class="admin_handlingvalg" id="admin_aktivhandling">Advar</p>
-                        <p class="admin_handlingvalg">Ekskluder</p>
+                        <p class="admin_handlingvalg" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
+                        <p class="admin_handlingvalg" onclick="byttHandling('Ekskluder')">Ekskluder</p>
                         <form method="POST" action="administrator.php">
                             <p id="admin_handling">Advar bruker</p>
-                            <input id="admin_handling_tekst" type="tekst" name="advaring">
+                            <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" required></textarea>
                             <p id="admin_handling_lengde">Lengde, la være for permanent</p>
                             <input id="admin_handling_dato" type="date" name="datotil">
+                            <input id="admin_handling_submit" type="submit" value="Advar bruker">
                         </form>
                     </section>
                 <?php } else { ?>

@@ -835,6 +835,43 @@ function adminpanelSok() {
   }
 }
 
+/* Funksjonalitet for å bytte mellom advarsel og ekskludering */
+function byttHandling(handling) {
+  var knappene =  document.getElementsByClassName("admin_handlingvalg");
+
+  if(handling == "Advar") {
+    /* Admin ønsker å advare */
+    knappene[1].removeAttribute("id");
+    knappene[0].setAttribute("id", "admin_aktivhandling");
+
+    document.getElementById("admin_handling_tekst").setAttribute("name", "advaring");
+
+    document.getElementById("admin_handling").innerHTML = "Advar bruker";
+
+    document.getElementById("admin_handling_submit").style.backgroundColor = "dodgerblue";
+    document.getElementById("admin_handling_submit").value = "Advar bruker";
+
+    document.getElementById("admin_handling_lengde").style.display = "none";
+    document.getElementById("admin_handling_dato").style.display = "none";
+
+  } else if(handling == "Ekskluder") {
+    /* Admin ønsker å ekskludere */
+    knappene[0].removeAttribute("id");
+    knappene[1].setAttribute("id", "admin_aktivhandling");
+
+    document.getElementById("admin_handling_tekst").setAttribute("name", "ekskludering");
+
+    document.getElementById("admin_handling").innerHTML = "Ekskluder bruker";
+    
+    document.getElementById("admin_handling_submit").style.backgroundColor = "red";
+    document.getElementById("admin_handling_submit").value = "Ekskluder bruker";
+
+    document.getElementById("admin_handling_lengde").style.display = "block";
+    document.getElementById("admin_handling_dato").style.display = "block";
+
+  }
+}
+
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
 /* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */
