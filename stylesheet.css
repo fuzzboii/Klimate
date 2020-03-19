@@ -648,6 +648,64 @@ footer a {
   display: none;
 }
 
+/* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
+#admin_brukerinfo {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  padding-top: 1em; padding-bottom: 1em;
+  box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
+  border-radius: 0.5em 0.5em;
+  width: 90%;
+  background-color: white;
+}
+
+#admin_brukerbilde {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  width: 8em; height: 8em;
+  border-radius: 100%;
+  object-fit: cover;
+  box-shadow: 0 0 0.2em 0.01em rgb(255, 255, 255);
+}
+
+#admin_ikkeoppgitt {
+  font-style: italic;
+}
+
+#admin_brukerinfo p {
+  border-bottom: 1px solid darkgray;
+  width: 80%;
+  margin-left: 10%; margin-right: 10%;
+}
+
+#admin_handlinger {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  border-radius: 0.5em 0.5em;
+  width: 90%;
+}
+
+.admin_handlingvalg {
+  margin-top: 0.5em;
+  border: 1px solid black;
+  display: inline-block;
+  padding: 1em;
+  border-radius: 0.5em;
+  background-color: white;
+}
+
+#admin_aktivhandling {
+  background-color: dodgerblue;
+  color: white;
+}
+
+#admin_handlinger form {
+  border: 1px solid black;
+  border-radius: 0.5em;
+  padding: 0.5em;
+}
+
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */

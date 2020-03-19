@@ -290,9 +290,77 @@ if(isset($_POST['slettregel'])) {
                 // Ny regel ?>
                 <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_POST['bruker'])) {
-                // Visning av bruker ?>
-                <h2 id="admin_underskrift">Vis bruker <?php echo($_POST['bruker']) ?></h2>
-                 
+                // Visning av bruker 
+                $hentBrukerinfoQ = "select brukernavn, fnavn, enavn, epost, telefonnummer from bruker where idbruker = :bruker";
+                $hentBrukerinfoSTMT = $db -> prepare($hentBrukerinfoQ);
+                $hentBrukerinfoSTMT -> bindparam(":bruker", $_POST['bruker']);
+                $hentBrukerinfoSTMT -> execute();
+                $brukerinfo = $hentBrukerinfoSTMT -> fetch(PDO::FETCH_ASSOC); 
+
+                $harFornavn = false;
+                $harEtternavn = false;
+                $harEpost = false;
+                $harTlf = false;
+
+                if(isset($brukerinfo['fnavn']) && preg_match("/\S/", $brukerinfo['fnavn']) == 1) {
+                    $harFornavn = true;
+                }
+                if(isset($brukerinfo['enavn']) && preg_match("/\S/", $brukerinfo['enavn']) == 1) {
+                    $harEtternavn = true;
+                }
+                if(isset($brukerinfo['epost']) && preg_match("/\S/", $brukerinfo['epost']) == 1) {
+                    $harEpost = true;
+                }
+                if(isset($brukerinfo['telefonnummer']) && preg_match("/\S/", $brukerinfo['telefonnummer']) == 1) {
+                    $harTlf = true;
+                }
+
+                if(isset($brukerinfo)) { ?>
+                    <h2 id="admin_underskrift">Vis bruker <?php echo($_POST['bruker']) ?></h2>
+                    <section id="admin_brukerinfo">
+                        <figure>
+                            <?php 
+                            $hentBrukerbildeQ = "select hvor from bilder, brukerbilde where bilder.idbilder = brukerbilde.bilde and brukerbilde.bruker = :bruker";
+                            $hentBrukerbildeSTMT = $db -> prepare($hentBrukerbildeQ);
+                            $hentBrukerbildeSTMT -> bindparam(":bruker", $_POST['bruker']);
+                            $hentBrukerbildeSTMT -> execute();
+                            $brukerbilde = $hentBrukerbildeSTMT -> fetch(PDO::FETCH_ASSOC);
+
+                            if ($brukerbilde) {
+                                $testPaa = $brukerbilde['hvor'];
+                                // Tester på om filen faktisk finnes
+                                if(file_exists("$lagringsplass/$testPaa")) {
+                                    // Profilbilde som resultat av spørring
+                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {
+                                        // Hvis vi finner et miniatyrbilde bruker vi det ?>
+                                        <img id="admin_brukerbilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde['hvor']) ?>" alt="Profilbilde til <?php echo($brukerinfo['brukernavn']) ?>">
+                                    <?php } else { ?>
+                                        <img id="admin_brukerbilde" src="bilder/opplastet/<?php echo($brukerbilde['hvor']) ?>" alt="Profilbilde til <?php echo($brukerinfo['brukernavn']) ?>">
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <img id="admin_brukerbilde" src="bilder/profil.png" alt="Standard profilbilde">
+                                <?php } ?>
+                            <?php } else { ?>
+                                <img id="admin_brukerbilde" src="bilder/profil.png" alt="Standard profilbilde">
+                            <?php } ?>
+                        </figure>
+                        <?php if($harFornavn) {echo("<p>Navn: " . $brukerinfo['fnavn']);} if($harEtternavn) {echo(" " . $brukerinfo['enavn']);} if(!$harFornavn && !$harEtternavn) {echo("<p id='admin_ikkeoppgitt'>Navn: Ikke oppgitt");} ?></p>
+                        <?php if($harFornavn) {echo("<p>Epost: " . $brukerinfo['epost']);} else {echo("<p id='admin_ikkeoppgitt'>Epost: Ikke oppgitt");} ?></p>
+                        <?php if($harFornavn) {echo("<p>Telefon: " . $brukerinfo['telefonnummer']);} else {echo("<p id='admin_ikkeoppgitt'>Telefon: Ikke oppgitt");} ?></p>
+                    </section>
+                    <section id="admin_handlinger">
+                        <p class="admin_handlingvalg" id="admin_aktivhandling">Advar</p>
+                        <p class="admin_handlingvalg">Ekskluder</p>
+                        <form method="POST" action="administrator.php">
+                            <p id="admin_handling">Advar bruker</p>
+                            <input id="admin_handling_tekst" type="tekst" name="advaring">
+                            <p id="admin_handling_lengde">Lengde, la være for permanent</p>
+                            <input id="admin_handling_dato" type="date" name="datotil">
+                        </form>
+                    </section>
+                <?php } else { ?>
+                    <h2 id="admin_underskrift">Kunne ikke vise brukeren</h2>
+                <?php } ?>
             <?php } else {
                 // Selve oversikten, default view ?>
                 <h2 id="admin_underskrift">Oversikten</h2>
