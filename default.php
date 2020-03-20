@@ -142,7 +142,7 @@ if (isset($_POST['loggUt'])) {
                                         </p>
                                         <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],0,150)) ?> </p>                             
                                         
-                                        <a href="arrangement.php?arrangement=<?php echo($arrangementer['idevent'])?>">...Les videre</a>
+                                        <a href="arrangement.php?arrangement=<?php echo($arrangementer[$i]['idevent'])?>">...Les videre</a>
                                     </section>
                                 <?php } ?>
                         </section>
