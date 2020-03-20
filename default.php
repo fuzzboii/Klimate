@@ -140,7 +140,7 @@ if (isset($_POST['loggUt'])) {
                                                 echo(date_format($dato,"d/m/Y"));
                                             ?>
                                         </p>
-                                        <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],1,150)) ?> </p>                             
+                                        <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],0,150)) ?> </p>                             
                                         
                                         <a href="arrangement.php?arrangement=<?php echo($arrangementer['idevent'])?>">...Les videre</a>
                                     </section>
