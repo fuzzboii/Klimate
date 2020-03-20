@@ -86,33 +86,11 @@ if (isset($_POST['loggUt'])) {
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
         <main id="default_main" onclick="lukkHamburgerMeny()">   
             <section id="default_section">
-                <?php if(!isset($_GET['systemerror'])){ ?>
+                <?php if(!isset($_GET['systemerror'])) { ?>
                     <!-- IDene brukes til å splitte opp kolonnene i queries -->
-                    <article>
+                   <article>
                         <section id="default_overskriftSeksjon">
-                            <h2>Nyeste</h2>   
-                        </section>
-                        <section id="default_innholdSeksjon">
-                            <p><?php 
-                                //------------------------------//
-                                // Henter artikler fra database //
-                                //------------------------------//
-
-                                // Henter artikler fra database, sorterer på tid og viser denne
-                                $hentNyesteQ = "select idartikkel, artnavn, tid from artikkel order by tid DESC limit 1";
-                                $hentNyesteSTMT = $db->prepare($hentNyesteQ);
-                                $hentNyesteSTMT->execute();
-                                $nyesteArtikkel = $hentNyesteSTMT->fetch(PDO::FETCH_ASSOC); 
-                            
-                            echo($nyesteArtikkel['artnavn'])?></p>
-                            
-                            <a href="artikkel.php?artikkel=<?php echo($nyesteArtikkel['idartikkel'])?>">Les videre</a>
-                        </section>
-                        
-                    </article>
-                    <article>
-                        <section id="default_overskriftSeksjon">
-                            <h2>Mest kommentert</h2>   
+                            <h2>Populære kommentarer</h2>   
                         </section>
                         <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
                         <section id="default_innholdSeksjon">
@@ -136,24 +114,37 @@ if (isset($_POST['loggUt'])) {
                     </article>
                     <article>
                         <section id="default_overskriftSeksjon">
-                            <h2>Tilfeldig utvalgt</h2>  
+                            <h2>Kommende arrangementer</h2>  
                         </section>
                         
                         <section id="default_innholdSeksjon">
-                            <p><?php 
-                                //------------------------------//
-                                // Henter artikler fra database //
-                                //------------------------------//
+                            <?php 
+                                //------------------------------------//
+                                // Henter arrangementer fra database //
+                                //-----------------------------------//
 
-                                // Denne sorterer tilfeldig og begrenser resultatet til en artikkel
-                                $hentTilfeldig = "select idartikkel, artnavn from artikkel order by RAND() limit 1";
-                                $stmtTilfeldig = $db->prepare($hentTilfeldig);
-                                $stmtTilfeldig->execute();
-                                $tilfeldigArtikkel = $stmtTilfeldig->fetch(PDO::FETCH_ASSOC); 
-                            
-                            echo($tilfeldigArtikkel['artnavn'])?></p>
-                            
-                            <a href="artikkel.php?artikkel=<?php echo($tilfeldigArtikkel['idartikkel'])?>">Les videre</a>
+                                // Denne sorterer top 5 nyeste arrangementer
+                                $hentArrangement = "select idevent, eventnavn, eventtekst, tidspunkt from event order by tidspunkt ASC LIMIT 5";
+                                $hentArrangementSTMT = $db->prepare($hentArrangement);
+                                $hentArrangementSTMT->execute();
+                                $arrangementer = $hentArrangementSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                ?>
+                                
+                                <?php for($i = 0; $i < count($arrangementer); $i++) { ?>
+                                    <section id="default_arrangementFelt">
+                                        <h3 class="KommendeArrangementOverskrift"><?php echo $arrangementer[$i]['eventnavn'] ?> </h3>
+                                        <img class="KommendeArrangement_datobilde" src="bilder/datoIkon.png">
+                                        <p class="KommendeArrangementTidspunkt">
+                                            <?php 
+                                                $dato = date_create($arrangementer[$i]['tidspunkt']);
+                                                echo(date_format($dato,"d/m/Y"));
+                                            ?>
+                                        </p>
+                                        <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],1,150)) ?> </p>                             
+                                        
+                                        <a href="arrangement.php?arrangement=<?php echo($arrangementer['idevent'])?>">...Les videre</a>
+                                    </section>
+                                <?php } ?>
                         </section>
                     </article>
                 <?php } ?>

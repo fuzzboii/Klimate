@@ -1011,6 +1011,36 @@ footer a {
   padding-top: 6em; /* Plassering av logoen på default */
 }
 
+#default_arrangementFelt {
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 0.5em;
+} 
+
+#default_innholdSeksjon {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.KommendeArrangementOverskrift {
+  font-weight: bold;
+  font-size: 1em;
+  margin-bottom: 0;
+}
+
+.KommendeArrangementTidspunkt {
+  font-size: 0.7em;
+  margin: 0.2em;
+}
+
+.KommendeArrangementTekst {
+  font-size: 1em;
+}
+
+.KommendeArrangement_datobilde {
+  height: 1em;
+  float: left;
+  padding-right: 0.1em;
+}
+
 
 /*-----------------------------------------------------------------------------*/
 /* Style for ARTIKKEL */
@@ -3355,7 +3385,7 @@ input:checked + .slider:before {
 /* Tab */
 @media screen and (min-width: 720px) {
   #default_section {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
   }
 
   .p_section {
@@ -4347,7 +4377,7 @@ input:checked + .slider:before {
     margin-left: auto; margin-right: auto;
   }
   #default_section {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
   }
   
   #backend_main {
