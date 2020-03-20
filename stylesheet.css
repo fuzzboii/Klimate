@@ -3869,8 +3869,8 @@ input:checked + .slider:before {
   /* Hover ved hamburger meny */
   .hamburgerInnhold a:hover {
     border-bottom: 2px solid black;
-    margin-left: 7em;
-    margin-right: 7em;
+    margin-left: 2em;
+    margin-right: 2em;
   }
 
   .hamburgerMeny {
@@ -4420,6 +4420,12 @@ input:checked + .slider:before {
     width: 116em;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* Hover ved hamburger meny */
+  .hamburgerInnhold a:hover {
+    margin-left: 6em;
+    margin-right: 6em;
   }
   
 }
