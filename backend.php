@@ -99,30 +99,10 @@ if(isset($sisteKommentar['artikkel'])) {
             <main id="backend_main" onclick="lukkHamburgerMeny()">
                 <section id="backend_section">
                     <!-- Innholdet på siden -->
-                    <?php if($visArr == true) { ?>
-                        <article>
-                            <h2>Førstkommende påmeldt arrangement</h2>
-                            <p><?php echo($forstkommende['eventnavn'])?></p>
-                            <a href="arrangement.php?arrangement=<?php echo($forstkommende['idevent']) ?>">Trykk her for å lese videre</a>
-                        </article>
-                    <?php } else { ?>
-                        <article>
-                            <h2>Førstkommende påmeldt arrangement</h2>
-                            <p >Du har ingen kommende arrangementer</p>
-                        </article>
-                    <?php } ?>
-                    <?php if($visKom == true) { ?>
-                        <article>
-                            <h2>Din siste kommentar</h2>
-                            <p><?php echo($sisteKommentar['ingress'])?></p>
-                            <a href="artikkel.php?artikkel=<?php echo($sisteKommentar['artikkel']) ?>">Trykk her for å lese videre</a>
-                        </article>
-                    <?php } else { ?>
-                        <article>
-                            <h2>Din siste kommentar</h2>
-                            <p>Du har ingen kommentarer</p>
-                        </article>
-                    <?php } ?>
+                <ul>
+                    <li><a onClick="location.href='backend.php?kommentar=1">kommentarer</a></li>
+                </ul>
+                  
                 </section>
             </main>
             <?php include("inkluderes/footer.php") ?>
