@@ -120,7 +120,7 @@ if (isset($_POST['loggUt'])) {
                                         <?php
                                         if (!$resBilde) { ?>
                                             <!-- Standard artikkelbilde om arrangør ikke har lastet opp noe enda -->
-                                            <img class="default_def_BildeBoks" src="" alt="">
+                                            <img class="default_def_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                         <?php } else {
                                             // Tester på om filen faktisk finnes
                                             $testPaa = $resBilde['hvor'];
@@ -141,7 +141,17 @@ if (isset($_POST['loggUt'])) {
                                     <section id="default_artikkelFelt">
                                         <h3 class="PopArtiklerOverskrift"><?php echo $mestKommenterte[$i]['artnavn'] ?> </h3>
                                         <p class="PopArtiklerIngress"><?php echo $mestKommenterte[$i]['artingress'] ?> </p>
+                                        
+                                        <img class="default_antallKommentarerIkon" src="bilder/meldingIkon.png">
+                                        <?php
+                                            $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $mestKommenterte[$i]['idartikkel'];
+                                            $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
+                                            $hentAntallKommentarerSTMT->execute();
+                                            $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
+                                        ?>
+                                        <p id="default_antallKommentarer"><?php echo $antallkommentarer['antall'] ?></p>
                                         <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">...Les videre</a>
+                                                                                  
                                     </section>
                                 <?php } ?>
                         </section>
