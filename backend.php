@@ -96,17 +96,61 @@ if(isset($sisteKommentar['artikkel'])) {
                 <?php if($antUlest['antall'] > 0) { ?><p><?php echo("Du har " . $antUlest['antall'] . " uleste meldinger!");?></p><?php } ?></a>
             </header>
 
-            <main id="backend_main" onclick="lukkHamburgerMeny()">
+            <!-- Del for å vise kommentarer til brukeren -->
+            <?php if(isset($_GET['kommentar']) && $_GET['kommentar'] == $_SESSION['idbruker'] ) { ?>
+
+            <main id="backend_main" onclick="lukkHamburgerMeny()">            
                 <section id="backend_section">
-                    <!-- Innholdet på siden -->
-                <ul>
-                    <li><a onClick="location.href='backend.php?kommentar=1">kommentarer</a></li>
-                </ul>
-                  
+                    <ul class="backendNav">
+                        <li><a class="aktiv" onClick="location.href='backend.php?kommentar=<?php echo($_SESSION['idbruker'])?>'">Dine kommentarer</a></li>
+                        <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
+                        <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
+                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Min profil</a></li>
+                    </ul>
                 </section>
             </main>
+            <?php } else if(isset($_GET['artikler']) && $_GET['artikler'] == $_SESSION['idbruker'] ) { ?>
+
+            <main id="backend_main" onclick="lukkHamburgerMeny()">            
+                <section id="backend_section">
+                    <ul class="backendNav">
+                        <li><a onClick="location.href='backend.php?kommentar=<?php echo($_SESSION['idbruker'])?>'">Dine kommentarer</a></li>
+                        <li><a class="aktiv" onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
+                        <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
+                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Min profil</a></li>
+                    </ul>
+                </section>
+            </main>
+
+            <?php } else if(isset($_GET['arrangementer']) && $_GET['arrangementer'] == $_SESSION['idbruker'] ) { ?>
+
+            <main id="backend_main" onclick="lukkHamburgerMeny()">            
+                <section id="backend_section">
+                    <ul class="backendNav">
+                        <li><a onClick="location.href='backend.php?kommentar=<?php echo($_SESSION['idbruker'])?>'">Dine kommentarer</a></li>
+                        <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
+                        <li><a class="aktiv" onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
+                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Min profil</a></li>
+                    </ul>
+                </section>
+            </main>
+
+            <?php } else { ?>
+
+            <main id="backend_main" onclick="lukkHamburgerMeny()">            
+                <section id="backend_section">
+                    <ul class="backendNav">
+                        <li><a onClick="location.href='backend.php?kommentar=<?php echo($_SESSION['idbruker'])?>'">Dine kommentarer</a></li>
+                        <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
+                        <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
+                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Min profil</a></li>
+                    </ul>
+                </section>
+            </main>
+            
+
+                <?php } ?>
             <?php include("inkluderes/footer.php") ?>
-        </article>   
     </body>
 
     <!-- Denne siden er utviklet av Glenn Petter Pettersen, Robin Kleppang & Aron Snekkestad, siste gang endret 04.03.2020 -->

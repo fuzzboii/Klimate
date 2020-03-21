@@ -1405,15 +1405,44 @@ footer a {
   margin-left: 1.5em;
   margin-right: 1.5em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+ 
 }
 
-#backend_section {
-  display: grid;
+.backendNav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 1em 1em 0em 0em; /* Avrunder kantene */
+  font-size: 1em;
+  border-bottom: 1px rgb(197, 197, 197) solid;
+  
 }
 
+.backendNav li {
+  float: left;
+}
 
+.backendNav li a {
+  display: block;
+  text-align: center;
+  margin: 0.5em 0.5em;
+  text-decoration: none;
+  
+
+}
+
+.backendNav li a:hover:not(.aktiv) {
+  border-bottom: 0.1em solid rgba(36, 209, 100, 0.637);
+  color:rgba(36, 209, 100, 0.637);
+}
+
+.aktiv {
+  border-bottom: 0.1em solid black;
+  color:black;
+}
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for KONTO, REDIGER */
