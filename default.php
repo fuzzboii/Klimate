@@ -90,26 +90,60 @@ if (isset($_POST['loggUt'])) {
                     <!-- IDene brukes til å splitte opp kolonnene i queries -->
                    <article>
                         <section id="default_overskriftSeksjon">
-                            <h2>Populære kommentarer</h2>   
+                            <h2>Populære artikler</h2>   
                         </section>
                         <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
-                        <section id="default_innholdSeksjon">
-                            <p><?php 
-                                //--------------------------------------//
-                                // Henter mest kommenterte fra database //
-                                //--------------------------------------//
+                        <section id="default_innholdSeksjonArtikkel">
+                            <?php 
+                                //-----------------------------------------------//
+                                // Henter mest kommenterte/populære fra database //
+                                //----------------------------------------------//
 
                                 // Henter artikler fra database, sorterer på høyeste antall og viser denne
-                                $mestKommenterteQ = "select count(idkommentar) as antall, idartikkel, artnavn from kommentar, artikkel
+                                $mestKommenterteQ = "select count(idkommentar) as antall, idartikkel, artnavn, artingress from kommentar, artikkel
                                                     where kommentar.artikkel = artikkel.idartikkel
                                                     group by idartikkel
-                                                    order by antall DESC limit 1";
+                                                    order by antall DESC limit 5";
                                 $mestKommenterteSTMT = $db->prepare($mestKommenterteQ);
                                 $mestKommenterteSTMT->execute();
-                                $mestKommenterte = $mestKommenterteSTMT->fetch(PDO::FETCH_ASSOC);
-                            
-                            echo($mestKommenterte['artnavn'])?></p>
-                            <a href="artikkel.php?artikkel=<?php echo($mestKommenterte['idartikkel'])?>">Les videre</a>
+                                $mestKommenterte = $mestKommenterteSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                ?>
+
+                                <?php for($i = 0; $i < count($mestKommenterte); $i++) { ?>
+                                    <?php
+                                    $hentArtBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $mestKommenterte[$i]['idartikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
+                                    $stmtArtBilde = $db->prepare($hentArtBilde);
+                                    $stmtArtBilde->execute();
+                                    $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
+                                    ?>
+                                    <section id="default_artikkelBildeFelt">
+                                        <?php
+                                        if (!$resBilde) { ?>
+                                            <!-- Standard artikkelbilde om arrangør ikke har lastet opp noe enda -->
+                                            <img class="default_def_BildeBoks" src="" alt="">
+                                        <?php } else {
+                                            // Tester på om filen faktisk finnes
+                                            $testPaa = $resBilde['hvor'];
+                                            if(file_exists("$lagringsplass/$testPaa")) {  
+                                                //Artikkelbilde som resultat av spørring
+                                                if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                                    <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                                    <img class="default_art_BildeBoks" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($mestKommenterte[$i]['artnavn'])?>">
+                                                <?php } else { ?>
+                                                    <img class="default_art_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($mestKommenterte[$i]['artnavn'])?>">
+                                                <?php } ?>
+                                            <?php } else { ?>
+                                                <img class="default_art_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                            <?php }
+                                        } ?>
+                                    </section>
+
+                                    <section id="default_artikkelFelt">
+                                        <h3 class="PopArtiklerOverskrift"><?php echo $mestKommenterte[$i]['artnavn'] ?> </h3>
+                                        <p class="PopArtiklerIngress"><?php echo $mestKommenterte[$i]['artingress'] ?> </p>
+                                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">...Les videre</a>
+                                    </section>
+                                <?php } ?>
                         </section>
                     </article>
                     <article>
@@ -117,7 +151,7 @@ if (isset($_POST['loggUt'])) {
                             <h2>Kommende arrangementer</h2>  
                         </section>
                         
-                        <section id="default_innholdSeksjon">
+                        <section id="default_innholdSeksjonArrangement">
                             <?php 
                                 //------------------------------------//
                                 // Henter arrangementer fra database //
@@ -142,7 +176,7 @@ if (isset($_POST['loggUt'])) {
                                         </p>
                                         <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],0,150)) ?> </p>                             
                                         
-                                        <a href="arrangement.php?arrangement=<?php echo($arrangementer['idevent'])?>">...Les videre</a>
+                                        <a href="arrangement.php?arrangement=<?php echo($arrangementer[$i]['idevent'])?>">...Les videre</a>
                                     </section>
                                 <?php } ?>
                         </section>
