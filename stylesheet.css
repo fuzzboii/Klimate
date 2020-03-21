@@ -1417,48 +1417,43 @@ footer a {
   margin-left: 1.5em;
   margin-right: 1.5em;
   padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+ 
 }
 
-#backend_section {
-  display: grid;
+.backendNav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 1em 1em 0em 0em; /* Avrunder kantene */
+  font-size: 1em;
+  border-bottom: 1px rgb(197, 197, 197) solid;
+  
 }
 
-#backend_section article {
-  background-color: #F8F7FD; /* Bakgrunnsfarge i artikkel-containerne i default */
-  padding-bottom: 1em; /* Utvider innholdet i containerne for å skape luft for tekst */
-  margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+.backendNav li {
+  float: left;
 }
 
-#backend_section article h2 {
-  color: rgb(44,44,44); /* Fargen på tittelene i containerne */
-  margin-top: 0;
-  padding-top: 0.8em; /* Forstørrer containerne litt for å skape luft for tekst */
-  padding-bottom: 0.8em;
-  background-color: rgb(147,181,179); /* Fargen på bakgrunnen i tittel-containerne */
-  border-radius: 1em 1em 0 0; /* Avrunder tittel-containeren */
-    
-  text-align: center; /* Sentrerer h2 */
-  font-size: 1em; color: rgb(44, 44, 44); /* Font-størrelse og farge */
-  font-family: Verdana, Geneva, Tahoma, sans-serif; /* Ønsket font-type */
-  text-transform: uppercase; /* Transformerer teksten til UCASE */
+.backendNav li a {
+  display: block;
+  text-align: center;
+  margin: 0.5em 0.5em;
+  text-decoration: none;
+  
+
 }
 
-
-#backend_section article p, #backend_section article a{
-  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
-  margin-left: 1.5em; /* Padding for å få plass på hver side */
-  margin-right: 1.5em;
-  word-break: break-all;
-
-  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* Ønsket font-type */
+.backendNav li a:hover:not(.aktiv) {
+  border-bottom: 0.1em solid rgba(36, 209, 100, 0.637);
+  color:rgba(36, 209, 100, 0.637);
 }
 
-#backend_section article a {
-  max-width: 1em;
+.aktiv {
+  border-bottom: 0.1em solid black;
+  color:black;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -3850,6 +3845,8 @@ input:checked + .slider:before {
   .admin_allebrukere_allenavn, .admin_allebrukere_alleepost {
     display: block;
   }
+
+
 
 }
 /* Laptop / Liten skjerm,, 720p */
