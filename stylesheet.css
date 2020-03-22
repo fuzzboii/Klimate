@@ -1430,6 +1430,7 @@ footer a {
   border-radius: 1em 1em 0em 0em; /* Avrunder kantene */
   font-size: 1em;
   border-bottom: 1px rgb(197, 197, 197) solid;
+  margin-bottom: 0.5em;
   
 }
 
@@ -1454,6 +1455,109 @@ footer a {
 .aktiv {
   border-bottom: 0.1em solid black;
   color:black;
+}
+
+/* BACKEND, komentarer */
+
+#backend_artikkelFelt {
+  font-family: Helvetica, Arial, sans-serif;
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.3em;
+}
+
+#backend_innholdSeksjonArtikkel, #backend_innholdSeksjonArrangement {
+  padding: 0.8em;
+  background-color: white;
+  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
+  font-size: 1em; color: rgb(44,44,44); /* Font-størrelse og farge */
+  font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder tittel-containeren */
+  margin: 0;
+  margin-bottom: 0.5em;
+ 
+}
+.backend_grid {
+ display: grid;
+ grid-template-columns: 3fr 1fr;
+}
+
+#backend_innholdSeksjonArtikkel a, #backend_innholdSeksjonArrangement a {
+  font-size: 0.8em;
+  color: rgb(36, 209, 99);
+  float: right;
+}
+
+#backend_innholdSeksjonArtikkel {
+  display: grid;
+  grid-template-columns: 5em 1fr;
+}
+
+#backend_artikkelBildeFelt {
+  border-bottom: 1px solid lightgrey;
+  margin-bottom: 0.3em;
+}
+
+#backend_artikkelFelt h3, p {
+  margin-left: 0.3em;
+}
+
+.PopArtiklerTekst {
+  column-span: all;
+  margin: 0;
+  margin-left: 0.3em;
+}
+
+.PopKommentar {
+margin: 0;
+font-weight: bold;
+margin-left: 0.3em;
+}
+
+.backendbildeFlex {
+  display: flex;
+}
+
+.backend_antallKommentarerIkon {
+  height: 1em;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(86, 255, 136);
+  border-radius: 0.2em;
+  padding: 0.5em 1.9em;
+  
+}
+
+.backend_Intvindu {
+  background-color: white;
+  border-radius: 0em 0em 0.5em 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 0.5em;
+  height: 10%;
+  
+}
+
+.backend_headerIntvindu {
+  background-color: rgb(200,218,211);
+  border-radius: 0.5em 0.5em 0em 0em;
+  margin-left: 0.5em;
+  
+}
+
+.backend_headerIntvindu p {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0.5em;
+  color: white;
+  font-weight: bold;
+}
+
+.ingenHover {
+margin-top: 0;
+margin-left: 0.8em;
+
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -4415,6 +4519,9 @@ input:checked + .slider:before {
   .admin_allebrukere_rad:hover {
     cursor: pointer;
     font-weight: bolder;
+  }
+  #backend_innholdSeksjonArtikkel, #backend_innholdSeksjonArrangement {
+    
   }
 
 }

@@ -45,6 +45,8 @@ if(isset($sisteKommentar['artikkel'])) {
     $visKom = false;
 }
 
+// tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
+$tabindex = 10;
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -97,40 +99,173 @@ if(isset($sisteKommentar['artikkel'])) {
             </header>
 
             <!-- Del for å vise kommentarer til brukeren -->
-            <?php if(isset($_GET['kommentar']) && $_GET['kommentar'] == $_SESSION['idbruker'] ) { ?>
+            <?php if(isset($_GET['artikler']) && $_GET['artikler'] == $_SESSION['idbruker'] ) { ?>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">            
                 <section id="backend_section">
                     <ul class="backendNav">
-                        <li><a class="aktiv" onClick="location.href='backend.php?kommentar=<?php echo($_SESSION['idbruker'])?>'">Dine kommentarer</a></li>
-                        <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
-                        <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
-                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Min profil</a></li>
-                    </ul>
-                </section>
-            </main>
-            <?php } else if(isset($_GET['artikler']) && $_GET['artikler'] == $_SESSION['idbruker'] ) { ?>
-
-            <main id="backend_main" onclick="lukkHamburgerMeny()">            
-                <section id="backend_section">
-                    <ul class="backendNav">
-                        <li><a onClick="location.href='backend.php?kommentar=<?php echo($_SESSION['idbruker'])?>'">Dine kommentarer</a></li>
                         <li><a class="aktiv" onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
                         <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
-                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Min profil</a></li>
+                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Profil</a></li>
                     </ul>
                 </section>
-            </main>
+               
+                <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
+                
+                    <?php 
+                        //-----------------------------------------------//
+                        // Henter mest kommenterte/populære fra database //
+                        //----------------------------------------------//
+
+                        // Henter artikler fra database, sorterer på høyeste antall og viser denne
+                        $mestKommenterteQ = "select idartikkel, artnavn, artingress, ingress, max(kommentar.tid) 
+                                            from kommentar, artikkel
+                                            where kommentar.artikkel = artikkel.idartikkel and kommentar.bruker = " . $_SESSION['idbruker'] . "
+                                            group by idartikkel";
+                        $mestKommenterteSTMT = $db->prepare($mestKommenterteQ);
+                        $mestKommenterteSTMT->execute();
+                        $mestKommenterte = $mestKommenterteSTMT->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+
+                    <section class="backend_grid">
+                        <section>
+                        <?php for($i = 0; $i < count($mestKommenterte); $i++) { ?>
+                            
+                        <section id="backend_innholdSeksjonArtikkel">
+                            <?php
+                            $hentArtBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $mestKommenterte[$i]['idartikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
+                            $stmtArtBilde = $db->prepare($hentArtBilde);
+                            $stmtArtBilde->execute();
+                            $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
+                            ?>
+                            <section id="backend_artikkelBildeFelt">
+                                <?php
+                                if (!$resBilde) { ?>
+                                    <!-- Standard artikkelbilde om arrangør ikke har lastet opp noe enda -->
+                                    <img class="default_def_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                <?php } else {
+                                    // Tester på om filen faktisk finnes
+                                    $testPaa = $resBilde['hvor'];
+                                    if(file_exists("$lagringsplass/$testPaa")) {  
+                                        //Artikkelbilde som resultat av spørring
+                                        if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                            <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                            <img class="default_art_BildeBoks" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($mestKommenterte[$i]['artnavn'])?>">
+                                        <?php } else { ?>
+                                            <img class="default_art_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($mestKommenterte[$i]['artnavn'])?>">
+                                        <?php } ?>
+                                    <?php } else { ?>
+                                        <img class="default_art_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <?php }
+                                } ?>
+                            </section>
+                            <?php
+                            $hentNyesteKom = "select artikkel, bruker, ingress, tid 
+                                             from kommentar 
+                                             where kommentar.bruker = " . $_SESSION['idbruker'] . " 
+                                            and artikkel = " . $mestKommenterte[$i]['idartikkel'] . "
+                                            and tid<current_timestamp()
+                                            order by tid desc limit 1";
+                            $stmtNyesteKom = $db->prepare($hentNyesteKom);
+                            $stmtNyesteKom->execute();
+                            $resKommentar = $stmtNyesteKom->fetch(PDO::FETCH_ASSOC);   
+                            ?>
+
+                            <section id="backend_artikkelFelt">
+                                <h3 class="PopArtiklerOverskrift"><?php echo $mestKommenterte[$i]['artnavn'] ?> </h3>
+                                <p class="PopArtiklerIngress"><?php echo $mestKommenterte[$i]['artingress'] ?> </p>
+                                
+                                <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">...Les videre</a>                                      
+                            </section>
+                            <section class="backendbildeFlex">
+                                <img class="backend_antallKommentarerIkon" src="bilder/meldingIkon.png">
+                            </section>
+                            <section>
+                                <p class="PopKommentar">Din nyeste kommentar:</p>
+                                <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
+                            </section>
+                        </section>
+                        <?php } ?>
+                    </section>
+
+                    <section>
+                        <section class="backend_headerIntvindu">
+                            <p>Dine interesser</p>
+                        </section>
+
+                        <section class="backend_Intvindu">
+                            <?php 
+                            //----------------------------------------------//
+                            // Hent alle interesser fra db, til en <select> //
+                            //----------------------------------------------//
+                            $hentInteresse = "select idinteresse, interessenavn from interesse order by interessenavn";
+                            $stmtHentInteresse = $db->prepare($hentInteresse);
+                            $stmtHentInteresse->execute();
+                            $interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
+
+                            //-----------------------//
+                            // Henting av interesser //
+                            //-----------------------//
+                            $hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = " . $_SESSION['idbruker'] . " and brukerinteresse.interesse=interesse.idinteresse order by interessenavn";
+                            $stmtInteresseProfil = $db->prepare($hentInteresseProfil);
+                            $stmtInteresseProfil->execute();
+                            $tellingInteresse = $stmtInteresseProfil->rowcount();
+
+                            // Test på resultat
+                            if ($tellingInteresse > 0) {
+                                // Hvis sant, har vi bekreftet at vi har noe å vise med echo
+                                // Resulterer i et 2D array
+                                $interesseProfil = $stmtInteresseProfil->fetchAll(PDO::FETCH_ASSOC);
+                            // settes ellers til null, for øyeblikket
+                            } else $interesseProfil = "Brukeren har ikke oppgitt noen interesser";
+                            ?>
+                            
+                            <section class="interesserSection">
+                                <section class="interesserTags">
+                                    <?php if ($tellingInteresse != null) {
+                                        foreach ($interesseProfil as $rad) {    
+                                            foreach ($rad as $kolonne) { ?> 
+                                                <!-- Test om bruker er i slettemodus -->
+                                                <?php if (isset($_POST['slettemodus'])) { ?> 
+                                                    <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
+                                                    <!-- Ellers normal visning -->
+                                                <?php } else { ?> 
+                                                    <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>><?php echo($kolonne); ?></p>
+                                                <?php } // Slutt, else løkke    
+                                            } // Slutt, indre løkke
+                                        } // Slutt, ytre løkke 
+                                        ?>
+                                </section>
+                            </section>
+
+                                  <?php  } else {?> <!-- Slutt, IF-test -->   
+                                </section>
+                            </section>
+                                    <p class="ingenHover"> Du har ingen interesser... </p>
+                            
+                            <?php } ?>
+                        </section>
+
+                        <section class="backend_headerIntvindu">
+                            <p>Et vindu</p>
+                        </section>
+
+                        <section class="backend_Intvindu">
+                        
+                        </section>
+                    
+                    
+                    </section>
+                </main>
 
             <?php } else if(isset($_GET['arrangementer']) && $_GET['arrangementer'] == $_SESSION['idbruker'] ) { ?>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">            
                 <section id="backend_section">
                     <ul class="backendNav">
-                        <li><a onClick="location.href='backend.php?kommentar=<?php echo($_SESSION['idbruker'])?>'">Dine kommentarer</a></li>
                         <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
                         <li><a class="aktiv" onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
-                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Min profil</a></li>
+                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Profil</a></li>
                     </ul>
                 </section>
             </main>
@@ -140,10 +275,9 @@ if(isset($sisteKommentar['artikkel'])) {
             <main id="backend_main" onclick="lukkHamburgerMeny()">            
                 <section id="backend_section">
                     <ul class="backendNav">
-                        <li><a onClick="location.href='backend.php?kommentar=<?php echo($_SESSION['idbruker'])?>'">Dine kommentarer</a></li>
                         <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
                         <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
-                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Min profil</a></li>
+                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Profil</a></li>
                     </ul>
                 </section>
             </main>
