@@ -256,9 +256,89 @@ $tabindex = 10;
                     </ul>
                 </section>
 
-                <section class="backend_grid">
+                <?php 
+                         //----------------------------------------------------//
+                        // Henter brukerens kommenterte artikler fra database //
+                       //----------------------------------------------------//
 
-                
+                        $dineArrangementer = "select idevent, eventnavn, tidspunkt, veibeskrivelse, interessert
+                                            from event, påmelding
+                                            where idevent=event_id and bruker_id= " . $_SESSION['idbruker'] . " and not interessert='Invitert'";
+                        $arrangementerSTMT = $db->prepare($dineArrangementer);
+                        $arrangementerSTMT->execute();
+                        $ArrangRes = $arrangementerSTMT->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+
+                <section class="backend_grid">
+                    <section>
+                        <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
+                            
+                        <section id="backend_innholdSeksjonArg">
+                            <?php
+                            $hentArgBilde = "select hvor from bilder, eventbilde where eventbilde.event = " . $ArrangRes[$i]['idevent'] . " and eventbilde.bilde = bilder.idbilder";
+                            $stmtArgBilde = $db->prepare($hentArgBilde);
+                            $stmtArgBilde->execute();
+                            $resBilde = $stmtArgBilde->fetch(PDO::FETCH_ASSOC);
+                            ?>
+                            <section >
+                                <?php
+                                if (!$resBilde) { ?>
+                                    <!-- Standard artikkelbilde om arrangør ikke har lastet opp noe enda -->
+                                    <img class="backend_art_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                <?php } else {
+
+                                    // Tester på om filen faktisk finnes
+                                    $testPaa = $resBilde['hvor'];
+                                    if(file_exists("$lagringsplass/$testPaa")) {  
+                                        //Artikkelbilde som resultat av spørring
+                                        if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                            <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                            <img class="backend_art_BildeBoks" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($ArrangRes[$i]['eventnavn'])?>">
+                                        <?php } else { ?>
+                                            
+                                            <img class="backend_art_BildeBoks" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Bilde for <?php echo($ArrangRes[$i]['eventnavn'])?>">
+                                        <?php } ?>
+                                    <?php } else { ?>
+
+                                        <img class="backend_art_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <?php }
+                                } ?>
+                            </section>
+
+                            <section id="backend_argFelt">
+                                <section class="backend_seksjon">
+                                    <h3 class="PopArgOverskrift"><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
+                                    <p class="PopArgIngress"><?php echo $ArrangRes[$i]['tidspunkt'] ?> </p>
+                                </section>
+                                
+                            <?php if($ArrangRes[$i]['interessert'] == "Kanskje") {?>
+                                <section class="backend_knapper">
+                                    <p class="påmeldtTypeOversikt" style="background-color: rgb(255, 191, 0);"><?php echo $ArrangRes[$i]['interessert'] ?> </p>
+                                    <a class="OversiktLenke" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement</a>
+                                </section>
+                            <?php } else if ($ArrangRes[$i]['interessert'] == "Kan ikke") { ?>
+                                <section class="backend_knapper">
+                                    <p class="påmeldtTypeOversikt" style="background-color: red;"><?php echo $ArrangRes[$i]['interessert'] ?> </p>
+                                    <a class="OversiktLenke" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement</a>
+                                </section>
+                            <?php } else { ?>
+                                <section class="backend_knapper">
+                                    <p class="påmeldtTypeOversikt"><?php echo $ArrangRes[$i]['interessert'] ?> </p>
+                                    <a class="OversiktLenke" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement</a>
+                                </section>
+                            <?php } ?>
+                             
+                            </section>
+                            
+                            
+
+                        
+                                
+                        </section>
+                        <?php } ?>
+                    </section>
+
+
                 </section>
             </main>
 
