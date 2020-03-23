@@ -34,7 +34,7 @@ if (isset($_POST['loggUt'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="default_body" onclick="lukkMelding('mldFEIL_boks')">
+    <body id="default_body" onscroll="byttFargeNavbar()" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/default_navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->

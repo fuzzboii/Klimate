@@ -872,6 +872,14 @@ function byttHandling(handling) {
   }
 }
 
+function byttFargeNavbar() {
+  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+    document.getElementsByClassName('default_navTop')[0].style.backgroundColor = "rgb(200,218,211)";
+    } else {
+    document.getElementsByClassName('default_navTop')[0].style.backgroundColor = "transparent";
+  }
+}
+
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
 /* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */
