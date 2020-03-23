@@ -113,15 +113,14 @@ $tabindex = 10;
                 <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
                 
                     <?php 
-                        //-----------------------------------------------//
-                        // Henter mest kommenterte/populære fra database //
-                        //----------------------------------------------//
+                         //----------------------------------------------------//
+                        // Henter brukerens kommenterte artikler fra database //
+                       //----------------------------------------------------//
 
-                        // Henter artikler fra database, sorterer på høyeste antall og viser denne
-                        $mestKommenterteQ = "select idartikkel, artnavn, artingress, ingress, max(kommentar.tid) 
+                        $mestKommenterteQ = "select idartikkel, artnavn, artingress, ingress 
                                             from kommentar, artikkel
                                             where kommentar.artikkel = artikkel.idartikkel and kommentar.bruker = " . $_SESSION['idbruker'] . "
-                                            group by idartikkel";
+                                            group by idartikkel limit 4";
                         $mestKommenterteSTMT = $db->prepare($mestKommenterteQ);
                         $mestKommenterteSTMT->execute();
                         $mestKommenterte = $mestKommenterteSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -159,6 +158,7 @@ $tabindex = 10;
                                     <?php }
                                 } ?>
                             </section>
+
                             <?php
                             $hentNyesteKom = "select artikkel, bruker, ingress, tid 
                                              from kommentar 
@@ -177,82 +177,68 @@ $tabindex = 10;
                                 
                                 <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">...Les videre</a>                                      
                             </section>
-                            <section class="backendbildeFlex">
-                                <img class="backend_antallKommentarerIkon" src="bilder/meldingIkon.png">
-                            </section>
-                            <section>
-                                <p class="PopKommentar">Din nyeste kommentar:</p>
-                                <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
-                            </section>
+                                <section class="backendbildeFlex">
+                                    <img class="backend_antallKommentarerIkon" src="bilder/meldingIkon.png">
+                                </section>
+                                <section>
+                                    <p class="PopKommentar">Din nyeste kommentar:</p>
+                                    <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
+                                </section>
                         </section>
                         <?php } ?>
                     </section>
 
                     <section>
                         <section class="backend_headerIntvindu">
-                            <p>Dine interesser</p>
+                            <p>Kommenterte artikler</p>
                         </section>
 
                         <section class="backend_Intvindu">
-                            <?php 
-                            //----------------------------------------------//
-                            // Hent alle interesser fra db, til en <select> //
-                            //----------------------------------------------//
-                            $hentInteresse = "select idinteresse, interessenavn from interesse order by interessenavn";
-                            $stmtHentInteresse = $db->prepare($hentInteresse);
-                            $stmtHentInteresse->execute();
-                            $interesse = $stmtHentInteresse->fetchAll(PDO::FETCH_ASSOC);
+                            <section>
 
-                            //-----------------------//
-                            // Henting av interesser //
-                            //-----------------------//
-                            $hentInteresseProfil = "select interessenavn from interesse, brukerinteresse where brukerinteresse.bruker = " . $_SESSION['idbruker'] . " and brukerinteresse.interesse=interesse.idinteresse order by interessenavn";
-                            $stmtInteresseProfil = $db->prepare($hentInteresseProfil);
-                            $stmtInteresseProfil->execute();
-                            $tellingInteresse = $stmtInteresseProfil->rowcount();
+                                <?php 
+                                $mestKommenterteF = "select idartikkel, artnavn, artingress, ingress 
+                                from kommentar, artikkel
+                                where kommentar.artikkel = artikkel.idartikkel and kommentar.bruker = " . $_SESSION['idbruker'] . "
+                                group by idartikkel limit 4, 50";
+                                $kommenterteArtSTMT = $db->prepare($mestKommenterteF);
+                                $kommenterteArtSTMT->execute();
+                                $komentertRes = $kommenterteArtSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                ?>
 
-                            // Test på resultat
-                            if ($tellingInteresse > 0) {
-                                // Hvis sant, har vi bekreftet at vi har noe å vise med echo
-                                // Resulterer i et 2D array
-                                $interesseProfil = $stmtInteresseProfil->fetchAll(PDO::FETCH_ASSOC);
-                            // settes ellers til null, for øyeblikket
-                            } else $interesseProfil = "Brukeren har ikke oppgitt noen interesser";
-                            ?>
-                            
-                            <section class="interesserSection">
-                                <section class="interesserTags">
-                                    <?php if ($tellingInteresse != null) {
-                                        foreach ($interesseProfil as $rad) {    
-                                            foreach ($rad as $kolonne) { ?> 
-                                                <!-- Test om bruker er i slettemodus -->
-                                                <?php if (isset($_POST['slettemodus'])) { ?> 
-                                                    <input id="innholdAaSlette<?php echo($kolonne)?>" class="slett" form="slettemodus" name="interesseTilSletting" type="submit" onmouseenter="visSlett('innholdAaSlette<?php echo($kolonne)?>')" onmouseout="visSlett('innholdAaSlette<?php echo($kolonne)?>')" value="<?php echo($kolonne) ?>" tabindex = <?php echo($tabindex); $tabindex++; ?>></input>
-                                                    <!-- Ellers normal visning -->
-                                                <?php } else { ?> 
-                                                    <p class="proInt"onClick="location.href='sok.php?brukernavn=&epost=&interesse=<?php echo($kolonne) ?>'" tabindex = <?php echo($tabindex); $tabindex++;?>><?php echo($kolonne); ?></p>
-                                                <?php } // Slutt, else løkke    
-                                            } // Slutt, indre løkke
-                                        } // Slutt, ytre løkke 
-                                        ?>
+                            <?php for($i = 0; $i < count($komentertRes); $i++) { ?>
+                                
+                            <section id="backend_artikkelVindu">
+
+                                <?php
+                                $hentNyesteKom = "select artikkel, bruker, ingress, tid 
+                                                from kommentar 
+                                                where kommentar.bruker = " . $_SESSION['idbruker'] . " 
+                                                and artikkel = " . $komentertRes[$i]['idartikkel'] . "
+                                                and tid<current_timestamp()
+                                                order by tid desc limit 1";
+                                $stmtNyesteKom = $db->prepare($hentNyesteKom);
+                                $stmtNyesteKom->execute();
+                                $resKommentar = $stmtNyesteKom->fetch(PDO::FETCH_ASSOC);   
+                                ?>
+
+                                <section id="backend_artikkelFelt">
+                                    <h3 class="PopArtiklerOverskrift"><?php echo $komentertRes[$i]['artnavn'] ?> </h3>
+                                    <p class="PopArtiklerIngress"><?php echo $komentertRes[$i]['artingress'] ?> </p>
+                                    
+                                    <a href="artikkel.php?artikkel=<?php echo($komentertRes[$i]['idartikkel'])?>">...Les videre</a>                                      
                                 </section>
-                            </section>
-
-                                  <?php  } else {?> <!-- Slutt, IF-test -->   
+                                    <section>
+                                        <p class="PopKommentar">Din nyeste kommentar:</p>
+                                        <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
+                                    </section>
                                 </section>
+                                <?php } ?>
                             </section>
-                                    <p class="ingenHover"> Du har ingen interesser... </p>
                             
-                            <?php } ?>
                         </section>
 
-                        <section class="backend_headerIntvindu">
-                            <p>Et vindu</p>
-                        </section>
-
-                        <section class="backend_Intvindu">
                         
-                        </section>
                     
                     
                     </section>

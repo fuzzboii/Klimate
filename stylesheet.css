@@ -1479,14 +1479,18 @@ footer a {
  
 }
 .backend_grid {
- display: grid;
- grid-template-columns: 3fr 1fr;
+ 
 }
 
 #backend_innholdSeksjonArtikkel a, #backend_innholdSeksjonArrangement a {
   font-size: 0.8em;
   color: rgb(36, 209, 99);
   float: right;
+}
+
+.backend_Intvindu a {
+  font-size: 0.8em;
+  color: rgb(36, 209, 99);
 }
 
 #backend_innholdSeksjonArtikkel {
@@ -1535,15 +1539,17 @@ margin-left: 0.3em;
   background-color: white;
   border-radius: 0em 0em 0.5em 0.5em;
   margin-bottom: 0.5em;
-  margin-left: 0.5em;
-  height: 10%;
+  /* margin-left: 0.5em; */
+  padding-top: 0.3em;
+  height: 35.7em;
+  overflow: auto;
   
 }
 
 .backend_headerIntvindu {
   background-color: rgb(200,218,211);
   border-radius: 0.5em 0.5em 0em 0em;
-  margin-left: 0.5em;
+  /* margin-left: 0.5em; */
   
 }
 
@@ -1551,13 +1557,27 @@ margin-left: 0.3em;
   margin-top: 0;
   margin-bottom: 0;
   padding: 0.5em;
-  color: white;
+  color: rgb(255, 255, 255);
   font-weight: bold;
 }
 
 .ingenHover {
 margin-top: 0;
 margin-left: 0.8em;
+
+}
+
+#backend_artikkelVindu {
+  padding: 0.8em;
+  background-color: rgba(156, 156, 156, 0.1);
+  font-size: 0.8em; color: rgb(44,44,44); /* Font-størrelse på paragraf i containerne */
+  /* border: 1px solid rgb(95, 95, 95); */
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, .5);
+  font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder tittel-containeren */
+  margin-left: 0.5em; margin-right: 0.5em;
+  margin-bottom: 0.5em;
+  
 
 }
 
@@ -3956,6 +3976,21 @@ input:checked + .slider:before {
 }
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
+
+  /* BACKEND oversikt artikler */
+  .backend_Intvindu { 
+    margin-left: 0.5em;
+  }
+  
+  .backend_headerIntvindu {
+    margin-left: 0.5em; 
+  }
+
+  .backend_grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+   }
+/* ---------------------------------------- */
   .knapp2_grid {
     margin-top: 2em;
   }
