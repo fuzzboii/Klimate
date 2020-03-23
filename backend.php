@@ -244,6 +244,7 @@ $tabindex = 10;
                     </section>
                 </main>
 
+                <!-- Del for å vise oversikt på arrangementer -->
             <?php } else if(isset($_GET['arrangementer']) && $_GET['arrangementer'] == $_SESSION['idbruker'] ) { ?>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">            
@@ -253,6 +254,11 @@ $tabindex = 10;
                         <li><a class="aktiv" onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
                         <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Profil</a></li>
                     </ul>
+                </section>
+
+                <section class="backend_grid">
+
+                
                 </section>
             </main>
 
