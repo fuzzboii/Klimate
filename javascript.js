@@ -872,6 +872,7 @@ function byttHandling(handling) {
   }
 }
 
+/* Funksjonalitet for å gi synlighet for default navmeny */
 function byttFargeNavbar() {
   if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
     document.getElementsByClassName('default_navTop')[0].style.backgroundColor = "rgb(200,218,211)";
