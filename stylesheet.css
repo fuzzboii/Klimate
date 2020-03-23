@@ -272,6 +272,7 @@ footer a {
   position: fixed; /* Holder navigasjonsbaren øverst i vinduet til enhver tid */
   z-index: 1; /* Passer på at navigasjonsbaren havner over annet innhold på siden */
   width: 100%; /* Skal gå over hele siden */
+  transition: 0.1s;
 }
 
 .navTop #logginnKnapp {
