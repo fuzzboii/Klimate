@@ -4155,12 +4155,12 @@ input:checked + .slider:before {
     margin-left: 0.5em; 
   }
   .PopArgOverskrift {
-    font-size: 1.2em;
+    font-size: 1em;
     
   }
   
   .PopArgIngress {
-    font-size: 1.2em;
+    font-size: 1em;
   }
 
   .backend_grid {

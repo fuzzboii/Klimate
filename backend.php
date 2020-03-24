@@ -197,7 +197,7 @@ $tabindex = 10;
 
                     <section>
                         <section class="backend_headerIntvindu">
-                            <p>Kommenterte artikler</p>
+                            <p>Nyeste kommentert</p>
                         </section>
 
                         <section class="backend_Intvindu">
