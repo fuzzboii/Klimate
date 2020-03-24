@@ -435,7 +435,7 @@ $tabindex = 10;
 
                 <section>
                         <section class="backend_headerIntvindu">
-                            <p>Kommenterte artikler</p>
+                            <p>Nyeste kommenterte</p>
                         </section>
 
                         <section class="backend_Intvindu">
@@ -531,19 +531,9 @@ $tabindex = 10;
                                     <section id="backend_artikkelFelt">
                                         <h3 class="PopArtiklerOverskrift"><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
                                         <p class="PopArtiklerIngress"><?php echo $ArrangRes[$i]['tidspunkt'] ?> </p>
-                                        <a class="OversiktLenke2" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement </a>                                                                               
+                                        <a class="OversiktLenke" href="backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>">Svar på invitasjon </a>                                                                               
                                     </section>
-                                    <section class="backend_knapperFloat">
-
-                                    <form method="POST" id="arrangement_paamelding" action="backend.php?arrangementer=<?php echo($_GET['arrangementer'])?>">
-                                        <button id="arrangement_paameld" form="arrangement_paamelding" name="invitasjon" value="<?php echo($ArrangRes[$i]['idevent'])?>">Godkjenn</button>
-                                    </form>
-
-                                    <form method="POST" id="arrangement_paamelding2" action="backend.php?arrangementer=<?php echo($_GET['arrangementer'])?>">
-                                        <button id="arrangement_avslaa" form="arrangement_paamelding2" name="invitasjon2" value="<?php echo($ArrangRes[$i]['idevent'])?>">Avslå</button>
-                                    </form>
-
-                                    </section>
+                                    
                                 </section>
 
                                 <?php } ?> 
