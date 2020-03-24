@@ -45,6 +45,7 @@ if(isset($sisteKommentar['artikkel'])) {
     $visKom = false;
 }
 
+
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 10;
 ?>
@@ -106,7 +107,6 @@ $tabindex = 10;
                     <ul class="backendNav">
                         <li><a class="aktiv" onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
                         <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
-                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Profil</a></li>
                     </ul>
                 </section>
                
@@ -204,36 +204,43 @@ $tabindex = 10;
                                 $kommenterteArtSTMT = $db->prepare($mestKommenterteF);
                                 $kommenterteArtSTMT->execute();
                                 $komentertRes = $kommenterteArtSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                $antallArtikler = $kommenterteArtSTMT->rowCount();
                                 ?>
-
-                            <?php for($i = 0; $i < count($komentertRes); $i++) { ?>
+                            
+                            <?php 
+                            if($antallArtikler > 0) {
+                                for($i = 0; $i < count($komentertRes); $i++) { ?>
                                 
-                            <section id="backend_artikkelVindu">
+                                <section id="backend_artikkelVindu">
 
-                                <?php
-                                $hentNyesteKom = "select artikkel, bruker, ingress, tid 
-                                                from kommentar 
-                                                where kommentar.bruker = " . $_SESSION['idbruker'] . " 
-                                                and artikkel = " . $komentertRes[$i]['idartikkel'] . "
-                                                and tid<current_timestamp()
-                                                order by tid desc limit 1";
-                                $stmtNyesteKom = $db->prepare($hentNyesteKom);
-                                $stmtNyesteKom->execute();
-                                $resKommentar = $stmtNyesteKom->fetch(PDO::FETCH_ASSOC);   
-                                ?>
+                                    <?php
+                                    $hentNyesteKom = "select artikkel, bruker, ingress, tid 
+                                                    from kommentar 
+                                                    where kommentar.bruker = " . $_SESSION['idbruker'] . " 
+                                                    and artikkel = " . $komentertRes[$i]['idartikkel'] . "
+                                                    and tid<current_timestamp()
+                                                    order by tid desc limit 1";
+                                    $stmtNyesteKom = $db->prepare($hentNyesteKom);
+                                    $stmtNyesteKom->execute();
+                                    $resKommentar = $stmtNyesteKom->fetch(PDO::FETCH_ASSOC);   
+                                    ?>
 
-                                <section id="backend_artikkelFelt">
-                                    <h3 class="PopArtiklerOverskrift"><?php echo $komentertRes[$i]['artnavn'] ?> </h3>
-                                    <p class="PopArtiklerIngress"><?php echo $komentertRes[$i]['artingress'] ?> </p>
-                                    
-                                    <a href="artikkel.php?artikkel=<?php echo($komentertRes[$i]['idartikkel'])?>">...Les videre</a>                                      
-                                </section>
-                                    <section>
-                                        <p class="PopKommentar">Din nyeste kommentar:</p>
-                                        <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
+                                    <section id="backend_artikkelFelt">
+                                        <h3 class="PopArtiklerOverskrift"><?php echo $komentertRes[$i]['artnavn'] ?> </h3>
+                                        <p class="PopArtiklerIngress"><?php echo $komentertRes[$i]['artingress'] ?> </p>
+                                        
+                                        <a href="artikkel.php?artikkel=<?php echo($komentertRes[$i]['idartikkel'])?>">...Les videre</a>                                      
                                     </section>
-                                </section>
-                                <?php } ?>
+                                        <section>
+                                            <p class="PopKommentar">Din nyeste kommentar:</p>
+                                            <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
+                                        </section>
+                                    </section>
+                                    <?php } 
+                                } else {?>
+                                <p class="backend_tilbakemelding">Du har ikke kommentert flere artikler...</p>
+
+                                <?php }?>
                             </section>
                             
                         </section>
@@ -252,13 +259,12 @@ $tabindex = 10;
                     <ul class="backendNav">
                         <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
                         <li><a class="aktiv" onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
-                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Profil</a></li>
                     </ul>
                 </section>
 
                 <?php 
                          //----------------------------------------------------//
-                        // Henter brukerens kommenterte artikler fra database //
+                        // Henter brukerens påmeldte arrangementer fra database //
                        //----------------------------------------------------//
 
                         $dineArrangementer = "select idevent, eventnavn, tidspunkt, veibeskrivelse, interessert
@@ -269,7 +275,7 @@ $tabindex = 10;
                         $ArrangRes = $arrangementerSTMT->fetchAll(PDO::FETCH_ASSOC);
                         ?>
 
-                <section class="backend_grid">
+                <section class="backend_grid2">
                     <section>
                         <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
                             
@@ -301,41 +307,103 @@ $tabindex = 10;
                                     <?php } else { ?>
 
                                         <img class="backend_art_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                                    <?php }
-                                } ?>
+                                        
+                                    <?php } ?>
+
+                                    
+                              <?php  } ?>
                             </section>
 
                             <section id="backend_argFelt">
                                 <section class="backend_seksjon">
-                                    <h3 class="PopArgOverskrift"><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
+                                    <h3 class="PopArgOverskrift" ><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
                                     <p class="PopArgIngress"><?php echo $ArrangRes[$i]['tidspunkt'] ?> </p>
                                 </section>
-                                
-                            <?php if($ArrangRes[$i]['interessert'] == "Kanskje") {?>
-                                <section class="backend_knapper">
-                                    <p class="påmeldtTypeOversikt" style="background-color: rgb(255, 191, 0);"><?php echo $ArrangRes[$i]['interessert'] ?> </p>
-                                    <a class="OversiktLenke" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement</a>
-                                </section>
-                            <?php } else if ($ArrangRes[$i]['interessert'] == "Kan ikke") { ?>
-                                <section class="backend_knapper">
-                                    <p class="påmeldtTypeOversikt" style="background-color: red;"><?php echo $ArrangRes[$i]['interessert'] ?> </p>
-                                    <a class="OversiktLenke" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement</a>
-                                </section>
-                            <?php } else { ?>
-                                <section class="backend_knapper">
-                                    <p class="påmeldtTypeOversikt"><?php echo $ArrangRes[$i]['interessert'] ?> </p>
-                                    <a class="OversiktLenke" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement</a>
-                                </section>
-                            <?php } ?>
-                             
+                                <p class="PopArgIngress"><?php echo $ArrangRes[$i]['veibeskrivelse'] ?> </p>
                             </section>
-                            
-                            
 
-                        
-                                
+                            <?php if($ArrangRes[$i]['interessert'] == "Kanskje") {?>
+                                    <p class="påmeldtTypeOversikt" style="background-color: rgb(255, 191, 0);"><?php echo $ArrangRes[$i]['interessert'] ?> </p>
+                            <?php } else if ($ArrangRes[$i]['interessert'] == "Kan ikke") { ?>
+                                    <p class="påmeldtTypeOversikt" style="background-color: red;"><?php echo $ArrangRes[$i]['interessert'] ?> </p>
+                            <?php } else { ?>
+                                    <p class="påmeldtTypeOversikt" ><?php echo $ArrangRes[$i]['interessert'] ?> </p>
+                            <?php } ?>
+                            <section class="backend_knapper">
+                                    <a class="OversiktLenke" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til </a>
+                            </section>     
                         </section>
                         <?php } ?>
+                    </section>
+
+                    <section>
+                        <section class="backend_headerIntvindu2">
+                            <p>Invitasjoner</p>
+                        </section>
+
+                        <section class="backend_Intvindu2">
+                        <!-- her for seksjoner -->
+                        <?php 
+                                $dineArrangementer = "select idevent, eventnavn, tidspunkt, veibeskrivelse, interessert
+                                from event, påmelding
+                                where idevent=event_id and bruker_id= " . $_SESSION['idbruker'] . " and interessert='Invitert'";
+                                $arrangementerSTMT = $db->prepare($dineArrangementer);
+                                $arrangementerSTMT->execute();
+                                $ArrangRes = $arrangementerSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                $antallArg = $arrangementerSTMT->rowCount();
+
+                                if(isset($_POST['invitasjon'])) {                                    
+                                        $avslaaQ = "update påmelding set interessert = 'Skal' where event_id = " . $_POST['invitasjon'] . " and bruker_id = " . $_SESSION['idbruker'];
+                                        $avslaaSTMT = $db->prepare($avslaaQ);
+                                        $avslaaSTMT->execute();
+                                        echo "<meta http-equiv='refresh' content='0'>";                                        
+                                    }
+
+                                if(isset($_POST['invitasjon2'])) {
+                                        $avslaaQ = "update påmelding set interessert = 'Kan ikke' where event_id = " . $_POST['invitasjon2'] . " and bruker_id = " . $_SESSION['idbruker'];
+                                        $avslaaSTMT = $db->prepare($avslaaQ);
+                                        $avslaaSTMT->execute();
+                                        echo "<meta http-equiv='refresh' content='0'>";
+                                }
+                                ?>
+                                
+                        
+
+                        <section>
+                            <?php if($antallArg > 0) { ?>
+                            
+
+                               <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
+                                
+                                <section id="backend_argVindu">
+                                    <section id="backend_artikkelFelt">
+                                        <h3 class="PopArtiklerOverskrift"><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
+                                        <p class="PopArtiklerIngress"><?php echo $ArrangRes[$i]['tidspunkt'] ?> </p>
+                                        <a class="OversiktLenke2" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement </a>                                                                               
+                                    </section>
+                                    <section class="backend_knapperFloat">
+
+                                    <form method="POST" id="arrangement_paamelding" action="backend.php?arrangementer=<?php echo($_GET['arrangementer'])?>">
+                                        <button id="arrangement_paameld" form="arrangement_paamelding" name="invitasjon" value="<?php echo($ArrangRes[$i]['idevent'])?>">Godkjenn</button>
+                                    </form>
+
+                                    <form method="POST" id="arrangement_paamelding2" action="backend.php?arrangementer=<?php echo($_GET['arrangementer'])?>">
+                                        <button id="arrangement_avslaa" form="arrangement_paamelding2" name="invitasjon2" value="<?php echo($ArrangRes[$i]['idevent'])?>">Avslå</button>
+                                    </form>
+
+                                    </section>
+                                </section>
+
+                                <?php } ?> 
+                            
+
+                            <?php } else {?>
+                                <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen andre arrangementer...</p>
+                            <?php }?>
+                        </section>
+
+                        </section>
+                            
                     </section>
 
 
@@ -349,9 +417,10 @@ $tabindex = 10;
                     <ul class="backendNav">
                         <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
                         <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
-                        <li><a onClick="location.href='profil.php?bruker=<?php echo($_SESSION['idbruker'])?>'">Profil</a></li>
                     </ul>
                 </section>
+
+                
             </main>
             
 
