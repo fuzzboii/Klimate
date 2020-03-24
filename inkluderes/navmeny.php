@@ -145,10 +145,10 @@ if(isset($_SESSION['idbruker'])) {
                     <a class = "menytab" tabIndex = "-1" href="administrator.php" style="margin-bottom: 0.2em; font-weight: bold;"><?php echo($brukertypenavn['brukertypenavn']) ?> innstillinger</a>
                     <?php } ?>
                     <!-- For alle brukere -->
+                    <a class = "menytab" tabIndex = "-1" href="backend.php">Min oversikt</a>
                     <a class = "menytab" tabIndex = "-1" href="arrangement.php">Arrangementer</a>
                     <a class = "menytab" tabIndex = "-1" href="artikkel.php">Artikler</a>
                     <a class = "menytab" tabIndex = "-1" href="meldinger.php">Innboks<?php if($antUlest['antall'] > 0) { ?><p id="hamburger_antUlest"><?php echo($antUlest['antall']);?></p><?php } ?></a>
-                    <a class = "menytab" tabIndex = "-1" href="backend.php">Oversikt</a>
                     <a class = "menytab" tabIndex = "-1" href="profil.php?bruker=<?php echo($_SESSION['idbruker']) ?>">Profil</a>
                     <a class = "menytab" tabIndex = "-1" href="konto.php">Konto</a>
                     <a class = "menytab" tabIndex = "-1" href="sok.php">Avansert Søk</a>
