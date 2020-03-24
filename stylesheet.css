@@ -1708,7 +1708,7 @@ margin: 0;
   border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder tittel-containeren */
   margin-bottom: 0.5em;
   min-width: 15em;
-  max-width: 25em;
+  max-width: 17em;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-all;
@@ -3703,6 +3703,11 @@ input:checked + .slider:before {
 
 /* Tab */
 @media screen and (min-width: 720px) {
+  #backend_argVindu {
+    float: left;
+    margin-left: 0.5em; margin-right: 0.5em;
+
+  }
   #default_section {
     grid-template-columns: 2fr 1fr;
   }
