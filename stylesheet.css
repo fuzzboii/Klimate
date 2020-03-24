@@ -1450,6 +1450,7 @@ footer a {
 
 .backendNav li a:hover:not(.aktiv) {
   border-bottom: 0.1em solid rgba(36, 209, 100, 0.637);
+  cursor: pointer;
   color:rgba(36, 209, 100, 0.637);
 }
 
@@ -1705,15 +1706,17 @@ margin: 0;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, .5);
   font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
   border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder tittel-containeren */
-  margin-left: 0.5em; margin-right: 0.5em;
-  float: left;
   margin-bottom: 0.5em;
   min-width: 15em;
+  max-width: 25em;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-all;
   word-break: break-word;
   hyphens: auto;
+
+  margin-left: auto; margin-right: auto;
+
 }
 
 .backend_knapperFloat {
@@ -4121,10 +4124,17 @@ input:checked + .slider:before {
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
 
+
   /* BACKEND oversikt  */
   #backend_argVindu {
     max-width: 30%;
+    float: left;
+    margin-left: 0.5em; margin-right: 0.5em;
 
+  }
+
+  .OversiktLenke:hover {
+    background-color: aquamarine;
   }
 
   .backend_Intvindu { 

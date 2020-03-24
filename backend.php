@@ -371,8 +371,6 @@ $tabindex = 10;
 
                         <section>
                             <?php if($antallArg > 0) { ?>
-                            
-
                                <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
                                 
                                 <section id="backend_argVindu">
@@ -420,7 +418,7 @@ $tabindex = 10;
                     </ul>
                 </section>
 
-                
+
             </main>
             
 
