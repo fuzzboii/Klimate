@@ -1707,15 +1707,14 @@ margin: 0;
   font-family: Helvetica, Arial, sans-serif; /* Ønsket font-type */
   border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder tittel-containeren */
   margin-bottom: 0.5em;
-  min-width: 15em;
-  max-width: 17em;
+  
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-all;
   word-break: break-word;
   hyphens: auto;
 
-  margin-left: auto; margin-right: auto;
+  margin-left: 0.5em; margin-right: 0.5em;
 
 }
 
@@ -1723,7 +1722,6 @@ margin: 0;
 display: grid;
 grid-template-columns: 6em 6em;
 }
-
 
 
 
@@ -3703,11 +3701,12 @@ input:checked + .slider:before {
 
 /* Tab */
 @media screen and (min-width: 720px) {
-  #backend_argVindu {
-    float: left;
-    margin-left: 0.5em; margin-right: 0.5em;
-
+  
+  .backend2_grid {
+    display: grid;
+    grid-template-columns: auto auto;
   }
+
   #default_section {
     grid-template-columns: 2fr 1fr;
   }
@@ -4131,11 +4130,9 @@ input:checked + .slider:before {
 
 
   /* BACKEND oversikt  */
-  #backend_argVindu {
-    max-width: 30%;
-    float: left;
-    margin-left: 0.5em; margin-right: 0.5em;
-
+  .backend2_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .OversiktLenke:hover {

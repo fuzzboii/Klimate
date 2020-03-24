@@ -369,7 +369,7 @@ $tabindex = 10;
                                 
                         
 
-                        <section>
+                        <section class="backend2_grid">
                             <?php if($antallArg > 0) { ?>
                                <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
                                 
