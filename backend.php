@@ -232,24 +232,24 @@ $tabindex = 10;
                                     $resKommentar = $stmtNyesteKom->fetch(PDO::FETCH_ASSOC);   
                                     ?>
 
-                                    <section id="backend_artikkelFelt">
-                                        <h3 class="PopArtiklerOverskrift"><?php echo $komentertRes[$i]['artnavn'] ?> </h3>
-                                        <p class="PopArtiklerIngress"><?php echo $komentertRes[$i]['artingress'] ?> </p>
-                                        
-                                        <a href="artikkel.php?artikkel=<?php echo($komentertRes[$i]['idartikkel'])?>">...Les videre</a>                                      
-                                    </section>
+                                        <section id="backend_artikkelFelt">
+                                            <h3 class="PopArtiklerOverskrift"><?php echo $komentertRes[$i]['artnavn'] ?> </h3>
+                                            <p class="PopArtiklerIngress"><?php echo $komentertRes[$i]['artingress'] ?> </p>
+                                            
+                                            <a href="artikkel.php?artikkel=<?php echo($komentertRes[$i]['idartikkel'])?>">...Les videre</a>                                      
+                                        </section>
                                         <section>
                                             <p class="PopKommentar">Din nyeste kommentar:</p>
                                             <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
                                         </section>
-                                    </section>
+                                </section>
                                     <?php } 
                                 } else {?>
                                 <p class="backend_tilbakemelding">Du har ikke kommentert flere artikler...</p>
 
                                 <?php }?>
+
                             </section>
-                            
                         </section>
 
                         
@@ -445,7 +445,7 @@ $tabindex = 10;
                                 $mestKommenterteF = "select idartikkel, artnavn, artingress, ingress 
                                 from kommentar, artikkel
                                 where kommentar.artikkel = artikkel.idartikkel and kommentar.bruker = " . $_SESSION['idbruker'] . "
-                                group by idartikkel limit 4, 50";
+                                group by idartikkel";
                                 $kommenterteArtSTMT = $db->prepare($mestKommenterteF);
                                 $kommenterteArtSTMT->execute();
                                 $komentertRes = $kommenterteArtSTMT->fetchAll(PDO::FETCH_ASSOC);
