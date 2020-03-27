@@ -145,7 +145,7 @@ $tabindex = 10;
                                 <?php
                                 if (!$resBilde) { ?>
                                     <!-- Standard artikkelbilde om arrangør ikke har lastet opp noe enda -->
-                                    <img class="default_def_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                    <img class="default_art_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                 <?php } else {
                                     // Tester på om filen faktisk finnes
                                     $testPaa = $resBilde['hvor'];
