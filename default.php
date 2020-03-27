@@ -52,7 +52,7 @@ if (isset($_POST['loggUt'])) {
             <?php } else if(isset($_GET['avregistrert']) && $_GET['avregistrert'] == "true"){ ?>
                 <p id="mldFEIL">Du har blitt avregistrert</p>  
 
-            <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 6) { ?>
+            <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 6 || isset($_GET['systemerror'])) { ?>
                 <section id="mldFEIL_boks">
                     <section id="mldFEIL_innhold">
                         <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
@@ -120,7 +120,7 @@ if (isset($_POST['loggUt'])) {
                                         <?php
                                         if (!$resBilde) { ?>
                                             <!-- Standard artikkelbilde om arrangør ikke har lastet opp noe enda -->
-                                            <img class="default_def_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                            <img class="default_art_BildeBoks" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                         <?php } else {
                                             // Tester på om filen faktisk finnes
                                             $testPaa = $resBilde['hvor'];
