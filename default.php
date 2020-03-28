@@ -168,7 +168,7 @@ if (isset($_POST['loggUt'])) {
                                 //-----------------------------------//
 
                                 // Denne sorterer top 5 nyeste arrangementer
-                                $hentArrangement = "select idevent, eventnavn, eventtekst, tidspunkt from event where tidspunkt is not null order by tidspunkt ASC LIMIT 5";
+                                $hentArrangement = "select idevent, eventnavn, eventtekst, tidspunkt from event where tidspunkt is not null and tidspunkt > NOW() order by tidspunkt ASC LIMIT 5";
                                 $hentArrangementSTMT = $db->prepare($hentArrangement);
                                 $hentArrangementSTMT->execute();
                                 $arrangementer = $hentArrangementSTMT->fetchAll(PDO::FETCH_ASSOC);
