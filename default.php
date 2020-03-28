@@ -168,26 +168,26 @@ if (isset($_POST['loggUt'])) {
                                 //-----------------------------------//
 
                                 // Denne sorterer top 5 nyeste arrangementer
-                                $hentArrangement = "select idevent, eventnavn, eventtekst, tidspunkt from event order by tidspunkt ASC LIMIT 5";
+                                $hentArrangement = "select idevent, eventnavn, eventtekst, tidspunkt from event where tidspunkt is not null and tidspunkt > NOW() order by tidspunkt ASC LIMIT 5";
                                 $hentArrangementSTMT = $db->prepare($hentArrangement);
                                 $hentArrangementSTMT->execute();
                                 $arrangementer = $hentArrangementSTMT->fetchAll(PDO::FETCH_ASSOC);
                                 ?>
                                 
                                 <?php for($i = 0; $i < count($arrangementer); $i++) { ?>
-                                    <section id="default_arrangementFelt">
-                                        <h3 class="KommendeArrangementOverskrift"><?php echo $arrangementer[$i]['eventnavn'] ?> </h3>
-                                        <img class="KommendeArrangement_datobilde" src="bilder/datoIkon.png">
-                                        <p class="KommendeArrangementTidspunkt">
-                                            <?php 
-                                                $dato = date_create($arrangementer[$i]['tidspunkt']);
-                                                echo(date_format($dato,"d/m/Y"));
-                                            ?>
-                                        </p>
-                                        <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],0,150)) ?> </p>                             
-                                        
-                                        <a href="arrangement.php?arrangement=<?php echo($arrangementer[$i]['idevent'])?>">...Les videre</a>
-                                    </section>
+                                        <section id="default_arrangementFelt">
+                                            <h3 class="KommendeArrangementOverskrift"><?php echo $arrangementer[$i]['eventnavn'] ?> </h3>
+                                            <img class="KommendeArrangement_datobilde" src="bilder/datoIkon.png">
+                                            <p class="KommendeArrangementTidspunkt">
+                                                <?php 
+                                                    $dato = date_create($arrangementer[$i]['tidspunkt']);
+                                                    echo(date_format($dato,"d/m/Y"));
+                                                ?>
+                                            </p>
+                                            <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],0,150)) ?> </p>                             
+                                            
+                                            <a href="arrangement.php?arrangement=<?php echo($arrangementer[$i]['idevent'])?>">...Les videre</a>
+                                        </section>
                                 <?php } ?>
                         </section>
                     </article>
