@@ -1573,6 +1573,12 @@ margin-left: 0.8em;
   border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder tittel-containeren */
   margin-left: 0.5em; margin-right: 0.5em;
   margin-bottom: 0.5em;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 /* BACKEND, arrangementer */
