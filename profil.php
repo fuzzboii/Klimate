@@ -423,14 +423,6 @@ $tabindex = 10;
                 </header>
                 
                 <main class="profil_main2">
-                    <section class="bilde_grid">
-                        <h2>Endre profilbilde</h2>
-                        <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                            <h3>Velg et bilde</h3>
-                            <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
-                            <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
-                        </form>
-                    </section>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for visning av personalia -->
                     <section class="skjul_grid">
@@ -438,7 +430,12 @@ $tabindex = 10;
                         <h2>Personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
+<<<<<<< HEAD
+                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                <input form="profilForm" type="hidden" name="innstillinger" value="innstillinger">
+=======
                             <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+>>>>>>> parent of c331e35... Merge branch 'development' of https://github.com/RK-USN/APP2000 into development
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
@@ -513,6 +510,23 @@ $tabindex = 10;
                     <!-- Oppdater-knapp -->
                     <?php if($egen) { ?>
                         <button class="oppdater_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
+                        <input type="button" id="profil_endreKnapp" onclick="bekreftMelding('profil_endreBilde')" value="Endre profilbilde">
+                        
+                        <!-- pop-up vindu -->
+                        <section id="profil_endreBilde" style="display: none;">
+                            <section id="profil_endreBildeInnhold">
+                                <h2>Endre profilbilde</h2>
+                                <form class="profil_velgBilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                    <h3>Velg et bilde</h3>
+                                    <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
+                                    <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
+                                </form>
+                                
+                                <button id="arrangement_inviterAvbrytKnapp" onclick="bekreftMelding('profil_endreBilde')">Avbryt</button>
+                            </section>
+                        </section>
+
+                        
                     <?php } ?>
 
                     <section class="int2_grid">
