@@ -2030,10 +2030,13 @@ table {
   max-height: 100%;
   /* ------------------------------------------------------------------------------------- */
 }
+
+/* Avbryt seksjon/ikon for å lukke menyen */
 .avbrySeksjon {
   display: grid;
   justify-content: right;
 }
+
 .xikon {
   cursor: pointer;
 }
