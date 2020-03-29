@@ -426,6 +426,7 @@ $tabindex = 10;
                     <section class="bilde_grid">
                         <h2>Endre profilbilde</h2>
                         <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                            <input type="hidden" name="innstillinger" value="innstillinger">
                             <h3>Velg et bilde</h3>
                             <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
                             <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
@@ -439,6 +440,7 @@ $tabindex = 10;
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
                             <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                <input form="profilForm" type="hidden" name="innstillinger" value="innstillinger">
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
@@ -494,7 +496,6 @@ $tabindex = 10;
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
-                                <input type="hidden" name="innstillinger" value="innstillinger">
                             </form>
                         </section>
                     <?php } ?>
@@ -507,6 +508,7 @@ $tabindex = 10;
                             <h2>Endre beskrivelse</h2>
                             <section class="profil_beskrivelse" >
                                 <textarea form="profilForm" name="beskrivelse" maxlength="1024" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
+                                <input type="hidden" form="profilForm" name="innstillinger" value="innstillinger">
                             </section>
                         <?php } ?>
                     </section>
@@ -543,9 +545,9 @@ $tabindex = 10;
                             <!-- Slettemodus -->
                             <?php if (isset($_POST['innstillinger']) && $egen) { ?>
                             <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <?php if(!isset($_POST['slettemodus'])) { ?>
                                     <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
-                                    <input type="hidden" name="innstillinger" value="innstillinger">
                                 <?php } else { ?> 
                                     <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt" tabindex="100"> 
                                 <?php } ?>
@@ -553,6 +555,7 @@ $tabindex = 10;
                             <?php } ?>
                         <?php if($egen) { ?>
                             <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">
                                     <?php $index=1 ?>
                                     <?php foreach($interesse as $rad) { ?>
@@ -560,14 +563,13 @@ $tabindex = 10;
                                     <?php } ?> <!-- Slutt, ytre løkke -->
                                     
                                 </select>
-                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="102"></input>
                             </form>
 
                             <!-- Egendefinert interesse -->
                             <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&">
-                                <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
                                 <input type="hidden" name="innstillinger" value="innstillinger">
+                                <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
                         </section>
