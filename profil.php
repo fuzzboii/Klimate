@@ -440,7 +440,7 @@ $tabindex = 10;
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
                             <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                                <input form="profilForm" type="hidden" name="innstillinger" value="innstillinger">
+                                <input type="hidden" name="innstillinger" value="innstillinger" />
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
