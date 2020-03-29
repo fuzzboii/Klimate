@@ -881,6 +881,32 @@ function byttFargeNavbar() {
   }
 }
 
+/* Innsending av skjema fra profil om innstillinger */
+function innstillinger(bruker) {
+  /* Opprett skjema */
+  var form = document.createElement("form");
+  /* Definer metode */
+  form.setAttribute("method", "post");
+  /* Definer handling */
+  form.setAttribute("action", "profil.php?bruker=" + bruker)
+
+  /* Opprett et input-felt i form */
+  var input = document.createElement("input");
+  /* Definer type */
+  input.setAttribute("type", "hidden");
+  /* Definer navn */
+  input.setAttribute("name", "innstillinger")
+  /* Definer verdi */
+  input.setAttribute("value", "innstillinger")
+  /* Legg til i skjema */
+  form.appendChild(input);
+  
+  /* Legg til skjema i dokument */
+  document.body.appendChild(form);
+  /* Send skjema */
+  form.submit();
+}
+
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
 /* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */
