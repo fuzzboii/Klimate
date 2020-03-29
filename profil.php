@@ -438,7 +438,7 @@ $tabindex = 10;
                         <h2>Personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
-                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?> >
+                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
@@ -541,7 +541,7 @@ $tabindex = 10;
 
                             <!-- Slettemodus -->
                             <?php if ($egen) { ?>
-                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?> >
+                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <?php if(!isset($_POST['slettemodus'])) { ?>
                                     <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
                                 <?php } else { ?> 
@@ -550,7 +550,7 @@ $tabindex = 10;
                             </form>
                             <?php } ?>
                         <?php if($egen) { ?>
-                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?> ">
+                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">
                                     <?php $index=1 ?>
                                     <?php foreach($interesse as $rad) { ?>
@@ -562,7 +562,7 @@ $tabindex = 10;
                             </form>
 
                             <!-- Egendefinert interesse -->
-                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?> ">
+                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
