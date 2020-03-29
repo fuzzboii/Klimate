@@ -545,6 +545,7 @@ $tabindex = 10;
                             <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                 <?php if(!isset($_POST['slettemodus'])) { ?>
                                     <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
+                                    <input type="hidden" name="innstillinger" value="innstillinger">
                                 <?php } else { ?> 
                                     <input class="profil_knapp2" type="submit" name="avbryt" value="Avbryt" tabindex="100"> 
                                 <?php } ?>
