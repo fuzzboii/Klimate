@@ -132,7 +132,10 @@ if(isset($_SESSION['idbruker'])) {
         </nav>
 
         <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
-        <section id="navMeny" class="hamburgerMeny">
+        <section id="navMeny" class="hamburgerMeny" onclick="lukkHamburgerMeny()">
+            <section class="avbrySeksjon">
+                <img class="xikon" src="bilder/xikon.png">   
+            </section>
         
             <!-- innholdet i hamburger-menyen -->
             <!-- -1 tabIndex som standard da menyen er lukket -->
