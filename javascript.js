@@ -881,7 +881,6 @@ function byttFargeNavbar() {
   }
 }
 
-<<<<<<< HEAD
 /* Innsending av skjema fra profil om innstillinger */
 function innstillinger(bruker) {
   /* Opprett skjema */
@@ -908,8 +907,6 @@ function innstillinger(bruker) {
   form.submit();
 }
 
-=======
->>>>>>> parent of c331e35... Merge branch 'development' of https://github.com/RK-USN/APP2000 into development
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
 /* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */

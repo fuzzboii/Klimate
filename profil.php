@@ -430,12 +430,8 @@ $tabindex = 10;
                         <h2>Personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
-<<<<<<< HEAD
                             <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                 <input form="profilForm" type="hidden" name="innstillinger" value="innstillinger">
-=======
-                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
->>>>>>> parent of c331e35... Merge branch 'development' of https://github.com/RK-USN/APP2000 into development
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
