@@ -499,7 +499,6 @@ $tabindex = 10;
                             <h2>Endre beskrivelse</h2>
                             <section class="profil_beskrivelse" >
                                 <textarea form="profilForm" name="beskrivelse" maxlength="1024" placeholder="Skriv litt om deg selv" tabindex="9"><?php echo $beskrivelseProfil['beskrivelse'] ?></textarea>
-                                <input type="hidden" form="profilForm" name="innstillinger" value="innstillinger">
                             </section>
                         <?php } ?>
                     </section>
