@@ -2030,11 +2030,18 @@ table {
   max-height: 100%;
   /* ------------------------------------------------------------------------------------- */
 }
+.avbrySeksjon {
+  display: grid;
+  justify-content: right;
+}
+.xikon {
+  cursor: pointer;
+}
 
 /* Innholdet i menyen */
 .hamburgerInnhold {
   position: relative; /* Relativ plassering av innholdet i hamburgermenyen */
-  top: 1.3em; width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
+  width: 100%; text-align: center; /* Ønsker at det skal vises mot midten av skjermen */
 }
 
 /* Selve lenkene, innhold i menyen */
