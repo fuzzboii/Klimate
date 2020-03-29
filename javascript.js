@@ -882,6 +882,7 @@ function byttFargeNavbar() {
 }
 
 /* Innsending av skjema fra profil om innstillinger */
+/* Med hjelp fra: https://stackoverflow.com/questions/24459984/php-hide-url-get-parameters (per 29.03.2020) */
 function innstillinger(bruker) {
   /* Opprett skjema */
   var form = document.createElement("form");
