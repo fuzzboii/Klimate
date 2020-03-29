@@ -438,7 +438,7 @@ $tabindex = 10;
                         <h2>Personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
-                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
@@ -494,6 +494,7 @@ $tabindex = 10;
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                             </form>
                         </section>
                     <?php } ?>
@@ -540,8 +541,8 @@ $tabindex = 10;
                             <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
 
                             <!-- Slettemodus -->
-                            <?php if ($egen) { ?>
-                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <?php if (isset($_POST['innstillinger']) && $egen) { ?>
+                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                 <?php if(!isset($_POST['slettemodus'])) { ?>
                                     <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
                                 <?php } else { ?> 
@@ -550,7 +551,7 @@ $tabindex = 10;
                             </form>
                             <?php } ?>
                         <?php if($egen) { ?>
-                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                 <select class="profil_input" name="interesse" tabindex="101">
                                     <?php $index=1 ?>
                                     <?php foreach($interesse as $rad) { ?>
@@ -558,12 +559,14 @@ $tabindex = 10;
                                     <?php } ?> <!-- Slutt, ytre løkke -->
                                     
                                 </select>
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="102"></input>
                             </form>
 
                             <!-- Egendefinert interesse -->
-                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&">
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
                         </section>
@@ -717,7 +720,6 @@ $tabindex = 10;
                     <section class="knapp_grid">
                     <?php if($egen) {?>
                         <button onclick="innstillinger(<?php echo $_GET['bruker'] ?>)" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
-                    <?php var_dump($_GET['bruker']); ?>
                     <?php } ?>
                     </section>
                 </main>
