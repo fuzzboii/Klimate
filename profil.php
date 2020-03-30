@@ -152,21 +152,17 @@ if ($egen) {
         } else $visInteresserNy = "0";
         $brukerNy = $_SESSION['idbruker'];
 
-        // Forsøk oppdatering
-        try {
-            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, 
-                                visepost=?, visinteresser=?, visbeskrivelse=?, vistelefonnummer=? 
-                                where bruker=?";
-            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
-        } finally {
-            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) 
-                                   values(?, ?, ?, ?, ?, ?, ?)";
-            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
-        }   
-        
-        header('Location: profil.php?bruker=' . $_SESSION['idbruker']);
+        // Slett gamle preferanser
+        $slettPreferanse = "delete from preferanse where bruker = '" . $brukerNy . "'";
+        $stmtSlettPreferanse = $db->prepare($slettPreferanse);
+        $stmtSlettPreferanse->execute();
+
+        // Oppdater
+        $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, visbeskrivelse, visinteresser, bruker) 
+                               values('" . $visfnavnNy . "', '" . $visenavnNy . "', '" . $visepostNy . "', '" . $vistelefonnummerNy . "', 
+                               '" . $visBeskrivelseNy . "', '" . $visInteresserNy . "', '" . $brukerNy . "')";
+                               $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+                               $stmtOppdaterPreferanse->execute();
     }
 }
 
@@ -183,8 +179,6 @@ if ($egen) {
         $stmtOppdaterBeskrivelse->bindParam(':beskrivelse', $_POST['beskrivelse']);
 
         $stmtOppdaterBeskrivelse->execute();
-        
-        header('Location: profil.php?bruker=' . $_SESSION['idbruker']);
     }
  }
 
@@ -431,7 +425,6 @@ $tabindex = 10;
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
                             <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                                <input form="profilForm" type="hidden" name="innstillinger" value="innstillinger">
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
