@@ -47,8 +47,25 @@ if (!isset($_SESSION['idbruker'])) {
         <!-- Overskrift på siden -->
         <h1>Rapport</h1>
     </header>
+
     <main onclick="lukkHamburgerMeny()">
-        <?php echo($_POST['rapport']) ?>
+    <!-- IF-testing på hva bruker ønsker å vise -->
+        <!-- Alle brukere -->
+        <?php if($_POST['rapport'] == "Alle brukere") { ?>
+            <h2>Alle brukere</h2>
+        
+        <!-- Spesifikk bruker -->
+        <?php } elseif($_POST['rapport'] == "Spesifikk bruker") { ?>
+            <h2>Spesifikk bruker</h2>
+        
+        <!-- Eksklusjoner -->
+        <?php } elseif($_POST['rapport'] == "Eksklusjoner") { ?>
+            <h2>Eksklusjoner</h2>
+
+        <!-- Advarsler -->
+        <?php } elseif($_POST['rapport'] == "Advarsler") { ?>
+            <h2>Advarsler</h2>
+        <?php } ?>
     </main>
     <?php include("inkluderes/footer.php") ?>
 </body>
