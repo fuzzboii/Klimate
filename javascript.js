@@ -872,6 +872,26 @@ function byttHandling(handling) {
   }
 }
 
+function visFlereBrukere() {
+  var tabell = document.getElementsByClassName("admin_allebrukere_rad");
+  var knapp = document.getElementById("admin_allebrukere_knapp");
+
+  if(tabell.length > 8) {
+  
+    if(knapp.innerHTML == "Vis flere") {
+      for(i = 8; i < tabell.length; i++) {
+        tabell[i].style.display = "";
+      }
+      knapp.innerHTML = "Vis mindre";
+    } else {
+      for(i = 8; i < tabell.length; i++) {
+        tabell[i].style.display = "none";
+      }
+      knapp.innerHTML = "Vis flere";
+    }
+  }
+}
+
 /* Funksjonalitet for å gi synlighet for default navmeny */
 function byttFargeNavbar() {
   if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {

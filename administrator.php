@@ -243,13 +243,25 @@ if(isset($_POST['slettregel'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php for($i = 0; $i < count($brukere); $i++) { ?>
-                                <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                    <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
-                                    <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
-                                    <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
-                                    <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
-                                </tr>
+                            <?php for($i = 0; $i < count($brukere); $i++) { 
+                                if($i < 8) { ?>
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                        <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
+                                        <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
+                                        <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
+                                        <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
+                                    </tr>
+                                <?php } else { ?>
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                        <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
+                                        <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
+                                        <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
+                                        <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
+                                    </tr>
+                                <?php }
+                            } 
+                            if($i > 8) { ?>
+                                <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
                             <?php } ?>
                         </tbody>
                     </table>
