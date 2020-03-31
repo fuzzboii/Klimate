@@ -152,21 +152,17 @@ if ($egen) {
         } else $visInteresserNy = "0";
         $brukerNy = $_SESSION['idbruker'];
 
-        // Forsøk oppdatering
-        try {
-            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, 
-                                visepost=?, visinteresser=?, visbeskrivelse=?, vistelefonnummer=? 
-                                where bruker=?";
-            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
-        } finally {
-            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) 
-                                   values(?, ?, ?, ?, ?, ?, ?)";
-            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
-        }   
-        
-        header('Location: profil.php?bruker=' . $_SESSION['idbruker']);
+        // Slett gamle preferanser
+        $slettPreferanse = "delete from preferanse where bruker = '" . $brukerNy . "'";
+        $stmtSlettPreferanse = $db->prepare($slettPreferanse);
+        $stmtSlettPreferanse->execute();
+
+        // Oppdater
+        $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, visbeskrivelse, visinteresser, bruker) 
+                               values('" . $visfnavnNy . "', '" . $visenavnNy . "', '" . $visepostNy . "', '" . $vistelefonnummerNy . "', 
+                               '" . $visBeskrivelseNy . "', '" . $visInteresserNy . "', '" . $brukerNy . "')";
+                               $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+                               $stmtOppdaterPreferanse->execute();
     }
 }
 
@@ -183,8 +179,6 @@ if ($egen) {
         $stmtOppdaterBeskrivelse->bindParam(':beskrivelse', $_POST['beskrivelse']);
 
         $stmtOppdaterBeskrivelse->execute();
-        
-        header('Location: profil.php?bruker=' . $_SESSION['idbruker']);
     }
  }
 
@@ -251,7 +245,7 @@ if ($egen) {
         }
      } else {
             // Ellers viser vi en feilmelding
-            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger&error=1');
+            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&error=1');
         }
     }
 }
@@ -394,7 +388,7 @@ $tabindex = 10;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
         <title>
-            <?php if(isset($_GET['innstillinger'])) { ?>
+            <?php if(isset($_POST['innstillinger'])) { ?>
                 Rediger profil
             <?php } else { 
                 echo("Profil | " . $brukernavnProfil['brukernavn']);
@@ -418,19 +412,11 @@ $tabindex = 10;
             <!-- ---------------------------------------------------- -->
             <!-- Tester på om rediger brukerinnstilinger er påklikket -->
             <!-- ---------------------------------------------------- -->
-            <?php if(isset($_GET['innstillinger']) && $egen) { ?>
+            <?php if(isset($_POST['innstillinger']) && $egen) { ?>
                 <header class="profil_header" onclick="lukkHamburgerMeny()">
                 </header>
                 
                 <main class="profil_main2">
-                    <section class="bilde_grid">
-                        <h2>Endre profilbilde</h2>
-                        <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                            <h3>Velg et bilde</h3>
-                            <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
-                            <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
-                        </form>
-                    </section>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for visning av personalia -->
                     <section class="skjul_grid">
@@ -438,7 +424,7 @@ $tabindex = 10;
                         <h2>Personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
-                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
@@ -513,6 +499,23 @@ $tabindex = 10;
                     <!-- Oppdater-knapp -->
                     <?php if($egen) { ?>
                         <button class="oppdater_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
+                        <input type="button" id="profil_endreKnapp" onclick="bekreftMelding('profil_endreBilde')" value="Endre profilbilde">
+                        
+                        <!-- pop-up vindu -->
+                        <section id="profil_endreBilde" style="display: none;">
+                            <section id="profil_endreBildeInnhold">
+                                <h2>Endre profilbilde</h2>
+                                <form class="profil_velgBilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                    <h3>Velg et bilde</h3>
+                                    <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
+                                    <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
+                                </form>
+                                
+                                <button id="arrangement_inviterAvbrytKnapp" onclick="bekreftMelding('profil_endreBilde')">Avbryt</button>
+                            </section>
+                        </section>
+
+                        
                     <?php } ?>
 
                     <section class="int2_grid">
@@ -540,8 +543,9 @@ $tabindex = 10;
                             <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
 
                             <!-- Slettemodus -->
-                            <?php if ($egen) { ?>
-                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <?php if (isset($_POST['innstillinger']) && $egen) { ?>
+                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <?php if(!isset($_POST['slettemodus'])) { ?>
                                     <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
                                 <?php } else { ?> 
@@ -550,7 +554,8 @@ $tabindex = 10;
                             </form>
                             <?php } ?>
                         <?php if($egen) { ?>
-                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">
                                     <?php $index=1 ?>
                                     <?php foreach($interesse as $rad) { ?>
@@ -562,7 +567,8 @@ $tabindex = 10;
                             </form>
 
                             <!-- Egendefinert interesse -->
-                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&">
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
@@ -716,7 +722,7 @@ $tabindex = 10;
                     </section>
                     <section class="knapp_grid">
                     <?php if($egen) {?>
-                        <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
+                        <button onclick="innstillinger(<?php echo $_GET['bruker'] ?>)" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
                     <?php } ?>
                     </section>
                 </main>
