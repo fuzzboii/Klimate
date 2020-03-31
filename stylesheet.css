@@ -903,8 +903,6 @@ footer a {
   
   box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
   background-color: white;
-
-  margin-bottom: 4em;
 }
 
 #admin_alleadvarsler_tittel {
@@ -944,6 +942,62 @@ footer a {
 }
 
 .admin_alleadvarsler_rad {
+  border-top: 1px solid grey;
+}
+
+
+
+
+#admin_alleeksklusjoner {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  margin-top: 1em;
+  border-radius: 0.5em 0.5em;
+  width: 90%;
+  
+  box-shadow: 0 0 0.2em 0.1em rgb(234, 245, 241);
+  background-color: white;
+
+  margin-bottom: 4em;
+}
+
+#admin_alleeksklusjoner_tittel {
+  width: 90%;
+  margin-left: auto; margin-right: auto;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+  padding: 0.5em;
+  text-align: center;
+  border-bottom: 1px solid grey;
+}
+
+#admin_alleeksklusjoner_table {
+  width: 95%;
+  margin-left: auto; margin-right: auto;
+}
+
+#admin_alleeksklusjoner_ikkeregistrert {
+  font-style: italic;
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+  font-size: 0.9em;
+  width: 90%;
+  margin-left: auto; margin-right: auto;
+}
+
+#admin_alleeksklusjoner_grunnlag, #admin_alleeksklusjoner_administrator {
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+  font-size: 0.9em;
+}
+
+.admin_alleeksklusjoner_allegrunnlag, .admin_alleeksklusjoner_alleadmin {
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
+  font-size: 0.9em;
+}
+
+#admin_alleeksklusjoner_administrator {
+  width: 6em;
+}
+
+.admin_alleeksklusjoner_rad {
   border-top: 1px solid grey;
 }
 
@@ -4049,7 +4103,7 @@ input:checked + .slider:before {
 
   #admin_sok {
     margin-top: 0;
-    margin-right: 20%;
+    margin-left: auto; margin-right: 20%;
     grid-column: 3;
     grid-row: 1;
   }

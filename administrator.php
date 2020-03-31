@@ -341,6 +341,13 @@ if(isset($_POST['slettregel'])) {
                 $hentAdvarslerSTMT -> execute();
                 $advarsler = $hentAdvarslerSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
+                // Henter eksklusjoner
+                $hentEksklusjonerQ = "select grunnlag, brukernavn, datofra, datotil from eksklusjon, bruker where bruker = :bruker and eksklusjon.administrator = bruker.idbruker";
+                $hentEksklusjonerSTMT = $db -> prepare($hentEksklusjonerQ);
+                $hentEksklusjonerSTMT -> bindparam(":bruker", $_POST['bruker']);
+                $hentEksklusjonerSTMT -> execute();
+                $eksklusjoner = $hentEksklusjonerSTMT -> fetchAll(PDO::FETCH_ASSOC);
+
                 if(isset($brukerinfo)) { ?>
                     <section id="admin_brukerinfo">
                         <figure>
@@ -426,6 +433,33 @@ if(isset($_POST['slettregel'])) {
                                 </tbody>
                             <?php } else { ?>
                                 <p id="admin_alleadvarsler_ikkeregistrert">Ikke noen advarsler registrert</p>
+                            <?php } ?>
+                        </table>
+                    </section>
+                    <section id="admin_alleeksklusjoner">
+                        <p id="admin_alleeksklusjoner_tittel">Eksklusjoner<p>
+                        <table id="admin_alleeksklusjoner_table">
+                            <?php if(count($eksklusjoner) != 0) { ?>
+                                <thead>
+                                    <tr>
+                                        <th id="admin_alleeksklusjoner_grunnlag">GRUNNLAG</th>
+                                        <th id="admin_alleeksklusjoner_administrator">EKSKLUDERT AV</th>
+                                        <th id="admin_alleeksklusjoner_datofra">DATO FRA</th>
+                                        <th id="admin_alleeksklusjoner_datotil">DATO TIL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php for($i = 0; $i < count($eksklusjoner); $i++) { ?>
+                                        <tr class="admin_alleeksklusjoner_rad">
+                                            <td class="admin_alleeksklusjoner_allegrunnlag"><?php echo($eksklusjoner[$i]['grunnlag'])?></td>
+                                            <td class="admin_alleeksklusjoner_alleadmin"><?php echo($eksklusjoner[$i]['brukernavn'])?></td>
+                                            <td class="admin_alleeksklusjoner_alledatofra"><?php echo($eksklusjoner[$i]['datofra'])?></td>
+                                            <td class="admin_alleeksklusjoner_alledatotil"><?php echo($eksklusjoner[$i]['datotil'])?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            <?php } else { ?>
+                                <p id="admin_alleeksklusjoner_ikkeregistrert">Ikke noen eksklusjoner registrert</p>
                             <?php } ?>
                         </table>
                     </section>
