@@ -127,6 +127,7 @@ if (isset($_POST['subRegistrering'])) {
                         } else {
                             // Brukernavnet er tatt
                             $_SESSION['admin_melding'] = "Brukernavnet er opptatt";
+                            header("Location: administrator.php?nybruker");
                         }
                     }
                 }
@@ -134,22 +135,27 @@ if (isset($_POST['subRegistrering'])) {
                     if ($ex->getCode() == 23000) {
                         // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
                         $_SESSION['admin_melding'] = "Brukernavnet er opptatt";
+                        header("Location: administrator.php?nybruker");
                     } else if ($ex->getCode() == '42S22') {
                         // 42S22, Kolonne eksisterer ikke
                         $_SESSION['admin_melding'] = "Systemfeil, vennligst oppgi følgende kode til administrator: 42S22";
+                        header("Location: administrator.php?nybruker");
                     }
                 } 
             } else {
                 // Feilmelding 7, bruker har oppgitt en ugyldig epost
                 $_SESSION['admin_melding'] = "Eposten er ikke gyldig";
+                header("Location: administrator.php?nybruker");
             }
         } else {
             // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
             $_SESSION['admin_melding'] = "Fyll ut alle feltene";
+            header("Location: administrator.php?nybruker");
         }
     } else {
         // Feilmelding 2 = passord ikke like
         $_SESSION['admin_melding'] = "Passordene er ikke like";
+        header("Location: administrator.php?nybruker");
     }
 }
 
@@ -163,6 +169,7 @@ if(isset($_POST['slettregel'])) {
 
     if($slettet == 0) {
         $_SESSION['admin_melding'] = "Kunne ikke slette regel";
+        header("Location: administrator.php?nyregel");
     } else {
         header("location: administrator.php");
     }
@@ -191,9 +198,11 @@ if(isset($_POST['advaring'])) {
                     $_SESSION['admin_melding'] = "Bruker advart";
                 } else {
                     $_SESSION['admin_melding'] = "Feil oppsto ved advaring av bruker";
+                    header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
                 }
             } else {
                 $_SESSION['admin_melding'] = "Du kan ikke advare en administrator";
+                header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
             }
         }
     }
