@@ -34,6 +34,12 @@ if (isset($_SESSION['input_brukernavn'])) {
     unset($_SESSION['input_epost']);
 }
 
+$admin_melding = "";
+if(isset($_SESSION['admin_melding'])) {
+    $admin_melding = $_SESSION['admin_melding'];
+    unset($_SESSION['admin_melding']);
+}
+
 if (isset($_POST['subRegistrering'])) {
     $_SESSION['input_brukernavn'] = $_POST['brukernavn'];
     $_SESSION['input_epost'] = $_POST['epost'];
@@ -156,7 +162,6 @@ if(isset($_POST['slettregel'])) {
     $slettet = $slettregelSTMT->rowCount();
 
     if($slettet == 0) {
-        header("location: administrator.php?nyregel");
         $_SESSION['admin_melding'] = "Kunne ikke slette regel";
     } else {
         header("location: administrator.php");
@@ -184,14 +189,11 @@ if(isset($_POST['advaring'])) {
 
                 if($advarBrukerSTMT) {
                     $_SESSION['admin_melding'] = "Bruker advart";
-                    header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
                 } else {
                     $_SESSION['admin_melding'] = "Feil oppsto ved advaring av bruker";
-                    header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
                 }
             } else {
                 $_SESSION['admin_melding'] = "Du kan ikke advare en administrator";
-                header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
             }
         }
     }
@@ -210,14 +212,14 @@ if(isset($_POST['ekskludering'])) {
             if(!$resAdmin) {
                 // Bruker er ikke administrator, sjekker om bruker allerede er permanent utestengt
 
-                $sjekkTidQ = "select datotil from eksklusjon where bruker = :bruker";
+                $sjekkTidQ = "select datotil from eksklusjon where bruker = :bruker and datotil is null or datotil > NOW()";
                 $sjekkTidSTMT = $db -> prepare($sjekkTidQ);
                 $sjekkTidSTMT -> bindparam(":bruker", $_POST['ekskludertbruker']);
                 $sjekkTidSTMT -> execute();
 
-                $resDato = $sjekkTidSTMT->fetch(PDO::FETCH_ASSOC); 
+                $antTid = $sjekkTidSTMT->rowCount(); 
 
-                if(!$resDato) {
+                if($antTid == 0) {
                     if($_POST['datotil'] != "") {
                         $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra, datotil) values(:tekst, :bruker, :admin, NOW(), :datotil)";
                         $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
@@ -233,14 +235,13 @@ if(isset($_POST['ekskludering'])) {
                     $ekskluderBrukerSTMT -> execute();
     
                     if($ekskluderBrukerSTMT) {
-                        $_SESSION['admin_melding'] = "Bruker ekskludert";
                         header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                     } else {
                         $_SESSION['admin_melding'] = "Feil oppsto ved ekskludering av bruker";
                         header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                     }
                 } else {
-                    $_SESSION['admin_melding'] = "Denne brukeren er allerede permanent utestengt";
+                    $_SESSION['admin_melding'] = "Denne brukeren er allerede utestengt";
                     header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                 }
             } else {
@@ -476,7 +477,7 @@ if(isset($_POST['ekskludering'])) {
                     <section id="admin_handlinger">
                         <p class="admin_handlingvalg" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
                         <p class="admin_handlingvalg" onclick="byttHandling('Ekskluder')">Ekskluder</p>
-                        <form id="admin_handling_form" method="POST" action="administrator.php">
+                        <form id="admin_handling_form" method="POST" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
                             <p id="admin_handling">Advar bruker</p>
                             <input id="admin_handling_bruker" type="hidden" name="advartbruker" value="<?php echo($_GET['bruker']) ?>">
                             <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" required></textarea>
@@ -643,9 +644,9 @@ if(isset($_POST['ekskludering'])) {
 
             <!-- Håndtering av feilmeldinger -->
 
-            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if(isset($_SESSION['admin_melding'])) { ?> style="display: block" <?php } ?>>
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($admin_melding != "") { ?> style="display: block" <?php } ?>>
                 <section id="mldFEIL_innhold">
-                    <p id="mldFEIL"><?php if(isset($_SESSION['admin_melding'])) { echo($_SESSION['admin_melding']); unset($_SESSION['admin_melding']); } ?></p>  
+                    <p id="mldFEIL"><?php echo($admin_melding) ?></p>  
                     <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
                     <button id="mldFEIL_knapp">Lukk</button>
                 </section>  
