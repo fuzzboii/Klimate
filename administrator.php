@@ -9,8 +9,7 @@ include("inkluderes/innstillinger.php");
 
 // Browser må validere cache med server før cached kopi kan benyttes
 // Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
-header("Cache-Control: no cache");
-
+//header("Cache-Control: no cache");
 
 // Forsikrer seg om kun tilgang for administrator
 if (!isset($_SESSION['idbruker'])) {
@@ -25,6 +24,7 @@ if (!isset($_SESSION['idbruker'])) {
     session_destroy();
     header("Location: default.php?error=6");
 }
+
 $input_brukernavn = "";
 $input_epost = "";
 if (isset($_SESSION['input_brukernavn'])) {
@@ -37,14 +37,14 @@ if (isset($_SESSION['input_brukernavn'])) {
 if (isset($_POST['subRegistrering'])) {
     $_SESSION['input_brukernavn'] = $_POST['brukernavn'];
     $_SESSION['input_epost'] = $_POST['epost'];
+    $_SESSION['admin_melding'] = "";
     // Tester på om passordene er like
     if ($_POST['passord'] == $_POST['passord2']) {
-        // Tester på om bruker har fyllt ut alle de obligatoriske feltene
+        // Tester på om administrator har fyllt ut alle de obligatoriske feltene
         if ($_POST['brukernavn'] != "" && $_POST['epost'] != "") {
             // Tester på om en gyldig epost ("NAVN@NAVN.DOMENE") er oppgitt
             if (filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL)) {
                 try {
-
                     $br = $_POST['brukernavn'];
                     $pw = $_POST['passord'];
                     if($_POST['brukertype'] != "4") {
@@ -62,10 +62,10 @@ if (isset($_POST['subRegistrering'])) {
 
                     if ($pw == "") {
                         // Ikke noe passord skrevet
-                        $admin_melding = "Oppgi et passord";
+                        $_SESSION['admin_melding'] = "Oppgi et passord";
                     } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
                         // Ikke tilstrekkelig passord skrevet
-                        $admin_melding = "Minimum 8 tegn, 1 liten og 1 stor bokstav";
+                        $_SESSION['admin_melding'] = "Minimum 8 tegn, 1 liten og 1 stor bokstav";
                     } else {
                         // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
                         $lbr = strtolower($_POST['brukernavn']);
@@ -77,22 +77,24 @@ if (isset($_POST['subRegistrering'])) {
                         // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
                         if (!isset($testbnavn['brukernavn']) || $testbnavn['brukernavn'] != $lbr) {
                             // OK, vi forsøker å registrere bruker
-                            $epost = $_POST['epost'];
-
                             // Salter passorder
                             $kombinert = $salt . $pw;
                             // Krypterer saltet passord
                             $spw = sha1($kombinert);
-                            $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', $btype)";
 
+                            $opprettBrukerQ = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES(:bruker, :passord, :epost, :brukertype)";
+                            $opprettBrukerSTMT = $db -> prepare($opprettBrukerQ);
+                            $opprettBrukerSTMT -> bindparam(":bruker", $_POST['brukernavn']);
+                            $opprettBrukerSTMT -> bindparam(":passord", $spw);
+                            $opprettBrukerSTMT -> bindparam(":epost", $_POST['epost']);
+                            $opprettBrukerSTMT -> bindparam(":brukertype", $btype);
+                            $opprettBrukerSTMT -> execute();
 
-                            // Prepared statement for å beskytte mot SQL injection
-                            $stmt = $db->prepare($sql);
-
-                            $vellykket = $stmt->execute(); 
+                            // Fikk lagt til bruker, fortsetter med sjekk på preferanser
+                            if ($opprettBrukerSTMT) {
                             
-                            // Alt gikk OK, sender til logginn med melding til bruker
-                            if ($vellykket) {
+                                $opprettetID = $db -> lastInsertId();
+
                                 // Fjerner session variable for brukerinput om ingen feil oppstår
                                 unset($_SESSION['input_brukernavn']);
                                 unset($_SESSION['input_epost']);
@@ -114,34 +116,40 @@ if (isset($_POST['subRegistrering'])) {
                                     $opprettPrefSTMT->execute();
                                 }
 
-                                header("location: administrator.php?vellykket=1");
+                                header("location: administrator.php?bruker=" . $opprettetID);
                             }
                         } else {
                             // Brukernavnet er tatt
-                            $admin_melding = "Brukernavnet er opptatt";
+                            $_SESSION['admin_melding'] = "Brukernavnet er opptatt";
+                            $_GET['nybruker'] = "";
                         }
                     }
                 }
                 catch (PDOException $ex) {
                     if ($ex->getCode() == 23000) {
                         // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
-                        $admin_melding = "Brukernavnet er opptatt";
+                        $_SESSION['admin_melding'] = "Brukernavnet er opptatt";
+                        $_GET['nybruker'] = "";
                     } else if ($ex->getCode() == '42S22') {
                         // 42S22, Kolonne eksisterer ikke
-                        $admin_melding = "Systemfeil, vennligst oppgi følgende kode til administrator: 42S22";
+                        $_SESSION['admin_melding'] = "Systemfeil, vennligst oppgi følgende kode til administrator: 42S22";
+                        $_GET['nybruker'] = "";
                     }
                 } 
             } else {
                 // Feilmelding 7, bruker har oppgitt en ugyldig epost
-                $admin_melding = "Eposten er ikke gyldig";
+                $_SESSION['admin_melding'] = "Eposten er ikke gyldig";
+                $_GET['nybruker'] = "";
             }
         } else {
             // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
-            $admin_melding = "Fyll ut alle feltene";
+            $_SESSION['admin_melding'] = "Fyll ut alle feltene";
+            $_GET['nybruker'] = "";
         }
     } else {
         // Feilmelding 2 = passord ikke like
-        $admin_melding = "Passordene er ikke like";
+        $_SESSION['admin_melding'] = "Passordene er ikke like";
+        $_GET['nybruker'] = "";
     }
 }
 
@@ -155,7 +163,7 @@ if(isset($_POST['slettregel'])) {
 
     if($slettet == 0) {
         header("location: administrator.php?nyregel");
-        $admin_melding = "Kunne ikke slette regel";
+        $_SESSION['admin_melding'] = "Kunne ikke slette regel";
     } else {
         header("location: administrator.php");
     }
@@ -164,8 +172,6 @@ if(isset($_POST['slettregel'])) {
 if(isset($_POST['advaring'])) {
     if($_POST['advaring'] != "") {
         if($_POST['advartbruker'] != "") {
-            $_POST['bruker'] = $_POST['advartbruker'];
-
             // Sjekker om brukeren er av type administrator, tillater ikke administratorer å utføre handling på en administrator
             $sjekkAdminQ = "select idbruker, brukertype from bruker where idbruker = :bruker and brukertype = 1";
             $sjekkAdminSTMT = $db -> prepare($sjekkAdminQ);
@@ -183,12 +189,15 @@ if(isset($_POST['advaring'])) {
                 $advarBrukerSTMT -> execute();
 
                 if($advarBrukerSTMT) {
-                    $admin_melding = "Bruker advart";
+                    $_SESSION['admin_melding'] = "Bruker advart";
+                    header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
                 } else {
-                    $admin_melding = "Feil oppsto ved advaring av bruker";
+                    $_SESSION['admin_melding'] = "Feil oppsto ved advaring av bruker";
+                    header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
                 }
             } else {
-                $admin_melding = "Du kan ikke advare en administrator";
+                $_SESSION['admin_melding'] = "Du kan ikke advare en administrator";
+                header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
             }
         }
     }
@@ -197,8 +206,6 @@ if(isset($_POST['advaring'])) {
 if(isset($_POST['ekskludering'])) {
     if($_POST['ekskludering'] != "") {
         if($_POST['ekskludertbruker'] != "") {
-            $_POST['bruker'] = $_POST['ekskludertbruker'];
-
             // Sjekker om brukeren er av type administrator, tillater ikke administratorer å utføre handling på en administrator
             $sjekkAdminQ = "select idbruker, brukertype from bruker where idbruker = :bruker and brukertype = 1";
             $sjekkAdminSTMT = $db -> prepare($sjekkAdminQ);
@@ -224,13 +231,15 @@ if(isset($_POST['ekskludering'])) {
                 $ekskluderBrukerSTMT -> execute();
 
                 if($ekskluderBrukerSTMT) {
-                    header("Location: administrator.php?bruker=" . $_POST['bruker']);
-                    $admin_melding = "Bruker ekskludert";
+                    $_SESSION['admin_melding'] = "Bruker ekskludert";
+                    header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                 } else {
-                    $admin_melding = "Feil oppsto ved ekskludering av bruker";
+                    $_SESSION['admin_melding'] = "Feil oppsto ved ekskludering av bruker";
+                    header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                 }
             } else {
-                $admin_melding = "Du kan ikke ekskludere en administrator";
+                $_SESSION['admin_melding'] = "Du kan ikke ekskludere en administrator";
+                header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
             }
         }
     }
@@ -629,9 +638,9 @@ if(isset($_POST['ekskludering'])) {
 
             <!-- Håndtering av feilmeldinger -->
 
-            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if(isset($admin_melding)) { ?> style="display: block" <?php } ?>>
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if(isset($_SESSION['admin_melding'])) { ?> style="display: block" <?php } ?>>
                 <section id="mldFEIL_innhold">
-                    <p id="mldFEIL"><?php if(isset($admin_melding)) { echo($admin_melding); unset($admin_melding); } ?></p>  
+                    <p id="mldFEIL"><?php if(isset($_SESSION['admin_melding'])) { echo($_SESSION['admin_melding']); unset($_SESSION['admin_melding']); } ?></p>  
                     <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
                     <button id="mldFEIL_knapp">Lukk</button>
                 </section>  
