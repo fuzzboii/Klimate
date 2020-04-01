@@ -158,6 +158,39 @@ if(isset($_POST['slettregel'])) {
         header("location: administrator.php");
     }
 }
+
+if(isset($_POST['advaring'])) {
+    if($_POST['advaring'] != "") {
+        if($_POST['advartbruker'] != "") {
+            $_POST['bruker'] = $_POST['advartbruker'];
+
+            // Sjekker om brukeren er av type administrator, tillater ikke administratorer å utføre handling på en administrator
+            $sjekkAdminQ = "select idbruker, brukertype from bruker where idbruker = :bruker and brukertype = 3";
+            $sjekkAdminSTMT = $db -> prepare($sjekkAdminQ);
+            $sjekkAdminSTMT -> bindparam(":bruker", $_POST['advartbruker']);
+            $sjekkAdminSTMT -> execute();
+
+            if(!$sjekkAdminSTMT) {
+                // Bruker er ikke administrator
+                $advarBrukerQ = "insert into advarsel(advarseltekst, bruker, administrator) values(:tekst, :bruker, :admin)";
+                $advarBrukerSTMT = $db -> prepare($advarBrukerQ);
+                $advarBrukerSTMT -> bindparam(":tekst", $_POST['advaring']);
+                $advarBrukerSTMT -> bindparam(":bruker", $_POST['advartbruker']);
+                $advarBrukerSTMT -> bindparam(":admin", $_SESSION['idbruker']);
+                $advarBrukerSTMT -> execute();
+
+                if($advarBrukerSTMT) {
+                    $admin_melding = "Bruker advart";
+                } else {
+                    $admin_melding = "Feil oppsto ved advaring av bruker";
+                }
+            } else {
+                $admin_melding = "Du kan ikke advare en administrator";
+            }
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -177,7 +210,7 @@ if(isset($_POST['slettregel'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="admin_body" onclick="lukkMelding('mldFEIL_boks')">
+    <body id="admin_body">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -384,12 +417,13 @@ if(isset($_POST['slettregel'])) {
                     <section id="admin_handlinger">
                         <p class="admin_handlingvalg" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
                         <p class="admin_handlingvalg" onclick="byttHandling('Ekskluder')">Ekskluder</p>
-                        <form method="POST" action="administrator.php">
+                        <form id="admin_handling_form" method="POST" action="administrator.php">
                             <p id="admin_handling">Advar bruker</p>
+                            <input id="admin_handling_bruker" type="hidden" name="advartbruker" value="<?php echo($_POST['bruker']) ?>">
                             <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" required></textarea>
                             <p id="admin_handling_lengde">Lengde, la være for permanent</p>
                             <input id="admin_handling_dato" type="date" name="datotil">
-                            <input id="admin_handling_submit" type="submit" value="Advar bruker">
+                            <input onclick="sjekkAdminHandling()" id="admin_handling_submit" type="button" value="Advar bruker">
                         </form>
                     </section>
                     <section id="admin_allemisbruk">
@@ -453,8 +487,8 @@ if(isset($_POST['slettregel'])) {
                                         <tr class="admin_alleeksklusjoner_rad">
                                             <td class="admin_alleeksklusjoner_allegrunnlag"><?php echo($eksklusjoner[$i]['grunnlag'])?></td>
                                             <td class="admin_alleeksklusjoner_alleadmin"><?php echo($eksklusjoner[$i]['brukernavn'])?></td>
-                                            <td class="admin_alleeksklusjoner_alledatofra"><?php echo($eksklusjoner[$i]['datofra'])?></td>
-                                            <td class="admin_alleeksklusjoner_alledatotil"><?php echo($eksklusjoner[$i]['datotil'])?></td>
+                                            <td class="admin_alleeksklusjoner_alledatofra"><?php echo(date_format(date_create($eksklusjoner[$i]['datofra']), "j M H:i")) ?></td>
+                                            <td class="admin_alleeksklusjoner_alledatotil"><?php echo(date_format(date_create($eksklusjoner[$i]['datotil']), "j M H:i")) ?></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -550,39 +584,15 @@ if(isset($_POST['slettregel'])) {
 
             <!-- Håndtering av feilmeldinger -->
 
-            <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 8) { ?>
-                <section id="mldFEIL_boks">
-                    <section id="mldFEIL_innhold">
-                        <?php if($_GET['error'] == 1){ ?>
-                            <p id="mldFEIL">Ny bruker | Brukernavnet eksisterer fra før</p>    
-
-                        <?php } else if($_GET['error'] == 2) { ?>
-                            <p id="mldFEIL">Ny bruker | Passordene er ikke like</p>
-
-                        <?php } else if($_GET['error'] == 3) { ?>
-                            <p id="mldFEIL">Ny bruker | Skriv inn ett passord</p>
-
-                        <?php } else if($_GET['error'] == 4) { ?>
-                            <p id="mldFEIL">Ny bruker | Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-
-                        <?php } else if($_GET['error'] == 5) { ?>
-                            <p id="mldFEIL">Ny bruker | Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
-
-                        <?php } else if($_GET['error'] == 6) { ?>
-                            <p id="mldFEIL">Ny bruker | Vennligst fyll ut alle feltene</p>
-
-                        <?php } else if($_GET['error'] == 7) { ?>
-                            <p id="mldFEIL">Ny bruker | Epost oppgitt er ikke gyldig</p>
-
-                        <?php } else if($_GET['error'] == 8) { ?>
-                            <p id="mldFEIL">Kunne ikke slette regel</p>
-
-                        <?php }?>
-                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                        <button id="mldFEIL_knapp">Lukk</button>
-                    </section>  
-                </section>
-            <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1) { ?>
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if(isset($admin_melding)) { ?> style="display: block" <?php } ?>>
+                <section id="mldFEIL_innhold">
+                    <p id="mldFEIL"><?php if(isset($admin_melding)) { echo($admin_melding); unset($admin_melding); } ?></p>  
+                    <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                    <button id="mldFEIL_knapp">Lukk</button>
+                </section>  
+            </section>
+            <?php 
+            if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1) { ?>
                 <p id="mldOK">Brukeren er opprettet</p>
             <?php } ?>
 

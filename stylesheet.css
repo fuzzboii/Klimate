@@ -131,6 +131,7 @@ footer a {
 }
 
 #mldFEIL_boks {
+  display: none;
   position: absolute;
   width: 100%; height: 100%;
   top: 0; left: 0;
@@ -881,6 +882,7 @@ footer a {
 }
 
 .admin_misbruk_allegrunnlag {
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
   border-top: 1px solid grey;
   font-size: 0.9em;
 }
@@ -930,6 +932,14 @@ footer a {
 #admin_alleadvarsler_grunnlag, #admin_alleadvarsler_administrator {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
   font-size: 0.9em;
+}
+
+#admin_alleadvarsler_administrator {
+  text-align: right;
+}
+
+.admin_alleadvarsler_alleadmin {
+  text-align: right;
 }
 
 .admin_alleadvarsler_allegrunnlag, .admin_alleadvarsler_alleadmin {
@@ -983,7 +993,7 @@ footer a {
   margin-left: auto; margin-right: auto;
 }
 
-#admin_alleeksklusjoner_grunnlag, #admin_alleeksklusjoner_administrator {
+#admin_alleeksklusjoner_grunnlag, #admin_alleeksklusjoner_administrator, #admin_alleeksklusjoner_datofra, #admin_alleeksklusjoner_datotil {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
   font-size: 0.9em;
 }
@@ -994,6 +1004,16 @@ footer a {
 }
 
 #admin_alleeksklusjoner_administrator {
+  width: 8em;
+}
+
+#admin_alleeksklusjoner_datofra, #admin_alleeksklusjoner_datotil {
+  text-align: right;
+  width: 6em;
+}
+
+.admin_alleeksklusjoner_alledatofra, .admin_alleeksklusjoner_alledatotil {
+  text-align: right;
   width: 6em;
 }
 

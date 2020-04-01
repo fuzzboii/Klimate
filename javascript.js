@@ -892,6 +892,31 @@ function visFlereBrukere() {
   }
 }
 
+function sjekkAdminHandling() {
+  var bruker = document.getElementById("admin_handling_bruker");
+  var grunnlag = document.getElementById("admin_handling_tekst");
+
+  var boks = document.getElementById("mldFEIL_boks");
+  var melding = document.getElementById("mldFEIL");
+
+  if(bruker.value != "") {
+    if(grunnlag.value != "") {
+      document.getElementById("admin_handling_form").submit();
+    } else {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      boks.style.display = "block";
+      melding.innerHTML = "Oppgi et grunnlag";
+    }
+  } else {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    boks.style.display = "block";
+    melding.innerHTML = "Feil oppsto, ingen bruker oppgitt";
+  }
+}
+
+
 /* Funksjonalitet for å gi synlighet for default navmeny */
 function byttFargeNavbar() {
   if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
