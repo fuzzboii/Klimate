@@ -371,21 +371,21 @@ if(isset($_POST['ekskludering'])) {
             <?php } else if(isset($_GET['nybruker'])) { 
                 // Ny bruker (Evt endring?) ?>
                 <h2 id="admin_underskrift">Opprett en bruker</h2>
-                <form method="POST" action="administrator.php?nybruker" class="innloggForm">
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon">
+                <form method="POST" action="administrator.php?nybruker" id="admin_nybruker_form">
+                    <section class="admin_input_boks">
+                        <img class="admin_input_ikon" src="bilder/brukerIkon.png" alt="Brukerikon">
                         <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
                     </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/emailIkon.png" alt="Epostikon">
+                    <section class="admin_input_boks">
+                        <img class="admin_input_ikon" src="bilder/emailIkon.png" alt="Epostikon">
                         <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
                     </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
+                    <section class="admin_input_boks">
+                        <img class="admin_input_ikon" src="bilder/pwIkon.png" alt="Passordikon">
                         <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                     </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon">
+                    <section class="admin_input_boks">
+                        <img class="admin_input_ikon" src="bilder/pwIkon.png" alt="Passordikon">
                         <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                     </section>
                     <section>
@@ -429,21 +429,21 @@ if(isset($_POST['ekskludering'])) {
                 }
 
                 // Henter misbruk
-                $hentMisbrukQ = "select tekst from misbruk where bruker = :bruker";
+                $hentMisbrukQ = "select tekst from misbruk where bruker = :bruker order by idmisbruk desc";
                 $hentMisbrukSTMT = $db -> prepare($hentMisbrukQ);
                 $hentMisbrukSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentMisbrukSTMT -> execute();
                 $misbruk = $hentMisbrukSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
                 // Henter advarsler
-                $hentAdvarslerQ = "select advarseltekst, brukernavn from advarsel, bruker where bruker = :bruker and advarsel.administrator = bruker.idbruker";
+                $hentAdvarslerQ = "select advarseltekst, brukernavn from advarsel, bruker where bruker = :bruker and advarsel.administrator = bruker.idbruker order by idadvarsel desc";
                 $hentAdvarslerSTMT = $db -> prepare($hentAdvarslerQ);
                 $hentAdvarslerSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentAdvarslerSTMT -> execute();
                 $advarsler = $hentAdvarslerSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
                 // Henter eksklusjoner
-                $hentEksklusjonerQ = "select grunnlag, brukernavn, datofra, datotil from eksklusjon, bruker where bruker = :bruker and eksklusjon.administrator = bruker.idbruker";
+                $hentEksklusjonerQ = "select grunnlag, brukernavn, datofra, datotil from eksklusjon, bruker where bruker = :bruker and eksklusjon.administrator = bruker.idbruker order by ideksklusjon desc";
                 $hentEksklusjonerSTMT = $db -> prepare($hentEksklusjonerQ);
                 $hentEksklusjonerSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentEksklusjonerSTMT -> execute();
