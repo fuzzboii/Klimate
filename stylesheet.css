@@ -2109,7 +2109,7 @@ table {
   position: fixed;
   z-index: 2; /* Skal være over alle andre elementer */
   left: 0; /* Sørger for at vinduet dukker opp over navigasjonsbaren og går helt ut i kanten */
-  background-color: rgb(0, 255, 157); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
+  background-color:rgb(200,218,211); /* Bakgrunnsfarge uten gjennomsiktighet, om den under ikke går */
   overflow: hidden; /* Uten denne vises innholdet til hamburgermenyen til enhver tid */
   transition: 0.5s; /* Antall sekunder det tar fra man trykker på menyen tils den er ferdig åpnet */
   animation-name: anim_frahside;
