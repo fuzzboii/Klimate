@@ -397,8 +397,40 @@ if(isset($_POST['ekskludering'])) {
                         </tbody>
                     </table>
 
-                <?php } else if($_GET['administrering'] == "Administratorer") { ?>
-
+                <?php } else if($_GET['administrering'] == "Administratorer") {
+                    $hentAdministratorerQ = "select idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype and bruker.brukertype = 1 order by brukernavn";
+                    $hentAdministratorerSTMT = $db->prepare($hentAdministratorerQ);
+                    $hentAdministratorerSTMT -> execute();
+                    $administratorer = $hentAdministratorerSTMT -> fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+                    <table id="admin_allebrukere_table">
+                        <thead>
+                            <tr>
+                                <th id="admin_allebrukere_bruker">BRUKERNAVN</th>
+                                <th id="admin_allebrukere_info">INFO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for($i = 0; $i < count($administratorer); $i++) { 
+                                if($i < 8) { ?>
+                                    <tr class="admin_allebrukere_rad" title="Vis denne administratoren" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
+                                        <td class="admin_allebrukere_allebruker"><?php echo($administratorer[$i]['brukernavn'])?></td>
+                                        <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($administratorer[$i]['fnavn'])) {echo($administratorer[$i]['fnavn'] . " "); if(isset($administratorer[$i]['enavn'])) {echo($administratorer[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
+                                        <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($administratorer[$i]['epost'])) {echo($administratorer[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
+                                    </tr>
+                                <?php } else { ?>
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne administratorem" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
+                                        <td class="admin_allebrukere_allebruker"><?php echo($administratorer[$i]['brukernavn'])?></td>
+                                        <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($administratorer[$i]['fnavn'])) {echo($administratorer[$i]['fnavn'] . " "); if(isset($administratorer[$i]['enavn'])) {echo($administratorer[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
+                                        <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($administratorer[$i]['epost'])) {echo($administratorer[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
+                                    </tr>
+                                <?php }
+                            } 
+                            if($i > 8) { ?>
+                                <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 <?php } ?>
                 <button id="admin_administrering_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_GET['nybruker'])) { 
