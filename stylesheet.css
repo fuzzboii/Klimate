@@ -5034,7 +5034,9 @@ input:checked + .slider:before {
 
   .admin_allebrukere_rad:hover {
     cursor: pointer;
-    font-weight: bolder;
+    outline: 2px solid black;
+    box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
+    transition: outline 0.1s;
   }
 
   /* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
