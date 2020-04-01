@@ -22,7 +22,7 @@ if (!isset($_SESSION['idbruker'])) {
     $leggTilMisbrukSTMT = $db -> prepare($leggTilMisbrukQ);
     $leggTilMisbrukSTMT -> bindparam(":bruker", $_SESSION['idbruker']);
     $leggTilMisbrukSTMT -> execute();
-    
+    session_destroy();
     header("Location: default.php?error=6");
 }
 $input_brukernavn = "";
