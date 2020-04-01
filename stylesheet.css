@@ -5151,6 +5151,19 @@ input:checked + .slider:before {
     padding-bottom: 0.5em;
   }
 
+  .admin_handlingvalg:hover {
+    box-shadow: 0.05em 0.05em 0.1em 0.05em rgb(99,112,126);
+    transition: box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  #admin_handling_submit:hover {
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126);
+    transition: box-shadow 0.1s;
+    background-color: rgb(89, 172, 255);
+    cursor: pointer;
+  }
+
   /* Style for ADMINPANEL sin NY BRUKER */
 
   #admin_nybruker_form {
