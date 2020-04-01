@@ -4153,7 +4153,7 @@ input:checked + .slider:before {
   #admin_main {
     display: grid;
     grid-template-columns: 14.5em 1fr 1fr;
-    grid-template-rows: 2.5em 6em 6em 1fr;
+    /*grid-template-rows: 2.5em 6em 6em 1fr; */
   }
 
   #admin_header {
@@ -4293,6 +4293,45 @@ input:checked + .slider:before {
     display: block;
   }
 
+  /* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
+  #admin_brukerinfo {
+    grid-column: 2;
+    grid-row: 1/span 2;
+    height: 21em;
+    margin-left: 0;
+    width: 95%;
+  }
+
+  #admin_handlinger {
+    grid-column: 3;
+    grid-row: 1/span 2;
+    margin-left: 0;
+  }
+
+  #admin_handling_tekst {
+    height: 5em;
+  }
+
+  #admin_allemisbruk {
+    grid-column: 2/span 2;
+    grid-row: 4;
+    margin-left: 0;
+    width: 95%;
+  }
+
+  #admin_alleadvarsler {
+    grid-column: 2/span 2;
+    grid-row: 5;
+    margin-left: 0;
+    width: 95%;
+  }
+
+  #admin_alleeksklusjoner {
+    grid-column: 2/span 2;
+    grid-row: 6;
+    margin-left: 0;
+    width: 95%;
+  }
 
 
 }
@@ -4835,7 +4874,7 @@ input:checked + .slider:before {
 
   #admin_main {
     grid-template-columns: 15em 1fr 15em 15em 15em 15em 1fr;
-    grid-template-rows: 2.5em 6em 1fr;
+    grid-template-rows: 2.5em auto auto auto auto;
   }
 
   #admin_underskrift {
@@ -4932,6 +4971,43 @@ input:checked + .slider:before {
   .admin_allebrukere_rad:hover {
     cursor: pointer;
     font-weight: bolder;
+  }
+
+  /* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
+  #admin_brukerinfo {
+    grid-column: 3/span 2;
+    grid-row: 1/span 2;
+    height: 21em;
+    margin-right: auto;
+    width: 16em;
+  }
+
+  #admin_handlinger {
+    grid-column: 4/span 3;
+    grid-row: 1/span 2;
+    margin-left: auto;
+  }
+
+  #admin_handling_tekst {
+    height: 5em;
+  }
+
+  #admin_allemisbruk {
+    grid-column: 3/span 4;
+    grid-row: 3;
+    padding-bottom: 0.5em;
+  }
+
+  #admin_alleadvarsler {
+    grid-column: 3/span 4;
+    grid-row: 4;
+    padding-bottom: 0.5em;
+  }
+
+  #admin_alleeksklusjoner {
+    grid-column: 3/span 4;
+    grid-row: 5;
+    padding-bottom: 0.5em;
   }
 
 

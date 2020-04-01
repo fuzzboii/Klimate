@@ -210,8 +210,7 @@ if(isset($_POST['ekskludering'])) {
             $resAdmin = $sjekkAdminSTMT->fetch(PDO::FETCH_ASSOC); 
 
             if(!$resAdmin) {
-                // Bruker er ikke administrator, sjekker om bruker allerede er permanent utestengt
-
+                // Bruker er ikke administrator, sjekker om bruker allerede er utestengt
                 $sjekkTidQ = "select datotil from eksklusjon where bruker = :bruker and datotil is null or datotil > NOW()";
                 $sjekkTidSTMT = $db -> prepare($sjekkTidQ);
                 $sjekkTidSTMT -> bindparam(":bruker", $_POST['ekskludertbruker']);
