@@ -4176,7 +4176,7 @@ input:checked + .slider:before {
   #admin_main {
     display: grid;
     grid-template-columns: 14.5em 1fr 1fr;
-    grid-template-rows: 2.5em auto auto 1fr;
+    grid-template-rows: 2.5em auto auto auto 1fr;
   }
 
   #admin_header {
@@ -4214,12 +4214,13 @@ input:checked + .slider:before {
   }
 
   #admin_allebrukere_knapp {
-    grid-column: 1;
-    grid-row: 4;
+    grid-column: 3;
+    grid-row: 5;
     margin: 0;
     width: 7.5em;
     height: 3em;
-    margin-left: auto; margin-right: auto;
+    margin-left: auto; margin-right: 20%;
+    margin-bottom: 0.5em;
   }
 
   #admin_form_advarsel {
@@ -4389,7 +4390,7 @@ input:checked + .slider:before {
 
   #admin_tiloversikt {
     grid-column: 2/span 2;
-    grid-row: 2;
+    grid-row: 3;
     height: 3em;
   }
 
@@ -4949,9 +4950,10 @@ input:checked + .slider:before {
   }
 
   #admin_allebrukere_knapp {
-    grid-column: 1;
-    grid-row: 3;
-    margin-top: 7.2em;
+    grid-column: 6;
+    grid-row: 5;
+    margin-right: 40%;
+    margin-top: 0.5em;
   }
 
   #admin_form_advarsel {
@@ -5087,8 +5089,7 @@ input:checked + .slider:before {
 
   #admin_tiloversikt {
     grid-column: 3/span 4;
-    grid-row: 2;
-    margin-top: 28.2em;
+    grid-row: 3;
   }
 
 }
