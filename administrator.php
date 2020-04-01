@@ -61,10 +61,10 @@ if (isset($_POST['subRegistrering'])) {
 
                     if ($pw == "") {
                         // Ikke noe passord skrevet
-                        header("Location: administrator.php?error=3");
+                        $admin_melding = "Oppgi et passord";
                     } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
                         // Ikke tilstrekkelig passord skrevet
-                        header("Location: administrator.php?error=4");
+                        $admin_melding = "Minimum 8 tegn, 1 liten og 1 stor bokstav";
                     } else {
                         // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
                         $lbr = strtolower($_POST['brukernavn']);
@@ -117,30 +117,30 @@ if (isset($_POST['subRegistrering'])) {
                             }
                         } else {
                             // Brukernavnet er tatt
-                            header("location: administrator.php?error=1");
+                            $admin_melding = "Brukernavnet er opptatt";
                         }
                     }
                 }
                 catch (PDOException $ex) {
                     if ($ex->getCode() == 23000) {
                         // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
-                        header("location: administrator.php?error=1");
+                        $admin_melding = "Brukernavnet er opptatt";
                     } else if ($ex->getCode() == '42S22') {
                         // 42S22, Kolonne eksisterer ikke
-                        header("location: administrator.php?error=5");
+                        $admin_melding = "Systemfeil, vennligst oppgi følgende kode til administrator: 42S22";
                     }
                 } 
             } else {
                 // Feilmelding 7, bruker har oppgitt en ugyldig epost
-                header("location: administrator.php?error=7");
+                $admin_melding = "Eposten er ikke gyldig";
             }
         } else {
             // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
-            header("location: administrator.php?error=6");
+            $admin_melding = "Fyll ut alle feltene";
         }
     } else {
         // Feilmelding 2 = passord ikke like
-        header("location: administrator.php?error=2");
+        $admin_melding = "Passordene er ikke like";
     }
 }
 
@@ -153,7 +153,7 @@ if(isset($_POST['slettregel'])) {
     $slettet = $slettregelSTMT->rowCount();
 
     if($slettet == 0) {
-        header("location: administrator.php?error=8");
+        $admin_melding = "Kunne ikke slette regel";
     } else {
         header("location: administrator.php");
     }
