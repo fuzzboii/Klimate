@@ -301,8 +301,6 @@ if(isset($_POST['ekskludering'])) {
                 <button id="admin_adm_knapp" onclick="admMeny()">Administrering</button>
                 <section id="admin_adm_delmeny" style="display: none;">
                     <button name="administrering" form="admin_form" value="Alle brukere">Alle brukere</button>
-                    <button name="administrering" form="admin_form" value="Advarsler">Advarsler</button>
-                    <button name="administrering" form="admin_form" value="Eksklusjoner">Eksklusjoner</button>
                     <button name="administrering" form="admin_form" value="Misbruk">Misbruk</button>
                     <button name="administrering" form="admin_form" value="Administratorer">Administratorer</button>
                 </section>
@@ -366,6 +364,41 @@ if(isset($_POST['ekskludering'])) {
                             <?php } ?>
                         </tbody>
                     </table>
+                <?php } else if($_GET['administrering'] == "Misbruk") {
+                    $hentMisbrukQ = "select tekst, bruker, brukernavn from misbruk, bruker where bruker = idbruker order by idmisbruk desc";
+                    $hentMisbrukSTMT = $db->prepare($hentMisbrukQ);
+                    $hentMisbrukSTMT -> execute();
+                    $misbruk = $hentMisbrukSTMT -> fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+                    <table id="admin_allebrukere_table">
+                        <thead>
+                            <tr>
+                                <th id="admin_allebrukere_misbruk">OPPDAGET MISBRUK</th>
+                                <th id="admin_allebrukere_misbruknavn">BRUKERNAVN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for($i = 0; $i < count($misbruk); $i++) { 
+                                if($i < 8) { ?>
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
+                                        <td class="admin_allebrukere_allemisbruk"><?php echo($misbruk[$i]['tekst']) ?></td>
+                                        <td class="admin_allebrukere_allemisbruknavn"><?php echo($misbruk[$i]['brukernavn']) ?></td>
+                                    </tr>
+                                <?php } else { ?>
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
+                                        <td class="admin_allebrukere_allemisbruk"><?php echo($misbruk[$i]['tekst']) ?></td>
+                                        <td class="admin_allebrukere_allemisbruknavn"><?php echo($misbruk[$i]['brukernavn']) ?></td>
+                                    </tr>
+                                <?php }
+                            } 
+                            if($i > 8) { ?>
+                                <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+
+                <?php } else if($_GET['administrering'] == "Administratorer") { ?>
+
                 <?php } ?>
                 <button id="admin_administrering_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_GET['nybruker'])) { 
