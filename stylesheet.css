@@ -1028,9 +1028,6 @@ footer a {
   background-color: white;
   padding: 1em;
   border-radius: 1em;
-  grid-column: 2/span 2;
-  grid-row: 1/span 2;
-  margin-top: 4em;
 }
 .admin_input_boks {
   display: flex; /* Legger ikonene og inputfeltene ved siden av hverandre*/
@@ -4359,6 +4356,27 @@ input:checked + .slider:before {
     width: 95%;
   }
 
+  /* Style for ADMINPANEL sin NY BRUKER */
+  
+  #admin_nybruker_form {
+    max-width: 450px; 
+    width: 25em; height: 25em;
+    background-color: white;
+    padding: 1em;
+    border-radius: 1em;
+    grid-column: 2/span 2;
+    grid-row: 1/span 2;
+    margin: 0;
+    margin-left: auto; margin-right: auto;
+    margin-top: 3em;
+  }
+
+  #admin_tiloversikt {
+    grid-column: 2/span 2;
+    grid-row: 2;
+    height: 3em;
+  }
+
 
 }
 /* Laptop / Liten skjerm,, 720p */
@@ -5037,6 +5055,19 @@ input:checked + .slider:before {
     padding-bottom: 0.5em;
   }
 
+  /* Style for ADMINPANEL sin NY BRUKER */
+
+  #admin_nybruker_form {
+    grid-column: 3/span 4;
+    grid-row: 2;
+    margin-top: 0.5em;
+  }
+
+  #admin_tiloversikt {
+    grid-column: 3/span 4;
+    grid-row: 2;
+    margin-top: 28.2em;
+  }
 
 }
 
