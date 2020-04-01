@@ -22,6 +22,7 @@ if (!isset($_SESSION['idbruker'])) {
     $leggTilMisbrukSTMT = $db -> prepare($leggTilMisbrukQ);
     $leggTilMisbrukSTMT -> bindparam(":bruker", $_SESSION['idbruker']);
     $leggTilMisbrukSTMT -> execute();
+    
     header("Location: default.php?error=6");
 }
 $input_brukernavn = "";
@@ -165,12 +166,13 @@ if(isset($_POST['advaring'])) {
             $_POST['bruker'] = $_POST['advartbruker'];
 
             // Sjekker om brukeren er av type administrator, tillater ikke administratorer å utføre handling på en administrator
-            $sjekkAdminQ = "select idbruker, brukertype from bruker where idbruker = :bruker and brukertype = 3";
+            $sjekkAdminQ = "select idbruker, brukertype from bruker where idbruker = :bruker and brukertype = 1";
             $sjekkAdminSTMT = $db -> prepare($sjekkAdminQ);
             $sjekkAdminSTMT -> bindparam(":bruker", $_POST['advartbruker']);
             $sjekkAdminSTMT -> execute();
+            $resAdmin = $sjekkAdminSTMT->fetch(PDO::FETCH_ASSOC); 
 
-            if(!$sjekkAdminSTMT) {
+            if(!$resAdmin) {
                 // Bruker er ikke administrator
                 $advarBrukerQ = "insert into advarsel(advarseltekst, bruker, administrator) values(:tekst, :bruker, :admin)";
                 $advarBrukerSTMT = $db -> prepare($advarBrukerQ);
