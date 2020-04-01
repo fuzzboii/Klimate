@@ -121,7 +121,6 @@ if (isset($_POST['subRegistrering'])) {
                         } else {
                             // Brukernavnet er tatt
                             $_SESSION['admin_melding'] = "Brukernavnet er opptatt";
-                            $_GET['nybruker'] = "";
                         }
                     }
                 }
@@ -129,27 +128,22 @@ if (isset($_POST['subRegistrering'])) {
                     if ($ex->getCode() == 23000) {
                         // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
                         $_SESSION['admin_melding'] = "Brukernavnet er opptatt";
-                        $_GET['nybruker'] = "";
                     } else if ($ex->getCode() == '42S22') {
                         // 42S22, Kolonne eksisterer ikke
                         $_SESSION['admin_melding'] = "Systemfeil, vennligst oppgi følgende kode til administrator: 42S22";
-                        $_GET['nybruker'] = "";
                     }
                 } 
             } else {
                 // Feilmelding 7, bruker har oppgitt en ugyldig epost
                 $_SESSION['admin_melding'] = "Eposten er ikke gyldig";
-                $_GET['nybruker'] = "";
             }
         } else {
             // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
             $_SESSION['admin_melding'] = "Fyll ut alle feltene";
-            $_GET['nybruker'] = "";
         }
     } else {
         // Feilmelding 2 = passord ikke like
         $_SESSION['admin_melding'] = "Passordene er ikke like";
-        $_GET['nybruker'] = "";
     }
 }
 
@@ -214,27 +208,39 @@ if(isset($_POST['ekskludering'])) {
             $resAdmin = $sjekkAdminSTMT->fetch(PDO::FETCH_ASSOC); 
 
             if(!$resAdmin) {
-                // Bruker er ikke administrator
+                // Bruker er ikke administrator, sjekker om bruker allerede er permanent utestengt
 
-                if($_POST['datotil'] != "") {
-                    $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra, datotil) values(:tekst, :bruker, :admin, NOW(), :datotil)";
-                    $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
-                    $ekskluderBrukerSTMT -> bindparam(":datotil", $_POST['datotil']);
+                $sjekkTidQ = "select datotil from eksklusjon where bruker = :bruker";
+                $sjekkTidSTMT = $db -> prepare($sjekkTidQ);
+                $sjekkTidSTMT -> bindparam(":bruker", $_POST['ekskludertbruker']);
+                $sjekkTidSTMT -> execute();
+
+                $resDato = $sjekkTidSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                if(!$resDato) {
+                    if($_POST['datotil'] != "") {
+                        $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra, datotil) values(:tekst, :bruker, :admin, NOW(), :datotil)";
+                        $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
+                        $ekskluderBrukerSTMT -> bindparam(":datotil", $_POST['datotil']);
+                    } else {
+                        $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra) values(:tekst, :bruker, :admin, NOW())";
+                        $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
+                    }
+    
+                    $ekskluderBrukerSTMT -> bindparam(":tekst", $_POST['ekskludering']);
+                    $ekskluderBrukerSTMT -> bindparam(":bruker", $_POST['ekskludertbruker']);
+                    $ekskluderBrukerSTMT -> bindparam(":admin", $_SESSION['idbruker']);
+                    $ekskluderBrukerSTMT -> execute();
+    
+                    if($ekskluderBrukerSTMT) {
+                        $_SESSION['admin_melding'] = "Bruker ekskludert";
+                        header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                    } else {
+                        $_SESSION['admin_melding'] = "Feil oppsto ved ekskludering av bruker";
+                        header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                    }
                 } else {
-                    $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra) values(:tekst, :bruker, :admin, NOW())";
-                    $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
-                }
-
-                $ekskluderBrukerSTMT -> bindparam(":tekst", $_POST['ekskludering']);
-                $ekskluderBrukerSTMT -> bindparam(":bruker", $_POST['ekskludertbruker']);
-                $ekskluderBrukerSTMT -> bindparam(":admin", $_SESSION['idbruker']);
-                $ekskluderBrukerSTMT -> execute();
-
-                if($ekskluderBrukerSTMT) {
-                    $_SESSION['admin_melding'] = "Bruker ekskludert";
-                    header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
-                } else {
-                    $_SESSION['admin_melding'] = "Feil oppsto ved ekskludering av bruker";
+                    $_SESSION['admin_melding'] = "Denne brukeren er allerede permanent utestengt";
                     header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                 }
             } else {
@@ -278,7 +284,6 @@ if(isset($_POST['ekskludering'])) {
 
             <form method="GET" id="admin_form" action="administrator.php">
             </form>
-
             <form method="GET" id="rapport_form" action="rapport.php">
             </form>
 
@@ -357,7 +362,7 @@ if(isset($_POST['ekskludering'])) {
             <?php } else if(isset($_GET['nybruker'])) { 
                 // Ny bruker (Evt endring?) ?>
                 <h2 id="admin_underskrift">Opprett en bruker</h2>
-                <form method="POST" action="administrator.php" class="innloggForm">
+                <form method="POST" action="administrator.php?nybruker" class="innloggForm">
                     <section class="inputBoks">
                         <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon">
                         <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
