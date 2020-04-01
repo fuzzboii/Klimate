@@ -845,6 +845,7 @@ function byttHandling(handling) {
     knappene[0].setAttribute("id", "admin_aktivhandling");
 
     document.getElementById("admin_handling_tekst").setAttribute("name", "advaring");
+    document.getElementById("admin_handling_bruker").setAttribute("name", "advartbruker");
 
     document.getElementById("admin_handling").innerHTML = "Advar bruker";
 
@@ -860,6 +861,7 @@ function byttHandling(handling) {
     knappene[1].setAttribute("id", "admin_aktivhandling");
 
     document.getElementById("admin_handling_tekst").setAttribute("name", "ekskludering");
+    document.getElementById("admin_handling_bruker").setAttribute("name", "ekskludertbruker");
 
     document.getElementById("admin_handling").innerHTML = "Ekskluder bruker";
     

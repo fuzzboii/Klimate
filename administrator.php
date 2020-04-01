@@ -154,6 +154,7 @@ if(isset($_POST['slettregel'])) {
     $slettet = $slettregelSTMT->rowCount();
 
     if($slettet == 0) {
+        header("location: administrator.php?nyregel");
         $admin_melding = "Kunne ikke slette regel";
     } else {
         header("location: administrator.php");
@@ -193,6 +194,48 @@ if(isset($_POST['advaring'])) {
     }
 }
 
+if(isset($_POST['ekskludering'])) {
+    if($_POST['ekskludering'] != "") {
+        if($_POST['ekskludertbruker'] != "") {
+            $_POST['bruker'] = $_POST['ekskludertbruker'];
+
+            // Sjekker om brukeren er av type administrator, tillater ikke administratorer å utføre handling på en administrator
+            $sjekkAdminQ = "select idbruker, brukertype from bruker where idbruker = :bruker and brukertype = 1";
+            $sjekkAdminSTMT = $db -> prepare($sjekkAdminQ);
+            $sjekkAdminSTMT -> bindparam(":bruker", $_POST['ekskludertbruker']);
+            $sjekkAdminSTMT -> execute();
+            $resAdmin = $sjekkAdminSTMT->fetch(PDO::FETCH_ASSOC); 
+
+            if(!$resAdmin) {
+                // Bruker er ikke administrator
+
+                if($_POST['datotil'] != "") {
+                    $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra, datotil) values(:tekst, :bruker, :admin, NOW(), :datotil)";
+                    $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
+                    $ekskluderBrukerSTMT -> bindparam(":datotil", $_POST['datotil']);
+                } else {
+                    $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra) values(:tekst, :bruker, :admin, NOW())";
+                    $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
+                }
+
+                $ekskluderBrukerSTMT -> bindparam(":tekst", $_POST['ekskludering']);
+                $ekskluderBrukerSTMT -> bindparam(":bruker", $_POST['ekskludertbruker']);
+                $ekskluderBrukerSTMT -> bindparam(":admin", $_SESSION['idbruker']);
+                $ekskluderBrukerSTMT -> execute();
+
+                if($ekskluderBrukerSTMT) {
+                    header("Location: administrator.php?bruker=" . $_POST['bruker']);
+                    $admin_melding = "Bruker ekskludert";
+                } else {
+                    $admin_melding = "Feil oppsto ved ekskludering av bruker";
+                }
+            } else {
+                $admin_melding = "Du kan ikke ekskludere en administrator";
+            }
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -224,10 +267,10 @@ if(isset($_POST['advaring'])) {
         </header>
         <main id="admin_main" onclick="lukkHamburgerMeny()">
 
-            <form method="POST" id="admin_form" action="administrator.php">
+            <form method="GET" id="admin_form" action="administrator.php">
             </form>
 
-            <form method="POST" id="rapport_form" action="rapport.php">
+            <form method="GET" id="rapport_form" action="rapport.php">
             </form>
 
             <section id="admin_hovedmeny">
@@ -253,17 +296,17 @@ if(isset($_POST['advaring'])) {
             </section>
 
             <?php 
-            if(isset($_POST['administrering'])) { 
+            if(isset($_GET['administrering'])) { 
                 // Administrering ?>
-                <h2 id="admin_underskrift"><?php echo($_POST['administrering']); ?></h2>
+                <h2 id="admin_underskrift"><?php echo($_GET['administrering']); ?></h2>
             
-                <form method="POST" id="bruker_form" action="administrator.php">
+                <form method="GET" id="bruker_form" action="administrator.php">
                     <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
                 </form>
 
                 <input type="text" id="admin_sok" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
 
-                <?php if($_POST['administrering'] == "Alle brukere") {
+                <?php if($_GET['administrering'] == "Alle brukere") {
                     $hentBrukereQ = "select idbruker, brukernavn, fnavn, enavn, epost, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
                     $hentBrukereSTMT = $db->prepare($hentBrukereQ);
                     $hentBrukereSTMT -> execute();
@@ -302,7 +345,7 @@ if(isset($_POST['advaring'])) {
                     </table>
                 <?php } ?>
                 <button id="admin_administrering_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
-            <?php } else if(isset($_POST['nybruker'])) { 
+            <?php } else if(isset($_GET['nybruker'])) { 
                 // Ny bruker (Evt endring?) ?>
                 <h2 id="admin_underskrift">Opprett en bruker</h2>
                 <form method="POST" action="administrator.php" class="innloggForm">
@@ -333,14 +376,14 @@ if(isset($_POST['advaring'])) {
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
             </form>
             <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
-            <?php } else if(isset($_POST['nyregel'])) {
+            <?php } else if(isset($_GET['nyregel'])) {
                 // Ny regel ?>
                 <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
-            <?php } else if(isset($_POST['bruker'])) {
+            <?php } else if(isset($_GET['bruker'])) {
                 // Visning av bruker 
                 $hentBrukerinfoQ = "select brukernavn, fnavn, enavn, epost, telefonnummer from bruker where idbruker = :bruker";
                 $hentBrukerinfoSTMT = $db -> prepare($hentBrukerinfoQ);
-                $hentBrukerinfoSTMT -> bindparam(":bruker", $_POST['bruker']);
+                $hentBrukerinfoSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentBrukerinfoSTMT -> execute();
                 $brukerinfo = $hentBrukerinfoSTMT -> fetch(PDO::FETCH_ASSOC); 
 
@@ -365,21 +408,21 @@ if(isset($_POST['advaring'])) {
                 // Henter misbruk
                 $hentMisbrukQ = "select tekst from misbruk where bruker = :bruker";
                 $hentMisbrukSTMT = $db -> prepare($hentMisbrukQ);
-                $hentMisbrukSTMT -> bindparam(":bruker", $_POST['bruker']);
+                $hentMisbrukSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentMisbrukSTMT -> execute();
                 $misbruk = $hentMisbrukSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
                 // Henter advarsler
                 $hentAdvarslerQ = "select advarseltekst, brukernavn from advarsel, bruker where bruker = :bruker and advarsel.administrator = bruker.idbruker";
                 $hentAdvarslerSTMT = $db -> prepare($hentAdvarslerQ);
-                $hentAdvarslerSTMT -> bindparam(":bruker", $_POST['bruker']);
+                $hentAdvarslerSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentAdvarslerSTMT -> execute();
                 $advarsler = $hentAdvarslerSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
                 // Henter eksklusjoner
                 $hentEksklusjonerQ = "select grunnlag, brukernavn, datofra, datotil from eksklusjon, bruker where bruker = :bruker and eksklusjon.administrator = bruker.idbruker";
                 $hentEksklusjonerSTMT = $db -> prepare($hentEksklusjonerQ);
-                $hentEksklusjonerSTMT -> bindparam(":bruker", $_POST['bruker']);
+                $hentEksklusjonerSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentEksklusjonerSTMT -> execute();
                 $eksklusjoner = $hentEksklusjonerSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
@@ -389,7 +432,7 @@ if(isset($_POST['advaring'])) {
                             <?php 
                             $hentBrukerbildeQ = "select hvor from bilder, brukerbilde where bilder.idbilder = brukerbilde.bilde and brukerbilde.bruker = :bruker";
                             $hentBrukerbildeSTMT = $db -> prepare($hentBrukerbildeQ);
-                            $hentBrukerbildeSTMT -> bindparam(":bruker", $_POST['bruker']);
+                            $hentBrukerbildeSTMT -> bindparam(":bruker", $_GET['bruker']);
                             $hentBrukerbildeSTMT -> execute();
                             $brukerbilde = $hentBrukerbildeSTMT -> fetch(PDO::FETCH_ASSOC);
 
@@ -421,7 +464,7 @@ if(isset($_POST['advaring'])) {
                         <p class="admin_handlingvalg" onclick="byttHandling('Ekskluder')">Ekskluder</p>
                         <form id="admin_handling_form" method="POST" action="administrator.php">
                             <p id="admin_handling">Advar bruker</p>
-                            <input id="admin_handling_bruker" type="hidden" name="advartbruker" value="<?php echo($_POST['bruker']) ?>">
+                            <input id="admin_handling_bruker" type="hidden" name="advartbruker" value="<?php echo($_GET['bruker']) ?>">
                             <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" required></textarea>
                             <p id="admin_handling_lengde">Lengde, la være for permanent</p>
                             <input id="admin_handling_dato" type="date" name="datotil">
@@ -490,7 +533,7 @@ if(isset($_POST['advaring'])) {
                                             <td class="admin_alleeksklusjoner_allegrunnlag"><?php echo($eksklusjoner[$i]['grunnlag'])?></td>
                                             <td class="admin_alleeksklusjoner_alleadmin"><?php echo($eksklusjoner[$i]['brukernavn'])?></td>
                                             <td class="admin_alleeksklusjoner_alledatofra"><?php echo(date_format(date_create($eksklusjoner[$i]['datofra']), "j M H:i")) ?></td>
-                                            <td class="admin_alleeksklusjoner_alledatotil"><?php echo(date_format(date_create($eksklusjoner[$i]['datotil']), "j M H:i")) ?></td>
+                                            <td class="admin_alleeksklusjoner_alledatotil"><?php if(isset($eksklusjoner[$i]['datotil'])) { echo(date_format(date_create($eksklusjoner[$i]['datotil']), "j M H:i")); } else {echo("Permanent"); } ?></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -506,7 +549,7 @@ if(isset($_POST['advaring'])) {
                 // Selve oversikten, default view ?>
                 <h2 id="admin_underskrift">Oversikten</h2>
 
-                <form method="POST" id="admin_form_advarsel" action="administrator.php">
+                <form method="GET" id="admin_form_advarsel" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Advarsler">
                     <section onclick="aapneAdmin('admin_form_advarsel')" id="admin_advarsler">
                         <p id="admin_advarsler_tittel">Advarsler</p>
@@ -519,7 +562,7 @@ if(isset($_POST['advaring'])) {
                         <p id="admin_advarsler_antall"><?php echo($antalladvarsler['antall']) ?></p>
                     </section>
                 </form>
-                <form method="POST" id="admin_form_misbruk" action="administrator.php">
+                <form method="GET" id="admin_form_misbruk" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Misbruk">
                     <section onclick="aapneAdmin('admin_form_misbruk')" id="admin_misbruk">
                         <p id="admin_misbruk_tittel">Misbruk</p>
@@ -532,7 +575,7 @@ if(isset($_POST['advaring'])) {
                         <p id="admin_misbruk_antall"><?php echo($antallmisbruk['antall']) ?></p>
                     </section>
                 </form>
-                <form method="POST" id="admin_form_eksklusjoner" action="administrator.php">
+                <form method="GET" id="admin_form_eksklusjoner" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Eksklusjoner">
                     <section onclick="aapneAdmin('admin_form_eksklusjoner')" id="admin_eksklusjoner">
                         <p id="admin_eksklusjoner_tittel">Eksklusjoner</p>
