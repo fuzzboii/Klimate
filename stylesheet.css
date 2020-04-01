@@ -1081,12 +1081,11 @@ footer a {
 }
 
 /* Style for ADMINPANEL sin NY REGEL */
-#admin_nyregel_form {
-  text-align: center;
-}
 #admin_nyregel_tekst {
+  display: block;
   width: 95%;
   height: 10em;
+  margin-left: auto; margin-right: auto;
 
   padding: 1em;
   box-sizing: border-box;
@@ -1094,6 +1093,9 @@ footer a {
 }
 
 #admin_nyregel_knapp {
+  display: block;
+  margin-left: auto; margin-right: auto;
+  margin-top: 0.5em;
   background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
   color: white; /* tekstfarge */
   padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
@@ -4451,6 +4453,9 @@ input:checked + .slider:before {
   }
 
   /* Style for ADMINPANEL sin NY REGEL */
+  #admin_nyregel_tekst {
+    width: 30em;
+  }
   #admin_nyregel_form {
     grid-column: 2/span 2;
     grid-row: 2/span 2;
@@ -5170,14 +5175,11 @@ input:checked + .slider:before {
     grid-column: 3/span 4;
     grid-row: 2/span 2;
   }
-
-  #admin_nyregel_tekst {
-    height: 32em;
-  }
   
   #admin_tiloversikt {
     grid-column: 3/span 4;
-    grid-row: 3;
+    grid-row: 2;
+    margin-top: 13.5em;
   }
 
 }
