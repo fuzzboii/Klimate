@@ -626,7 +626,7 @@ footer a {
 }
 
 #admin_regler_table thead tr th, #admin_allebrukere_table thead tr th {
-  background-color: rgb(63, 63, 63);
+  background-color: rgb(126, 155, 153);;
   color: white;
   border-top: 1px solid black;
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
@@ -634,12 +634,12 @@ footer a {
 
 #admin_regler_table tr:nth-child(odd), #admin_allebrukere_table tr:nth-child(odd) {
   border-left: 1px solid black; border-right: 1px solid black;
-  background-color: rgb(230, 230, 230);
+  background-color: rgb(247, 253, 248);
 }
 
 #admin_regler_table tr:nth-child(even), #admin_allebrukere_table tr:nth-child(even) {
   border-left: 1px solid black; border-right: 1px solid black;
-  background-color: rgb(63, 63, 63);
+  background-color: rgb(126, 155, 153);;
   color: white;
 }
 
