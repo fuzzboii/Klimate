@@ -631,7 +631,7 @@ if(isset($_POST['ekskludering'])) {
                 <table id="admin_regler_table">
                     <thead>
                         <tr>
-                            <th>Regel</th>
+                            <th id="admin_regler_regel">Regel</th>
                             <th id="admin_regler_oppr">Opprettet av</th>
                             <th id="admin_regler_slett"></th>
                         </tr>
