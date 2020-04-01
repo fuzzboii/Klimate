@@ -159,17 +159,17 @@ if (isset($_POST['subRegistrering'])) {
     }
 }
 
-if(isset($_POST['slettregel'])) {
+if(isset($_GET['slettregel'])) {
     $slettregelQ = "delete from regel where idregel = :regelen";
     $slettregelSTMT = $db -> prepare($slettregelQ);
-    $slettregelSTMT->bindParam(':regelen', $_POST['slettregel']);
+    $slettregelSTMT->bindParam(':regelen', $_GET['slettregel']);
     $slettregelSTMT->execute();
 
     $slettet = $slettregelSTMT->rowCount();
 
     if($slettet == 0) {
         $_SESSION['admin_melding'] = "Kunne ikke slette regel";
-        header("Location: administrator.php?nyregel");
+        header("Location: administrator.php");
     } else {
         header("location: administrator.php");
     }
@@ -257,6 +257,29 @@ if(isset($_POST['ekskludering'])) {
                 header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
             }
         }
+    }
+}
+
+
+
+if(isset($_POST['regRegistrering'])) {
+    if($_POST['regTekst'] != "" && strlen($_POST['regTekst']) <= 255) {
+        // Bruker er ikke administrator
+        $nyRegelQ = "insert into regel(regeltekst, idbruker) values(:tekst, :bruker)";
+        $nyRegelSTMT = $db -> prepare($nyRegelQ);
+        $nyRegelSTMT -> bindparam(":tekst", $_POST['regTekst']);
+        $nyRegelSTMT -> bindparam(":bruker", $_SESSION['idbruker']);
+        $nyRegelSTMT -> execute();
+
+        if($nyRegelSTMT) {
+            header("Location: administrator.php");
+        } else {
+            $_SESSION['admin_melding'] = "Feil oppsto ved oppretting av regel";
+            header("Location: administrator.php?nyregel");
+        }
+    } else {
+        $_SESSION['admin_melding'] = "Ingen tekst oppgitt eller regel for lang";
+        header("Location: administrator.php?nyregel");
     }
 }
 
@@ -434,7 +457,7 @@ if(isset($_POST['ekskludering'])) {
                 <?php } ?>
                 <button id="admin_administrering_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_GET['nybruker'])) { 
-                // Ny bruker (Evt endring?) ?>
+                // Ny bruker ?>
                 <h2 id="admin_underskrift">Opprett en bruker</h2>
                 <form method="POST" action="administrator.php?nybruker" id="admin_nybruker_form">
                     <section class="admin_input_boks">
@@ -466,6 +489,11 @@ if(isset($_POST['ekskludering'])) {
             <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_GET['nyregel'])) {
                 // Ny regel ?>
+                <h2 id="admin_underskrift">Opprett en regel</h2>
+                <form method="POST" action="administrator.php?nyregel" id="admin_nyregel_form">
+                    <textarea name="regTekst" id="admin_nyregel_tekst" placeholder="Regelen"></textarea>
+                    <input type="submit" name="regRegistrering" id="admin_nyregel_knapp" value="Legg til regelen">
+                </form>
                 <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_GET['bruker'])) {
                 // Visning av bruker 

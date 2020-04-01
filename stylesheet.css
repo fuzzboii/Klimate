@@ -1080,6 +1080,31 @@ footer a {
   width: 5em;
 }
 
+/* Style for ADMINPANEL sin NY REGEL */
+#admin_nyregel_form {
+  text-align: center;
+}
+#admin_nyregel_tekst {
+  width: 95%;
+  height: 10em;
+
+  padding: 1em;
+  box-sizing: border-box;
+  border: 1px solid grey;
+}
+
+#admin_nyregel_knapp {
+  background-color: rgb(126, 155, 153); /* bakgrunnsfarge for registrerknapp */
+  color: white; /* tekstfarge */
+  padding: 1.2em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: Helvetica, Arial, sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 15em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
@@ -4425,6 +4450,17 @@ input:checked + .slider:before {
     width: 10em;
   }
 
+  /* Style for ADMINPANEL sin NY REGEL */
+  #admin_nyregel_form {
+    grid-column: 2/span 2;
+    grid-row: 2/span 2;
+  }
+  
+  #admin_tiloversikt {
+    grid-column: 2/span 2;
+    grid-row: 4;
+  }
+
 
 }
 /* Laptop / Liten skjerm,, 720p */
@@ -5118,6 +5154,27 @@ input:checked + .slider:before {
     margin-top: 0.5em;
   }
 
+  #admin_tiloversikt {
+    grid-column: 3/span 4;
+    grid-row: 3;
+  }
+
+  /* Style for ADMINPANEL sin NY REGEL */
+  #admin_nyregel_knapp:hover {
+    background-color: rgba(36, 209, 100, 0.637);
+    cursor: pointer; 
+  }
+
+  /* Style for ADMINPANEL sin NY REGEL */
+  #admin_nyregel_form {
+    grid-column: 3/span 4;
+    grid-row: 2/span 2;
+  }
+
+  #admin_nyregel_tekst {
+    height: 32em;
+  }
+  
   #admin_tiloversikt {
     grid-column: 3/span 4;
     grid-row: 3;
