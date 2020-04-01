@@ -4305,10 +4305,20 @@ input:checked + .slider:before {
   }
 
   #admin_allebrukere_bruker, .admin_allebrukere_allebruker {
+    font-weight: bold;
     width: 30%;
   }
 
+  #admin_allebrukere_table tr:nth-child(even) td {
+    text-shadow: 1px 1px 2px black;
+  }
+
+  #admin_allebrukere_bruker, #admin_allebrukere_info, #admin_allebrukere_type {
+    text-shadow: 1px 1px 2px black;
+  }
+
   #admin_allebrukere_type, .admin_allebrukere_alletype {
+    font-weight: bold;
     width: 7em;
   }
 
@@ -4317,6 +4327,8 @@ input:checked + .slider:before {
   }
   
   .admin_allebrukere_allenavn, .admin_allebrukere_alleepost {
+    font-weight: bold;
+    text-shadow: black;
     display: block;
   }
 
