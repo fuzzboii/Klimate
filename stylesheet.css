@@ -4986,6 +4986,7 @@ input:checked + .slider:before {
     grid-column: 4/span 3;
     grid-row: 1/span 2;
     margin-left: auto;
+    width: 88%;
   }
 
   #admin_handling_tekst {
@@ -5094,6 +5095,28 @@ input:checked + .slider:before {
     width: 116em;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /*----------------------*/
+  /* Del for adminpanelet */
+  /*----------------------*/
+
+  #admin_main {
+    grid-template-columns: 15em 1fr 25em 25em 25em 25em 1fr;
+  }
+
+  /* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
+  #admin_brukerinfo {
+    grid-column: 3;
+    grid-row: 1/span 2;
+    width: 22em;
+  }
+
+  #admin_handlinger {
+    grid-column: 4/span 3;
+    grid-row: 1/span 2;
+    margin-left: 0;
+    width: 93.5%;
   }
   
 }
