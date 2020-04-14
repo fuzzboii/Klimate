@@ -5138,12 +5138,6 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
-  #admin_advarsler:hover, #admin_misbruk:hover, #admin_eksklusjoner:hover, #admin_brukere:hover {
-    cursor: pointer;
-    box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
-    transition: box-shadow 0.3s;
-  }
-
   .admin_allebrukere_rad:hover {
     cursor: pointer;
     outline: 2px solid black;
