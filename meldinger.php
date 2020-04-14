@@ -12,6 +12,12 @@ if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php");
 }
 
+$meldinger_melding = "";
+if(isset($_SESSION['meldinger_melding'])) {
+    $meldinger_melding = $_SESSION['meldinger_melding'];
+    unset($_SESSION['meldinger_melding']);
+}
+
 // Browser må validere cache med server før cached kopi kan benyttes
 // Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
 header("Cache-Control: no cache");
@@ -157,7 +163,8 @@ if(isset($_POST['sendMelding'])) {
         header("location: meldinger.php?meldingsendt");
     } else {
         // Error 1, melding ikke sendt
-        header("location: meldinger.php?error=1");
+        $_SESSION['meldinger_melding'] = "Kunne ikke sende meldingen";
+        header("Location: meldinger.php");
     }
 }
 
@@ -176,9 +183,18 @@ if(isset($_POST['slettMelding'])) {
         $slettMeldingSTMT->execute();
 
         $endretMelding = $slettMeldingSTMT->rowCount();
-        if($endretMelding > 0) { header("Location: meldinger.php?meldingslettet"); /* Melding slettet, OK */ } 
-        else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
-    } else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
+        if($endretMelding > 0) { 
+            header("Location: meldinger.php?meldingslettet"); /* Melding slettet, OK */ 
+        } else {
+            /* Error 2, melding ikke slettet */ 
+            $_SESSION['meldinger_melding'] = "Kunne ikke slette meldingen";
+            header("Location: meldinger.php");
+        }
+    } else {
+        /* Error 2, melding ikke slettet */ 
+        $_SESSION['meldinger_melding'] = "Kunne ikke slette meldingen";
+        header("Location: meldinger.php");
+    }
 }
 
 // Del for å gjenopprette en slettet melding
@@ -196,9 +212,18 @@ if(isset($_POST['gjenopprettMelding'])) {
         $gjenopprettMeldingSTMT->execute();
 
         $endretMelding = $gjenopprettMeldingSTMT->rowCount();
-        if($endretMelding > 0) { header("Location: meldinger.php"); /* Melding gjenopprettet, OK */ } 
-        else { header("Location: meldinger.php?error=3"); /* Error 3, melding ikke gjenopprettet */ }
-    } else { header("Location: meldinger.php?error=3"); /* Error 3, melding ikke gjenopprettet */ }
+        if($endretMelding > 0) { 
+            header("Location: meldinger.php"); /* Melding gjenopprettet, OK */ 
+        } else { 
+            /* Error 3, melding ikke gjenopprettet */ 
+            $_SESSION['meldinger_melding'] = "Kunne ikke gjenopprette meldingen";
+            header("Location: meldinger.php");
+        }
+    } else { 
+        /* Error 3, melding ikke gjenopprettet */ 
+        $_SESSION['meldinger_melding'] = "Kunne ikke gjenopprette meldingen";
+        header("Location: meldinger.php");
+    }
 }
 
 ?>
@@ -613,21 +638,16 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <?php } else if(isset($_GET['meldingslettet'])) { ?>
                     <p id="mldOK">Melding sendt til papirkurv</p>
 
-                <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 2) { ?>
-                    <section id="mldFEIL_boks">
-                        <section id="mldFEIL_innhold">
-                            <?php if($_GET['error'] == 1) { ?>
-                                <p id="mldFEIL">Kunne ikke sende melding</p>
-                                
-                            <?php } else if($_GET['error'] == 2) { ?>
-                                <p id="mldFEIL">Kunne ikke slette meldingen</p>
-                            <?php } ?>
-                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                            <button id="mldFEIL_knapp">Lukk</button>
-                        </section>
-                    </section>
-                <?php }
+                <?php } ?>
+                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($meldinger_melding != "") { ?> style="display: block" <?php } ?>>
+                    <section id="mldFEIL_innhold">
+                        <p id="mldFEIL"><?php echo($meldinger_melding) ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                    </section>  
+                </section>
 
+                <?php
                 $tabMld = 10;
                 $tabSoppel = 11;
 
