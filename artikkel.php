@@ -142,6 +142,11 @@ if (isset($_POST['slettDenne'])) {
         $slettBildeSTMT = $db->prepare($slettBildeQ);
         $slettBildeSTMT->execute();
 
+        // Sletter så alle kommentarene for en artikkel
+        $slettKommentarerQ = "delete from kommentar where artikkel = " . $_POST['slettDenne'];
+        $slettKommentarerSTMT = $db -> prepare($slettKommentarerQ);
+        $slettKommentarerSTMT -> execute();
+
         // Sletter så artikkelen
         $slettingQ = "delete from artikkel where idartikkel = " . $_POST['slettDenne'];
         $slettingSTMT= $db->prepare($slettingQ);
