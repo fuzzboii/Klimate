@@ -893,6 +893,10 @@ footer a {
   margin-left: auto; margin-right: auto;
 }
 
+.admin_misbruk_rad {
+  border-top: 1px solid grey;
+}
+
 #admin_misbruk_grunnlag {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
   font-size: 0.9em;
@@ -900,7 +904,6 @@ footer a {
 
 .admin_misbruk_allegrunnlag {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
-  border-top: 1px solid grey;
   font-size: 0.9em;
 }
 
@@ -1029,6 +1032,10 @@ footer a {
   width: 6em;
 }
 
+#admin_alleeksklusjoner_datofra, .admin_alleeksklusjoner_alledatofra {
+  display: none;
+}
+
 .admin_alleeksklusjoner_alledatofra, .admin_alleeksklusjoner_alledatotil {
   text-align: right;
   width: 6em;
@@ -1036,6 +1043,20 @@ footer a {
 
 .admin_alleeksklusjoner_rad {
   border-top: 1px solid grey;
+}
+
+
+.admin_bruker_slett_knapp {
+  margin-left: auto; margin-right: auto;
+  background-color: rgb(177, 0, 0); /* bakgrunnsfarge for registrerknapp */
+  color: white;
+  padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 4em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
 }
 
 /* Style for ADMINPANEL sin NY BRUKER */

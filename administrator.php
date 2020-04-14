@@ -522,27 +522,31 @@ if(isset($_POST['regRegistrering'])) {
                 }
 
                 // Henter misbruk
-                $hentMisbrukQ = "select tekst from misbruk where bruker = :bruker order by idmisbruk desc";
+                $hentMisbrukQ = "select idmisbruk, tekst from misbruk where bruker = :bruker order by idmisbruk desc";
                 $hentMisbrukSTMT = $db -> prepare($hentMisbrukQ);
                 $hentMisbrukSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentMisbrukSTMT -> execute();
                 $misbruk = $hentMisbrukSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
                 // Henter advarsler
-                $hentAdvarslerQ = "select advarseltekst, brukernavn from advarsel, bruker where bruker = :bruker and advarsel.administrator = bruker.idbruker order by idadvarsel desc";
+                $hentAdvarslerQ = "select idadvarsel, advarseltekst, brukernavn from advarsel, bruker where bruker = :bruker and advarsel.administrator = bruker.idbruker order by idadvarsel desc";
                 $hentAdvarslerSTMT = $db -> prepare($hentAdvarslerQ);
                 $hentAdvarslerSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentAdvarslerSTMT -> execute();
                 $advarsler = $hentAdvarslerSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
                 // Henter eksklusjoner
-                $hentEksklusjonerQ = "select grunnlag, brukernavn, datofra, datotil from eksklusjon, bruker where bruker = :bruker and eksklusjon.administrator = bruker.idbruker order by ideksklusjon desc";
+                $hentEksklusjonerQ = "select ideksklusjon, grunnlag, brukernavn, datofra, datotil from eksklusjon, bruker where bruker = :bruker and eksklusjon.administrator = bruker.idbruker order by ideksklusjon desc";
                 $hentEksklusjonerSTMT = $db -> prepare($hentEksklusjonerQ);
                 $hentEksklusjonerSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentEksklusjonerSTMT -> execute();
                 $eksklusjoner = $hentEksklusjonerSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
                 if(isset($brukerinfo)) { ?>
+                    <form method="POST" id="bruker_form" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
+                        <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
+                    </form>
+
                     <section id="admin_brukerinfo">
                         <figure>
                             <?php 
@@ -600,6 +604,7 @@ if(isset($_POST['regRegistrering'])) {
                                     <?php for($i = 0; $i < count($misbruk); $i++) { ?>
                                         <tr class="admin_misbruk_rad">
                                             <td class="admin_misbruk_allegrunnlag"><?php echo($misbruk[$i]['tekst'])?></td>
+                                            <td><button class="admin_bruker_slett_knapp" name="sletthandling" form="bruker_form" value="<?php echo($misbruk[$i]['idmisbruk'])?>">Slett</button></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -623,6 +628,7 @@ if(isset($_POST['regRegistrering'])) {
                                         <tr class="admin_alleadvarsler_rad">
                                             <td class="admin_alleadvarsler_allegrunnlag"><?php echo($advarsler[$i]['advarseltekst'])?></td>
                                             <td class="admin_alleadvarsler_alleadmin"><?php echo($advarsler[$i]['brukernavn'])?></td>
+                                            <td><button class="admin_bruker_slett_knapp" name="sletthandling" form="bruker_form" value="<?php echo($advarsler[$i]['idadvarsel'])?>">Slett</button></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -650,6 +656,7 @@ if(isset($_POST['regRegistrering'])) {
                                             <td class="admin_alleeksklusjoner_alleadmin"><?php echo($eksklusjoner[$i]['brukernavn'])?></td>
                                             <td class="admin_alleeksklusjoner_alledatofra"><?php echo(date_format(date_create($eksklusjoner[$i]['datofra']), "j M H:i")) ?></td>
                                             <td class="admin_alleeksklusjoner_alledatotil"><?php if(isset($eksklusjoner[$i]['datotil'])) { echo(date_format(date_create($eksklusjoner[$i]['datotil']), "j M H:i")); } else {echo("Permanent"); } ?></td>
+                                            <td><button class="admin_bruker_slett_knapp" name="sletthandling" form="bruker_form" value="<?php echo($eksklusjoner[$i]['ideksklusjon'])?>">Slett</button></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
