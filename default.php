@@ -60,7 +60,7 @@ if (isset($_POST['loggUt'])) {
                 <p id="mldOK">Du har logget ut</p>    
 
             <?php } else if(isset($_GET['avregistrert']) && $_GET['avregistrert'] == "true"){ ?>
-                <p id="mldFEIL">Du har blitt avregistrert</p>  
+                <p id="mldFEIL">Du har blitt avregistrert, du kan logge inn igjen ved senere tid om ønskelig</p>  
 
             <?php } ?>
 
