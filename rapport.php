@@ -9,7 +9,8 @@ include("inkluderes/innstillinger.php");
 // Forsikrer seg om kun tilgang for administrator
 if (!isset($_SESSION['idbruker'])) {
     // En utlogget bruker har forsøkt å nå rapport-siden
-    header("Location: default.php?error=1");
+    $_SESSION['default_melding'] = "Du kan ikke se denne siden";
+    header("Location: default.php");
 } else if ($_SESSION['brukertype'] != '1') {
     // En innlogget bruker som ikke er administrator har forsøkt å åpne rapport-siden, loggfører dette
     $leggTilMisbrukQ = "insert into misbruk(tekst, bruker) values('Oppdaget misbruk, forsøkte nå rapport-siden', :bruker)";
@@ -33,7 +34,9 @@ if (!isset($_SESSION['idbruker'])) {
     }
 
     session_destroy();
-    header("Location: default.php?error=6");
+    session_start();
+    $_SESSION['default_melding'] = "Du kan ikke se denne siden";
+    header("Location: default.php");
 }
 
 ?>
