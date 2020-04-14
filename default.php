@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-
-
 $default_melding = "";
 if(isset($_SESSION['default_melding'])) {
     $default_melding = $_SESSION['default_melding'];
     unset($_SESSION['default_melding']);
 }
-
 
 //-------------------------------//
 // Innstillinger, faste variable //
