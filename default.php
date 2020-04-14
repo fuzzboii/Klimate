@@ -2,23 +2,29 @@
 session_start();
 
 
+
+$default_melding = "";
+if(isset($_SESSION['default_melding'])) {
+    $default_melding = $_SESSION['default_melding'];
+    unset($_SESSION['default_melding']);
+}
+
+
 //-------------------------------//
 // Innstillinger, faste variable //
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
 
+if(substr($default_melding, 0, 10) != "Systemfeil" && isset($_SESSION['idbruker'])) {
+    session_destroy();
+}
+
+
 // Utlogging av bruker
 if (isset($_POST['loggUt'])) { 
     session_destroy();
     header("Location: default.php?utlogget=1");
-}
-
-
-$default_melding = "";
-if(isset($_SESSION['default_melding'])) {
-    $default_melding = $_SESSION['default_melding'];
-    unset($_SESSION['default_melding']);
 }
 
 ?>
@@ -74,7 +80,7 @@ if(isset($_SESSION['default_melding'])) {
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
         <main id="default_main" onclick="lukkHamburgerMeny()">   
             <section id="default_section">
-                <?php if(substr($default_melding, 0, 9) != "Systemfeil") { ?>
+                <?php if(substr($default_melding, 0, 10) != "Systemfeil") { ?>
                     <!-- IDene brukes til å splitte opp kolonnene i queries -->
                    <article>
                         <section id="default_overskriftSeksjon">
