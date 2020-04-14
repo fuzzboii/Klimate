@@ -4273,7 +4273,6 @@ input:checked + .slider:before {
   #admin_main {
     display: grid;
     grid-template-columns: 14.5em 1fr 1fr;
-    grid-template-rows: 2.5em auto auto auto 1fr;
   }
 
   #admin_header {
