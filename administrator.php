@@ -760,7 +760,7 @@ if(isset($_POST['endreBrukertype'])) {
 
                 <form method="GET" id="admin_form_advarsel" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Advarsler">
-                    <section onclick="aapneAdmin('admin_form_advarsel')" id="admin_advarsler">
+                    <section id="admin_advarsler">
                         <p id="admin_advarsler_tittel">Advarsler</p>
                         <?php 
                         $hentAntallQ = "select count(idadvarsel) as antall from advarsel";
@@ -773,7 +773,7 @@ if(isset($_POST['endreBrukertype'])) {
                 </form>
                 <form method="GET" id="admin_form_misbruk" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Misbruk">
-                    <section onclick="aapneAdmin('admin_form_misbruk')" id="admin_misbruk">
+                    <section id="admin_misbruk">
                         <p id="admin_misbruk_tittel">Misbruk</p>
                         <?php 
                         $hentAntallQ = "select count(idmisbruk) as antall from misbruk";
@@ -786,7 +786,7 @@ if(isset($_POST['endreBrukertype'])) {
                 </form>
                 <form method="GET" id="admin_form_eksklusjoner" action="administrator.php">
                     <input type="hidden"  name="administrering" value="Eksklusjoner">
-                    <section onclick="aapneAdmin('admin_form_eksklusjoner')" id="admin_eksklusjoner">
+                    <section id="admin_eksklusjoner">
                         <p id="admin_eksklusjoner_tittel">Eksklusjoner</p>
                         <?php 
                         $hentAntallQ = "select count(ideksklusjon) as antall from eksklusjon";
