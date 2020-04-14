@@ -803,9 +803,6 @@ function regMeny() {
   }
 }
 
-function aapneAdmin(valgtDel) {
-  document.getElementById(valgtDel).submit();
-}
 
 function aapneBruker(valgtDel) {
   document.getElementById("bruker_form_verdi").value = valgtDel;
