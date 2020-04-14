@@ -785,6 +785,15 @@ footer a {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; 
 }
 
+#admin_select_brukertype {
+  margin-left: auto; margin-right: auto;
+  display: block;
+  padding: 0.8em; /* legger luft rundt*/
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+  border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
+}
+
 #admin_handlinger {
   display: block;
   margin-left: auto; margin-right: auto;

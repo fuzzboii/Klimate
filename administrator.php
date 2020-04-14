@@ -313,6 +313,18 @@ if(isset($_POST['slettHandling'])) {
     }
 }
 
+if(isset($_POST['endreBrukertype'])) {
+    if($_POST['endreBrukertype'] >= 1 && $_POST['endreBrukertype'] <= 3) {
+        // Endrer brukertypen til valgt bruker
+        $oppdaterBTypeQ = "update bruker set brukertype = :type where idbruker = :bruker";
+        $oppdaterBTypeSTMT = $db -> prepare($oppdaterBTypeQ);
+        $oppdaterBTypeSTMT -> bindparam(":type", $_POST['endreBrukertype']);
+        $oppdaterBTypeSTMT -> bindparam(":bruker", $_GET['bruker']);
+        $oppdaterBTypeSTMT -> execute();
+        header("Location: administrator.php?bruker=" . $_GET['bruker']);
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -527,7 +539,7 @@ if(isset($_POST['slettHandling'])) {
                 <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_GET['bruker'])) {
                 // Visning av bruker 
-                $hentBrukerinfoQ = "select brukernavn, fnavn, enavn, epost, telefonnummer from bruker where idbruker = :bruker";
+                $hentBrukerinfoQ = "select brukernavn, fnavn, enavn, epost, telefonnummer, brukertype from bruker where idbruker = :bruker";
                 $hentBrukerinfoSTMT = $db -> prepare($hentBrukerinfoQ);
                 $hentBrukerinfoSTMT -> bindparam(":bruker", $_GET['bruker']);
                 $hentBrukerinfoSTMT -> execute();
@@ -604,6 +616,29 @@ if(isset($_POST['slettHandling'])) {
                         <?php if($harFornavn) {echo("<p>Navn: " . $brukerinfo['fnavn']);} if($harEtternavn) {echo(" " . $brukerinfo['enavn']);} if(!$harFornavn && !$harEtternavn) {echo("<p id='admin_ikkeoppgitt'>Navn: Ikke oppgitt");} ?></p>
                         <?php if($harEpost) {echo("<p>Epost: " . $brukerinfo['epost']);} else {echo("<p id='admin_ikkeoppgitt'>Epost: Ikke oppgitt");} ?></p>
                         <?php if($harTlf) {echo("<p>Telefon: " . $brukerinfo['telefonnummer']);} else {echo("<p id='admin_ikkeoppgitt'>Telefon: Ikke oppgitt");} ?></p>
+                        <form method="POST" action="administrator.php?bruker=<?php echo($_GET['bruker'])?>">
+                            <select name="endreBrukertype" id="admin_select_brukertype" onchange="this.form.submit()">
+                                <?php 
+                                // Henter brukertypenavn som bruker allerede har
+                                $hentAktivtNavnQ = "select idbrukertype, brukertypenavn from brukertype where idbrukertype = :brukertype";
+                                $hentAktivtNavnSTMT = $db->prepare($hentAktivtNavnQ);
+                                $hentAktivtNavnSTMT -> bindparam(":brukertype", $brukerinfo['brukertype']);
+                                $hentAktivtNavnSTMT->execute();
+                                $aktivBType = $hentAktivtNavnSTMT->fetch(PDO::FETCH_ASSOC); ?>
+                                <option value="<?php echo($aktivBType['idbrukertype']) ?>"><?php echo($aktivBType['brukertypenavn'])?></option>
+                                
+                                <?php
+                                // Henter brukertypenavn fra database
+                                $hentbNavnQ = "select idbrukertype, brukertypenavn from brukertype where idbrukertype != 4 and idbrukertype != :brukertype order by brukertypenavn ASC";
+                                $hentbNavnSTMT = $db->prepare($hentbNavnQ);
+                                $hentbNavnSTMT -> bindparam(":brukertype", $brukerinfo['brukertype']);
+                                $hentbNavnSTMT->execute();
+                                $liste = $hentbNavnSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($liste as $brukertype) { ?>
+                                    <option value="<?php echo($brukertype['idbrukertype'])?>"><?php echo($brukertype['brukertypenavn'])?></option>
+                                <?php } ?>
+                            </select>
+                        </form>
                     </section>
                     <section id="admin_handlinger">
                         <p class="admin_handlingvalg" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
