@@ -1047,7 +1047,7 @@ footer a {
 
 
 .admin_bruker_slett_knapp {
-  margin-left: auto; margin-right: auto;
+  float: right;
   background-color: rgb(177, 0, 0); /* bakgrunnsfarge for registrerknapp */
   color: white;
   padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
@@ -4445,6 +4445,11 @@ input:checked + .slider:before {
     grid-row: 6;
     margin-left: 0;
     width: 95%;
+  }
+
+  #admin_alleeksklusjoner_datofra, .admin_alleeksklusjoner_alledatofra {
+    display: block;
+    float: right;
   }
 
   /* Style for ADMINPANEL sin NY BRUKER */
