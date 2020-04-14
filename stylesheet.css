@@ -4424,7 +4424,7 @@ input:checked + .slider:before {
   #admin_brukerinfo {
     grid-column: 2;
     grid-row: 1/span 2;
-    height: 21em;
+    height: 23em;
     margin-left: 0;
     width: 95%;
   }
@@ -5156,7 +5156,6 @@ input:checked + .slider:before {
   #admin_brukerinfo {
     grid-column: 3/span 2;
     grid-row: 1/span 2;
-    height: 21em;
     margin-right: auto;
     width: 16em;
   }
