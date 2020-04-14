@@ -22,6 +22,12 @@ if (isset($_SESSION['input_brukernavn'])) {
     unset($_SESSION['input_brukernavn']);
 }
 
+$logginn_melding = "";
+if(isset($_SESSION['logginn_melding'])) {
+    $logginn_melding = $_SESSION['logginn_melding'];
+    unset($_SESSION['logginn_melding']);
+}
+
 
 if (isset($_POST['submit'])) {
     $_SESSION['input_brukernavn'] = $_POST['brukernavn'];
@@ -66,53 +72,69 @@ if (isset($_POST['submit'])) {
                 $antallEndret = $oppdaterBrukertypeSTMT->rowCount();
 
                 if ($antallEndret == 0) {
-                    header("Location: logginn.php?error=1");
+                    $_SESSION['logginn_melding'] = "Kunne ikke logge inn, vennligst forsøk på nytt";
+                    header("Location: logginn.php");
                 } else {
                     $resultat['brukertype'] = 3;
                 }
             } 
 
-            $_SESSION['idbruker'] = $resultat['idbruker'];
-            $_SESSION['brukernavn'] = $resultat['brukernavn'];
-            $_SESSION['fornavn'] = $resultat['fnavn'];
-            $_SESSION['etternavn'] = $resultat['enavn'];
-            $_SESSION['epost'] = $resultat['epost'];
-            $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
-            $_SESSION['brukertype'] = $resultat['brukertype'];
-            
-            $_SESSION['feilteller'] = 0;
+            // Sjekker om bruker har en aktivt utestengelse
+            $hentEksklusjonQ = "select grunnlag, datotil from eksklusjon where bruker = :bruker and datotil > NOW()";
+            $hentEksklusjonSTMT = $db -> prepare($hentEksklusjonQ);
+            $hentEksklusjonSTMT -> bindparam(":bruker", $resultat['idbruker']);
+            $hentEksklusjonSTMT -> execute();
 
-            // Sjekker på om bruker har registrert preferanser
-            $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
-            $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
-            $sjekkPrefSTMT->execute();
-            $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
+            $eksklusjon = $hentEksklusjonSTMT -> fetch(PDO::FETCH_ASSOC); 
 
-            // Bruker har ikke preferanser, oppretter de
-            // Variabelen $personvern kommer fra innstillinger
-            if(!$resPref) {
-                $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
-                                    $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
-                                        $_SESSION['idbruker'] . ")";
+            if($eksklusjon) {
 
-                $opprettPrefSTMT = $db->prepare($opprettPrefQ);
-                $opprettPrefSTMT->execute();
+            } else {
+                $_SESSION['idbruker'] = $resultat['idbruker'];
+                $_SESSION['brukernavn'] = $resultat['brukernavn'];
+                $_SESSION['fornavn'] = $resultat['fnavn'];
+                $_SESSION['etternavn'] = $resultat['enavn'];
+                $_SESSION['epost'] = $resultat['epost'];
+                $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
+                $_SESSION['brukertype'] = $resultat['brukertype'];
+                
+                $_SESSION['feilteller'] = 0;
+    
+                // Sjekker på om bruker har registrert preferanser
+                $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
+                $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
+                $sjekkPrefSTMT->execute();
+                $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
+    
+                // Bruker har ikke preferanser, oppretter de
+                // Variabelen $personvern kommer fra innstillinger
+                if(!$resPref) {
+                    $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
+                                        $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
+                                            $_SESSION['idbruker'] . ")";
+    
+                    $opprettPrefSTMT = $db->prepare($opprettPrefQ);
+                    $opprettPrefSTMT->execute();
+                }
+    
+                // Fjerner session variable for brukerinput om ingen feil oppstår
+                unset($_SESSION['input_brukernavn']);
+    
+                header("Location: backend.php");
             }
 
-            // Fjerner session variable for brukerinput om ingen feil oppstår
-            unset($_SESSION['input_brukernavn']);
-
-            header("Location: backend.php");
         } else {    
             // Øker teller for feilet innlogging med 1
             $_SESSION['feilteller']++;
             $_SESSION['sistFeilet'] = date("Y-m-d H:i:s");
             
-            header("Location: logginn.php?error=1");
+            $_SESSION['logginn_melding'] = "Kunne ikke logge inn, vennligst forsøk på nytt";
+            header("Location: logginn.php");
         }
     } else {
         // Bruker har feilet for mange ganger, gir tilbakemelding til bruker
-        header("Location: logginn.php?error=2");
+        $_SESSION['logginn_melding'] = "Du har feilet innlogging for mange ganger, vennligst vent";
+        header("Location: logginn.php");
     }
 }
  
@@ -151,24 +173,16 @@ if (isset($_POST['submit'])) {
                     <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
                 </section>
                 <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
-                <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 3) { ?>
-                    <section id="mldFEIL_boks">
-                        <section id="mldFEIL_innhold">
-                            <!-- Meldinger til bruker -->
-                            <?php if($_GET['error'] == 1){ ?>
-                                <p id="mldFEIL">Sjekk brukernavn og passord</p>    
-                            
-                            <?php } else if($_GET['error'] == 2){ ?>
-                                <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
-                                
-                            <?php } else if($_GET['error'] == 3){ ?>
-                                <p id="mldFEIL">Kunne ikke registrere bruker, vennligst kontakt administrator om dette problemet fortsetter</p>
-                            <?php } ?>
-                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                            <button id="mldFEIL_knapp">Lukk</button>
-                        </section>
-                    </section>
-                <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
+                
+                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($logginn_melding != "") { ?> style="display: block" <?php } ?>>
+                    <section id="mldFEIL_innhold">
+                        <p id="mldFEIL"><?php echo($logginn_melding) ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp">Lukk</button>
+                    </section>  
+                </section>
+
+                <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                     <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
                 
                 <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 2){ ?>
