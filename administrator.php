@@ -14,7 +14,7 @@ include("inkluderes/innstillinger.php");
 // Forsikrer seg om kun tilgang for administrator
 if (!isset($_SESSION['idbruker'])) {
     // En utlogget bruker har forsøkt å nå adminpanelet
-    $_SESSION['default_melding'] = "Du kan ikke se denne siden";
+    $_SESSION['default_melding'] = "Du må logge inn før du kan se denne siden";
     header("Location: default.php");
 } else if ($_SESSION['brukertype'] != '1') {
     // En innlogget bruker som ikke er administrator har forsøkt å åpne adminpanelet, loggfører dette
