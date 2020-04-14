@@ -96,7 +96,7 @@ $tabindex = 10;
                     <img src="bilder/profil.png" alt="Profilbilde" class="profil_backend">
                 <?php } ?>
                 <h1 class="velkomst">Velkommen <?php if(preg_match("/\S/", $_SESSION['fornavn']) == 1) { echo($_SESSION['fornavn']); } else { echo($_SESSION['brukernavn']); } ?></h1>
-                <?php if($antUlest['antall'] > 0) { ?><p><?php echo("Du har " . $antUlest['antall'] . " uleste meldinger!");?></p><?php } ?></a>
+                <?php if($antUlest['antall'] > 0) { ?><p><?php echo("Du har " . $antUlest['antall'] . " ulest(e) melding(er)!");?></p><?php } ?></a>
             </header>
 
             <!-- Del for å vise kommentarer til brukeren -->
