@@ -1041,6 +1041,10 @@ footer a {
   width: 6em;
 }
 
+.admin_alleeksklusjoner_alledatofra {
+  padding-top: 0.6em;
+}
+
 .admin_alleeksklusjoner_rad {
   border-top: 1px solid grey;
 }
