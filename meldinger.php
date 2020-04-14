@@ -8,7 +8,8 @@ include("inkluderes/innstillinger.php");
 
 // Kun innloggede brukere kan se meldinger
 if (!isset($_SESSION['idbruker'])) {
-    header("Location: default.php?error=1");
+    $_SESSION['default_melding'] = "Du må logge inn før du kan se denne siden";
+    header("Location: default.php");
 }
 
 // Browser må validere cache med server før cached kopi kan benyttes
