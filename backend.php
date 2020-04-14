@@ -245,7 +245,7 @@ $tabindex = 10;
                                 </section>
                                     <?php } 
                                 } else {?>
-                                <p class="backend_tilbakemelding">Du har ikke kommentert flere artikler...</p>
+                                <p class="backend_tilbakemelding">Du har ikke kommentert noen artikler...</p>
 
                                 <?php }?>
 
@@ -410,7 +410,7 @@ $tabindex = 10;
                             
 
                             <?php } else {?>
-                                <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen andre arrangementer...</p>
+                                <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen arrangementer...</p>
                             <?php }?>
                         </section>
 
@@ -483,7 +483,7 @@ $tabindex = 10;
                                     </section>
                                     <?php } 
                                 } else {?>
-                                <p class="backend_tilbakemelding">Du har ikke kommentert flere artikler...</p>
+                                <p class="backend_tilbakemelding">Du har ikke kommentert noen artikler...</p>
 
                                 <?php }?>
                             </section>
@@ -540,7 +540,7 @@ $tabindex = 10;
                             
 
                             <?php } else {?>
-                                <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen andre arrangementer...</p>
+                                <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen arrangementer...</p>
                             <?php }?>
                         </section>
 
