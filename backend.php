@@ -8,7 +8,8 @@ include("inkluderes/innstillinger.php");
 
 // Sjekker om bruker har tilgang til å se dette området
 if (!isset($_SESSION['idbruker'])) {
-    header("Location: default.php?error=1");
+    $_SESSION['default_melding'] = "Du må logge inn før du kan se denne siden";
+    header("Location: default.php");
 } 
 
 
