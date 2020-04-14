@@ -6,7 +6,6 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
-
 // tabindex som skal brukes til å bestemme startpunkt i søkeresultat, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 7;
 
@@ -675,17 +674,6 @@ $tabindex = 7;
             <!-- Del for avansert søk -->
             <header class="sok_header" onclick="lukkHamburgerMeny()">
                 <h2>Avansert søk</h2>
-                <?php if (isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
-                    <section id="mldFEIL_boks">
-                        <section id="mldFEIL_innhold">
-                            <?php if(isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
-                                <p id="mldFEIL">Vennligst søk etter en bruker først</p>
-                            <?php } ?>
-                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                            <button id="mldFEIL_knapp">Lukk</button>
-                        </section>
-                    </section>
-                <?php } ?>
             </header>
             <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                 <section id="sok_seksjon"> 
@@ -771,18 +759,7 @@ $tabindex = 7;
                         <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex ="10">Søk etter arrangement</button>
                     </form>
                 </section>
-            <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                <section id="mldFEIL_boks">
-                    <section id="mldFEIL_innhold">
-                        <?php if($_GET['error'] == 1){ ?>
-                            <p id="mldFEIL">Vennligst oppgi noen verdier å søke på</p>
-                        <?php } ?>
-                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                        <button id="mldFEIL_knapp">Lukk</button>
-                    </section>
-                </section>
-            <?php } 
-        } ?>
+            <?php } ?>
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
