@@ -239,7 +239,7 @@ if(isset($_POST['ekskludering'])) {
 
             if(!$resAdmin) {
                 // Bruker er ikke administrator, sjekker om bruker allerede er utestengt
-                $sjekkTidQ = "select datotil from eksklusjon where bruker = :bruker and datotil is null or datotil > NOW()";
+                $sjekkTidQ = "select datotil from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
                 $sjekkTidSTMT = $db -> prepare($sjekkTidQ);
                 $sjekkTidSTMT -> bindparam(":bruker", $_POST['ekskludertbruker']);
                 $sjekkTidSTMT -> execute();
@@ -248,9 +248,14 @@ if(isset($_POST['ekskludering'])) {
 
                 if($antTid == 0) {
                     if($_POST['datotil'] != "") {
-                        $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra, datotil) values(:tekst, :bruker, :admin, NOW(), :datotil)";
-                        $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
-                        $ekskluderBrukerSTMT -> bindparam(":datotil", $_POST['datotil']);
+                        if($_POST['datotil'] > date("Y-m-d")) {
+                            $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra, datotil) values(:tekst, :bruker, :admin, NOW(), :datotil)";
+                            $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
+                            $ekskluderBrukerSTMT -> bindparam(":datotil", $_POST['datotil']);
+                        } else {
+                            $_SESSION['admin_melding'] = "Du kan bare ekskludere en bruker fremover i tid";
+                            header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                        }
                     } else {
                         $ekskluderBrukerQ = "insert into eksklusjon(grunnlag, bruker, administrator, datofra) values(:tekst, :bruker, :admin, NOW())";
                         $ekskluderBrukerSTMT = $db -> prepare($ekskluderBrukerQ);
@@ -262,10 +267,10 @@ if(isset($_POST['ekskludering'])) {
                     $ekskluderBrukerSTMT -> execute();
     
                     if($ekskluderBrukerSTMT) {
-                        header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                        //header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                     } else {
                         $_SESSION['admin_melding'] = "Feil oppsto ved ekskludering av bruker";
-                        header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                        //header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                     }
                 } else {
                     $_SESSION['admin_melding'] = "Denne brukeren er allerede utestengt";
@@ -841,7 +846,7 @@ if(isset($_POST['endreBrukertype'])) {
 
             <!-- Håndtering av feilmeldinger -->
 
-            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($admin_melding != "") { ?> style="display: block" <?php } ?>>
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($admin_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
                 <section id="mldFEIL_innhold">
                     <p id="mldFEIL"><?php echo($admin_melding) ?></p>  
                     <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->

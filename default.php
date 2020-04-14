@@ -64,7 +64,7 @@ if (isset($_POST['loggUt'])) {
 
             <?php } ?>
 
-            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($default_melding != "") { ?> style="display: block" <?php } ?>>
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($default_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
                 <section id="mldFEIL_innhold">
                     <p id="mldFEIL"><?php echo($default_melding) ?></p>  
                     <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->

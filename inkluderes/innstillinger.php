@@ -70,10 +70,32 @@ if (isset($_SESSION['siste_aktivitet']) && (time() - $_SESSION['siste_aktivitet'
 $_SESSION['siste_aktivitet'] = time(); // Oppdater session timeout
 
 
+
 // Prøver å koble til databasen, passer på å sjekke om siden vi er på er resultat av systemfeil, hvis ikke får vi en uendelig redirect loop
 if(!isset($default_melding) || substr($default_melding, 0, 10) != "Systemfeil") {
     try {
         $db = new mysqlPDO();
+
+        // Sjekker om bruker har blitt utestengt, logger da ut
+        $hentEksklusjonQ = "select grunnlag, datotil from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
+        $hentEksklusjonSTMT = $db -> prepare($hentEksklusjonQ);
+        $hentEksklusjonSTMT -> bindparam(":bruker", $_SESSION['idbruker']);
+        $hentEksklusjonSTMT -> execute();
+
+        $eksklusjon = $hentEksklusjonSTMT -> fetch(PDO::FETCH_ASSOC); 
+
+        if($eksklusjon) {
+            if($eksklusjon['datotil'] == null) {
+                $dato = "er permanent";
+            } else {
+                $dato = "varer til: " . $eksklusjon['datotil'];
+            }
+            session_destroy();
+            session_start();
+            $_SESSION['default_melding'] = "Du har blitt utestengt for '" . $eksklusjon['grunnlag'] . "', utestengelsen " . $dato;
+            header("Location: default.php");
+        }
+
     } 
     catch (Exception $ex) {
         // Disse feilmeldingene leder til samme tilbakemelding for bruker

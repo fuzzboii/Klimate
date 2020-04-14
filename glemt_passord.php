@@ -12,6 +12,11 @@ if (isset($_SESSION['idbruker'])) {
     header("Location: default.php?error=2");
 }
 
+$glemtpassord_melding = "";
+if(isset($_SESSION['glemtpassord_melding'])) {
+    $glemtpassord_melding = $_SESSION['glemtpassord_melding'];
+    unset($_SESSION['glemtpassord_melding']);
+}
 
 // Hoveddelen for glemt passord
 if (isset($_POST['glemtPassord'])) {
@@ -26,15 +31,15 @@ if (isset($_POST['glemtPassord'])) {
             $storebokstaver = preg_match('@[A-Z]@', $pw);
             $smaabokstaver = preg_match('@[a-z]@', $pw);
             $nummer = preg_match('@[0-9]@', $pw);
-            // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-            // $spesielleB = preg_match('@[^\w]@', $pw);
 
             if ($pw == "") {
                 // Ikke noe passord skrevet
-                header("Location: glemt_passord.php?error=3");
-            } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                $_SESSION['glemtpassord_melding'] = "Du har ikke oppgitt et passord";
+                header("Location: glemt_passord.php");
+            } else if (!$storebokstaver || !$smaabokstaver || !$nummer || strlen($pw) < 8) {
                 // Ikke tilstrekkelig passord skrevet
-                header("Location: glemt_passord.php?error=4");
+                $_SESSION['glemtpassord_melding'] = "Du har ikke oppgitt et tilstrekkelig passord";
+                header("Location: glemt_passord.php");
             } else {
                 // OK, vi salter passord for eksiterende bruker
                 $kombinert = $salt . $pw;
@@ -42,7 +47,6 @@ if (isset($_POST['glemtPassord'])) {
                 $spw = sha1($kombinert);
                 $lbr = strtolower($_POST['brukernavn']);
                 $sql = "update bruker set passord='" . $spw . "' where lower(brukernavn)='". $lbr . "'";
-
 
                 // Prepared statement for å beskytte mot SQL injection
                 $stmt = $db->prepare($sql);
@@ -52,23 +56,26 @@ if (isset($_POST['glemtPassord'])) {
                 // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
                 $antall = $stmt->rowCount();
 
-                if (!$antall == "0") {
+                if ($antall > 0) {
                     // Alt gikk OK, sender til logginn med melding til bruker
                     header("location: logginn.php?vellykket=2");
                 } else {
                     //Ikke ok, ber bruker om å oppgi brukernavn på nytt
-                    header("location: glemt_passord.php?error=1");
+                    $_SESSION['glemtpassord_melding'] = "Feil oppstod ved endring av passord";
+                    header("Location: glemt_passord.php");
                 }
             }
         } else {
-            // Feilmelding 5, bruker har ikke fyllt ut felt
-            header("location: glemt_passord.php?error=5");
+            // Feilmelding 5, bruker har ikke fylt ut felt
+            $_SESSION['glemtpassord_melding'] = "Ett eller flere felt er ikke fylt inn";
+            header("Location: glemt_passord.php");
         }
     } else {
         // Feilmelding 2 = passord ikke like
-        header("location: glemt_passord.php?error=2");
-        }
+        $_SESSION['glemtpassord_melding'] = "Passordene er ikke like";
+        header("Location: glemt_passord.php");
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -115,30 +122,15 @@ if (isset($_POST['glemtPassord'])) {
                 </section>
                 <input type="submit" name="glemtPassord" class="RegInnFelt_knappLogginn" value="Endre passord"> 
 
-                <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 5) { ?>
-                    <section id="mldFEIL_boks">
-                        <section id="mldFEIL_innhold">
-                            <!-- Meldinger til bruker -->
-                            <?php if($_GET['error'] == 1){ ?>
-                                <p id="mldFEIL">Du kan bare endre passord til en eksistererende bruker</p>    
-                            
-                            <?php } else if($_GET['error'] == 2){ ?>
-                                <p id="mldFEIL">Passordene er ikke like</p>
-                            
-                            <?php } else if($_GET['error'] == 3){ ?>
-                                <p id="mldFEIL">Skriv inn et passord</p>
-                            
-                            <?php } else if($_GET['error'] == 4) { ?>
-                                <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-                            
-                            <?php } else if($_GET['error'] == 5) { ?>
-                                <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
-                            <?php } ?>  
-                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                            <button id="mldFEIL_knapp">Lukk</button>
-                        </section>
-                    </section>
-                <?php } ?>
+                <!-- Håndtering av feilmeldinger -->
+
+                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($glemtpassord_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                    <section id="mldFEIL_innhold">
+                        <p id="mldFEIL"><?php echo($glemtpassord_melding) ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                    </section>  
+                </section>
             </form>
 
             <!-- Sender brukeren tilbake til forsiden -->

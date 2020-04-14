@@ -163,7 +163,7 @@ function bekreftMelding(element) {
 function lukkMelding(element) {
   var knapp = document.getElementById(element);
 
-  if (knapp != null) {
+  if (knapp.style.display != 'none') {
 
     knapp.style.display = 'none';
     

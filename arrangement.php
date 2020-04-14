@@ -32,6 +32,12 @@ if (isset($_SESSION['input_tittel'])) {
     unset($_SESSION['input_fylke']);
 }
 
+$arrangement_melding = "";
+if(isset($_SESSION['arrangement_melding'])) {
+    $arrangement_melding = $_SESSION['arrangement_melding'];
+    unset($_SESSION['arrangement_melding']);
+}
+
 if (isset($_POST['publiserArrangement'])) {
     $_SESSION['input_tittel'] = $_POST['tittel'];
     $_SESSION['input_innhold'] = $_POST['innhold'];
@@ -119,12 +125,12 @@ if (isset($_POST['publiserArrangement'])) {
                             unset($_SESSION['input_fylke']);
 
                             header('Location: arrangement.php?arrangement=' . $idevent);
-                        } else { header('Location: arrangement.php?nyarrangement&error=6'); } // Fylke ikke oppgitt
-                    } else { header('Location: arrangement.php?nyarrangement&error=5'); } // Adresse tomt / for langt
-                } else { header('Location: arrangement.php?nyarrangement&error=4'); } // Dato tilbake i tid
-            } else { header('Location: arrangement.php?nyarrangement&error=3'); } // Tidspunkt ikke oppgitt
-        } else { header('Location: arrangement.php?nyarrangement&error=2'); } // Innholdt tomt / for langt
-    } else { header('Location: arrangement.php?nyarrangement&error=1'); } // Tittel tomt / for langt
+                        } else { $_SESSION['arrangement_melding'] = "Du har ikke oppgitt et fylke"; header("Location: arrangement.php?nyarrangement"); } // Fylke ikke oppgitt
+                    } else { $_SESSION['arrangement_melding'] = "Du har enten ikke oppgitt en adresse, eller adressen er for lang"; header("Location: arrangement.php?nyarrangement"); } // Adresse tomt / for langt
+                } else { $_SESSION['arrangement_melding'] = "Du har oppgitt en dato tilbake i tid"; header("Location: arrangement.php?nyarrangement"); } // Dato tilbake i tid
+            } else { $_SESSION['arrangement_melding'] = "Du har ikke oppgitt et tidspunkt"; header("Location: arrangement.php?nyarrangement"); } // Tidspunkt ikke oppgitt
+        } else { $_SESSION['arrangement_melding'] = "Du har enten ikke oppgitt en beskrivelse, eller beskrivelsen er for lang"; header("Location: arrangement.php?nyarrangement"); } // Innholdt tomt / for langt
+    } else { $_SESSION['arrangement_melding'] = "Du har enten ikke oppgitt en tittel, eller tittelen er for lang"; header("Location: arrangement.php?nyarrangement"); } // Tittel tomt / for langt
 }
 
 if(isset($_POST['inviterTil'])) {
@@ -161,17 +167,16 @@ if(isset($_POST['inviterTil'])) {
 
                 if($invitert > 0) {
                     header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&invitert");
-                } else {
-                    // Error 1
-                    header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
                 }
             } else {
                 // Error 1
-                header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
+                $_SESSION['arrangement_melding'] = "Feil oppsto ved invitasjon"; 
+                header("Location: arrangement.php?arrangement=" . $_GET['arrangement']);
             }
         } else {
-            // Error 1
-            header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
+            // Error 2
+            $_SESSION['arrangement_melding'] = "Fant ikke bruker ved invitering"; 
+            header("Location: arrangement.php?arrangement=" . $_GET['arrangement']);
         }
 
         
@@ -561,17 +566,7 @@ $tabindex = 8;
                                 </form>
 
 
-                                <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                                    <section id="mldFEIL_boks">
-                                        <section id="mldFEIL_innhold">
-                                            <?php if($_GET['error'] == 1) { ?>
-                                                <p id="mldFEIL">Kunne ikke sende melding</p>
-                                            <?php } ?>
-                                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                                            <button id="mldFEIL_knapp">Lukk</button>
-                                        </section>
-                                    </section>
-                                <?php } else if(isset($_GET['invitert'])) { ?>
+                                <?php if(isset($_GET['invitert'])) { ?>
                                     <p id="mldOK">Invitasjon sendt</p>
                                 <?php }  ?>
                             
@@ -672,33 +667,6 @@ $tabindex = 8;
                             </select>
                             <h2>Bilde</h2>
                             <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
-
-                            <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 6) { ?>
-                                <section id="mldFEIL_boks">
-                                    <section id="mldFEIL_innhold">
-                                        <?php if($_GET['error'] == 1){ ?>
-                                            <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
-                                    
-                                        <?php } else if($_GET['error'] == 2){ ?>
-                                            <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
-                                        
-                                        <?php } else if($_GET['error'] == 3) { ?>
-                                            <p id="mldFEIL">Oppgi en dato</p>
-
-                                        <?php } else if($_GET['error'] == 4){ ?>
-                                            <p id="mldFEIL">Datoen må være forover i tid</p>    
-
-                                        <?php } else if($_GET['error'] == 5){ ?>
-                                            <p id="mldFEIL">Adresse for lang eller ikke oppgitt</p>   
-
-                                        <?php } else if($_GET['error'] == 6){ ?>
-                                            <p id="mldFEIL">Fylke ikke oppgitt</p>    
-                                        <?php } ?>
-                                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                                        <button id="mldFEIL_knapp">Lukk</button>
-                                    </section>
-                                </section>
-                            <?php } ?>
 
                             <a href="arrangement.php" id="arrangement_lenke_knapp">Tilbake til arrangementer</a> 
                             <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
@@ -847,7 +815,15 @@ $tabindex = 8;
                 </section>
 
             <?php }?>
+            <!-- Håndtering av feilmeldinger -->
 
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($arrangement_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                <section id="mldFEIL_innhold">
+                    <p id="mldFEIL"><?php echo($arrangement_melding) ?></p>  
+                    <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                    <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                </section>  
+            </section>
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
