@@ -264,7 +264,6 @@ if(isset($_POST['ekskludering'])) {
 
 if(isset($_POST['regRegistrering'])) {
     if($_POST['regTekst'] != "" && strlen($_POST['regTekst']) <= 255) {
-        // Bruker er ikke administrator
         $nyRegelQ = "insert into regel(regeltekst, idbruker) values(:tekst, :bruker)";
         $nyRegelSTMT = $db -> prepare($nyRegelQ);
         $nyRegelSTMT -> bindparam(":tekst", $_POST['regTekst']);
@@ -280,6 +279,37 @@ if(isset($_POST['regRegistrering'])) {
     } else {
         $_SESSION['admin_melding'] = "Ingen tekst oppgitt eller regel for lang";
         header("Location: administrator.php?nyregel");
+    }
+}
+
+
+if(isset($_POST['slettHandling'])) {
+    $slettHandlingQ = "";
+
+    if($_POST['handling'] == "misbruk") {
+        $slettHandlingQ = "delete from misbruk where idmisbruk = :id";
+
+    } else if($_POST['handling'] == "advarsel") {
+        $slettHandlingQ = "delete from advarsel where idadvarsel = :id";
+
+    } else if($_POST['handling'] == "eksklusjon") {
+        $slettHandlingQ = "delete from eksklusjon where ideksklusjon = :id";
+
+    } else {
+        $_SESSION['admin_melding'] = "Kunne ikke finne handlingen";
+        header("Location: administrator.php?bruker=" . $_GET['bruker']);
+    }
+
+    $slettHandlingSTMT = $db -> prepare($slettHandlingQ);
+    $slettHandlingSTMT -> bindparam(":id", $_POST['slettHandling']);
+    $slettHandlingSTMT -> execute();
+    $antSlettet = $slettHandlingSTMT -> rowCount();
+
+    if($antSlettet > 0) {
+        header("Location: administrator.php?bruker=" . $_GET['bruker']);
+    } else {
+        $_SESSION['admin_melding'] = "Kunne ikke slette handlingen";
+        header("Location: administrator.php?bruker=" . $_GET['bruker']);
     }
 }
 
@@ -543,10 +573,6 @@ if(isset($_POST['regRegistrering'])) {
                 $eksklusjoner = $hentEksklusjonerSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
                 if(isset($brukerinfo)) { ?>
-                    <form method="POST" id="bruker_form" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
-                        <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
-                    </form>
-
                     <section id="admin_brukerinfo">
                         <figure>
                             <?php 
@@ -591,6 +617,9 @@ if(isset($_POST['regRegistrering'])) {
                             <input onclick="sjekkAdminHandling()" id="admin_handling_submit" type="button" value="Advar bruker">
                         </form>
                     </section>
+                    <form method="POST" id="misbruk_form" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
+                        <input type="hidden" name="handling" value="misbruk">
+                    </form>
                     <section id="admin_allemisbruk">
                         <p id="admin_allemisbruk_tittel">Misbruk<p>
                         <table id="admin_misbruk_table">
@@ -604,7 +633,7 @@ if(isset($_POST['regRegistrering'])) {
                                     <?php for($i = 0; $i < count($misbruk); $i++) { ?>
                                         <tr class="admin_misbruk_rad">
                                             <td class="admin_misbruk_allegrunnlag"><?php echo($misbruk[$i]['tekst'])?></td>
-                                            <td><button class="admin_bruker_slett_knapp" name="sletthandling" form="bruker_form" value="<?php echo($misbruk[$i]['idmisbruk'])?>">Slett</button></td>
+                                            <td><button class="admin_bruker_slett_knapp" name="slettHandling" form="misbruk_form" value="<?php echo($misbruk[$i]['idmisbruk'])?>">Slett</button></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -613,6 +642,9 @@ if(isset($_POST['regRegistrering'])) {
                             <?php } ?>
                         </table>
                     </section>
+                    <form method="POST" id="advarsel_form" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
+                        <input type="hidden" name="handling" value="advarsel">
+                    </form>
                     <section id="admin_alleadvarsler">
                         <p id="admin_alleadvarsler_tittel">Advarsler<p>
                         <table id="admin_alleadvarsler_table">
@@ -628,7 +660,7 @@ if(isset($_POST['regRegistrering'])) {
                                         <tr class="admin_alleadvarsler_rad">
                                             <td class="admin_alleadvarsler_allegrunnlag"><?php echo($advarsler[$i]['advarseltekst'])?></td>
                                             <td class="admin_alleadvarsler_alleadmin"><?php echo($advarsler[$i]['brukernavn'])?></td>
-                                            <td><button class="admin_bruker_slett_knapp" name="sletthandling" form="bruker_form" value="<?php echo($advarsler[$i]['idadvarsel'])?>">Slett</button></td>
+                                            <td><button class="admin_bruker_slett_knapp" name="slettHandling" form="advarsel_form" value="<?php echo($advarsler[$i]['idadvarsel'])?>">Slett</button></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -637,6 +669,9 @@ if(isset($_POST['regRegistrering'])) {
                             <?php } ?>
                         </table>
                     </section>
+                    <form method="POST" id="eksklusjon_form" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
+                        <input type="hidden" name="handling" value="eksklusjon">
+                    </form>
                     <section id="admin_alleeksklusjoner">
                         <p id="admin_alleeksklusjoner_tittel">Eksklusjoner<p>
                         <table id="admin_alleeksklusjoner_table">
@@ -656,7 +691,7 @@ if(isset($_POST['regRegistrering'])) {
                                             <td class="admin_alleeksklusjoner_alleadmin"><?php echo($eksklusjoner[$i]['brukernavn'])?></td>
                                             <td class="admin_alleeksklusjoner_alledatofra"><?php echo(date_format(date_create($eksklusjoner[$i]['datofra']), "j M H:i")) ?></td>
                                             <td class="admin_alleeksklusjoner_alledatotil"><?php if(isset($eksklusjoner[$i]['datotil'])) { echo(date_format(date_create($eksklusjoner[$i]['datotil']), "j M H:i")); } else {echo("Permanent"); } ?></td>
-                                            <td><button class="admin_bruker_slett_knapp" name="sletthandling" form="bruker_form" value="<?php echo($eksklusjoner[$i]['ideksklusjon'])?>">Slett</button></td>
+                                            <td><button class="admin_bruker_slett_knapp" name="slettHandling" form="eksklusjon_form" value="<?php echo($eksklusjoner[$i]['ideksklusjon'])?>">Slett</button></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
