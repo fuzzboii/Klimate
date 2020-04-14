@@ -68,7 +68,7 @@ if (isset($_POST['loggUt'])) {
                 <section id="mldFEIL_innhold">
                     <p id="mldFEIL"><?php echo($default_melding) ?></p>  
                     <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                    <button id="mldFEIL_knapp">Lukk</button>
+                    <button id="mldFEIL_knapp" autofocus>Lukk</button>
                 </section>  
             </section>
 

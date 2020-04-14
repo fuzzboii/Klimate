@@ -845,7 +845,7 @@ if(isset($_POST['endreBrukertype'])) {
                 <section id="mldFEIL_innhold">
                     <p id="mldFEIL"><?php echo($admin_melding) ?></p>  
                     <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                    <button id="mldFEIL_knapp">Lukk</button>
+                    <button id="mldFEIL_knapp" autofocus>Lukk</button>
                 </section>  
             </section>
             <?php 
