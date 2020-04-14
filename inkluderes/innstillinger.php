@@ -71,27 +71,31 @@ $_SESSION['siste_aktivitet'] = time(); // Oppdater session timeout
 
 
 // Prøver å koble til databasen, passer på å sjekke om siden vi er på er resultat av systemfeil, hvis ikke får vi en uendelig redirect loop
-if(!isset($_GET['systemerror'])) {
+if(!isset($default_melding) || substr($default_melding, 0, 10) != "Systemfeil") {
     try {
         $db = new mysqlPDO();
     } 
     catch (Exception $ex) {
-        // Disse feilmeldingene leder til samme tilbakemelding for bruker, dette kan ønskes å utvide i senere tid, så beholder alle for nå.
+        // Disse feilmeldingene leder til samme tilbakemelding for bruker
         if ($ex->getCode() == 1049) {
             // 1049, Fikk koblet til men databasen finnes ikke
-            header('Location: default.php?systemerror');
+            $_SESSION['default_melding'] = "Systemfeil, vennligst kontakt administrator om problemet fortsetter";
+            header("Location: default.php");
         }
         if ($ex->getCode() == 2002) {
             // 2002, Kunne ikke koble til server
-            header('Location: default.php?systemerror');
+            $_SESSION['default_melding'] = "Systemfeil, vennligst kontakt administrator om problemet fortsetter";
+            header("Location: default.php");
         }
         if ($ex->getCode() == 1045) {
             // 1045, Bruker har ikke tilgang
-            header('Location: default.php?systemerror');
+            $_SESSION['default_melding'] = "Systemfeil, vennligst kontakt administrator om problemet fortsetter";
+            header("Location: default.php");
         }
         if ($ex->getCode() == 2054) {
             // 2054, "The server requested authentication method unknown to the client"
-            header('Location: default.php?systemerror');
+            $_SESSION['default_melding'] = "Systemfeil, vennligst kontakt administrator om problemet fortsetter";
+            header("Location: default.php");
         }
     }
 }
