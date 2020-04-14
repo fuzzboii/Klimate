@@ -21,6 +21,22 @@ if (!isset($_SESSION['idbruker'])) {
     $leggTilMisbrukSTMT = $db -> prepare($leggTilMisbrukQ);
     $leggTilMisbrukSTMT -> bindparam(":bruker", $_SESSION['idbruker']);
     $leggTilMisbrukSTMT -> execute();
+
+    // Sender melding til alle administratorere 
+
+    $hentAdminQ = "select idbruker from bruker where brukertype = 1";
+    $hentAdminSTMT = $db -> prepare($hentAdminQ);
+    $hentAdminSTMT -> execute();
+    $administratorer = $hentAdminSTMT -> fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($administratorer as $admin) {
+        $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) values('Oppdaget misbruk', 'Automatisk misbruk oppdaget, bruker forsøkte nå Admin-panelet.', NOW(), 0, :sender, :mottaker)";
+        $nyMeldingSTMT = $db->prepare($nyMeldingQ);
+        $nyMeldingSTMT -> bindparam(":sender", $_SESSION['idbruker']);
+        $nyMeldingSTMT -> bindparam(":mottaker", $admin['idbruker']);
+        $nyMeldingSTMT->execute();
+    }
+
     session_destroy();
     header("Location: default.php?error=6");
 }
