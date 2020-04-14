@@ -16,7 +16,7 @@ if(isset($_SESSION['default_melding'])) {
 include("inkluderes/innstillinger.php");
 
 
-if(substr($default_melding, 0, 10) != "Systemfeil" && isset($_SESSION['idbruker'])) {
+if(substr($default_melding, 0, 10) == "Systemfeil" && isset($_SESSION['idbruker'])) {
     session_destroy();
 }
 
