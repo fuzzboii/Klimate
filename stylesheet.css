@@ -3087,6 +3087,13 @@ table {
   border-radius: 1em 1em 0.1em 0.1em;
 }
 
+.profil_rapporterFlaggIkon {
+  height: 1.3em;
+  float: right;
+  margin-right: 0.2em;
+  margin-bottom: 0.2em;
+}
+
 .profil_pb .velkomst {
   text-align: center;
   margin-top: 0.5em;
