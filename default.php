@@ -15,6 +15,12 @@ if (isset($_POST['loggUt'])) {
 }
 
 
+$default_melding = "";
+if(isset($_SESSION['default_melding'])) {
+    $default_melding = $_SESSION['default_melding'];
+    unset($_SESSION['default_melding']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -52,33 +58,15 @@ if (isset($_POST['loggUt'])) {
             <?php } else if(isset($_GET['avregistrert']) && $_GET['avregistrert'] == "true"){ ?>
                 <p id="mldFEIL">Du har blitt avregistrert</p>  
 
-            <?php } else if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 6 || isset($_GET['systemerror'])) { ?>
-                <section id="mldFEIL_boks">
-                    <section id="mldFEIL_innhold">
-                        <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                            <p id="mldFEIL">Du må logge inn før du kan se dette området</p>  
-
-                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                            <p id="mldFEIL">Du må logge ut før du kan se dette området</p>   
-
-                        <?php } else if(isset($_GET['systemerror'])){ ?>
-                            <p id="mldFEIL">Systemfeil, kunne ikke koble til database. Vennligst prøv igjen om kort tid.</p>
-
-                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                            <p id="mldFEIL">Du kan ikke se dette området</p>  
-
-                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                            <p id="mldFEIL">Denne brukeren er avregistrert</p>  
-
-                        <?php } else if(isset($_GET['error']) && $_GET['error'] == 6){ ?>
-                            <p id="mldFEIL">Du har forsøkt å nå et restriktert område, handlingen har blitt loggført</p> 
-                        
-                        <?php } ?>
-                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                        <button id="mldFEIL_knapp">Lukk</button>
-                    </section>
-                </section>
             <?php } ?>
+
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($default_melding != "") { ?> style="display: block" <?php } ?>>
+                <section id="mldFEIL_innhold">
+                    <p id="mldFEIL"><?php echo($default_melding) ?></p>  
+                    <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                    <button id="mldFEIL_knapp">Lukk</button>
+                </section>  
+            </section>
 
             <p id="default_beskrivelse">Klimate er en nettside hvor du kan diskutere klimasaker med likesinnede personer!</p>
         </header>
@@ -86,7 +74,7 @@ if (isset($_POST['loggUt'])) {
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
         <main id="default_main" onclick="lukkHamburgerMeny()">   
             <section id="default_section">
-                <?php if(!isset($_GET['systemerror'])) { ?>
+                <?php if(substr($default_melding, 0, 9) != "Systemfeil") { ?>
                     <!-- IDene brukes til å splitte opp kolonnene i queries -->
                    <article>
                         <section id="default_overskriftSeksjon">
