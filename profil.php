@@ -627,6 +627,8 @@ $tabindex = 10;
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } ?>
+
+                        <img class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png">
                     </section>   
                         
                     <section class="ovs_grid">
