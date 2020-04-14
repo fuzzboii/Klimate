@@ -363,7 +363,7 @@ if(isset($_POST['endreBrukertype'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="admin_body">
+    <body id="admin_body" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
