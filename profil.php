@@ -628,7 +628,23 @@ $tabindex = 10;
                             </section>
                         <?php } ?>
 
-                        <img class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png">
+
+                        <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" onclick="bekreftMelding('profil_rapporterBruker')">
+                        
+                        <!-- pop-up vindu -->
+                        <section id="profil_rapporterBruker" style="display: none;">
+                            <section id="profil_rapporterBrukerInnhold">
+                                <h2>Rapporter bruker</h2>
+                                
+                                <section class="profil_rapporterInnhold" >
+                                    <textarea form="profilForm" name="rapporterBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" autofocus required></textarea>
+                                    <button class="profil_rapporterKnappVindu" onclick="lastOppProfil()">Rapporter</button>
+                                </section>
+
+                                <button id="profil_rapporterAvbrytKnapp" onclick="bekreftMelding('profil_rapporterBruker')">Avbryt</button>
+                            </section>
+                        </section>
+
                     </section>   
                         
                     <section class="ovs_grid">
