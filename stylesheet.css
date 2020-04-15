@@ -3089,7 +3089,7 @@ table {
 }
 
 .profil_rapporterFlaggIkon {
-  height: 1.3em;
+  height: 1.5em;
   float: right;
   margin-right: 0.2em;
   margin-bottom: 0.2em;
@@ -5012,6 +5012,16 @@ input:checked + .slider:before {
     color: #F8F7FD;
     transition: background-color 0.2s;
   }
+
+  .profil_rapporterKnappVindu:hover {
+    background-color: rgba(36, 209, 100, 0.637);
+    transition: background-color 0.2s;
+  }
+
+  #profil_rapporterAvbrytKnapp:hover {
+    color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
+  }  
+  
 
   .profil_knapp:hover {
     cursor: pointer;
