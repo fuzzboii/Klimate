@@ -71,19 +71,19 @@ if (!isset($_SESSION['idbruker'])) {
     <main onclick="lukkHamburgerMeny()">
     <!-- IF-testing på hva bruker ønsker å vise -->
         <!-- Alle brukere -->
-        <?php if($_POST['rapport'] == "Alle brukere") { ?>
+        <?php if($_GET['rapport'] == "Alle brukere") { ?>
             <h2>Alle brukere</h2>
         
         <!-- Spesifikk bruker -->
-        <?php } elseif($_POST['rapport'] == "Spesifikk bruker") { ?>
+        <?php } elseif($_GET['rapport'] == "Spesifikk bruker") { ?>
             <h2>Spesifikk bruker</h2>
         
         <!-- Eksklusjoner -->
-        <?php } elseif($_POST['rapport'] == "Eksklusjoner") { ?>
+        <?php } elseif($_GET['rapport'] == "Eksklusjoner") { ?>
             <h2>Eksklusjoner</h2>
 
         <!-- Advarsler -->
-        <?php } elseif($_POST['rapport'] == "Advarsler") { ?>
+        <?php } elseif($_GET['rapport'] == "Advarsler") { ?>
             <h2>Advarsler</h2>
         <?php } ?>
     </main>
