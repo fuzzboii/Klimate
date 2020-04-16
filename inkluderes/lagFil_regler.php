@@ -150,7 +150,8 @@ if(!file_exists("../regler.html")) {
     }
 
     //listedata med regler og innholdsboksen 
-    fwrite($handle,"<header class='backend_header' onclick='lukkHamburgerMeny()'>
+    fwrite($handle,"
+                    <header class='backend_header' onclick='lukkHamburgerMeny()'>
                         <h1 class='velkomst'>Regler</h1>
                     </header>
 
