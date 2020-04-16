@@ -245,11 +245,16 @@ $tabindex = 8;
                 if(isset($_GET['nyartikkel'])) { ?>
                     Ny artikkel
                 <?php } else if (isset($_GET['artikkel'])) {
-                    $hentTittelQ = "select artnavn from artikkel where idartikkel = " . $_GET['artikkel'];
+                    $hentTittelQ = "select artnavn from artikkel where idartikkel = " . $_GET['artikkel'] ." and 
+                        bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentTittelSTMT = $db -> prepare($hentTittelQ);
                     $hentTittelSTMT->execute();
                     $artikkel_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
-                    echo($artikkel_title['artnavn']);
+                    if($artikkel_title) {
+                        echo($artikkel_title['artnavn']);
+                    } else {
+                        echo("Artikkel ikke funnet");
+                    }
                 } else { ?>
                     Artikler
             <?php } ?> 
