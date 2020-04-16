@@ -397,9 +397,17 @@ if (isset($_POST['subRapportering'])) {
 
         // Spørringen som oppretter arrangementet
         $nyRapporteringQ = "insert into brukerrapport(tekst, rapportertbruker, rapportertav, dato) values('" . $rapBeskrivelse . "', '" . $_GET['bruker'] . "', '" . 
-                            $_SESSION['idbruker'] . ", " . "NOW()" . "')";
+                            $_SESSION['idbruker'] . "', NOW())";
         $nyRapporteringSTMT = $db->prepare($nyRapporteringQ);
         $nyRapporteringSTMT->execute();
+
+        $antRap = $nyRapporteringSTMT -> rowCount();
+
+        if($antRap > 0) {
+            // OK, vi laster inn siden på nytt
+            unset($_SESSION['input_rapBeskrivelse']);
+            header("Location: profil.php?bruker=" . $_GET['bruker']);
+        }
     }
 
 }
@@ -666,7 +674,7 @@ $tabindex = 10;
                                 <h2>Rapporter bruker</h2>
                                 
                                 <section class="profil_rapporterInnhold">
-                                    <form method="POST" action="profil.php" enctype="multipart/form-data">
+                                    <form method="POST" action="profil.php?bruker=<?php echo($_GET['bruker'])?>">
                                         <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
                                         <!-- Knapp for å rapportere bruker -->
                                         <input type="submit" name="subRapportering" class="profil_rapporterKnappVindu" value="Rapporter">
