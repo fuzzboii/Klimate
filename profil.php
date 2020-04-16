@@ -628,7 +628,7 @@ $tabindex = 10;
                             </section>
                         <?php } ?>
 
-
+                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1 || $_SESSION['brukertype'] == 3)) { ?>
                         <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" onclick="bekreftMelding('profil_rapporterBruker')">
                         
                         <!-- pop-up vindu -->
@@ -644,7 +644,7 @@ $tabindex = 10;
                                 <button id="profil_rapporterAvbrytKnapp" onclick="bekreftMelding('profil_rapporterBruker')">Avbryt</button>
                             </section>
                         </section>
-
+                        <?php } ?>
                     </section>   
                         
                     <section class="ovs_grid">
