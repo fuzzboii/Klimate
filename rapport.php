@@ -39,6 +39,14 @@ if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php");
 }
 
+// Hent alle rapporterte brukere
+if ($_GET['rapport'] == "Alle brukere") {
+    $hentRapporterte = "select * from brukerrapport";
+    $stmtHentRapporterte = $db->prepare($hentRapporterte);
+    $stmtHentRapporterte->execute();
+    $rapporterteBrukere = $stmtHentRapporterte -> fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -73,6 +81,8 @@ if (!isset($_SESSION['idbruker'])) {
         <!-- Alle brukere -->
         <?php if($_GET['rapport'] == "Alle brukere") { ?>
             <h2>Alle rapporterte brukere</h2>
+            <table id=table_rapporterte_brukere>
+            </table>
         
         <!-- Spesifikk bruker -->
         <?php } elseif($_GET['rapport'] == "Spesifikk bruker") { ?>
