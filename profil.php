@@ -730,6 +730,7 @@ $tabindex = 10;
             <?php include("inkluderes/footer.php") ?>
         </article>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 06.03.2020 -->
     <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->

@@ -194,6 +194,10 @@ if(isset($_GET['slettregel'])) {
     } else {
         header("location: administrator.php");
     }
+
+    $filpath = "regler.html";
+    // Bruker unlink() function for å slette filen regler.html
+    unlink($filpath);
 }
 
 if(isset($_POST['advaring'])) {
@@ -306,6 +310,9 @@ if(isset($_POST['regRegistrering'])) {
         $_SESSION['admin_melding'] = "Ingen tekst oppgitt eller regel for lang";
         header("Location: administrator.php?nyregel");
     }
+    $filpath = "regler.html";
+    // Bruker unlink() function for å slette filen regler.html
+    unlink($filpath);
 }
 
 

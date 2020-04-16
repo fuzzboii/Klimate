@@ -206,6 +206,7 @@ if (isset($_POST['submit'])) {
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 21.02.2020 -->
     <!-- Denne siden er kontrollert av Aron Snekkestad siste gang 06.03.2020 -->
