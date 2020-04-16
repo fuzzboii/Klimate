@@ -300,11 +300,16 @@ $tabindex = 8;
                 if(isset($_GET['nyarrangement'])) { ?>
                     Nytt arrangement
                 <?php } else if (isset($_GET['arrangement'])) {
-                    $hentTittelQ = "select eventnavn from event where idevent = " . $_GET['arrangement'];
+                    $hentTittelQ = "select eventnavn from event where idevent = " . $_GET['arrangement'] . " and 
+                        idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentTittelSTMT = $db -> prepare($hentTittelQ);
                     $hentTittelSTMT->execute();
                     $arrangement_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
-                    echo($arrangement_title['eventnavn']);
+                    if($arrangement_title) {
+                        echo($arrangement_title['eventnavn']);
+                    } else {
+                        echo("Arrangement ikke funnet");
+                    }
                 } else { ?>
                     Arrangementer
             <?php } ?>
@@ -336,7 +341,9 @@ $tabindex = 8;
        
             <?php if(isset($_GET['arrangement'])){
                 // Henter arrangementet bruker ønsker å se
-                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke 
+                    where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                        event.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $stmt = $db->prepare($hent);
                 $stmt->execute();
                 $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -356,7 +363,8 @@ $tabindex = 8;
                     <!-- -------------------------------- -->
                 <?php } else if(isset($_POST['paameldteBrukere'])) {
 
-                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
+                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'] . "  and 
+                        påmelding.bruker_id NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentPåmeldteSTMT = $db->prepare($hentPåmeldte);
                     $hentPåmeldteSTMT->execute();
                     $påmeldtBrukere = $hentPåmeldteSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -446,7 +454,8 @@ $tabindex = 8;
                                     <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                 <?php }
 
-                                $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] ;
+                                $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] . " and 
+                                    påmelding.bruker_id NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                                 $interesserteSTMT = $db->prepare($interesserte);
                                 $interesserteSTMT->execute();
                                 $antallInteresserte = $interesserteSTMT->rowCount();
@@ -617,7 +626,8 @@ $tabindex = 8;
                                         <datalist id="brukere">
                                             <?php 
                                             // Henter brukernavn fra database
-                                            $hentNavnQ = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ")";
+                                            $hentNavnQ = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ") and 
+                                                idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                                             $hentNavnSTMT = $db->prepare($hentNavnQ);
                                             $hentNavnSTMT->execute();
                                             $liste = $hentNavnSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -675,7 +685,10 @@ $tabindex = 8;
            <?php } else {
 
                 // Del for å vise alle arrangement 
-                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
+                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke 
+                    where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                        event.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))
+                    order by tidspunkt asc";
             
                 $stmtArr = $db->prepare($hentAlleArr);
                 $stmtArr->execute();
