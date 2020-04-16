@@ -39,6 +39,14 @@ if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php");
 }
 
+// Hent alle rapporterte brukere
+if ($_GET['rapport'] == "Alle brukere") {
+    $hentRapporterte = "select * from brukerrapport";
+    $stmtHentRapporterte = $db->prepare($hentRapporterte);
+    $stmtHentRapporterte->execute();
+    $rapporterteBrukere = $stmtHentRapporterte -> fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -77,31 +85,15 @@ if (!isset($_SESSION['idbruker'])) {
         <!-- Spesifikk bruker -->
         <?php } elseif($_GET['rapport'] == "Spesifikk bruker") { ?>
             <h2>Spesifikk bruker</h2>
-            <h3>Søk</h3>
-            <form name="sok_rapport">
-                <input type="text" />
-                <input type="submit" />
-            </form>
         
         <!-- Eksklusjoner -->
         <?php } elseif($_GET['rapport'] == "Eksklusjoner") { ?>
             <h2>Eksklusjoner</h2>
-            <h3>Ekskluder ny bruker</h3>
-            <form name="ekskluder">
-                <input type="text" />
-                <input type="submit" />
-            </form>
-            <h3>Ekskluderte brukere</h3>
 
         <!-- Advarsler -->
         <?php } elseif($_GET['rapport'] == "Advarsler") { ?>
             <h2>Advarsler</h2>
-            <h3>Send advarsel</h3>
-            <form name="advar">
-                <input type="text" />
-                <input type="submit" />
-            </form>
-            <h3>Advarte brukere</h3>
+
         <?php } ?>
     </main>
     <?php include("inkluderes/footer.php") ?>
