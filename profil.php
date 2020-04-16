@@ -688,11 +688,12 @@ $tabindex = 10;
                                 <section class="profil_rapporterInnhold">
                                     <form method="POST" action="profil.php?bruker=<?php echo($_GET['bruker'])?>">
                                         <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
+                                        <p>Din rapportering blir registrert med brukernavnet ditt og vedkommende det gjelder og behandlet av en administrator</p>
                                         <!-- Knapp for å rapportere bruker -->
                                         <input type="submit" name="subRapportering" class="profil_rapporterKnappVindu" value="Rapporter">
                                     </form>
                                 </section>
-
+                                
                                 <button id="profil_rapporterAvbrytKnapp" onclick="bekreftMelding('profil_rapporterBruker')">Avbryt</button>
                             </section>
                         </section>
@@ -800,6 +801,7 @@ $tabindex = 10;
             <?php include("inkluderes/footer.php") ?>
         </article>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 06.03.2020 -->
     <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->

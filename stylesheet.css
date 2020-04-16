@@ -11,6 +11,39 @@ html, body {
   width: 100%;
   height: 100%;
 }
+/*-------------------------------------------------------------------------------------------------------------------------------------------- */
+/* Style for html-dokumentet */
+.regler_innhold {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#regler_main {
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  margin-bottom: 1em;
+  padding: 0.6em; /* Mellomrom mellom den yttre boksen og main */
+  border-radius: 1em 1em 1em 1em; /* Avrunder kantene */
+  background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
+}
+
+.reglerdata li {
+margin-top: 1.5em;
+margin-bottom: 1.5em;
+}
+
+#loggUtKnappForm {
+  margin-block-end: 0;
+}
+
+#sokForm_regler {
+  margin-block-end: 0;
+}
+
+
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for ARTICLE/INNHOLD */
 .innhold {
@@ -3094,7 +3127,7 @@ table {
 }
 
 .profil_rapporterFlaggIkon {
-  height: 1.5em;
+  height: 1.9em;
   float: right;
   margin-right: 0.2em;
   margin-bottom: 0.2em;
@@ -3313,6 +3346,10 @@ table {
   resize: none;
 }
 
+.profil_rapporterInnhold p {
+  font-size: 0.6em;
+  padding-bottom: 2em;
+}
 
 
 
@@ -3496,6 +3533,11 @@ table {
 }
 
 #profilTilbakeKnapp:hover {
+  background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
+  cursor: pointer;
+}
+
+.reglerTilbakeKnapp:hover {
   background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
   cursor: pointer;
 }

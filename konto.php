@@ -504,6 +504,7 @@ if(isset($_POST['slettInfo'])) {
         <?php } ?>
         <?php include("inkluderes/footer.php") ?>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     
 <!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 06.03.2020 -->
