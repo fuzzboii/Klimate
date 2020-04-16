@@ -32,6 +32,12 @@ if (isset($_SESSION['input_tittel'])) {
     unset($_SESSION['input_fylke']);
 }
 
+$arrangement_melding = "";
+if(isset($_SESSION['arrangement_melding'])) {
+    $arrangement_melding = $_SESSION['arrangement_melding'];
+    unset($_SESSION['arrangement_melding']);
+}
+
 if (isset($_POST['publiserArrangement'])) {
     $_SESSION['input_tittel'] = $_POST['tittel'];
     $_SESSION['input_innhold'] = $_POST['innhold'];
@@ -119,12 +125,12 @@ if (isset($_POST['publiserArrangement'])) {
                             unset($_SESSION['input_fylke']);
 
                             header('Location: arrangement.php?arrangement=' . $idevent);
-                        } else { header('Location: arrangement.php?nyarrangement&error=6'); } // Fylke ikke oppgitt
-                    } else { header('Location: arrangement.php?nyarrangement&error=5'); } // Adresse tomt / for langt
-                } else { header('Location: arrangement.php?nyarrangement&error=4'); } // Dato tilbake i tid
-            } else { header('Location: arrangement.php?nyarrangement&error=3'); } // Tidspunkt ikke oppgitt
-        } else { header('Location: arrangement.php?nyarrangement&error=2'); } // Innholdt tomt / for langt
-    } else { header('Location: arrangement.php?nyarrangement&error=1'); } // Tittel tomt / for langt
+                        } else { $_SESSION['arrangement_melding'] = "Du har ikke oppgitt et fylke"; header("Location: arrangement.php?nyarrangement"); } // Fylke ikke oppgitt
+                    } else { $_SESSION['arrangement_melding'] = "Du har enten ikke oppgitt en adresse, eller adressen er for lang"; header("Location: arrangement.php?nyarrangement"); } // Adresse tomt / for langt
+                } else { $_SESSION['arrangement_melding'] = "Du har oppgitt en dato tilbake i tid"; header("Location: arrangement.php?nyarrangement"); } // Dato tilbake i tid
+            } else { $_SESSION['arrangement_melding'] = "Du har ikke oppgitt et tidspunkt"; header("Location: arrangement.php?nyarrangement"); } // Tidspunkt ikke oppgitt
+        } else { $_SESSION['arrangement_melding'] = "Du har enten ikke oppgitt en beskrivelse, eller beskrivelsen er for lang"; header("Location: arrangement.php?nyarrangement"); } // Innholdt tomt / for langt
+    } else { $_SESSION['arrangement_melding'] = "Du har enten ikke oppgitt en tittel, eller tittelen er for lang"; header("Location: arrangement.php?nyarrangement"); } // Tittel tomt / for langt
 }
 
 if(isset($_POST['inviterTil'])) {
@@ -161,17 +167,16 @@ if(isset($_POST['inviterTil'])) {
 
                 if($invitert > 0) {
                     header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&invitert");
-                } else {
-                    // Error 1
-                    header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
                 }
             } else {
                 // Error 1
-                header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
+                $_SESSION['arrangement_melding'] = "Feil oppsto ved invitasjon"; 
+                header("Location: arrangement.php?arrangement=" . $_GET['arrangement']);
             }
         } else {
-            // Error 1
-            header("location: arrangement.php?arrangement=" . $_GET['arrangement'] . "&error=1");
+            // Error 2
+            $_SESSION['arrangement_melding'] = "Fant ikke bruker ved invitering"; 
+            header("Location: arrangement.php?arrangement=" . $_GET['arrangement']);
         }
 
         
@@ -295,11 +300,16 @@ $tabindex = 8;
                 if(isset($_GET['nyarrangement'])) { ?>
                     Nytt arrangement
                 <?php } else if (isset($_GET['arrangement'])) {
-                    $hentTittelQ = "select eventnavn from event where idevent = " . $_GET['arrangement'];
+                    $hentTittelQ = "select eventnavn from event where idevent = " . $_GET['arrangement'] . " and 
+                        idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentTittelSTMT = $db -> prepare($hentTittelQ);
                     $hentTittelSTMT->execute();
                     $arrangement_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
-                    echo($arrangement_title['eventnavn']);
+                    if($arrangement_title) {
+                        echo($arrangement_title['eventnavn']);
+                    } else {
+                        echo("Arrangement ikke funnet");
+                    }
                 } else { ?>
                     Arrangementer
             <?php } ?>
@@ -331,7 +341,9 @@ $tabindex = 8;
        
             <?php if(isset($_GET['arrangement'])){
                 // Henter arrangementet bruker ønsker å se
-                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke 
+                    where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                        event.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $stmt = $db->prepare($hent);
                 $stmt->execute();
                 $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -351,7 +363,8 @@ $tabindex = 8;
                     <!-- -------------------------------- -->
                 <?php } else if(isset($_POST['paameldteBrukere'])) {
 
-                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
+                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'] . "  and 
+                        påmelding.bruker_id NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentPåmeldteSTMT = $db->prepare($hentPåmeldte);
                     $hentPåmeldteSTMT->execute();
                     $påmeldtBrukere = $hentPåmeldteSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -441,7 +454,8 @@ $tabindex = 8;
                                     <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                 <?php }
 
-                                $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] ;
+                                $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] . " and 
+                                    påmelding.bruker_id NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                                 $interesserteSTMT = $db->prepare($interesserte);
                                 $interesserteSTMT->execute();
                                 $antallInteresserte = $interesserteSTMT->rowCount();
@@ -561,17 +575,7 @@ $tabindex = 8;
                                 </form>
 
 
-                                <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                                    <section id="mldFEIL_boks">
-                                        <section id="mldFEIL_innhold">
-                                            <?php if($_GET['error'] == 1) { ?>
-                                                <p id="mldFEIL">Kunne ikke sende melding</p>
-                                            <?php } ?>
-                                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                                            <button id="mldFEIL_knapp">Lukk</button>
-                                        </section>
-                                    </section>
-                                <?php } else if(isset($_GET['invitert'])) { ?>
+                                <?php if(isset($_GET['invitert'])) { ?>
                                     <p id="mldOK">Invitasjon sendt</p>
                                 <?php }  ?>
                             
@@ -622,7 +626,8 @@ $tabindex = 8;
                                         <datalist id="brukere">
                                             <?php 
                                             // Henter brukernavn fra database
-                                            $hentNavnQ = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ")";
+                                            $hentNavnQ = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ") and 
+                                                idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                                             $hentNavnSTMT = $db->prepare($hentNavnQ);
                                             $hentNavnSTMT->execute();
                                             $liste = $hentNavnSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -673,33 +678,6 @@ $tabindex = 8;
                             <h2>Bilde</h2>
                             <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
 
-                            <?php if (isset($_GET['error']) && $_GET['error'] >= 1 && $_GET['error'] <= 6) { ?>
-                                <section id="mldFEIL_boks">
-                                    <section id="mldFEIL_innhold">
-                                        <?php if($_GET['error'] == 1){ ?>
-                                            <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
-                                    
-                                        <?php } else if($_GET['error'] == 2){ ?>
-                                            <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
-                                        
-                                        <?php } else if($_GET['error'] == 3) { ?>
-                                            <p id="mldFEIL">Oppgi en dato</p>
-
-                                        <?php } else if($_GET['error'] == 4){ ?>
-                                            <p id="mldFEIL">Datoen må være forover i tid</p>    
-
-                                        <?php } else if($_GET['error'] == 5){ ?>
-                                            <p id="mldFEIL">Adresse for lang eller ikke oppgitt</p>   
-
-                                        <?php } else if($_GET['error'] == 6){ ?>
-                                            <p id="mldFEIL">Fylke ikke oppgitt</p>    
-                                        <?php } ?>
-                                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                                        <button id="mldFEIL_knapp">Lukk</button>
-                                    </section>
-                                </section>
-                            <?php } ?>
-
                             <a href="arrangement.php" id="arrangement_lenke_knapp">Tilbake til arrangementer</a> 
                             <input id="arrangement_submitNy" type="submit" name="publiserArrangement" value="Opprett Arrangement">
                         </form> 
@@ -707,7 +685,10 @@ $tabindex = 8;
            <?php } else {
 
                 // Del for å vise alle arrangement 
-                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
+                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke 
+                    where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                        event.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))
+                    order by tidspunkt asc";
             
                 $stmtArr = $db->prepare($hentAlleArr);
                 $stmtArr->execute();
@@ -847,7 +828,15 @@ $tabindex = 8;
                 </section>
 
             <?php }?>
+            <!-- Håndtering av feilmeldinger -->
 
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($arrangement_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                <section id="mldFEIL_innhold">
+                    <p id="mldFEIL"><?php echo($arrangement_melding) ?></p>  
+                    <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                    <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                </section>  
+            </section>
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>

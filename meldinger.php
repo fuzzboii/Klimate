@@ -638,16 +638,8 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <?php } else if(isset($_GET['meldingslettet'])) { ?>
                     <p id="mldOK">Melding sendt til papirkurv</p>
 
-                <?php } ?>
-                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($meldinger_melding != "") { ?> style="display: block" <?php } ?>>
-                    <section id="mldFEIL_innhold">
-                        <p id="mldFEIL"><?php echo($meldinger_melding) ?></p>  
-                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
-                    </section>  
-                </section>
-
-                <?php
+                <?php } 
+                
                 $tabMld = 10;
                 $tabSoppel = 11;
 
@@ -748,6 +740,14 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <form method="POST" id="meldinger_form_ny" action="meldinger.php">
                     <input type="submit" id="meldinger_nyKnapp" name="ny" title="Skriv en ny melding"  value="Ny melding">
                 </form>
+                
+                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($meldinger_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                    <section id="mldFEIL_innhold">
+                        <p id="mldFEIL"><?php echo($meldinger_melding) ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                    </section>  
+                </section>
 
             </main>
 

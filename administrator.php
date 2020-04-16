@@ -7,8 +7,6 @@ session_start();
 include("inkluderes/innstillinger.php");
 
 
-
-
 // Browser må validere cache med server før cached kopi kan benyttes
 // Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
 //header("Cache-Control: no cache");
@@ -194,7 +192,6 @@ if(isset($_GET['slettregel'])) {
     } else {
         header("location: administrator.php");
     }
-
     $filpath = "regler.html";
     // Bruker unlink() function for å slette filen regler.html
     unlink($filpath);
@@ -855,7 +852,7 @@ if(isset($_POST['endreBrukertype'])) {
 
             <!-- Håndtering av feilmeldinger -->
 
-            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($admin_melding != "") { ?> style="display: block" <?php } ?>>
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($admin_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
                 <section id="mldFEIL_innhold">
                     <p id="mldFEIL"><?php echo($admin_melding) ?></p>  
                     <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
@@ -872,7 +869,8 @@ if(isset($_POST['endreBrukertype'])) {
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
-<?php include("inkluderes/lagFil_regler.php"); ?>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
+
 <!-- Denne siden er utviklet av Glenn Petter Pettersen og Robin Kleppang, siste gang endret 06.03.2020 -->
 <!-- Denne siden er kontrollert av , siste gang 06.03.2020 -->
 </html>

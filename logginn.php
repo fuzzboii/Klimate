@@ -191,7 +191,7 @@ if (isset($_POST['submit'])) {
                 <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
             </form>
                 
-            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($logginn_melding != "") { ?> style="display: block" <?php } ?>>
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($logginn_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
                 <section id="mldFEIL_innhold">
                     <p id="mldFEIL"><?php echo($logginn_melding) ?></p>  
                     <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->

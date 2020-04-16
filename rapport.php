@@ -39,6 +39,14 @@ if (!isset($_SESSION['idbruker'])) {
     header("Location: default.php");
 }
 
+// Hent alle rapporterte brukere
+if ($_GET['rapport'] == "Alle brukere") {
+    $hentRapporterte = "select * from brukerrapport";
+    $stmtHentRapporterte = $db->prepare($hentRapporterte);
+    $stmtHentRapporterte->execute();
+    $rapporterteBrukere = $stmtHentRapporterte -> fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -58,7 +66,7 @@ if (!isset($_SESSION['idbruker'])) {
     <script language="JavaScript" src="javascript.js"> </script>
 </head>
 
-<body id="rapport_body" onclick="lukkMelding('mldFEIL_boks')">
+<body id="rapport_body">
     <?php include("inkluderes/navmeny.php") ?>
 
     <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -71,20 +79,21 @@ if (!isset($_SESSION['idbruker'])) {
     <main onclick="lukkHamburgerMeny()">
     <!-- IF-testing på hva bruker ønsker å vise -->
         <!-- Alle brukere -->
-        <?php if($_POST['rapport'] == "Alle brukere") { ?>
-            <h2>Alle brukere</h2>
+        <?php if($_GET['rapport'] == "Alle brukere") { ?>
+            <h2>Alle rapporterte brukere</h2>
         
         <!-- Spesifikk bruker -->
-        <?php } elseif($_POST['rapport'] == "Spesifikk bruker") { ?>
+        <?php } elseif($_GET['rapport'] == "Spesifikk bruker") { ?>
             <h2>Spesifikk bruker</h2>
         
         <!-- Eksklusjoner -->
-        <?php } elseif($_POST['rapport'] == "Eksklusjoner") { ?>
+        <?php } elseif($_GET['rapport'] == "Eksklusjoner") { ?>
             <h2>Eksklusjoner</h2>
 
         <!-- Advarsler -->
-        <?php } elseif($_POST['rapport'] == "Advarsler") { ?>
+        <?php } elseif($_GET['rapport'] == "Advarsler") { ?>
             <h2>Advarsler</h2>
+
         <?php } ?>
     </main>
     <?php include("inkluderes/footer.php") ?>

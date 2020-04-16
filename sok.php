@@ -6,7 +6,6 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
-
 // tabindex som skal brukes til å bestemme startpunkt i søkeresultat, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 7;
 
@@ -65,7 +64,8 @@ $tabindex = 7;
                 /* ---------------------------------- */
                 
                 $sokPaaBr = "select idbruker, brukernavn from bruker, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'
-                                and visepost = '1' and bruker.idbruker = preferanse.bruker";
+                                and visepost = '1' and bruker.idbruker = preferanse.bruker and 
+                                    idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'];
 
 
@@ -75,7 +75,8 @@ $tabindex = 7;
                 /* Del for søk på kun brukernavn */
                 /* ----------------------------- */
             
-                $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' order by brukernavn ASC";
+                $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and 
+                    idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'];
 
 
@@ -86,7 +87,8 @@ $tabindex = 7;
                 /* ------------------------ */
 
                 $sokPaaBr = "select idbruker, brukernavn from bruker, preferanse where epost = '" . $_GET['epost'] . "' 
-                                and visepost = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visepost = '1' and bruker.idbruker = preferanse.bruker and 
+                                    idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['epost'];
                     
                 
@@ -97,7 +99,8 @@ $tabindex = 7;
                 /* --------------------------------------------- */
 
                 $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
-                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker and 
+                                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'] . ", " . $_GET['interesse'];
                     
                 
@@ -108,7 +111,8 @@ $tabindex = 7;
                 /* ------------------------------------------ */
 
                 $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
-                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker and 
+                                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['interesse']; 
 
                 
@@ -119,7 +123,8 @@ $tabindex = 7;
                 /* ------------------------------------- */
 
                 $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
-                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker and 
+                                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['epost'] . ", " . $_GET['interesse']; 
 
                 
@@ -130,7 +135,8 @@ $tabindex = 7;
                 /* ---------------------------- */
 
                 $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse
-                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker and 
+                                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['interesse']; 
 
                 
@@ -265,7 +271,8 @@ $tabindex = 7;
                 /* Del for søk på kun tittel */
                 /* ------------------------- */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
 
@@ -275,7 +282,8 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel og forfatter */
                 /* ------------------------------------------------- */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'] . ", " . $_GET['artForfatter'];
 
 
@@ -285,7 +293,8 @@ $tabindex = 7;
                 /* Del for søk på tittel */
                 /* --------------------- */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
 
@@ -295,7 +304,8 @@ $tabindex = 7;
                 /* Del for søk på forfatter */
                 /* ------------------------ */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artForfatter'];
 
                 
@@ -467,7 +477,8 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel, dato og fylke */
                 /* --------------------------------------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'] . ", " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
@@ -476,7 +487,8 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel og dato */
                 /* -------------------------------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                 bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] == "")) {
@@ -485,7 +497,8 @@ $tabindex = 7;
                 /* Del for søk på tittel */
                 /* --------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] != "")) {
@@ -494,7 +507,8 @@ $tabindex = 7;
                 /* Del for søk på dato og fylke */
                 /* -----------------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'] . ", " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
@@ -503,7 +517,8 @@ $tabindex = 7;
                 /* Del for søk på fylke */
                 /* ---------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
@@ -512,7 +527,8 @@ $tabindex = 7;
                 /* Del for søk på dato */
                 /* --------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
@@ -521,7 +537,8 @@ $tabindex = 7;
                 /* Del for søk på tittel og fylke */
                 /* -------------------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['fylke'];
 
             }
@@ -675,17 +692,6 @@ $tabindex = 7;
             <!-- Del for avansert søk -->
             <header class="sok_header" onclick="lukkHamburgerMeny()">
                 <h2>Avansert søk</h2>
-                <?php if (isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
-                    <section id="mldFEIL_boks">
-                        <section id="mldFEIL_innhold">
-                            <?php if(isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
-                                <p id="mldFEIL">Vennligst søk etter en bruker først</p>
-                            <?php } ?>
-                            <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                            <button id="mldFEIL_knapp">Lukk</button>
-                        </section>
-                    </section>
-                <?php } ?>
             </header>
             <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                 <section id="sok_seksjon"> 
@@ -771,18 +777,7 @@ $tabindex = 7;
                         <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex ="10">Søk etter arrangement</button>
                     </form>
                 </section>
-            <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                <section id="mldFEIL_boks">
-                    <section id="mldFEIL_innhold">
-                        <?php if($_GET['error'] == 1){ ?>
-                            <p id="mldFEIL">Vennligst oppgi noen verdier å søke på</p>
-                        <?php } ?>
-                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                        <button id="mldFEIL_knapp">Lukk</button>
-                    </section>
-                </section>
-            <?php } 
-        } ?>
+            <?php } ?>
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
