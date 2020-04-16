@@ -363,7 +363,8 @@ $tabindex = 8;
                     <!-- -------------------------------- -->
                 <?php } else if(isset($_POST['paameldteBrukere'])) {
 
-                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'];
+                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'] . "  and 
+                        påmelding.bruker_id NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentPåmeldteSTMT = $db->prepare($hentPåmeldte);
                     $hentPåmeldteSTMT->execute();
                     $påmeldtBrukere = $hentPåmeldteSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -453,7 +454,8 @@ $tabindex = 8;
                                     <img id="arrangement_fullSizeBilde" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                 <?php }
 
-                                $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] ;
+                                $interesserte = "select event_id, bruker_id, interessert from påmelding where not interessert='Kan ikke' and event_id=" . $_GET['arrangement'] . " and 
+                                    påmelding.bruker_id NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                                 $interesserteSTMT = $db->prepare($interesserte);
                                 $interesserteSTMT->execute();
                                 $antallInteresserte = $interesserteSTMT->rowCount();
@@ -624,7 +626,8 @@ $tabindex = 8;
                                         <datalist id="brukere">
                                             <?php 
                                             // Henter brukernavn fra database
-                                            $hentNavnQ = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ")";
+                                            $hentNavnQ = "select idbruker, brukernavn from bruker where not exists(select * from påmelding where idbruker=bruker_id and event_id=" . $_GET['arrangement'] . ") and 
+                                                idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                                             $hentNavnSTMT = $db->prepare($hentNavnQ);
                                             $hentNavnSTMT->execute();
                                             $liste = $hentNavnSTMT->fetchAll(PDO::FETCH_ASSOC);
