@@ -373,7 +373,36 @@ if ($tellingArrangement > 0) {
     $arrangementProfil = $stmtArrangementProfil->fetchAll(PDO::FETCH_ASSOC);
 } else $arrangementProfil = null;
 
+//--------------------------//
+// Rapportering av brukere //
+//-------------------------//
 
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt
+$input_rapBeskrivelse = "";
+
+if (isset($_SESSION['input_rapBeskrivelse'])) {
+    // Legger innhold i variable som leses senere på siden
+    $input_rapBeskrivelse = $_SESSION['input_rapBeskrivelse'];
+    // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+    unset($_SESSION['input_rapBeskrivelse']);
+}
+
+if (isset($_POST['subRapportering'])) {
+    $_SESSION['input_rapBeskrivelse'] = $_POST['rapBeskrivelse'];
+
+    if ($_POST['rapBeskrivelse'] != "") {
+
+        // Sanitiserer innholdet før det blir lagt i databasen
+        $rapBeskrivelse = filter_var($_POST['rapBeskrivelse'], FILTER_SANITIZE_STRING);
+
+        // Spørringen som oppretter arrangementet
+        $nyRapporteringQ = "insert into brukerrapport(tekst, rapportertbruker, rapportertav, dato) values('" . $rapBeskrivelse . "', '" . $_GET['bruker'] . "', '" . 
+                            $_SESSION['idbruker'] . ", " . "NOW()" . "')";
+        $nyRapporteringSTMT = $db->prepare($nyRapporteringQ);
+        $nyRapporteringSTMT->execute();
+    }
+
+}
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 10;
 
@@ -636,9 +665,12 @@ $tabindex = 10;
                             <section id="profil_rapporterBrukerInnhold">
                                 <h2>Rapporter bruker</h2>
                                 
-                                <section class="profil_rapporterInnhold" >
-                                    <textarea form="profilForm" name="rapporterBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" autofocus required></textarea>
-                                    <button class="profil_rapporterKnappVindu" onclick="lastOppProfil()">Rapporter</button>
+                                <section class="profil_rapporterInnhold">
+                                    <form method="POST" action="profil.php" enctype="multipart/form-data">
+                                        <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
+                                        <!-- Knapp for å rapportere bruker -->
+                                        <input type="submit" name="subRapportering" class="profil_rapporterKnappVindu" value="Rapporter">
+                                    </form>
                                 </section>
 
                                 <button id="profil_rapporterAvbrytKnapp" onclick="bekreftMelding('profil_rapporterBruker')">Avbryt</button>
