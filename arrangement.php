@@ -685,7 +685,10 @@ $tabindex = 8;
            <?php } else {
 
                 // Del for å vise alle arrangement 
-                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke order by tidspunkt asc";
+                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke 
+                    where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                        event.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))
+                    order by tidspunkt asc";
             
                 $stmtArr = $db->prepare($hentAlleArr);
                 $stmtArr->execute();
