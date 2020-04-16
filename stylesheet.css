@@ -1312,6 +1312,11 @@ footer a {
   flex-direction: column;
 }
 
+#artikkel_ikkefunnet {
+  margin-top: 2em;
+  text-align: center;
+}
+
 /* Style for artikkel redaktørpanel */
 #artikkel_redpanel {
   display: grid;

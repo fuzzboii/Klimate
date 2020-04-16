@@ -269,15 +269,19 @@ $tabindex = 8;
         
             <?php if(isset($_GET['artikkel'])){
                 // Henter artikkelen bruker ønsker å se
-                $hent = "select * from artikkel, bruker where bruker=idbruker and idartikkel = " . $_GET['artikkel'];
+                $hent = "select * from artikkel, bruker where bruker=idbruker and idartikkel = " . $_GET['artikkel'] . " and 
+                    artikkel.bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) ";
                 $stmt = $db->prepare($hent);
                 $stmt->execute();
                 $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
                 $antallArtikkel = $stmt->rowCount();
                 // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe artikkel med denne artikkelid i databasen
+                ?>
+                <main id="artikkel_main" style="margin-top: 6em;"onclick="lukkHamburgerMeny()">
+                <?php
                 if ($antallArtikkel == 0) { ?>
                     <!-- Del for å vise feilmelding til bruker om at artikkel ikke eksisterer -->
-                    <h1>Artikkel ikke funnet</h1>
+                    <h1 id="artikkel_ikkefunnet">Artikkel ikke funnet</h1>
                 <?php } else { 
                     // ------------------------------ artikler som er klikket på -----------------------------
                     // Del for å vise en spesifik artikkel
@@ -290,7 +294,6 @@ $tabindex = 8;
                     ?>
                     <!--  -->
                     <!-- Innholdet i påklikket artikkel -->
-                    <main id="artikkel_main" style="margin-top: 6em;"onclick="lukkHamburgerMeny()">
                     <!-- rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen -->
                     <?php if ($antallBilderFunnet != 0) { ?>
                         <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
@@ -373,7 +376,8 @@ $tabindex = 8;
                         <section id="artikkel_kommentarOversikt"> 
                             <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
                             <?php
-                                $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
+                                $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'] ." and 
+                                    bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                                 $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
                                 $hentAntallKommentarerSTMT->execute();
                                 $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
@@ -393,15 +397,16 @@ $tabindex = 8;
                                 <!-- Henter kommentarer -->
                                 <?php
                                     $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
-                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'] . " order by tid DESC";
+                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'] . " and 
+                                                    bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) 
+                                                        order by tid DESC";
                                     $hentKommentarSTMT = $db->prepare($hentKommentar);
                                     $hentKommentarSTMT->execute();
                                     $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
                                     
-                                    <?php for($i = 0; $i < count($kommentarer); $i++) {?>
-                                        <section id="artikkel_kommentarBoks">
-                                                                                        
+                                    <?php for($i = 0; $i < count($kommentarer); $i++) { ?>
+                                        <section id="artikkel_kommentarBoks">                
                                             <!-- Henter profilbilde, brukernavn, tid, og tekst for kommentaren-->
                                             <?php
                                             $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
@@ -453,29 +458,42 @@ $tabindex = 8;
                                 <!-- Henter kommentarer -->
                                 <?php
                                     $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
-                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
+                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'] . " and 
+                                                    bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) 
+                                                        order by tid DESC";
                                     $hentKommentarSTMT = $db->prepare($hentKommentar);
                                     $hentKommentarSTMT->execute();
                                     $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
                                     
-                                    <?php for($i = 0; $i < count($kommentarer); $i++) {?>
-                                        <section id="artikkel_kommentarBoks">
-                                            <?php
-                                            $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
-                                            $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
-                                            $brukerbildeSTMT -> execute();
-                                            $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
-                                            ?>
-                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
-                                            <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
-                                            <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
-                                            
-                                            <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>...</p>
-                                            <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
-                                            <p class="kommentar_lesknapp">Les mer</p>
-                                        </section>
-                                    <?php } ?>    
+                                    <?php for($i = 0; $i < count($kommentarer); $i++) {
+
+                                        // Sjekker om bruker er utestengt
+                                        $hentEksklusjonQ = "select grunnlag, datotil from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
+                                        $hentEksklusjonSTMT = $db -> prepare($hentEksklusjonQ);
+                                        $hentEksklusjonSTMT -> bindparam(":bruker", $kommentarer[$i]["bruker"]);
+                                        $hentEksklusjonSTMT -> execute();
+
+                                        $antEks = $hentEksklusjonSTMT -> rowCount();
+
+                                        if($antEks == 0) { ?>
+                                            <section id="artikkel_kommentarBoks">
+                                                <?php
+                                                $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
+                                                $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
+                                                $brukerbildeSTMT -> execute();
+                                                $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
+                                                ?>
+                                                <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">
+                                                <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
+                                                <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
+                                                
+                                                <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>...</p>
+                                                <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
+                                                <p class="kommentar_lesknapp">Les mer</p>
+                                            </section>
+                                    <?php }
+                                    } ?>    
                             </section> 
                             <?php } ?>
 
@@ -538,7 +556,9 @@ $tabindex = 8;
                 // Del for å vise alle artikler 
                 $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, tid, brukernavn, enavn, fnavn, bruker
                                 FROM artikkel, bruker
-                                WHERE bruker=idbruker order by idartikkel desc";
+                                WHERE bruker=idbruker  and 
+                                    bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) 
+                                order by idartikkel desc";
             
                 $stmtArt = $db->prepare($hentAlleArt);
                 $stmtArt->execute();
