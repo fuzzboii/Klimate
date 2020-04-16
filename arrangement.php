@@ -300,11 +300,16 @@ $tabindex = 8;
                 if(isset($_GET['nyarrangement'])) { ?>
                     Nytt arrangement
                 <?php } else if (isset($_GET['arrangement'])) {
-                    $hentTittelQ = "select eventnavn from event where idevent = " . $_GET['arrangement'];
+                    $hentTittelQ = "select eventnavn from event where idevent = " . $_GET['arrangement'] . " and 
+                        idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentTittelSTMT = $db -> prepare($hentTittelQ);
                     $hentTittelSTMT->execute();
                     $arrangement_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
-                    echo($arrangement_title['eventnavn']);
+                    if($arrangement_title) {
+                        echo($arrangement_title['eventnavn']);
+                    } else {
+                        echo("Arrangement ikke funnet");
+                    }
                 } else { ?>
                     Arrangementer
             <?php } ?>
@@ -336,7 +341,9 @@ $tabindex = 8;
        
             <?php if(isset($_GET['arrangement'])){
                 // Henter arrangementet bruker ønsker å se
-                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $hent = "select idevent, eventnavn, eventtekst, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, epost, telefonnummer, fylkenavn from event, bruker, fylke 
+                    where idevent = '" . $_GET['arrangement'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                        event.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $stmt = $db->prepare($hent);
                 $stmt->execute();
                 $arrangement = $stmt->fetch(PDO::FETCH_ASSOC);
