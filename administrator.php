@@ -7,6 +7,8 @@ session_start();
 include("inkluderes/innstillinger.php");
 
 
+
+
 // Browser må validere cache med server før cached kopi kan benyttes
 // Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
 //header("Cache-Control: no cache");
@@ -863,7 +865,7 @@ if(isset($_POST['endreBrukertype'])) {
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
-
+<?php include("inkluderes/lagFil_regler.php"); ?>
 <!-- Denne siden er utviklet av Glenn Petter Pettersen og Robin Kleppang, siste gang endret 06.03.2020 -->
 <!-- Denne siden er kontrollert av , siste gang 06.03.2020 -->
 </html>

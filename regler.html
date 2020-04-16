@@ -1,0 +1,62 @@
+<DOCTYPE html>
+                <html>
+                    <head>
+                        <meta charset='UTF-8'>
+                        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                        <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
+                        <script language='JavaScript' src='javascript.js'> </script>
+                        <link rel='stylesheet' type='text/css' href='stylesheet.css'>
+                        
+                        <title>Tatt imot!</title>
+                    </head><body>
+                <main class='regler_innhold'><nav class='navTop'>
+                    <a class='bildeKontroll' href='javascript:void(0)' onclick='hamburgerMeny()' tabindex='6'>
+                        <img src='bilder/hamburgerIkon.svg' alt='Hamburger-menyen' class='hamburgerKnapp'>
+                    </a><a class='bildeKontroll' href='javascript:void(0)' onClick=location.href='profil.php?bruker=1' tabindex='5'><img src='bilder/opplastet/thumb_bruker1.jpeg' alt='Profilbilde'  class='profil_navmeny' style='border: 2px solid red;'></a><form id='loggUtKnappForm' method='POST' action='default.php'>
+                    <button name='loggUt' id='registrerKnapp' tabindex='4'>LOGG UT</button>
+                </form><form id='sokForm_regler' action='sok.php'>
+                    <input id='sokBtn_navmeny' type='submit' value='' tabindex='3'>
+                    <input id='sokInp_navmeny' type='text' name='artTittel' placeholder='Søk på artikkel' tabindex='2>
+                </form>
+
+                <a href='javascript:void(0)' onClick=location.href='sok.php' tabindex='-1'>
+                    <img src='bilder/sokIkon.png' alt='Søkeikon' class='sok_navmeny' tabindex='2'>
+                </a> <a href='default.php' tabindex='1'>
+                        <img class='Logo_navmeny' src='bilder/klimateNoText.png' alt='Klimate logo'>
+                    </a>
+                </nav><section id='navMeny' class='hamburgerMeny' onclick='lukkHamburgerMeny()'>
+                    <section class='avbrySeksjon'>
+                        <img class='xikon' src='bilder/xikon.png'>   
+                    </section>
+                        <section class='hamburgerInnhold'>
+                        <a class = 'menytab' tabIndex = '-1' href='administrator.php' style='margin-bottom: 0.2em; font-weight: bold;'>Administrator innstillinger</a>
+                        <a class = 'menytab' tabIndex = '-1' href='backend.php'>Min oversikt</a>
+                        <a class = 'menytab' tabIndex = '-1' href='arrangement.php'>Arrangementer</a>
+                        <a class = 'menytab' tabIndex = '-1 href='artikkel.php'>Artikler</a>
+                        <a class = 'menytab' tabIndex = '-1' href='meldinger.php'>Innboks</a>
+                        <a class = 'menytab' tabIndex = '-1' href='profil.php?bruker=1'>Profil</a>
+                        <a class = 'menytab' tabIndex = '-1' href='konto.php'>Konto</a>
+                        <a class = 'menytab' tabIndex = '-1' href='sok.php'>Avansert Søk</a>
+                        <a class = 'menytab' tabIndex = '-1' href='regler.html'>Regler</a>
+                        </section>
+                </section><header class='backend_header' onclick='lukkHamburgerMeny()'>
+                    <h1 class='velkomst'>Regler</h1>
+                </header>
+
+                <article id='regler_main'>
+                <ol class='reglerdata'>
+                <li>Alle innlegg som blir postet hos Klimate skal være passende for alle i alle aldere.</li>
+                <li>Krenkelser, frekke kommentarer, slemme/støtende eller rasistiske innlegg hos Klimate er ikke tillat.</li>
+                <li>Du skal ikke bruke forumet som ett salgssted.</li>
+                <li>Du skal ikke oppgi deg for å være noen andre enn du er.</li>
+                <li>Navnet skal være respektfullt for alle, og skal ikke inneholde noe form for krenkelser eller rasisme.</li>
+                <li>NB! Ovetredelser av disse reglene kan føre til at meldinger/innlegg blir slettet, du får en advarsel eller blir bannet fra forumet. </li>
+                <li>I alle overnevnte tilfeller vil vedkommende bruker bli informert pr. PM eller e-post om beslutningen som er tatt, og de har rett til å klage på beslutningen. Klagen vil bli behandlet i styret i Klimate.</li></ol>
+                </article>
+                </main>
+               
+                <footer>
+                    <p class=footer_beskrivelse>&copy; Klimate 2020 | <a href='mailto:kontakt@klimate.no'>Kontakt oss</a></p>
+                </footer>
+                </body>
+                </html>

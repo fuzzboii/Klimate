@@ -69,7 +69,7 @@ $tabindex = 10;
     </head>
 
 
-    <body id="backend_body"> 
+    <body id='backend_body'> 
         <?php include("inkluderes/navmeny.php") ?>
             
             <!-- Profilbilde med planlagt "Velkommen *Brukernavn hentet fra database*" -->
