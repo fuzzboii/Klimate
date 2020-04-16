@@ -28,6 +28,18 @@ if (!isset($_GET['bruker'])) {
     }
 }
 
+// Sjekker om brukeren er utestengt, sender til egen profil om dette skjer
+$sjekkUtestengelseQ = "select bruker from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
+$sjekkUtestengelseSTMT = $db -> prepare($sjekkUtestengelseQ);
+$sjekkUtestengelseSTMT -> bindParam(":bruker", $_GET['bruker']);
+$sjekkUtestengelseSTMT -> execute();
+$utestengt = $sjekkUtestengelseSTMT -> fetch(PDO::FETCH_ASSOC);
+
+if($utestengt) {
+    header("Location: profil.php?bruker=" . $_SESSION['idbruker']);
+}
+
+
 // -------------------- //
 // Oppdater profilbilde //
 // -------------------- //
