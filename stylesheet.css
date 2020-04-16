@@ -3094,7 +3094,7 @@ table {
 }
 
 .profil_rapporterFlaggIkon {
-  height: 1.5em;
+  height: 1.9em;
   float: right;
   margin-right: 0.2em;
   margin-bottom: 0.2em;
@@ -3313,6 +3313,10 @@ table {
   resize: none;
 }
 
+.profil_rapporterInnhold p {
+  font-size: 0.6em;
+  padding-bottom: 2em;
+}
 
 
 
