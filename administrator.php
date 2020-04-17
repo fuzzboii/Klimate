@@ -82,13 +82,11 @@ if (isset($_POST['subRegistrering'])) {
                     $storebokstaver = preg_match('@[A-Z]@', $pw);
                     $smaabokstaver = preg_match('@[a-z]@', $pw);
                     $nummer = preg_match('@[0-9]@', $pw);
-                    // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-                    // $spesielleB = preg_match('@[^\w]@', $pw);
 
                     if ($pw == "") {
                         // Ikke noe passord skrevet
                         $_SESSION['admin_melding'] = "Oppgi et passord";
-                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer || strlen($pw) < 8) {
                         // Ikke tilstrekkelig passord skrevet
                         $_SESSION['admin_melding'] = "Minimum 8 tegn, 1 liten og 1 stor bokstav";
                     } else {
