@@ -18,7 +18,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
                         "\n\t\t<title>Regler</title>" .
                     "\n\t</head>");
     //Body og main start-tag
-    fwrite($handle,"\n\t<body>");
+    fwrite($handle,"\n\t<body id='regler_body'>");
 
     //Navmeny-bar og hamburgermeny
     fwrite($handle,"\n\t\t<nav class='navTop'>\n\t\t\t<a class='bildeKontroll' href='javascript:void(0)' onclick='hamburgerMeny()' tabindex='6'>" .
@@ -107,7 +107,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
     fwrite($handle,"\n\t\t\t<a href='../default.php' tabindex='1'>" . 
                         "\n\t\t\t\t<img class='Logo_navmeny' src='../bilder/klimateNoText.png' alt='Klimate logo'>" . 
                     "\n\t\t\t</a>" .
-                    "\n\t\t</nav>\n\t\t<main id='regler_innhold' onclick='lukkHamburgerMeny()'>");
+                    "\n\t\t</nav>\n\t\t<main onclick='lukkHamburgerMeny()'>");
 
                     
     //Rullegardin, tester på om brukeren er admin
@@ -151,7 +151,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
     fwrite($handle,"\n\t\t\t<header class='backend_header' onclick='lukkHamburgerMeny()'>" .
                         "\n\t\t\t\t<h1 class='velkomst'>Regler</h1>" .
                     "\n\t\t\t</header>" .
-                    "\n\t\t\t<article id='regler_main'>" .
+                    "\n\t\t\t<article id='regler_article'>" .
                         "\n\t\t\t\t<ol class='reglerdata'>");
 
     foreach($regler as $rad) {           
