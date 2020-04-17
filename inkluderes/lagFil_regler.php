@@ -173,7 +173,5 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
                     "\n\t</body>" .
                     "\n</html>");
     fclose($handle);
-} else {
-
 }
 ?>
