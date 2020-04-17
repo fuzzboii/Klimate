@@ -5226,6 +5226,11 @@ input:checked + .slider:before {
     padding: 0;
   }
 
+/* Rapportering innhold Pop-up vindu*/
+  .profil_rapporterInnhold p {
+    font-size: 0.8em;
+  }
+
   /*----------------------*/
   /* Del for adminpanelet */
   /*----------------------*/

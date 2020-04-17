@@ -707,7 +707,7 @@ $tabindex = 10;
                                     <section class="profil_rapporterInnhold">
                                         <form method="POST" action="profil.php?bruker=<?php echo($_GET['bruker'])?>">
                                             <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
-                                            <p>Din rapportering blir registrert med brukernavnet ditt og vedkommende det gjelder. Rapporteringen blir behandlet av en administrator</p>
+                                            <p>Din rapportering blir registrert med brukernavnet ditt og vedkommende det gjelder. Rapporteringen blir behandlet av en administrator.</p>
                                             <!-- Knapp for å rapportere bruker -->
                                             <input type="submit" name="subRapportering" class="profil_rapporterKnappVindu" value="Rapporter">
                                         </form>
