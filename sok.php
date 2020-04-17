@@ -39,7 +39,7 @@ $tabindex = 7;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="sok_body" onclick="lukkMelding('mldFEIL_boks')" onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp'), sokTabbing()" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
+    <body id="sok_body" onload="sokRullegardin(), hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp'), sokTabbing()" onresize="hentSide('side_sok', 'sok_tilbKnapp', 'sok_nesteKnapp')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- Start på PHP IF-ELSE som utgjør siden -->
