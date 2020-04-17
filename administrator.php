@@ -31,9 +31,9 @@ if (!isset($_SESSION['idbruker'])) {
     $administratorer = $hentAdminSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($administratorer as $admin) {
-        $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) values('Oppdaget misbruk', 'Automatisk misbruk oppdaget, bruker forsøkte nå Admin-panelet.', NOW(), 0, :sender, :mottaker)";
+        $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) values('Oppdaget misbruk', 'Automatisk misbruk oppdaget, " . $_SESSION['brukernavn'] . " forsøkte nå Admin-panelet.', NOW(), 0, :sender, :mottaker)";
         $nyMeldingSTMT = $db->prepare($nyMeldingQ);
-        $nyMeldingSTMT -> bindparam(":sender", $_SESSION['idbruker']);
+        $nyMeldingSTMT -> bindparam(":sender", $admin['idbruker']);
         $nyMeldingSTMT -> bindparam(":mottaker", $admin['idbruker']);
         $nyMeldingSTMT->execute();
     }
