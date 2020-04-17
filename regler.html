@@ -9,28 +9,28 @@
 		<title>Regler</title>
 	</head>
 	<body>
+		<nav class='navTop'>
+			<a class='bildeKontroll' href='javascript:void(0)' onclick='hamburgerMeny()' tabindex='6'>
+				<img src='bilder/hamburgerIkon.svg' alt='Hamburger-menyen' class='hamburgerKnapp'>
+			</a>
+			<a class='bildeKontroll' href='javascript:void(0)' onClick=location.href='profil.php?bruker=2' tabindex='5'>
+				<img src='bilder/opplastet/bruker2.png' alt='Profilbilde'  class='profil_navmeny' style='border: 2px solid red;'>
+			</a>
+			<form id='loggUtKnappForm' method='POST' action='default.php'>
+				<button name='loggUt' id='registrerKnapp' tabindex='4'>LOGG UT</button>
+			</form>
+			<form id='sokForm_regler' action='sok.php'>
+				<input id='sokBtn_navmeny' type='submit' value='' tabindex='3'>
+				<input id='sokInp_navmeny' type='text' name='artTittel' placeholder='Søk på artikkel' tabindex='2'>
+			</form>
+			<a href='javascript:void(0)' onClick=location.href='sok.php' tabindex='-1'>
+				<img src='bilder/sokIkon.png' alt='Søkeikon' class='sok_navmeny' tabindex='2'>
+			</a>
+			<a href='default.php' tabindex='1'>
+				<img class='Logo_navmeny' src='bilder/klimateNoText.png' alt='Klimate logo'>
+			</a>
+		</nav>
 		<main id='regler_innhold' onclick='lukkHamburgerMeny()'>
-			<nav class='navTop'>
-				<a class='bildeKontroll' href='javascript:void(0)' onclick='hamburgerMeny()' tabindex='6'>
-					<img src='bilder/hamburgerIkon.svg' alt='Hamburger-menyen' class='hamburgerKnapp'>
-				</a>
-				<a class='bildeKontroll' href='javascript:void(0)' onClick=location.href='profil.php?bruker=2' tabindex='5'>
-					<img src='bilder/opplastet/bruker2.png' alt='Profilbilde'  class='profil_navmeny' style='border: 2px solid red;'>
-				</a>
-				<form id='loggUtKnappForm' method='POST' action='default.php'>
-					<button name='loggUt' id='registrerKnapp' tabindex='4'>LOGG UT</button>
-				</form>
-				<form id='sokForm_regler' action='sok.php'>
-					<input id='sokBtn_navmeny' type='submit' value='' tabindex='3'>
-					<input id='sokInp_navmeny' type='text' name='artTittel' placeholder='Søk på artikkel' tabindex='2'>
-				</form>
-				<a href='javascript:void(0)' onClick=location.href='sok.php' tabindex='-1'>
-					<img src='bilder/sokIkon.png' alt='Søkeikon' class='sok_navmeny' tabindex='2'>
-				</a>
-				<a href='default.php' tabindex='1'>
-					<img class='Logo_navmeny' src='bilder/klimateNoText.png' alt='Klimate logo'>
-				</a>
-			</nav>
 			<section id='navMeny' class='hamburgerMeny' onclick='lukkHamburgerMeny()'>
 				<section class='avbrySeksjon'>
 					<img class='xikon' src='bilder/xikon.png'>
@@ -53,8 +53,7 @@
 			<article id='regler_main'>
 				<ol class='reglerdata'>
 					<li>Alle innlegg som blir postet hos Klimate skal være passende for alle i alle aldere.</li>
-					<li>Du skal ikke spise gris</li>
-					<li>Heisann hoppsann</li>
+					<li>Test</li>
 				</ol>
 			</article>
 		</main>
