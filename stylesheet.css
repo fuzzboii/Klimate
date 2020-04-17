@@ -3162,7 +3162,7 @@ table {
   font-size: 0.7em;
   cursor: pointer;
   font-weight: bold;
-  color: red;
+  color: rgb(255,102,102);
   font-family: Helvetica, Arial, sans-serif;
   float: right;
   text-transform: uppercase;
@@ -5225,9 +5225,14 @@ input:checked + .slider:before {
     padding: 0;
   }
 
-/* Rapportering innhold Pop-up vindu*/
+  /* Rapportering innhold Pop-up vindu */
   .profil_rapporterInnhold p {
     font-size: 0.8em;
+  }
+
+  /* Rapporter knapper */
+  .profil_rapporterKnapp:hover {
+    color: red;
   }
 
   /*----------------------*/
