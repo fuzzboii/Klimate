@@ -148,11 +148,16 @@ function fiksRullegardin() {
 // Åpner en bekreftelses-boks for å avregistrere og slette arrangement / artikler
 function bekreftMelding(element) {
   var knapp = document.getElementById(element);
+  var scroll = document.getElementById('stoppScroll');
+  
 
   if (knapp.style.display == 'none') {
     knapp.style.display = 'block';
+    scroll.style.overflow = 'hidden';
+
   } else {
     knapp.style.display = 'none';
+    scroll.style.overflow = 'visible';
   }
   
   document.body.scrollTop = 0;

@@ -461,7 +461,7 @@ $tabindex = 10;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body onload="profilTabbing()"> 
+    <body id="stoppScroll" onload="profilTabbing()"> 
         <article class="innhold">
             <?php include("inkluderes/navmeny.php") ?>
 
