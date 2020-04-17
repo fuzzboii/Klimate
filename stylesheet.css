@@ -13,7 +13,7 @@ html, body {
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------- */
 /* Style for html-dokumentet */
-.regler_innhold {
+#regler_innhold {
   min-height: 100%;
   display: flex;
   flex-direction: column;
