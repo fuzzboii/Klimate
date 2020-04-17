@@ -8,8 +8,8 @@ include("inkluderes/innstillinger.php");
 
 
 // Browser må validere cache med server før cached kopi kan benyttes
-// Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
-//header("Cache-Control: no cache");
+// Dette gjør at man kan gå frem og tilbake i adminpanelet uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
 
 // Forsikrer seg om kun tilgang for administrator
 if (!isset($_SESSION['idbruker'])) {
@@ -82,13 +82,11 @@ if (isset($_POST['subRegistrering'])) {
                     $storebokstaver = preg_match('@[A-Z]@', $pw);
                     $smaabokstaver = preg_match('@[a-z]@', $pw);
                     $nummer = preg_match('@[0-9]@', $pw);
-                    // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-                    // $spesielleB = preg_match('@[^\w]@', $pw);
 
                     if ($pw == "") {
                         // Ikke noe passord skrevet
                         $_SESSION['admin_melding'] = "Oppgi et passord";
-                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer || strlen($pw) < 8) {
                         // Ikke tilstrekkelig passord skrevet
                         $_SESSION['admin_melding'] = "Minimum 8 tegn, 1 liten og 1 stor bokstav";
                     } else {
@@ -192,7 +190,7 @@ if(isset($_GET['slettregel'])) {
     } else {
         header("location: administrator.php");
     }
-    $filpath = "regler.html";
+    $filpath = "generert/regler.html";
     // Bruker unlink() function for å slette filen regler.html
     unlink($filpath);
 }
@@ -218,6 +216,7 @@ if(isset($_POST['advaring'])) {
 
                 if($advarBrukerSTMT) {
                     $_SESSION['admin_melding'] = "Bruker advart";
+                    header("location: administrator.php?bruker=" . $_POST['advartbruker']);
                 } else {
                     $_SESSION['admin_melding'] = "Feil oppsto ved advaring av bruker";
                     header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
@@ -270,17 +269,18 @@ if(isset($_POST['ekskludering'])) {
                     $ekskluderBrukerSTMT -> execute();
     
                     if($ekskluderBrukerSTMT) {
-                        //header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                        $_SESSION['admin_melding'] = "Bruker utestengt";
+                        header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                     } else {
-                        $_SESSION['admin_melding'] = "Feil oppsto ved ekskludering av bruker";
-                        //header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                        $_SESSION['admin_melding'] = "Feil oppsto ved utestenging av bruker";
+                        header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                     }
                 } else {
                     $_SESSION['admin_melding'] = "Denne brukeren er allerede utestengt";
                     header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                 }
             } else {
-                $_SESSION['admin_melding'] = "Du kan ikke ekskludere en administrator";
+                $_SESSION['admin_melding'] = "Du kan ikke utestenge en administrator";
                 header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
             }
         }
@@ -307,7 +307,7 @@ if(isset($_POST['regRegistrering'])) {
         $_SESSION['admin_melding'] = "Ingen tekst oppgitt eller regel for lang";
         header("Location: administrator.php?nyregel");
     }
-    $filpath = "regler.html";
+    $filpath = "generert/regler.html";
     // Bruker unlink() function for å slette filen regler.html
     unlink($filpath);
 }

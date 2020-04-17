@@ -13,14 +13,14 @@ html, body {
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------- */
 /* Style for html-dokumentet */
-.regler_innhold {
+#regler_body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
-#regler_main {
+#regler_article {
   margin-left: 1.5em;
   margin-right: 1.5em;
   margin-bottom: 1em;
@@ -1327,7 +1327,7 @@ footer a {
 .default_antallKommentarerIkon {
   height: 1em;
   float: left;
-  display: inline;
+  display: block;
   margin-left: 0.2em;
 }
 
