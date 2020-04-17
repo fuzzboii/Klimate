@@ -173,7 +173,9 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
                     "\n\t</body>" .
                     "\n</html>");
     fclose($handle);
-} else {
-
 }
+
+/* Denne siden er utviklet av Aron Snekkestad, siste gang endret 17.04.2020 */
+/* Denne siden er kontrollert av Robin Kleppang, siste gang 17.04.2020 */
+
 ?>
