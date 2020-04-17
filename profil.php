@@ -677,7 +677,7 @@ $tabindex = 10;
                             </section>
                         <?php } ?>
 
-                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1 || $_SESSION['brukertype'] == 3)) { ?>
+                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1 || $_SESSION['brukertype'] == 3) && ($_SESSION['idbruker'] != $_GET['bruker'])) { ?>
                         <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" onclick="bekreftMelding('profil_rapporterBruker')">
                         
                         <!-- pop-up vindu -->
