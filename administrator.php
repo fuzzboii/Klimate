@@ -190,7 +190,7 @@ if(isset($_GET['slettregel'])) {
     } else {
         header("location: administrator.php");
     }
-    $filpath = "regler.html";
+    $filpath = "generert/regler.html";
     // Bruker unlink() function for å slette filen regler.html
     unlink($filpath);
 }
