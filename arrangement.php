@@ -322,7 +322,7 @@ $tabindex = 8;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="arrangement_body" onclick="lukkMelding('mldFEIL_boks')" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp'), arrTabbing(), erTouch()" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
+    <body id="stoppScroll" class="arrangement_body" onclick="lukkMelding('mldFEIL_boks')" onload="hentSide('arrangement_hovedsection', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp'), arrTabbing(), erTouch()" onresize="hentSide('side_arrangement', 'arrangement_tilbKnapp', 'arrangement_nesteKnapp')">
         <?php include("inkluderes/navmeny.php") ?>
         <script language="JavaScript">
             // Funksjon som sjekker om brukeren har en touch-støttet enhet
