@@ -24,6 +24,8 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
     fwrite($handle,"\n\t\t<nav class='navTop'>\n\t\t\t<a class='bildeKontroll' href='javascript:void(0)' onclick='hamburgerMeny()' tabindex='6'>" .
                     "\n\t\t\t\t<img src='../bilder/hamburgerIkon.svg' alt='Hamburger-menyen' class='hamburgerKnapp'>\n\t\t\t</a>");
 
+    // Del for visning av profilbilde, beholdes til neste delinnlevering for evt. bruk da
+    /* 
     // Henter bilde fra database utifra brukerid
     $hentBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
     $hentBildeSTMT = $db->prepare($hentBildeQ);
@@ -92,7 +94,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
     //Logg ut knapp
     fwrite($handle,"\n\t\t\t<form id='loggUtKnappForm' method='POST' action='../default.php'>" . 
                         "\n\t\t\t\t<button name='loggUt' id='registrerKnapp' tabindex='4'>LOGG UT</button>" . 
-                    "\n\t\t\t</form>");
+                    "\n\t\t\t</form>"); */
 
     fwrite($handle, "\n\t\t\t<form id='sokForm_regler' action='../sok.php'>" . 
                         "\n\t\t\t\t<input id='sokBtn_navmeny' type='submit' value='' tabindex='3'>" .
@@ -111,25 +113,20 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
 
                     
     //Rullegardin, tester på om brukeren er admin
-    if ($_SESSION['brukertype'] == 1) { 
+    /* if ($_SESSION['brukertype'] == 1) { */
     fwrite($handle,"\n\t\t\t<section id='navMeny' class='hamburgerMeny' onclick='lukkHamburgerMeny()'>" .
                         "\n\t\t\t\t<section class='avbrySeksjon'>" .
                             "\n\t\t\t\t\t<img class='xikon' src='../bilder/xikon.png'>" . 
                         "\n\t\t\t\t</section>" . 
                         "\n\t\t\t\t<section class='hamburgerInnhold'>" .
-                            "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../administrator.php' style='margin-bottom: 0.2em; font-weight: bold;'>" . $brukertypenavn['brukertypenavn'] . " innstillinger</a>" . 
-                            "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../backend.php'>Min oversikt</a>" .
                             "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../arrangement.php'>Arrangementer</a>" .
                             "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../artikkel.php'>Artikler</a>" .
-                            "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../meldinger.php'>Innboks</a>" .
-                            "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../profil.php?bruker=" . $_SESSION['idbruker'] . "'>Profil</a>" .
-                            "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../konto.php'>Konto</a>" .
                             "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../sok.php'>Avansert Søk</a>" .
                             "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='regler.html'>Regler</a>" .
                         "\n\t\t\t\t</section>" .
                     "\n\t\t\t</section>");
 
-    //Rullegardin
+    /* //Rullegardin
     } else {
     fwrite($handle,"\n\t\t\t<section id='navMeny' class='hamburgerMeny' onclick='lukkHamburgerMeny()'>" .
                         "\n\t\t\t\t<section class='avbrySeksjon'>" .
@@ -145,7 +142,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
                             "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../sok.php'>Avansert Søk</a>" .
                         "\n\t\t\t\t</section>" .
                     "\n\t\t\t</section>");
-    }
+    } */
 
     //listedata med regler og innholdsboksen 
     fwrite($handle,"\n\t\t\t<header class='backend_header' onclick='lukkHamburgerMeny()'>" .

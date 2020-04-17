@@ -65,6 +65,7 @@ if (isset($_POST['submit'])) {
         $resultat = $hentBrukerInfoSTMT->fetch(PDO::FETCH_ASSOC);
 
         if($resultat) {
+            // Sjekker om bruker har tidligere avregistrert seg
             if ($resultat['brukertype'] == 4) {
                 $oppdaterBrukertypeQ = "update bruker set brukertype = 3 where idbruker = " . $resultat['idbruker'];
                 $oppdaterBrukertypeSTMT = $db->prepare($oppdaterBrukertypeQ);
@@ -78,57 +79,56 @@ if (isset($_POST['submit'])) {
                 } else {
                     $resultat['brukertype'] = 3;
                 }
-            } else {
+            }
 
-                // Sjekker om bruker har en aktivt utestengelse
-                $hentEksklusjonQ = "select grunnlag, datotil from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
-                $hentEksklusjonSTMT = $db -> prepare($hentEksklusjonQ);
-                $hentEksklusjonSTMT -> bindparam(":bruker", $resultat['idbruker']);
-                $hentEksklusjonSTMT -> execute();
+            // Sjekker om bruker har en aktiv utestengelse
+            $hentEksklusjonQ = "select grunnlag, datotil from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
+            $hentEksklusjonSTMT = $db -> prepare($hentEksklusjonQ);
+            $hentEksklusjonSTMT -> bindparam(":bruker", $resultat['idbruker']);
+            $hentEksklusjonSTMT -> execute();
 
-                $eksklusjon = $hentEksklusjonSTMT -> fetch(PDO::FETCH_ASSOC); 
+            $eksklusjon = $hentEksklusjonSTMT -> fetch(PDO::FETCH_ASSOC); 
 
-                if($eksklusjon) {
-                    if($eksklusjon['datotil'] == null) {
-                        $dato = "er permanent";
-                    } else {
-                        $dato = "varer til: " . $eksklusjon['datotil'];
-                    }
-                    $_SESSION['logginn_melding'] = "Du har blitt utestengt for '" . $eksklusjon['grunnlag'] . "', utestengelsen " . $dato;
-                    header("Location: logginn.php");
+            if($eksklusjon) {
+                if($eksklusjon['datotil'] == null) {
+                    $dato = "er permanent";
                 } else {
-                    $_SESSION['idbruker'] = $resultat['idbruker'];
-                    $_SESSION['brukernavn'] = $resultat['brukernavn'];
-                    $_SESSION['fornavn'] = $resultat['fnavn'];
-                    $_SESSION['etternavn'] = $resultat['enavn'];
-                    $_SESSION['epost'] = $resultat['epost'];
-                    $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
-                    $_SESSION['brukertype'] = $resultat['brukertype'];
-                    
-                    $_SESSION['feilteller'] = 0;
-        
-                    // Sjekker på om bruker har registrert preferanser
-                    $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
-                    $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
-                    $sjekkPrefSTMT->execute();
-                    $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
-        
-                    // Bruker har ikke preferanser, oppretter de
-                    // Variabelen $personvern kommer fra innstillinger
-                    if(!$resPref) {
-                        $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
-                                            $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
-                                                $_SESSION['idbruker'] . ")";
-        
-                        $opprettPrefSTMT = $db->prepare($opprettPrefQ);
-                        $opprettPrefSTMT->execute();
-                    }
-        
-                    // Fjerner session variable for brukerinput om ingen feil oppstår
-                    unset($_SESSION['input_brukernavn']);
-        
-                    header("Location: backend.php");
+                    $dato = "varer til: " . $eksklusjon['datotil'];
                 }
+                $_SESSION['logginn_melding'] = "Du har blitt utestengt for '" . $eksklusjon['grunnlag'] . "', utestengelsen " . $dato;
+                header("Location: logginn.php");
+            } else {
+                $_SESSION['idbruker'] = $resultat['idbruker'];
+                $_SESSION['brukernavn'] = $resultat['brukernavn'];
+                $_SESSION['fornavn'] = $resultat['fnavn'];
+                $_SESSION['etternavn'] = $resultat['enavn'];
+                $_SESSION['epost'] = $resultat['epost'];
+                $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
+                $_SESSION['brukertype'] = $resultat['brukertype'];
+                
+                $_SESSION['feilteller'] = 0;
+    
+                // Sjekker på om bruker har registrert preferanser
+                $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
+                $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
+                $sjekkPrefSTMT->execute();
+                $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
+    
+                // Bruker har ikke preferanser, oppretter de
+                // Variabelen $personvern kommer fra innstillinger
+                if(!$resPref) {
+                    $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
+                                        $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
+                                            $_SESSION['idbruker'] . ")";
+    
+                    $opprettPrefSTMT = $db->prepare($opprettPrefQ);
+                    $opprettPrefSTMT->execute();
+                }
+    
+                // Fjerner session variable for brukerinput om ingen feil oppstår
+                unset($_SESSION['input_brukernavn']);
+    
+                header("Location: backend.php");
             }
         } else {    
             // Øker teller for feilet innlogging med 1
