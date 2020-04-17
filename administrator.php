@@ -31,9 +31,9 @@ if (!isset($_SESSION['idbruker'])) {
     $administratorer = $hentAdminSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($administratorer as $admin) {
-        $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) values('Oppdaget misbruk', 'Automatisk misbruk oppdaget, bruker forsøkte nå Admin-panelet.', NOW(), 0, :sender, :mottaker)";
+        $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) values('Oppdaget misbruk', 'Automatisk misbruk oppdaget, " . $_SESSION['brukernavn'] . " forsøkte nå Admin-panelet.', NOW(), 0, :sender, :mottaker)";
         $nyMeldingSTMT = $db->prepare($nyMeldingQ);
-        $nyMeldingSTMT -> bindparam(":sender", $_SESSION['idbruker']);
+        $nyMeldingSTMT -> bindparam(":sender", $admin['idbruker']);
         $nyMeldingSTMT -> bindparam(":mottaker", $admin['idbruker']);
         $nyMeldingSTMT->execute();
     }
@@ -557,7 +557,7 @@ if(isset($_POST['endreBrukertype'])) {
                     <input style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
             </form>
-            <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>                     
+            <button id="admin_nybruker_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>                     
 
             
             <?php } else if(isset($_GET['nyregel'])) {
@@ -567,7 +567,7 @@ if(isset($_POST['endreBrukertype'])) {
                     <textarea name="regTekst" id="admin_nyregel_tekst" placeholder="Skriv inn regelen" required maxlength="255"></textarea>
                     <input type="submit" name="regRegistrering" id="admin_nyregel_knapp" value="Legg til">
                 </form>
-                <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
+                <button id="admin_nyregel_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_GET['bruker'])) {
                 // Visning av bruker 
                 $hentBrukerinfoQ = "select brukernavn, fnavn, enavn, epost, telefonnummer, brukertype from bruker where idbruker = :bruker";
@@ -815,7 +815,7 @@ if(isset($_POST['endreBrukertype'])) {
                             </tbody>
                         </table>
                     <?php } else if($_GET['rapporter'] == "Eksklusjoner") {
-                        $hentBrukereQ = "SELECT eksklusjon.ideksklusjon, eksklusjon.grunnlag, eksklusjon.datofra, eksklusjon.datotil, bruker.brukernavn as brukerNavn, administrator.brukernavn as administratorNavn FROM eksklusjon LEFT OUTER JOIN bruker bruker ON eksklusjon.bruker = bruker.idbruker LEFT OUTER JOIN bruker administrator ON eksklusjon.administrator = administrator.idbruker ORDER BY datofra DESC";
+                        $hentBrukereQ = "SELECT eksklusjon.ideksklusjon, eksklusjon.bruker, eksklusjon.grunnlag, eksklusjon.datofra, eksklusjon.datotil, bruker.brukernavn as brukerNavn, administrator.brukernavn as administratorNavn FROM eksklusjon LEFT OUTER JOIN bruker bruker ON eksklusjon.bruker = bruker.idbruker LEFT OUTER JOIN bruker administrator ON eksklusjon.administrator = administrator.idbruker ORDER BY datofra DESC";
                         $hentBrukereSTMT = $db->prepare($hentBrukereQ);
                         $hentBrukereSTMT -> execute();
                         $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
@@ -873,13 +873,13 @@ if(isset($_POST['endreBrukertype'])) {
                         <?php for($i = 0; $i < count($brukere); $i++) { 
                             if($i < 8) { ?>
                                 <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                    <td class="rapport_allebrukere_advarsel_bruker">Brukernavn: <?php echo($brukere[$i]['brukerNavn'])?></td>
+                                    <td class="rapport_allebrukere_advarsel_bruker"><?php echo($brukere[$i]['brukerNavn'])?></td>
                                     <td class="rapport_allebrukere_advarseltekst"><?php echo($brukere[$i]['advarseltekst'])?></td>
                                     <td class="rapport_allebrukere_advarsel_admin"><?php echo($brukere[$i]['administratorNavn'])?></td>
                                 </tr>
                             <?php } else { ?>
                                 <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                    <td class="rapport_allebrukere_advarsel_bruker">Brukernavn: <?php echo($brukere[$i]['brukerNavn'])?></td>
+                                    <td class="rapport_allebrukere_advarsel_bruker"><?php echo($brukere[$i]['brukerNavn'])?></td>
                                     <td class="rapport_allebrukere_advarseltekst"><?php echo($brukere[$i]['advarseltekst'])?></td>
                                     <td class="rapport_allebrukere_advarsel_admin"><?php echo($brukere[$i]['administratorNavn'])?></td>
                                 </tr>
