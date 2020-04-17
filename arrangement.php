@@ -363,7 +363,7 @@ $tabindex = 8;
                     <!-- -------------------------------- -->
                 <?php } else if(isset($_POST['paameldteBrukere'])) {
 
-                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'] . "  and 
+                    $hentPåmeldte = "select event_id, idbruker, brukernavn, interessert, brukertype from påmelding, bruker where påmelding.bruker_id=bruker.idbruker and not interessert='Kan ikke' and event_id = " . $_GET['arrangement'] . "  and 
                         påmelding.bruker_id NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentPåmeldteSTMT = $db->prepare($hentPåmeldte);
                     $hentPåmeldteSTMT->execute();
@@ -384,7 +384,7 @@ $tabindex = 8;
                     <?php for($i = 0; $i < count($påmeldtBrukere); $i++) {?>
                         <section class="påmeldteBrukere" onClick="location.href='profil.php?bruker=<?php echo($påmeldtBrukere[$i]['idbruker']) ?>'">
                             <?php
-                            $hentBildeQ = "select hvor from brukerbilde, bilder where bilder.idbilder = brukerbilde.bilde and brukerbilde.bruker = " . $påmeldtBrukere[$i]['idbruker'];
+                            $hentBildeQ = "select hvor from brukerbilde, bilder, bruker where bilder.idbilder = brukerbilde.bilde and brukerbilde.bruker = " . $påmeldtBrukere[$i]['idbruker'] . " and brukerbilde.bruker = bruker.idbruker and bruker.brukertype != 4";
                             $hentBildeSTMT = $db->prepare($hentBildeQ);
                             $hentBildeSTMT->execute();
                             $brukerbilde = $hentBildeSTMT->fetch(PDO::FETCH_ASSOC);
@@ -408,7 +408,7 @@ $tabindex = 8;
                             <?php } else { ?>
                                 <img id="profilPåmeldt" src="bilder/profil.png" alt="Standard profilbilde">
                             <?php } ?>
-                            <p class="p_bruker"><?php echo($påmeldtBrukere[$i]['brukernavn']) ?></p>
+                            <?php if($påmeldtBrukere[$i]['brukertype'] == 4) { echo("<p class='p_bruker' style='font-style: italic;'>Avregistrert bruker"); } else { echo("<p class='p_bruker'>" . $påmeldtBrukere[$i]['brukernavn']); } ?></p>
 
                             <?php if($påmeldtBrukere[$i]['interessert'] == "Kanskje") {?>
                                 <p class="påmeldtType" style="background-color: rgb(255, 191, 0);"><?php echo($påmeldtBrukere[$i]['interessert']) ?></p>
