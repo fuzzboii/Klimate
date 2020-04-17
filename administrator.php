@@ -783,10 +783,9 @@ if(isset($_POST['endreBrukertype'])) {
                         $hentBrukereSTMT -> execute();
                         $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
                         ?>
-                        <table id="rapport_allebrukere_table">
+                        <table id="admin_allebrukere_table">
                             <thead>
                                 <tr>
-                                    <th id="rapport_allebrukere_brukerid">BRUKERID</th>
                                     <th id="rapport_allebrukere_bruker">BRUKERNAVN</th>
                                     <th id="rapport_allebrukere_idmisbruk">ID MISBRUK</th>
                                     <th id="rapport_allebrukere_idtekst">MISBRUK</th>
@@ -795,13 +794,13 @@ if(isset($_POST['endreBrukertype'])) {
                         <tbody>
                             <?php for($i = 0; $i < count($brukere); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="rapport_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
                                         <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
                                         <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
                                         <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="rapport_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
                                         <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
                                         <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
                                         <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
@@ -809,7 +808,7 @@ if(isset($_POST['endreBrukertype'])) {
                                 <?php }
                             } 
                             if($i > 8) { ?>
-                                <button id="rapport_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
+                                <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
                             <?php } ?>
                         </tbody>
                     </table>
