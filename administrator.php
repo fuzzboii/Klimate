@@ -557,7 +557,7 @@ if(isset($_POST['endreBrukertype'])) {
                     <input style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
             </form>
-            <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>                     
+            <button id="admin_nybruker_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>                     
 
             
             <?php } else if(isset($_GET['nyregel'])) {
@@ -567,7 +567,7 @@ if(isset($_POST['endreBrukertype'])) {
                     <textarea name="regTekst" id="admin_nyregel_tekst" placeholder="Skriv inn regelen" required maxlength="255"></textarea>
                     <input type="submit" name="regRegistrering" id="admin_nyregel_knapp" value="Legg til">
                 </form>
-                <button id="admin_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
+                <button id="admin_nyregel_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
             <?php } else if(isset($_GET['bruker'])) {
                 // Visning av bruker 
                 $hentBrukerinfoQ = "select brukernavn, fnavn, enavn, epost, telefonnummer, brukertype from bruker where idbruker = :bruker";

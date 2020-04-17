@@ -569,6 +569,20 @@ footer a {
   font-size: 1.0em; /* Font-størrelse */
 }
 
+#admin_nybruker_tiloversikt, #admin_nyregel_tiloversikt {
+  display: block;
+  margin-top: 1em; margin-bottom: 1em;
+  margin-left: auto; margin-right: auto;
+
+  padding: 0.5em; /* hvor mye luft rundt teksten det skal være */
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 12em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
+
 /* Style av select */
 #brukertypeValg {
   width: 15.6em;
@@ -4615,9 +4629,9 @@ input:checked + .slider:before {
     margin-top: 3em;
   }
 
-  #admin_tiloversikt {
+  #admin_nybruker_tiloversikt {
     grid-column: 2/span 2;
-    grid-row: 3;
+    grid-row: 2;
     height: 3em;
   }
 
@@ -4632,12 +4646,15 @@ input:checked + .slider:before {
   }
   #admin_nyregel_form {
     grid-column: 2/span 2;
-    grid-row: 2/span 2;
+    grid-row: 1;
+    margin-top: 5em;
   }
   
-  #admin_tiloversikt {
+  #admin_nyregel_tiloversikt {
     grid-column: 2/span 2;
-    grid-row: 4;
+    grid-row: 1;
+    max-height: 3em;
+    margin-top: 20em;
   }
 
 
@@ -5358,9 +5375,10 @@ input:checked + .slider:before {
     margin-top: 0.5em;
   }
 
-  #admin_tiloversikt {
+  #admin_nybruker_tiloversikt {
     grid-column: 3/span 4;
-    grid-row: 3;
+    grid-row: 2;
+    margin-top: 29em;
   }
 
   /* Style for ADMINPANEL sin NY REGEL */
@@ -5375,10 +5393,10 @@ input:checked + .slider:before {
     grid-row: 2/span 2;
   }
   
-  #admin_tiloversikt {
+  #admin_nyregel_tiloversikt {
     grid-column: 3/span 4;
     grid-row: 2;
-    margin-top: 13.5em;
+    margin-top: 19.5em;
   }
 
 }
