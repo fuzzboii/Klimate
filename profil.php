@@ -680,9 +680,9 @@ $tabindex = 10;
                         <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1 || $_SESSION['brukertype'] == 3)) { ?>
                             <?php if ($_SESSION['idbruker'] != $_GET['bruker']) { ?>
                             
-                            <!-- Viser ikonet for rapportering -->
+                            <!-- Viser ikonet/knappen for rapportering -->
                             <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" onclick="bekreftMelding('profil_rapporterBruker')">
-                            
+                            <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp">Rapporter</button>
                             <!-- pop-up vindu -->
                             <section id="profil_rapporterBruker" style="display: none;">
                                 <section id="profil_rapporterBrukerInnhold">
@@ -707,8 +707,9 @@ $tabindex = 10;
                                 </section>
                             </section>
                             <?php } else { ?>
-                                <!-- Viser ikonet for rapportering som hidden-->
-                                <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" style=" visibility: hidden;">
+                            <!-- Viser ikonet/knappen for rapportering som hidden-->
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" style=" visibility: hidden;">
+                            <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp" style=" visibility: hidden;">Rapporter</button>
                             <?php } ?>
                         <?php } ?>
                     </section>   

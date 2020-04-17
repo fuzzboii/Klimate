@@ -3135,11 +3135,26 @@ table {
 }
 
 .profil_rapporterFlaggIkon {
-  height: 1.9em;
+  height: 1em;
   float: right;
   margin-right: 0.2em;
   margin-bottom: 0.2em;
   cursor: pointer;
+}
+
+.profil_rapporterKnapp {
+  display: block;
+  background-color: transparent;
+  border: none;
+  margin: auto;
+  font-size: 0.7em;
+  cursor: pointer;
+  font-weight: bold;
+  color: red;
+  font-family: Helvetica, Arial, sans-serif;
+  float: right;
+  text-transform: uppercase;
+
 }
 
 .profil_pb .velkomst {
