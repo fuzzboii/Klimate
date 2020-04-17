@@ -5630,6 +5630,25 @@ input:checked + .slider:before {
     display: none;
   }
 
+  /* Del for konto */
+  #konto_avregistrerKnapp {
+    display: none;
+  }
+
+  /* Del for adminpanel */
+  #admin_regler_table {
+    display: block;
+  }
+
+  #admin_regler_table td, #admin_regler_table thead tr th {
+    color: black;
+  }
+
+  .admin_regler_slett_knapp {
+    display: none;
+  }
+
+
 }
 
 /* Animasjoner */
