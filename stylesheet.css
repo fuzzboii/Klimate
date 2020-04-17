@@ -2953,7 +2953,7 @@ table {
 
 #arrangement_bekreftInviterInnhold {
   text-align: center;
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   border: 2px solid rgb(0, 110, 255);
   background-color: white;
   z-index: 2; /* Sitter over det andre innholdet */
@@ -3304,7 +3304,7 @@ table {
 
 #profil_endreBildeInnhold {
   text-align: center;
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   background-color: white;
   z-index: 2; /* Sitter over det andre innholdet */
   margin-top: 15%; margin-bottom: 40%;
