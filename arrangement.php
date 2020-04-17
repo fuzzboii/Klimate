@@ -813,7 +813,7 @@ $tabindex = 8;
                             <p class="arrangement_fylke"><?php echo($resArr[$j]['fylkenavn'])?></p>
                             <img class="arrangement_rFloatBilde" src="bilder/stedIkon.png">
                             <img class="arrangement_navn" src="bilder/brukerIkonS.png">
-                            <?php if($resArr[$j]['brukertype'] == 4) {echo("<p class='arrangement_navn' style='font-family: italic;'>Avregistrert bruker");} else {echo("<p class='arrangement_navn'>" . $navn);} ?></p>
+                            <?php if($resArr[$j]['brukertype'] == 4) {echo("<p class='arrangement_navn' style='font-style: italic;'>Avregistrert bruker");} else {echo("<p class='arrangement_navn'>" . $navn);} ?></p>
                             <h2><?php echo($resArr[$j]['eventnavn'])?></h2>
                         </section>
                         
