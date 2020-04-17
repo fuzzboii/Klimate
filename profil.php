@@ -385,9 +385,9 @@ if ($tellingArrangement > 0) {
     $arrangementProfil = $stmtArrangementProfil->fetchAll(PDO::FETCH_ASSOC);
 } else $arrangementProfil = null;
 
-//--------------------------//
-// Rapportering av brukere //
-//-------------------------//
+//------------------------------------------------//
+// Rapportering av brukere: Innsetting av rapport //
+//------------------------------------------------//
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt
 $input_rapBeskrivelse = "";
@@ -421,7 +421,6 @@ if (isset($_POST['subRapportering'])) {
             header("Location: profil.php?bruker=" . $_GET['bruker']);
         }
     }
-
 }
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 10;
@@ -687,8 +686,13 @@ $tabindex = 10;
                             <!-- pop-up vindu -->
                             <section id="profil_rapporterBruker" style="display: none;">
                                 <section id="profil_rapporterBrukerInnhold">
-                                    <h2>Rapporter bruker</h2>
+                                    <?php { ?>
                                     
+                                    <!-- Viser brukernavnet som skal rapporteres -->
+                                    <?php } ?>
+                                    <h2>Rapporter <?php echo($brukernavnProfil['brukernavn'])?></h2>
+                                    
+                                    <!-- Presenterer innholdet -->
                                     <section class="profil_rapporterInnhold">
                                         <form method="POST" action="profil.php?bruker=<?php echo($_GET['bruker'])?>">
                                             <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
@@ -698,6 +702,7 @@ $tabindex = 10;
                                         </form>
                                     </section>
                                     
+                                    <!-- Knapp for å avbryte rapporteringen -->
                                     <button id="profil_rapporterAvbrytKnapp" onclick="bekreftMelding('profil_rapporterBruker')">Avbryt</button>
                                 </section>
                             </section>
