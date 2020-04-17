@@ -148,15 +148,33 @@ function fiksRullegardin() {
 // Åpner en bekreftelses-boks for å avregistrere og slette arrangement / artikler
 function bekreftMelding(element) {
   var knapp = document.getElementById(element);
+  var scroll = document.getElementById('stoppScroll');
+  
 
   if (knapp.style.display == 'none') {
     knapp.style.display = 'block';
+    scroll.style.overflow = 'hidden';
+
   } else {
     knapp.style.display = 'none';
+    scroll.style.overflow = 'visible';
   }
   
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+}
+
+// Lukker vindu til bruker
+function lukkMelding(element) {
+  var knapp = document.getElementById(element);
+
+  if (knapp.style.display != 'none') {
+
+    knapp.style.display = 'none';
+    
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
 }
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -732,6 +750,213 @@ function visKommentar() {
 function lastOppProfil() {
   document.getElementById("profilForm").submit();
 }
+
+
+/*----------------------*/
+/*----------------------*/
+/* Del for adminpanelet */
+/*----------------------*/
+/*----------------------*/
+
+function admHovedmeny() {
+  var meny = document.getElementById("admin_hovedmeny");
+
+  if(meny.style.display == "none" || meny.style.display == "") {
+    meny.style.display = "inline";
+    document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilOIkon.png";
+  } else if(meny.style.display == "inline") {
+    meny.style.display = "none";
+    document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilnIkon.png";
+  }
+}
+
+function admMeny() {
+  var meny = document.getElementById("admin_adm_delmeny");
+
+  if(meny.style.display == "none") {
+    meny.style.display = "inline";
+    meny.previousElementSibling.style.backgroundImage = "url('bilder/pilOIkon.png')";
+  } else {
+    meny.style.display = "none";
+    meny.previousElementSibling.style.backgroundImage = "url('bilder/pilNIkon.png')";
+  }
+}
+
+function rapMeny() {
+  var meny = document.getElementById("admin_rap_delmeny");
+
+  if(meny.style.display == "none") {
+    meny.style.display = "inline";
+    meny.previousElementSibling.style.backgroundImage = "url('bilder/pilOIkon.png')";
+  } else {
+    meny.style.display = "none";
+    meny.previousElementSibling.style.backgroundImage = "url('bilder/pilNIkon.png')";
+  }
+}
+
+function regMeny() {
+  var table = document.getElementById("admin_regler_table");
+
+  if(table.style.display == "none" || table.style.display == "") {
+    table.style.display = "inline-block";
+    table.nextElementSibling.style.display = "inline-block";
+    table.previousElementSibling.style.backgroundImage = "url('bilder/pilOIkon.png')";
+  } else {
+    table.style.display = "none";
+    table.nextElementSibling.style.display = "none";
+    table.previousElementSibling.style.backgroundImage = "url('bilder/pilNIkon.png')";
+  }
+}
+
+
+function aapneBruker(valgtDel) {
+  document.getElementById("bruker_form_verdi").value = valgtDel;
+  document.getElementById("bruker_form").submit();
+}
+
+function adminpanelSok() {
+  // Oppretter variabler
+  var skrevet, filteret, tabellen, rad, data, i, innhold;
+
+  skrevet = document.getElementById("admin_sok");
+  filteret = skrevet.value.toUpperCase();
+  tabellen = document.getElementById("admin_allebrukere_table");
+  rad = tabellen.getElementsByTagName("tr");
+
+  // Går igjennom alle radene og gjemmer de som ikke passer med det bruker har skrevet
+  for (i = 0; i < rad.length; i++) {
+    data = rad[i].getElementsByTagName("td")[0];
+    if (data) {
+      innhold = data.textContent || data.innerText;
+      if (innhold.toUpperCase().indexOf(filteret) > -1) {
+        rad[i].style.display = "";
+      } else {
+        rad[i].style.display = "none";
+      }
+    }
+  }
+}
+
+/* Funksjonalitet for å bytte mellom advarsel og ekskludering */
+function byttHandling(handling) {
+  var knappene =  document.getElementsByClassName("admin_handlingvalg");
+
+  if(handling == "Advar") {
+    /* Admin ønsker å advare */
+    knappene[1].removeAttribute("id");
+    knappene[0].setAttribute("id", "admin_aktivhandling");
+
+    document.getElementById("admin_handling_tekst").setAttribute("name", "advaring");
+    document.getElementById("admin_handling_bruker").setAttribute("name", "advartbruker");
+
+    document.getElementById("admin_handling").innerHTML = "Advar bruker";
+
+    document.getElementById("admin_handling_submit").style.backgroundColor = "dodgerblue";
+    document.getElementById("admin_handling_submit").value = "Advar bruker";
+
+    document.getElementById("admin_handling_lengde").style.display = "none";
+    document.getElementById("admin_handling_dato").style.display = "none";
+
+  } else if(handling == "Ekskluder") {
+    /* Admin ønsker å ekskludere */
+    knappene[0].removeAttribute("id");
+    knappene[1].setAttribute("id", "admin_aktivhandling");
+
+    document.getElementById("admin_handling_tekst").setAttribute("name", "ekskludering");
+    document.getElementById("admin_handling_bruker").setAttribute("name", "ekskludertbruker");
+
+    document.getElementById("admin_handling").innerHTML = "Ekskluder bruker";
+    
+    document.getElementById("admin_handling_submit").style.backgroundColor = "red";
+    document.getElementById("admin_handling_submit").value = "Ekskluder bruker";
+
+    document.getElementById("admin_handling_lengde").style.display = "block";
+    document.getElementById("admin_handling_dato").style.display = "block";
+
+  }
+}
+
+function visFlereBrukere() {
+  var tabell = document.getElementsByClassName("admin_allebrukere_rad");
+  var knapp = document.getElementById("admin_allebrukere_knapp");
+
+  if(tabell.length > 8) {
+  
+    if(knapp.innerHTML == "Vis flere") {
+      for(i = 8; i < tabell.length; i++) {
+        tabell[i].style.display = "";
+      }
+      knapp.innerHTML = "Vis mindre";
+    } else {
+      for(i = 8; i < tabell.length; i++) {
+        tabell[i].style.display = "none";
+      }
+      knapp.innerHTML = "Vis flere";
+    }
+  }
+}
+
+function sjekkAdminHandling() {
+  var bruker = document.getElementById("admin_handling_bruker");
+  var grunnlag = document.getElementById("admin_handling_tekst");
+
+  var boks = document.getElementById("mldFEIL_boks");
+  var melding = document.getElementById("mldFEIL");
+
+  if(bruker.value != "") {
+    if(grunnlag.value != "") {
+      document.getElementById("admin_handling_form").submit();
+    } else {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      boks.style.display = "block";
+      melding.innerHTML = "Oppgi et grunnlag";
+    }
+  } else {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    boks.style.display = "block";
+    melding.innerHTML = "Feil oppsto, ingen bruker oppgitt";
+  }
+}
+
+
+/* Funksjonalitet for å gi synlighet for default navmeny */
+function byttFargeNavbar() {
+  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+    document.getElementsByClassName('default_navTop')[0].style.backgroundColor = "rgb(200,218,211)";
+    } else {
+    document.getElementsByClassName('default_navTop')[0].style.backgroundColor = "transparent";
+  }
+}
+
+/* Innsending av skjema fra profil om innstillinger */
+/* Med hjelp fra: https://stackoverflow.com/questions/24459984/php-hide-url-get-parameters (per 29.03.2020) */
+function innstillinger(bruker) {
+  /* Opprett skjema */
+  var form = document.createElement("form");
+  /* Definer metode */
+  form.setAttribute("method", "post");
+  /* Definer handling */
+  form.setAttribute("action", "profil.php?bruker=" + bruker)
+
+  /* Opprett et input-felt i form */
+  var input = document.createElement("input");
+  /* Definer type */
+  input.setAttribute("type", "hidden");
+  /* Definer navn */
+  input.setAttribute("name", "innstillinger")
+  /* Definer verdi */
+  input.setAttribute("value", "innstillinger")
+  /* Legg til i skjema */
+  form.appendChild(input);
+  
+  /* Legg til skjema i dokument */
+  document.body.appendChild(form);
+  /* Send skjema */
+  form.submit();
+}
+
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
 /* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */

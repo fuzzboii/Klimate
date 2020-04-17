@@ -6,7 +6,6 @@ session_start();
 //-------------------------------//
 include("inkluderes/innstillinger.php");
 
-
 // tabindex som skal brukes til å bestemme startpunkt i søkeresultat, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 7;
 
@@ -65,7 +64,9 @@ $tabindex = 7;
                 /* ---------------------------------- */
                 
                 $sokPaaBr = "select idbruker, brukernavn from bruker, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "'
-                                and visepost = '1' and bruker.idbruker = preferanse.bruker";
+                                and visepost = '1' and bruker.idbruker = preferanse.bruker and 
+                                    idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) and
+                                        brukertype != 4";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'];
 
 
@@ -75,7 +76,9 @@ $tabindex = 7;
                 /* Del for søk på kun brukernavn */
                 /* ----------------------------- */
             
-                $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' order by brukernavn ASC";
+                $sokPaaBr = "select idbruker, brukernavn from bruker where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and 
+                    idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) and
+                        brukertype != 4 order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'];
 
 
@@ -86,7 +89,9 @@ $tabindex = 7;
                 /* ------------------------ */
 
                 $sokPaaBr = "select idbruker, brukernavn from bruker, preferanse where epost = '" . $_GET['epost'] . "' 
-                                and visepost = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visepost = '1' and bruker.idbruker = preferanse.bruker and 
+                                    idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) and
+                                        brukertype != 4 order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['epost'];
                     
                 
@@ -97,7 +102,9 @@ $tabindex = 7;
                 /* --------------------------------------------- */
 
                 $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
-                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker and 
+                                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) and
+                                        brukertype != 4 order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['epost'] . ", " . $_GET['interesse'];
                     
                 
@@ -108,7 +115,9 @@ $tabindex = 7;
                 /* ------------------------------------------ */
 
                 $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where brukernavn LIKE '%" . $_GET['brukernavn'] . "%' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
-                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker and 
+                                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) and
+                                        brukertype != 4 order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['brukernavn'] . ", " . $_GET['interesse']; 
 
                 
@@ -119,7 +128,9 @@ $tabindex = 7;
                 /* ------------------------------------- */
 
                 $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where epost = '" . $_GET['epost'] . "' and interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse 
-                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visepost = '1' and visinteresser = '1' and bruker.idbruker = preferanse.bruker and 
+                                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) and
+                                        brukertype != 4 order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['epost'] . ", " . $_GET['interesse']; 
 
                 
@@ -130,7 +141,9 @@ $tabindex = 7;
                 /* ---------------------------- */
 
                 $sokPaaBr = "select idbruker, brukernavn, interessenavn from bruker, interesse, brukerinteresse, preferanse where interessenavn = '" . $_GET['interesse'] . "' and bruker.idbruker = brukerinteresse.bruker and brukerinteresse.interesse = interesse.idinteresse
-                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker order by brukernavn ASC";
+                                and visinteresser = '1' and bruker.idbruker = preferanse.bruker and 
+                                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) and
+                                        brukertype != 4 order by brukernavn ASC";
                 $infoOmSok = "Du har søkt etter: " . $_GET['interesse']; 
 
                 
@@ -265,7 +278,8 @@ $tabindex = 7;
                 /* Del for søk på kun tittel */
                 /* ------------------------- */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn, brukertype from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
 
@@ -275,7 +289,8 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel og forfatter */
                 /* ------------------------------------------------- */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn, brukertype from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'] . ", " . $_GET['artForfatter'];
 
 
@@ -285,7 +300,8 @@ $tabindex = 7;
                 /* Del for søk på tittel */
                 /* --------------------- */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn, brukertype from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
 
 
@@ -295,7 +311,8 @@ $tabindex = 7;
                 /* Del for søk på forfatter */
                 /* ------------------------ */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker";
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn, brukertype from artikkel, bruker where (brukernavn LIKE '%" . $_GET['artForfatter'] . "%' or fnavn LIKE '%" . $_GET['artForfatter'] . "%' or enavn LIKE '%" . $_GET['artForfatter'] . "%') and bruker = idbruker and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['artForfatter'];
 
                 
@@ -365,46 +382,52 @@ $tabindex = 7;
                                 <p class="infoResArt_sok"><?php echo($resArt[$j]['artingress'])?></p>
                                 <?php 
                                 
-                                // Henter personvern
-                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArt[$j]['bruker'];
-                                $personvernSTMT = $db->prepare($personvernQ);
-                                $personvernSTMT->execute();
-                                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
-
-                                $kanViseFornavn = false;
-                                $kanViseEtternavn = false;
-
-                                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
-                                    $kanViseFornavn = true;
-                                }
-
-                                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
-                                    $kanViseEtternavn = true;
-                                }
-                                
-                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
-                                    if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {
-                                        $navn = $resArt[$j]['fnavn'];  
+                                if($resArt[$j]['brukertype'] != 4) {
+                                    // Henter personvern
+                                    $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArt[$j]['bruker'];
+                                    $personvernSTMT = $db->prepare($personvernQ);
+                                    $personvernSTMT->execute();
+                                    $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+    
+                                    $kanViseFornavn = false;
+                                    $kanViseEtternavn = false;
+    
+                                    if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                                        $kanViseFornavn = true;
+                                    }
+    
+                                    if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                                        $kanViseEtternavn = true;
+                                    }
+                                    
+                                    if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                        if(preg_match("/\S/", $resArt[$j]['fnavn']) == 1) {
+                                            $navn = $resArt[$j]['fnavn'];  
+                                        } else {
+                                            $navn = $resArt[$j]['brukernavn'];
+                                        }
+                                    } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                        if(preg_match("/\S/", $resArt[$j]['enavn']) == 1) {
+                                            $navn = $resArt[$j]['enavn'];  
+                                        } else {
+                                            $navn = $resArt[$j]['brukernavn'];
+                                        }
+                                    } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                        if(preg_match("/\S/", $resArt[$j]['enavn']) == 1) {
+                                            $navn = $resArt[$j]['fnavn'] . " " . $resArt[$j]['enavn'];  
+                                        } else {
+                                            $navn = $resArt[$j]['brukernavn'];
+                                        }
                                     } else {
                                         $navn = $resArt[$j]['brukernavn'];
-                                    }
-                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
-                                    if(preg_match("/\S/", $resArt[$j]['enavn']) == 1) {
-                                        $navn = $resArt[$j]['enavn'];  
-                                    } else {
-                                        $navn = $resArt[$j]['brukernavn'];
-                                    }
-                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
-                                    if(preg_match("/\S/", $resArt[$j]['enavn']) == 1) {
-                                        $navn = $resArt[$j]['fnavn'] . " " . $resArt[$j]['enavn'];  
-                                    } else {
-                                        $navn = $resArt[$j]['brukernavn'];
-                                    }
-                                } else {
-                                    $navn = $resArt[$j]['brukernavn'];
-                                } ?>
+                                    } ?>
+    
+                                    <p class="infoResArt_sok">Skrevet av <?php echo($navn)?></p>
+                                <?php } else { ?>
+                                    <p class="infoResArt_sok" style="font-style: italic;">Skrevet av en avregistrert bruker</p>
+                                <?php } ?>
 
-                                <p class="infoResArt_sok">Skrevet av <?php echo($navn)?></p>
+
                             </figure>
                         </section>
                         <?php 
@@ -467,7 +490,8 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel, dato og fylke */
                 /* --------------------------------------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'] . ", " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
@@ -476,7 +500,8 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel og dato */
                 /* -------------------------------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                 bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] == "")) {
@@ -485,7 +510,8 @@ $tabindex = 7;
                 /* Del for søk på tittel */
                 /* --------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] != "")) {
@@ -494,7 +520,8 @@ $tabindex = 7;
                 /* Del for søk på dato og fylke */
                 /* -----------------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'] . ", " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
@@ -503,7 +530,8 @@ $tabindex = 7;
                 /* Del for søk på fylke */
                 /* ---------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['fylke'];
 
             } else if (($_GET['arrTittel'] == "") && ($_GET['arrDato'] != "") && ($_GET['fylke'] == "")) {
@@ -512,7 +540,8 @@ $tabindex = 7;
                 /* Del for søk på dato */
                 /* --------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'];
 
             } else if (($_GET['arrTittel'] != "") && ($_GET['arrDato'] == "") && ($_GET['fylke'] != "")) {
@@ -521,7 +550,8 @@ $tabindex = 7;
                 /* Del for søk på tittel og fylke */
                 /* -------------------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "'";
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                    bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['fylke'];
 
             }
@@ -590,47 +620,52 @@ $tabindex = 7;
                                 <p class="infoResArr_sok"><?php echo($resArr[$j]['tidspunkt'])?></p>
                                 <p class="infoResArr_sok"><?php echo($resArr[$j]['veibeskrivelse'] . ", " . $resArr[$j]['fylkenavn'])?></p>
                                 <?php 
-                                
-                                // Henter personvern
-                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArr[$j]['idbruker'];
-                                $personvernSTMT = $db->prepare($personvernQ);
-                                $personvernSTMT->execute();
-                                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+                            
 
-                                $kanViseFornavn = false;
-                                $kanViseEtternavn = false;
+                                if($resArr[$j]['brukertype'] != 4) {
+                                    // Henter personvern
+                                    $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArr[$j]['idbruker'];
+                                    $personvernSTMT = $db->prepare($personvernQ);
+                                    $personvernSTMT->execute();
+                                    $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
 
-                                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
-                                    $kanViseFornavn = true;
-                                }
+                                    $kanViseFornavn = false;
+                                    $kanViseEtternavn = false;
 
-                                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
-                                    $kanViseEtternavn = true;
-                                }
-                                
-                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
-                                    if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {
-                                        $navn = $resArr[$j]['fnavn'];  
+                                    if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                                        $kanViseFornavn = true;
+                                    }
+
+                                    if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                                        $kanViseEtternavn = true;
+                                    }
+                                    
+                                    if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                        if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {
+                                            $navn = $resArr[$j]['fnavn'];  
+                                        } else {
+                                            $navn = $resArr[$j]['brukernavn'];
+                                        }
+                                    } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                        if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                            $navn = $resArr[$j]['enavn'];  
+                                        } else {
+                                            $navn = $resArr[$j]['brukernavn'];
+                                        }
+                                    } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                        if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                            $navn = $resArr[$j]['fnavn'] . " " . $resArr[$j]['enavn'];  
+                                        } else {
+                                            $navn = $resArr[$j]['brukernavn'];
+                                        }
                                     } else {
                                         $navn = $resArr[$j]['brukernavn'];
-                                    }
-                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
-                                    if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
-                                        $navn = $resArr[$j]['enavn'];  
-                                    } else {
-                                        $navn = $resArr[$j]['brukernavn'];
-                                    }
-                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
-                                    if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
-                                        $navn = $resArr[$j]['fnavn'] . " " . $resArr[$j]['enavn'];  
-                                    } else {
-                                        $navn = $resArr[$j]['brukernavn'];
-                                    }
-                                } else {
-                                    $navn = $resArr[$j]['brukernavn'];
-                                } ?>
-                                
-                                <p class="infoResArr_sok">Arrangert av <?php echo($navn)?></p>
+                                    } ?>
+                                    
+                                    <p class="infoResArr_sok">Arrangert av <?php echo($navn)?></p>
+                                <?php } else { ?>
+                                    <p class="infoResArr_sok" style="font-style: italic;">Arrangert av en avregistrert bruker</p>
+                                <?php } ?>
                             </figure>
                         </section>
                         <?php 
@@ -675,104 +710,96 @@ $tabindex = 7;
             <!-- Del for avansert søk -->
             <header class="sok_header" onclick="lukkHamburgerMeny()">
                 <h2>Avansert søk</h2>
-                <?php if(isset($_GET['melding']) && $_GET['melding'] == 1) { ?>
-                    <p id="mldFEIL">Vennligst søk etter en bruker først</p>
-                <?php } ?>
             </header>
             <main id="sok_main" onclick="lukkHamburgerMeny()"> 
                 <section id="sok_seksjon"> 
                     <!-- Rullegardin for søk på bruker -->
                     <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Brukernavn:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn" autofocus>
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Epost:</p>
-                                    <input type="email" class="sokBrukerFelt" tabindex = "-1" name="epost" placeholder="Skriv inn epost">
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Interesse:</p>
-                                    <input name="interesse"  class="sokBrukerFelt" type="text" list="interesser" tabindex="-1">
-                                    <datalist id="interesser">
-                                        <?php 
-                                        // Henter interesser fra database
-                                        $hentInt = "select interessenavn from interesse order by interessenavn ASC";
-                                        $stmtInt = $db->prepare($hentInt);
-                                        $stmtInt->execute();
-                                        $interesse = $stmtInt->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($interesse as $innhold) { ?>
-                                            <option value="<?php echo($innhold['interessenavn'])?>"><?php echo($innhold['interessenavn'])?></option>
-                                        <?php } ?>
-                                    </datalist>
-                                </section>
-                                <input type="submit" value="Søk på bruker"  class="sokBrukerFelt" tabindex ="-1">
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Brukernavn:</p>
+                                <input type="text" class="sokBrukerFelt" tabindex = "-1" name="brukernavn" placeholder="Skriv inn brukernavn" autofocus>
                             </section>
-                            <button type="button" id="brukerRullegardin" class="brukerRullegardin" tabindex ="8">Søk etter bruker</button>
-                        
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Epost:</p>
+                                <input type="email" class="sokBrukerFelt" tabindex = "-1" name="epost" placeholder="Skriv inn epost">
+                            </section>
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Interesse:</p>
+                                <input name="interesse"  class="sokBrukerFelt" type="text" list="interesser" tabindex="-1">
+                                <datalist id="interesser">
+                                    <?php 
+                                    // Henter interesser fra database
+                                    $hentInt = "select interessenavn from interesse order by interessenavn ASC";
+                                    $stmtInt = $db->prepare($hentInt);
+                                    $stmtInt->execute();
+                                    $interesse = $stmtInt->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($interesse as $innhold) { ?>
+                                        <option value="<?php echo($innhold['interessenavn'])?>"><?php echo($innhold['interessenavn'])?></option>
+                                    <?php } ?>
+                                </datalist>
+                            </section>
+                            <input type="submit" value="Søk på bruker"  class="sokBrukerFelt" tabindex ="-1">
+                        </section>
+                        <button type="button" id="brukerRullegardin" class="brukerRullegardin" tabindex ="8">Søk etter bruker</button>
                     </form>
                     <!-- Rullegardin for søk på artikkel -->
                     <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Tittel:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex = "-1" name="artTittel" placeholder="Tittelen på artikkelen">
-                                </section>
-                                <!--
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Dato fra:</p>
-                                    <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="artDato" title="Alle artikler publisert etter oppgitt dato">
-                                </section>
-                                -->
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Skrevet av:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex ="-1" name="artForfatter" placeholder="Forfatter av artikkelen">
-                                </section>
-                                <input type="submit" value="Søk på artikkel" class="sokBrukerFelt" tabindex ="-1">
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Tittel:</p>
+                                <input type="text" class="sokBrukerFelt" tabindex = "-1" name="artTittel" placeholder="Tittelen på artikkelen">
                             </section>
-                            <button type="button" id="artikkelRullegardin" class="artikkelRullegardin" tabindex ="9">Søk etter artikkel</button>
-                        
+                            <!--
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Dato fra:</p>
+                                <input type="date" class="sokBrukerFelt" tabIndex = "-1" name="artDato" title="Alle artikler publisert etter oppgitt dato">
+                            </section>
+                            -->
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Skrevet av:</p>
+                                <input type="text" class="sokBrukerFelt" tabindex ="-1" name="artForfatter" placeholder="Forfatter av artikkelen">
+                            </section>
+                            <input type="submit" value="Søk på artikkel" class="sokBrukerFelt" tabindex ="-1">
+                        </section>
+                        <button type="button" id="artikkelRullegardin" class="artikkelRullegardin" tabindex ="9">Søk etter artikkel</button>
                     </form>
                     <!-- Rullegardin for søk på arrangement -->
                     <form method="GET">
-                            <section class="innholdRullegardin">
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Tittel:</p>
-                                    <input type="text" class="sokBrukerFelt" tabindex = "-1" name="arrTittel" placeholder="Tittelen på arrangementet">
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Dato før:</p>
-                                    <input type="date" class="sokBrukerFelt" tabindex = "-1" name="arrDato" title="Alle arrangementer før oppgitt dato">
-                                </section>
-                                <section class="sok_inputBoks">
-                                    <p class="sokTittel">Fylke:</p>
-                                    <input name="fylke" class="sokBrukerFelt" type="text" list="fylker" tabindex="-1">
-                                    <datalist id="fylker">
-                                        <?php 
-                                        // Henter fylker fra database
-                                        $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
-                                        $stmtFylke = $db->prepare($hentFylke);
-                                        $stmtFylke->execute();
-                                        $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($fylke as $innhold) { ?>
-                                            <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
-                                    <?php } ?>
-                                    </datalist>
-                                </section>
-                                <input type="submit" value="Søk på arrangement" class="sokBrukerFelt" tabindex ="-1">
+                        <section class="innholdRullegardin">
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Tittel:</p>
+                                <input type="text" class="sokBrukerFelt" tabindex = "-1" name="arrTittel" placeholder="Tittelen på arrangementet">
                             </section>
-                            <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex ="10">Søk etter arrangement</button>
-                       
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Dato før:</p>
+                                <input type="date" class="sokBrukerFelt" tabindex = "-1" name="arrDato" title="Alle arrangementer før oppgitt dato">
+                            </section>
+                            <section class="sok_inputBoks">
+                                <p class="sokTittel">Fylke:</p>
+                                <input name="fylke" class="sokBrukerFelt" type="text" list="fylker" tabindex="-1">
+                                <datalist id="fylker">
+                                    <?php 
+                                    // Henter fylker fra database
+                                    $hentFylke = "select fylkenavn from fylke order by fylkenavn ASC";
+                                    $stmtFylke = $db->prepare($hentFylke);
+                                    $stmtFylke->execute();
+                                    $fylke = $stmtFylke->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($fylke as $innhold) { ?>
+                                        <option value="<?php echo($innhold['fylkenavn'])?>"><?php echo($innhold['fylkenavn'])?></option>
+                                <?php } ?>
+                                </datalist>
+                            </section>
+                            <input type="submit" value="Søk på arrangement" class="sokBrukerFelt" tabindex ="-1">
+                        </section>
+                        <button type="button" id="arrangementRullegardin" class="arrangementRullegardin" tabindex ="10">Søk etter arrangement</button>
                     </form>
                 </section>
-            <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                <p id="mldFEIL">Vennligst oppgi noen verdier å søke på</p>
-            <?php }
-        } ?>
+            <?php } ?>
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 05.03.2020 -->
     <!-- Denne siden er kontrollert av Glenn Petter Pettersen , siste gang 06.03.2020 -->

@@ -8,7 +8,14 @@ include("inkluderes/innstillinger.php");
 
 // Kun innloggede brukere kan se meldinger
 if (!isset($_SESSION['idbruker'])) {
-    header("Location: default.php?error=1");
+    $_SESSION['default_melding'] = "Du må logge inn før du kan se denne siden";
+    header("Location: default.php");
+}
+
+$meldinger_melding = "";
+if(isset($_SESSION['meldinger_melding'])) {
+    $meldinger_melding = $_SESSION['meldinger_melding'];
+    unset($_SESSION['meldinger_melding']);
 }
 
 // Browser må validere cache med server før cached kopi kan benyttes
@@ -30,54 +37,57 @@ if(isset($_POST['mottatt'])) {
         $fantSamtale = true;
 
         // Henter info om senderen
-        $senderInfoQ = "select idbruker, brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld['sender'];
+        $senderInfoQ = "select idbruker, brukernavn, fnavn, enavn, brukertype from bruker where bruker.idbruker = " . $resMld['sender'];
         $senderInfoSTMT = $db->prepare($senderInfoQ);
         $senderInfoSTMT->execute();
         $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
 
-        // Henter personvern
-        $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resMld['sender'];
-        $personvernSTMT = $db->prepare($personvernQ);
-        $personvernSTMT->execute();
-        $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+        if($resInfo['brukertype'] != 4) {
+            // Henter personvern
+            $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resMld['sender'];
+            $personvernSTMT = $db->prepare($personvernQ);
+            $personvernSTMT->execute();
+            $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
 
-        // Tar utgangspunkt i at det ikke kan vises
-        $kanViseFornavn = false;
-        $kanViseEtternavn = false;
+            // Tar utgangspunkt i at det ikke kan vises
+            $kanViseFornavn = false;
+            $kanViseEtternavn = false;
 
-        // Sjekker om svar fra DB ikke er false og bruker har valgt å vise fornavn
-        if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
-            $kanViseFornavn = true;
-        }
-
-        // Sjekker om svar fra DB ikke er false og bruker har valgt å vise etternavn
-        if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
-            $kanViseEtternavn = true;
-        }
-           
-        // Tester på om vi kan vise fulle navnet, bare fornavn, bare etternavn eller kun brukernavn
-        if($kanViseFornavn == true && $kanViseEtternavn == false) {
-            if(preg_match("/\S/", $resInfo['fnavn']) == 1) {
-                $navn = $resInfo['fnavn'];  
-            } else {
-                $navn = $resInfo['brukernavn'];
+            // Sjekker om svar fra DB ikke er false og bruker har valgt å vise fornavn
+            if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
+                $kanViseFornavn = true;
             }
-        } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
-            if(preg_match("/\S/", $resInfo['enavn']) == 1) {
-                $navn = $resInfo['enavn'];  
-            } else {
-                $navn = $resInfo['brukernavn'];
+
+            // Sjekker om svar fra DB ikke er false og bruker har valgt å vise etternavn
+            if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
+                $kanViseEtternavn = true;
             }
-        } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
-            if(preg_match("/\S/", $resInfo['enavn']) == 1) {
-                $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+            
+            // Tester på om vi kan vise fulle navnet, bare fornavn, bare etternavn eller kun brukernavn
+            if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                if(preg_match("/\S/", $resInfo['fnavn']) == 1) {
+                    $navn = $resInfo['fnavn'];  
+                } else {
+                    $navn = $resInfo['brukernavn'];
+                }
+            } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                    $navn = $resInfo['enavn'];  
+                } else {
+                    $navn = $resInfo['brukernavn'];
+                }
+            } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                    $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                } else {
+                    $navn = $resInfo['brukernavn'];
+                }
             } else {
                 $navn = $resInfo['brukernavn'];
             }
         } else {
-            $navn = $resInfo['brukernavn'];
+            $navn = "Avregistrert bruker";
         }
-
 
         // Test på om bruker har tidligere lest denne meldingen
         if($resMld['lest'] == null || $resMld['lest'] == 0) {
@@ -88,7 +98,7 @@ if(isset($_POST['mottatt'])) {
         }
         
         // Henter bildet til brukeren
-        $hentBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld['sender'] . " and brukerbilde.bilde = bilder.idbilder";
+        $hentBildeQ = "select hvor from bilder, brukerbilde, bruker where brukerbilde.bruker = " . $resMld['sender'] . " and brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker = bruker.idbruker and bruker.brukertype != 4";
         $stmtBildeSTMT = $db->prepare($hentBildeQ);
         $stmtBildeSTMT->execute();
         $senderBilde = $stmtBildeSTMT->fetch(PDO::FETCH_ASSOC);
@@ -156,7 +166,8 @@ if(isset($_POST['sendMelding'])) {
         header("location: meldinger.php?meldingsendt");
     } else {
         // Error 1, melding ikke sendt
-        header("location: meldinger.php?error=1");
+        $_SESSION['meldinger_melding'] = "Kunne ikke sende meldingen";
+        header("Location: meldinger.php");
     }
 }
 
@@ -175,9 +186,18 @@ if(isset($_POST['slettMelding'])) {
         $slettMeldingSTMT->execute();
 
         $endretMelding = $slettMeldingSTMT->rowCount();
-        if($endretMelding > 0) { header("Location: meldinger.php?meldingslettet"); /* Melding slettet, OK */ } 
-        else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
-    } else { header("Location: meldinger.php?error=2"); /* Error 2, melding ikke slettet */ }
+        if($endretMelding > 0) { 
+            header("Location: meldinger.php?meldingslettet"); /* Melding slettet, OK */ 
+        } else {
+            /* Error 2, melding ikke slettet */ 
+            $_SESSION['meldinger_melding'] = "Kunne ikke slette meldingen";
+            header("Location: meldinger.php");
+        }
+    } else {
+        /* Error 2, melding ikke slettet */ 
+        $_SESSION['meldinger_melding'] = "Kunne ikke slette meldingen";
+        header("Location: meldinger.php");
+    }
 }
 
 // Del for å gjenopprette en slettet melding
@@ -195,9 +215,18 @@ if(isset($_POST['gjenopprettMelding'])) {
         $gjenopprettMeldingSTMT->execute();
 
         $endretMelding = $gjenopprettMeldingSTMT->rowCount();
-        if($endretMelding > 0) { header("Location: meldinger.php"); /* Melding gjenopprettet, OK */ } 
-        else { header("Location: meldinger.php?error=3"); /* Error 3, melding ikke gjenopprettet */ }
-    } else { header("Location: meldinger.php?error=3"); /* Error 3, melding ikke gjenopprettet */ }
+        if($endretMelding > 0) { 
+            header("Location: meldinger.php"); /* Melding gjenopprettet, OK */ 
+        } else { 
+            /* Error 3, melding ikke gjenopprettet */ 
+            $_SESSION['meldinger_melding'] = "Kunne ikke gjenopprette meldingen";
+            header("Location: meldinger.php");
+        }
+    } else { 
+        /* Error 3, melding ikke gjenopprettet */ 
+        $_SESSION['meldinger_melding'] = "Kunne ikke gjenopprette meldingen";
+        header("Location: meldinger.php");
+    }
 }
 
 ?>
@@ -229,7 +258,7 @@ if(isset($_POST['gjenopprettMelding'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body class="innhold" onload="meldingTabbing()">
+    <body class="innhold" onload="meldingTabbing()" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/navmeny.php") ?>
         <?php 
         if(isset($_POST['mottatt'])) { 
@@ -331,7 +360,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                     <datalist id="brukere">
                         <?php 
                         // Henter brukernavn fra database
-                        $hentNavnQ = "select brukernavn from bruker order by brukernavn DESC";
+                        $hentNavnQ = "select brukernavn from bruker where brukertype != 4 and idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) order by brukernavn DESC";
                         $hentNavnSTMT = $db->prepare($hentNavnQ);
                         $hentNavnSTMT->execute();
                         $liste = $hentNavnSTMT->fetchAll(PDO::FETCH_ASSOC);
@@ -377,55 +406,59 @@ if(isset($_POST['gjenopprettMelding'])) {
                         <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                         <?php 
                         for($i = 0; $i < count($resMld); $i++) {
-                            $senderInfoQ = "select brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld[$i]['mottaker'];
+                            $senderInfoQ = "select brukernavn, fnavn, enavn, brukertype from bruker where bruker.idbruker = " . $resMld[$i]['mottaker'];
                             $senderInfoSTMT = $db->prepare($senderInfoQ);
                             $senderInfoSTMT->execute();
                             $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
 
                             // Henter bildet til brukeren
-                            $mottakerBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld[$i]['mottaker'] . " and brukerbilde.bilde = bilder.idbilder";
+                            $mottakerBildeQ = "select hvor from bilder, brukerbilde, bruker where brukerbilde.bruker = " . $resMld[$i]['mottaker'] . " and brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker = bruker.idbruker and bruker.brukertype != 4";
                             $mottakerBildeSTMT = $db->prepare($mottakerBildeQ);
                             $mottakerBildeSTMT->execute();
                             $mottakerBilde = $mottakerBildeSTMT->fetch(PDO::FETCH_ASSOC);
                             $funnetMottakerBilde = $mottakerBildeSTMT->rowCount();
                             
-                            // Henter personvern
-                            $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resMld[$i]['mottaker'];
-                            $personvernSTMT = $db->prepare($personvernQ);
-                            $personvernSTMT->execute();
-                            $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+                            if($resInfo['brukertype'] != 4) {
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resMld[$i]['mottaker'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
 
-                            $kanViseFornavn = false;
-                            $kanViseEtternavn = false;
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
 
-                            if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
-                                $kanViseFornavn = true;
-                            }
+                                if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
+                                }
 
-                            if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
-                                $kanViseEtternavn = true;
-                            }
-                            
-                            if($kanViseFornavn == true && $kanViseEtternavn == false) {
-                                if(preg_match("/\S/", $resInfo['fnavn']) == 1) {
-                                    $navn = $resInfo['fnavn'];  
+                                if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
+                                }
+                                
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $resInfo['fnavn']) == 1) {
+                                        $navn = $resInfo['fnavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                        $navn = $resInfo['enavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                        $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
                                 } else {
                                     $navn = $resInfo['brukernavn'];
-                                }
-                            } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
-                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
-                                    $navn = $resInfo['enavn'];  
-                                } else {
-                                    $navn = $resInfo['brukernavn'];
-                                }
-                            } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
-                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
-                                    $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
-                                } else {
-                                    $navn = $resInfo['brukernavn'];
-                                }
+                                } 
                             } else {
-                                $navn = $resInfo['brukernavn'];
+                                $navn = "Avregistrert bruker";
                             } ?>
 
                             <section class="meldinger_innboks_samtale" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
@@ -493,55 +526,60 @@ if(isset($_POST['gjenopprettMelding'])) {
                         <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                         <?php 
                         for($i = 0; $i < count($resMld); $i++) {
-                            $senderInfoQ = "select brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld[$i]['sender'];
+                            $senderInfoQ = "select brukernavn, fnavn, enavn, brukertype from bruker where bruker.idbruker = " . $resMld[$i]['sender'];
                             $senderInfoSTMT = $db->prepare($senderInfoQ);
                             $senderInfoSTMT->execute();
                             $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
 
                             // Henter bildet til brukeren
-                            $senderBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld[$i]['sender'] . " and brukerbilde.bilde = bilder.idbilder";
+                            $senderBildeQ = "select hvor from bilder, brukerbilde, bruker where brukerbilde.bruker = " . $resMld[$i]['sender'] . " and brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker = bruker.idbruker and bruker.brukertype != 4";
                             $senderBildeSTMT = $db->prepare($senderBildeQ);
                             $senderBildeSTMT->execute();
                             $senderBilde = $senderBildeSTMT->fetch(PDO::FETCH_ASSOC);
                             $funnetSenderBilde = $senderBildeSTMT->rowCount();
                             
-                            // Henter personvern
-                            $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resMld[$i]['sender'];
-                            $personvernSTMT = $db->prepare($personvernQ);
-                            $personvernSTMT->execute();
-                            $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+                            if($resInfo['brukertype'] != 4) {
 
-                            $kanViseFornavn = false;
-                            $kanViseEtternavn = false;
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resMld[$i]['sender'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
 
-                            if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
-                                $kanViseFornavn = true;
-                            }
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
 
-                            if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
-                                $kanViseEtternavn = true;
-                            }
-                            
-                            if($kanViseFornavn == true && $kanViseEtternavn == false) {
-                                if(preg_match("/\S/", $resInfo['fnavn']) == 1) {
-                                    $navn = $resInfo['fnavn'];  
-                                } else {
-                                    $navn = $resInfo['brukernavn'];
+                                if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
                                 }
-                            } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
-                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
-                                    $navn = $resInfo['enavn'];  
-                                } else {
-                                    $navn = $resInfo['brukernavn'];
+
+                                if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
                                 }
-                            } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
-                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
-                                    $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $resInfo['fnavn']) == 1) {
+                                        $navn = $resInfo['fnavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                        $navn = $resInfo['enavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                        $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
                                 } else {
                                     $navn = $resInfo['brukernavn'];
                                 }
                             } else {
-                                $navn = $resInfo['brukernavn'];
+                                $navn = "Avregistrert bruker";
                             }
                             ?>
                             <section class="meldinger_innboks_samtale" title="Vis denne meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
@@ -612,15 +650,8 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <?php } else if(isset($_GET['meldingslettet'])) { ?>
                     <p id="mldOK">Melding sendt til papirkurv</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                    <p id="mldFEIL">Kunne ikke sende melding</p>
-                    
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-                    <p id="mldFEIL">Kunne ikke slette meldingen</p>
-                <?php } ?>
-
-                <?php
-
+                <?php } 
+                
                 $tabMld = 10;
                 $tabSoppel = 11;
 
@@ -629,56 +660,61 @@ if(isset($_POST['gjenopprettMelding'])) {
                         <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
                         <?php 
                         for($i = 0; $i < count($resMld); $i++) {
-                            $senderInfoQ = "select brukernavn, fnavn, enavn from bruker where bruker.idbruker = " . $resMld[$i]['sender'];
+                            $senderInfoQ = "select brukernavn, fnavn, enavn, brukertype from bruker where bruker.idbruker = " . $resMld[$i]['sender'];
                             $senderInfoSTMT = $db->prepare($senderInfoQ);
                             $senderInfoSTMT->execute();
                             $resInfo = $senderInfoSTMT->fetch(PDO::FETCH_ASSOC); 
 
                             // Henter bildet til brukeren
-                            $senderBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $resMld[$i]['sender'] . " and brukerbilde.bilde = bilder.idbilder";
+                            $senderBildeQ = "select hvor from bilder, brukerbilde, bruker where brukerbilde.bruker = " . $resMld[$i]['sender'] . " and brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker = bruker.idbruker and bruker.brukertype != 4";
                             $senderBildeSTMT = $db->prepare($senderBildeQ);
                             $senderBildeSTMT->execute();
                             $senderBilde = $senderBildeSTMT->fetch(PDO::FETCH_ASSOC);
                             $funnetSenderBilde = $senderBildeSTMT->rowCount();
 
-                            // Henter personvern
-                            $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resMld[$i]['sender'];
-                            $personvernSTMT = $db->prepare($personvernQ);
-                            $personvernSTMT->execute();
-                            $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
-
-                            $kanViseFornavn = false;
-                            $kanViseEtternavn = false;
-
-                            if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
-                                $kanViseFornavn = true;
-                            }
-
-                            if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
-                                $kanViseEtternavn = true;
-                            }
-                            
-                            if($kanViseFornavn == true && $kanViseEtternavn == false) {
-                                if(preg_match("/\S/", $resInfo['fnavn']) == 1) {
-                                    $navn = $resInfo['fnavn'];  
-                                } else {
-                                    $navn = $resInfo['brukernavn'];
+                            if($resInfo['brukertype'] != 4) {
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resMld[$i]['sender'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernSender = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+    
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
+    
+                                if(isset($personvernSender['visfnavn']) && $personvernSender['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
                                 }
-                            } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
-                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
-                                    $navn = $resInfo['enavn'];  
-                                } else {
-                                    $navn = $resInfo['brukernavn'];
+    
+                                if(isset($personvernSender['visenavn']) && $personvernSender['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
                                 }
-                            } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
-                                if(preg_match("/\S/", $resInfo['enavn']) == 1) {
-                                    $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $resInfo['fnavn']) == 1) {
+                                        $navn = $resInfo['fnavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                        $navn = $resInfo['enavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $resInfo['enavn']) == 1) {
+                                        $navn = $resInfo['fnavn'] . " " . $resInfo['enavn'];  
+                                    } else {
+                                        $navn = $resInfo['brukernavn'];
+                                    }
                                 } else {
                                     $navn = $resInfo['brukernavn'];
                                 }
                             } else {
-                                $navn = $resInfo['brukernavn'];
+                                $navn = "Avregistrert bruker";
                             }
+
 
                             if($resMld[$i]['lest'] == 1) { ?>
                                 <section class="meldinger_innboks_samtale" title="Vis denne meldingen" onclick="aapneSamtale(<?php echo($resMld[$i]['idmelding']) ?>)" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
@@ -721,12 +757,21 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <form method="POST" id="meldinger_form_ny" action="meldinger.php">
                     <input type="submit" id="meldinger_nyKnapp" name="ny" title="Skriv en ny melding"  value="Ny melding">
                 </form>
+                
+                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($meldinger_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                    <section id="mldFEIL_innhold">
+                        <p id="mldFEIL"><?php echo($meldinger_melding) ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                    </section>  
+                </section>
 
             </main>
 
         <?php } ?>
         <?php include("inkluderes/footer.php") ?>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020 -->
     <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 06.03.2020 -->

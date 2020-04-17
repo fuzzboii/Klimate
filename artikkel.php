@@ -26,6 +26,12 @@ if (isset($_SESSION['input_tittel'])) {
     unset($_SESSION['input_innhold']);
 }
 
+$artikkel_melding = "";
+if(isset($_SESSION['artikkel_melding'])) {
+    $artikkel_melding = $_SESSION['artikkel_melding'];
+    unset($_SESSION['artikkel_melding']);
+}
+
 if (isset($_POST['publiserArtikkel'])) {
 
     $_SESSION['input_tittel'] = $_POST['tittel'];
@@ -100,9 +106,9 @@ if (isset($_POST['publiserArtikkel'])) {
 
                 header('Location: artikkel.php?artikkel=' . $artikkelid);
 
-            } else { header('Location: artikkel.php?nyartikkel=error3'); } // Innhold tomt / for langt
-        } else { header('Location: artikkel.php?nyartikkel=error2'); } // Ingress tomt / for langt
-    } else { header('Location: artikkel.php?nyartikkel=error1'); } // Tittel tomt / for langt
+            } else { $_SESSION['artikkel_melding'] = "Du har enten ikke oppgitt noe innhold, eller innholdet er for langt"; header("Location: artikkel.php?nyartikkel"); } // Innhold tomt / for langt
+        } else { $_SESSION['artikkel_melding'] = "Du har enten ikke oppgitt noen ingress, eller ingressen er for langt"; header("Location: artikkel.php?nyartikkel"); } // Ingress tomt / for langt
+    } else { $_SESSION['artikkel_melding'] = "Du har enten ikke oppgitt noen tittel, eller tittelen er for langt"; header("Location: artikkel.php?nyartikkel"); } // Tittel tomt / for langt
 }
 
 
@@ -135,6 +141,11 @@ if (isset($_POST['slettDenne'])) {
         $slettBildeQ = "delete from artikkelbilde where idartikkel = " . $_POST['slettDenne'];
         $slettBildeSTMT = $db->prepare($slettBildeQ);
         $slettBildeSTMT->execute();
+
+        // Sletter så alle kommentarene for en artikkel
+        $slettKommentarerQ = "delete from kommentar where artikkel = " . $_POST['slettDenne'];
+        $slettKommentarerSTMT = $db -> prepare($slettKommentarerQ);
+        $slettKommentarerSTMT -> execute();
 
         // Sletter så artikkelen
         $slettingQ = "delete from artikkel where idartikkel = " . $_POST['slettDenne'];
@@ -178,7 +189,8 @@ if(isset($_POST['sendKommentar'])) {
     }
     
     if(strlen($_POST['tekst']) >= 1000) {
-        header("location: artikkel.php?artikkel=" . $_GET['artikkel'] . "&error=1");
+        $_SESSION['artikkel_melding'] = "Kommentaren er for lang"; 
+        header("Location: artikkel.php?artikkel=" . $_GET['artikkel']);
     } else {
         // Legger til en ny kommentar
         $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, bruker, artikkel) values(:ingress, :tekst, NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
@@ -233,11 +245,16 @@ $tabindex = 8;
                 if(isset($_GET['nyartikkel'])) { ?>
                     Ny artikkel
                 <?php } else if (isset($_GET['artikkel'])) {
-                    $hentTittelQ = "select artnavn from artikkel where idartikkel = " . $_GET['artikkel'];
+                    $hentTittelQ = "select artnavn from artikkel where idartikkel = " . $_GET['artikkel'] ." and 
+                        bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                     $hentTittelSTMT = $db -> prepare($hentTittelQ);
                     $hentTittelSTMT->execute();
                     $artikkel_title = $hentTittelSTMT->fetch(PDO::FETCH_ASSOC);
-                    echo($artikkel_title['artnavn']);
+                    if($artikkel_title) {
+                        echo($artikkel_title['artnavn']);
+                    } else {
+                        echo("Artikkel ikke funnet");
+                    }
                 } else { ?>
                     Artikler
             <?php } ?> 
@@ -250,37 +267,41 @@ $tabindex = 8;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="artikkel_body" onload="visKommentar(), hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp'), artTabbing()" onresize="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">
+    <body id="artikkel_body" onclick="lukkMelding('mldFEIL_boks')" onload="visKommentar(), hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp'), artTabbing()" onresize="hentSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
         
-                <?php if(isset($_GET['artikkel'])){
-                    // Henter artikkelen bruker ønsker å se
-                    $hent = "select * from artikkel, bruker where bruker=idbruker and idartikkel = " . $_GET['artikkel'];
-                    $stmt = $db->prepare($hent);
-                    $stmt->execute();
-                    $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
-                    $antallArtikkel = $stmt->rowCount();
-                    // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe artikkel med denne artikkelid i databasen
-                    if ($antallArtikkel == 0) { ?>
-                        <!-- Del for å vise feilmelding til bruker om at artikkel ikke eksisterer -->
-                        <h1>Artikkel ikke funnet</h1>
-                    <?php } else { 
-                        // ------------------------------ artikler som er klikket på -----------------------------
-                        // Del for å vise en spesifik artikkel
-                        // Henter bilde fra database utifra artikkelid
-                        $hentBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $_GET['artikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
-                        $stmtBilde = $db->prepare($hentBilde);
-                        $stmtBilde->execute();
-                        $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
-                        $antallBilderFunnet = $stmtBilde->rowCount();
-                        ?>
-                        <!--  -->
-                        <!-- Innholdet i påklikket artikkel -->
-                        <main id="artikkel_main" style="margin-top: 6em;"onclick="lukkHamburgerMeny()">
-                        <!-- rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen -->
-                        <?php if ($antallBilderFunnet != 0) { ?>
+            <?php if(isset($_GET['artikkel'])){
+                // Henter artikkelen bruker ønsker å se
+                $hent = "select * from artikkel, bruker where bruker=idbruker and idartikkel = " . $_GET['artikkel'] . " and 
+                    artikkel.bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) ";
+                $stmt = $db->prepare($hent);
+                $stmt->execute();
+                $artikkel = $stmt->fetch(PDO::FETCH_ASSOC);
+                $antallArtikkel = $stmt->rowCount();
+                // rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe artikkel med denne artikkelid i databasen
+                ?>
+                <main id="artikkel_main" style="margin-top: 6em;"onclick="lukkHamburgerMeny()">
+                <?php
+                if ($antallArtikkel == 0) { ?>
+                    <!-- Del for å vise feilmelding til bruker om at artikkel ikke eksisterer -->
+                    <h1 id="artikkel_ikkefunnet">Artikkel ikke funnet</h1>
+                <?php } else { 
+                    // ------------------------------ artikler som er klikket på -----------------------------
+                    // Del for å vise en spesifik artikkel
+                    // Henter bilde fra database utifra artikkelid
+                    $hentBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $_GET['artikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
+                    $stmtBilde = $db->prepare($hentBilde);
+                    $stmtBilde->execute();
+                    $bilde = $stmtBilde->fetch(PDO::FETCH_ASSOC);
+                    $antallBilderFunnet = $stmtBilde->rowCount();
+                    ?>
+                    <!--  -->
+                    <!-- Innholdet i påklikket artikkel -->
+                    <!-- rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen -->
+                    <?php if ($antallBilderFunnet != 0) {
+                        if($artikkel['brukertype'] != 4) { ?>
                             <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
                             <section class="bildeArtikkelSeksjon">
                                 <?php // Tester på om filen faktisk finnes
@@ -288,17 +309,21 @@ $tabindex = 8;
                                 if(file_exists("$lagringsplass/$testPaa")) {  ?>  
                                     <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
                                 <?php } ?>
-
                             </section>
-                        <?php } ?>
-                            <section class="Artikkel_innhold">
-                                <h1 class="artikkel_overskrift"><?php echo($artikkel['artnavn'])?></h1>
-                                <p><?php echo($artikkel['artingress'])?></p>
-                                <p><?php echo($artikkel['arttekst'])?></p>
-                            </section>
-                            <section class="ForfatterInfo">
-                                
-                                <?php // Henter personvern
+                        <?php }
+                    } ?>
+                        <section class="Artikkel_innhold">
+                            <h1 class="artikkel_overskrift"><?php echo($artikkel['artnavn'])?></h1>
+                            <p><?php echo($artikkel['artingress'])?></p>
+                            <p><?php echo($artikkel['arttekst'])?></p>
+                        </section>
+                        <section class="ForfatterInfo">
+                            
+                            <p id="ForfatterSkrevetAv">Skrevet av </p>
+                            <?php
+                            // Sjekker om bruker er avregistrert
+                            if($artikkel['brukertype'] != 4) {
+                                // Henter personvern
                                 $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $artikkel['bruker'];
                                 $personvernSTMT = $db->prepare($personvernQ);
                                 $personvernSTMT->execute();
@@ -336,71 +361,74 @@ $tabindex = 8;
                                 } else {
                                     $navn = $artikkel['brukernavn'];
                                 } ?>
-
-                                <p id="ForfatterSkrevetAv">Skrevet av </p>
                                 <a id="ForfatterTilBruker" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($navn)?></a>
-                                
-                                <?php setlocale(LC_ALL, "no, NO"); 
-                                $dato=($artikkel['tid']);
-                                ?>
+                            <?php } else { ?>
+                                <a id="ForfatterTilBruker" style="font-style: italic;">Avregistrert bruker</a>
+                            <?php } ?>
 
-                                
-                                <p class="artikkelTid"><?php echo(date_format(date_create($dato), "j M H:i")) ?></p>
-                            </section>
-                        <?php
-
-                        /*------------------------------------*/
-                        /*------------------------------------*/
-                        /*--Del for å kommentere en artikkel--*/
-                        /*------------------------------------*/
-                        /*------------------------------------*/ 
-                        ?> 
-                            <!-- Sjekker på brukernavnet for å se om bruker er innlogget og viser input kommentar feltet, hvis ikke ikke vis -->
-                            <!-- Antall kommentarer av artikler --> 
-                            <?php if (isset($_SESSION["idbruker"])) { ?>                         
-                            <section id="artikkel_kommentarOversikt"> 
-                                <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
-                                <?php
-                                    $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'];
-                                    $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
-                                    $hentAntallKommentarerSTMT->execute();
-                                    $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
-                                ?>
-                                    <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>     
-                                    <?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                                        <p id="mldFEIL">Kunne ikke sende melding</p>
-                                    <?php } ?>   
-                            </section>      
                             
-                            <!-- Skjuler/viser kommentarer og kommenteringen -->
-                            <section id="skjulkommentarer" style="display: none;">
-                                <section id="artikkel_kommentarSeksjon">
-                                    <!-- input kommentering felt -->
-                                    <form method="POST" id="kommentar_form" action="artikkel.php?artikkel=<?php echo($_GET['artikkel']) ?>">
-                                        <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required><?php echo($input_kommentar) ?></textarea>
-                                        <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
-                                    </form>
-                                    
-                                    <!-- Henter kommentarer -->
-                                    <?php
-                                        $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
-                                                    where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'] . " order by tid DESC";
-                                        $hentKommentarSTMT = $db->prepare($hentKommentar);
-                                        $hentKommentarSTMT->execute();
-                                        $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
-                                        ?>
-                                        
-                                        <?php for($i = 0; $i < count($kommentarer); $i++) {?>
-                                            <section id="artikkel_kommentarBoks">
-                                                                                            
-                                                <!-- Henter profilbilde, brukernavn, tid, og tekst for kommentaren-->
-                                                <?php
-                                                $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
-                                                $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
-                                                $brukerbildeSTMT -> execute();
-                                                $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
+                            <?php setlocale(LC_ALL, "no, NO"); 
+                            $dato=($artikkel['tid']);
+                            ?>
 
-                                                $testPaa = $brukerbilde['hvor'];
+                            
+                            <p class="artikkelTid"><?php echo(date_format(date_create($dato), "j M H:i")) ?></p>
+                        </section>
+                    <?php
+
+                    /*------------------------------------*/
+                    /*------------------------------------*/
+                    /*--Del for å kommentere en artikkel--*/
+                    /*------------------------------------*/
+                    /*------------------------------------*/ 
+                    ?> 
+                        <!-- Sjekker på brukernavnet for å se om bruker er innlogget og viser input kommentar feltet, hvis ikke ikke vis -->
+                        <!-- Antall kommentarer av artikler --> 
+                        <?php if (isset($_SESSION["idbruker"])) { ?>                         
+                        <section id="artikkel_kommentarOversikt"> 
+                            <img class="artikkel_antallKommentarerIkon" src="bilder/meldingIkon.png">
+                            <?php
+                                $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $_GET['artikkel'] ." and 
+                                    bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
+                                $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
+                                $hentAntallKommentarerSTMT->execute();
+                                $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
+                            ?>
+                                <p id="artikkel_antallKommentarer"><?php echo $antallkommentarer['antall'] ?> kommentar(er)</p>
+                        </section>      
+                        
+                        <!-- Skjuler/viser kommentarer og kommenteringen -->
+                        <section id="skjulkommentarer" style="display: none;">
+                            <section id="artikkel_kommentarSeksjon">
+                                <!-- input kommentering felt -->
+                                <form method="POST" id="kommentar_form" action="artikkel.php?artikkel=<?php echo($_GET['artikkel']) ?>">
+                                    <textarea id="artikkel_nyKommentar" type="textbox" name="tekst" placeholder="Skriv din mening..." required><?php echo($input_kommentar) ?></textarea>
+                                    <input id="artikkel_nyKommentar_knapp" type="submit" name="sendKommentar" value="Publiser kommentar">
+                                </form>
+                                
+                                <!-- Henter kommentarer -->
+                                <?php
+                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker, brukertype from kommentar, bruker
+                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'] . " and 
+                                                    bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) 
+                                                        order by tid DESC";
+                                    $hentKommentarSTMT = $db->prepare($hentKommentar);
+                                    $hentKommentarSTMT->execute();
+                                    $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                    ?>
+                                    
+                                    <?php for($i = 0; $i < count($kommentarer); $i++) { ?>
+                                        <section id="artikkel_kommentarBoks">                
+                                            <!-- Henter profilbilde, brukernavn, tid, og tekst for kommentaren-->
+                                            <?php
+                                            $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
+                                            $brukerbildeSTMT = $db -> prepare($brukerbildeQ);
+                                            $brukerbildeSTMT -> execute();
+                                            $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
+
+                                            $testPaa = $brukerbilde['hvor'];
+
+                                            if($kommentarer[$i]['brukertype'] != 4) {
                                                 if(file_exists("$lagringsplass/$testPaa")) {  
                                                     if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
                                                         <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>">   
@@ -409,48 +437,64 @@ $tabindex = 8;
                                                     <?php }
                                                 } else { ?>
                                                     <img class="kommentar_profilBilde" src="bilder/profil.png">
-                                                <?php } ?>                                         
-                                                <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
-                                                <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
-
-                                                <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>
-                                                <?php if($kommentarer[$i]['tekst'] != "") { ?>...</p>
-                                                    <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
-                                                    <p class="kommentar_lesknapp">Les mer</p>
-                                                <?php } else { ?>
-                                                    </p>
                                                 <?php } ?>
+                                                <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p> 
+                                            <?php } else { ?>
+                                                <img class="kommentar_profilBilde" src="bilder/profil.png">
+                                                <p class="kommentarBrukernavn" style="font-style: italic;">Avregistrert bruker</p> 
+                                            <?php } ?>
+                                            <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
 
-                                                <!-- Henter slette knapp for kommentarer basert på bruker -->
-                                                <?php
+                                            <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>
+                                            <?php if($kommentarer[$i]['tekst'] != "") { ?>...</p>
+                                                <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
+                                                <p class="kommentar_lesknapp">Les mer</p>
+                                            <?php } else { ?>
+                                                </p>
+                                            <?php } ?>
 
-                                                if ($kommentarer[$i]['bruker'] == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
-                                                    <form method="POST" id="artikkel_kommentar_slett" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
-                                                        <input type="submit" id="artikkel_slettKommentar_knapp" name="slettKommentar" value="Slett kommentar">
-                                                        <input type="hidden" id="artikkel_slettKommentar_valgt" name="idkommentar" value="<?php echo($kommentarer[$i]["idkommentar"])?>">
-                                                    </form>
-                                                    
-                                                <?php } ?>
-                                                                                    
-                                            </section>
-                                        <?php } ?>    
-                                </section> 
+                                            <!-- Henter slette knapp for kommentarer basert på bruker -->
+                                            <?php
+
+                                            if ($kommentarer[$i]['bruker'] == $_SESSION['idbruker'] || $_SESSION['brukertype'] == 1) { ?>
+                                                <form method="POST" id="artikkel_kommentar_slett" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
+                                                    <input type="submit" id="artikkel_slettKommentar_knapp" name="slettKommentar" value="Slett kommentar">
+                                                    <input type="hidden" id="artikkel_slettKommentar_valgt" name="idkommentar" value="<?php echo($kommentarer[$i]["idkommentar"])?>">
+                                                </form>
+                                                
+                                            <?php } ?>
+                                                                                
+                                        </section>
+                                    <?php } ?>    
+                            </section> 
+                            
+                            <?php } else { ?>
+                            <section id="artikkel_kommentarSeksjon">
+                                <!-- Knapp for å sende brukeren til logg inn -->
+                                <button onClick="location.href='logginn.php'" name="submit" class="artikkel_tilLogginn_knapp">Logg inn for å kommentere</button>
                                 
-                                <?php } else { ?>
-                                <section id="artikkel_kommentarSeksjon">
-                                    <!-- Knapp for å sende brukeren til logg inn -->
-                                    <button onClick="location.href='logginn.php'" name="submit" class="artikkel_tilLogginn_knapp">Logg inn for å kommentere</button>
+                                <!-- Henter kommentarer -->
+                                <?php
+                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
+                                                where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'] . " and 
+                                                    bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) 
+                                                        order by tid DESC";
+                                    $hentKommentarSTMT = $db->prepare($hentKommentar);
+                                    $hentKommentarSTMT->execute();
+                                    $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
+                                    ?>
                                     
-                                    <!-- Henter kommentarer -->
-                                    <?php
-                                        $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
-                                                    where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'];
-                                        $hentKommentarSTMT = $db->prepare($hentKommentar);
-                                        $hentKommentarSTMT->execute();
-                                        $kommentarer = $hentKommentarSTMT->fetchAll(PDO::FETCH_ASSOC);
-                                        ?>
-                                        
-                                        <?php for($i = 0; $i < count($kommentarer); $i++) {?>
+                                    <?php for($i = 0; $i < count($kommentarer); $i++) {
+
+                                        // Sjekker om bruker er utestengt
+                                        $hentEksklusjonQ = "select grunnlag, datotil from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
+                                        $hentEksklusjonSTMT = $db -> prepare($hentEksklusjonQ);
+                                        $hentEksklusjonSTMT -> bindparam(":bruker", $kommentarer[$i]["bruker"]);
+                                        $hentEksklusjonSTMT -> execute();
+
+                                        $antEks = $hentEksklusjonSTMT -> rowCount();
+
+                                        if($antEks == 0) { ?>
                                             <section id="artikkel_kommentarBoks">
                                                 <?php
                                                 $brukerbildeQ = "select bruker, hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $kommentarer[$i]["bruker"];
@@ -466,143 +510,137 @@ $tabindex = 8;
                                                 <p class="kommentarTekst" style="display: none"><?php echo $kommentarer[$i]['tekst'] ?></p>
                                                 <p class="kommentar_lesknapp">Les mer</p>
                                             </section>
-                                        <?php } ?>    
-                                </section> 
-                                <?php } ?>
-
-                            </section>
-                            <section id="visSkjulKnapp">
-                                <button onclick="javascript:VisSkjulKommentarer('skjulkommentarer')" name="submit" id="leskommentarer">Vis kommentarer</button>
-                            </section>
-                            <!-- Slett og tilbake knapper -->
-                            <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
-                            <?php 
-                            if(isset($_SESSION['idbruker'])) {
-                                $hentEierQ = "select bruker from artikkel where bruker = " . $_SESSION['idbruker'] . " and idartikkel = " . $_GET['artikkel'];
-                                $hentEierSTMT = $db->prepare($hentEierQ);
-                                $hentEierSTMT->execute();
-                                $artikkelEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
-
-                                if ($artikkelEier != false || $_SESSION['brukertype'] == 1) { ?>
-                                    <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett artikkelen">
-                                    <section id="artikkel_bekreftSlett" style="display: none;">
-                                        <section id="artikkel_bekreftSlettInnhold">
-                                            <h2>Sletting</h2>
-                                            <p>Er du sikker på av du vil slette denne artikkelen?</p>
-                                            <form method="POST" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
-                                                <button id="artikkel_bekreftSlettKnapp" name="slettDenne" value="<?php echo($_GET['artikkel']) ?>">Slett</button>
-                                            </form>
-                                            <button id="artikkel_avbrytKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')">Avbryt</button>
-                                        </section>
-                                    </section>
-                                <?php } ?>
-                            <?php } ?>
-                        </main>
-                    <?php } ?>
-                <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      
-        
-                    <header class="artikkel_header" onclick="lukkHamburgerMeny()">
-                        <h1>Ny artikkel</h1>
-                    </header>
-
-                    <main id="artikkel_mainNy" onclick="lukkHamburgerMeny()">
-
-                    <article id="artikkel_articleNy">
-                        <form method="POST" action="artikkel.php" enctype="multipart/form-data">
-                            <h2>Tittel</h2>
-                            <input id="artikkel_inputTittel" type="text" maxlength="45" name="tittel" value="<?php echo($input_tittel) ?>" placeholder="Skriv inn tittel" autofocus required>
-                            <h2>Ingress</h2>
-                            <textarea id="artikkel_inputIngress" maxlength="255" name="ingress" rows="3" cols="35" placeholder="Skriv inn inngress" required><?php echo($input_ingress) ?></textarea>
-                            <h2>Innhold</h2>
-                            <textarea id="artikkel_inputInnhold" maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required><?php echo($input_innhold) ?></textarea>
-                            <h2>Bilde</h2>
-                            <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
-                            
-                            <?php if($_GET['nyartikkel'] == "error1"){ ?>
-                                <p id="mldFEIL">Tittel for lang eller ikke oppgitt</p>
-                        
-                            <?php } else if($_GET['nyartikkel'] == "error2"){ ?>
-                                <p id="mldFEIL">Ingress for lang eller ikke oppgitt</p>
-                            
-                            <?php } else if($_GET['nyartikkel'] == "error3") { ?>
-                                <p id="mldFEIL">Innhold for lang eller ikke oppgitt</p>
-                            <?php } ?>
-
-                            <a href="artikkel.php" id="artikkel_lenke_knapp">Tilbake til artikler</a> 
-                            <input id="artikkel_submitNy" type="submit" name="publiserArtikkel" value="Opprett artikkel">
-                        </form>
-                    </article>
-
-                <?php } else {
-                    // -------------------- Artikler som vises på artikkel.php forside----------------
-                
-                    // Del for å vise alle artikler 
-                    $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, tid, brukernavn, enavn, fnavn, bruker
-                                    FROM artikkel, bruker
-                                    WHERE bruker=idbruker order by idartikkel desc";
-                
-                    $stmtArt = $db->prepare($hentAlleArt);
-                    $stmtArt->execute();
-                    $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
-                    
-                    // Variabel som brukes til å fortelle når vi kan avslutte side_sok
-                    $avsluttTag = 0;
-                    $antallSider = 0;
-
-                    $resAntall = $stmtArt->rowCount(); 
-                    ?>            
-        
-                    <header class="artikkel_header" onclick="lukkHamburgerMeny()">
-                        <h1>Artikler</h1>
-                    </header>
-                    <main id="artikkel_main" onclick="lukkHamburgerMeny()">
-                        <section id="artikkel_redpanel">
-                            <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
-                            <a href="artikkel.php?nyartikkel" tabindex="-1"><p>Ny artikkel</p></a>
-                            <a href="artikkel.php?nyartikkel" tabindex="7"> <!-- VIKTIG, tabindex -->
-                                <img src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
-                            </a>
-                            <?php } ?>
-                        </section>
-                        <?php if(isset($_GET['slettingok'])) { ?> <p id="mldOK">Du har slettet artikkelen</p> <?php } ?>
-                        <?php if(isset($_GET['slettingfeil'])) { ?> <p id="mldFEIL">Kunne ikke slette artikkelen</p> <?php } ?>
-                    <?php if ($resAntall > 0 ) { ?>
-                        <?php for ($j = 0; $j < count($resArt); $j++) {
-                            // Hvis rest av $j delt på 8 er 0, start section (Ny side)
-                            if ($j % 8 == 0) { ?>
-                            <section class="side_artikkel">
-                            <?php $antallSider++; } $avsluttTag++; ?>
-                            <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
-                                <figure class="infoBoks_artikkel">
-
-                                    <?php // Henter bilde til artikkel
-                                    $hentArtBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $resArt[$j]['idartikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
-                                    $stmtArtBilde = $db->prepare($hentArtBilde);
-                                    $stmtArtBilde->execute();
-                                    $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
-                                    
-                                    if (!$resBilde) { ?>
-                                        <!-- Standard atikkelbilde om redaktør ikke har lastet opp noe enda -->
-                                        <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
-                                    <?php } else {
-                                        // Tester på om filen faktisk finnes
-                                        $testPaa = $resBilde['hvor'];
-                                        if(file_exists("$lagringsplass/$testPaa")) { 
-                                            // Artikkeltbilde som resultat av spørring
-                                            if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
-                                                <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
-                                                <img class="BildeBoks_artikkel" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
-                                            <?php } else { ?>
-                                                <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
-                                            <?php } ?>
-                                        <?php } else { ?>
-                                            <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
                                     <?php }
-                                    } ?>
-                                </figure>
-                                <!-- brukerens profilbilde -->
-                                <!-- blir hentet fram avhengig av hvilken bruker som har skrevet artikkelen -->
-                                <?php
+                                    } ?>    
+                            </section> 
+                            <?php } ?>
+
+                        </section>
+                        <section id="visSkjulKnapp">
+                            <button onclick="javascript:VisSkjulKommentarer('skjulkommentarer')" name="submit" id="leskommentarer">Vis kommentarer</button>
+                        </section>
+                        <!-- Slett og tilbake knapper -->
+                        <button id="artikkelValgt_tilbKnapp" onClick="location.href='artikkel.php'">Tilbake</button>
+                        <?php 
+                        if(isset($_SESSION['idbruker'])) {
+                            $hentEierQ = "select bruker from artikkel where bruker = " . $_SESSION['idbruker'] . " and idartikkel = " . $_GET['artikkel'];
+                            $hentEierSTMT = $db->prepare($hentEierQ);
+                            $hentEierSTMT->execute();
+                            $artikkelEier = $hentEierSTMT->fetch(PDO::FETCH_ASSOC);
+
+                            if ($artikkelEier != false || $_SESSION['brukertype'] == 1) { ?>
+                                <input type="button" id="artikkel_slettKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')" value="Slett artikkelen">
+                                <section id="artikkel_bekreftSlett" style="display: none;">
+                                    <section id="artikkel_bekreftSlettInnhold">
+                                        <h2>Sletting</h2>
+                                        <p>Er du sikker på av du vil slette denne artikkelen?</p>
+                                        <form method="POST" action="artikkel.php?artikkel=<?php echo($_GET['artikkel'])?>">
+                                            <button id="artikkel_bekreftSlettKnapp" name="slettDenne" value="<?php echo($_GET['artikkel']) ?>">Slett</button>
+                                        </form>
+                                        <button id="artikkel_avbrytKnapp" onclick="bekreftMelding('artikkel_bekreftSlett')">Avbryt</button>
+                                    </section>
+                                </section>
+                            <?php } ?>
+                        <?php } ?>
+                    </main>
+                <?php } ?>
+            <?php  } else if (isset($_GET['nyartikkel']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>      
+    
+                <header class="artikkel_header" onclick="lukkHamburgerMeny()">
+                    <h1>Ny artikkel</h1>
+                </header>
+
+                <main id="artikkel_mainNy" onclick="lukkHamburgerMeny()">
+
+                <article id="artikkel_articleNy">
+                    <form method="POST" action="artikkel.php" enctype="multipart/form-data">
+                        <h2>Tittel</h2>
+                        <input id="artikkel_inputTittel" type="text" maxlength="45" name="tittel" value="<?php echo($input_tittel) ?>" placeholder="Skriv inn tittel" autofocus required>
+                        <h2>Ingress</h2>
+                        <textarea id="artikkel_inputIngress" maxlength="255" name="ingress" rows="3" cols="35" placeholder="Skriv inn inngress" required><?php echo($input_ingress) ?></textarea>
+                        <h2>Innhold</h2>
+                        <textarea id="artikkel_inputInnhold" maxlength="1000" name="innhold" rows="5" cols="35" placeholder="Skriv inn innhold" required><?php echo($input_innhold) ?></textarea>
+                        <h2>Bilde</h2>
+                        <input type="file" name="bilde" id="bilde" accept=".jpg, .jpeg, .png">
+
+                        <a href="artikkel.php" id="artikkel_lenke_knapp">Tilbake til artikler</a> 
+                        <input id="artikkel_submitNy" type="submit" name="publiserArtikkel" value="Opprett artikkel">
+                    </form>
+                </article>
+
+            <?php } else {
+                // -------------------- Artikler som vises på artikkel.php forside----------------
+            
+                // Del for å vise alle artikler 
+                $hentAlleArt = "select idartikkel, artnavn, artingress, arttekst, tid, brukernavn, enavn, fnavn, bruker, brukertype
+                                FROM artikkel, bruker
+                                WHERE bruker=idbruker  and 
+                                    bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) 
+                                order by idartikkel desc";
+            
+                $stmtArt = $db->prepare($hentAlleArt);
+                $stmtArt->execute();
+                $resArt = $stmtArt->fetchAll(PDO::FETCH_ASSOC); 
+                
+                // Variabel som brukes til å fortelle når vi kan avslutte side_sok
+                $avsluttTag = 0;
+                $antallSider = 0;
+
+                $resAntall = $stmtArt->rowCount(); 
+                ?>            
+    
+                <header class="artikkel_header" onclick="lukkHamburgerMeny()">
+                    <h1>Artikler</h1>
+                </header>
+                <main id="artikkel_main" onclick="lukkHamburgerMeny()">
+                    <section id="artikkel_redpanel">
+                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1)) { ?>
+                        <a href="artikkel.php?nyartikkel" tabindex="-1"><p>Ny artikkel</p></a>
+                        <a href="artikkel.php?nyartikkel" tabindex="7"> <!-- VIKTIG, tabindex -->
+                            <img src="bilder/plussIkon.png" alt="Plussikon for å opprette ny artikkel">
+                        </a>
+                        <?php } ?>
+                    </section>
+                    <?php if(isset($_GET['slettingok'])) { ?> <p id="mldOK">Du har slettet artikkelen</p> <?php } ?>
+                    <?php if(isset($_GET['slettingfeil'])) { ?> <p id="mldFEIL">Kunne ikke slette artikkelen</p> <?php } ?>
+                <?php if ($resAntall > 0 ) { ?>
+                    <?php for ($j = 0; $j < count($resArt); $j++) {
+                        // Hvis rest av $j delt på 8 er 0, start section (Ny side)
+                        if ($j % 8 == 0) { ?>
+                        <section class="side_artikkel">
+                        <?php $antallSider++; } $avsluttTag++; ?>
+                        <section class="res_artikkel" onClick="location.href='artikkel.php?artikkel=<?php echo($resArt[$j]['idartikkel']) ?>'" tabindex = <?php echo($tabindex); $tabindex++; ?>>
+                            <figure class="infoBoks_artikkel">
+
+                                <?php // Henter bilde til artikkel
+                                $hentArtBilde = "select hvor from bilder, artikkelbilde where artikkelbilde.idartikkel = " . $resArt[$j]['idartikkel'] . " and artikkelbilde.idbilde = bilder.idbilder";
+                                $stmtArtBilde = $db->prepare($hentArtBilde);
+                                $stmtArtBilde->execute();
+                                $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
+                                
+                                if (!$resBilde) { ?>
+                                    <!-- Standard atikkelbilde om redaktør ikke har lastet opp noe enda -->
+                                    <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                <?php } else {
+                                    // Tester på om filen faktisk finnes
+                                    $testPaa = $resBilde['hvor'];
+                                    if(file_exists("$lagringsplass/$testPaa")) { 
+                                        // Artikkeltbilde som resultat av spørring
+                                        if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) {  ?> 
+                                            <!-- Hvis vi finner et miniatyrbilde bruker vi det -->
+                                            <img class="BildeBoks_artikkel" src="bilder/opplastet/thumb_<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                        <?php } else { ?>
+                                            <img class="BildeBoks_artikkel" src="bilder/opplastet/<?php echo($resBilde['hvor'])?>" alt="Artikkelbilde for <?php echo($resArt[$j]['artnavn'])?>">
+                                        <?php } ?>
+                                    <?php } else { ?>
+                                        <img class="BildeBoks_artikkel" src="bilder/stockevent.jpg" alt="Bilde av Oleg Magni fra Pexels">
+                                <?php }
+                                } ?>
+                            </figure>
+                            <!-- brukerens profilbilde -->
+                            <!-- blir hentet fram avhengig av hvilken bruker som har skrevet artikkelen -->
+                            <?php
+                            if($resArt[$j]['brukertype'] != 4) {
                                 $hentPb="select hvor from brukerbilde, bilder where brukerbilde.bilde = bilder.idbilder and brukerbilde.bruker= " . $resArt[$j]['bruker'];
                                 $stmtHentPb = $db->prepare($hentPb);
                                 $stmtHentPb->execute();
@@ -623,8 +661,12 @@ $tabindex = 8;
                                 <?php } else { ?>
                                     <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
                                 <?php }
-                                
-                                
+                            } else { ?>
+                                <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
+                            <?php }
+                            
+                            
+                            if($resArt[$j]['brukertype'] != 4) {
                                 // Henter personvern
                                 $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArt[$j]['bruker'];
                                 $personvernSTMT = $db->prepare($personvernQ);
@@ -664,33 +706,46 @@ $tabindex = 8;
                                     $navn = $resArt[$j]['brukernavn'];
                                 } ?>
                                 <p class="navn_artikkel"><?php echo($navn)?></p>
-                                <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$j]['tid']), "j M H:i")) ?></p>
-                                <img class="tid_artikkel_bilde" src="bilder/datoIkon.png">
-                                <h2><?php echo($resArt[$j]['artnavn'])?></h2>
-                                <p><?php echo($resArt[$j]['artingress'])?></p>
-                            </section>
-                            <?php
+                            <?php } else { ?>
+                                <p class="navn_artikkel" style="font-style: italic">Avregistrert bruker</p>
+                            <?php } ?>
+                            <p class="tid_artikkel"><?php echo(date_format(date_create($resArt[$j]['tid']), "j M H:i")) ?></p>
+                            <img class="tid_artikkel_bilde" src="bilder/datoIkon.png">
+                            <h2><?php echo($resArt[$j]['artnavn'])?></h2>
+                            <p><?php echo($resArt[$j]['artingress'])?></p>
+                        </section>
+                        <?php
 
-                            // Hvis telleren har nådd 8
-                            if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
-                                </section>     
-                            <?php 
-                                // Sett telleren til 0, mulighet for mer enn 2 sider
-                                $avsluttTag = 0;
-                            }
+                        // Hvis telleren har nådd 8
+                        if (($avsluttTag == 8) || $j == (count($resArt) - 1)) { ?>
+                            </section>     
+                        <?php 
+                            // Sett telleren til 0, mulighet for mer enn 2 sider
+                            $avsluttTag = 0;
                         }
-                    } ?>
-                    <section id="artikkel_bunnSection">
-                        <?php if ($antallSider > 1) {?>
-                            <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
-                            <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
-                            <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
-                        <?php } ?>
-                    </section>
-                <?php }  ?>
+                    }
+                } ?>
+                <section id="artikkel_bunnSection">
+                    <?php if ($antallSider > 1) {?>
+                        <p id="sok_antSider">Antall sider: <?php echo($antallSider) ?></p>
+                        <button type="button" id="artikkel_tilbKnapp" onclick="visForrigeSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Forrige</button>
+                        <button type="button" id="artikkel_nesteKnapp" onclick="visNesteSide('side_artikkel', 'artikkel_tilbKnapp', 'artikkel_nesteKnapp')">Neste</button>
+                    <?php } ?>
+                </section>
+            <?php }  ?>
+            <!-- Håndtering av feilmeldinger -->
+
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($artikkel_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                <section id="mldFEIL_innhold">
+                    <p id="mldFEIL"><?php echo($artikkel_melding) ?></p>  
+                    <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                    <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                </section>  
+            </section>
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad siste gang endret 06.03.2020 -->
     <!-- Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020 -->

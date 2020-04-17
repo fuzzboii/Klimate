@@ -9,7 +9,14 @@ include("inkluderes/innstillinger.php");
 
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis ikke
 if (!isset($_SESSION['idbruker'])) {
-    header("Location: default.php?error=1");
+    $_SESSION['default_melding'] = "Du kan ikke se denne siden";
+    header("Location: default.php");
+}
+
+$konto_melding = "";
+if(isset($_SESSION['konto_melding'])) {
+    $konto_melding = $_SESSION['konto_melding'];
+    unset($_SESSION['konto_melding']);
 }
 
 if (isset($_POST['avregistrerMeg'])) {
@@ -45,15 +52,18 @@ if (isset($_POST['avregistrerMeg'])) {
                 }
             } else {
                 // Feil passord oppgitt
-                header("Location: konto.php?error=2");
+                $_SESSION['konto_melding'] = "Feil passord oppgitt";
+                header("Location: konto.php");
             }
         } else {
             // Brukertype er administrator
-            header("Location: konto.php?error=3");
+            $_SESSION['konto_melding'] = "Du kan ikke avregistrere en administrator";
+            header("Location: konto.php");
         }
     } else {
         // Ikke noe passord skrevet
-        header("Location: konto.php?error=1");
+        $_SESSION['konto_melding'] = "Ikke noe passord oppgitt";
+        header("Location: konto.php");
     }
 }
 
@@ -138,7 +148,8 @@ if (isset($_POST['subEndring'])) {
                 // Sjekker på om bruker har skrevet et telefonnummer, maks 12 tegn (0047) 
                 if ($_POST['nytttelefonnummer'] != "") {
                     if(!preg_match('/^[0-9]{0,12}$/', $_POST['nytttelefonnummer'])) {
-                        header("Location: konto.php?rediger&error=9");
+                        $_SESSION['konto_melding'] = "Telefonnummeret oppfyller ikke kravet";
+                        header("Location: konto.php?rediger");
                     } else {
                         $nyttTelefonnummer = $_POST['nytttelefonnummer'];
                     }
@@ -172,7 +183,8 @@ if (isset($_POST['subEndring'])) {
                 }
             } else {
                 // Error 8, Epost er ikke gyldig
-                header("Location: konto.php?rediger&error=8");
+                $_SESSION['konto_melding'] = "Du har oppgitt en ugyldig epost";
+                header("Location: konto.php?rediger");
             }
         } 
 
@@ -200,14 +212,11 @@ if (isset($_POST['subEndring'])) {
                     $storebokstaver = preg_match('@[A-Z]@', $_POST['nyttpassord']);
                     $smaabokstaver = preg_match('@[a-z]@', $_POST['nyttpassord']);
                     $nummer = preg_match('@[0-9]@', $_POST['nyttpassord']);
-                    // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-                    // $spesielleB = preg_match('@[^\w]@', $pw);
-                    if ($_POST['nyttpassord'] == "") {
-                        // Ikke noe passord skrevet
-                        header("Location: konto.php?rediger&error=5");
-                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+
+                    if (!$storebokstaver || !$smaabokstaver || !$nummer || strlen($pw) < 8) {
                         // Ikke tilstrekkelig passord skrevet
-                        header("Location: konto.php?rediger&error=6");
+                        $_SESSION['konto_melding'] = "Passordet oppfyller ikke kravet";
+                        header("Location: konto.php?rediger");
                     } else {
                         // Passord er OK, vi fortsetter
                         $kombinert = $salt . $_POST['nyttpassord'];
@@ -228,8 +237,13 @@ if (isset($_POST['subEndring'])) {
                 }
             } else {
                 // Error 4, Passordene er ikke like
-                header("Location: konto.php?rediger&error=4");
+                $_SESSION['konto_melding'] = "Passordene er ikke like";
+                header("Location: konto.php?rediger");
             }
+        } else {
+            // Ikke noe passord skrevet
+            $_SESSION['konto_melding'] = "Du har ikke oppgitt et passord";
+            header("Location: konto.php?rediger");
         }
 
         // Hvis vi har oppdatert brukerinfo eller passord, returner bruker til kontosiden, her ser vi oppdatert info direkte
@@ -240,7 +254,8 @@ if (isset($_POST['subEndring'])) {
     catch (PDOException $ex) {
         if ($ex->getCode() == 23000) {
             // 23000, Duplikat brukernavn (Siden brukernavn er UNIQUE)
-            header("location: konto.php?rediger&error=7");
+            $_SESSION['konto_melding'] = "Brukernavnet er allerede tatt";
+            header("Location: konto.php?rediger");
         }
     }    
 }
@@ -285,7 +300,8 @@ if(isset($_POST['slettInfo'])) {
             header("location: konto.php?vellykket=1");
         } else {
             // Error 10, kunne ikke slette data
-            header("location: konto.php?rediger&error=10");
+            $_SESSION['konto_melding'] = "Feil oppsto ved sletting av data";
+            header("Location: konto.php?rediger");
         }
     }
 }
@@ -314,7 +330,7 @@ if(isset($_POST['slettInfo'])) {
         <script language="JavaScript" src="javascript.js"></script>
     </head>
 
-    <body id="konto_body" onload="kontoRullegardin()" <?php if(isset($_GET['rediger'])) { ?> onresize="fiksRullegardin()"<?php } ?>>
+    <body id="konto_body" onload="kontoRullegardin()" onclick="lukkMelding('mldFEIL_boks')" <?php if(isset($_GET['rediger'])) { ?> onresize="fiksRullegardin()"<?php } ?>>
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -325,28 +341,7 @@ if(isset($_POST['slettInfo'])) {
 
         <?php if(isset($_GET['rediger'])) { ?>
             <main id="konto_rediger_main" onclick="lukkHamburgerMeny()">
-                <?php if(isset($_GET['error']) && $_GET['error'] == 4){ ?>
-                    <p id="mldFEIL">Passordene er ikke like</p>
 
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 5){ ?>
-                    <p id="mldFEIL">Skriv inn et passord</p>
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
-                    <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 7){ ?>
-                    <p id="mldFEIL">Brukernavnet er opptatt</p>    
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 8){ ?>
-                    <p id="mldFEIL">Epost er ikke gyldig</p>    
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 9){ ?>
-                    <p id="mldFEIL">Telefonnummer må inneholde kun tall. Oppgi landkode som 0047.</p>    
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 10){ ?>
-                    <p id="mldFEIL">Kunne ikke slette data, vennligst prøv på nytt</p>    
-
-                <?php } ?>
                 <section class="brukerinformasjon_rediger"> 
                     <!-- Underoverskrift -->
                     <h2 class="redigerbruker_overskrift">Rediger brukeropplysninger</h2>
@@ -421,16 +416,6 @@ if(isset($_POST['slettInfo'])) {
                 <!-- Meldinger til bruker -->
                 <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                     <p id="mldOK">Konto oppdatert</p>  
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                    <p id="mldFEIL">Du må oppgi et passord ved avregistrering.</p>
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                    <p id="mldFEIL">Feil passord oppgitt</p> 
-
-                <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                    <p id="mldFEIL">Du kan ikke avregistrere en administrator</p> 
-
                 <?php }
 
                 // Henter personvern
@@ -506,10 +491,20 @@ if(isset($_POST['slettInfo'])) {
                         </section>
                     </section>
                 </section> 
+                <!-- Håndtering av feilmeldinger -->
+
+                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($konto_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                    <section id="mldFEIL_innhold">
+                        <p id="mldFEIL"><?php echo($konto_melding) ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                    </section>  
+                </section>
             </main>
         <?php } ?>
         <?php include("inkluderes/footer.php") ?>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     
 <!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 06.03.2020 -->

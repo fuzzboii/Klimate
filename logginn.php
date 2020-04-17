@@ -9,7 +9,8 @@ include("inkluderes/innstillinger.php");
 
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
 if (isset($_SESSION['idbruker'])) {
-    header("Location: default.php?error=2");
+    $_SESSION['default_melding'] = "Du kan ikke se denne siden";
+    header("Location: default.php");
 }
 
 // Setter tidssonen, dette er for at One.com domenet skal fungere, brukes i sjekk mot innloggingsforsøk
@@ -20,6 +21,12 @@ $input_brukernavn = "";
 if (isset($_SESSION['input_brukernavn'])) {
     $input_brukernavn = $_SESSION['input_brukernavn'];
     unset($_SESSION['input_brukernavn']);
+}
+
+$logginn_melding = "";
+if(isset($_SESSION['logginn_melding'])) {
+    $logginn_melding = $_SESSION['logginn_melding'];
+    unset($_SESSION['logginn_melding']);
 }
 
 
@@ -46,18 +53,19 @@ if (isset($_POST['submit'])) {
         $lbr = strtolower($_POST['brukernavn']);
         $pw = $_POST['passord'];
         $kombinert = $salt . $pw;
-        // Krypterer passorder med salting
+
+        // Krypterer det saltede passordet
         $spw = sha1($kombinert);
 
-        $sql = "select * from bruker where lower(brukernavn)='" . $lbr . "' and passord='" . $spw . "'";
-        // Prepared statement for å beskytte mot SQL injection
-        $stmt = $db->prepare($sql);
+        $hentBrukerInfoQ = "select * from bruker where lower(brukernavn) = :brukernavn and passord = :passord";
+        $hentBrukerInfoSTMT = $db -> prepare($hentBrukerInfoQ);
+        $hentBrukerInfoSTMT -> bindparam(":brukernavn", $lbr);
+        $hentBrukerInfoSTMT -> bindparam(":passord", $spw);
+        $hentBrukerInfoSTMT->execute();
+        $resultat = $hentBrukerInfoSTMT->fetch(PDO::FETCH_ASSOC);
 
-        $stmt->execute();
-
-        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (strtolower($resultat['brukernavn']) == $lbr and $resultat['passord'] == $spw) {
+        if($resultat) {
+            // Sjekker om bruker har tidligere avregistrert seg
             if ($resultat['brukertype'] == 4) {
                 $oppdaterBrukertypeQ = "update bruker set brukertype = 3 where idbruker = " . $resultat['idbruker'];
                 $oppdaterBrukertypeSTMT = $db->prepare($oppdaterBrukertypeQ);
@@ -66,53 +74,74 @@ if (isset($_POST['submit'])) {
                 $antallEndret = $oppdaterBrukertypeSTMT->rowCount();
 
                 if ($antallEndret == 0) {
-                    header("Location: logginn.php?error=1");
+                    $_SESSION['logginn_melding'] = "Kunne ikke logge inn, vennligst forsøk på nytt";
+                    header("Location: logginn.php");
                 } else {
                     $resultat['brukertype'] = 3;
                 }
-            } 
-
-            $_SESSION['idbruker'] = $resultat['idbruker'];
-            $_SESSION['brukernavn'] = $resultat['brukernavn'];
-            $_SESSION['fornavn'] = $resultat['fnavn'];
-            $_SESSION['etternavn'] = $resultat['enavn'];
-            $_SESSION['epost'] = $resultat['epost'];
-            $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
-            $_SESSION['brukertype'] = $resultat['brukertype'];
-            
-            $_SESSION['feilteller'] = 0;
-
-            // Sjekker på om bruker har registrert preferanser
-            $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
-            $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
-            $sjekkPrefSTMT->execute();
-            $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
-
-            // Bruker har ikke preferanser, oppretter de
-            // Variabelen $personvern kommer fra innstillinger
-            if(!$resPref) {
-                $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
-                                    $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
-                                        $_SESSION['idbruker'] . ")";
-
-                $opprettPrefSTMT = $db->prepare($opprettPrefQ);
-                $opprettPrefSTMT->execute();
             }
 
-            // Fjerner session variable for brukerinput om ingen feil oppstår
-            unset($_SESSION['input_brukernavn']);
+            // Sjekker om bruker har en aktiv utestengelse
+            $hentEksklusjonQ = "select grunnlag, datotil from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
+            $hentEksklusjonSTMT = $db -> prepare($hentEksklusjonQ);
+            $hentEksklusjonSTMT -> bindparam(":bruker", $resultat['idbruker']);
+            $hentEksklusjonSTMT -> execute();
 
-            header("Location: backend.php");
+            $eksklusjon = $hentEksklusjonSTMT -> fetch(PDO::FETCH_ASSOC); 
+
+            if($eksklusjon) {
+                if($eksklusjon['datotil'] == null) {
+                    $dato = "er permanent";
+                } else {
+                    $dato = "varer til: " . $eksklusjon['datotil'];
+                }
+                $_SESSION['logginn_melding'] = "Du har blitt utestengt for '" . $eksklusjon['grunnlag'] . "', utestengelsen " . $dato;
+                header("Location: logginn.php");
+            } else {
+                $_SESSION['idbruker'] = $resultat['idbruker'];
+                $_SESSION['brukernavn'] = $resultat['brukernavn'];
+                $_SESSION['fornavn'] = $resultat['fnavn'];
+                $_SESSION['etternavn'] = $resultat['enavn'];
+                $_SESSION['epost'] = $resultat['epost'];
+                $_SESSION['telefonnummer'] = $resultat['telefonnummer'];
+                $_SESSION['brukertype'] = $resultat['brukertype'];
+                
+                $_SESSION['feilteller'] = 0;
+    
+                // Sjekker på om bruker har registrert preferanser
+                $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
+                $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
+                $sjekkPrefSTMT->execute();
+                $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
+    
+                // Bruker har ikke preferanser, oppretter de
+                // Variabelen $personvern kommer fra innstillinger
+                if(!$resPref) {
+                    $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
+                                        $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
+                                            $_SESSION['idbruker'] . ")";
+    
+                    $opprettPrefSTMT = $db->prepare($opprettPrefQ);
+                    $opprettPrefSTMT->execute();
+                }
+    
+                // Fjerner session variable for brukerinput om ingen feil oppstår
+                unset($_SESSION['input_brukernavn']);
+    
+                header("Location: backend.php");
+            }
         } else {    
             // Øker teller for feilet innlogging med 1
             $_SESSION['feilteller']++;
             $_SESSION['sistFeilet'] = date("Y-m-d H:i:s");
             
-            header("Location: logginn.php?error=1");
+            $_SESSION['logginn_melding'] = "Kunne ikke logge inn, vennligst forsøk på nytt";
+            header("Location: logginn.php");
         }
     } else {
         // Bruker har feilet for mange ganger, gir tilbakemelding til bruker
-        header("Location: logginn.php?error=2");
+        $_SESSION['logginn_melding'] = "Du har feilet innlogging for mange ganger, vennligst vent";
+        header("Location: logginn.php");
     }
 }
  
@@ -136,50 +165,48 @@ if (isset($_POST['submit'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
-        <article class="innhold">
-            <?php include("inkluderes/navmeny.php") ?>
-            
-            <main id="toppMain" onclick="lukkHamburgerMeny()">
-                <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
-                <form method="POST" action="logginn.php" class="innloggForm">
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required autofocus>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
-                    </section>
-                    <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
-                    <!-- Meldinger til bruker -->
-                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                        <p id="mldFEIL">Sjekk brukernavn og passord</p>    
-                    
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2){ ?>
-                        <p id="mldFEIL">Du har feilet innlogging for mange ganger, vennligst vent</p>
-                        
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3){ ?>
-                        <p id="mldFEIL">Kunne ikke registrere bruker, vennligst kontakt administrator om dette problemet fortsetter</p>
-                    
-                    <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
-                        <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
-                    
-                    <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 2){ ?>
-                        <p id="mldOK">Passord endret</p>
-                    <?php } ?>
+    <body id="logginn_body" onclick="lukkMelding('mldFEIL_boks')">
+        <?php include("inkluderes/navmeny.php") ?>
+        
+        <main id="toppMain" onclick="lukkHamburgerMeny()">
+            <!-- Form brukes til autentisering av bruker, bruker type="password" for å ikke vise innholdet brukeren skriver -->
+            <form method="POST" action="logginn.php" class="innloggForm">
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                    <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required autofocus>
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
+                </section>
+                <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
 
-                    <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
-                </form>
+                <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
+                    <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
+                
+                <?php } else if(isset($_GET['vellykket']) && $_GET['vellykket'] == 2){ ?>
+                    <p id="mldOK">Passord endret</p>
+                <?php } ?>
 
-                <!-- Sender brukeren tilbake til forsiden -->
-                <button onClick="location.href='glemt_passord.php'" class="lenke_knapp">Glemt passord?</button>
-                <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
+                <input type="submit" name="submit" class="RegInnFelt_knappLogginn" value="Logg inn">   
+            </form>
+                
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($logginn_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                <section id="mldFEIL_innhold">
+                    <p id="mldFEIL"><?php echo($logginn_melding) ?></p>  
+                    <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                    <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                </section>  
+            </section>
 
-            </main>
-            <?php include("inkluderes/footer.php") ?>
-        </article>
+            <!-- Sender brukeren tilbake til forsiden -->
+            <button onClick="location.href='glemt_passord.php'" class="lenke_knapp">Glemt passord?</button>
+            <button onClick="location.href='default.php'" class="lenke_knapp">Tilbake til forside</button>
+
+        </main>
+        <?php include("inkluderes/footer.php") ?>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 21.02.2020 -->
     <!-- Denne siden er kontrollert av Aron Snekkestad siste gang 06.03.2020 -->

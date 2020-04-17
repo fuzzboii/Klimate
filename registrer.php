@@ -9,7 +9,8 @@ include("inkluderes/innstillinger.php");
 
 // Sjekker om bruker er i en gyldig session, sender tilbake til hovedsiden hvis så
 if (isset($_SESSION['idbruker'])) {
-    header("Location: default.php?error=2");
+    $_SESSION['default_melding'] = "Du kan ikke se denne siden";
+    header("Location: default.php");
 }
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
@@ -20,6 +21,12 @@ if (isset($_SESSION['input_brukernavn'])) {
     $input_epost = $_SESSION['input_epost'];
     unset($_SESSION['input_brukernavn']);
     unset($_SESSION['input_epost']);
+}
+
+$registrer_melding = "";
+if(isset($_SESSION['registrer_melding'])) {
+    $registrer_melding = $_SESSION['registrer_melding'];
+    unset($_SESSION['registrer_melding']);
 }
 
 if (isset($_POST['subRegistrering'])) {
@@ -45,10 +52,12 @@ if (isset($_POST['subRegistrering'])) {
 
                     if ($pw == "") {
                         // Ikke noe passord skrevet
-                        header("Location: registrer.php?error=3");
+                        $_SESSION['registrer_melding'] = "Du har ikke oppgitt et passord";
+                        header("Location: registrer.php");
                     } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
                         // Ikke tilstrekkelig passord skrevet
-                        header("Location: registrer.php?error=4");
+                        $_SESSION['registrer_melding'] = "Du har ikke oppgitt et tilstrekkelig passord";
+                        header("Location: registrer.php");
                     } else {
                         // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
                         $lbr = strtolower($_POST['brukernavn']);
@@ -101,30 +110,36 @@ if (isset($_POST['subRegistrering'])) {
                             }
                         } else {
                             // Brukernavnet er tatt
-                            header("location: registrer.php?error=1");
+                            $_SESSION['registrer_melding'] = "Brukernavnet er opptatt";
+                            header("Location: registrer.php");
                         }
                     }
                 }
                 catch (PDOException $ex) {
                     if ($ex->getCode() == 23000) {
                         // 23000, Duplikat, tenkes brukt til brukernavn da det ønskes å være satt UNIQUE i db
-                        header("location: registrer.php?error=1");
+                        $_SESSION['registrer_melding'] = "Brukernavnet er opptatt";
+                        header("Location: registrer.php");
                     } else if ($ex->getCode() == '42S22') {
                         // 42S22, Kolonne eksisterer ikke
-                        header("location: registrer.php?error=5");
+                        $_SESSION['registrer_melding'] = "Feil oppstod ved registrering";
+                        header("Location: registrer.php");
                     }
                 } 
             } else {
                 // Feilmelding 7, bruker har oppgitt en ugyldig epost
-                header("location: registrer.php?error=7");
+                $_SESSION['registrer_melding'] = "Du har oppgitt en ugyldig epost";
+                header("Location: registrer.php");
             }
         } else {
             // Feilmelding 6, bruker har ikke skrevet noe i ett av de obligatoriske feltene
-            header("location: registrer.php?error=6");
+            $_SESSION['registrer_melding'] = "Et eller flere felt ikke fylt inn";
+            header("Location: registrer.php");
         }
     } else {
         // Feilmelding 2 = passord ikke like
-        header("location: registrer.php?error=2");
+        $_SESSION['registrer_melding'] = "Passordene er ikke like";
+        header("Location: registrer.php");
     }
 }
 ?>
@@ -146,63 +161,48 @@ if (isset($_POST['subRegistrering'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body>
-        <article class="innhold">
-            <?php include("inkluderes/navmeny.php") ?>
+    <body id="registrer_body" onclick="lukkMelding('mldFEIL_boks')">
+        <?php include("inkluderes/navmeny.php") ?>
 
-            <main id="toppMain" onclick="lukkHamburgerMeny()">
-                <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
-                <form method="POST" action="registrer.php" class="innloggForm">
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
-                        <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
-                        <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
-                    </section>
-                    <section class="inputBoks">
-                        <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
-                        <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
-                    </section>
-                    <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
-
-                    <!-- Håndtering av feilmeldinger -->
-                    <?php if(isset($_GET['error']) && $_GET['error'] == 1){ ?>
-                        <p id="mldFEIL">Brukernavnet eksisterer fra før</p>    
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-                        <p id="mldFEIL">Passordene er ikke like</p>
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                        <p id="mldFEIL">Skriv inn ett passord</p>
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                        <p id="mldFEIL">Passord må være 8 tegn i lengden og inneholde en liten bokstav, en stor bokstav og ett tall</p>
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-                        <p id="mldFEIL">Bruker kunne ikke opprettes grunnet systemfeil, vennligst prøv igjen om kort tid</p>
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
-                        <p id="mldFEIL">Vennligst fyll ut alle feltene</p>
-
-                    <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
-                        <p id="mldFEIL">Epost oppgitt er ikke gyldig</p>
-                    <?php } ?>    
-
-                    <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
-                </form>
-
-                <!-- Sender brukeren tilbake til forsiden -->
-                <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
+        <main id="toppMain" onclick="lukkHamburgerMeny()">
+            <!-- Formen som bruker til registrering av bruker, mulighet for å vise passord til bruker om de er usikre -->
+            <form method="POST" action="registrer.php" class="innloggForm">
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/brukerIkon.png" alt="Brukerikon"> <!-- Ikonet for bruker -->
+                    <input type="text" class="RegInnFelt" name="brukernavn" value="<?php echo($input_brukernavn) ?>" placeholder="Skriv inn brukernavn" required title="Skriv inn ett brukernavn" autofocus>
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/emailIkon.png" alt="Epostikon"> <!-- Ikonet for epostadresse -->
+                    <input type="email" class="RegInnFelt" name="epost" value="<?php echo($input_epost) ?>" placeholder="Skriv inn e-postadresse" required title="Skriv inn en gyldig epostadresse">
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
+                </section>
+                <section class="inputBoks">
+                    <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
+                    <input type="password" class="RegInnFeltPW" name="passord2" value="" placeholder="Bekreft passord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
+                </section>
+                <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
                 
-            </main>
-            <?php include("inkluderes/footer.php") ?>
-        </article>
+                <!-- Håndtering av feilmeldinger -->
+
+                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($registrer_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                    <section id="mldFEIL_innhold">
+                        <p id="mldFEIL"><?php echo($registrer_melding) ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                    </section>  
+                </section>
+
+                <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Registrer ny bruker">
+            </form>
+
+            <!-- Sender brukeren tilbake til forsiden -->
+            <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button>
+            
+        </main>
+        <?php include("inkluderes/footer.php") ?>
     </body>
 
     <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 16.02.2020 -->

@@ -20,7 +20,7 @@ if(isset($_SESSION['idbruker'])) {
 
 ?>
 <!-- Begynnelse på øvre navigasjonsmeny -->
-        <nav class="navTop"> 
+        <nav class="default_navTop"> 
             <!-- Bruker et ikon som skal åpne gardinmenyen, henviser til funksjonen hamburgerMeny i javascript.js -->
             <!-- javascript:void(0) blir her brukt så siden ikke scroller til toppen av seg selv når du trykker på hamburger-ikonet -->
             <a class="bildeKontroll" href="javascript:void(0)" onclick="hamburgerMeny()" tabindex="6">
@@ -136,7 +136,7 @@ if(isset($_SESSION['idbruker'])) {
             <section class="avbrySeksjon">
                 <img class="xikon" src="bilder/xikon.png">   
             </section>
-        
+            
             <!-- innholdet i hamburger-menyen -->
             <!-- -1 tabIndex som standard da menyen er lukket -->
             <section class="hamburgerInnhold">

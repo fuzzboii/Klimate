@@ -8,9 +8,11 @@ include("inkluderes/innstillinger.php");
 
 // Brukere skal kunne sende søknad
 if (!isset($_SESSION['idbruker'])) {
-    header("Location: default.php?error=1");
+    $_SESSION['default_melding'] = "Du kan ikke se denne siden";
+    header("Location: default.php");
 } else if ($_SESSION['brukertype'] != '3') {
-    header("Location: default.php?error=4");
+    $_SESSION['default_melding'] = "Du kan ikke se denne siden";
+    header("Location: default.php");
 }
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt (Form submit)
@@ -22,6 +24,12 @@ if (isset($_SESSION['input_soknad'])) {
     unset($_SESSION['input_soknad']);
 }
 
+$soknad_melding = "";
+if(isset($_SESSION['soknad_melding'])) {
+    $soknad_melding = $_SESSION['soknad_melding'];
+    unset($_SESSION['soknad_melding']);
+}
+
 // Funksjonalitet for å sende en epost
 if (isset($_POST['submit'])) {
     // Session variabel for å ta vare på søknaden ved evt feil
@@ -31,7 +39,8 @@ if (isset($_POST['submit'])) {
         $epostValidert = filter_var($_POST["nyepost"], FILTER_VALIDATE_EMAIL);
         if($epostValidert == false) {
             // Error 2, epost ikke gyldig
-            header("Location: soknad.php?error=2");
+            $_SESSION['soknad_melding'] = "Du har ikke oppgitt en gyldig epostadresse";
+            header("Location: soknad.php");
         } else {
             $epost = $epostValidert;
         }
@@ -41,21 +50,24 @@ if (isset($_POST['submit'])) {
         $fnavn = $_POST['fnavn'];
     } else {
         // Error 3, fornavn ikke gyldig
-        header("Location: soknad.php?error=3");
+        $_SESSION['soknad_melding'] = "Oppgitt fornavn er ikke gyldig";
+        header("Location: soknad.php");
     }
 
     if(preg_match("/\S/", $_POST['enavn']) == 1) {
         $enavn = $_POST['enavn'];
     } else {
         // Error 4, etternavn ikke gyldig
-        header("Location: soknad.php?error=4");
+        $_SESSION['soknad_melding'] = "Oppgitt etternavn er ikke gyldig";
+        header("Location: soknad.php");
     }
 
     if(preg_match("/\S/", $_POST['soknaden']) == 1) {
         $soknaden = $_POST['soknaden'];
     } else {
         // Error 5, søknaden ikke gyldig
-        header("Location: soknad.php?error=5");
+        $_SESSION['soknad_melding'] = "Oppgitt søknad er ikke gyldig";
+        header("Location: soknad.php");
     }
 
     // Lar ikke bruker få endre brukernavnet som det sendes fra
@@ -66,7 +78,8 @@ if (isset($_POST['submit'])) {
         $tlfnr = $_POST['telefon'];
     } else {
         // Error 7, telefonnummer ikke gyldig
-        header("Location: soknad.php?error=7");
+        $_SESSION['soknad_melding'] = "Oppgitt telefonnummer er ikke gyldig";
+        header("Location: soknad.php");
     }
     date_default_timezone_set("Europe/Oslo");
     // $host hentes fra innstillinger.php
@@ -84,7 +97,8 @@ if (isset($_POST['submit'])) {
 		header("Location: backend.php?soknadsendt");
 	} else {
         // Error 1, kunne ikke sendes
-		header("Location: soknad.php?error=1");
+        $_SESSION['soknad_melding'] = "Feil oppstod ved sending av søknad";
+        header("Location: soknad.php");
     }
 }
 
@@ -108,47 +122,23 @@ if (isset($_POST['submit'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body class="innhold" onload="erTouch()">
+    <body id="soknad_body" onclick="lukkMelding('mldFEIL_boks')">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
         <!-- Kan ikke legge denne direkte i body -->
         <header id="soknad_header" onclick="lukkHamburgerMeny()">
             <!-- Logoen midten øverst på siden, med tittel -->
-            <h1 id="overskrift">Søknad om å bli redaktør</h1>
-            <script language="JavaScript">
-                function erTouch() {
-                    if (kanTouchBrukes()) {
-                        document.getElementById('overskrift').innerHTML = "Touch er støttet";
-                    } else {
-                        document.getElementById('overskrift').innerHTML = "Touch ikke støttet";
-                    }
-                }
-            </script>
-            <?php
-            // Feilmeldinger
-            if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-                <p id="mldFEIL">Feil oppsto ved sending av søknad</p>
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-                <p id="mldFEIL">Oppgi en gyldig epost</p>
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 3) { ?>
-                <p id="mldFEIL">Oppgi et gyldig fornavn</p>
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 4) { ?>
-                <p id="mldFEIL">Oppgi et gyldig etternavn</p>
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 5) { ?>
-                <p id="mldFEIL">Oppgi en gyldig søknad</p>
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 6) { ?>
-                <p id="mldFEIL">Oppgi et gyldig brukernavn</p>
-
-            <?php } else if(isset($_GET['error']) && $_GET['error'] == 7) { ?>
-                <p id="mldFEIL">Oppgi et gyldig telefonnummer</p>
-
-            <?php } ?>
+            <h1>Søknad om å bli redaktør</h1>
+            
+            <!-- Håndtering av feilmeldinger -->
+            <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($soknad_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                <section id="mldFEIL_innhold">
+                    <p id="mldFEIL"><?php echo($soknad_melding) ?></p>  
+                    <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                    <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                </section>  
+            </section>
         </header>
 
         <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
@@ -195,6 +185,7 @@ if (isset($_POST['submit'])) {
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
     <!-- Denne siden er utviklet av Robin Kleppang og Glenn Petter Pettersen, siste gang endret 06.03.2020 -->
     <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 06.03.2020 -->

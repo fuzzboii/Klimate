@@ -28,6 +28,29 @@ if (!isset($_GET['bruker'])) {
     }
 }
 
+// Sjekker om brukeren er utestengt, sender til egen profil om dette skjer
+$sjekkUtestengelseQ = "select bruker from eksklusjon where bruker = :bruker and (datotil is null or datotil > NOW())";
+$sjekkUtestengelseSTMT = $db -> prepare($sjekkUtestengelseQ);
+$sjekkUtestengelseSTMT -> bindParam(":bruker", $_GET['bruker']);
+$sjekkUtestengelseSTMT -> execute();
+$utestengt = $sjekkUtestengelseSTMT -> fetch(PDO::FETCH_ASSOC);
+
+if($utestengt) {
+    header("Location: profil.php?bruker=" . $_SESSION['idbruker']);
+}
+
+// Sjekker om brukeren har blitt avregistrert, sender til egen profil om dette skjer
+$sjekkAvregistreringQ = "select brukertype from bruker where idbruker = :bruker and brukertype = 4";
+$sjekkAvregistreringSTMT = $db -> prepare($sjekkAvregistreringQ);
+$sjekkAvregistreringSTMT -> bindParam(":bruker", $_GET['bruker']);
+$sjekkAvregistreringSTMT -> execute();
+$avregistrert = $sjekkAvregistreringSTMT -> fetch(PDO::FETCH_ASSOC);
+
+if($avregistrert) {
+    header("Location: profil.php?bruker=" . $_SESSION['idbruker']);
+}
+
+
 // -------------------- //
 // Oppdater profilbilde //
 // -------------------- //
@@ -152,19 +175,17 @@ if ($egen) {
         } else $visInteresserNy = "0";
         $brukerNy = $_SESSION['idbruker'];
 
-        // Forsøk oppdatering
-        try {
-            $oppdaterPreferanse = "update preferanse set visfnavn=?, visenavn=?, 
-                                visepost=?, visinteresser=?, visbeskrivelse=?, vistelefonnummer=? 
-                                where bruker=?";
-            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
-        } finally {
-            $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, bruker) 
-                                   values(?, ?, ?, ?, ?, ?, ?)";
-            $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
-            $stmtOppdaterPreferanse->execute([$visfnavnNy, $visenavnNy, $visepostNy, $visInteresserNy, $visBeskrivelseNy, $vistelefonnummerNy, $brukerNy]);
-        }   
+        // Slett gamle preferanser
+        $slettPreferanse = "delete from preferanse where bruker = '" . $brukerNy . "'";
+        $stmtSlettPreferanse = $db->prepare($slettPreferanse);
+        $stmtSlettPreferanse->execute();
+
+        // Oppdater
+        $oppdaterPreferanse = "insert into preferanse(visfnavn, visenavn, visepost, vistelefonnummer, visbeskrivelse, visinteresser, bruker) 
+                               values('" . $visfnavnNy . "', '" . $visenavnNy . "', '" . $visepostNy . "', '" . $vistelefonnummerNy . "', 
+                               '" . $visBeskrivelseNy . "', '" . $visInteresserNy . "', '" . $brukerNy . "')";
+                               $stmtOppdaterPreferanse = $db->prepare($oppdaterPreferanse);
+                               $stmtOppdaterPreferanse->execute();
     }
 }
 
@@ -247,7 +268,7 @@ if ($egen) {
         }
      } else {
             // Ellers viser vi en feilmelding
-            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&innstillinger&error=1');
+            header('Location: profil.php?bruker=' . $_SESSION['idbruker'] . '&error=1');
         }
     }
 }
@@ -375,7 +396,43 @@ if ($tellingArrangement > 0) {
     $arrangementProfil = $stmtArrangementProfil->fetchAll(PDO::FETCH_ASSOC);
 } else $arrangementProfil = null;
 
+//------------------------------------------------//
+// Rapportering av brukere: Innsetting av rapport //
+//------------------------------------------------//
 
+// Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt
+$input_rapBeskrivelse = "";
+
+if (isset($_SESSION['input_rapBeskrivelse'])) {
+    // Legger innhold i variable som leses senere på siden
+    $input_rapBeskrivelse = $_SESSION['input_rapBeskrivelse'];
+    // Sletter innholdet så dette ikke eksisterer utenfor denne siden
+    unset($_SESSION['input_rapBeskrivelse']);
+}
+
+if (isset($_POST['subRapportering'])) {
+    $_SESSION['input_rapBeskrivelse'] = $_POST['rapBeskrivelse'];
+
+    if ($_POST['rapBeskrivelse'] != "") {
+
+        // Sanitiserer innholdet før det blir lagt i databasen
+        $rapBeskrivelse = filter_var($_POST['rapBeskrivelse'], FILTER_SANITIZE_STRING);
+
+        // Spørringen som oppretter arrangementet
+        $nyRapporteringQ = "insert into brukerrapport(tekst, rapportertbruker, rapportertav, dato) values('" . $rapBeskrivelse . "', '" . $_GET['bruker'] . "', '" . 
+                            $_SESSION['idbruker'] . "', NOW())";
+        $nyRapporteringSTMT = $db->prepare($nyRapporteringQ);
+        $nyRapporteringSTMT->execute();
+
+        $antRap = $nyRapporteringSTMT -> rowCount();
+
+        if($antRap > 0) {
+            // OK, vi laster inn siden på nytt
+            unset($_SESSION['input_rapBeskrivelse']);
+            header("Location: profil.php?bruker=" . $_GET['bruker']);
+        }
+    }
+}
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 10;
 
@@ -390,7 +447,7 @@ $tabindex = 10;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Setter tittelen på prosjektet -->
         <title>
-            <?php if(isset($_GET['innstillinger'])) { ?>
+            <?php if(isset($_POST['innstillinger'])) { ?>
                 Rediger profil
             <?php } else { 
                 echo("Profil | " . $brukernavnProfil['brukernavn']);
@@ -404,7 +461,7 @@ $tabindex = 10;
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body onload="profilTabbing()"> 
+    <body id="stoppScroll" onload="profilTabbing()"> 
         <article class="innhold">
             <?php include("inkluderes/navmeny.php") ?>
 
@@ -414,19 +471,11 @@ $tabindex = 10;
             <!-- ---------------------------------------------------- -->
             <!-- Tester på om rediger brukerinnstilinger er påklikket -->
             <!-- ---------------------------------------------------- -->
-            <?php if(isset($_GET['innstillinger']) && $egen) { ?>
+            <?php if(isset($_POST['innstillinger']) && $egen) { ?>
                 <header class="profil_header" onclick="lukkHamburgerMeny()">
                 </header>
                 
                 <main class="profil_main2">
-                    <section class="bilde_grid">
-                        <h2>Endre profilbilde</h2>
-                        <form class="profil_bilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
-                            <h3>Velg et bilde</h3>
-                            <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
-                            <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
-                        </form>
-                    </section>
                     <!-- -------------------------------------------------------------------------------------------------------------- -->
                     <!-- Del for visning av personalia -->
                     <section class="skjul_grid">
@@ -434,7 +483,7 @@ $tabindex = 10;
                         <h2>Personalia</h2>
                         <section class="profil_persInf">
                             <!-- Et skjema for å oppdatere preferanser -->
-                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form id="profilForm" name="oppdaterPreferanser" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
                                 <input type="hidden" name="oppdaterPreferanser" value="oppdaterPreferanser" />   
                             <!-- Linje for fornavn -->
                                 <p class="personalia">Fornavn</p>
@@ -509,6 +558,23 @@ $tabindex = 10;
                     <!-- Oppdater-knapp -->
                     <?php if($egen) { ?>
                         <button class="oppdater_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
+                        <input type="button" id="profil_endreKnapp" onclick="bekreftMelding('profil_endreBilde')" value="Endre profilbilde">
+                        
+                        <!-- pop-up vindu -->
+                        <section id="profil_endreBilde" style="display: none;">
+                            <section id="profil_endreBildeInnhold">
+                                <h2>Endre profilbilde</h2>
+                                <form class="profil_velgBilde" method="POST" enctype="multipart/form-data" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                    <h3>Velg et bilde</h3>
+                                    <input type="file" name="bilde" id="bildeK" accept=".jpg, .jpeg, .png" tabindex="7">
+                                    <input class="profil_knapp" type="submit" name="endreBilde" value="Last opp" tabindex="8">
+                                </form>
+                                
+                                <button id="arrangement_inviterAvbrytKnapp" onclick="bekreftMelding('profil_endreBilde')">Avbryt</button>
+                            </section>
+                        </section>
+
+                        
                     <?php } ?>
 
                     <section class="int2_grid">
@@ -536,8 +602,9 @@ $tabindex = 10;
                             <!-- dropdown med forhåndsdefinerte interesser, for egen profil -->
 
                             <!-- Slettemodus -->
-                            <?php if ($egen) { ?>
-                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <?php if (isset($_POST['innstillinger']) && $egen) { ?>
+                            <form id="slettemodus" class="slett_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <?php if(!isset($_POST['slettemodus'])) { ?>
                                     <input class="profil_knapp3" type="submit" name="slettemodus" value="Slett interesse" tabindex="100">
                                 <?php } else { ?> 
@@ -546,7 +613,8 @@ $tabindex = 10;
                             </form>
                             <?php } ?>
                         <?php if($egen) { ?>
-                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form class="profil_interesse" method="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>">
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <select class="profil_input" name="interesse" tabindex="101">
                                     <?php $index=1 ?>
                                     <?php foreach($interesse as $rad) { ?>
@@ -558,7 +626,8 @@ $tabindex = 10;
                             </form>
 
                             <!-- Egendefinert interesse -->
-                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger">
+                            <form class="profil_interesse_egendefinert" method ="POST" action="profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&">
+                                <input type="hidden" name="innstillinger" value="innstillinger">
                                 <input class="profil_inputTekst" name="interesseEgendefinert" type="text" placeholder="Egendefinert" tabindex="103"></input>
                                 <input class="profil_knapp" type="submit" value="Legg til" tabindex="104"></input>
                             </form>
@@ -608,7 +677,7 @@ $tabindex = 10;
                                 <?php } ?>
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
-            
+ 
                         <?php } else { ?>
                             <!-- Hvis brukeren ikke har noe profilbilde, bruk standard profilbilde -->
                             <section class="bildeKontroll" tabindex="3">
@@ -616,6 +685,43 @@ $tabindex = 10;
                                 <!-- Vis brukernavn -->
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
+                        <?php } ?>
+                        
+                        <!-- RAPPORTERING AV BRUKERE -->
+                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1 || $_SESSION['brukertype'] == 3)) { ?>
+                            <?php if ($_SESSION['idbruker'] != $_GET['bruker']) { ?>
+                            
+                            <!-- Viser ikonet/knappen for rapportering -->
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" onclick="bekreftMelding('profil_rapporterBruker')">
+                            <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp">Rapporter</button>
+                            <!-- pop-up vindu -->
+                            <section id="profil_rapporterBruker" style="display: none;">
+                                <section id="profil_rapporterBrukerInnhold">
+                                    <?php { ?>
+                                    
+                                    <!-- Viser brukernavnet som skal rapporteres -->
+                                    <?php } ?>
+                                    <h2>Rapporter <?php echo($brukernavnProfil['brukernavn'])?></h2>
+                                    
+                                    <!-- Presenterer innholdet -->
+                                    <section class="profil_rapporterInnhold">
+                                        <form method="POST" action="profil.php?bruker=<?php echo($_GET['bruker'])?>">
+                                            <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
+                                            <p>Din rapportering blir registrert med brukernavnet ditt og vedkommende det gjelder. Rapporteringen blir behandlet av en administrator.</p>
+                                            <!-- Knapp for å rapportere bruker -->
+                                            <input type="submit" name="subRapportering" class="profil_rapporterKnappVindu" value="Rapporter">
+                                        </form>
+                                    </section>
+                                    
+                                    <!-- Knapp for å avbryte rapporteringen -->
+                                    <button id="profil_rapporterAvbrytKnapp" onclick="bekreftMelding('profil_rapporterBruker')">Avbryt</button>
+                                </section>
+                            </section>
+                            <?php } else { ?>
+                            <!-- Viser ikonet/knappen for rapportering som hidden-->
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" style=" visibility: hidden;">
+                            <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp" style=" visibility: hidden;">Rapporter</button>
+                            <?php } ?>
                         <?php } ?>
                     </section>   
                         
@@ -712,7 +818,7 @@ $tabindex = 10;
                     </section>
                     <section class="knapp_grid">
                     <?php if($egen) {?>
-                        <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>&innstillinger'" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
+                        <button onclick="innstillinger(<?php echo $_GET['bruker'] ?>)" name="redigerkonto" class="rediger_profil_knapp" tabindex=30>Rediger informasjon</button>
                     <?php } ?>
                     </section>
                 </main>
@@ -720,8 +826,9 @@ $tabindex = 10;
             <?php include("inkluderes/footer.php") ?>
         </article>
     </body>
+    <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 06.03.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 17.04.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
 
 </html>
