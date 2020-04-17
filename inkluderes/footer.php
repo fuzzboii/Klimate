@@ -12,5 +12,5 @@
         </footer>
 <?php
 // Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020
-// Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020
+// Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 17.04.2020
 ?>
