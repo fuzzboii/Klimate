@@ -300,17 +300,18 @@ $tabindex = 8;
                     <!--  -->
                     <!-- Innholdet i påklikket artikkel -->
                     <!-- rowCount() returnerer antall resultater fra database, er dette null finnes det ikke noe bilde i databasen -->
-                    <?php if ($antallBilderFunnet != 0) { ?>
-                        <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
-                        <section class="bildeArtikkelSeksjon">
-                            <?php // Tester på om filen faktisk finnes
-                            $testPaa = $bilde['hvor'];
-                            if(file_exists("$lagringsplass/$testPaa")) {  ?>  
-                                <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
-                            <?php } ?>
-
-                        </section>
-                    <?php } ?>
+                    <?php if ($antallBilderFunnet != 0) {
+                        if($artikkel['brukertype'] != 4) { ?>
+                            <!-- Hvis vi finner et bilde til artikkelen viser vi det -->
+                            <section class="bildeArtikkelSeksjon">
+                                <?php // Tester på om filen faktisk finnes
+                                $testPaa = $bilde['hvor'];
+                                if(file_exists("$lagringsplass/$testPaa")) {  ?>  
+                                    <img class="bildeArtikkel" src="bilder/opplastet/<?php echo($bilde["hvor"]) ?>" alt="Bilde av artikkel">  
+                                <?php } ?>
+                            </section>
+                        <?php }
+                    } ?>
                         <section class="Artikkel_innhold">
                             <h1 class="artikkel_overskrift"><?php echo($artikkel['artnavn'])?></h1>
                             <p><?php echo($artikkel['artingress'])?></p>
@@ -318,47 +319,53 @@ $tabindex = 8;
                         </section>
                         <section class="ForfatterInfo">
                             
-                            <?php // Henter personvern
-                            $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $artikkel['bruker'];
-                            $personvernSTMT = $db->prepare($personvernQ);
-                            $personvernSTMT->execute();
-                            $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
-
-                            $kanViseFornavn = false;
-                            $kanViseEtternavn = false;
-
-                            if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
-                                $kanViseFornavn = true;
-                            }
-
-                            if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
-                                $kanViseEtternavn = true;
-                            }
-                            
-                            if($kanViseFornavn == true && $kanViseEtternavn == false) {
-                                if(preg_match("/\S/", $artikkel['fnavn']) == 1) {
-                                    $navn = $artikkel['fnavn'];  
-                                } else {
-                                    $navn = $artikkel['brukernavn'];
-                                }
-                            } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
-                                if(preg_match("/\S/", $artikkel['enavn']) == 1) {
-                                    $navn = $artikkel['enavn'];  
-                                } else {
-                                    $navn = $artikkel['brukernavn'];
-                                }
-                            } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
-                                if(preg_match("/\S/", $artikkel['enavn']) == 1) {
-                                    $navn = $artikkel['fnavn'] . " " . $artikkel['enavn'];  
-                                } else {
-                                    $navn = $artikkel['brukernavn'];
-                                }
-                            } else {
-                                $navn = $artikkel['brukernavn'];
-                            } ?>
-
                             <p id="ForfatterSkrevetAv">Skrevet av </p>
-                            <a id="ForfatterTilBruker" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($navn)?></a>
+                            <?php
+                            // Sjekker om bruker er avregistrert
+                            if($artikkel['brukertype'] != 4) {
+                                // Henter personvern
+                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $artikkel['bruker'];
+                                $personvernSTMT = $db->prepare($personvernQ);
+                                $personvernSTMT->execute();
+                                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                $kanViseFornavn = false;
+                                $kanViseEtternavn = false;
+
+                                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                                    $kanViseFornavn = true;
+                                }
+
+                                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                                    $kanViseEtternavn = true;
+                                }
+                                
+                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                    if(preg_match("/\S/", $artikkel['fnavn']) == 1) {
+                                        $navn = $artikkel['fnavn'];  
+                                    } else {
+                                        $navn = $artikkel['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $artikkel['enavn']) == 1) {
+                                        $navn = $artikkel['enavn'];  
+                                    } else {
+                                        $navn = $artikkel['brukernavn'];
+                                    }
+                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                    if(preg_match("/\S/", $artikkel['enavn']) == 1) {
+                                        $navn = $artikkel['fnavn'] . " " . $artikkel['enavn'];  
+                                    } else {
+                                        $navn = $artikkel['brukernavn'];
+                                    }
+                                } else {
+                                    $navn = $artikkel['brukernavn'];
+                                } ?>
+                                <a id="ForfatterTilBruker" onClick="location.href='profil.php?bruker=<?php echo($artikkel['bruker'])?>'"><?php echo($navn)?></a>
+                            <?php } else { ?>
+                                <a id="ForfatterTilBruker" style="font-style: italic;">Avregistrert bruker</a>
+                            <?php } ?>
+
                             
                             <?php setlocale(LC_ALL, "no, NO"); 
                             $dato=($artikkel['tid']);
@@ -401,7 +408,7 @@ $tabindex = 8;
                                 
                                 <!-- Henter kommentarer -->
                                 <?php
-                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker from kommentar, bruker
+                                    $hentKommentar = "select idkommentar, ingress, tekst, tid, brukernavn, bruker, brukertype from kommentar, bruker
                                                 where kommentar.bruker = bruker.idbruker and kommentar.artikkel = ". $_GET['artikkel'] . " and 
                                                     bruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW())) 
                                                         order by tid DESC";
@@ -420,16 +427,22 @@ $tabindex = 8;
                                             $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
 
                                             $testPaa = $brukerbilde['hvor'];
-                                            if(file_exists("$lagringsplass/$testPaa")) {  
-                                                if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
-                                                    <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>">   
-                                                <?php } else { ?>
-                                                    <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">  
-                                                <?php }
-                                            } else { ?>
+
+                                            if($kommentarer[$i]['brukertype'] != 4) {
+                                                if(file_exists("$lagringsplass/$testPaa")) {  
+                                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
+                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>">   
+                                                    <?php } else { ?>
+                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">  
+                                                    <?php }
+                                                } else { ?>
+                                                    <img class="kommentar_profilBilde" src="bilder/profil.png">
+                                                <?php } ?>
+                                                <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p> 
+                                            <?php } else { ?>
                                                 <img class="kommentar_profilBilde" src="bilder/profil.png">
-                                            <?php } ?>                                         
-                                            <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p>
+                                                <p class="kommentarBrukernavn" style="font-style: italic;">Avregistrert bruker</p> 
+                                            <?php } ?>
                                             <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
 
                                             <p class="kommentarIngress" style="display: inline-block"><?php echo $kommentarer[$i]['ingress'] ?>
