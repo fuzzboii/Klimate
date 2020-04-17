@@ -18,12 +18,11 @@ if(!file_exists("../regler.html")) {
                             <link rel='icon' href='bilder/favicon.png' type='image/x-icon'>
                             <script language='JavaScript' src='javascript.js'> </script>
                             <link rel='stylesheet' type='text/css' href='stylesheet.css'>
-                            
-                            <title>Tatt imot!</title>
+                            <title>Regler</title>
                         </head>");
     //Body og main start-tag
     fwrite($handle,"<body>
-                    <main class='regler_innhold'>");
+                    <main id='regler_innhold'>");
 
     //Navmeny-bar og hamburgermeny
     fwrite($handle,"<nav class='navTop'>
