@@ -142,6 +142,6 @@ if (isset($_POST['glemtPassord'])) {
     </body>
 
     <!-- Denne siden er utviklet av Aron Snekkestad og Robin Kleppang, siste gang endret 21.02.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
 
 </html>

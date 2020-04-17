@@ -959,4 +959,4 @@ function innstillinger(bruker) {
 
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
-/* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */
+/* Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 */
