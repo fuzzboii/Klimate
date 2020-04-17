@@ -39,6 +39,17 @@ if($utestengt) {
     header("Location: profil.php?bruker=" . $_SESSION['idbruker']);
 }
 
+// Sjekker om brukeren har blitt avregistrert, sender til egen profil om dette skjer
+$sjekkAvregistreringQ = "select brukertype from bruker where idbruker = :bruker and brukertype = 4";
+$sjekkAvregistreringSTMT = $db -> prepare($sjekkAvregistreringQ);
+$sjekkAvregistreringSTMT -> bindParam(":bruker", $_GET['bruker']);
+$sjekkAvregistreringSTMT -> execute();
+$avregistrert = $sjekkAvregistreringSTMT -> fetch(PDO::FETCH_ASSOC);
+
+if($avregistrert) {
+    header("Location: profil.php?bruker=" . $_SESSION['idbruker']);
+}
+
 
 // -------------------- //
 // Oppdater profilbilde //
