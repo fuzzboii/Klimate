@@ -160,6 +160,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
 
     //Footer og slutt-taggger
     fwrite($handle,"\n\t\t\t\t</ol>\n\t\t\t</article>\n\t\t</main>" .
+                    "\n\t\t<button onclick='tilbakeTilTopp()' id='toppKnapp' title='Toppen'><img src='../bilder/pilopp.png' alt='Tilbake til toppen'></button>" .
                     "\n\t\t<footer>" .
                         "\n\t\t\t<p class=footer_beskrivelse>&copy; Klimate " . date("Y") . " | <a href='mailto:kontakt@klimate.no'>Kontakt oss</a>");
     if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") {  
