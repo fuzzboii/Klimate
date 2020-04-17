@@ -174,4 +174,6 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
                     "\n</html>");
     fclose($handle);
 }
+// Denne siden er utviklet av Aron Snekkestad og Robin Kleppang, siste gang endret 17.04.2020
+// Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 17.04.2020
 ?>
