@@ -564,7 +564,7 @@ if(isset($_POST['endreBrukertype'])) {
                 // Ny regel ?>
                 <h2 id="admin_underskrift">Opprett en regel</h2>
                 <form method="POST" action="administrator.php?nyregel" id="admin_nyregel_form">
-                    <textarea name="regTekst" id="admin_nyregel_tekst" placeholder="Skriv inn regelen" required maxlength="255"></textarea>
+                    <textarea name="regTekst" id="admin_nyregel_tekst" placeholder="Skriv inn regelen" required autofocus maxlength="255"></textarea>
                     <input type="submit" name="regRegistrering" id="admin_nyregel_knapp" value="Legg til">
                 </form>
                 <button id="admin_nyregel_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
