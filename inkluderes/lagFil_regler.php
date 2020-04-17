@@ -152,7 +152,7 @@ if(!file_exists("./regler.html") && isset($_SESSION['idbruker'])) {
                         "\n\t\t\t\t<h1 class='velkomst'>Regler</h1>" .
                     "\n\t\t\t</header>" .
                     "\n\t\t\t<article id='regler_main'>" .
-                    "\n\t\t\t\t<ol class='reglerdata'>");
+                        "\n\t\t\t\t<ol class='reglerdata'>");
 
     foreach($regler as $rad) {           
         fwrite($handle,"\n\t\t\t\t\t<li>" . $rad['regeltekst'] . "</li>");
