@@ -152,6 +152,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
                         "\n\t\t\t\t<h1 class='velkomst'>Regler</h1>" .
                     "\n\t\t\t</header>" .
                     "\n\t\t\t<article id='regler_article'>" .
+                        "\n\t\t\t\t<p>Som bruker hos Klimate må du følge reglene spesifisert under.</p>" .
                         "\n\t\t\t\t<ol class='reglerdata'>");
 
     foreach($regler as $rad) {           
