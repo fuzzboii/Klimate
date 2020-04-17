@@ -508,6 +508,7 @@ $tabindex = 8;
                                 } else {
                                     $navn = $arrangement['brukernavn'];
                                 }
+
                                 
                                 ?>
 
@@ -581,13 +582,21 @@ $tabindex = 8;
                             
                             </section>
                         </section>
+
+                        <?php 
+                        // Sjekker om brukeren er avregistrert
+                        $sjekkBrukertypeQ = "select brukertype from bruker where idbruker = " . $arrangement['idbruker'];
+                        $sjekkBrukertypeSTMT = $db -> prepare($sjekkBrukertypeQ);
+                        $sjekkBrukertypeSTMT -> execute();
+                        $brukertype = $sjekkBrukertypeSTMT -> fetch(PDO::FETCH_ASSOC);
+                        ?>
                         
                         <section id="argInf_om">
                             <h1><?php echo($arrangement['eventnavn'])?></h1>
                             <h2>Beskrivelse</h2>
                             <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
                             <h2>Arrangør</h2>
-                            <p id="arrangement_navn"><?php echo($navn); ?></p>
+                            <?php if($brukertype['brukertype'] == 4) {echo("<p id='arrangement_navn' style='font-style: italic;'>Avregistrert bruker");} else {echo("<p id='arrangement_navn'>" . $navn);} ?></p>
                             <?php if(isset($kanViseEpost) && $kanViseEpost == true) { ?>
                                 <h2>Kontakt</h2>
                                 <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>   
