@@ -8,8 +8,8 @@ include("inkluderes/innstillinger.php");
 
 
 // Browser må validere cache med server før cached kopi kan benyttes
-// Dette gjør at man kan gå frem og tilbake i innboksen uten at man får ERR_CACHE_MISS
-//header("Cache-Control: no cache");
+// Dette gjør at man kan gå frem og tilbake i adminpanelet uten at man får ERR_CACHE_MISS
+header("Cache-Control: no cache");
 
 // Forsikrer seg om kun tilgang for administrator
 if (!isset($_SESSION['idbruker'])) {
