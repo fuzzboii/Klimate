@@ -307,7 +307,7 @@ if(isset($_POST['regRegistrering'])) {
         $_SESSION['admin_melding'] = "Ingen tekst oppgitt eller regel for lang";
         header("Location: administrator.php?nyregel");
     }
-    $filpath = "regler.html";
+    $filpath = "generert/regler.html";
     // Bruker unlink() function for å slette filen regler.html
     unlink($filpath);
 }
