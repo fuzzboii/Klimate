@@ -508,6 +508,7 @@ $tabindex = 8;
                                 } else {
                                     $navn = $arrangement['brukernavn'];
                                 }
+
                                 
                                 ?>
 
@@ -581,17 +582,25 @@ $tabindex = 8;
                             
                             </section>
                         </section>
+
+                        <?php 
+                        // Sjekker om brukeren er avregistrert
+                        $sjekkBrukertypeQ = "select brukertype from bruker where idbruker = " . $arrangement['idbruker'];
+                        $sjekkBrukertypeSTMT = $db -> prepare($sjekkBrukertypeQ);
+                        $sjekkBrukertypeSTMT -> execute();
+                        $brukertype = $sjekkBrukertypeSTMT -> fetch(PDO::FETCH_ASSOC);
+                        ?>
                         
                         <section id="argInf_om">
                             <h1><?php echo($arrangement['eventnavn'])?></h1>
                             <h2>Beskrivelse</h2>
                             <p id="arrangement_tekst"><?php echo($arrangement['eventtekst'])?></p>
                             <h2>Arrangør</h2>
-                            <p id="arrangement_navn"><?php echo($navn); ?></p>
+                            <?php if($brukertype['brukertype'] == 4) {echo("<p id='arrangement_navn' style='font-style: italic;'>Avregistrert bruker");} else {echo("<p id='arrangement_navn'>" . $navn); ?></p>
                             <?php if(isset($kanViseEpost) && $kanViseEpost == true) { ?>
                                 <h2>Kontakt</h2>
                                 <p id="arrangement_mail"><a href="mailto:<?php echo($arrangement['epost'])?>"><?php echo($arrangement['epost'])?></a></p>   
-                            <?php } ?>
+                            <?php } } ?>
                         </section>
 
                         <section class="arg_tilbInv_knapp">
@@ -685,7 +694,7 @@ $tabindex = 8;
            <?php } else {
 
                 // Del for å vise alle arrangement 
-                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke 
+                $hentAlleArr = "select idevent, eventnavn, tidspunkt, veibeskrivelse, event.idbruker as idbruker, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke 
                     where tidspunkt >= NOW() and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
                         event.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))
                     order by tidspunkt asc";
@@ -804,7 +813,7 @@ $tabindex = 8;
                             <p class="arrangement_fylke"><?php echo($resArr[$j]['fylkenavn'])?></p>
                             <img class="arrangement_rFloatBilde" src="bilder/stedIkon.png">
                             <img class="arrangement_navn" src="bilder/brukerIkonS.png">
-                            <p class="arrangement_navn"><?php echo($navn); ?></p>
+                            <?php if($resArr[$j]['brukertype'] == 4) {echo("<p class='arrangement_navn' style='font-style: italic;'>Avregistrert bruker");} else {echo("<p class='arrangement_navn'>" . $navn);} ?></p>
                             <h2><?php echo($resArr[$j]['eventnavn'])?></h2>
                         </section>
                         
