@@ -385,9 +385,9 @@ if ($tellingArrangement > 0) {
     $arrangementProfil = $stmtArrangementProfil->fetchAll(PDO::FETCH_ASSOC);
 } else $arrangementProfil = null;
 
-//--------------------------//
-// Rapportering av brukere //
-//-------------------------//
+//------------------------------------------------//
+// Rapportering av brukere: Innsetting av rapport //
+//------------------------------------------------//
 
 // Enkel test som gjør det mulig å beholde brukerinput etter siden er lastet på nytt
 $input_rapBeskrivelse = "";
@@ -421,7 +421,6 @@ if (isset($_POST['subRapportering'])) {
             header("Location: profil.php?bruker=" . $_GET['bruker']);
         }
     }
-
 }
 // tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
 $tabindex = 10;
@@ -667,7 +666,7 @@ $tabindex = 10;
                                 <?php } ?>
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
-            
+ 
                         <?php } else { ?>
                             <!-- Hvis brukeren ikke har noe profilbilde, bruk standard profilbilde -->
                             <section class="bildeKontroll" tabindex="3">
@@ -676,27 +675,41 @@ $tabindex = 10;
                                 <h1 class="velkomst"> <?php echo $brukernavnProfil['brukernavn'] ?> </h1>
                             </section>
                         <?php } ?>
-
-                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1 || $_SESSION['brukertype'] == 3) && ($_SESSION['idbruker'] != $_GET['bruker'])) { ?>
-                        <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" onclick="bekreftMelding('profil_rapporterBruker')">
                         
-                        <!-- pop-up vindu -->
-                        <section id="profil_rapporterBruker" style="display: none;">
-                            <section id="profil_rapporterBrukerInnhold">
-                                <h2>Rapporter bruker</h2>
-                                
-                                <section class="profil_rapporterInnhold">
-                                    <form method="POST" action="profil.php?bruker=<?php echo($_GET['bruker'])?>">
-                                        <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
-                                        <p>Din rapportering blir registrert med brukernavnet ditt og vedkommende det gjelder og behandlet av en administrator</p>
-                                        <!-- Knapp for å rapportere bruker -->
-                                        <input type="submit" name="subRapportering" class="profil_rapporterKnappVindu" value="Rapporter">
-                                    </form>
+                        <!-- RAPPORTERING AV BRUKERE -->
+                        <?php if(isset($_SESSION['brukertype']) && ($_SESSION['brukertype'] == 2 || $_SESSION['brukertype'] == 1 || $_SESSION['brukertype'] == 3)) { ?>
+                            <?php if ($_SESSION['idbruker'] != $_GET['bruker']) { ?>
+                            
+                            <!-- Viser ikonet for rapportering -->
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" onclick="bekreftMelding('profil_rapporterBruker')">
+                            
+                            <!-- pop-up vindu -->
+                            <section id="profil_rapporterBruker" style="display: none;">
+                                <section id="profil_rapporterBrukerInnhold">
+                                    <?php { ?>
+                                    
+                                    <!-- Viser brukernavnet som skal rapporteres -->
+                                    <?php } ?>
+                                    <h2>Rapporter <?php echo($brukernavnProfil['brukernavn'])?></h2>
+                                    
+                                    <!-- Presenterer innholdet -->
+                                    <section class="profil_rapporterInnhold">
+                                        <form method="POST" action="profil.php?bruker=<?php echo($_GET['bruker'])?>">
+                                            <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
+                                            <p>Din rapportering blir registrert med brukernavnet ditt og vedkommende det gjelder. Rapporteringen blir behandlet av en administrator</p>
+                                            <!-- Knapp for å rapportere bruker -->
+                                            <input type="submit" name="subRapportering" class="profil_rapporterKnappVindu" value="Rapporter">
+                                        </form>
+                                    </section>
+                                    
+                                    <!-- Knapp for å avbryte rapporteringen -->
+                                    <button id="profil_rapporterAvbrytKnapp" onclick="bekreftMelding('profil_rapporterBruker')">Avbryt</button>
                                 </section>
-                                
-                                <button id="profil_rapporterAvbrytKnapp" onclick="bekreftMelding('profil_rapporterBruker')">Avbryt</button>
                             </section>
-                        </section>
+                            <?php } else { ?>
+                                <!-- Viser ikonet for rapportering som hidden-->
+                                <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" style=" visibility: hidden;">
+                            <?php } ?>
                         <?php } ?>
                     </section>   
                         
@@ -803,7 +816,7 @@ $tabindex = 10;
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 06.03.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
+    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 17.04.2020 -->
+    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
 
 </html>

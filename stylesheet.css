@@ -1174,7 +1174,15 @@ footer a {
   font-size: 1.0em; /* Font-størrelse */
 }
 
+/*RAPPORT */
 
+.rapport_allebrukere_allebrukerid, .rapport_allebrukere_allemisbruk, .rapport_Allebrukere_alleidmisbruk {
+  display: none;
+  font-weight: bold;
+}
+#rapport_allebrukere_bruker, #rapport_allebrukere_idmisbruk, #rapport_allebrukere_idtekst {
+  font-weight: bold;
+}
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DEFAULT/Uregistrerte brukere */
 
@@ -3342,7 +3350,7 @@ table {
 .profil_rapporterInnhold textarea {
   border-radius: 0.5em 0.5em 0.5em 0.5em;
   width: 90%;
-  padding-bottom: 21em;
+  padding-bottom: 15em;
   resize: none;
 }
 
