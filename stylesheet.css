@@ -1581,7 +1581,7 @@ footer a {
   background-color: white;
   z-index: 1; /* Sitter over det andre innholdet */
   margin-top: 8em;
-  max-width: 445px;
+  max-width: 280px;
   position: fixed;
   left: 0; right: 0; top: 0;
   margin-left: auto; margin-right: auto;
@@ -2897,7 +2897,7 @@ table {
   background-color: white;
   z-index: 1; /* Sitter over det andre innholdet */
   margin-top: 6em;
-  max-width: 445px;
+  max-width: 280px;
   position: fixed;
   left: 0; right: 0;
   margin-left: auto; margin-right: auto;
