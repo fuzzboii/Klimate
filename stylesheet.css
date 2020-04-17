@@ -1190,10 +1190,10 @@ footer a {
 
 /*RAPPORT */
 
-.rapport_allebrukere_allebrukerid, .rapport_allebrukere_allemisbruk, .rapport_Allebrukere_alleidmisbruk {
+.rapport_allebrukere_allebrukerid, .rapport_allebrukere_allemisbruk, .rapport_Allebrukere_alleidmisbruk, .rapport_allebrukere_advarsel_bruker, .rapport_allebrukere_advarseltekst, .rapport_allebrukere_advarsel_admin, .rapport_allebrukere_grunnlag, .rapport_allebrukere_administrator, .rapport_allebrukere_datofra, .rapport_allebrukere_datotil {
   font-weight: bold;
 }
-#rapport_allebrukere_bruker, #rapport_allebrukere_idmisbruk, #rapport_allebrukere_idtekst {
+#rapport_allebrukere_bruker, #rapport_allebrukere_idmisbruk, #rapport_allebrukere_idtekst, #rapport_allebrukere_eks_bruker, #rapport_allebrukere_grunnlag, #rapport_allebrukere_eks_admin, #rapport_allebrukere, #rapport_allebrukere_dato_fra, #rapport_allebrukere_dato_til, #rapport_allebrukere_adv_bruker, #rapport_allebrukere_advarsel, #rapport_allebrukere_adv_admin {
   font-weight: bold;
 }
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
