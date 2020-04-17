@@ -692,7 +692,7 @@ $tabindex = 10;
                             <?php if ($_SESSION['idbruker'] != $_GET['bruker']) { ?>
                             
                             <!-- Viser ikonet/knappen for rapportering -->
-                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" onclick="bekreftMelding('profil_rapporterBruker')">
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" onclick="bekreftMelding('profil_rapporterBruker')">
                             <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp">Rapporter</button>
                             <!-- pop-up vindu -->
                             <section id="profil_rapporterBruker" style="display: none;">
@@ -707,7 +707,7 @@ $tabindex = 10;
                                     <section class="profil_rapporterInnhold">
                                         <form method="POST" action="profil.php?bruker=<?php echo($_GET['bruker'])?>">
                                             <textarea id="profil_inputRapportering" name="rapBeskrivelse" maxlength="1024" placeholder="Skriv hvorfor du ønsker å rapportere brukeren" required><?php echo($input_rapBeskrivelse) ?></textarea>
-                                            <p>Din rapportering blir registrert med brukernavnet ditt og vedkommende det gjelder. Rapporteringen blir behandlet av en administrator</p>
+                                            <p>Din rapportering blir registrert med brukernavnet ditt og vedkommende det gjelder. Rapporteringen blir behandlet av en administrator.</p>
                                             <!-- Knapp for å rapportere bruker -->
                                             <input type="submit" name="subRapportering" class="profil_rapporterKnappVindu" value="Rapporter">
                                         </form>
@@ -719,7 +719,7 @@ $tabindex = 10;
                             </section>
                             <?php } else { ?>
                             <!-- Viser ikonet/knappen for rapportering som hidden-->
-                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_r.png" style=" visibility: hidden;">
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" style=" visibility: hidden;">
                             <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp" style=" visibility: hidden;">Rapporter</button>
                             <?php } ?>
                         <?php } ?>

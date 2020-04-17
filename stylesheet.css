@@ -1576,12 +1576,12 @@ footer a {
 }
 
 #artikkel_bekreftSlett {
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   border: 2px solid red;
   background-color: white;
   z-index: 1; /* Sitter over det andre innholdet */
   margin-top: 8em;
-  max-width: 445px;
+  max-width: 280px;
   position: fixed;
   left: 0; right: 0; top: 0;
   margin-left: auto; margin-right: auto;
@@ -1600,12 +1600,10 @@ footer a {
 }
 
 #artikkel_avbrytKnapp {
-  background-color: grey; /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
+  background-color: transparent; /* bakgrunnsfarge for registrerknapp */
   padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
   margin-top: 0.6em;
   margin-bottom: 0.8em;
-  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 30%; /* Angir bredde på knappen */
@@ -2061,7 +2059,7 @@ td, th  {
 #konto_bekreftAvrInnhold {
   position: relative;
   text-align: center;
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   border: 2px solid red;
   background-color: white;
   z-index: 2; /* Sitter over det andre innholdet */
@@ -2079,18 +2077,14 @@ td, th  {
 }
 
 #konto_avbrytKnapp {
-  background-color: grey; /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
+  background-color: transparent; /* bakgrunnsfarge for registrerknapp */
   padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 0.6em;
   margin-bottom: 0.8em;
-  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 30%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 0.8em; /* Font-størrelse */
-  margin-top: 1em;
 }
 
 #konto_avregistrerpassord {
@@ -2102,7 +2096,6 @@ td, th  {
 #konto_avregistrerKnapp {
   display: block;
   margin-left: auto; margin-right: auto;
-  
   background-color: red; /* bakgrunnsfarge for registrerknapp */
   padding: 0.8em; /* hvor mye luft rundt teksten det skal være */
   margin-top: 1.6em;
@@ -2113,13 +2106,7 @@ td, th  {
   width: 70%; /* Angir bredde på knappen */
   border-radius: 0.4em; /* Runder ut knappen */
   font-size: 1.0em; /* Font-størrelse */
-  
   color: white;
-  text-shadow:
-   -1px -1px 0 #000,  
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000;
 }
 
 table {
@@ -2638,7 +2625,6 @@ table {
   border-radius: 0.2em; /* Runder ut knappen */
   padding: 0.5em;
   font-size: 0.9em; /* Font-størrelse */
-  width: 6em;
 }
 
 .påmeldteBrukere {
@@ -2906,12 +2892,12 @@ table {
 
 
 #arrangement_bekreftSlett {
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   border: 2px solid red;
   background-color: white;
   z-index: 1; /* Sitter over det andre innholdet */
   margin-top: 6em;
-  max-width: 445px;
+  max-width: 280px;
   position: fixed;
   left: 0; right: 0;
   margin-left: auto; margin-right: auto;
@@ -2929,12 +2915,10 @@ table {
 }
 
 #arrangement_avbrytKnapp {
-  background-color: grey; /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
   padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
+  background-color: transparent;
   margin-top: 0.6em;
   margin-bottom: 0.8em;
-  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 30%; /* Angir bredde på knappen */
@@ -2953,7 +2937,7 @@ table {
 
 #arrangement_bekreftInviterInnhold {
   text-align: center;
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   border: 2px solid rgb(0, 110, 255);
   background-color: white;
   z-index: 2; /* Sitter over det andre innholdet */
@@ -3005,12 +2989,9 @@ table {
 }
 
 #arrangement_inviterAvbrytKnapp {
-  background-color: red; /* bakgrunnsfarge for registrerknapp */
-  color: white; /* tekstfarge */
+  background-color: transparent; /* bakgrunnsfarge for registrerknapp */
   padding: 0.4em; /* hvor mye luft rundt teksten det skal være */
-  margin-top: 0.6em;
   margin-bottom: 0.8em;
-  font-weight: bold; /* Fet tekst */
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
   border: none; /* Fjerner ytrelinjen rundt knappen */
   width: 5em; /* Angir bredde på knappen */
@@ -3163,7 +3144,7 @@ table {
   font-size: 0.7em;
   cursor: pointer;
   font-weight: bold;
-  color: red;
+  color: rgb(255,102,102);
   font-family: Helvetica, Arial, sans-serif;
   float: right;
   text-transform: uppercase;
@@ -3304,7 +3285,7 @@ table {
 
 #profil_endreBildeInnhold {
   text-align: center;
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   background-color: white;
   z-index: 2; /* Sitter over det andre innholdet */
   margin-top: 15%; margin-bottom: 40%;
@@ -4972,7 +4953,10 @@ input:checked + .slider:before {
   /* Del for arrangement */
   #arrangement_slettKnapp:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #konto_avregistrerKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
     cursor: pointer;
-    background-color: rgb(145, 0, 0); /* Fargeendring/hover ved å holde over knappen */
+  }
+
+  #arrangement_inviterAvbrytKnapp:hover {
+    color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
   }
   
   #arrangement_inviterKnapp:hover, #arrangement_inviterKnappVindu:hover {
@@ -5003,8 +4987,7 @@ input:checked + .slider:before {
   /* Hover innstillinger for slett arrangement knapp */
   #konto_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover {
     cursor: pointer;
-    box-shadow: 0 0.1em 0.2em 0.1em rgb(99,112,126);
-    transition: box-shadow 0.1s;
+    color: rgba(44, 44, 44, 0.651); /* Setter en hover farge */
   }
   
   /* Hover for artikkel utvalget/resultatet  */
@@ -5224,6 +5207,16 @@ input:checked + .slider:before {
     border: 1px solid red;
     border-radius: 1em;
     padding: 0;
+  }
+
+  /* Rapportering innhold Pop-up vindu */
+  .profil_rapporterInnhold p {
+    font-size: 0.8em;
+  }
+
+  /* Rapporter knapper */
+  .profil_rapporterKnapp:hover {
+    color: red;
   }
 
   /*----------------------*/
@@ -5624,6 +5617,25 @@ input:checked + .slider:before {
   #meldinger_header_utboks form input {
     display: none;
   }
+
+  /* Del for konto */
+  #konto_avregistrerKnapp {
+    display: none;
+  }
+
+  /* Del for adminpanel */
+  #admin_regler_table {
+    display: block;
+  }
+
+  #admin_regler_table td, #admin_regler_table thead tr th {
+    color: black;
+  }
+
+  .admin_regler_slett_knapp {
+    display: none;
+  }
+
 
 }
 

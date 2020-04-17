@@ -31,7 +31,7 @@ if (!isset($_SESSION['idbruker'])) {
     $administratorer = $hentAdminSTMT -> fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($administratorer as $admin) {
-        $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) values('Oppdaget misbruk', 'Automatisk misbruk oppdaget, " . $_SESSION['brukernavn'] . " forsøkte nå Admin-panelet.', NOW(), 0, :sender, :mottaker)";
+        $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) values('Oppdaget misbruk', 'Automatisk misbruk oppdaget, " . $_SESSION['brukernavn'] . " med ID " . $_SESSION['idbruker'] . " forsøkte nå Admin-panelet.', NOW(), 0, :sender, :mottaker)";
         $nyMeldingSTMT = $db->prepare($nyMeldingQ);
         $nyMeldingSTMT -> bindparam(":sender", $admin['idbruker']);
         $nyMeldingSTMT -> bindparam(":mottaker", $admin['idbruker']);
@@ -564,7 +564,7 @@ if(isset($_POST['endreBrukertype'])) {
                 // Ny regel ?>
                 <h2 id="admin_underskrift">Opprett en regel</h2>
                 <form method="POST" action="administrator.php?nyregel" id="admin_nyregel_form">
-                    <textarea name="regTekst" id="admin_nyregel_tekst" placeholder="Skriv inn regelen" required maxlength="255"></textarea>
+                    <textarea name="regTekst" id="admin_nyregel_tekst" placeholder="Skriv inn regelen" required autofocus maxlength="255"></textarea>
                     <input type="submit" name="regRegistrering" id="admin_nyregel_knapp" value="Legg til">
                 </form>
                 <button id="admin_nyregel_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>
