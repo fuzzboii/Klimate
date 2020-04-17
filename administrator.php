@@ -815,7 +815,7 @@ if(isset($_POST['endreBrukertype'])) {
                             </tbody>
                         </table>
                     <?php } else if($_GET['rapporter'] == "Eksklusjoner") {
-                        $hentBrukereQ = "SELECT eksklusjon.ideksklusjon, eksklusjon.grunnlag, eksklusjon.datofra, eksklusjon.datotil, bruker.brukernavn as brukerNavn, administrator.brukernavn as administratorNavn FROM eksklusjon LEFT OUTER JOIN bruker bruker ON eksklusjon.bruker = bruker.idbruker LEFT OUTER JOIN bruker administrator ON eksklusjon.administrator = administrator.idbruker ORDER BY datofra DESC";
+                        $hentBrukereQ = "SELECT eksklusjon.ideksklusjon, eksklusjon.bruker, eksklusjon.grunnlag, eksklusjon.datofra, eksklusjon.datotil, bruker.brukernavn as brukerNavn, administrator.brukernavn as administratorNavn FROM eksklusjon LEFT OUTER JOIN bruker bruker ON eksklusjon.bruker = bruker.idbruker LEFT OUTER JOIN bruker administrator ON eksklusjon.administrator = administrator.idbruker ORDER BY datofra DESC";
                         $hentBrukereSTMT = $db->prepare($hentBrukereQ);
                         $hentBrukereSTMT -> execute();
                         $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
@@ -873,13 +873,13 @@ if(isset($_POST['endreBrukertype'])) {
                         <?php for($i = 0; $i < count($brukere); $i++) { 
                             if($i < 8) { ?>
                                 <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                    <td class="rapport_allebrukere_advarsel_bruker">Brukernavn: <?php echo($brukere[$i]['brukerNavn'])?></td>
+                                    <td class="rapport_allebrukere_advarsel_bruker"><?php echo($brukere[$i]['brukerNavn'])?></td>
                                     <td class="rapport_allebrukere_advarseltekst"><?php echo($brukere[$i]['advarseltekst'])?></td>
                                     <td class="rapport_allebrukere_advarsel_admin"><?php echo($brukere[$i]['administratorNavn'])?></td>
                                 </tr>
                             <?php } else { ?>
                                 <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                    <td class="rapport_allebrukere_advarsel_bruker">Brukernavn: <?php echo($brukere[$i]['brukerNavn'])?></td>
+                                    <td class="rapport_allebrukere_advarsel_bruker"><?php echo($brukere[$i]['brukerNavn'])?></td>
                                     <td class="rapport_allebrukere_advarseltekst"><?php echo($brukere[$i]['advarseltekst'])?></td>
                                     <td class="rapport_allebrukere_advarsel_admin"><?php echo($brukere[$i]['administratorNavn'])?></td>
                                 </tr>
