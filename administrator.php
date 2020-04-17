@@ -216,6 +216,7 @@ if(isset($_POST['advaring'])) {
 
                 if($advarBrukerSTMT) {
                     $_SESSION['admin_melding'] = "Bruker advart";
+                    header("location: administrator.php?bruker=" . $_POST['advartbruker']);
                 } else {
                     $_SESSION['admin_melding'] = "Feil oppsto ved advaring av bruker";
                     header("Location: administrator.php?bruker=" . $_POST['advartbruker']);
@@ -268,17 +269,18 @@ if(isset($_POST['ekskludering'])) {
                     $ekskluderBrukerSTMT -> execute();
     
                     if($ekskluderBrukerSTMT) {
-                        //header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                        $_SESSION['admin_melding'] = "Bruker utestengt";
+                        header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                     } else {
-                        $_SESSION['admin_melding'] = "Feil oppsto ved ekskludering av bruker";
-                        //header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
+                        $_SESSION['admin_melding'] = "Feil oppsto ved utestenging av bruker";
+                        header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                     }
                 } else {
                     $_SESSION['admin_melding'] = "Denne brukeren er allerede utestengt";
                     header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
                 }
             } else {
-                $_SESSION['admin_melding'] = "Du kan ikke ekskludere en administrator";
+                $_SESSION['admin_melding'] = "Du kan ikke utestenge en administrator";
                 header("Location: administrator.php?bruker=" . $_POST['ekskludertbruker']);
             }
         }
