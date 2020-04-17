@@ -1327,7 +1327,7 @@ footer a {
 .default_antallKommentarerIkon {
   height: 1em;
   float: left;
-  display: inline;
+  display: block;
   margin-left: 0.2em;
 }
 
