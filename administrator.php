@@ -778,12 +778,88 @@ if(isset($_POST['endreBrukertype'])) {
                 <input type="text" id="admin_sok" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
 
                 <?php if($_GET['rapporter'] == "Alle brukere") {
+                    // Glenn, første del
+                    if($_GET['rapporter'] == "Bytt meg for faen") {
                         $hentBrukereQ = "select bruker.brukernavn, misbruk.idmisbruk, misbruk.tekst, misbruk.bruker from misbruk, bruker where misbruk.bruker = bruker.idbruker order by bruker.brukernavn";
                         $hentBrukereSTMT = $db->prepare($hentBrukereQ);
                         $hentBrukereSTMT -> execute();
                         $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
                         ?>
-                        <table id="admin_allebrukere_table">
+                        <table id="rapport_allebrukere_table">
+                            <thead>
+                                <tr>
+                                    <th id="rapport_allebrukere_brukerid">BRUKERID</th>
+                                    <th id="rapport_allebrukere_bruker">BRUKERNAVN</th>
+                                    <th id="rapport_allebrukere_idmisbruk">ID MISBRUK</th>
+                                    <th id="rapport_allebrukere_idtekst">MISBRUK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php for($i = 0; $i < count($brukere); $i++) { 
+                                if($i < 8) { ?>
+                                    <tr class="rapport_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                        <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
+                                        <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
+                                        <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
+                                    </tr>
+                                <?php } else { ?>
+                                    <tr class="rapport_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                        <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
+                                        <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
+                                        <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
+                                    </tr>
+                                <?php }
+                                } 
+                                if($i > 8) { ?>
+                                    <button id="rapport_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    <?php } else if($_GET['rapporter'] == "Den andre delen") {
+                        // Glenn, andre del
+                        $hentBrukereQ = "select bruker.brukernavn, misbruk.idmisbruk, misbruk.tekst, misbruk.bruker from misbruk, bruker where misbruk.bruker = bruker.idbruker order by bruker.brukernavn";
+                        $hentBrukereSTMT = $db->prepare($hentBrukereQ);
+                        $hentBrukereSTMT -> execute();
+                        $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+                        <table id="rapport_allebrukere_table">
+                            <thead>
+                                <tr>
+                                    <th id="rapport_allebrukere_brukerid">BRUKERID</th>
+                                    <th id="rapport_allebrukere_bruker">BRUKERNAVN</th>
+                                    <th id="rapport_allebrukere_idmisbruk">ID MISBRUK</th>
+                                    <th id="rapport_allebrukere_idtekst">MISBRUK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php for($i = 0; $i < count($brukere); $i++) { 
+                                if($i < 8) { ?>
+                                    <tr class="rapport_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                        <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
+                                        <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
+                                        <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
+                                    </tr>
+                                <?php } else { ?>
+                                    <tr class="rapport_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                        <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
+                                        <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
+                                        <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
+                                    </tr>
+                                <?php }
+                                } 
+                                if($i > 8) { ?>
+                                    <button id="rapport_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    <?php } else if($_GET['rapporter'] == "Den tredje delen") {
+                        // Glenn, tredje del
+                        $hentBrukereQ = "select bruker.brukernavn, misbruk.idmisbruk, misbruk.tekst, misbruk.bruker from misbruk, bruker where misbruk.bruker = bruker.idbruker order by bruker.brukernavn";
+                        $hentBrukereSTMT = $db->prepare($hentBrukereQ);
+                        $hentBrukereSTMT -> execute();
+                        $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+                        <table id="rapport_allebrukere_table">
                             <thead>
                                 <tr>
                                     <th id="rapport_allebrukere_bruker">BRUKERNAVN</th>
@@ -792,27 +868,28 @@ if(isset($_POST['endreBrukertype'])) {
                                 </tr>
                             </thead>
                         <tbody>
-                            <?php for($i = 0; $i < count($brukere); $i++) { 
-                                if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                        <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
-                                        <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
-                                        <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
-                                    </tr>
-                                <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                        <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
-                                        <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
-                                        <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
-                                    </tr>
-                                <?php }
+                        <?php for($i = 0; $i < count($brukere); $i++) { 
+                            if($i < 8) { ?>
+                                <tr class="rapport_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
+                                    <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
+                                    <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
+                                </tr>
+                            <?php } else { ?>
+                                <tr class="rapport_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
+                                    <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
+                                    <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
+                                </tr>
+                            <?php }
                             } 
                             if($i > 8) { ?>
-                                <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
+                                <button id="rapport_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
                             <?php } ?>
                         </tbody>
                     </table>
-                <?php }
+                <?php } 
+                }
             } else {
                 // Selve oversikten, default view ?>
                 <h2 id="admin_underskrift">Oversikten</h2>
