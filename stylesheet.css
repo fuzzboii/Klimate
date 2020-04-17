@@ -1177,7 +1177,6 @@ footer a {
 /*RAPPORT */
 
 .rapport_allebrukere_allebrukerid, .rapport_allebrukere_allemisbruk, .rapport_Allebrukere_alleidmisbruk {
-  display: none;
   font-weight: bold;
 }
 #rapport_allebrukere_bruker, #rapport_allebrukere_idmisbruk, #rapport_allebrukere_idtekst {
