@@ -2638,7 +2638,6 @@ table {
   border-radius: 0.2em; /* Runder ut knappen */
   padding: 0.5em;
   font-size: 0.9em; /* Font-størrelse */
-  width: 6em;
 }
 
 .påmeldteBrukere {
@@ -2953,7 +2952,7 @@ table {
 
 #arrangement_bekreftInviterInnhold {
   text-align: center;
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   border: 2px solid rgb(0, 110, 255);
   background-color: white;
   z-index: 2; /* Sitter over det andre innholdet */
@@ -3163,7 +3162,7 @@ table {
   font-size: 0.7em;
   cursor: pointer;
   font-weight: bold;
-  color: red;
+  color: rgb(255,102,102);
   font-family: Helvetica, Arial, sans-serif;
   float: right;
   text-transform: uppercase;
@@ -3304,7 +3303,7 @@ table {
 
 #profil_endreBildeInnhold {
   text-align: center;
-  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border-radius: 0.5em 0.5em 0.5em 0.5em; /* Avrunder kantene */
   background-color: white;
   z-index: 2; /* Sitter over det andre innholdet */
   margin-top: 15%; margin-bottom: 40%;
@@ -5226,9 +5225,14 @@ input:checked + .slider:before {
     padding: 0;
   }
 
-/* Rapportering innhold Pop-up vindu*/
+  /* Rapportering innhold Pop-up vindu */
   .profil_rapporterInnhold p {
     font-size: 0.8em;
+  }
+
+  /* Rapporter knapper */
+  .profil_rapporterKnapp:hover {
+    color: red;
   }
 
   /*----------------------*/
