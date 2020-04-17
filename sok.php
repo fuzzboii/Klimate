@@ -490,7 +490,7 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel, dato og fylke */
                 /* --------------------------------------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
                     bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'] . ", " . $_GET['fylke'];
 
@@ -500,7 +500,7 @@ $tabindex = 7;
                 /* Del for søk på kombinasjon av tittel og dato */
                 /* -------------------------------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
                  bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['arrDato'];
 
@@ -510,7 +510,7 @@ $tabindex = 7;
                 /* Del for søk på tittel */
                 /* --------------------- */
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
                     bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'];
 
@@ -520,7 +520,7 @@ $tabindex = 7;
                 /* Del for søk på dato og fylke */
                 /* -----------------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
                     bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'] . ", " . $_GET['fylke'];
 
@@ -530,7 +530,7 @@ $tabindex = 7;
                 /* Del for søk på fylke */
                 /* ---------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
                     bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['fylke'];
 
@@ -540,7 +540,7 @@ $tabindex = 7;
                 /* Del for søk på dato */
                 /* --------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where tidspunkt between NOW() and '" . $_GET['arrDato'] . "' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and 
                     bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrDato'];
 
@@ -550,7 +550,7 @@ $tabindex = 7;
                 /* Del for søk på tittel og fylke */
                 /* -------------------------------*/
 
-                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
+                $sokPaaArr = "select idevent, event.idbruker, eventnavn, tidspunkt, veibeskrivelse, brukernavn, fnavn, enavn, fylkenavn, brukertype from event, bruker, fylke where eventnavn LIKE '%" . $_GET['arrTittel'] . "%' and event.idbruker = bruker.idbruker and event.fylke = fylke.idfylke and fylke.fylkenavn = '" . $_GET['fylke'] . "' and 
                     bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
                 $infoOmSok = "Du har søkt etter: " . $_GET['arrTittel'] . ", " . $_GET['fylke'];
 
@@ -620,47 +620,52 @@ $tabindex = 7;
                                 <p class="infoResArr_sok"><?php echo($resArr[$j]['tidspunkt'])?></p>
                                 <p class="infoResArr_sok"><?php echo($resArr[$j]['veibeskrivelse'] . ", " . $resArr[$j]['fylkenavn'])?></p>
                                 <?php 
-                                
-                                // Henter personvern
-                                $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArr[$j]['idbruker'];
-                                $personvernSTMT = $db->prepare($personvernQ);
-                                $personvernSTMT->execute();
-                                $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
+                            
 
-                                $kanViseFornavn = false;
-                                $kanViseEtternavn = false;
+                                if($resArr[$j]['brukertype'] != 4) {
+                                    // Henter personvern
+                                    $personvernQ = "select visfnavn, visenavn from preferanse where bruker = " . $resArr[$j]['idbruker'];
+                                    $personvernSTMT = $db->prepare($personvernQ);
+                                    $personvernSTMT->execute();
+                                    $personvernArtikkel = $personvernSTMT->fetch(PDO::FETCH_ASSOC); 
 
-                                if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
-                                    $kanViseFornavn = true;
-                                }
+                                    $kanViseFornavn = false;
+                                    $kanViseEtternavn = false;
 
-                                if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
-                                    $kanViseEtternavn = true;
-                                }
-                                
-                                if($kanViseFornavn == true && $kanViseEtternavn == false) {
-                                    if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {
-                                        $navn = $resArr[$j]['fnavn'];  
+                                    if(isset($personvernArtikkel['visfnavn']) && $personvernArtikkel['visfnavn'] == "1") {
+                                        $kanViseFornavn = true;
+                                    }
+
+                                    if(isset($personvernArtikkel['visenavn']) && $personvernArtikkel['visenavn'] == "1") {
+                                        $kanViseEtternavn = true;
+                                    }
+                                    
+                                    if($kanViseFornavn == true && $kanViseEtternavn == false) {
+                                        if(preg_match("/\S/", $resArr[$j]['fnavn']) == 1) {
+                                            $navn = $resArr[$j]['fnavn'];  
+                                        } else {
+                                            $navn = $resArr[$j]['brukernavn'];
+                                        }
+                                    } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
+                                        if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                            $navn = $resArr[$j]['enavn'];  
+                                        } else {
+                                            $navn = $resArr[$j]['brukernavn'];
+                                        }
+                                    } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
+                                        if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
+                                            $navn = $resArr[$j]['fnavn'] . " " . $resArr[$j]['enavn'];  
+                                        } else {
+                                            $navn = $resArr[$j]['brukernavn'];
+                                        }
                                     } else {
                                         $navn = $resArr[$j]['brukernavn'];
-                                    }
-                                } else if($kanViseFornavn == false && $kanViseEtternavn == true) {
-                                    if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
-                                        $navn = $resArr[$j]['enavn'];  
-                                    } else {
-                                        $navn = $resArr[$j]['brukernavn'];
-                                    }
-                                } else if($kanViseFornavn == true && $kanViseEtternavn == true) {
-                                    if(preg_match("/\S/", $resArr[$j]['enavn']) == 1) {
-                                        $navn = $resArr[$j]['fnavn'] . " " . $resArr[$j]['enavn'];  
-                                    } else {
-                                        $navn = $resArr[$j]['brukernavn'];
-                                    }
-                                } else {
-                                    $navn = $resArr[$j]['brukernavn'];
-                                } ?>
-                                
-                                <p class="infoResArr_sok">Arrangert av <?php echo($navn)?></p>
+                                    } ?>
+                                    
+                                    <p class="infoResArr_sok">Arrangert av <?php echo($navn)?></p>
+                                <?php } else { ?>
+                                    <p class="infoResArr_sok" style="font-style: italic;">Arrangert av en avregistrert bruker</p>
+                                <?php } ?>
                             </figure>
                         </section>
                         <?php 
