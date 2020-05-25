@@ -554,7 +554,8 @@ if(isset($_POST['endreBrukertype'])) {
                             <option value="1">Administrator</option>
                         </select>
                     </section>
-                    <input style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+                    <input id="visPassordLbl" style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">
+                    <label for="visPassordLbl">Vis passord</label>
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
             </form>
             <button id="admin_nybruker_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>                     
