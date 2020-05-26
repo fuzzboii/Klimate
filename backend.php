@@ -276,7 +276,7 @@ $tabindex = 10;
                         ?>
 
                 <section class="backend_grid2">
-                    <section>
+                    <section class="kolonne_venstre">
                         <?php 
                         if($radarg > 0) {
                             for($i = 0; $i < count($ArrangRes); $i++) { ?>
@@ -341,70 +341,65 @@ $tabindex = 10;
                         <?php } ?>
                     </section>
 
-                    <section>
+                    <section class="kolonne_høyre">
                         <section class="backend_headerIntvindu2">
                             <p>Invitasjoner</p>
                         </section>
 
                         <section class="backend_Intvindu2">
-                        <!-- her for seksjoner -->
-                        <?php 
-                                $dineArrangementer = "select idevent, eventnavn, tidspunkt, veibeskrivelse, interessert
-                                from event, påmelding
-                                where idevent=event_id and bruker_id= " . $_SESSION['idbruker'] . " and interessert='Invitert'";
-                                $arrangementerSTMT = $db->prepare($dineArrangementer);
-                                $arrangementerSTMT->execute();
-                                $ArrangRes = $arrangementerSTMT->fetchAll(PDO::FETCH_ASSOC);
-                                $antallArg = $arrangementerSTMT->rowCount();
+                            <!-- her for seksjoner -->
+                            <?php 
+                            $dineArrangementer = "select idevent, eventnavn, tidspunkt, veibeskrivelse, interessert
+                            from event, påmelding
+                            where idevent=event_id and bruker_id= " . $_SESSION['idbruker'] . " and interessert='Invitert'";
+                            $arrangementerSTMT = $db->prepare($dineArrangementer);
+                            $arrangementerSTMT->execute();
+                            $ArrangRes = $arrangementerSTMT->fetchAll(PDO::FETCH_ASSOC);
+                            $antallArg = $arrangementerSTMT->rowCount();
 
-                                if(isset($_POST['invitasjon'])) {                                    
-                                        $avslaaQ = "update påmelding set interessert = 'Skal' where event_id = " . $_POST['invitasjon'] . " and bruker_id = " . $_SESSION['idbruker'];
-                                        $avslaaSTMT = $db->prepare($avslaaQ);
-                                        $avslaaSTMT->execute();
-                                        echo "<meta http-equiv='refresh' content='0'>";                                        
-                                    }
-
-                                if(isset($_POST['invitasjon2'])) {
-                                        $avslaaQ = "update påmelding set interessert = 'Kan ikke' where event_id = " . $_POST['invitasjon2'] . " and bruker_id = " . $_SESSION['idbruker'];
-                                        $avslaaSTMT = $db->prepare($avslaaQ);
-                                        $avslaaSTMT->execute();
-                                        echo "<meta http-equiv='refresh' content='0'>";
+                            if(isset($_POST['invitasjon'])) {                                    
+                                    $avslaaQ = "update påmelding set interessert = 'Skal' where event_id = " . $_POST['invitasjon'] . " and bruker_id = " . $_SESSION['idbruker'];
+                                    $avslaaSTMT = $db->prepare($avslaaQ);
+                                    $avslaaSTMT->execute();
+                                    echo "<meta http-equiv='refresh' content='0'>";                                        
                                 }
-                                ?>
-                                
-                        
 
-                        <section class="backend2_grid">
-                            <?php if($antallArg > 0) { ?>
-                               <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
-                                
-                                <section id="backend_argVindu">
-                                    <section id="backend_artikkelFelt">
-                                        <h3 class="PopArtiklerOverskrift"><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
-                                        <p class="PopArtiklerIngress"><?php echo $ArrangRes[$i]['tidspunkt'] ?> </p>
-                                        <a class="OversiktLenke2" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement </a>                                                                               
+                            if(isset($_POST['invitasjon2'])) {
+                                    $avslaaQ = "update påmelding set interessert = 'Kan ikke' where event_id = " . $_POST['invitasjon2'] . " and bruker_id = " . $_SESSION['idbruker'];
+                                    $avslaaSTMT = $db->prepare($avslaaQ);
+                                    $avslaaSTMT->execute();
+                                    echo "<meta http-equiv='refresh' content='0'>";
+                            }
+                            ?>
+
+                            <section class="backend2_grid">
+                                <?php if($antallArg > 0) { ?>
+                                <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
+                                    
+                                    <section id="backend_argVindu">
+                                        <section id="backend_artikkelFelt">
+                                            <h3 class="PopArtiklerOverskrift"><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
+                                            <p class="PopArtiklerIngress"><?php echo $ArrangRes[$i]['tidspunkt'] ?> </p>
+                                            <a class="OversiktLenke2" href="arrangement.php?arrangement=<?php echo($ArrangRes[$i]['idevent'])?>">Gå til arrangement </a>                                                                               
+                                        </section>
+
+                                        <section class="backend_knapperFloat">
+                                            <form method="POST" id="arrangement_paamelding" action="backend.php?arrangementer=<?php echo($_GET['arrangementer'])?>">
+                                                <button id="arrangement_paameld" form="arrangement_paamelding" name="invitasjon" value="<?php echo($ArrangRes[$i]['idevent'])?>">Godkjenn</button>
+                                            </form>
+
+                                            <form method="POST" id="arrangement_paamelding2" action="backend.php?arrangementer=<?php echo($_GET['arrangementer'])?>">
+                                                <button id="arrangement_avslaa" form="arrangement_paamelding2" name="invitasjon2" value="<?php echo($ArrangRes[$i]['idevent'])?>">Avslå</button>
+                                            </form>
+                                        </section>
                                     </section>
-                                    <section class="backend_knapperFloat">
 
-                                    <form method="POST" id="arrangement_paamelding" action="backend.php?arrangementer=<?php echo($_GET['arrangementer'])?>">
-                                        <button id="arrangement_paameld" form="arrangement_paamelding" name="invitasjon" value="<?php echo($ArrangRes[$i]['idevent'])?>">Godkjenn</button>
-                                    </form>
+                                    <?php } ?> 
 
-                                    <form method="POST" id="arrangement_paamelding2" action="backend.php?arrangementer=<?php echo($_GET['arrangementer'])?>">
-                                        <button id="arrangement_avslaa" form="arrangement_paamelding2" name="invitasjon2" value="<?php echo($ArrangRes[$i]['idevent'])?>">Avslå</button>
-                                    </form>
-
-                                    </section>
-                                </section>
-
-                                <?php } ?> 
-                            
-
-                            <?php } else {?>
-                                <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen arrangementer...</p>
-                            <?php }?>
-                        </section>
-
+                                <?php } else {?>
+                                    <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen arrangementer...</p>
+                                <?php }?>
+                            </section>
                         </section>
                             
                     </section>
