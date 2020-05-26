@@ -411,19 +411,20 @@ $tabindex = 10;
             <?php } else { ?>
 
             <main id="backend_main" onclick="lukkHamburgerMeny()">            
-                <article id="backend_section">
+                <section id="backend_section">
                     <ul class="backendNav">
                         <li><a class="aktiv" onClick="location.href='backend.php'">Oversikt</a></li>
                         <li><a onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
                         <li><a onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
                     </ul>
-                </article>
+                </section>
                 
-                <article class="backend_headerIntvindu">
+                <section class="backend_headerIntvindu">
                     <p>Nyeste kommenterte</p>
-                </article>
+                </section>
 
-                <article class="backend_Intvindu">
+                <section class="backend_Intvindu">
+                    <section>
 
                         <?php 
                         $mestKommenterteF = "select idartikkel, artnavn, artingress, ingress 
@@ -460,24 +461,26 @@ $tabindex = 10;
                                 
                                 <a href="artikkel.php?artikkel=<?php echo($komentertRes[$i]['idartikkel'])?>">...Les videre</a>                                      
                             </section>
-                            
-                            <p class="PopKommentar">Din nyeste kommentar:</p>
-                            <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
-                            
+                            <section>
+                                <p class="PopKommentar">Din nyeste kommentar:</p>
+                                <p class="PopArtiklerTekst"><?php echo($resKommentar['tid'])?>: <?php echo $resKommentar['ingress'] ?></p>
+                            </section>
                         </section>
                             <?php } 
                         } else {?>
                         <p class="backend_tilbakemelding">Du har ikke kommentert noen artikler...</p>
 
                         <?php }?>
-                </article>
+                    </section>
+                    
+                </section>
 
                 
-                <article class="backend_headerIntvindu2">
+                <section class="backend_headerIntvindu2">
                     <p>Invitasjoner</p>
-                </article>
+                </section>
 
-                <article class="backend_Intvindu2">
+                <section class="backend_Intvindu2">
                     <!-- her for seksjoner -->
                     <?php 
                         $dineArrangementer = "select idevent, eventnavn, tidspunkt, veibeskrivelse, interessert
@@ -502,22 +505,24 @@ $tabindex = 10;
                                 echo "<meta http-equiv='refresh' content='0'>";
                         }?>
 
-                        <?php if($antallArg > 0) { ?>
-                        <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
-                            
-                            <section id="backend_argVindu">
-                                <section id="backend_artikkelFelt">
-                                    <h3 class="PopArtiklerOverskrift"><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
-                                    <p class="PopArtiklerIngress"><?php echo $ArrangRes[$i]['tidspunkt'] ?> </p>
-                                    <a class="OversiktLenke" href="backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>">Svar på invitasjon </a>                                                                               
+                        <section class="backend2_grid">
+                            <?php if($antallArg > 0) { ?>
+                            <?php for($i = 0; $i < count($ArrangRes); $i++) { ?>
+                                
+                                <section id="backend_argVindu">
+                                    <section id="backend_artikkelFelt">
+                                        <h3 class="PopArtiklerOverskrift"><?php echo $ArrangRes[$i]['eventnavn'] ?> </h3>
+                                        <p class="PopArtiklerIngress"><?php echo $ArrangRes[$i]['tidspunkt'] ?> </p>
+                                        <a class="OversiktLenke" href="backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>">Svar på invitasjon </a>                                                                               
+                                    </section>
                                 </section>
-                            </section>
 
-                            <?php } ?> 
-                        <?php } else {?>
-                            <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen arrangementer...</p>
-                        <?php }?>       
-                </article>    
+                                <?php } ?> 
+                            <?php } else {?>
+                                <p class="backend_tilbakemelding">Du har ikke blitt invitert til noen arrangementer...</p>
+                            <?php }?>
+                        </section>
+                </section>    
             </main>
             
 
