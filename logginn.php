@@ -179,7 +179,8 @@ if (isset($_POST['submit'])) {
                     <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
                     <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
                 </section>
-                <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+                <input id="visPassordLbl" style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">
+                <label for="visPassordLbl">Vis passord</label>
 
                 <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                     <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    

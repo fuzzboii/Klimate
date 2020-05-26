@@ -52,7 +52,7 @@ if (isset($_POST['loggUt'])) {
         <header onclick="lukkHamburgerMeny()">
             
             <!-- Logoen midten øverst på siden, med tittel -->
-            <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
+            <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
             <h1 style="display: none">Bilde av Klimate logoen.</h1>    
  
             <!-- Meldinger til bruker -->

@@ -401,7 +401,8 @@ if(isset($_POST['slettInfo'])) {
                             <p class="endre_bruker_overskrift">Bekreft nytt passord</p>
                             <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                         </section>
-                        <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
+                        <input id="visPassordLbl" style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">
+                        <label for="visPassordLbl">Vis passord</label>
                     </section>
 
                     <!-- Knapp for å lagre endringer -->
