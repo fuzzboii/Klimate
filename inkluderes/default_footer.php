@@ -10,13 +10,15 @@
                 <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
                 <?php if (isset($_SESSION['idbruker'])) { ?> | <a id="regler_a" onclick="aapneRegler()">Regler</a> <?php } ?>
             </p>
-            <section id="mldREGLER_boks" onclick="lukkMelding('mldREGLER_boks')">
-                <section id="mldREGLER_innhold">
-                    <p id="mldREGLER"><?php include('generert/regler.html'); ?></p>  
-                    <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                    <button id="mldREGLER_knapp" autofocus>Lukk</button>
-                </section>  
-            </section>
+            <?php if (isset($_SESSION['idbruker'])) { ?>
+                <section id="mldREGLER_boks" onclick="lukkMelding('mldREGLER_boks')">
+                    <section id="mldREGLER_innhold">
+                        <p id="mldREGLER"><?php include('generert/regler.html'); ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldREGLER_knapp" autofocus>Lukk</button>
+                    </section>  
+                </section>
+            <?php } ?>
         </footer>
 <?php
 // Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020
