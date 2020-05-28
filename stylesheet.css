@@ -3594,6 +3594,19 @@ table {
   font-style: italic;
 }
 
+/* Fargeendring ved tabbing */
+.profil_knapp:focus {
+  background-color: rgba(36, 209, 100, 0.637);
+}
+
+.profil_knapp2:focus {
+  background-color: rgba(36, 209, 100, 0.637);
+}
+
+.profil_knapp3:focus {
+  background-color: rgba(36, 209, 100, 0.637);
+}
+
 /* Styling for toggle-knapper */
 /* https://www.w3schools.com/howto/howto_css_switch.asp */
 /* Bruker piksler her, fordi det oppstod en del trøbbel med resizing av de ulike elementene med em */
