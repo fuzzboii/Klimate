@@ -3116,6 +3116,13 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
+
+/* focus på oppdatering av profilbilde sin knapp */
+#profil_endreKnapp:focus {
+  background-color: rgba(36, 209, 100, 0.637);
+  transition: background-color 0.2s ;
+}
+
 .int2_grid {
   background-color: #E6E6E6;
   border-radius: 1em;
