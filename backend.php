@@ -100,6 +100,7 @@ $tabindex = 10;
         </header>
 
         <main id="backend_main" onclick="lukkHamburgerMeny()">
+        
             <?php if(isset($_GET['artikler']) && $_GET['artikler'] == $_SESSION['idbruker'] ) { ?>
             <!-- Del for å vise kommenterte artikler til brukeren -->
                 <article id="backend_section">
