@@ -167,11 +167,13 @@ function bekreftMelding(element) {
 // Lukker vindu til bruker
 function lukkMelding(element) {
   var knapp = document.getElementById(element);
-
+  //var scroll = document.getElementsByTagName('body');
+  
   if (knapp.style.display != 'none') {
 
     knapp.style.display = 'none';
-    
+    //scroll.style.overflow = 'visible';
+
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
@@ -959,6 +961,9 @@ function innstillinger(bruker) {
 
 function aapneRegler() {
   var boksen = document.getElementById('mldREGLER_boks');
+  //var scroll = document.getElementsByTagName('body');
+  
+  //scroll.style.overflow = 'hidden';
 
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
