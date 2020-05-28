@@ -29,19 +29,49 @@ html, body {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-.reglerdata li {
+#reglerdata li {
 margin-top: 1.5em;
 margin-bottom: 1.5em;
 }
 
-#loggUtKnappForm {
-  margin-block-end: 0;
+
+#mldREGLER_boks {
+  display: none;
+  position: absolute;
+  width: 100%; height: 100%;
+  top: 0; left: 0;
+  z-index: 1; /* Sitter over det andre innholdet */
+  background-color: rgba(0, 0, 0, 0.582);
 }
 
-#sokForm_regler {
-  margin-block-end: 0;
+#mldREGLER_innhold {
+  position: relative;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border: 2px solid green;
+  background-color: white;
+  margin-top: 12em;
+  margin-left: 10%; margin-right: 10%;
+  transition: margin 0.3s;
+  min-height: 4em;
+  animation-name: anim_fratopp;
+  animation-duration: 0.4s
 }
 
+#mldREGLER_knapp {
+  display: block;
+  background-color: rgb(121, 121, 121);
+  color: white; /* tekstfarge */
+  padding: 0.6em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
+  margin-left: auto; margin-right: auto;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 4em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -3561,11 +3591,6 @@ table {
   cursor: pointer;
 }
 
-.reglerTilbakeKnapp:hover {
-  background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
-  cursor: pointer;
-}
-
 /* Tekstområdet 'om' */
 .profil_textarea {
   /* Setter bredde i lodd med andre elementer */
@@ -4891,7 +4916,7 @@ input:checked + .slider:before {
   }
 
   footer a:hover {
-    color: rgba(44, 44, 44, 0.651); /* Farge ved hover på 'Kontakt oss' */
+    color: rgb(0, 236, 87); /* Farge ved hover på 'Kontakt oss' */
   }
   .profil_navmeny:hover {
     cursor: pointer;
@@ -5429,6 +5454,17 @@ input:checked + .slider:before {
     grid-column: 3/span 4;
     grid-row: 2;
     margin-top: 19.5em;
+  }
+
+  /* Style for regler */
+  #mldREGLER_knapp:hover {
+    background-color: rgba(36, 209, 100, 0.637);
+    cursor: pointer; 
+  }
+
+  #regler_a:hover {
+    color: rgb(0, 236, 87);
+    cursor: pointer; 
   }
 
 }
