@@ -3601,7 +3601,7 @@ table {
 }
 
 .switch input:focus + .slider {
-  background-color: blue;
+  background-color: rgba(36, 209, 100, 0.637);
 }
 
 /* Skjuler standard check-box */
