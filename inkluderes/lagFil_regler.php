@@ -9,7 +9,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
     $handle = fopen("./generert/regler.html",'w');
 
     //Start-tag'er for html-dokumentet og head
-    fwrite($handle,"<!DOCTYPE html>\n<html>\n\t<head>" .
+    /*fwrite($handle,"<!DOCTYPE html>\n<html>\n\t<head>" .
                         "\n\t\t<meta charset='UTF-8'>" .
                         "\n\t\t<meta name='viewport' content='width=device-width, initial-scale=1.0'>" .
                         "\n\t\t<link rel='icon' href='../bilder/favicon.png' type='image/x-icon'>" . 
@@ -25,7 +25,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
                     "\n\t\t\t\t<img src='../bilder/hamburgerIkon.svg' alt='Hamburger-menyen' class='hamburgerKnapp'>\n\t\t\t</a>");
 
     // Del for visning av profilbilde, beholdes til neste delinnlevering for evt. bruk da
-    /* 
+    
     // Henter bilde fra database utifra brukerid
     $hentBildeQ = "select hvor from bilder, brukerbilde where brukerbilde.bruker = " . $_SESSION['idbruker'] . " and brukerbilde.bilde = bilder.idbilder";
     $hentBildeSTMT = $db->prepare($hentBildeQ);
@@ -94,7 +94,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
     //Logg ut knapp
     fwrite($handle,"\n\t\t\t<form id='loggUtKnappForm' method='POST' action='../default.php'>" . 
                         "\n\t\t\t\t<button name='loggUt' id='registrerKnapp' tabindex='4'>LOGG UT</button>" . 
-                    "\n\t\t\t</form>"); */
+                    "\n\t\t\t</form>");
 
     fwrite($handle, "\n\t\t\t<form id='sokForm_regler' action='../sok.php'>" . 
                         "\n\t\t\t\t<input id='sokBtn_navmeny' type='submit' value='' tabindex='3'>" .
@@ -113,7 +113,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
 
                     
     //Rullegardin, tester på om brukeren er admin
-    /* if ($_SESSION['brukertype'] == 1) { */
+    /* if ($_SESSION['brukertype'] == 1) {
     fwrite($handle,"\n\t\t\t<section id='navMeny' class='hamburgerMeny' onclick='lukkHamburgerMeny()'>" .
                         "\n\t\t\t\t<section class='avbrySeksjon'>" .
                             "\n\t\t\t\t\t<img class='xikon' src='../bilder/xikon.png'>" . 
@@ -142,22 +142,22 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
                             "\n\t\t\t\t\t<a class = 'menytab' tabIndex = '-1' href='../sok.php'>Avansert Søk</a>" .
                         "\n\t\t\t\t</section>" .
                     "\n\t\t\t</section>");
-    } */
+    }*/
 
     //listedata med regler og innholdsboksen 
-    fwrite($handle,"\n\t\t\t<header class='backend_header' onclick='lukkHamburgerMeny()'>" .
+    fwrite($handle,/*"\n\t\t\t<header class='backend_header' onclick='lukkHamburgerMeny()'>" .
                         "\n\t\t\t\t<h1 class='velkomst'>Regler</h1>" .
-                    "\n\t\t\t</header>" .
-                    "\n\t\t\t<article id='regler_article'>" .
-                        "\n\t\t\t\t<p>Som bruker hos Klimate må du følge reglene spesifisert under.</p>" .
-                        "\n\t\t\t\t<ol class='reglerdata'>");
+                    "\n\t\t\t</header>" . */
+                    "<article id='regler_article'>" .
+                        "\n\t<p>Som bruker hos Klimate må du følge reglene spesifisert under.</p>" .
+                        "\n\t<ol class='reglerdata'>");
 
     foreach($regler as $rad) {           
-        fwrite($handle,"\n\t\t\t\t\t<li>" . $rad['regeltekst'] . "</li>");
+        fwrite($handle,"\n\t\t<li>" . $rad['regeltekst'] . "</li>");
     }   
 
     //Footer og slutt-taggger
-    fwrite($handle,"\n\t\t\t\t</ol>\n\t\t\t</article>\n\t\t</main>" .
+    fwrite($handle,"\n\t</ol>\n</article>");/*\n\t\t</main>" .
                     "\n\t\t<button onclick='tilbakeTilTopp()' id='toppKnapp' title='Toppen'><img src='../bilder/pilopp.png' alt='Tilbake til toppen'></button>" .
                     "\n\t\t<footer>" .
                         "\n\t\t\t<p class=footer_beskrivelse>&copy; Klimate " . date("Y") . " | <a href='mailto:kontakt@klimate.no'>Kontakt oss</a>");
@@ -168,7 +168,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
     fwrite($handle,"</p>" .
                     "\n\t\t</footer>" .
                     "\n\t</body>" .
-                    "\n</html>");
+                    "\n</html>");*/
     fclose($handle);
 }
 
