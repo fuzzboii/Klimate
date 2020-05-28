@@ -3600,6 +3600,10 @@ table {
   bottom: 1.5em;
 }
 
+.switch input:focus + .slider {
+  background-color: blue;
+}
+
 /* Skjuler standard check-box */
 .switch input {
   opacity: 0;
