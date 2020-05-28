@@ -11,7 +11,7 @@
                 <?php if (isset($_SESSION['idbruker'])) { ?> | <a id="regler_a" href="javascript:void(0)" onclick="aapneRegler()">Regler</a> <?php } ?>
             </p>
             <?php if (isset($_SESSION['idbruker'])) { ?>
-                <section id="mldREGLER_boks" onclick="lukkMelding('mldREGLER_boks')">
+                <section id="mldREGLER_boks" onclick="lukkRegler()">
                     <section id="mldREGLER_innhold">
                         <p id="mldREGLER"><?php include('generert/regler.html'); ?></p>  
                         <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->

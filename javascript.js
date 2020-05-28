@@ -961,14 +961,24 @@ function innstillinger(bruker) {
 
 function aapneRegler() {
   var boksen = document.getElementById('mldREGLER_boks');
-  //var scroll = document.getElementsByTagName('body');
+  var scroll = document.getElementsByTagName("BODY")[0];
   
-  //scroll.style.overflow = 'hidden';
+  scroll.style.overflow = 'hidden';
 
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
   
   boksen.style.display = "block";
+}
+
+function lukkRegler() {
+  var boksen = document.getElementById('mldREGLER_boks');
+
+  if(boksen.style.display == "block") {
+    var scroll = document.getElementsByTagName("BODY")[0];
+    scroll.style.overflow = '';
+    boksen.style.display = "none";
+  }
 }
 
 /* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
