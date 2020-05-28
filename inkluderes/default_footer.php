@@ -8,7 +8,7 @@
             <p class=footer_beskrivelse>&copy; Klimate <?php echo date("Y");?> | <a href="mailto:kontakt@klimate.no">Kontakt oss</a>
                 <!-- Om brukeren ikke er administrator eller redaktør, vis link for søknad til å bli redaktør -->
                 <?php if (isset($_SESSION['idbruker']) and $_SESSION['brukertype'] == "3") { ?> | <a href="soknad.php">Søknad om å bli redaktør</a><?php } ?>
-                | <a id="regler_a" onclick="aapneRegler()">Regler</a>
+                <?php if (isset($_SESSION['idbruker'])) { ?> | <a id="regler_a" onclick="aapneRegler()">Regler</a> <?php } ?>
             </p>
             <section id="mldREGLER_boks" onclick="lukkMelding('mldREGLER_boks')">
                 <section id="mldREGLER_innhold">
