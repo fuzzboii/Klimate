@@ -153,11 +153,15 @@ function bekreftMelding(element) {
 
   if (knapp.style.display == 'none') {
     knapp.style.display = 'block';
-    scroll.style.overflow = 'hidden';
+    if(scroll != null) {
+      scroll.style.overflow = 'hidden';
+    }
 
   } else {
     knapp.style.display = 'none';
-    scroll.style.overflow = 'visible';
+    if(scroll != null) {
+      scroll.style.overflow = 'visible';
+    }
   }
   
   document.body.scrollTop = 0;
@@ -388,27 +392,6 @@ function hentSide(side, tilbake, neste/*, res*/) {
     // Hvis ikke viser vi første side av søket
     sideDel[forelopigSide].style.display = "grid";
 
-
-    // var resultater = document.getElementsByClassName(res);
-    /*
-    if (vindu < 720) {
-      for(var i = 0; i < resultater.length; i++) {
-        resultater[i].style.display = "none";
-      }
-      resultater[0].style.display = "block";
-
-      resultater[start].on("swipeleft",function(){
-        resultater[start].style.display = "none";
-        start++;
-        resultater[start].style.display = "block";
-      });
-    } else {
-      for(var i = 0; i < resultater.length; i++) {
-        resultater[i].style.display = "block";
-      }
-    }
-    */
-    
     if (sideDel.length > 1) {
       // Er det mer enn 1 side, vis neste knapp
       document.getElementById(neste).style.display = "inline-block";
@@ -462,11 +445,6 @@ function visForrigeSide(side, tilbake, neste) {
   // Hent den nye siden
   hentSide(side, tilbake, neste);
 }
-
-/*
-var start = 0;
-function visNesteSideTouch()
-*/
 
 // Funksjon for å trykke på et resulat med enter for søk
 function sokTabbing() {
