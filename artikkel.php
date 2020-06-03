@@ -196,8 +196,8 @@ if(isset($_POST['sendKommentar'])) {
         $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, bruker, artikkel) values(:ingress, :tekst, NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
         $nyKommentarSTMT = $db->prepare($nyKommentarQ);
         
-        $nyKommentarSTMT->bindParam(':ingress', $ingress);
-        $nyKommentarSTMT->bindParam(':tekst', $tekst);
+        $nyKommentarSTMT->bindParam(':ingress', filter_var($ingress, FILTER_SANITIZE_STRING));
+        $nyKommentarSTMT->bindParam(':tekst', filter_var($tekst, FILTER_SANITIZE_STRING));
     
         $nyKommentarSTMT->execute();
         $sendt = $nyKommentarSTMT->rowCount();
