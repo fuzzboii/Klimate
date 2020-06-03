@@ -121,7 +121,7 @@ if (isset($_POST['subEndring'])) {
                     // Bruker har valgt å ikke oppdatere brukernavn
                     $nyttBrukernavn = $_SESSION['brukernavn'];
                 } else {
-                    $nyttBrukernavn = $_POST['nyttbrukernavn'];
+                    $nyttBrukernavn = filter_var($_POST['nyttbrukernavn'], FILTER_SANITIZE_STRING);
                 }
             
                 if ($_POST['nyepost'] == "") {
@@ -135,14 +135,14 @@ if (isset($_POST['subEndring'])) {
                     // Bruker har valgt å ikke oppdatere fornavn
                     $nyttFornavn = $_SESSION['fornavn'];
                 } else {
-                    $nyttFornavn = $_POST['nyttfornavn'];
+                    $nyttFornavn = filter_var($_POST['nyttfornavn'], FILTER_SANITIZE_STRING);
                 }
             
                 if ($_POST['nyttetternavn'] == "") {
                     // Bruker har valgt å ikke oppdatere etternavn
                     $nyttEtternavn = $_SESSION['etternavn'];
                 } else {
-                    $nyttEtternavn = $_POST['nyttetternavn'];
+                    $nyttEtternavn = filter_var($_POST['nyttetternavn'], FILTER_SANITIZE_STRING);
                 }
             
                 // Sjekker på om bruker har skrevet et telefonnummer, maks 12 tegn (0047) 
