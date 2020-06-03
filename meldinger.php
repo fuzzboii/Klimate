@@ -398,9 +398,6 @@ if(isset($_POST['gjenopprettMelding'])) {
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
                 <?php
-                $tabMld = 9;
-                $tabGjen = 10;
-
                 if($antMld > 0) { ?>
                     <form method="POST" id="meldinger_form_utboks" action="meldinger.php">
                         <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
@@ -461,7 +458,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                 $navn = "Avregistrert bruker";
                             } ?>
 
-                            <section class="meldinger_innboks_samtale" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
+                            <section class="meldinger_innboks_samtale">
                                 <?php if($funnetMottakerBilde > 0) {
                                     $testPaa = $mottakerBilde['hvor'];
                                     // Tester på om filen faktisk finnes
@@ -757,18 +754,17 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <form method="POST" id="meldinger_form_ny" action="meldinger.php">
                     <input type="submit" id="meldinger_nyKnapp" name="ny" title="Skriv en ny melding"  value="Ny melding">
                 </form>
-                
-                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($meldinger_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
-                    <section id="mldFEIL_innhold">
-                        <p id="mldFEIL"><?php echo($meldinger_melding) ?></p>  
-                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
-                    </section>  
-                </section>
 
             </main>
 
         <?php } ?>
+        <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($meldinger_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+            <section id="mldFEIL_innhold">
+                <p id="mldFEIL"><?php echo($meldinger_melding) ?></p>  
+                <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                <button id="mldFEIL_knapp" autofocus>Lukk</button>
+            </section>  
+        </section>
         <?php include("inkluderes/footer.php") ?>
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
