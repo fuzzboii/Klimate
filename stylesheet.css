@@ -5373,6 +5373,11 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
+
+  .admin_regler_slett_knapp:focus {
+    background-color: rgba(253, 38, 38, 0.966); 
+  }
+
   .admin_allebrukere_rad:hover {
     cursor: pointer;
     outline: 2px solid black;
