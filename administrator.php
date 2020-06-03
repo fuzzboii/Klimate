@@ -663,7 +663,7 @@ $tabindex = 27;
                         <?php if($harEpost) {echo("<p>Epost: " . $brukerinfo['epost']);} else {echo("<p id='admin_ikkeoppgitt'>Epost: Ikke oppgitt");} ?></p>
                         <?php if($harTlf) {echo("<p>Telefon: " . $brukerinfo['telefonnummer']);} else {echo("<p id='admin_ikkeoppgitt'>Telefon: Ikke oppgitt");} ?></p>
                         <form method="POST" action="administrator.php?bruker=<?php echo($_GET['bruker'])?>">
-                            <select name="endreBrukertype" id="admin_select_brukertype" onchange="this.form.submit()">
+                            <select name="endreBrukertype" tabindex="27" id="admin_select_brukertype" onchange="this.form.submit()">
                                 <?php 
                                 // Henter brukertypenavn som bruker allerede har
                                 $hentAktivtNavnQ = "select idbrukertype, brukertypenavn from brukertype where idbrukertype = :brukertype";
@@ -687,12 +687,12 @@ $tabindex = 27;
                         </form>
                     </section>
                     <section id="admin_handlinger">
-                        <p class="admin_handlingvalg" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
-                        <p class="admin_handlingvalg" onclick="byttHandling('Ekskluder')">Ekskluder</p>
+                        <p class="admin_handlingvalg" tabindex="28" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
+                        <p class="admin_handlingvalg" tabindex="29" onclick="byttHandling('Ekskluder')">Ekskluder</p>
                         <form id="admin_handling_form" method="POST" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
                             <p id="admin_handling">Advar bruker</p>
                             <input id="admin_handling_bruker" type="hidden" name="advartbruker" value="<?php echo($_GET['bruker']) ?>">
-                            <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" required></textarea>
+                            <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" autofocus required></textarea>
                             <p id="admin_handling_lengde">Lengde, la være for permanent</p>
                             <input id="admin_handling_dato" type="date" name="datotil">
                             <input onclick="sjekkAdminHandling()" id="admin_handling_submit" type="button" value="Advar bruker">
