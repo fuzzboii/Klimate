@@ -191,13 +191,13 @@ $tabindex = 10;
                             </section>
                             <?php } 
                             } else {?>
-                                <p class="backend_tilbakemelding">Du har ikke kommentert noen artikler...</p>
+                                <p class="backend_tilbakemelding">Du har ikke kommentert nok artikler...</p>
                             <?php } ?>
                         </section>
 
                         <section class="kolonne_høyre">
                             <section class="backend_headerIntvindu">
-                                <p>Nyeste kommentert</p>
+                                <p>Flere kommentarer</p>
                             </section>
 
                             <section class="backend_Intvindu">
