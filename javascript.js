@@ -490,6 +490,29 @@ function sokTabbing() {
   }
 }
 
+function backendTabbing() {
+  var backendTab1 = document.getElementById("bTab1");
+  var backendTab2 = document.getElementById("bTab2");
+
+  backendTab1.addEventListener("keyup", function(event) {
+    
+    var gaaTil = this;
+
+    if (event.keyCode === 13) {
+      gaaTil.click();
+    }
+  });
+
+  backendTab2.addEventListener("keyup", function(event) {
+    
+    var gaaTil = this;
+
+    if (event.keyCode === 13) {
+      gaaTil.click();
+    }
+  });
+}
+
 // Funksjon for å trykke på et resulat med enter for arrangement
 function arrTabbing() {
   var arrangement = document.getElementsByClassName("arrangement_ressection");
