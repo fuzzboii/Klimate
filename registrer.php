@@ -40,91 +40,99 @@ if (isset($_POST['subRegistrering'])) {
             if (filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL)) {
                 try {
 
-                    $br = $_POST['brukernavn'];
-                    $pw = $_POST['passord'];
+                    $br = filter_var($_POST['brukernavn'], FILTER_SANITIZE_STRING);
 
-                    // Validering av passordstyrke, server validering
-                    $storebokstaver = preg_match('@[A-Z]@', $pw);
-                    $smaabokstaver = preg_match('@[a-z]@', $pw);
-                    $nummer = preg_match('@[0-9]@', $pw);
-                    // Denne er for spesielle symboler, ikke i bruk for øyeblikket
-                    // $spesielleB = preg_match('@[^\w]@', $pw);
-
-                    if ($pw == "") {
-                        // Ikke noe passord skrevet
-                        $_SESSION['registrer_melding'] = "Du har ikke oppgitt et passord";
-                        header("Location: registrer.php");
-                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
-                        // Ikke tilstrekkelig passord skrevet
-                        $_SESSION['registrer_melding'] = "Du har ikke oppgitt et tilstrekkelig passord";
-                        header("Location: registrer.php");
-                    } else {
-                        // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
-                        $lbr = strtolower($_POST['brukernavn']);
-                        $sjekkbnavn = "select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "'";
-                        $sjekket = $db->prepare($sjekkbnavn);
-                        $sjekket->execute();
-                        $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
-
-                        // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
-                        if ($testbnavn['brukernavn'] != $lbr) {
-                            // OK, vi forsøker å registrere bruker
-                            $epost = $_POST['epost'];
-
-                            // Salter passorder
-                            $kombinert = $salt . $pw;
-                            // Krypterer saltet passord
-                            $spw = sha1($kombinert);
-                            $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', 3)";
-
-
-                            // Prepared statement for å beskytte mot SQL injection
-                            $stmt = $db->prepare($sql);
-
-                            $vellykket = $stmt->execute(); 
-
-                            // Vi har lagt til ny bruker, henter IDen
-                            $nyBrukerID = $db -> lastInsertId();
-                            
-                            // Alt gikk OK, sender til logginn med melding til bruker
-                            if ($vellykket) {
-                                // Fjerner session variable for brukerinput om ingen feil oppstår
-                                unset($_SESSION['input_brukernavn']);
-                                unset($_SESSION['input_epost']);
-
-                                // Sjekker på om bruker har registrert preferanser
-                                $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $nyBrukerID;
-                                $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
-                                $sjekkPrefSTMT->execute();
-                                $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
-
-                                // Bruker har ikke preferanser, oppretter de
-                                // Variabelen $personvern kommer fra innstillinger
-                                if(!$resPref) {
-                                    $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
-                                                        $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
-                                                            $nyBrukerID . ")";
-
-                                    $opprettPrefSTMT = $db->prepare($opprettPrefQ);
-                                    $opprettPrefSTMT->execute();
-                                }
-                                
-                                // Vi logger inn den nye brukeren
-                                $_SESSION['idbruker'] = $nyBrukerID;
-                                $_SESSION['brukernavn'] = $br;
-                                $_SESSION['fornavn'] = null;
-                                $_SESSION['etternavn'] = null;
-                                $_SESSION['epost'] = $epost;
-                                $_SESSION['telefonnummer'] = null;
-                                $_SESSION['brukertype'] = 3;
-
-                                header("Location: backend.php");
-                            }
-                        } else {
-                            // Brukernavnet er tatt
-                            $_SESSION['registrer_melding'] = "Brukernavnet er opptatt";
+                    // Hvis ikke bruker har forsøkt å skrive inn HTML kode i brukernavn-feltet så fortsetter vi
+                    if($br == $_POST['brukernavn']) {
+                        $pw = $_POST['passord'];
+    
+                        // Validering av passordstyrke, server validering
+                        $storebokstaver = preg_match('@[A-Z]@', $pw);
+                        $smaabokstaver = preg_match('@[a-z]@', $pw);
+                        $nummer = preg_match('@[0-9]@', $pw);
+                        // Denne er for spesielle symboler, ikke i bruk for øyeblikket
+                        // $spesielleB = preg_match('@[^\w]@', $pw);
+    
+                        if ($pw == "") {
+                            // Ikke noe passord skrevet
+                            $_SESSION['registrer_melding'] = "Du har ikke oppgitt et passord";
                             header("Location: registrer.php");
+                        } else if (!$storebokstaver || !$smaabokstaver || !$nummer /*|| !$spesielleB*/ || strlen($pw) < 8) {
+                            // Ikke tilstrekkelig passord skrevet
+                            $_SESSION['registrer_melding'] = "Du har ikke oppgitt et tilstrekkelig passord";
+                            header("Location: registrer.php");
+                        } else {
+                            // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
+                            $lbr = strtolower($_POST['brukernavn']);
+                            $sjekkbnavn = "select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "'";
+                            $sjekket = $db->prepare($sjekkbnavn);
+                            $sjekket->execute();
+                            $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
+    
+                            // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
+                            if ($testbnavn['brukernavn'] != $lbr) {
+                                // OK, vi forsøker å registrere bruker
+                                $epost = $_POST['epost'];
+    
+                                // Salter passorder
+                                $kombinert = $salt . $pw;
+                                // Krypterer saltet passord
+                                $spw = sha1($kombinert);
+                                $sql = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES('" . $br . "', '" . $spw . "', '" . $epost . "', 3)";
+    
+    
+                                // Prepared statement for å beskytte mot SQL injection
+                                $stmt = $db->prepare($sql);
+    
+                                $vellykket = $stmt->execute(); 
+    
+                                // Vi har lagt til ny bruker, henter IDen
+                                $nyBrukerID = $db -> lastInsertId();
+                                
+                                // Alt gikk OK, sender til logginn med melding til bruker
+                                if ($vellykket) {
+                                    // Fjerner session variable for brukerinput om ingen feil oppstår
+                                    unset($_SESSION['input_brukernavn']);
+                                    unset($_SESSION['input_epost']);
+    
+                                    // Sjekker på om bruker har registrert preferanser
+                                    $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $nyBrukerID;
+                                    $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
+                                    $sjekkPrefSTMT->execute();
+                                    $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
+    
+                                    // Bruker har ikke preferanser, oppretter de
+                                    // Variabelen $personvern kommer fra innstillinger
+                                    if(!$resPref) {
+                                        $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
+                                                            $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
+                                                                $nyBrukerID . ")";
+    
+                                        $opprettPrefSTMT = $db->prepare($opprettPrefQ);
+                                        $opprettPrefSTMT->execute();
+                                    }
+                                    
+                                    // Vi logger inn den nye brukeren
+                                    $_SESSION['idbruker'] = $nyBrukerID;
+                                    $_SESSION['brukernavn'] = $br;
+                                    $_SESSION['fornavn'] = null;
+                                    $_SESSION['etternavn'] = null;
+                                    $_SESSION['epost'] = $epost;
+                                    $_SESSION['telefonnummer'] = null;
+                                    $_SESSION['brukertype'] = 3;
+    
+                                    header("Location: backend.php");
+                                }
+                            } else {
+                                // Brukernavnet er tatt
+                                $_SESSION['registrer_melding'] = "Brukernavnet er opptatt";
+                                header("Location: registrer.php");
+                            }
                         }
+                    } else {
+                        // Kan ikke registrere dette navnet
+                        $_SESSION['registrer_melding'] = "Brukernavnet er ugyldig";
+                        header("Location: registrer.php");
                     }
                 }
                 catch (PDOException $ex) {
