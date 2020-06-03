@@ -393,7 +393,7 @@ $tabindex = 27;
         <header id="admin_header" onclick="lukkHamburgerMeny()">
             <!-- Overskrift på siden -->
             <h1 id="admin_overskrift">Adminpanel</h1>
-            <img id="admin_hovedmeny_ikon" src="bilder/pilnIkon.png" onclick="admHovedmeny()">
+            <img id="admin_hovedmeny_ikon" src="bilder/pilnIkon.png" alt="Ikon for pil ned" onclick="admHovedmeny()">
         </header>
         <main id="admin_main" onclick="lukkHamburgerMeny()">
 
@@ -410,7 +410,7 @@ $tabindex = 27;
                     <button name="administrering" tabindex="18" form="admin_form" value="Misbruk">Misbruk</button>
                     <button name="administrering" tabindex="19" form="admin_form" value="Administratorer">Administratorer</button>
                 </section>
-                <img src="bilder/rapportIkon.png" id="admin_rap_ikon">
+                <img src="bilder/rapportIkon.png" id="admin_rap_ikon" alt="Ikon for pil ned">
                 <button id="admin_rap_knapp" tabindex="20" onclick="rapMeny()">Rapporter</button>
                 <section id="admin_rap_delmeny" style="display: none;">
                     <button name="rapporter" tabindex="21" form="rapport_form" value="Alle brukere">Alle brukere</button>
