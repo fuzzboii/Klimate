@@ -153,9 +153,9 @@ if(isset($_POST['sendMelding'])) {
 
         $_POST['idbruker'] = $resID['idbruker'];
     }
-    // Legger til en ny melding
+    // Legger til en ny melding 
     $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
-                        values('" . $_POST['tittel'] . "', '" . $_POST['tekst'] . "', 
+                        values('" . filter_var($_POST['tittel'], FILTER_SANITIZE_STRING) . "', '" . filter_var($_POST['tekst'], FILTER_SANITIZE_STRING) . "', 
                             NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
     $nyMeldingSTMT = $db->prepare($nyMeldingQ);
     $nyMeldingSTMT->execute();
