@@ -412,13 +412,13 @@ $tabindex = 27;
                 </section>
                 <img src="bilder/rapportIkon.png" id="admin_rap_ikon">
                 <button id="admin_rap_knapp" tabindex="20" onclick="rapMeny()">Rapporter</button>
-                <section id="admin_rap_delmeny" tabindex="21" style="display: none;">
-                    <button name="rapporter" tabindex="22" form="rapport_form" value="Alle brukere">Alle brukere</button>
-                    <button name="rapporter" tabindex="23" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
-                    <button name="rapporter" tabindex="24" form="rapport_form" value="Advarsler">Advarsler</button>
+                <section id="admin_rap_delmeny" style="display: none;">
+                    <button name="rapporter" tabindex="21" form="rapport_form" value="Alle brukere">Alle brukere</button>
+                    <button name="rapporter" tabindex="22" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
+                    <button name="rapporter" tabindex="23" form="rapport_form" value="Advarsler">Advarsler</button>
                 </section>
-                <button name="nybruker" tabindex="25" form="admin_form">Opprett ny bruker</button>
-                <button name="nyregel" tabindex="26" form="admin_form">Opprett ny regel</button>
+                <button name="nybruker" tabindex="24" form="admin_form">Opprett ny bruker</button>
+                <button name="nyregel" tabindex="25" form="admin_form">Opprett ny regel</button>
             </section>
 
             <?php 
@@ -486,16 +486,17 @@ $tabindex = 27;
                         <tbody>
                             <?php for($i = 0; $i < count($misbruk); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
                                         <td class="admin_allebrukere_allemisbruk"><?php echo($misbruk[$i]['tekst']) ?></td>
                                         <td class="admin_allebrukere_allemisbruknavn"><?php echo($misbruk[$i]['brukernavn']) ?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
                                         <td class="admin_allebrukere_allemisbruk"><?php echo($misbruk[$i]['tekst']) ?></td>
                                         <td class="admin_allebrukere_allemisbruknavn"><?php echo($misbruk[$i]['brukernavn']) ?></td>
                                     </tr>
                                 <?php }
+                            $tabindex++; 
                             } 
                             if($i > 8) { ?>
                                 <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
@@ -519,18 +520,19 @@ $tabindex = 27;
                         <tbody>
                             <?php for($i = 0; $i < count($administratorer); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne administratoren" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne administratoren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($administratorer[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($administratorer[$i]['fnavn'])) {echo($administratorer[$i]['fnavn'] . " "); if(isset($administratorer[$i]['enavn'])) {echo($administratorer[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($administratorer[$i]['epost'])) {echo($administratorer[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne administratorem" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne administratorem" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($administratorer[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($administratorer[$i]['fnavn'])) {echo($administratorer[$i]['fnavn'] . " "); if(isset($administratorer[$i]['enavn'])) {echo($administratorer[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($administratorer[$i]['epost'])) {echo($administratorer[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                     </tr>
                                 <?php }
+                            $tabindex++; 
                             } 
                             if($i > 8) { ?>
                                 <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
