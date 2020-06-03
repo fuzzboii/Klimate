@@ -278,9 +278,11 @@ $tabindex = 7;
                 /* Del for søk på kun tittel */
                 /* ------------------------- */
 
-                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn, brukertype from artikkel, bruker where artnavn LIKE '%" . $_GET['artTittel'] . "%' and bruker = idbruker and 
+                $tittel = filter_var($_GET['artTittel'], FILTER_SANITIZE_STRING);
+
+                $sokPaaArt = "select idartikkel, bruker, artnavn, artingress, brukernavn, fnavn, enavn, brukertype from artikkel, bruker where artnavn LIKE '%" . $tittel . "%' and bruker = idbruker and 
                     bruker.idbruker NOT IN (select bruker from eksklusjon where (datotil is null or datotil > NOW()))";
-                $infoOmSok = "Du har søkt etter: " . $_GET['artTittel'];
+                $infoOmSok = "Du har søkt etter: " . $tittel;
 
 
             } else if ((($_GET['artTittel'] != "") && $_GET['artForfatter'] != "") && ($sokPaaKunTtl == false)) {
