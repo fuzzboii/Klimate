@@ -552,7 +552,7 @@ $tabindex = 8;
                                 </form>
                                 
                                 <section class="argInf_dato">
-                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png">
+                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png" alt="Ikon for kalender">
                                     <h2>Dato</h2>
                                     <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                                 </section>
@@ -809,7 +809,7 @@ $tabindex = 8;
                                     echo(date_format($dato,"d/m/Y"));
                                 ?>
                             </p>
-                            <img class="arrangement_rFloatBilde" src="bilder/datoIkon.png">
+                            <img class="arrangement_rFloatBilde" src="bilder/datoIkon.png" alt="Ikon for kalender">
                             <p class="arrangement_fylke"><?php echo($resArr[$j]['fylkenavn'])?></p>
                             <img class="arrangement_rFloatBilde" src="bilder/stedIkon.png">
                             <img class="arrangement_navn" src="bilder/brukerIkonS.png">
