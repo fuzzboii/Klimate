@@ -692,7 +692,7 @@ $tabindex = 17;
                             <?php if ($_SESSION['idbruker'] != $_GET['bruker']) { ?>
                             
                             <!-- Viser ikonet/knappen for rapportering -->
-                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" onclick="bekreftMelding('profil_rapporterBruker')">
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" alt="Ikon for rapportering" onclick="bekreftMelding('profil_rapporterBruker')">
                             <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp">Rapporter</button>
                             <!-- pop-up vindu -->
                             <section id="profil_rapporterBruker" style="display: none;">
@@ -719,7 +719,7 @@ $tabindex = 17;
                             </section>
                             <?php } else { ?>
                             <!-- Viser ikonet/knappen for rapportering som hidden-->
-                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" style=" visibility: hidden;">
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" alt="Ikon for rapportering" style=" visibility: hidden;">
                             <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp" style=" visibility: hidden;">Rapporter</button>
                             <?php } ?>
                         <?php } ?>
