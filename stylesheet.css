@@ -2123,7 +2123,7 @@ td, th  {
   border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
 }
 
-#konto_avregistrerKnapp {
+#konto_avregistrerKnapp, #konto_avregistrerMeg {
   display: block;
   margin-left: auto; margin-right: auto;
   background-color: red; /* bakgrunnsfarge for registrerknapp */
@@ -4825,7 +4825,7 @@ input:checked + .slider:before {
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
   
-  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover {
+  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #konto_avregistrerMeg:hover {
     cursor: pointer;
   }
 
@@ -5006,7 +5006,7 @@ input:checked + .slider:before {
     cursor: pointer;
   }
   /* Del for arrangement */
-  #arrangement_slettKnapp:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #konto_avregistrerKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
+  #arrangement_slettKnapp:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
     cursor: pointer;
   }
 
