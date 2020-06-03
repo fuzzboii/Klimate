@@ -4071,7 +4071,7 @@ input:checked + .slider:before {
 .kommentar_lesknapp {
   display: inline;
   cursor: pointer;
-  color: rgb(36, 209, 99);
+  color: rgb(0, 0, 0);
   font-size: 0.8em;
 }
 
