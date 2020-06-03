@@ -568,6 +568,37 @@ function profilTabbing() {
 }
 
 
+// Funksjon for å trykke på en bruker i adminpanelet
+function adminTabbing() {
+  var brukere = document.getElementsByClassName("admin_allebrukere_rad");
+  var handlinger = document.getElementsByClassName("admin_handlingvalg");
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
+  for (var i = 0; i < brukere.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    brukere[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+  for (var i = 0; i < handlinger.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    handlinger[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+}
+
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 

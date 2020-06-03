@@ -5373,6 +5373,10 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
+  .admin_regler_slett_knapp:focus, .admin_bruker_slett_knapp:focus {
+    background-color: rgba(253, 38, 38, 0.966); 
+  }
+
   .admin_allebrukere_rad:hover {
     cursor: pointer;
     outline: 2px solid black;
@@ -5380,6 +5384,11 @@ input:checked + .slider:before {
     transition: outline 0.1s;
   }
 
+  .admin_allebrukere_rad:focus {
+    outline: 2px solid black;
+    box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
+  }
+  
   /* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
   #admin_brukerinfo {
     grid-column: 3/span 2;
@@ -5428,6 +5437,11 @@ input:checked + .slider:before {
     transition: box-shadow 0.1s;
     background-color: rgb(89, 172, 255);
     cursor: pointer;
+  }
+
+  #admin_handling_submit:focus {
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126);
+    background-color: rgb(0, 128, 255);
   }
 
   /* Style for ADMINPANEL sin NY BRUKER */
