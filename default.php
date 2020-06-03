@@ -142,7 +142,7 @@ if (isset($_POST['loggUt'])) {
                                             $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
                                         ?>
                                         <p id="default_antallKommentarer"><?php echo $antallkommentarer['antall'] ?></p>
-                                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">...Les videre</a>
+                                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">Les videre</a>
                                                                                   
                                     </section>
                                 <?php } ?>
@@ -176,9 +176,14 @@ if (isset($_POST['loggUt'])) {
                                                     echo(date_format($dato,"d/m/Y"));
                                                 ?>
                                             </p>
-                                            <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],0,150)) ?> </p>                             
+                                            <?php
+                                            if(strlen($arrangementer[$i]['eventtekst']) >= 150) { ?>
+                                                <p class="KommendeArrangementTekst"><?php echo(substr($arrangementer[$i]['eventtekst'], 0, 150)) ?>...</p>
+                                            <?php } else { ?>
+                                                <p class="KommendeArrangementTekst"><?php echo($arrangementer[$i]['eventtekst']) ?></p>
+                                            <?php } ?>                           
                                             
-                                            <a href="arrangement.php?arrangement=<?php echo($arrangementer[$i]['idevent'])?>">...Les videre</a>
+                                            <a href="arrangement.php?arrangement=<?php echo($arrangementer[$i]['idevent'])?>">Les videre</a>
                                         </section>
                                 <?php } ?>
                         </section>
