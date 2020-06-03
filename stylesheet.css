@@ -1293,7 +1293,7 @@ footer a {
 
 #default_innholdSeksjonArtikkel a, #default_innholdSeksjonArrangement a {
   font-size: 0.8em;
-  color: rgb(36, 209, 99);
+  color: rgb(0, 0, 0);
   float: right;
 }
 
@@ -1777,14 +1777,14 @@ footer a {
 
 
 #backend_innholdSeksjonArtikkel a, #backend_innholdSeksjonArrangement a {
-  font-size: 0.8em;
-  color: rgb(36, 209, 99);
+  font-size: 1em;
+  color: rgb(0, 0, 0);
   float: right;
 }
 
 .backend_Intvindu a {
-  font-size: 0.8em;
-  color: rgb(36, 209, 99);
+  font-size: 1em;
+  color: rgb(0, 0, 0);
 }
 
 #backend_innholdSeksjonArtikkel {
