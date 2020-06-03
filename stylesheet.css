@@ -1273,7 +1273,7 @@ footer a {
   margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
 }
 
-#default_overskriftSeksjon h2 {
+.default_overskriftSeksjon h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   padding-bottom: 0.5em;
   background-color: transparent; /* Fargen på bakgrunnen i tittel-containerne */
@@ -1285,7 +1285,7 @@ footer a {
   text-shadow: 0px 1px 2px rgba(0, 0, 0, .5);
 }
 
-#default_overskriftSeksjon {
+.default_overskriftSeksjon {
   display: grid;
   justify-content: center;
 }
@@ -1310,7 +1310,7 @@ footer a {
   padding-top: 6em; /* Plassering av logoen på default */
 }
 
-#default_arrangementFelt {
+.default_arrangementFelt {
   border-bottom: 1px solid lightgrey;
   padding-bottom: 1.5em;
 } 
@@ -1343,14 +1343,14 @@ footer a {
   padding-right: 0.1em;
 }
 
-#default_artikkelFelt {
+.default_artikkelFelt {
   font-family: Helvetica, Arial, sans-serif;
   border-bottom: 1px solid lightgrey;
   padding-bottom: 0.5em;
   margin-bottom: 0.3em;
 }
 
-#default_artikkelFelt h3 {
+.default_artikkelFelt h3 {
   margin-left: 0.3em;
 }
 
@@ -1379,7 +1379,7 @@ footer a {
   grid-template-columns: 5em 1fr;
 }
 
-#default_artikkelBildeFelt {
+.default_artikkelBildeFelt {
   border-bottom: 1px solid lightgrey;
   margin-bottom: 0.3em;
 }
@@ -1391,7 +1391,7 @@ footer a {
   margin-left: 0.2em;
 }
 
-#default_antallKommentarer {
+.default_antallKommentarer {
   size: 1em;
   display: inline;
 }
@@ -2132,7 +2132,7 @@ td, th  {
   border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
 }
 
-#konto_avregistrerKnapp {
+#konto_avregistrerKnapp, #konto_avregistrerMeg {
   display: block;
   margin-left: auto; margin-right: auto;
   background-color: red; /* bakgrunnsfarge for registrerknapp */
@@ -2921,7 +2921,7 @@ table {
   padding-left: 1em; padding-right: 1em;
 }
 
-#arrangement_slettKnapp {
+#arrangement_slettKnapp, #arrangement_slettDenne {
   color: white;
   background-color: red;
   padding: 1em; /* hvor mye luft rundt teksten det skal være */
@@ -4841,7 +4841,7 @@ input:checked + .slider:before {
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
   
-  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover {
+  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #konto_avregistrerMeg:hover {
     cursor: pointer;
   }
 
@@ -5022,7 +5022,7 @@ input:checked + .slider:before {
     cursor: pointer;
   }
   /* Del for arrangement */
-  #arrangement_slettKnapp:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #konto_avregistrerKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
+  #arrangement_slettKnapp:hover, #arrangement_slettDenne:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
     cursor: pointer;
   }
 
@@ -5389,6 +5389,10 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
+  .admin_regler_slett_knapp:focus, .admin_bruker_slett_knapp:focus {
+    background-color: rgba(253, 38, 38, 0.966); 
+  }
+
   .admin_allebrukere_rad:hover {
     cursor: pointer;
     outline: 2px solid black;
@@ -5396,6 +5400,11 @@ input:checked + .slider:before {
     transition: outline 0.1s;
   }
 
+  .admin_allebrukere_rad:focus {
+    outline: 2px solid black;
+    box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
+  }
+  
   /* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
   #admin_brukerinfo {
     grid-column: 3/span 2;
@@ -5444,6 +5453,11 @@ input:checked + .slider:before {
     transition: box-shadow 0.1s;
     background-color: rgb(89, 172, 255);
     cursor: pointer;
+  }
+
+  #admin_handling_submit:focus {
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126);
+    background-color: rgb(0, 128, 255);
   }
 
   /* Style for ADMINPANEL sin NY BRUKER */

@@ -363,6 +363,9 @@ if(isset($_POST['endreBrukertype'])) {
     }
 }
 
+// Tabindex, starter på 27 da dette er det maksimale antallet med elementer før første bruker
+$tabindex = 27;
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -382,7 +385,7 @@ if(isset($_POST['endreBrukertype'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="admin_body" onclick="lukkMelding('mldFEIL_boks')">
+    <body id="admin_body" onclick="lukkMelding('mldFEIL_boks')" onload="adminTabbing()">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -400,22 +403,22 @@ if(isset($_POST['endreBrukertype'])) {
             </form>
 
             <section id="admin_hovedmeny">
-                <button name="oversikt" form="admin_form">Oversikt</button>
-                <button id="admin_adm_knapp" onclick="admMeny()">Administrering</button>
+                <button name="oversikt" tabindex="15" form="admin_form">Oversikt</button>
+                <button id="admin_adm_knapp" tabindex="16" onclick="admMeny()">Administrering</button>
                 <section id="admin_adm_delmeny" style="display: none;">
-                    <button name="administrering" form="admin_form" value="Alle brukere">Alle brukere</button>
-                    <button name="administrering" form="admin_form" value="Misbruk">Misbruk</button>
-                    <button name="administrering" form="admin_form" value="Administratorer">Administratorer</button>
+                    <button name="administrering" tabindex="17" form="admin_form" value="Alle brukere">Alle brukere</button>
+                    <button name="administrering" tabindex="18" form="admin_form" value="Misbruk">Misbruk</button>
+                    <button name="administrering" tabindex="19" form="admin_form" value="Administratorer">Administratorer</button>
                 </section>
                 <img src="bilder/rapportIkon.png" id="admin_rap_ikon">
-                <button id="admin_rap_knapp" onclick="rapMeny()">Rapporter</button>
+                <button id="admin_rap_knapp" tabindex="20" onclick="rapMeny()">Rapporter</button>
                 <section id="admin_rap_delmeny" style="display: none;">
-                    <button name="rapporter" form="rapport_form" value="Alle brukere">Alle brukere</button>
-                    <button name="rapporter" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
-                    <button name="rapporter" form="rapport_form" value="Advarsler">Advarsler</button>
+                    <button name="rapporter" tabindex="21" form="rapport_form" value="Alle brukere">Alle brukere</button>
+                    <button name="rapporter" tabindex="22" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
+                    <button name="rapporter" tabindex="23" form="rapport_form" value="Advarsler">Advarsler</button>
                 </section>
-                <button name="nybruker" form="admin_form">Opprett ny bruker</button>
-                <button name="nyregel" form="admin_form">Opprett ny regel</button>
+                <button name="nybruker" tabindex="24" form="admin_form">Opprett ny bruker</button>
+                <button name="nyregel" tabindex="25" form="admin_form">Opprett ny regel</button>
             </section>
 
             <?php 
@@ -427,7 +430,7 @@ if(isset($_POST['endreBrukertype'])) {
                     <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
                 </form>
 
-                <input type="text" id="admin_sok" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
+                <input type="text" id="admin_sok" tabindex="27" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
 
                 <?php if($_GET['administrering'] == "Alle brukere") {
                     $hentBrukereQ = "select idbruker, brukernavn, fnavn, enavn, epost, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
@@ -446,21 +449,22 @@ if(isset($_POST['endreBrukertype'])) {
                         <tbody>
                             <?php for($i = 0; $i < count($brukere); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                         <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                         <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
                                     </tr>
                                 <?php }
-                            } 
+                            $tabindex++; 
+                            }
                             if($i > 8) { ?>
                                 <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
                             <?php } ?>
@@ -482,16 +486,17 @@ if(isset($_POST['endreBrukertype'])) {
                         <tbody>
                             <?php for($i = 0; $i < count($misbruk); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
                                         <td class="admin_allebrukere_allemisbruk"><?php echo($misbruk[$i]['tekst']) ?></td>
                                         <td class="admin_allebrukere_allemisbruknavn"><?php echo($misbruk[$i]['brukernavn']) ?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
                                         <td class="admin_allebrukere_allemisbruk"><?php echo($misbruk[$i]['tekst']) ?></td>
                                         <td class="admin_allebrukere_allemisbruknavn"><?php echo($misbruk[$i]['brukernavn']) ?></td>
                                     </tr>
                                 <?php }
+                            $tabindex++; 
                             } 
                             if($i > 8) { ?>
                                 <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
@@ -515,18 +520,19 @@ if(isset($_POST['endreBrukertype'])) {
                         <tbody>
                             <?php for($i = 0; $i < count($administratorer); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne administratoren" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne administratoren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($administratorer[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($administratorer[$i]['fnavn'])) {echo($administratorer[$i]['fnavn'] . " "); if(isset($administratorer[$i]['enavn'])) {echo($administratorer[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($administratorer[$i]['epost'])) {echo($administratorer[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne administratorem" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne administratorem" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($administratorer[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($administratorer[$i]['fnavn'])) {echo($administratorer[$i]['fnavn'] . " "); if(isset($administratorer[$i]['enavn'])) {echo($administratorer[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($administratorer[$i]['epost'])) {echo($administratorer[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                     </tr>
                                 <?php }
+                            $tabindex++; 
                             } 
                             if($i > 8) { ?>
                                 <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
@@ -657,7 +663,7 @@ if(isset($_POST['endreBrukertype'])) {
                         <?php if($harEpost) {echo("<p>Epost: " . $brukerinfo['epost']);} else {echo("<p id='admin_ikkeoppgitt'>Epost: Ikke oppgitt");} ?></p>
                         <?php if($harTlf) {echo("<p>Telefon: " . $brukerinfo['telefonnummer']);} else {echo("<p id='admin_ikkeoppgitt'>Telefon: Ikke oppgitt");} ?></p>
                         <form method="POST" action="administrator.php?bruker=<?php echo($_GET['bruker'])?>">
-                            <select name="endreBrukertype" id="admin_select_brukertype" onchange="this.form.submit()">
+                            <select name="endreBrukertype" tabindex="27" id="admin_select_brukertype" onchange="this.form.submit()">
                                 <?php 
                                 // Henter brukertypenavn som bruker allerede har
                                 $hentAktivtNavnQ = "select idbrukertype, brukertypenavn from brukertype where idbrukertype = :brukertype";
@@ -681,12 +687,12 @@ if(isset($_POST['endreBrukertype'])) {
                         </form>
                     </section>
                     <section id="admin_handlinger">
-                        <p class="admin_handlingvalg" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
-                        <p class="admin_handlingvalg" onclick="byttHandling('Ekskluder')">Ekskluder</p>
+                        <p class="admin_handlingvalg" tabindex="28" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
+                        <p class="admin_handlingvalg" tabindex="29" onclick="byttHandling('Ekskluder')">Ekskluder</p>
                         <form id="admin_handling_form" method="POST" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
                             <p id="admin_handling">Advar bruker</p>
                             <input id="admin_handling_bruker" type="hidden" name="advartbruker" value="<?php echo($_GET['bruker']) ?>">
-                            <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" required></textarea>
+                            <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" autofocus required></textarea>
                             <p id="admin_handling_lengde">Lengde, la være for permanent</p>
                             <input id="admin_handling_dato" type="date" name="datotil">
                             <input onclick="sjekkAdminHandling()" id="admin_handling_submit" type="button" value="Advar bruker">

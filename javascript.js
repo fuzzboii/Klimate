@@ -490,6 +490,29 @@ function sokTabbing() {
   }
 }
 
+function backendTabbing() {
+  var backendTab1 = document.getElementById("bTab1");
+  var backendTab2 = document.getElementById("bTab2");
+
+  backendTab1.addEventListener("keyup", function(event) {
+    
+    var gaaTil = this;
+
+    if (event.keyCode === 13) {
+      gaaTil.click();
+    }
+  });
+
+  backendTab2.addEventListener("keyup", function(event) {
+    
+    var gaaTil = this;
+
+    if (event.keyCode === 13) {
+      gaaTil.click();
+    }
+  });
+}
+
 // Funksjon for å trykke på et resulat med enter for arrangement
 function arrTabbing() {
   var arrangement = document.getElementsByClassName("arrangement_ressection");
@@ -544,6 +567,37 @@ function profilTabbing() {
   }
 }
 
+
+// Funksjon for å trykke på en bruker i adminpanelet
+function adminTabbing() {
+  var brukere = document.getElementsByClassName("admin_allebrukere_rad");
+  var handlinger = document.getElementsByClassName("admin_handlingvalg");
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
+  for (var i = 0; i < brukere.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    brukere[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+  for (var i = 0; i < handlinger.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    handlinger[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+}
 
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/

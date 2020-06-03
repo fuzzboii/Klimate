@@ -528,7 +528,7 @@ if(isset($_POST['slettInfo'])) {
                             <p>Er du sikker på av du vil avregistrere?</p>
                             <form method="POST" action="konto.php">
                                 <input type="password" id="konto_avregistrerpassord" name="passord" placeholder="Oppgi passord" title="Oppgi passordet ditt for å bekrefte avregistrering" required>
-                                <button id="konto_avregistrerKnapp" name="avregistrerMeg">Avregistrer</button>
+                                <button id="konto_avregistrerMeg" name="avregistrerMeg">Avregistrer</button>
                             </form>
                             <button id="konto_avbrytKnapp" onclick="bekreftMelding('konto_bekreftAvr')">Avbryt</button>
                         </section>
@@ -552,5 +552,4 @@ if(isset($_POST['slettInfo'])) {
     
 <!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 06.03.2020 -->
 <!-- Sist kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
-
 </html>
