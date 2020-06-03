@@ -182,7 +182,7 @@ $tabindex = 10;
                                     <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">...Les videre</a>                                      
                                 </section>
                                     <section class="backendbildeFlex">
-                                        <img class="backend_antallKommentarerIkon" src="bilder/meldingIkon.png">
+                                        <img class="backend_antallKommentarerIkon" src="bilder/meldingIkon.png" alt="Ikon for kommentarer">
                                     </section>
                                     <section>
                                         <p class="PopKommentar">Din nyeste kommentar:</p>
