@@ -82,6 +82,9 @@ if (isset($_POST['subRegistrering'])) {
                             $stmt = $db->prepare($sql);
 
                             $vellykket = $stmt->execute(); 
+
+                            // Vi har lagt til ny bruker, henter IDen
+                            $nyBrukerID = $db -> lastInsertId();
                             
                             // Alt gikk OK, sender til logginn med melding til bruker
                             if ($vellykket) {
@@ -90,7 +93,7 @@ if (isset($_POST['subRegistrering'])) {
                                 unset($_SESSION['input_epost']);
 
                                 // Sjekker på om bruker har registrert preferanser
-                                $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
+                                $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $nyBrukerID;
                                 $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
                                 $sjekkPrefSTMT->execute();
                                 $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
@@ -100,13 +103,22 @@ if (isset($_POST['subRegistrering'])) {
                                 if(!$resPref) {
                                     $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
                                                         $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
-                                                            $_SESSION['idbruker'] . ")";
+                                                            $nyBrukerID . ")";
 
                                     $opprettPrefSTMT = $db->prepare($opprettPrefQ);
                                     $opprettPrefSTMT->execute();
                                 }
+                                
+                                // Vi logger inn den nye brukeren
+                                $_SESSION['idbruker'] = $nyBrukerID;
+                                $_SESSION['brukernavn'] = $br;
+                                $_SESSION['fornavn'] = null;
+                                $_SESSION['etternavn'] = null;
+                                $_SESSION['epost'] = $epost;
+                                $_SESSION['telefonnummer'] = null;
+                                $_SESSION['brukertype'] = 3;
 
-                                header("location: logginn.php?vellykket=1");
+                                header("Location: backend.php");
                             }
                         } else {
                             // Brukernavnet er tatt
