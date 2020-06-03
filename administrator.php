@@ -795,7 +795,7 @@ $tabindex = 27;
                 <?php if($_GET['rapporter']) {
                     // Alle rapporterte brukere
                     if($_GET['rapporter'] == "Alle brukere") {
-                        $hentBrukereQ = "SELECT brukerrapport.idbrukerrapport, brukerrapport.tekst, brukerrapport.dato, rapportertbruker.idbruker, rapportertbruker.brukernavn as brukerNavn, rapportertav.brukernavn as rapporterer 
+                        $hentBrukereQ = "SELECT brukerrapport.tekst, brukerrapport.dato, rapportertbruker.idbruker, rapportertbruker.brukernavn as brukerNavn, rapportertav.brukernavn as rapporterer 
                         FROM brukerrapport 
                         LEFT OUTER JOIN bruker rapportertbruker ON brukerrapport.rapportertbruker = rapportertbruker.idbruker 
                         LEFT OUTER JOIN bruker rapportertav ON brukerrapport.rapportertav = rapportertav.idbruker 
@@ -807,10 +807,9 @@ $tabindex = 27;
                         <table id="admin_allebrukere_table">
                             <thead>
                                 <tr>
-                                    <th id="rapport_allebrukere_bruker">BRUKERNAVN</th>
-                                    <th id="rapport_allebrukere_idrapport">ID RAPPORT</th>
-                                    <th id="rapport_allebrukere_tekst">TEKST</th>
-                                    <th id="rapport_allebrukere_rapportertav">RAPPORTERT AV</th>
+                                    <th id="rapport_allebrukere_bruker">BRUKER</th>
+                                    <th id="rapport_allebrukere_tekst">RAPPORT</th>
+                                    <th id="rapport_allebrukere_rapportertav">FRA</th>
                                     <th id="rapport_allebrukere_dato">DATO</th>
                                 </tr>
                             </thead>
@@ -819,7 +818,6 @@ $tabindex = 27;
                                 if($i < 8) { ?>
                                     <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($rapporterteBrukere[$i]['rapportertbruker']) ?>)">
                                         <td class="rapport_allebrukere_bruker"><?php echo($rapporterteBrukere[$i]['brukerNavn'])?></td>
-                                        <td class="rapport_allebrukere_idrapport"><?php echo($rapporterteBrukere[$i]['idbrukerrapport'])?></td>
                                         <td class="rapport_allebrukere_tekst"><?php echo($rapporterteBrukere[$i]['tekst'])?></td>
                                         <td class="rapport_allebrukere_rapportertav"><?php echo($rapporterteBrukere[$i]['rapporterer'])?></td>
                                         <td class="rapport_allebrukere_dato"><?php echo($rapporterteBrukere[$i]['dato'])?></td>
@@ -827,7 +825,6 @@ $tabindex = 27;
                                 <?php } else { ?>
                                     <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($rapporterteBrukere[$i]['rapportertbruker']) ?>)">
                                         <td class="rapport_allebrukere_bruker"><?php echo($rapporterteBrukere[$i]['brukerNavn'])?></td>
-                                        <td class="rapport_allebrukere_idrapport"><?php echo($rapporterteBrukere[$i]['idbrukerrapport'])?></td>
                                         <td class="rapport_allebrukere_tekst"><?php echo($rapporterteBrukere[$i]['tekst'])?></td>
                                         <td class="rapport_allebrukere_rapportertav"><?php echo($rapporterteBrukere[$i]['rapporterer'])?></td>
                                         <td class="rapport_allebrukere_dato"><?php echo($rapporterteBrukere[$i]['dato'])?></td>

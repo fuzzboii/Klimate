@@ -623,6 +623,15 @@ footer a {
   padding-bottom: 0.2em;
 }
 
+/* Style for ADMINPANEL sin RAPPORTER, ALLE BRUKERE */
+.rapport_allebrukere_dato {
+  display: none;
+}
+
+#rapport_allebrukere_dato {
+  display: none;
+}
+
 /* Style spesifikt for ADMINPANEL sin OVERSIKT */
 #admin_advarsler, #admin_misbruk, #admin_eksklusjoner, #admin_brukere {
   font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
@@ -4712,7 +4721,14 @@ input:checked + .slider:before {
 }
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
+  /* Visning av flere detaljer, RAPPORT */
+  .rapport_allebrukere_dato {
+    display: block;
+  }
 
+  #rapport_allebrukere_dato {
+    display: block;
+  }
 
   /* BACKEND oversikt  */
   .backend2_grid {
