@@ -5373,7 +5373,6 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
-
   .admin_regler_slett_knapp:focus {
     background-color: rgba(253, 38, 38, 0.966); 
   }
@@ -5385,6 +5384,11 @@ input:checked + .slider:before {
     transition: outline 0.1s;
   }
 
+  .admin_allebrukere_rad:focus {
+    outline: 2px solid black;
+    box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
+  }
+  
   /* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
   #admin_brukerinfo {
     grid-column: 3/span 2;
