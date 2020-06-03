@@ -552,5 +552,4 @@ if(isset($_POST['slettInfo'])) {
     
 <!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 06.03.2020 -->
 <!-- Sist kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
-
 </html>
