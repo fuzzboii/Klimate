@@ -191,7 +191,7 @@ $tabindex = 10;
                             </section>
                             <?php } 
                             } else {?>
-                                <p class="backend_tilbakemelding">Du har ikke kommentert nok artikler...</p>
+                                <p class="backend_tilbakemelding">Du har ikke kommentert noen artikler...</p>
                             <?php } ?>
                         </section>
 
@@ -243,7 +243,7 @@ $tabindex = 10;
                                     </section>
                                         <?php } 
                                     } else {?>
-                                    <p class="backend_tilbakemelding">Du har ikke kommentert noen artikler...</p>
+                                    <p class="backend_tilbakemelding">Du har ikke kommentert nok artikler...</p>
 
                                     <?php }?>
 
