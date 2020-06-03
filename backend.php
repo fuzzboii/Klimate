@@ -105,9 +105,9 @@ $tabindex = 10;
             <!-- Del for å vise kommenterte artikler til brukeren -->
                 <article id="backend_section">
                     <ul class="backendNav">
-                        <li><a id="bTab1" tabIndex = "11" onClick="location.href='backend.php'">Oversikt</a></li>
+                        <li><a id="bTab1" tabIndex = "15" onClick="location.href='backend.php'">Oversikt</a></li>
                         <li><a class="aktiv" onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
-                        <li><a id="bTab2" tabIndex = "12"onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
+                        <li><a id="bTab2" tabIndex = "16"onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
                     </ul>
                 </article>
                
@@ -257,8 +257,8 @@ $tabindex = 10;
            
                 <article id="backend_section">
                     <ul class="backendNav">
-                        <li><a id="bTab1" tabIndex = "11" onClick="location.href='backend.php'">Oversikt</a></li>
-                        <li><a id="bTab2" tabIndex = "12" onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
+                        <li><a id="bTab1" tabIndex = "15" onClick="location.href='backend.php'">Oversikt</a></li>
+                        <li><a id="bTab2" tabIndex = "16" onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
                         <li><a class="aktiv" onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
                     </ul>
                 </article>
@@ -412,8 +412,8 @@ $tabindex = 10;
                 <article id="backend_section">
                     <ul class="backendNav">
                         <li><a class="aktiv" onClick="location.href='backend.php'">Oversikt</a></li>
-                        <li><a id="bTab1" tabIndex = "11" onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
-                        <li><a id="bTab2" tabIndex = "12" onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
+                        <li><a id="bTab1" tabIndex = "15" onClick="location.href='backend.php?artikler=<?php echo($_SESSION['idbruker'])?>'">Artikler</a></li>
+                        <li><a id="bTab2" tabIndex = "16" onClick="location.href='backend.php?arrangementer=<?php echo($_SESSION['idbruker'])?>'">Arrangementer</a></li>
                     </ul>
                 </article>
                 
