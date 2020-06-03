@@ -134,7 +134,7 @@ if(isset($_SESSION['idbruker'])) {
         <!-- Gardinmenyen, denne går over alt annet innhold ved bruk av z-index -->
         <section id="navMeny" class="hamburgerMeny" onclick="lukkHamburgerMeny()">
             <section class="avbrySeksjon">
-                <img class="xikon" src="bilder/xikon.png">   
+                <img class="xikon" src="bilder/xikon.png" alt="Lukk hamburgermeny">   
             </section>
         
             <!-- innholdet i hamburger-menyen -->
