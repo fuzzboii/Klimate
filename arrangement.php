@@ -620,7 +620,7 @@ $tabindex = 8;
                                         <h2>Sletting</h2>
                                         <p>Er du sikker på av du vil slette dette arrangementet?</p>
                                         <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
-                                            <button id="arrangement_slettKnapp" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
+                                            <button id="arrangement_slettDenne" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
                                         </form>
                                         <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>
                                     </section>

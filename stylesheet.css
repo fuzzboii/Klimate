@@ -2912,7 +2912,7 @@ table {
   padding-left: 1em; padding-right: 1em;
 }
 
-#arrangement_slettKnapp {
+#arrangement_slettKnapp, #arrangement_slettDenne {
   color: white;
   background-color: red;
   padding: 1em; /* hvor mye luft rundt teksten det skal være */
@@ -5006,7 +5006,7 @@ input:checked + .slider:before {
     cursor: pointer;
   }
   /* Del for arrangement */
-  #arrangement_slettKnapp:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
+  #arrangement_slettKnapp:hover, #arrangement_slettDenne:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
     cursor: pointer;
   }
 
