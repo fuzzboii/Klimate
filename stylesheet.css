@@ -2298,6 +2298,12 @@ table {
   color: white;
 }
 
+#toppKnapp:focus {
+  background-color: #555;
+  color: white;
+  outline: 1px solid skyblue;
+}
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for DROPDOWN HAMBURGERMENY */
 
