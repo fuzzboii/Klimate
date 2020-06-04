@@ -828,7 +828,6 @@ $tabindex = 17;
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 17.04.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
-
+<!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 17.04.2020 -->
+<!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
 </html>

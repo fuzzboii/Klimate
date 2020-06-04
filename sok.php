@@ -803,7 +803,6 @@ $tabindex = 7;
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 17.04.2020 -->
-    <!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 17.04.2020 -->
-
+<!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 17.04.2020 -->
+<!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 17.04.2020 -->
 </html>

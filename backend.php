@@ -523,7 +523,6 @@ $tabindex = 10;
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Glenn Petter Pettersen, Robin Kleppang & Aron Snekkestad, siste gang endret 04.03.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad siste gang 17.04.2020 -->
-
+<!-- Denne siden er utviklet av Glenn Petter Pettersen, Robin Kleppang & Aron Snekkestad, siste gang endret 04.03.2020 -->
+<!-- Denne siden er kontrollert av Aron Snekkestad siste gang 17.04.2020 -->
 </html>
