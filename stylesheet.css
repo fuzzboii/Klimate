@@ -1244,7 +1244,7 @@ footer a {
   align-items: stretch;
   background: url('bilder/klimaBilde1.jpg') no-repeat center fixed;
   background-size: cover;
-  /* Backup bakgrunnsfarge om bilder over ikke lastes inn */
+  /* Backup bakgrunnsfarge om bildet over ikke lastes inn */
   background-color: #6b6969;
 }
 
