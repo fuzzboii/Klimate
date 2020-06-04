@@ -11,7 +11,7 @@ if(!file_exists("./generert/regler.html") && isset($_SESSION['idbruker'])) {
     // Listedata med regler og innholdsboksen 
     fwrite($handle,"<article id='regler_article'>" .
                     "\n\t<p>Som bruker hos Klimate må du følge reglene spesifisert under.</p>" .
-                    "\n\t<ol class='reglerdata'>");
+                    "\n\t<ol id='reglerdata'>");
 
     foreach($regler as $rad) {           
         fwrite($handle,"\n\t\t<li>" . $rad['regeltekst'] . "</li>");
