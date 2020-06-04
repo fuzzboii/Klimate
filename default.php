@@ -195,6 +195,6 @@ if (isset($_POST['loggUt'])) {
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-<!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 06.03.2020 -->
-<!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
+<!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 04.06.2020 -->
+<!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 04.06.2020 -->
 </html>
