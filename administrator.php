@@ -1013,16 +1013,11 @@ $tabindex = 27;
             if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1) { ?>
                 <p id="mldOK">Brukeren er opprettet</p>
             <?php } ?>
-
-            <!-- Sender brukeren tilbake til forsiden
-            <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button> -->
-
-           
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-<!-- Denne siden er utviklet av Glenn Petter Pettersen og Robin Kleppang, siste gang endret 03.06.2020 -->
+<!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 03.06.2020 -->
 <!-- Denne siden er kontrollert av Robin Kleppang, siste gang 04.06.2020 -->
 </html>
