@@ -393,7 +393,7 @@ $tabindex = 27;
         <header id="admin_header" onclick="lukkHamburgerMeny()">
             <!-- Overskrift på siden -->
             <h1 id="admin_overskrift">Adminpanel</h1>
-            <img id="admin_hovedmeny_ikon" src="bilder/pilnIkon.png" alt="Ikon for pil ned" onclick="admHovedmeny()">
+            <img id="admin_hovedmeny_ikon" src="bilder/pilNIkon.png" alt="Ikon for pil ned" onclick="admHovedmeny()">
         </header>
         <main id="admin_main" onclick="lukkHamburgerMeny()">
 
