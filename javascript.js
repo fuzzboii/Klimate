@@ -1013,5 +1013,5 @@ function lukkRegler() {
   }
 }
 
-/* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
-/* Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 */
+/* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 04.06.2020 */
+/* Denne siden er kontrollert av Aron Snekkestad, Robin Kleppang, siste gang 04.06.2020 */
