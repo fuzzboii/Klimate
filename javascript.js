@@ -800,7 +800,7 @@ function admHovedmeny() {
     document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilOIkon.png";
   } else if(meny.style.display == "inline") {
     meny.style.display = "none";
-    document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilnIkon.png";
+    document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilNIkon.png";
   }
 }
 
