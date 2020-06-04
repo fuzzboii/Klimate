@@ -1,22 +1,6 @@
 <?php
 
-// Konstruktør for lokal server
-class mysqlPDO extends PDO {
-    public function __construct() {
-        $drv = 'mysql';
-        $hst = 'localhost';
-        $sch = 'Klimate';
-        $usr = 'klimate';
-        $pwd = 'kskic9866YDtre';
-        $dns = $drv . ':host=' . $hst . ';dbname=' . $sch;
-        parent::__construct($dns,$usr,$pwd);
-    }
-}
-
-$host = "localhost";
-
 // Konstruktør for skolens server
-/*
 class mysqlPDO extends PDO {
     public function __construct() {
         $drv = 'mysql';
@@ -30,22 +14,6 @@ class mysqlPDO extends PDO {
 }
 
 $host = "s120.hbv.no";
-*/
-
-// Konstruktør for Klimate.no
-/*
-class mysqlPDO extends PDO {
-    public function __construct() {
-        $drv = 'mysql';
-        $hst = 'localhost';
-        $usr = 'klimate_no';
-        $pwd = 'bpg5sJNWjhL74Ye85tjr23pB';
-        $sch = 'klimate_no';
-        $dsn = $drv . ':host=' . $hst . ';dbname=' . $sch;
-        parent::__construct($dsn,$usr,$pwd);
-    }
-}
-*/
 
 
 // Saltet
