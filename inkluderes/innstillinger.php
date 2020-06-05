@@ -91,6 +91,6 @@ if(!isset($default_melding) || substr($default_melding, 0, 10) != "Systemfeil") 
 }
 
 
-// Denne siden er utviklet av Robin Kleppang, siste gang endret 04.06.2020
-// Denne siden er kontrollert av Glenn Petter Pettersen & Robin Kleppang, siste gang 04.06.2020
+// Denne siden er utviklet av Robin Kleppang, siste gang endret 05.06.2020
+// Denne siden er kontrollert av Glenn Petter Pettersen & Robin Kleppang, siste gang 05.06.2020
 ?>
