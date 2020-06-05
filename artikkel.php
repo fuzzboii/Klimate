@@ -426,21 +426,25 @@ $tabindex = 8;
                                             $brukerbildeSTMT -> execute();
                                             $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
 
-                                            $testPaa = $brukerbilde['hvor'];
 
                                             if($kommentarer[$i]['brukertype'] != 4) {
-                                                if(file_exists("$lagringsplass/$testPaa")) {  
-                                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
-                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>">   
-                                                    <?php } else { ?>
-                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">  
+                                                if($brukerbilde) {
+                                                    $testPaa = $brukerbilde['hvor'];
+                                                    if(file_exists("$lagringsplass/$testPaa")) {  
+                                                        if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
+                                                            <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>" alt="Profilbilde">   
+                                                        <?php } else { ?>
+                                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>" alt="Profilbilde">  
+                                                        <?php }
+                                                    } else { ?>
+                                                        <img class="kommentar_profilBilde" src="bilder/profil.png" alt="Profilbilde">
                                                     <?php }
                                                 } else { ?>
-                                                    <img class="kommentar_profilBilde" src="bilder/profil.png">
+                                                    <img class="kommentar_profilBilde" src="bilder/profil.png" alt="Profilbilde">
                                                 <?php } ?>
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p> 
                                             <?php } else { ?>
-                                                <img class="kommentar_profilBilde" src="bilder/profil.png">
+                                                <img class="kommentar_profilBilde" src="bilder/profil.png" alt="Profilbilde">
                                                 <p class="kommentarBrukernavn" style="font-style: italic;">Avregistrert bruker</p> 
                                             <?php } ?>
                                             <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
@@ -645,24 +649,25 @@ $tabindex = 8;
                                 $stmtHentPb = $db->prepare($hentPb);
                                 $stmtHentPb->execute();
                                 $brukerPB = $stmtHentPb->fetch(PDO::FETCH_ASSOC);
+
                                 
                                 if($brukerPB) {
                                     $testPaa = $brukerPB['hvor'];
                                     // Tester på om filen faktisk finnes
                                     if(file_exists("$lagringsplass/$testPaa")) {
                                         if(file_exists($lagringsplass . "/thumb_" . $testPaa)) {  ?>
-                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/thumb_<?php echo($brukerPB['hvor'])?>">
+                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/thumb_<?php echo($brukerPB['hvor'])?>" alt="Profilbilde">
                                         <?php } else { ?>
-                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
+                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>" alt="Profilbilde">
                                         <?php } ?>
                                     <?php } else { ?>
-                                        <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
+                                        <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png" alt="Profilbilde">
                                     <?php } ?>
                                 <?php } else { ?>
-                                    <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
+                                    <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png" alt="Profilbilde">
                                 <?php }
                             } else { ?>
-                                <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
+                                <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png" alt="Profilbilde">
                             <?php }
                             
                             
