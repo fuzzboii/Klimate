@@ -430,7 +430,7 @@ $tabindex = 27;
                     <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
                 </form>
 
-                <input type="text" id="admin_sok" tabindex="27" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
+                <input type="text" id="admin_sok" tabindex="26" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
 
                 <?php if($_GET['administrering'] == "Alle brukere") {
                     $hentBrukereQ = "select idbruker, brukernavn, fnavn, enavn, epost, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
@@ -790,7 +790,7 @@ $tabindex = 27;
                 <form method="GET" id="bruker_form" action="administrator.php">
                     <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
                 </form>
-                <input type="text" id="admin_sok" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
+                <input type="text" id="admin_sok" tabindex="26" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
 
                 <?php if($_GET['rapporter']) {
                     // Alle rapporterte brukere
@@ -816,20 +816,21 @@ $tabindex = 27;
                             <tbody>
                             <?php for($i = 0; $i < count($rapporterteBrukere); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($rapporterteBrukere[$i]['rapportertbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($rapporterteBrukere[$i]['idbruker']) ?>)">
                                         <td class="rapport_allebrukere_bruker"><?php echo($rapporterteBrukere[$i]['brukerNavn'])?></td>
                                         <td class="rapport_allebrukere_tekst"><?php echo($rapporterteBrukere[$i]['tekst'])?></td>
                                         <td class="rapport_allebrukere_rapportertav"><?php echo($rapporterteBrukere[$i]['rapporterer'])?></td>
                                         <td class="rapport_allebrukere_dato"><?php echo($rapporterteBrukere[$i]['dato'])?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($rapporterteBrukere[$i]['rapportertbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($rapporterteBrukere[$i]['idbruker']) ?>)">
                                         <td class="rapport_allebrukere_bruker"><?php echo($rapporterteBrukere[$i]['brukerNavn'])?></td>
                                         <td class="rapport_allebrukere_tekst"><?php echo($rapporterteBrukere[$i]['tekst'])?></td>
                                         <td class="rapport_allebrukere_rapportertav"><?php echo($rapporterteBrukere[$i]['rapporterer'])?></td>
                                         <td class="rapport_allebrukere_dato"><?php echo($rapporterteBrukere[$i]['dato'])?></td>
                                     </tr> 
                                 <?php }
+                                $tabindex++; 
                                 } 
                                 if($i > 8) { ?>
                                     <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
