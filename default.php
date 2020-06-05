@@ -52,7 +52,7 @@ if (isset($_POST['loggUt'])) {
         <header onclick="lukkHamburgerMeny()">
             
             <!-- Logoen midten øverst på siden, med tittel -->
-            <img src="bilder/klimate.png" alt="Klimate logo"class="Logo_forside">
+            <img src="bilder/klimate.png" alt="Klimate logo" class="Logo_forside">
             <h1 style="display: none">Bilde av Klimate logoen.</h1>    
  
             <!-- Meldinger til bruker -->
@@ -81,7 +81,7 @@ if (isset($_POST['loggUt'])) {
                 <?php if(substr($default_melding, 0, 10) != "Systemfeil") { ?>
                     <!-- IDene brukes til å splitte opp kolonnene i queries -->
                    <article>
-                        <section id="default_overskriftSeksjon">
+                        <section class="default_overskriftSeksjon">
                             <h2>Populære artikler</h2>   
                         </section>
                         <!-- Dette vil da være resultat av en spørring mot database, bruk av echo for å vise -->
@@ -108,7 +108,7 @@ if (isset($_POST['loggUt'])) {
                                     $stmtArtBilde->execute();
                                     $resBilde = $stmtArtBilde->fetch(PDO::FETCH_ASSOC);
                                     ?>
-                                    <section id="default_artikkelBildeFelt">
+                                    <section class="default_artikkelBildeFelt">
                                         <?php
                                         if (!$resBilde) { ?>
                                             <!-- Standard artikkelbilde om arrangør ikke har lastet opp noe enda -->
@@ -130,26 +130,26 @@ if (isset($_POST['loggUt'])) {
                                         } ?>
                                     </section>
 
-                                    <section id="default_artikkelFelt">
+                                    <section class="default_artikkelFelt">
                                         <h3 class="PopArtiklerOverskrift"><?php echo $mestKommenterte[$i]['artnavn'] ?> </h3>
                                         <p class="PopArtiklerIngress"><?php echo $mestKommenterte[$i]['artingress'] ?> </p>
                                         
-                                        <img class="default_antallKommentarerIkon" src="bilder/meldingIkon.png">
+                                        <img class="default_antallKommentarerIkon" src="bilder/meldingIkon.png" alt="Ikon for kommentarer">
                                         <?php
                                             $hentAntallKommentarer = "select count(idkommentar) as antall from kommentar where kommentar.artikkel = " . $mestKommenterte[$i]['idartikkel'];
                                             $hentAntallKommentarerSTMT = $db -> prepare($hentAntallKommentarer);
                                             $hentAntallKommentarerSTMT->execute();
                                             $antallkommentarer = $hentAntallKommentarerSTMT->fetch(PDO::FETCH_ASSOC);
                                         ?>
-                                        <p id="default_antallKommentarer"><?php echo $antallkommentarer['antall'] ?></p>
-                                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">...Les videre</a>
+                                        <p class="default_antallKommentarer"><?php echo $antallkommentarer['antall'] ?></p>
+                                        <a href="artikkel.php?artikkel=<?php echo($mestKommenterte[$i]['idartikkel'])?>">Les videre</a>
                                                                                   
                                     </section>
                                 <?php } ?>
                         </section>
                     </article>
                     <article>
-                        <section id="default_overskriftSeksjon">
+                        <section class="default_overskriftSeksjon">
                             <h2>Kommende arrangementer</h2>  
                         </section>
                         
@@ -167,18 +167,23 @@ if (isset($_POST['loggUt'])) {
                                 ?>
                                 
                                 <?php for($i = 0; $i < count($arrangementer); $i++) { ?>
-                                        <section id="default_arrangementFelt">
+                                        <section class="default_arrangementFelt">
                                             <h3 class="KommendeArrangementOverskrift"><?php echo $arrangementer[$i]['eventnavn'] ?> </h3>
-                                            <img class="KommendeArrangement_datobilde" src="bilder/datoIkon.png">
+                                            <img class="KommendeArrangement_datobilde" src="bilder/datoIkon.png" alt="Ikon for kalender">
                                             <p class="KommendeArrangementTidspunkt">
                                                 <?php 
                                                     $dato = date_create($arrangementer[$i]['tidspunkt']);
                                                     echo(date_format($dato,"d/m/Y"));
                                                 ?>
                                             </p>
-                                            <p class="KommendeArrangementTekst"><?php echo (substr($arrangementer[$i]['eventtekst'],0,150)) ?> </p>                             
+                                            <?php
+                                            if(strlen($arrangementer[$i]['eventtekst']) >= 150) { ?>
+                                                <p class="KommendeArrangementTekst"><?php echo(substr($arrangementer[$i]['eventtekst'], 0, 150)) ?>...</p>
+                                            <?php } else { ?>
+                                                <p class="KommendeArrangementTekst"><?php echo($arrangementer[$i]['eventtekst']) ?></p>
+                                            <?php } ?>                           
                                             
-                                            <a href="arrangement.php?arrangement=<?php echo($arrangementer[$i]['idevent'])?>">...Les videre</a>
+                                            <a href="arrangement.php?arrangement=<?php echo($arrangementer[$i]['idevent'])?>">Les videre</a>
                                         </section>
                                 <?php } ?>
                         </section>
@@ -190,7 +195,6 @@ if (isset($_POST['loggUt'])) {
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 06.03.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
-
+<!-- Denne siden er utviklet av Ajdin Bajrovic & Robin Kleppang, siste gang endret 04.06.2020 -->
+<!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 04.06.2020 -->
 </html>

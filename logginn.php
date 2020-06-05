@@ -179,7 +179,8 @@ if (isset($_POST['submit'])) {
                     <img class="icon" src="bilder/pwIkon.png" alt="Passordikon"> <!-- Ikonet for passord -->
                     <input type="password" class="RegInnFeltPW" name="passord" value="" placeholder="Skriv inn passord" required>
                 </section>
-                <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+                <input id="visPassordLbl" style="margin-bottom: 1em;" type="checkbox" onclick="visPassordReg()">
+                <label for="visPassordLbl">Vis passord</label>
 
                 <?php if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1){ ?>
                     <p id="mldOK">Bruker opprettet, vennligst logg inn</p>    
@@ -208,7 +209,6 @@ if (isset($_POST['submit'])) {
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 21.02.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad siste gang 06.03.2020 -->
-
+<!-- Denne siden er utviklet av Aron Snekkestad, Robin Kleppang, siste gang endret 05.05.2020 -->
+<!-- Denne siden er kontrollert av Glenn Petter Pettersen siste gang 04.06.2020 -->
 </html>

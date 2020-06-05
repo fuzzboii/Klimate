@@ -552,7 +552,7 @@ $tabindex = 8;
                                 </form>
                                 
                                 <section class="argInf_dato">
-                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png">
+                                    <img class="arrangementInnhold_rFloatBilde" src="bilder/datoIkon.png" alt="Ikon for kalender">
                                     <h2>Dato</h2>
                                     <p id="arrangement_dato"><?php echo(substr($arrangement['tidspunkt'], 0, 10) . " kl: "); echo(substr($arrangement['tidspunkt'], 11, 5)) ?></p>
                                 </section>
@@ -620,7 +620,7 @@ $tabindex = 8;
                                         <h2>Sletting</h2>
                                         <p>Er du sikker på av du vil slette dette arrangementet?</p>
                                         <form method="POST" action="arrangement.php?arrangement=<?php echo($_GET['arrangement'])?>">
-                                            <button id="arrangement_slettKnapp" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
+                                            <button id="arrangement_slettDenne" name="slettDenne" value="<?php echo($_GET['arrangement']) ?>">Slett</button>
                                         </form>
                                         <button id="arrangement_avbrytKnapp" onclick="bekreftMelding('arrangement_bekreftSlett')">Avbryt</button>
                                     </section>
@@ -809,7 +809,7 @@ $tabindex = 8;
                                     echo(date_format($dato,"d/m/Y"));
                                 ?>
                             </p>
-                            <img class="arrangement_rFloatBilde" src="bilder/datoIkon.png">
+                            <img class="arrangement_rFloatBilde" src="bilder/datoIkon.png" alt="Ikon for kalender">
                             <p class="arrangement_fylke"><?php echo($resArr[$j]['fylkenavn'])?></p>
                             <img class="arrangement_rFloatBilde" src="bilder/stedIkon.png">
                             <img class="arrangement_navn" src="bilder/brukerIkonS.png">
@@ -851,7 +851,6 @@ $tabindex = 8;
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic siste gang endret 06.03.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
-
+<!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic siste gang endret 06.03.2020 -->
+<!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
 </html>

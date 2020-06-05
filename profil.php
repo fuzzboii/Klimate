@@ -433,8 +433,8 @@ if (isset($_POST['subRapportering'])) {
         }
     }
 }
-// tabindex som skal brukes til å bestemme startpunkt på visningen av arrangementene, denne endres hvis vi legger til flere elementer i navbar eller lignende
-$tabindex = 10;
+// tabindex som skal brukes til å bestemme startpunkt på visningen av interessene
+$tabindex = 17;
 
 ?>
 <!DOCTYPE html>
@@ -489,8 +489,8 @@ $tabindex = 10;
                                 <p class="personalia">Fornavn</p>
                                     <label class="switch">
                                         <?php if(isset($visFnavn)) { ?>
-                                        <input type="checkbox" name="fnavnToggle" value="visFnavn" checked />
-                                        <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn" />
+                                        <input type="checkbox" name="fnavnToggle" value="visFnavn" tabindex="10" checked />
+                                        <?php } else { ?> <input type="checkbox" name="fnavnToggle" value="visFnavn" tabindex="10" />
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
@@ -498,8 +498,8 @@ $tabindex = 10;
                                 <p class="personalia">Etternavn</p>
                                     <label class="switch">
                                     <?php if(isset($visEnavn)) { ?>
-                                        <input type="checkbox" name="enavnToggle" value="visEnavn" checked />
-                                        <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn" />
+                                        <input type="checkbox" name="enavnToggle" value="visEnavn" tabindex="11" checked />
+                                        <?php } else { ?> <input type="checkbox" name="enavnToggle" value="visEnavn" tabindex="11" />
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
@@ -507,8 +507,8 @@ $tabindex = 10;
                                 <p class="personalia">E-Post Adresse</p>
                                     <label class="switch">
                                     <?php if(isset($visEpost)) { ?>
-                                        <input type="checkbox" name="epostToggle" value="visEpost" checked />
-                                        <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost" />
+                                        <input type="checkbox" name="epostToggle" value="visEpost" tabindex="12" checked />
+                                        <?php } else { ?> <input type="checkbox" name="epostToggle" value="visEpost" tabindex="12" />
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
@@ -516,8 +516,8 @@ $tabindex = 10;
                                 <p class="personalia">Telefonnummer</p>
                                     <label class="switch">
                                     <?php if(isset($visTlf)) { ?>
-                                        <input type="checkbox" name="tlfToggle" value="visTlf" checked />
-                                        <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf" />
+                                        <input type="checkbox" name="tlfToggle" value="visTlf" tabindex="13" checked />
+                                        <?php } else { ?> <input type="checkbox" name="tlfToggle" value="visTlf" tabindex="13" />
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
@@ -525,8 +525,8 @@ $tabindex = 10;
                                 <p class="personalia">Beskrivelse</p>
                                     <label class="switch">
                                     <?php if(isset($visBeskrivelse)) { ?>
-                                        <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" checked />
-                                        <?php } else { ?> <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" />
+                                        <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" tabindex="14" checked />
+                                        <?php } else { ?> <input type="checkbox" name="beskrivelseToggle" value="visBeskrivelse" tabindex="14" />
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
@@ -534,8 +534,8 @@ $tabindex = 10;
                                 <p class="personalia">Interesser</p>
                                     <label class="switch">
                                     <?php if(isset($visInteresser)) { ?>
-                                        <input type="checkbox" name="interesserToggle" value="visInteresser" checked />
-                                        <?php } else { ?> <input type="checkbox" name="interesserToggle" value="visInteresser" />
+                                        <input type="checkbox" name="interesserToggle" value="visInteresser" tabindex="15" checked />
+                                        <?php } else { ?> <input type="checkbox" name="interesserToggle" value="visInteresser" tabindex="15" />
                                         <?php } ?>
                                         <span class="slider round"></span>
                                     </label>
@@ -557,8 +557,8 @@ $tabindex = 10;
 
                     <!-- Oppdater-knapp -->
                     <?php if($egen) { ?>
-                        <button class="oppdater_profil_knapp" onclick="lastOppProfil()">Oppdater beskrivelse og personalia</button>
-                        <input type="button" id="profil_endreKnapp" onclick="bekreftMelding('profil_endreBilde')" value="Endre profilbilde">
+                        <button class="oppdater_profil_knapp" onclick="lastOppProfil()" tabindex="105">Oppdater beskrivelse og personalia</button>
+                        <input type="button" id="profil_endreKnapp" onclick="bekreftMelding('profil_endreBilde')" value="Endre profilbilde" tabindex="16">
                         
                         <!-- pop-up vindu -->
                         <section id="profil_endreBilde" style="display: none;">
@@ -638,7 +638,7 @@ $tabindex = 10;
                     <section class="knapp2_grid">
                         <!-- tilbake-knapp -->
                         <?php if($egen) {?>
-                                <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" id="profilTilbakeKnapp" tabindex="105">Tilbake</button>
+                                <button onClick="location.href='profil.php?bruker=<?php echo $_SESSION['idbruker'] ?>'" name="redigerkonto" id="profilTilbakeKnapp" tabindex="107">Tilbake</button>
                         <?php }?>
                     </section>
 
@@ -692,7 +692,7 @@ $tabindex = 10;
                             <?php if ($_SESSION['idbruker'] != $_GET['bruker']) { ?>
                             
                             <!-- Viser ikonet/knappen for rapportering -->
-                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" onclick="bekreftMelding('profil_rapporterBruker')">
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" alt="Ikon for rapportering" onclick="bekreftMelding('profil_rapporterBruker')">
                             <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp">Rapporter</button>
                             <!-- pop-up vindu -->
                             <section id="profil_rapporterBruker" style="display: none;">
@@ -719,7 +719,7 @@ $tabindex = 10;
                             </section>
                             <?php } else { ?>
                             <!-- Viser ikonet/knappen for rapportering som hidden-->
-                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" style=" visibility: hidden;">
+                            <input type="image" class="profil_rapporterFlaggIkon" src="bilder/rapporterflaggIkon2_rv2.png" alt="Ikon for rapportering" style=" visibility: hidden;">
                             <button onclick="bekreftMelding('profil_rapporterBruker')" name="submit" class="profil_rapporterKnapp" style=" visibility: hidden;">Rapporter</button>
                             <?php } ?>
                         <?php } ?>
@@ -828,7 +828,6 @@ $tabindex = 10;
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 17.04.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 17.04.2020 -->
-
+<!-- Denne siden er utviklet av Robin Kleppang, Petter Fiskvik, Aron Snekkestad, Ajdin Bajorvic siste gang endret 03.06.2020 -->
+<!-- Denne siden er kontrollert av Petter Fiskvik, siste gang 04.06.2020 -->
 </html>

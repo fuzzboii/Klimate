@@ -187,7 +187,6 @@ if (isset($_POST['submit'])) {
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang og Glenn Petter Pettersen, siste gang endret 06.03.2020 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 06.03.2020 -->
-
+<!-- Denne siden er utviklet av Robin Kleppang og Glenn Petter Pettersen, siste gang endret 14.03.2020 -->
+<!-- Denne siden er kontrollert av Robin Kleppang, siste gang 04.06.2020 -->
 </html>

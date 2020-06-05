@@ -70,82 +70,90 @@ if (isset($_POST['subRegistrering'])) {
             // Tester på om en gyldig epost ("NAVN@NAVN.DOMENE") er oppgitt
             if (filter_var($_POST["epost"], FILTER_VALIDATE_EMAIL)) {
                 try {
-                    $br = $_POST['brukernavn'];
-                    $pw = $_POST['passord'];
-                    if($_POST['brukertype'] != "4") {
-                        $btype = $_POST['brukertype'];
-                    } else {
-                        $btype = "3";
-                    }
+                    $br = filter_var($_POST['brukernavn'], FILTER_SANITIZE_STRING);
 
-                    // Validering av passordstyrke, server validering
-                    $storebokstaver = preg_match('@[A-Z]@', $pw);
-                    $smaabokstaver = preg_match('@[a-z]@', $pw);
-                    $nummer = preg_match('@[0-9]@', $pw);
-
-                    if ($pw == "") {
-                        // Ikke noe passord skrevet
-                        $_SESSION['admin_melding'] = "Oppgi et passord";
-                    } else if (!$storebokstaver || !$smaabokstaver || !$nummer || strlen($pw) < 8) {
-                        // Ikke tilstrekkelig passord skrevet
-                        $_SESSION['admin_melding'] = "Minimum 8 tegn, 1 liten og 1 stor bokstav";
-                    } else {
-                        // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
-                        $lbr = strtolower($_POST['brukernavn']);
-                        $sjekkbnavn = "select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "'";
-                        $sjekket = $db->prepare($sjekkbnavn);
-                        $sjekket->execute();
-                        $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
-
-                        // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
-                        if (!isset($testbnavn['brukernavn']) || $testbnavn['brukernavn'] != $lbr) {
-                            // OK, vi forsøker å registrere bruker
-                            // Salter passorder
-                            $kombinert = $salt . $pw;
-                            // Krypterer saltet passord
-                            $spw = sha1($kombinert);
-
-                            $opprettBrukerQ = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES(:bruker, :passord, :epost, :brukertype)";
-                            $opprettBrukerSTMT = $db -> prepare($opprettBrukerQ);
-                            $opprettBrukerSTMT -> bindparam(":bruker", $_POST['brukernavn']);
-                            $opprettBrukerSTMT -> bindparam(":passord", $spw);
-                            $opprettBrukerSTMT -> bindparam(":epost", $_POST['epost']);
-                            $opprettBrukerSTMT -> bindparam(":brukertype", $btype);
-                            $opprettBrukerSTMT -> execute();
-
-                            // Fikk lagt til bruker, fortsetter med sjekk på preferanser
-                            if ($opprettBrukerSTMT) {
-                            
-                                $opprettetID = $db -> lastInsertId();
-
-                                // Fjerner session variable for brukerinput om ingen feil oppstår
-                                unset($_SESSION['input_brukernavn']);
-                                unset($_SESSION['input_epost']);
-
-                                // Sjekker på om bruker har registrert preferanser
-                                $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
-                                $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
-                                $sjekkPrefSTMT->execute();
-                                $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
-
-                                // Bruker har ikke preferanser, oppretter de
-                                // Variabelen $personvern kommer fra innstillinger
-                                if(!$resPref) {
-                                    $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
-                                                        $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
-                                                            $_SESSION['idbruker'] . ")";
-
-                                    $opprettPrefSTMT = $db->prepare($opprettPrefQ);
-                                    $opprettPrefSTMT->execute();
-                                }
-
-                                header("location: administrator.php?bruker=" . $opprettetID);
-                            }
+                    // Hvis ikke bruker har forsøkt å skrive inn HTML kode i brukernavn-feltet så fortsetter vi
+                    if($br == $_POST['brukernavn']) {
+                        $pw = $_POST['passord'];
+                        if($_POST['brukertype'] != "4") {
+                            $btype = $_POST['brukertype'];
                         } else {
-                            // Brukernavnet er tatt
-                            $_SESSION['admin_melding'] = "Brukernavnet er opptatt";
-                            header("Location: administrator.php?nybruker");
+                            $btype = "3";
                         }
+
+                        // Validering av passordstyrke, server validering
+                        $storebokstaver = preg_match('@[A-Z]@', $pw);
+                        $smaabokstaver = preg_match('@[a-z]@', $pw);
+                        $nummer = preg_match('@[0-9]@', $pw);
+
+                        if ($pw == "") {
+                            // Ikke noe passord skrevet
+                            $_SESSION['admin_melding'] = "Oppgi et passord";
+                        } else if (!$storebokstaver || !$smaabokstaver || !$nummer || strlen($pw) < 8) {
+                            // Ikke tilstrekkelig passord skrevet
+                            $_SESSION['admin_melding'] = "Minimum 8 tegn, 1 liten og 1 stor bokstav";
+                        } else {
+                            // Sjekker om brukernavn er opptatt (Brukes så lenge brukernavn ikke er satt til UNIQUE i db)
+                            $lbr = strtolower($_POST['brukernavn']);
+                            $sjekkbnavn = "select lower(brukernavn) as brukernavn from bruker where lower(brukernavn)='" . $lbr . "'";
+                            $sjekket = $db->prepare($sjekkbnavn);
+                            $sjekket->execute();
+                            $testbnavn = $sjekket->fetch(PDO::FETCH_ASSOC);
+
+                            // Hvis resultatet over er likt det bruker har oppgitt som brukernavn stopper vi og advarer bruker om at brukernavnet er allerede tatt
+                            if (!isset($testbnavn['brukernavn']) || $testbnavn['brukernavn'] != $lbr) {
+                                // OK, vi forsøker å registrere bruker
+                                // Salter passorder
+                                $kombinert = $salt . $pw;
+                                // Krypterer saltet passord
+                                $spw = sha1($kombinert);
+
+                                $opprettBrukerQ = "insert into bruker(brukernavn, passord, epost, brukertype) VALUES(:bruker, :passord, :epost, :brukertype)";
+                                $opprettBrukerSTMT = $db -> prepare($opprettBrukerQ);
+                                $opprettBrukerSTMT -> bindparam(":bruker", $_POST['brukernavn']);
+                                $opprettBrukerSTMT -> bindparam(":passord", $spw);
+                                $opprettBrukerSTMT -> bindparam(":epost", $_POST['epost']);
+                                $opprettBrukerSTMT -> bindparam(":brukertype", $btype);
+                                $opprettBrukerSTMT -> execute();
+
+                                // Fikk lagt til bruker, fortsetter med sjekk på preferanser
+                                if ($opprettBrukerSTMT) {
+                                
+                                    $opprettetID = $db -> lastInsertId();
+
+                                    // Fjerner session variable for brukerinput om ingen feil oppstår
+                                    unset($_SESSION['input_brukernavn']);
+                                    unset($_SESSION['input_epost']);
+
+                                    // Sjekker på om bruker har registrert preferanser
+                                    $sjekkPrefQ = "select idpreferanse from preferanse where bruker = " . $_SESSION['idbruker'];
+                                    $sjekkPrefSTMT = $db->prepare($sjekkPrefQ);
+                                    $sjekkPrefSTMT->execute();
+                                    $resPref = $sjekkPrefSTMT->fetch(PDO::FETCH_ASSOC); 
+
+                                    // Bruker har ikke preferanser, oppretter de
+                                    // Variabelen $personvern kommer fra innstillinger
+                                    if(!$resPref) {
+                                        $opprettPrefQ = "insert into preferanse(visfnavn, visenavn, visepost, visinteresser, visbeskrivelse, vistelefonnummer, bruker) values('" . 
+                                                            $personvern[0] . "', '" . $personvern[1] . "', '" . $personvern[2] . "', '" . $personvern[3] . "', '" . $personvern[4] . "', '" . $personvern[5] . "', " .
+                                                                $_SESSION['idbruker'] . ")";
+
+                                        $opprettPrefSTMT = $db->prepare($opprettPrefQ);
+                                        $opprettPrefSTMT->execute();
+                                    }
+
+                                    header("location: administrator.php?bruker=" . $opprettetID);
+                                }
+                            } else {
+                                // Brukernavnet er tatt
+                                $_SESSION['admin_melding'] = "Brukernavnet er opptatt";
+                                header("Location: administrator.php?nybruker");
+                            }
+                        }
+                    } else {
+                        // Ugyldig brukernavn
+                        $_SESSION['admin_melding'] = "Brukernavnet er ugyldig";
+                        header("Location: administrator.php?nybruker");
                     }
                 }
                 catch (PDOException $ex) {
@@ -355,6 +363,9 @@ if(isset($_POST['endreBrukertype'])) {
     }
 }
 
+// Tabindex, starter på 27 da dette er det maksimale antallet med elementer før første bruker
+$tabindex = 27;
+
 ?>
 <!DOCTYPE html>
 <html lang="no">
@@ -374,7 +385,7 @@ if(isset($_POST['endreBrukertype'])) {
         <script language="JavaScript" src="javascript.js"> </script>
     </head>
 
-    <body id="admin_body" onclick="lukkMelding('mldFEIL_boks')">
+    <body id="admin_body" onclick="lukkMelding('mldFEIL_boks')" onload="adminTabbing()">
         <?php include("inkluderes/navmeny.php") ?>
 
         <!-- For å kunne lukke hamburgermenyen ved å kun trykke på et sted i vinduet må lukkHamburgerMeny() funksjonen ligge i deler av HTML-koden -->
@@ -382,7 +393,7 @@ if(isset($_POST['endreBrukertype'])) {
         <header id="admin_header" onclick="lukkHamburgerMeny()">
             <!-- Overskrift på siden -->
             <h1 id="admin_overskrift">Adminpanel</h1>
-            <img id="admin_hovedmeny_ikon" src="bilder/pilnIkon.png" onclick="admHovedmeny()">
+            <img id="admin_hovedmeny_ikon" src="bilder/pilNIkon.png" alt="Ikon for pil ned" onclick="admHovedmeny()">
         </header>
         <main id="admin_main" onclick="lukkHamburgerMeny()">
 
@@ -392,22 +403,22 @@ if(isset($_POST['endreBrukertype'])) {
             </form>
 
             <section id="admin_hovedmeny">
-                <button name="oversikt" form="admin_form">Oversikt</button>
-                <button id="admin_adm_knapp" onclick="admMeny()">Administrering</button>
+                <button name="oversikt" tabindex="15" form="admin_form">Oversikt</button>
+                <button id="admin_adm_knapp" tabindex="16" onclick="admMeny()">Administrering</button>
                 <section id="admin_adm_delmeny" style="display: none;">
-                    <button name="administrering" form="admin_form" value="Alle brukere">Alle brukere</button>
-                    <button name="administrering" form="admin_form" value="Misbruk">Misbruk</button>
-                    <button name="administrering" form="admin_form" value="Administratorer">Administratorer</button>
+                    <button name="administrering" tabindex="17" form="admin_form" value="Alle brukere">Alle brukere</button>
+                    <button name="administrering" tabindex="18" form="admin_form" value="Misbruk">Misbruk</button>
+                    <button name="administrering" tabindex="19" form="admin_form" value="Administratorer">Administratorer</button>
                 </section>
-                <img src="bilder/rapportIkon.png" id="admin_rap_ikon">
-                <button id="admin_rap_knapp" onclick="rapMeny()">Rapporter</button>
+                <img src="bilder/rapportIkon.png" id="admin_rap_ikon" alt="Ikon for pil ned">
+                <button id="admin_rap_knapp" tabindex="20" onclick="rapMeny()">Rapporter</button>
                 <section id="admin_rap_delmeny" style="display: none;">
-                    <button name="rapporter" form="rapport_form" value="Alle brukere">Alle brukere</button>
-                    <button name="rapporter" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
-                    <button name="rapporter" form="rapport_form" value="Advarsler">Advarsler</button>
+                    <button name="rapporter" tabindex="21" form="rapport_form" value="Alle brukere">Alle brukere</button>
+                    <button name="rapporter" tabindex="22" form="rapport_form" value="Eksklusjoner">Eksklusjoner</button>
+                    <button name="rapporter" tabindex="23" form="rapport_form" value="Advarsler">Advarsler</button>
                 </section>
-                <button name="nybruker" form="admin_form">Opprett ny bruker</button>
-                <button name="nyregel" form="admin_form">Opprett ny regel</button>
+                <button name="nybruker" tabindex="24" form="admin_form">Opprett ny bruker</button>
+                <button name="nyregel" tabindex="25" form="admin_form">Opprett ny regel</button>
             </section>
 
             <?php 
@@ -419,7 +430,7 @@ if(isset($_POST['endreBrukertype'])) {
                     <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
                 </form>
 
-                <input type="text" id="admin_sok" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
+                <input type="text" id="admin_sok" tabindex="26" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
 
                 <?php if($_GET['administrering'] == "Alle brukere") {
                     $hentBrukereQ = "select idbruker, brukernavn, fnavn, enavn, epost, brukertype.brukertypenavn as brukertypenavn from bruker, brukertype where bruker.brukertype = brukertype.idbrukertype order by brukernavn";
@@ -438,21 +449,22 @@ if(isset($_POST['endreBrukertype'])) {
                         <tbody>
                             <?php for($i = 0; $i < count($brukere); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                         <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($brukere[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($brukere[$i]['fnavn'])) {echo($brukere[$i]['fnavn'] . " "); if(isset($brukere[$i]['enavn'])) {echo($brukere[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($brukere[$i]['epost'])) {echo($brukere[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                         <td class="admin_allebrukere_alletype"><?php if(isset($brukere[$i]['brukertypenavn'])) {echo($brukere[$i]['brukertypenavn']);}?></td>
                                     </tr>
                                 <?php }
-                            } 
+                            $tabindex++; 
+                            }
                             if($i > 8) { ?>
                                 <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
                             <?php } ?>
@@ -474,16 +486,17 @@ if(isset($_POST['endreBrukertype'])) {
                         <tbody>
                             <?php for($i = 0; $i < count($misbruk); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
                                         <td class="admin_allebrukere_allemisbruk"><?php echo($misbruk[$i]['tekst']) ?></td>
                                         <td class="admin_allebrukere_allemisbruknavn"><?php echo($misbruk[$i]['brukernavn']) ?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($misbruk[$i]['bruker']) ?>)">
                                         <td class="admin_allebrukere_allemisbruk"><?php echo($misbruk[$i]['tekst']) ?></td>
                                         <td class="admin_allebrukere_allemisbruknavn"><?php echo($misbruk[$i]['brukernavn']) ?></td>
                                     </tr>
                                 <?php }
+                            $tabindex++; 
                             } 
                             if($i > 8) { ?>
                                 <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
@@ -507,18 +520,19 @@ if(isset($_POST['endreBrukertype'])) {
                         <tbody>
                             <?php for($i = 0; $i < count($administratorer); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne administratoren" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" title="Vis denne administratoren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($administratorer[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($administratorer[$i]['fnavn'])) {echo($administratorer[$i]['fnavn'] . " "); if(isset($administratorer[$i]['enavn'])) {echo($administratorer[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($administratorer[$i]['epost'])) {echo($administratorer[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne administratorem" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
+                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne administratorem" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($administratorer[$i]['idbruker']) ?>)">
                                         <td class="admin_allebrukere_allebruker"><?php echo($administratorer[$i]['brukernavn'])?></td>
                                         <td class="admin_allebrukere_allenavn">Navn: <?php if(isset($administratorer[$i]['fnavn'])) {echo($administratorer[$i]['fnavn'] . " "); if(isset($administratorer[$i]['enavn'])) {echo($administratorer[$i]['enavn']);}} else {echo("Ikke oppgitt");} ?></td>
                                         <td class="admin_allebrukere_alleepost">Epost: <?php if(isset($administratorer[$i]['epost'])) {echo($administratorer[$i]['epost']);} else {echo("Ikke oppgitt");}?></td>
                                     </tr>
                                 <?php }
+                            $tabindex++; 
                             } 
                             if($i > 8) { ?>
                                 <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
@@ -554,7 +568,8 @@ if(isset($_POST['endreBrukertype'])) {
                             <option value="1">Administrator</option>
                         </select>
                     </section>
-                    <input style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">Vis passord</input>
+                    <input id="visPassordLbl" style="margin-bottom: 1em; margin-top: 1em;" type="checkbox" onclick="visPassordReg()">
+                    <label for="visPassordLbl">Vis passord</label>
                 <input type="submit" name="subRegistrering" class="RegInnFelt_knappRegistrer" value="Legg til brukeren">
             </form>
             <button id="admin_nybruker_tiloversikt" name="oversikt" form="admin_form">Til oversikten</button>                     
@@ -648,7 +663,7 @@ if(isset($_POST['endreBrukertype'])) {
                         <?php if($harEpost) {echo("<p>Epost: " . $brukerinfo['epost']);} else {echo("<p id='admin_ikkeoppgitt'>Epost: Ikke oppgitt");} ?></p>
                         <?php if($harTlf) {echo("<p>Telefon: " . $brukerinfo['telefonnummer']);} else {echo("<p id='admin_ikkeoppgitt'>Telefon: Ikke oppgitt");} ?></p>
                         <form method="POST" action="administrator.php?bruker=<?php echo($_GET['bruker'])?>">
-                            <select name="endreBrukertype" id="admin_select_brukertype" onchange="this.form.submit()">
+                            <select name="endreBrukertype" tabindex="27" id="admin_select_brukertype" onchange="this.form.submit()">
                                 <?php 
                                 // Henter brukertypenavn som bruker allerede har
                                 $hentAktivtNavnQ = "select idbrukertype, brukertypenavn from brukertype where idbrukertype = :brukertype";
@@ -672,12 +687,12 @@ if(isset($_POST['endreBrukertype'])) {
                         </form>
                     </section>
                     <section id="admin_handlinger">
-                        <p class="admin_handlingvalg" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
-                        <p class="admin_handlingvalg" onclick="byttHandling('Ekskluder')">Ekskluder</p>
+                        <p class="admin_handlingvalg" tabindex="28" id="admin_aktivhandling" onclick="byttHandling('Advar')">Advar</p>
+                        <p class="admin_handlingvalg" tabindex="29" onclick="byttHandling('Ekskluder')">Ekskluder</p>
                         <form id="admin_handling_form" method="POST" action="administrator.php?bruker=<?php echo($_GET['bruker']) ?>">
                             <p id="admin_handling">Advar bruker</p>
                             <input id="admin_handling_bruker" type="hidden" name="advartbruker" value="<?php echo($_GET['bruker']) ?>">
-                            <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" required></textarea>
+                            <textarea id="admin_handling_tekst" name="advaring" placeholder="Skriv inn grunnlaget" title="Hva brukeren har gjort feil" autofocus required></textarea>
                             <p id="admin_handling_lengde">Lengde, la være for permanent</p>
                             <input id="admin_handling_dato" type="date" name="datotil">
                             <input onclick="sjekkAdminHandling()" id="admin_handling_submit" type="button" value="Advar bruker">
@@ -775,39 +790,47 @@ if(isset($_POST['endreBrukertype'])) {
                 <form method="GET" id="bruker_form" action="administrator.php">
                     <input type="hidden" id="bruker_form_verdi" name="bruker" value="">
                 </form>
-                <input type="text" id="admin_sok" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
+                <input type="text" id="admin_sok" tabindex="26" onkeyup="adminpanelSok()" placeholder="Søk etter navn..">
 
                 <?php if($_GET['rapporter']) {
-                    // Glenn, første del
+                    // Alle rapporterte brukere
                     if($_GET['rapporter'] == "Alle brukere") {
-                        $hentBrukereQ = "select bruker.brukernavn, misbruk.idmisbruk, misbruk.tekst, misbruk.bruker from misbruk, bruker where misbruk.bruker = bruker.idbruker order by bruker.brukernavn";
+                        $hentBrukereQ = "SELECT brukerrapport.tekst, brukerrapport.dato, rapportertbruker.idbruker, rapportertbruker.brukernavn as brukerNavn, rapportertav.brukernavn as rapporterer 
+                        FROM brukerrapport 
+                        LEFT OUTER JOIN bruker rapportertbruker ON brukerrapport.rapportertbruker = rapportertbruker.idbruker 
+                        LEFT OUTER JOIN bruker rapportertav ON brukerrapport.rapportertav = rapportertav.idbruker 
+                        ORDER BY dato DESC";
                         $hentBrukereSTMT = $db->prepare($hentBrukereQ);
                         $hentBrukereSTMT -> execute();
-                        $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
+                        $rapporterteBrukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
                         ?>
                         <table id="admin_allebrukere_table">
                             <thead>
                                 <tr>
-                                    <th id="rapport_allebrukere_bruker">BRUKERNAVN</th>
-                                    <th id="rapport_allebrukere_idmisbruk">ID MISBRUK</th>
-                                    <th id="rapport_allebrukere_idtekst">MISBRUK</th>
+                                    <th id="rapport_allebrukere_bruker">BRUKER</th>
+                                    <th id="rapport_allebrukere_tekst">RAPPORT</th>
+                                    <th id="rapport_allebrukere_rapportertav">FRA</th>
+                                    <th id="rapport_allebrukere_dato">DATO</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php for($i = 0; $i < count($brukere); $i++) { 
+                            <?php for($i = 0; $i < count($rapporterteBrukere); $i++) { 
                                 if($i < 8) { ?>
-                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['bruker']) ?>)">
-                                        <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
-                                        <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
-                                        <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($rapporterteBrukere[$i]['idbruker']) ?>)">
+                                        <td class="rapport_allebrukere_bruker"><?php echo($rapporterteBrukere[$i]['brukerNavn'])?></td>
+                                        <td class="rapport_allebrukere_tekst"><?php echo($rapporterteBrukere[$i]['tekst'])?></td>
+                                        <td class="rapport_allebrukere_rapportertav"><?php echo($rapporterteBrukere[$i]['rapporterer'])?></td>
+                                        <td class="rapport_allebrukere_dato"><?php echo($rapporterteBrukere[$i]['dato'])?></td>
                                     </tr>
                                 <?php } else { ?>
-                                    <tr class="admin_allebrukere_rad" style="display: none" title="Vis denne brukeren" onclick="aapneBruker(<?php echo($brukere[$i]['idbruker']) ?>)">
-                                        <td class="rapport_allebrukere_allebrukerid">Brukernavn: <?php echo($brukere[$i]['brukernavn'])?></td>
-                                        <td class="rapport_allebrukere_alleidmisbruk">Misbruk id: <?php echo($brukere[$i]['idmisbruk'])?></td>
-                                        <td class="rapport_allebrukere_allemisbruk"><?php echo($brukere[$i]['tekst'])?></td>
-                                    </tr>
+                                    <tr class="admin_allebrukere_rad" title="Vis denne brukeren" tabindex="<?php echo($tabindex) ?>" onclick="aapneBruker(<?php echo($rapporterteBrukere[$i]['idbruker']) ?>)">
+                                        <td class="rapport_allebrukere_bruker"><?php echo($rapporterteBrukere[$i]['brukerNavn'])?></td>
+                                        <td class="rapport_allebrukere_tekst"><?php echo($rapporterteBrukere[$i]['tekst'])?></td>
+                                        <td class="rapport_allebrukere_rapportertav"><?php echo($rapporterteBrukere[$i]['rapporterer'])?></td>
+                                        <td class="rapport_allebrukere_dato"><?php echo($rapporterteBrukere[$i]['dato'])?></td>
+                                    </tr> 
                                 <?php }
+                                $tabindex++; 
                                 } 
                                 if($i > 8) { ?>
                                     <button id="admin_allebrukere_knapp" onclick="visFlereBrukere()">Vis flere</button>
@@ -856,7 +879,11 @@ if(isset($_POST['endreBrukertype'])) {
                             </tbody>
                         </table>
                     <?php } else if($_GET['rapporter'] == "Advarsler") {
-                        $hentBrukereQ = "SELECT advarsel.idadvarsel, advarsel.advarseltekst, bruker.idbruker, bruker.brukernavn as brukerNavn, administrator.brukernavn as administratorNavn FROM advarsel LEFT OUTER JOIN bruker bruker ON advarsel.bruker = bruker.idbruker LEFT OUTER JOIN bruker administrator ON advarsel.administrator = administrator.idbruker; ORDER BY brukerNavn";
+                        $hentBrukereQ = "SELECT advarsel.idadvarsel, advarsel.advarseltekst, bruker.idbruker, bruker.brukernavn as brukerNavn, administrator.brukernavn as administratorNavn 
+                        FROM advarsel 
+                        LEFT OUTER JOIN bruker bruker ON advarsel.bruker = bruker.idbruker 
+                        LEFT OUTER JOIN bruker administrator ON advarsel.administrator = administrator.idbruker 
+                        ORDER BY brukerNavn";
                         $hentBrukereSTMT = $db->prepare($hentBrukereQ);
                         $hentBrukereSTMT -> execute();
                         $brukere = $hentBrukereSTMT -> fetchAll(PDO::FETCH_ASSOC);
@@ -987,16 +1014,11 @@ if(isset($_POST['endreBrukertype'])) {
             if(isset($_GET['vellykket']) && $_GET['vellykket'] == 1) { ?>
                 <p id="mldOK">Brukeren er opprettet</p>
             <?php } ?>
-
-            <!-- Sender brukeren tilbake til forsiden
-            <button onClick="location.href='default.php'" name="submit" class="lenke_knapp">Tilbake til forside</button> -->
-
-           
         </main>
         <?php include("inkluderes/footer.php") ?>
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-<!-- Denne siden er utviklet av Glenn Petter Pettersen og Robin Kleppang, siste gang endret 06.03.2020 -->
-<!-- Denne siden er kontrollert av , siste gang 06.03.2020 -->
+<!-- Denne siden er utviklet av Robin Kleppang og Petter Fiskvik, siste gang endret 03.06.2020 -->
+<!-- Denne siden er kontrollert av Robin Kleppang, siste gang 04.06.2020 -->
 </html>

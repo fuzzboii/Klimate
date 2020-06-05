@@ -1,22 +1,5 @@
 <?php
 
-// Konstruktør for lokal server
-/*
-class mysqlPDO extends PDO {
-    public function __construct() {
-        $drv = 'mysql';
-        $hst = 'localhost';
-        $sch = 'Klimate';
-        $usr = 'klimate';
-        $pwd = '';
-        $dns = $drv . ':host=' . $hst . ';dbname=' . $sch;
-        parent::__construct($dns,$usr,$pwd);
-    }
-}
-
-$host = "localhost";
-*/
-
 // Konstruktør for skolens server
 class mysqlPDO extends PDO {
     public function __construct() {
@@ -31,21 +14,6 @@ class mysqlPDO extends PDO {
 }
 
 $host = "s120.hbv.no";
-
-// Konstruktør for Klimate.no
-/*
-class mysqlPDO extends PDO {
-    public function __construct() {
-        $drv = 'mysql';
-        $hst = 'localhost';
-        $usr = 'klimate_no';
-        $pwd = '';
-        $sch = 'klimate_no';
-        $dsn = $drv . ':host=' . $hst . ';dbname=' . $sch;
-        parent::__construct($dsn,$usr,$pwd);
-    }
-}
-*/
 
 
 // Saltet
@@ -123,8 +91,6 @@ if(!isset($default_melding) || substr($default_melding, 0, 10) != "Systemfeil") 
 }
 
 
-
-
-// Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020
-// Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020
+// Denne siden er utviklet av Robin Kleppang, siste gang endret 05.06.2020
+// Denne siden er kontrollert av Glenn Petter Pettersen & Robin Kleppang, siste gang 05.06.2020
 ?>

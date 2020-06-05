@@ -153,9 +153,9 @@ if(isset($_POST['sendMelding'])) {
 
         $_POST['idbruker'] = $resID['idbruker'];
     }
-    // Legger til en ny melding
+    // Legger til en ny melding 
     $nyMeldingQ = "insert into melding(tittel, tekst, tid, lest, sender, mottaker) 
-                        values('" . $_POST['tittel'] . "', '" . $_POST['tekst'] . "', 
+                        values('" . filter_var($_POST['tittel'], FILTER_SANITIZE_STRING) . "', '" . filter_var($_POST['tekst'], FILTER_SANITIZE_STRING) . "', 
                             NOW(), 0, " . $_SESSION['idbruker'] . ", " . $_POST['idbruker'] . ")";
     $nyMeldingSTMT = $db->prepare($nyMeldingQ);
     $nyMeldingSTMT->execute();
@@ -398,9 +398,6 @@ if(isset($_POST['gjenopprettMelding'])) {
             <!-- Funksjon for å lukke hamburgermeny når man trykker på en del i Main -->
             <main id="meldinger_main" onclick="lukkHamburgerMeny()">  
                 <?php
-                $tabMld = 9;
-                $tabGjen = 10;
-
                 if($antMld > 0) { ?>
                     <form method="POST" id="meldinger_form_utboks" action="meldinger.php">
                         <input type="hidden" id="meldinger_innboks_valgt" name="mottatt" value="">
@@ -461,7 +458,7 @@ if(isset($_POST['gjenopprettMelding'])) {
                                 $navn = "Avregistrert bruker";
                             } ?>
 
-                            <section class="meldinger_innboks_samtale" tabindex = "<?php echo($tabMld); $tabMld++; $tabMld++; ?>">
+                            <section class="meldinger_innboks_samtale">
                                 <?php if($funnetMottakerBilde > 0) {
                                     $testPaa = $mottakerBilde['hvor'];
                                     // Tester på om filen faktisk finnes
@@ -757,23 +754,21 @@ if(isset($_POST['gjenopprettMelding'])) {
                 <form method="POST" id="meldinger_form_ny" action="meldinger.php">
                     <input type="submit" id="meldinger_nyKnapp" name="ny" title="Skriv en ny melding"  value="Ny melding">
                 </form>
-                
-                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($meldinger_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
-                    <section id="mldFEIL_innhold">
-                        <p id="mldFEIL"><?php echo($meldinger_melding) ?></p>  
-                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
-                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
-                    </section>  
-                </section>
 
             </main>
 
         <?php } ?>
+        <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($meldinger_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+            <section id="mldFEIL_innhold">
+                <p id="mldFEIL"><?php echo($meldinger_melding) ?></p>  
+                <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                <button id="mldFEIL_knapp" autofocus>Lukk</button>
+            </section>  
+        </section>
         <?php include("inkluderes/footer.php") ?>
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 06.03.2020 -->
-    <!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 06.03.2020 -->
-
+<!-- Denne siden er utviklet av Robin Kleppang, siste gang endret 02.06.2020 -->
+<!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 04.06.2020 -->
 </html>

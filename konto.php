@@ -108,6 +108,11 @@ if (isset($_POST['subEndring'])) {
             // Tester på om en epost faktisk er oppgitt (Om bruker endrer input type til text eller hvis browser ikke støtter type epost)
             $epostValidert = false;
 
+            // Test på om brukernavn, fornavn og etternavn er ok
+            $brukernavnValidert = false;
+            $fornavnValidert = false;
+            $etternavnValidert = false;
+
             if ($_POST['nyepost'] == "") {
                 // Bruker har ikke oppgitt en epost, ignorerer dette
                 $epostValidert = true;
@@ -120,8 +125,16 @@ if (isset($_POST['subEndring'])) {
                 if ($_POST['nyttbrukernavn'] == "") {
                     // Bruker har valgt å ikke oppdatere brukernavn
                     $nyttBrukernavn = $_SESSION['brukernavn'];
+                    $brukernavnValidert = true;
                 } else {
-                    $nyttBrukernavn = $_POST['nyttbrukernavn'];
+                    $skrevetBrukernavn = $_POST['nyttbrukernavn'];
+                    $konvertertBrukernavn = filter_var($_POST['nyttbrukernavn'], FILTER_SANITIZE_STRING);
+                    if($skrevetBrukernavn == $konvertertBrukernavn) {
+                        $nyttBrukernavn = $konvertertBrukernavn;
+                        $brukernavnValidert = true;
+                    } else {
+                        $brukernavnValidert = false;
+                    }
                 }
             
                 if ($_POST['nyepost'] == "") {
@@ -134,15 +147,32 @@ if (isset($_POST['subEndring'])) {
                 if ($_POST['nyttfornavn'] == "") {
                     // Bruker har valgt å ikke oppdatere fornavn
                     $nyttFornavn = $_SESSION['fornavn'];
+                    $fornavnValidert = true;
                 } else {
-                    $nyttFornavn = $_POST['nyttfornavn'];
+                    $skrevetFornavn = $_POST['nyttfornavn'];
+                    $konvertertFornavn = filter_var($_POST['nyttfornavn'], FILTER_SANITIZE_STRING);
+                    if($skrevetFornavn == $konvertertFornavn) {
+                        $nyttFornavn = $konvertertFornavn;
+                        $fornavnValidert = true;
+                    } else {
+                        $fornavnValidert = false;
+                    }
+                    
                 }
             
                 if ($_POST['nyttetternavn'] == "") {
                     // Bruker har valgt å ikke oppdatere etternavn
                     $nyttEtternavn = $_SESSION['etternavn'];
+                    $etternavnValidert = true;
                 } else {
-                    $nyttEtternavn = $_POST['nyttetternavn'];
+                    $skrevetEtternavn = $_POST['nyttetternavn'];
+                    $konvertertEtternavn = filter_var($_POST['nyttetternavn'], FILTER_SANITIZE_STRING);
+                    if($skrevetEtternavn == $konvertertEtternavn) {
+                        $nyttEtternavn = $konvertertEtternavn;
+                        $etternavnValidert = true;
+                    } else {
+                        $etternavnValidert = false;
+                    }
                 }
             
                 // Sjekker på om bruker har skrevet et telefonnummer, maks 12 tegn (0047) 
@@ -157,29 +187,36 @@ if (isset($_POST['subEndring'])) {
                     // Bruker har valgt å ikke oppdatere telefonnummer
                     $nyttTelefonnummer = $_SESSION['telefonnummer'];
                 }
-                // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
-                $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "', telefonnummer = '" . $nyttTelefonnummer . "'  where idbruker='". $_SESSION['idbruker'] . "'";
-                $stmt = $db->prepare($oppdaterBruker);
-                $stmt->execute();
 
-                // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
-                $antall = $stmt->rowCount();
-
-                if ($antall > 0) {
-                    // Oppdaterer session-info
-                    $_SESSION['brukernavn'] = $nyttBrukernavn;
-                    $_SESSION['fornavn'] = $nyttFornavn;
-                    $_SESSION['etternavn'] = $nyttEtternavn;
-                    $_SESSION['epost'] = $nyEpost;
-                    $_SESSION['telefonnummer'] = $nyttTelefonnummer;
-                    $oppdatertBr = true;
-
-                    // Alt gikk ok, fjerner session variable for brukerinput
-                    unset($_SESSION['input_brukernavn']);
-                    unset($_SESSION['input_epost']);
-                    unset($_SESSION['input_fornavn']);
-                    unset($_SESSION['input_etternavn']);
-                    unset($_SESSION['input_telefonnummer']);
+                if($brukernavnValidert && $fornavnValidert && $etternavnValidert) {
+                    // SQL script som oppdaterer info. Med testing over vil ikke informasjon som bruker ikke vil endre faktisk endres
+                    $oppdaterBruker = "update bruker set brukernavn = '" . $nyttBrukernavn . "', fnavn = '" . $nyttFornavn . "', enavn = '" . $nyttEtternavn . "', epost = '" . $nyEpost . "', telefonnummer = '" . $nyttTelefonnummer . "'  where idbruker='". $_SESSION['idbruker'] . "'";
+                    $stmt = $db->prepare($oppdaterBruker);
+                    $stmt->execute();
+    
+                    // Ved update blir antall rader endret returnert, vi kan utnytte dette til å teste om noen endringer faktisk skjedde
+                    $antall = $stmt->rowCount();
+    
+                    if ($antall > 0) {
+                        // Oppdaterer session-info
+                        $_SESSION['brukernavn'] = $nyttBrukernavn;
+                        $_SESSION['fornavn'] = $nyttFornavn;
+                        $_SESSION['etternavn'] = $nyttEtternavn;
+                        $_SESSION['epost'] = $nyEpost;
+                        $_SESSION['telefonnummer'] = $nyttTelefonnummer;
+                        $oppdatertBr = true;
+    
+                        // Alt gikk ok, fjerner session variable for brukerinput
+                        unset($_SESSION['input_brukernavn']);
+                        unset($_SESSION['input_epost']);
+                        unset($_SESSION['input_fornavn']);
+                        unset($_SESSION['input_etternavn']);
+                        unset($_SESSION['input_telefonnummer']);
+                    }
+                } else {
+                    // Bruker har forsøkt å oppgi ugyldig info
+                    $_SESSION['konto_melding'] = "Et av feltene inneholder ugyldig info";
+                    header("Location: konto.php?rediger");
                 }
             } else {
                 // Error 8, Epost er ikke gyldig
@@ -240,10 +277,6 @@ if (isset($_POST['subEndring'])) {
                 $_SESSION['konto_melding'] = "Passordene er ikke like";
                 header("Location: konto.php?rediger");
             }
-        } else {
-            // Ikke noe passord skrevet
-            $_SESSION['konto_melding'] = "Du har ikke oppgitt et passord";
-            header("Location: konto.php?rediger");
         }
 
         // Hvis vi har oppdatert brukerinfo eller passord, returner bruker til kontosiden, her ser vi oppdatert info direkte
@@ -401,13 +434,23 @@ if(isset($_POST['slettInfo'])) {
                             <p class="endre_bruker_overskrift">Bekreft nytt passord</p>
                             <input type="password" class="KontoredigeringFeltPW" name="bekreftnyttpassord" value="" placeholder="Bekreft nytt passord" form="konto_rediger_form" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Minimum 8 tegn, 1 liten og 1 stor bokstav">
                         </section>
-                        <input style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">Vis passord</input>
+                        <input id="visPassordLbl" style="margin-bottom: 1em;" type="checkbox" onclick="visPassordInst()">
+                        <label for="visPassordLbl">Vis passord</label>
                     </section>
 
                     <!-- Knapp for å lagre endringer -->
                     <input type="submit" name="subEndring" class="KontoredigeringFelt_knappLagre" value="Lagre endringer" form="konto_rediger_form">
                     <!-- Sender brukeren tilbake til forsiden -->
                     <button onClick="location.href='konto.php'" name="submit" class="lenke_knapp">Avbryt redigering</button>
+                </section>
+                <!-- Håndtering av feilmeldinger -->
+
+                <section id="mldFEIL_boks" onclick="lukkMelding('mldFEIL_boks')" <?php if($konto_melding != "") { ?> style="display: block" <?php } else { ?> style="display: none" <?php } ?>>
+                    <section id="mldFEIL_innhold">
+                        <p id="mldFEIL"><?php echo($konto_melding) ?></p>  
+                        <!-- Denne gjør ikke noe, men er ikke utelukkende åpenbart at man kan trykke hvor som helst -->
+                        <button id="mldFEIL_knapp" autofocus>Lukk</button>
+                    </section>  
                 </section>
             </main>
         <?php } else { ?>
@@ -485,7 +528,7 @@ if(isset($_POST['slettInfo'])) {
                             <p>Er du sikker på av du vil avregistrere?</p>
                             <form method="POST" action="konto.php">
                                 <input type="password" id="konto_avregistrerpassord" name="passord" placeholder="Oppgi passord" title="Oppgi passordet ditt for å bekrefte avregistrering" required>
-                                <button id="konto_avregistrerKnapp" name="avregistrerMeg">Avregistrer</button>
+                                <button id="konto_avregistrerMeg" name="avregistrerMeg">Avregistrer</button>
                             </form>
                             <button id="konto_avbrytKnapp" onclick="bekreftMelding('konto_bekreftAvr')">Avbryt</button>
                         </section>
@@ -508,6 +551,5 @@ if(isset($_POST['slettInfo'])) {
 
     
 <!-- Denne siden er utviklet av Ajdin Bajrovic, siste gang endret 06.03.2020 -->
-<!-- Sist kontrollert av Robin Kleppang, siste gang 06.03.2020 -->
-
+<!-- Sist kontrollert av Glenn Petter Pettersen, siste gang 04.06.2020 -->
 </html>

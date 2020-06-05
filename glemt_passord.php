@@ -141,7 +141,6 @@ if (isset($_POST['glemtPassord'])) {
         <?php include("inkluderes/footer.php") ?>
     </body>
 
-    <!-- Denne siden er utviklet av Aron Snekkestad og Robin Kleppang, siste gang endret 21.02.2020 -->
-    <!-- Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 -->
-
+<!-- Denne siden er utviklet av Aron Snekkestad og Robin Kleppang, siste gang endret 21.02.2020 -->
+<!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 04.06.2020 -->
 </html>

@@ -153,11 +153,15 @@ function bekreftMelding(element) {
 
   if (knapp.style.display == 'none') {
     knapp.style.display = 'block';
-    scroll.style.overflow = 'hidden';
+    if(scroll != null) {
+      scroll.style.overflow = 'hidden';
+    }
 
   } else {
     knapp.style.display = 'none';
-    scroll.style.overflow = 'visible';
+    if(scroll != null) {
+      scroll.style.overflow = 'visible';
+    }
   }
   
   document.body.scrollTop = 0;
@@ -167,11 +171,13 @@ function bekreftMelding(element) {
 // Lukker vindu til bruker
 function lukkMelding(element) {
   var knapp = document.getElementById(element);
-
+  //var scroll = document.getElementsByTagName('body');
+  
   if (knapp.style.display != 'none') {
 
     knapp.style.display = 'none';
-    
+    //scroll.style.overflow = 'visible';
+
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
@@ -386,27 +392,6 @@ function hentSide(side, tilbake, neste/*, res*/) {
     // Hvis ikke viser vi første side av søket
     sideDel[forelopigSide].style.display = "grid";
 
-
-    // var resultater = document.getElementsByClassName(res);
-    /*
-    if (vindu < 720) {
-      for(var i = 0; i < resultater.length; i++) {
-        resultater[i].style.display = "none";
-      }
-      resultater[0].style.display = "block";
-
-      resultater[start].on("swipeleft",function(){
-        resultater[start].style.display = "none";
-        start++;
-        resultater[start].style.display = "block";
-      });
-    } else {
-      for(var i = 0; i < resultater.length; i++) {
-        resultater[i].style.display = "block";
-      }
-    }
-    */
-    
     if (sideDel.length > 1) {
       // Er det mer enn 1 side, vis neste knapp
       document.getElementById(neste).style.display = "inline-block";
@@ -461,11 +446,6 @@ function visForrigeSide(side, tilbake, neste) {
   hentSide(side, tilbake, neste);
 }
 
-/*
-var start = 0;
-function visNesteSideTouch()
-*/
-
 // Funksjon for å trykke på et resulat med enter for søk
 function sokTabbing() {
   var artikkel = document.getElementsByClassName("artRes_sok");
@@ -508,6 +488,29 @@ function sokTabbing() {
       }
     });
   }
+}
+
+function backendTabbing() {
+  var backendTab1 = document.getElementById("bTab1");
+  var backendTab2 = document.getElementById("bTab2");
+
+  backendTab1.addEventListener("keyup", function(event) {
+    
+    var gaaTil = this;
+
+    if (event.keyCode === 13) {
+      gaaTil.click();
+    }
+  });
+
+  backendTab2.addEventListener("keyup", function(event) {
+    
+    var gaaTil = this;
+
+    if (event.keyCode === 13) {
+      gaaTil.click();
+    }
+  });
 }
 
 // Funksjon for å trykke på et resulat med enter for arrangement
@@ -564,6 +567,37 @@ function profilTabbing() {
   }
 }
 
+
+// Funksjon for å trykke på en bruker i adminpanelet
+function adminTabbing() {
+  var brukere = document.getElementsByClassName("admin_allebrukere_rad");
+  var handlinger = document.getElementsByClassName("admin_handlingvalg");
+  // Går igjennom alle elementene fra tidligere, element.length er antall elementer med class navnet
+  for (var i = 0; i < brukere.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    brukere[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+  for (var i = 0; i < handlinger.length; i++) {
+    // Legger på en eventlistener som ser etter et klikk på alle elementer med mottat class navn
+    handlinger[i].addEventListener("keyup", function(event) {
+      // Henter dette elementet
+      var gaaTil = this;
+      // 13 er Enter tasten
+      if (event.keyCode === 13) {
+        // Trykk på resultatet
+        gaaTil.click();
+      }
+    });
+  }
+}
 
 /*-------------------------------------------------------------------------------------------------------*/
 /*-------------------------------------------------------------------------------------------------------*/
@@ -766,7 +800,7 @@ function admHovedmeny() {
     document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilOIkon.png";
   } else if(meny.style.display == "inline") {
     meny.style.display = "none";
-    document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilnIkon.png";
+    document.getElementById("admin_hovedmeny_ikon").src = "bilder/pilNIkon.png";
   }
 }
 
@@ -957,6 +991,27 @@ function innstillinger(bruker) {
   form.submit();
 }
 
+function aapneRegler() {
+  var boksen = document.getElementById('mldREGLER_boks');
+  var scroll = document.getElementsByTagName("BODY")[0];
+  
+  scroll.style.overflow = 'hidden';
 
-/* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 05.03.2020 */
-/* Denne siden er kontrollert av Aron Snekkestad, siste gang 06.03.2020 */
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  
+  boksen.style.display = "block";
+}
+
+function lukkRegler() {
+  var boksen = document.getElementById('mldREGLER_boks');
+
+  if(boksen.style.display == "block") {
+    var scroll = document.getElementsByTagName("BODY")[0];
+    scroll.style.overflow = '';
+    boksen.style.display = "none";
+  }
+}
+
+/* Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik sist endret 04.06.2020 */
+/* Denne siden er kontrollert av Aron Snekkestad, Robin Kleppang, siste gang 04.06.2020 */

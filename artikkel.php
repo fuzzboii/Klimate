@@ -196,8 +196,8 @@ if(isset($_POST['sendKommentar'])) {
         $nyKommentarQ = "insert into kommentar(ingress, tekst, tid, bruker, artikkel) values(:ingress, :tekst, NOW(), " . $_SESSION['idbruker'] . ", " . $_GET['artikkel'] . ")";
         $nyKommentarSTMT = $db->prepare($nyKommentarQ);
         
-        $nyKommentarSTMT->bindParam(':ingress', $ingress);
-        $nyKommentarSTMT->bindParam(':tekst', $tekst);
+        $nyKommentarSTMT->bindParam(':ingress', filter_var($ingress, FILTER_SANITIZE_STRING));
+        $nyKommentarSTMT->bindParam(':tekst', filter_var($tekst, FILTER_SANITIZE_STRING));
     
         $nyKommentarSTMT->execute();
         $sendt = $nyKommentarSTMT->rowCount();
@@ -426,21 +426,25 @@ $tabindex = 8;
                                             $brukerbildeSTMT -> execute();
                                             $brukerbilde = $brukerbildeSTMT->fetch(PDO::FETCH_ASSOC);
 
-                                            $testPaa = $brukerbilde['hvor'];
 
                                             if($kommentarer[$i]['brukertype'] != 4) {
-                                                if(file_exists("$lagringsplass/$testPaa")) {  
-                                                    if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
-                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>">   
-                                                    <?php } else { ?>
-                                                        <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>">  
+                                                if($brukerbilde) {
+                                                    $testPaa = $brukerbilde['hvor'];
+                                                    if(file_exists("$lagringsplass/$testPaa")) {  
+                                                        if(file_exists("$lagringsplass/" . "thumb_" . $testPaa)) { ?> 
+                                                            <img class="kommentar_profilBilde" src="bilder/opplastet/thumb_<?php echo($brukerbilde["hvor"])?>" alt="Profilbilde">   
+                                                        <?php } else { ?>
+                                                            <img class="kommentar_profilBilde" src="bilder/opplastet/<?php echo($brukerbilde["hvor"])?>" alt="Profilbilde">  
+                                                        <?php }
+                                                    } else { ?>
+                                                        <img class="kommentar_profilBilde" src="bilder/profil.png" alt="Profilbilde">
                                                     <?php }
                                                 } else { ?>
-                                                    <img class="kommentar_profilBilde" src="bilder/profil.png">
+                                                    <img class="kommentar_profilBilde" src="bilder/profil.png" alt="Profilbilde">
                                                 <?php } ?>
                                                 <p class="kommentarBrukernavn"><?php echo $kommentarer[$i]['brukernavn'] ?> </p> 
                                             <?php } else { ?>
-                                                <img class="kommentar_profilBilde" src="bilder/profil.png">
+                                                <img class="kommentar_profilBilde" src="bilder/profil.png" alt="Profilbilde">
                                                 <p class="kommentarBrukernavn" style="font-style: italic;">Avregistrert bruker</p> 
                                             <?php } ?>
                                             <p class="kommentarTid"><?php echo $kommentarer[$i]['tid'] ?> </p> 
@@ -645,24 +649,25 @@ $tabindex = 8;
                                 $stmtHentPb = $db->prepare($hentPb);
                                 $stmtHentPb->execute();
                                 $brukerPB = $stmtHentPb->fetch(PDO::FETCH_ASSOC);
+
                                 
                                 if($brukerPB) {
                                     $testPaa = $brukerPB['hvor'];
                                     // Tester på om filen faktisk finnes
                                     if(file_exists("$lagringsplass/$testPaa")) {
                                         if(file_exists($lagringsplass . "/thumb_" . $testPaa)) {  ?>
-                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/thumb_<?php echo($brukerPB['hvor'])?>">
+                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/thumb_<?php echo($brukerPB['hvor'])?>" alt="Profilbilde">
                                         <?php } else { ?>
-                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>">
+                                            <img class="navn_artikkel_bilde" src="bilder/opplastet/<?php echo($brukerPB['hvor'])?>" alt="Profilbilde">
                                         <?php } ?>
                                     <?php } else { ?>
-                                        <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
+                                        <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png" alt="Profilbilde">
                                     <?php } ?>
                                 <?php } else { ?>
-                                    <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
+                                    <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png" alt="Profilbilde">
                                 <?php }
                             } else { ?>
-                                <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png">
+                                <img class="navn_artikkel_bilde" src="bilder/brukerIkonS.png" alt="Profilbilde">
                             <?php }
                             
                             
@@ -747,7 +752,6 @@ $tabindex = 8;
     </body>
     <?php include("inkluderes/lagFil_regler.php"); ?>
 
-    <!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad siste gang endret 06.03.2020 -->
-    <!-- Denne siden er kontrollert av Robin Kleppang, siste gang 06.03.2020 -->
-
+<!-- Denne siden er utviklet av Robin Kleppang, Ajdin Bajrovic, Aron Snekkestad siste gang endret 06.03.2020 -->
+<!-- Denne siden er kontrollert av Glenn Petter Pettersen, siste gang 04.06.2020 -->
 </html>

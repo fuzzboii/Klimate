@@ -13,13 +13,6 @@ html, body {
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------- */
 /* Style for html-dokumentet */
-#regler_body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
 #regler_article {
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -29,19 +22,50 @@ html, body {
   background-color: rgba(175, 175, 175, 0.1); /* Bakgrunnen på containerne */
 }
 
-.reglerdata li {
-margin-top: 1.5em;
-margin-bottom: 1.5em;
+#reglerdata li {
+margin-top: 0.4em;
+margin-bottom: 0.4em;
 }
 
-#loggUtKnappForm {
-  margin-block-end: 0;
+
+#mldREGLER_boks {
+  display: none;
+  position: absolute;
+  width: 100%; height: 100%;
+  top: 0; left: 0;
+  z-index: 1; /* Sitter over det andre innholdet */
+  background-color: rgba(0, 0, 0, 0.582);
+  overflow: scroll;
 }
 
-#sokForm_regler {
-  margin-block-end: 0;
+#mldREGLER_innhold {
+  position: relative;
+  border-radius: 1em 1em 1.5em 1.5em; /* Avrunder kantene */
+  border: 2px solid green;
+  background-color: white;
+  margin-top: 12em;
+  margin-left: 10%; margin-right: 10%;
+  transition: margin 0.3s;
+  min-height: 4em;
+  animation-name: anim_fratopp;
+  animation-duration: 0.4s
 }
 
+#mldREGLER_knapp {
+  display: block;
+  background-color: rgb(121, 121, 121);
+  color: white; /* tekstfarge */
+  padding: 0.6em; /* hvor mye luft rundt teksten det skal være */
+  margin-top: 0.6em;
+  margin-bottom: 0.8em;
+  margin-left: auto; margin-right: auto;
+  font-weight: bold; /* Fet tekst */
+  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif; /* font-type */
+  border: none; /* Fjerner ytrelinjen rundt knappen */
+  width: 4em; /* Angir bredde på knappen */
+  border-radius: 0.4em; /* Runder ut knappen */
+  font-size: 1.0em; /* Font-størrelse */
+}
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -591,6 +615,15 @@ footer a {
   font-family: Inter, Helvetica, Arial, sans-serif;
   padding-top: 0.2em;
   padding-bottom: 0.2em;
+}
+
+/* Style for ADMINPANEL sin RAPPORTER, ALLE BRUKERE */
+.rapport_allebrukere_dato {
+  display: none;
+}
+
+#rapport_allebrukere_dato {
+  display: none;
 }
 
 /* Style spesifikt for ADMINPANEL sin OVERSIKT */
@@ -1205,6 +1238,8 @@ footer a {
   align-items: stretch;
   background: url('bilder/klimaBilde1.jpg') no-repeat center fixed;
   background-size: cover;
+  /* Backup bakgrunnsfarge om bildet over ikke lastes inn */
+  background-color: #6b6969;
 }
 
 #default_beskrivelse {
@@ -1234,7 +1269,7 @@ footer a {
   margin: 0.5em; /* Mellomrom mellom containerne og den yttre boksen */
 }
 
-#default_overskriftSeksjon h2 {
+.default_overskriftSeksjon h2 {
   color: rgb(44,44,44); /* Fargen på tittelene i containerne */
   padding-bottom: 0.5em;
   background-color: transparent; /* Fargen på bakgrunnen i tittel-containerne */
@@ -1246,7 +1281,7 @@ footer a {
   text-shadow: 0px 1px 2px rgba(0, 0, 0, .5);
 }
 
-#default_overskriftSeksjon {
+.default_overskriftSeksjon {
   display: grid;
   justify-content: center;
 }
@@ -1263,7 +1298,7 @@ footer a {
 
 #default_innholdSeksjonArtikkel a, #default_innholdSeksjonArrangement a {
   font-size: 0.8em;
-  color: rgb(36, 209, 99);
+  color: rgb(0, 0, 0);
   float: right;
 }
 
@@ -1271,7 +1306,7 @@ footer a {
   padding-top: 6em; /* Plassering av logoen på default */
 }
 
-#default_arrangementFelt {
+.default_arrangementFelt {
   border-bottom: 1px solid lightgrey;
   padding-bottom: 1.5em;
 } 
@@ -1304,14 +1339,14 @@ footer a {
   padding-right: 0.1em;
 }
 
-#default_artikkelFelt {
+.default_artikkelFelt {
   font-family: Helvetica, Arial, sans-serif;
   border-bottom: 1px solid lightgrey;
   padding-bottom: 0.5em;
   margin-bottom: 0.3em;
 }
 
-#default_artikkelFelt h3 {
+.default_artikkelFelt h3 {
   margin-left: 0.3em;
 }
 
@@ -1340,7 +1375,7 @@ footer a {
   grid-template-columns: 5em 1fr;
 }
 
-#default_artikkelBildeFelt {
+.default_artikkelBildeFelt {
   border-bottom: 1px solid lightgrey;
   margin-bottom: 0.3em;
 }
@@ -1352,7 +1387,7 @@ footer a {
   margin-left: 0.2em;
 }
 
-#default_antallKommentarer {
+.default_antallKommentarer {
   size: 1em;
   display: inline;
 }
@@ -1747,14 +1782,14 @@ footer a {
 
 
 #backend_innholdSeksjonArtikkel a, #backend_innholdSeksjonArrangement a {
-  font-size: 0.8em;
-  color: rgb(36, 209, 99);
+  font-size: 1em;
+  color: rgb(0, 0, 0);
   float: right;
 }
 
 .backend_Intvindu a {
-  font-size: 0.8em;
-  color: rgb(36, 209, 99);
+  font-size: 1em;
+  color: rgb(0, 0, 0);
 }
 
 #backend_innholdSeksjonArtikkel {
@@ -1819,7 +1854,7 @@ margin-left: 0.3em;
   margin-top: 0;
   margin-bottom: 0;
   padding: 0.5em;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   font-weight: bold;
 }
 
@@ -1952,7 +1987,7 @@ margin: 0;
   margin-top: 0;
   margin-bottom: 0;
   padding: 0.5em;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   font-weight: bold;
   
 }
@@ -2093,7 +2128,7 @@ td, th  {
   border-radius: 0.4em 0.4em 0.4em 0.4em; /* Runder ut hjørnene */
 }
 
-#konto_avregistrerKnapp {
+#konto_avregistrerKnapp, #konto_avregistrerMeg {
   display: block;
   margin-left: auto; margin-right: auto;
   background-color: red; /* bakgrunnsfarge for registrerknapp */
@@ -2266,6 +2301,12 @@ table {
 #toppKnapp:hover {
   background-color: #555;
   color: white;
+}
+
+#toppKnapp:focus {
+  background-color: #555;
+  color: white;
+  outline: 1px solid skyblue;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -2876,7 +2917,7 @@ table {
   padding-left: 1em; padding-right: 1em;
 }
 
-#arrangement_slettKnapp {
+#arrangement_slettKnapp, #arrangement_slettDenne {
   color: white;
   background-color: red;
   padding: 1em; /* hvor mye luft rundt teksten det skal være */
@@ -3116,6 +3157,13 @@ table {
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------*/
 /* Style for PROFIL */
+
+/* focus på oppdatering av profilbilde sin knapp */
+#profil_endreKnapp:focus {
+  background-color: rgba(36, 209, 100, 0.637);
+  transition: background-color 0.2s ;
+}
+
 .int2_grid {
   background-color: #E6E6E6;
   border-radius: 1em;
@@ -3554,11 +3602,6 @@ table {
   cursor: pointer;
 }
 
-.reglerTilbakeKnapp:hover {
-  background-color: rgba(36, 209, 100, 0.637); /* Fargeendring/hover ved å holde over knappen */
-  cursor: pointer;
-}
-
 /* Tekstområdet 'om' */
 .profil_textarea {
   /* Setter bredde i lodd med andre elementer */
@@ -3587,6 +3630,19 @@ table {
   font-style: italic;
 }
 
+/* Fargeendring ved tabbing */
+.profil_knapp:focus {
+  background-color: rgba(36, 209, 100, 0.637);
+}
+
+.profil_knapp2:focus {
+  background-color: rgba(36, 209, 100, 0.637);
+}
+
+.profil_knapp3:focus {
+  background-color: rgba(36, 209, 100, 0.637);
+}
+
 /* Styling for toggle-knapper */
 /* https://www.w3schools.com/howto/howto_css_switch.asp */
 /* Bruker piksler her, fordi det oppstod en del trøbbel med resizing av de ulike elementene med em */
@@ -3598,6 +3654,10 @@ table {
   height: 25px;
   left: 14em;
   bottom: 1.5em;
+}
+
+.switch input:focus + .slider {
+  background-color: rgba(36, 209, 100, 0.637);
 }
 
 /* Skjuler standard check-box */
@@ -4007,7 +4067,7 @@ input:checked + .slider:before {
 .kommentar_lesknapp {
   display: inline;
   cursor: pointer;
-  color: rgb(36, 209, 99);
+  color: rgb(0, 0, 0);
   font-size: 0.8em;
 }
 
@@ -4657,7 +4717,14 @@ input:checked + .slider:before {
 }
 /* Laptop / Liten skjerm,, 720p */
 @media only screen and (min-width: 1280px) {
+  /* Visning av flere detaljer, RAPPORT */
+  .rapport_allebrukere_dato {
+    display: block;
+  }
 
+  #rapport_allebrukere_dato {
+    display: block;
+  }
 
   /* BACKEND oversikt  */
   .backend2_grid {
@@ -4770,7 +4837,7 @@ input:checked + .slider:before {
     cursor: pointer; /* Når mus er over hamburgermeny, vis pointer-mus */
   }
   
-  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover {
+  #konto_avregistrerKnapp:hover, #konto_avbrytKnapp:hover, #arrangement_avbrytKnapp:hover, #artikkel_avbrytKnapp:hover, #konto_avregistrerMeg:hover {
     cursor: pointer;
   }
 
@@ -4867,7 +4934,7 @@ input:checked + .slider:before {
   }
 
   footer a:hover {
-    color: rgba(44, 44, 44, 0.651); /* Farge ved hover på 'Kontakt oss' */
+    color: rgb(0, 236, 87); /* Farge ved hover på 'Kontakt oss' */
   }
   .profil_navmeny:hover {
     cursor: pointer;
@@ -4951,7 +5018,7 @@ input:checked + .slider:before {
     cursor: pointer;
   }
   /* Del for arrangement */
-  #arrangement_slettKnapp:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #konto_avregistrerKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
+  #arrangement_slettKnapp:hover, #arrangement_slettDenne:hover, #artikkel_slettKnapp:hover, #artikkel_bekreftSlettKnapp:hover, #arrangement_inviterAvbrytKnapp:hover {
     cursor: pointer;
   }
 
@@ -5318,6 +5385,10 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
+  .admin_regler_slett_knapp:focus, .admin_bruker_slett_knapp:focus {
+    background-color: rgba(253, 38, 38, 0.966); 
+  }
+
   .admin_allebrukere_rad:hover {
     cursor: pointer;
     outline: 2px solid black;
@@ -5325,6 +5396,11 @@ input:checked + .slider:before {
     transition: outline 0.1s;
   }
 
+  .admin_allebrukere_rad:focus {
+    outline: 2px solid black;
+    box-shadow: 0 0.1em 0.4em 0.1em rgb(99,112,126);
+  }
+  
   /* Style spesifikt for ADMINPANEL sin VALGT BRUKER */
   #admin_brukerinfo {
     grid-column: 3/span 2;
@@ -5375,6 +5451,11 @@ input:checked + .slider:before {
     cursor: pointer;
   }
 
+  #admin_handling_submit:focus {
+    box-shadow: 0 0 0.1em 0.05em rgb(99,112,126);
+    background-color: rgb(0, 128, 255);
+  }
+
   /* Style for ADMINPANEL sin NY BRUKER */
 
   #admin_nybruker_form {
@@ -5405,6 +5486,17 @@ input:checked + .slider:before {
     grid-column: 3/span 4;
     grid-row: 2;
     margin-top: 19.5em;
+  }
+
+  /* Style for regler */
+  #mldREGLER_knapp:hover {
+    background-color: rgba(36, 209, 100, 0.637);
+    cursor: pointer; 
+  }
+
+  #regler_a:hover {
+    color: rgb(0, 236, 87);
+    cursor: pointer; 
   }
 
 }
@@ -5655,5 +5747,5 @@ input:checked + .slider:before {
 
 
 
-/* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 06.03.2020 */
-/* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 06.03.2020 */
+/* Denne siden er utviklet av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang endret 04.06.2020 */
+/* Denne siden er kontrollert av Robin Kleppang, Glenn Petter Pettersen, Aron Snekkestad, Petter Fiskvik & Ajdin Bajrovic, siste gang 04.06.2020 */
