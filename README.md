@@ -2,6 +2,6 @@
 
 Klimate
 
-Utviklingsoppgaven i APP2000 (Applikasjonsutvikling for Internett)
+Prosjektoppgave i utvikling fra APP2000 (Applikasjonsutvikling for Internett)
 
-Utviklet av Ajdin Bajrovic, Aron Snekkestad, Glenn Petter Pettersen, Petter Fiskvik og Robin Kleppang
+Utviklet av Ajdin Bajrovic, Aron Snekkestad, Petter Eidsvaag, Petter Fiskvik og Robin Kleppang
